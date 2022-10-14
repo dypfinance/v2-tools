@@ -38,32 +38,12 @@ export default class Subscription extends React.Component {
       showRemovebtn: false,
       subscribe_now: false,
       triggerText: "See more V",
-      networkId: "1",
     };
   }
 
-  checkNetworkId() {
-    if (window.ethereum) {
-      window.ethereum
-        .request({ method: "net_version" })
-        .then((data) => {
-          this.setState({
-            networkId: data,
-          });
-
-          this.fetchfavData();
-        })
-        .catch(console.error);
-    } else {
-      this.fetchfavData();
-      this.setState({
-        networkId: "1",
-      });
-    }
-  }
 
   fetchfavData() {
-    if (this.state.networkId === "1") {
+    if (this.props.networkId === 1) {
       window
         .getFavoritesETH()
         .then((favorites) => this.setState({ favorites }))
@@ -76,7 +56,7 @@ export default class Subscription extends React.Component {
       });
     }
 
-    if (this.state.networkId === "43114") {
+    if (this.props.networkId === 43114) {
       window
         .getFavorites()
         .then((favorites) => this.setState({ favorites }))
@@ -93,6 +73,7 @@ export default class Subscription extends React.Component {
   checkConnection() {
     const logout = localStorage.getItem("logout");
     if (logout !== "true") {
+      this.fetchfavData()
       if (window.ethereum) {
         window.ethereum
           .request({ method: "eth_accounts" })
@@ -117,11 +98,12 @@ export default class Subscription extends React.Component {
   }
 
   componentDidMount() {
+    console.log(this.props.networkId)
 
     this.handleCheckIfAlreadyApproved();
     window.scrollTo(0, 0);
     this.checkConnection();
-    this.checkNetworkId();
+    
     if (window.isConnectedOneTime) {
       this.onComponentMount();
     } else {
@@ -135,7 +117,7 @@ export default class Subscription extends React.Component {
   onComponentMount = async () => {
     this.setState({ coinbase: await window.getCoinbase() });
     this.handleSubscriptionTokenChange(this.state.selectedSubscriptionToken);
-    this.checkNetworkId();
+    // this.checkNetworkId();
 
     // this.fetchAvatar().then();
     this.checkConnection();
@@ -143,7 +125,7 @@ export default class Subscription extends React.Component {
 
   handleSubscriptionTokenChange = async (tokenAddress) => {
     let tokenDecimals =
-      this.state.networkId === "1"
+      this.props.networkId === 1
         ? window.config.subscriptioneth_tokens[tokenAddress]?.decimals
         : window.config.subscription_tokens[tokenAddress]?.decimals;
     this.setState({
@@ -153,7 +135,7 @@ export default class Subscription extends React.Component {
       price: "",
     });
     let price =
-      this.state.networkId === "1"
+      this.props.networkId === 1
         ? await window.getEstimatedTokenSubscriptionAmountETH(tokenAddress)
         : await window.getEstimatedTokenSubscriptionAmount(tokenAddress);
     price = new BigNumber(price).times(1.1).toFixed(0);
@@ -180,7 +162,7 @@ export default class Subscription extends React.Component {
 
     await tokenContract.methods
       .approve(
-        this.state.networkId === "1"
+        this.props.networkId === 1
           ? window.config.subscriptioneth_address
           : window.config.subscriptioneth_address,
         this.state.price
@@ -210,7 +192,7 @@ export default class Subscription extends React.Component {
     );
 
     if (this.state.coinbase) {
-      if (this.state.networkId === "1") {
+      if (this.props.networkId === 1) {
         const result = await subscribeTokencontract.methods
           .allowance(this.state.coinbase, ethsubscribeAddress)
           .call()
@@ -250,7 +232,7 @@ export default class Subscription extends React.Component {
     e.preventDefault();
     console.log("handleSubscribe()");
     let subscriptionContract = await window.getContract({
-      key: this.state.networkId === "1" ? "SUBSCRIPTIONETH" : "SUBSCRIPTION",
+      key: this.props.networkId === 1 ? "SUBSCRIPTIONETH" : "SUBSCRIPTION",
     });
 
     this.setState({ loadspinnerSub: true });
@@ -270,7 +252,7 @@ export default class Subscription extends React.Component {
   handleUnsubscribe = async (e) => {
     e.preventDefault();
     let subscriptionContract = await window.getContract({
-      key: this.state.networkId === "1" ? "SUBSCRIPTIONETH" : "SUBSCRIPTION",
+      key: this.props.networkId === 1 ? "SUBSCRIPTIONETH" : "SUBSCRIPTION",
     });
     await subscriptionContract.methods
       .unsubscribe()
@@ -396,7 +378,7 @@ export default class Subscription extends React.Component {
 
   GetSubscriptionForm = () => {
     let tokenDecimals =
-      this.state.networkId === "1"
+      this.props.networkId === 1
         ? window.config.subscriptioneth_tokens[
             this.state.selectedSubscriptionToken
           ]?.decimals
@@ -589,7 +571,7 @@ export default class Subscription extends React.Component {
                       <p>Select Subscription Token</p>
                       <div className="row m-0" style={{ gap: 10 }}>
                         {Object.keys(
-                          this.state.networkId === "1"
+                          this.props.networkId === 1
                             ? window.config.subscriptioneth_tokens
                             : window.config.subscription_tokens
                         ).map((t, i) => (
@@ -611,7 +593,7 @@ export default class Subscription extends React.Component {
                                 // console.log(e.target)
                               }
                             />
-                            {this.state.networkId === "1"
+                            {this.props.networkId === 1
                               ? window.config.subscriptioneth_tokens[t]?.symbol
                               : window.config.subscription_tokens[t]?.symbol}
                           </span>

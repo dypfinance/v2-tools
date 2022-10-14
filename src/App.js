@@ -368,7 +368,7 @@ class App extends React.Component {
                                 exact
                                 path="/account"
                                 render={() => (
-                                    <Account appState={this.state} theme={this.state.theme} />
+                                    <Account appState={this.state} theme={this.state.theme} networkId={parseInt(this.state.networkId)}/>
                                 )}
                             />
                             <Route
