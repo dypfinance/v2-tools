@@ -13,7 +13,7 @@ const Footer = () => (
       <div className="social-profile">
           <ul>
 <li><a target='_blank' rel='noopener noreferrer' href="https://github.com/dypfinance"><span><i className="fab fa-github"></i></span></a></li>
-              <li><a target={'_blank'} href="https://t.co/N5rPQ12obJ?amp=1"><i className="fab fa-discord"></i></a></li>
+              <li><a target={'_blank'} href="https://discord.com/invite/dypcaws"><i className="fab fa-discord"></i></a></li>
               <li><a target={'_blank'} href="mailto:contact@dyp.finance"><i className="fas fa-envelope"></i></a></li>
               <li><a target={'_blank'} href="https://gov.dyp.finance/"><i className="fas fa-users"></i></a></li>
               <li><a target={'_blank'} href="https://github.com/dypfinance"><i className="fab fa-github"></i></a></li>

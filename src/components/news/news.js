@@ -466,9 +466,6 @@ const News = ({ theme, isPremium, coinbase }) => {
     localStorage.setItem("firstTimeVoter", "false");
   }, []);
 
-  const isBottom = (el) => {
-    return el.getBoundingClientRect()?.bottom <= window.innerHeight;
-  };
 
   let result = [...otherNewsDataReverse, ...otherPressReverse, ...newsData];
   const bigNews = [...new Set(result)];
@@ -478,7 +475,8 @@ const News = ({ theme, isPremium, coinbase }) => {
 
   const onScroll = () => {
     const wrappedElement = document.getElementById("header");
-    if (isBottom(wrappedElement)) {
+    const isBottom = wrappedElement.getBoundingClientRect()?.bottom <= window.innerHeight
+    if (isBottom) {
       if (next < bigNews.length) {
         loadMore();
       }
