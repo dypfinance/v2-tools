@@ -64,6 +64,7 @@ export default class BigSwapExplorer extends React.Component {
             isLoading: true,
             filteredByTokenId: "",
             filteredByTxnType: "", // 'burn' | 'mint' | ''
+            filteredByTokenSymbol: ""
         };
     }
 
@@ -82,6 +83,10 @@ export default class BigSwapExplorer extends React.Component {
                 filteredSwaps: [],
             });
             await this.fetchSwaps().then();
+        }
+
+        if(prevProps.search != this.props.search){
+            this.filterByTokenSymbol(this.props.search);
         }
     }
 

@@ -61,7 +61,7 @@ export default class Farms extends React.Component {
       farms: [],
       filteredFarms: [],
       isLoading: true,
-      filteredByName: "",
+      filteredByName: ""
     };
   }
 
@@ -79,6 +79,10 @@ export default class Farms extends React.Component {
         filteredFarms: [],
       });
       await this.fetchFarms().then();
+    }
+
+    if(prevProps.search != this.props.search){
+      this.filterByName(this.props.search);
     }
   }
 
