@@ -66,6 +66,7 @@ export default class TopTokens extends React.Component {
       isLoading: true,
       filteredByTokenId: "",
       filteredByTxnType: "", // 'burn' | 'mint' | ''
+      filteredByTokenSymbol: ""
     };
   }
 
@@ -85,6 +86,10 @@ export default class TopTokens extends React.Component {
         filteredTokens: [],
       });
       await this.fetchTopTokens().then();
+    }
+
+    if(prevProps.search != this.props.search){
+      this.filterByTokenSymbol(this.props.search);
     }
   }
 

@@ -69,6 +69,7 @@ export default class PoolExplorer extends React.Component {
             screen: "pool",
             filteredByTokenId: "",
             filteredByTxnType: "", // 'burn' | 'mint' | ''
+            filteredByTokenSymbol: ""
         };
     }
 
@@ -77,7 +78,7 @@ export default class PoolExplorer extends React.Component {
         window.scrollTo(0, 0)
     }
 
-    async componentDidUpdate(prevProps) {
+    async componentDidUpdate(prevProps, prevState) {
         if(prevProps.networkId != this.props.networkId){
             this.setState({
                 isLoading: true,
@@ -87,6 +88,16 @@ export default class PoolExplorer extends React.Component {
             });
             await window.wait(1000);
             await this.fetchTransactions().then();
+        }
+
+        if(prevState.screen != this.state.screen){
+            this.setState({filteredByTokenSymbol: ""})
+            this.setState({
+                filteredByTokenSymbol: "",
+                filteredTransactions: JSON.parse(
+                    JSON.stringify(this.state.processedTransactions)
+                ),
+            });
         }
     }
 
@@ -554,11 +565,13 @@ export default class PoolExplorer extends React.Component {
                         <BigSwapExplorer
                             theme={this.props.theme}
                             networkId={this.props.networkId}
+                            search={this.state.filteredByTokenSymbol}
                         />
                     ) : this.state.screen === "tokens" ? (
                         <TopTokens
                             theme={this.props.theme}
                             networkId={this.props.networkId}
+                            search={this.state.filteredByTokenSymbol}
                         />
                     ) : (
                         <Farms
@@ -567,6 +580,7 @@ export default class PoolExplorer extends React.Component {
                             appState={this.props.state}
                             theme={this.props.theme}
                             networkId={this.props.networkId}
+                            search={this.state.filteredByTokenSymbol}
                             // {...props}
                         />
                     )}

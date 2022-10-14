@@ -38,10 +38,10 @@ const Header = ({toggleMobileSidebar, toggleTheme, theme, network}) => {
                 .catch(console.error);
 
             await fetch(
-                "https://ethgasstation.info/api/ethgasAPI.json?api-key=free_key"
+                "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=YourApiKeyToken"
             )
                 .then((res) => res.json())
-                .then((data) =>setGasprice(data.average / 10 ))
+                .then((data) =>setGasprice(data.result.SafeGasPrice))
                 .catch(console.error);
         }
 
