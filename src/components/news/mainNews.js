@@ -101,7 +101,7 @@ const MainNews = ({
 
     
   const handleLikeStates = () => {
-    if (logout === "false") {
+    if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
       checkUpVoting(newsId);
     }
     else {setShowTooltip(true);}
@@ -123,7 +123,7 @@ const MainNews = ({
   };
 
   const handleDisLikeStates = () => {
-     if (logout === "false") {
+     if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
       checkDownVoting(newsId);
     }
     else {setShowTooltip(true);}

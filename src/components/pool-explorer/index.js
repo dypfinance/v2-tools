@@ -349,7 +349,7 @@ export default class PoolExplorer extends React.Component {
                 selector: "tokenPerEth",
                 sortable: true,
                 format: (txn) =>
-                    `$${getFormattedNumber(txn.tokenPerEth * this.state.ethPrice, 1)}`,
+                    `$${getFormattedNumber(txn.tokenPerEth * this.state.ethPrice, 4)}`,
             },
             {
                 name: "Total Value",
@@ -448,7 +448,7 @@ export default class PoolExplorer extends React.Component {
                                 <p className="d-block" style={{fontSize: "11px"}}>
                                     This list does not imply endorsement by DeFi Yield Protocol.
                                     There might be Smart Contract risk and IL risk.<br/> <b>Please conduct your
-                                    own research before investing on any project!</b>
+                                    own research before dealing with any project!</b>
                                 </p>
                             </>
                         )}
