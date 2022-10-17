@@ -26,6 +26,7 @@ export default class Subscription extends React.Component {
       price: "",
       formattedPrice: "",
       favorites: [],
+      favoritesETH: [],
       selectedFile: null,
       image: Placeholder,
       lockActive: false,
@@ -41,14 +42,15 @@ export default class Subscription extends React.Component {
     };
   }
 
-
   fetchfavData() {
+    
+    window
+      .getFavoritesETH()
+      .then((favorites) => {
+        this.setState({favoritesETH: favorites});
+      })
+      .catch(console.error);
     if (this.props.networkId === 1) {
-      window
-        .getFavoritesETH()
-        .then((favorites) => this.setState({ favorites }))
-        .catch(console.error);
-
       this.setState({
         selectedSubscriptionToken: Object.keys(
           window.config.subscriptioneth_tokens
@@ -56,24 +58,26 @@ export default class Subscription extends React.Component {
       });
     }
 
-    if (this.props.networkId === 43114) {
-      window
-        .getFavorites()
-        .then((favorites) => this.setState({ favorites }))
-        .catch(console.error);
-
+    window
+      .getFavorites()
+      .then((favorites) => {
+        this.setState({favorites: favorites});
+      })
+      .catch(console.error);
+    if (this.props.networkId !== 1) {
       this.setState({
         selectedSubscriptionToken: Object.keys(
           window.config.subscription_tokens
         )[0],
       });
     }
+
+  
   }
 
   checkConnection() {
     const logout = localStorage.getItem("logout");
     if (logout !== "true") {
-      this.fetchfavData()
       if (window.ethereum) {
         window.ethereum
           .request({ method: "eth_accounts" })
@@ -98,12 +102,12 @@ export default class Subscription extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.networkId)
+    this.fetchfavData();
 
     this.handleCheckIfAlreadyApproved();
     window.scrollTo(0, 0);
     this.checkConnection();
-    
+
     if (window.isConnectedOneTime) {
       this.onComponentMount();
     } else {
@@ -182,7 +186,7 @@ export default class Subscription extends React.Component {
     const web3eth = new Web3(
       "https://mainnet.infura.io/v3/94608dc6ddba490697ec4f9b723b586e"
     );
-    
+
     const ethsubscribeAddress = window.config.subscriptioneth_address;
     const avaxsubscribeAddress = window.config.subscription_address;
     const subscribeToken = this.state.selectedSubscriptionToken;
@@ -197,33 +201,27 @@ export default class Subscription extends React.Component {
           .allowance(this.state.coinbase, ethsubscribeAddress)
           .call()
           .then();
-      
-          if(result != 0) {
-            this.setState({ lockActive: true });
-            this.setState({ loadspinner: false });
-          }
 
-          else if(result == 0) {
-            this.setState({ lockActive: false });
-            this.setState({ loadspinner: false });
-          }
-          
+        if (result != 0) {
+          this.setState({ lockActive: true });
+          this.setState({ loadspinner: false });
+        } else if (result == 0) {
+          this.setState({ lockActive: false });
+          this.setState({ loadspinner: false });
+        }
       } else {
         const result = await subscribeTokencontract.methods
           .allowance(this.state.coinbase, avaxsubscribeAddress)
           .call()
           .then();
 
-          if(result != 0) {
-            this.setState({ lockActive: true });
-            this.setState({ loadspinner: false });
-          }
-
-          else if(result == 0) {
-            this.setState({ lockActive: false });
-            this.setState({ loadspinner: false });
-          }
-
+        if (result != 0) {
+          this.setState({ lockActive: true });
+          this.setState({ loadspinner: false });
+        } else if (result == 0) {
+          this.setState({ lockActive: false });
+          this.setState({ loadspinner: false });
+        }
       }
     }
   };
@@ -385,7 +383,7 @@ export default class Subscription extends React.Component {
         : window.config.subscription_tokens[
             this.state.selectedSubscriptionToken
           ]?.decimals;
-// this.handleCheckIfAlreadyApproved()
+    // this.handleCheckIfAlreadyApproved()
     return (
       <div>
         <h4 className="d-block mb-3">Subscribe to DYP Tools Premium</h4>
@@ -548,7 +546,13 @@ export default class Subscription extends React.Component {
                     <div
                       className="subscribebtn w-auto mt-2"
                       type=""
-                      onClick={() => {this.setState({ subscribe_now: true }); this.handleSubscriptionTokenChange(this.state.selectedSubscriptionToken);  this.handleCheckIfAlreadyApproved()}}
+                      onClick={() => {
+                        this.setState({ subscribe_now: true });
+                        this.handleSubscriptionTokenChange(
+                          this.state.selectedSubscriptionToken
+                        );
+                        this.handleCheckIfAlreadyApproved();
+                      }}
                     >
                       Subscribe now
                     </div>
@@ -585,11 +589,13 @@ export default class Subscription extends React.Component {
                               }
                               disabled={!this.props.appState.isConnected}
                               onChange={
-                                (e) =>
-                                 { this.handleSubscriptionTokenChange(e.target.value);
-                                  this.handleCheckIfAlreadyApproved()
+                                (e) => {
+                                  this.handleSubscriptionTokenChange(
+                                    e.target.value
+                                  );
+                                  this.handleCheckIfAlreadyApproved();
                                 }
-                                  
+
                                 // console.log(e.target)
                               }
                             />
@@ -647,7 +653,9 @@ export default class Subscription extends React.Component {
                       className="btn v1"
                       style={{
                         background:
-                        this.state.lockActive === false ? "linear-gradient(51.32deg, #E30613 -12.3%, #FA4A33 50.14%)" : "#C4C4C4",
+                          this.state.lockActive === false
+                            ? "linear-gradient(51.32deg, #E30613 -12.3%, #FA4A33 50.14%)"
+                            : "#C4C4C4",
                         width: 230,
                         pointerEvents:
                           this.state.lockActive === false ? "auto" : "none",
@@ -824,7 +832,80 @@ export default class Subscription extends React.Component {
               >
                 <div style={{ position: "relative", width: "260px" }}>
                   <div
-                    className="d-flex table-wrapper"
+                    className="d-flex table-wrapper avax"
+                    style={{
+                      background:
+                        "linear-gradient(30.97deg, #E30613 18.87%, #FC4F36 90.15%)",
+                    }}
+                  >
+                    <div className="pair-locks-wrapper">
+                      <div className="row-wrapper">
+                        <span className="left-info-text">ID</span>
+                        <span className="right-info-text">{index + 1}</span>
+                      </div>
+                      <div className="row-wrapper">
+                        <span className="left-info-text">Pair Address</span>
+                        <span className="right-info-text">
+                          ...{lock.id.slice(35)}
+                        </span>
+                      </div>
+                      <div className="row-wrapper">
+                        <span className="left-info-text">Tokens</span>
+                        <span className="right-info-text">
+                          {lock.token0.symbol}/{lock.token1.symbol}
+                        </span>
+                      </div>
+                      <div className="row-wrapper">
+                        <span className="left-info-text">Total liquidity</span>
+                        <span className="right-info-text">
+                          {getFormattedNumber(lock.reserveUSD, 2)}
+                        </span>
+                      </div>
+                      <div className="row-wrapper">
+                        <span className="left-info-text">
+                          Pooled {lock.token0.symbol}
+                        </span>
+                        <span className="right-info-text">
+                          {getFormattedNumber(lock.reserve0, 2)}
+                        </span>
+                      </div>
+                      <div className="row-wrapper">
+                        <span className="left-info-text">
+                          Pooled {lock.token1.symbol}
+                        </span>
+                        <span className="right-info-text">
+                          {getFormattedNumber(lock.reserve1, 2)}
+                        </span>
+                      </div>
+                      <div className="row-wrapper">
+                        <span className="left-info-text">LP Holders</span>
+                        <span className="right-info-text">
+                          {lock.liquidityProviderCount}
+                        </span>
+                      </div>
+                      <div className="row-wrapper">
+                        <span className="left-info-text">
+                          Pair transactions:
+                        </span>
+                        <span className="right-info-text">{lock.txCount}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </NavLink>
+            );
+          })}
+        {this.state.favoritesETH.map((lock, index) => {
+            return (
+              <NavLink
+                key={index}
+                className="l-clr-purple"
+                to={`/pair-explorer/${lock.id}`}
+                onClick={()=>{this.props.handleSwitchNetwork(1)}}
+              >
+                <div style={{ position: "relative", width: "260px" }}>
+                  <div
+                    className="d-flex table-wrapper eth"
                     style={{
                       background:
                         "linear-gradient(30.97deg, #E30613 18.87%, #FC4F36 90.15%)",

@@ -280,7 +280,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                 handleFetchNewsContent("press", itemId);
               } else if (newsData.find((obj) => obj.id === itemId)) {
                 handleFetchNewsContent("news", itemId);
-              } else {handleFetchNewsContent("other", itemId);}
+              } else {
+                handleFetchNewsContent("other", itemId);
+              }
             }
           }
         }
@@ -312,11 +314,37 @@ const News = ({ theme, isPremium, coinbase }) => {
     }
   };
 
-  const handleDisplayNewsFromParam = () => {
+  const handleDisplayNewsFromParam = async () => {
     if (news_id != undefined && isParam === true) {
       window.scrollTo(0, 0);
-      setShowModal(true);
-      handleSelectPressNews(news_id);
+      const search = (obj) => obj.id == news_id;
+      let index = otherNewsData.findIndex(search);
+      if (index != "-1") {
+        handleFetchNewsContent("other", news_id);
+        setActiveNews(otherNewsData[index]);
+        setShowModal(true);
+      } else {
+        let index = newsData.findIndex(search);
+        if (index != "-1") {
+          handleFetchNewsContent("news", news_id);
+          setActiveNews(newsData[index]);
+          setShowModal(true);
+        } else {
+          let index = popularNewsData.findIndex(search);
+          if (index != "-1") {
+            handleFetchNewsContent("popular", news_id);
+            setActiveNews(popularNewsData[index]);
+            setShowModal(true);
+          } else {
+            let index = pressNewsData.findIndex(search);
+            if (index != "-1") {
+              handleFetchNewsContent("press", news_id);
+              setActiveNews(pressNewsData[index]);
+              setShowModal(true);
+            }
+          }
+        }
+      }
     }
   };
 
@@ -336,17 +364,22 @@ const News = ({ theme, isPremium, coinbase }) => {
     ];
     return arrayOfVotes.map((i) => cloneArray.find((j) => j.id === i.id));
   };
-
+  const cloneArray = [
+    ...otherNewsData,
+    ...popularNewsData,
+    ...pressNewsData,
+    ...newsData,
+  ];
   useEffect(() => {
     if (activeNews.date !== undefined) {
       setIsParam(false);
     } else {
-      if (newsData.length > 0) {
+      if (cloneArray.length > 0) {
         fetchNewsdata();
         handleDisplayNewsFromParam();
       }
     }
-  }, [newsData.length, news_id]);
+  }, [cloneArray.length, news_id]);
 
   const handleNewsReoderPopular = () => {
     if (popularNewsData.length > 5 && otherNewsData.length > 0) {
@@ -466,16 +499,16 @@ const News = ({ theme, isPremium, coinbase }) => {
     localStorage.setItem("firstTimeVoter", "false");
   }, []);
 
-
   let result = [...otherNewsDataReverse, ...otherPressReverse, ...newsData];
   const bigNews = [...new Set(result)];
-  const bigNewsSorted = bigNews.sort(function(a,b){
+  const bigNewsSorted = bigNews.sort(function (a, b) {
     return new Date(b.date) - new Date(a.date);
-  })
+  });
 
   const onScroll = () => {
     const wrappedElement = document.getElementById("header");
-    const isBottom = wrappedElement.getBoundingClientRect()?.bottom <= window.innerHeight
+    const isBottom =
+      wrappedElement.getBoundingClientRect()?.bottom <= window.innerHeight;
     if (isBottom) {
       if (next < bigNews.length) {
         loadMore();
@@ -483,7 +516,7 @@ const News = ({ theme, isPremium, coinbase }) => {
       document.removeEventListener("scroll", onScroll);
     }
   };
-  
+
   return (
     <div onScroll={onScroll} ref={listInnerRef} id="header">
       <div className="news-wrapper">
