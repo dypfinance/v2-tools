@@ -66,8 +66,8 @@ const NewsModal = ({
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
-console.log(newContent)
 
+  
   useEffect(() => {
     if (bal1 === 0 && bal2 === 0 && isPremium === true) {
       setCanVote(true);
