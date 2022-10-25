@@ -157,7 +157,7 @@ coinbase
         <img src={image} alt="" className="press-image" />
         <div className="date-wrapper-press">
           {/* <a href={link} target="_blank"> */}
-          <h6 className="press-title">{title?.slice(0,45) + '...'}</h6>
+          <h6 className="press-title">{title?.slice(0,50) + '...'}</h6>
           {/* </a> */}
 
           <div
