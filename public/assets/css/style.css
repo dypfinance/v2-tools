@@ -1725,6 +1725,10 @@ color: #303134 !important;
   /* transition: 1s ease 0.3s; */
 }
 
+.slick-dots li button:before {
+  font-size: 10px !important;
+}
+
 
 @media screen and (max-width: 767px) {
   .fYAEyH {
@@ -1750,7 +1754,7 @@ color: #303134 !important;
   width: 185px;
   height: 125px;}
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 1137px) {
   .singlepress-inner {
     flex-wrap: wrap !important;
   }
@@ -1761,6 +1765,10 @@ color: #303134 !important;
 
   .graphwrapper {
     padding: 20px !important;
+  }
+
+  .press-release-wrapper {
+    padding-top:  60px !important;
   }
 
   /* .premiumposition {
@@ -2343,9 +2351,26 @@ color: #303134 !important;
 
 .banner-item {
   padding: 10px;
-  background: white;
+  background: transparent;
   border-radius: 10px;
   /* margin: 0 10px; */
+}
+
+.slick-next:before {
+  color: #fa4833 !important;
+  font-size: 32px !important;
+  opacity: 1 !important;
+}
+
+.slick-next {
+  right: -15px !important;
+}
+
+.slick-prev:before {
+  color: #fa4833 !important;
+  font-size: 32px !important;
+  opacity: 1 !important;
+
 }
 
 .like-wrapper {
