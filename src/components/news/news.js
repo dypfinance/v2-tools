@@ -12,19 +12,36 @@ import { useWeb3React } from "@web3-react/core";
 import Carousel from "better-react-carousel";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Slider from "react-slick";
 
 const News = ({ theme, isPremium, coinbase }) => {
-  const responsive1 = [
-    {
-      breakpoint: 1220,
-      cols: 2,
-      rows: 1,
-      gap: 1,
-      loop: true,
-      autoplay: 4000,
-      showDots: true,
-    },
-  ];
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    arrows: true,
+    autoplay: true,
+    responsive: [
+
+      {
+        breakpoint: 1138,
+        settings: {
+          arrows: false,
+        },
+      },
+            {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          fade: false,
+          arrows: false,
+        },
+      },
+    ],
+  };
 
   const carousel = useRef();
 
@@ -755,7 +772,7 @@ const News = ({ theme, isPremium, coinbase }) => {
         <h1 className="news-title" style={{ paddingLeft: 20 }}>
           Press Release
         </h1>
-        <div
+        {/* <div
           className="brand-wrapper banner-wrapper"
           style={{ width: "98%", margin: "auto" }}
         >
@@ -769,43 +786,54 @@ const News = ({ theme, isPremium, coinbase }) => {
             responsiveLayout={responsive1}
             autoplay={4000}
           >
+           
+          </Carousel>
+        </div> */}
+        <div
+          className="brand-wrapper banner-wrapper "
+          style={{ width: "96%", margin: "auto", background: "none" }}
+        >
+          <Slider {...settings}>
             {pressNewsData.length > 0 &&
               pressNewsData.slice(0, 8).map((item, key) => {
                 return (
-                  <Carousel.Item key={key}>
-                    <div className="banner-item" style={{ background: "none" }}>
-                      <PressRealease
-                        image={item.image}
-                        title={item.title}
-                        link={item.link}
-                        date={item.date.slice(0, 10)}
-                        isPremium={isPremium}
-                        isConnected={isConnected}
-                        onVotesFetch={fetchVotingdata}
-                        newsId={item.id}
-                        onSinglePressHighlightClick={() => {
-                          setActiveNews(pressNewsData[key]);
-                          handleFetchNewsContent("press", item.id);
-                          setShowModal(true);
-                          window.scrollTo(0, 0);
-                        }}
-                        upvotes={
-                          votes.length !== 0
-                            ? votes.find((obj) => obj.id === item.id)?.up
-                            : 0
-                        }
-                        downvotes={
-                          votes.length !== 0
-                            ? votes.find((obj) => obj.id === item.id)?.down
-                            : 0
-                        }
-                        coinbase={coinbase}
-                      />
-                    </div>
-                  </Carousel.Item>
+                  <div 
+                    className="banner-item"
+                    style={{ background: "none" }}
+                    key={key}
+                     onDragEnd={(e)=>{e.preventDefault(); e.stopPropagation()}}
+                  >
+                    <PressRealease
+                      image={item.image}
+                      title={item.title}
+                      link={item.link}
+                      date={item.date.slice(0, 10)}
+                      isPremium={isPremium}
+                      isConnected={isConnected}
+                      onVotesFetch={fetchVotingdata}
+                      newsId={item.id}
+                      onSinglePressHighlightClick={() => {
+                        setActiveNews(pressNewsData[key]);
+                        handleFetchNewsContent("press", item.id);
+                        setShowModal(true);
+                        window.scrollTo(0, 0);
+                      }}
+                      upvotes={
+                        votes.length !== 0
+                          ? votes.find((obj) => obj.id === item.id)?.up
+                          : 0
+                      }
+                      downvotes={
+                        votes.length !== 0
+                          ? votes.find((obj) => obj.id === item.id)?.down
+                          : 0
+                      }
+                      coinbase={coinbase}
+                    />
+                  </div>
                 );
               })}
-          </Carousel>
+          </Slider>
         </div>
       </div>
       <div className="press-release-wrapper" style={{ paddingTop: 0 }}>

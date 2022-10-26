@@ -47,6 +47,8 @@ const NewsModal = ({
   const [votes, setVotes] = useState([]);
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
+  const [newContent, setnewContent] = useState(content);
+
 
   useEffect(() => {
     if (elementRef.current.clientHeight !== 0) {
@@ -54,12 +56,18 @@ const NewsModal = ({
       setDislikeIndicator(false);
       setLikeIndicator(false);
     }
+
+    if(content!==undefined && content.includes('&nbsp')) {
+      console.log('yes')
+     setnewContent(content.replace(/&nbsp;/g, ' ') ) 
+    }
   }, [newsId, content]);
 
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
 
+  
   useEffect(() => {
     if (bal1 === 0 && bal2 === 0 && isPremium === true) {
       setCanVote(true);
@@ -182,7 +190,7 @@ const NewsModal = ({
       <div>
         <div className="details-modal-content">
           <div className="left-col" ref={elementRef}>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-start align-items-center">
               <div className="backbtn" onClick={onModalClose}>
                 <i className="fas fa-arrow-left" style={{ color: "white" }}></i>
               </div>
@@ -360,7 +368,7 @@ const NewsModal = ({
             <p
               // style={{ maxWidth: 520 }}
               className="left-col-content"
-              dangerouslySetInnerHTML={{ __html: content }}
+              dangerouslySetInnerHTML={{ __html: newContent }}
             ></p>
             <p>
               Source:{" "}
