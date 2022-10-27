@@ -58,7 +58,6 @@ const NewsModal = ({
     }
 
     if(content!==undefined && content.includes('&nbsp')) {
-      console.log('yes')
      setnewContent(content.replace(/&nbsp;/g, ' ') ) 
     }
   }, [newsId, content]);
@@ -182,7 +181,7 @@ const NewsModal = ({
   };
 
   useEffect(() => {
-    fetchVotingdata().then();
+    fetchVotingdata();
   }, []);
 
   return (
@@ -404,13 +403,15 @@ const NewsModal = ({
                             // alreadyVoted={alreadyVoted}
                             upvotes={
                               votes.length !== 0
-                                ? votes.find((obj) => obj.id === item.id)?.up
-                                : item.up
+                                ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                                : 0
                             }
                             downvotes={
                               votes.length !== 0
-                                ? votes.find((obj) => obj.id === item.id)?.down
-                                : item.down
+                                ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                                  ? votes.find((obj) => obj.id === item.id)?.down
+                                  : 0
+                                : 0
                             }
                             image={item.image}
                             onSelectOtherNews={onSelectOtherNews}

@@ -24,14 +24,13 @@ const News = ({ theme, isPremium, coinbase }) => {
     arrows: true,
     autoplay: true,
     responsive: [
-
       {
         breakpoint: 1138,
         settings: {
           arrows: false,
         },
       },
-            {
+      {
         breakpoint: 500,
         settings: {
           slidesToShow: 1,
@@ -76,7 +75,7 @@ const News = ({ theme, isPremium, coinbase }) => {
   };
 
   const fetchVotingdata = async () => {
-    const test = await fetch(`https://news-manage.dyp.finance/api/v1/votes/all`)
+    const response = await fetch(`https://news-manage.dyp.finance/api/v1/votes/all`)
       .then((res) => {
         return res.json();
       })
@@ -85,7 +84,7 @@ const News = ({ theme, isPremium, coinbase }) => {
       })
       .catch(console.error);
 
-    return test;
+    return response;
   };
 
   const fetchNewsdata = async () => {
@@ -129,10 +128,18 @@ const News = ({ theme, isPremium, coinbase }) => {
   };
 
   const checkSingleVotes = async () => {
-    if (newsData.length > 0) {
-      for (let i = 0; i < newsData.length; i++) {
+
+    const topnews = [
+      ...otherNewsData,
+      ...popularNewsData,
+      ...newsData,
+      ...pressNewsData,
+    ];
+
+    if (topnews.length > 0) {
+      for (let i = 0; i < topnews.length; i++) {
         axios
-          .get(`https://news-manage.dyp.finance/api/v1/votes/${newsData[i].id}`)
+          .get(`https://news-manage.dyp.finance/api/v1/votes/${topnews[i].id}`)
           .then((data) => {
             votes.push(data);
           })
@@ -140,44 +147,6 @@ const News = ({ theme, isPremium, coinbase }) => {
       }
     }
 
-    if (otherNewsData.length > 0) {
-      for (let i = 0; i < otherNewsData.length; i++) {
-        axios
-          .get(
-            `https://news-manage.dyp.finance/api/v1/votes/${otherNewsData[i].id}`
-          )
-          .then((data) => {
-            votes.push(data);
-          })
-          .catch(console.error);
-      }
-    }
-
-    if (popularNewsData.length > 0) {
-      for (let i = 0; i < popularNewsData.length; i++) {
-        axios
-          .get(
-            `https://news-manage.dyp.finance/api/v1/votes/${popularNewsData[i].id}`
-          )
-          .then((data) => {
-            votes.push(data);
-          })
-          .catch(console.error);
-      }
-    }
-
-    if (pressNewsData.length > 0) {
-      for (let i = 0; i < pressNewsData.length; i++) {
-        axios
-          .get(
-            `https://news-manage.dyp.finance/api/v1/votes/${pressNewsData[i].id}`
-          )
-          .then((data) => {
-            votes.push(data);
-          })
-          .catch(console.error);
-      }
-    }
   };
 
   const fetchOtherNewsData = async () => {
@@ -197,12 +166,12 @@ const News = ({ theme, isPremium, coinbase }) => {
     if (account !== undefined) {
       setIsConnected(true);
     } else setIsConnected(false);
-  });
+  },[account]);
 
   useEffect(() => {
     fetchVotingdata().then();
-    checkSingleVotes().then();
-  }, [showModal, newsItemId]);
+    // checkSingleVotes().then();
+  }, [showModal, newsItemId, activeNews]);
 
   const { news_id } = useParams();
 
@@ -396,7 +365,7 @@ const News = ({ theme, isPremium, coinbase }) => {
         handleDisplayNewsFromParam();
       }
     }
-  }, [cloneArray.length, news_id]);
+  }, [cloneArray.length, news_id, activeNews]);
 
   const handleNewsReoderPopular = () => {
     if (popularNewsData.length > 5 && otherNewsData.length > 0) {
@@ -556,12 +525,14 @@ const News = ({ theme, isPremium, coinbase }) => {
               coinbase={coinbase}
               upvotes={
                 votes.length !== 0
-                  ? votes.find((obj) => obj.id === activeNews.id)?.up
+                  ? votes.find((obj) => obj.id === activeNews.id)?.up !== undefined ? votes.find((obj) => obj.id === activeNews.id)?.up : 0
                   : 0
               }
               downvotes={
                 votes.length !== 0
-                  ? votes.find((obj) => obj.id === activeNews.id)?.down
+                  ? votes.find((obj) => obj.id === activeNews.id)?.down !== undefined
+                    ? votes.find((obj) => obj.id === activeNews.id)?.down
+                    : 0
                   : 0
               }
               day={activeNews.date?.slice(0, 10)}
@@ -616,13 +587,14 @@ const News = ({ theme, isPremium, coinbase }) => {
                               coinbase={coinbase}
                               upvotes={
                                 votes.length !== 0
-                                  ? votes.find((obj) => obj.id === item.id)?.up
+                                  ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
                                   : 0
                               }
                               downvotes={
                                 votes.length !== 0
-                                  ? votes.find((obj) => obj.id === item.id)
-                                      ?.down
+                                  ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                                    ? votes.find((obj) => obj.id === item.id)?.down
+                                    : 0
                                   : 0
                               }
                               newsId={item.id}
@@ -690,12 +662,14 @@ const News = ({ theme, isPremium, coinbase }) => {
                           newsId={item.id}
                           upvotes={
                             votes.length !== 0
-                              ? votes.find((obj) => obj.id === item.id)?.up
+                              ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
                               : 0
                           }
                           downvotes={
                             votes.length !== 0
-                              ? votes.find((obj) => obj.id === item.id)?.down
+                              ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                                ? votes.find((obj) => obj.id === item.id)?.down
+                                : 0
                               : 0
                           }
                           onVotesFetch={fetchVotingdata}
@@ -731,12 +705,14 @@ const News = ({ theme, isPremium, coinbase }) => {
                             coinbase={coinbase}
                             upvotes={
                               votes.length !== 0
-                                ? votes.find((obj) => obj.id === item.id)?.up
+                                ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
                                 : 0
                             }
                             downvotes={
                               votes.length !== 0
-                                ? votes.find((obj) => obj.id === item.id)?.down
+                                ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                                  ? votes.find((obj) => obj.id === item.id)?.down
+                                  : 0
                                 : 0
                             }
                             onNewsClick={() => {
@@ -797,11 +773,14 @@ const News = ({ theme, isPremium, coinbase }) => {
             {pressNewsData.length > 0 &&
               pressNewsData.slice(0, 8).map((item, key) => {
                 return (
-                  <div 
+                  <div
                     className="banner-item"
                     style={{ background: "none" }}
                     key={key}
-                     onDragEnd={(e)=>{e.preventDefault(); e.stopPropagation()}}
+                    onDragEnd={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
                   >
                     <PressRealease
                       image={item.image}
@@ -820,12 +799,14 @@ const News = ({ theme, isPremium, coinbase }) => {
                       }}
                       upvotes={
                         votes.length !== 0
-                          ? votes.find((obj) => obj.id === item.id)?.up
+                          ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
                           : 0
                       }
                       downvotes={
                         votes.length !== 0
-                          ? votes.find((obj) => obj.id === item.id)?.down
+                          ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                            ? votes.find((obj) => obj.id === item.id)?.down
+                            : 0
                           : 0
                       }
                       coinbase={coinbase}
@@ -861,15 +842,17 @@ const News = ({ theme, isPremium, coinbase }) => {
                     year={item.year}
                     theme={theme}
                     onVotesFetch={fetchVotingdata}
+                    newsId={item.id}
                     upvotes={
                       votes.length !== 0
-                        ? votes.find((obj) => obj.id === item.id)?.up
+                        ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
                         : 0
                     }
-                    newsId={item.id}
                     downvotes={
                       votes.length !== 0
-                        ? votes.find((obj) => obj.id === item.id)?.down
+                        ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                          ? votes.find((obj) => obj.id === item.id)?.down
+                          : 0
                         : 0
                     }
                     onOtherNewsClick={() => {

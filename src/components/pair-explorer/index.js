@@ -18,7 +18,7 @@ import GearProgress from "./GearProgress";
 import axios from "axios";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import LatestNews from "./LatestNews";
+
 
 async function getTokenInformation(address, network) {
   let res = await axios.get(
