@@ -30,6 +30,8 @@ button:focus {
   outline: 0;
 }
 
+
+
 iframe {
   pointer-events: none;
 }
@@ -1386,16 +1388,13 @@ padding: 20px;
 --------------------------------*/
 
 .right-content {
-  width: 81.5%;
-  margin-left: 18%;
+  width: 100%;
+  /* margin-left: 18%; */
   /* transition: 0.3s; */
   padding: 108px 20px 0 0;
 }
 
-.page_wrapper.minimize .right-content {
-  width: 90%;
-  margin-left: 9%;
-}
+
 
 .graph-wrap {
   display: flex;
@@ -2353,6 +2352,7 @@ color: #303134 !important;
   padding: 10px;
   background: transparent;
   border-radius: 10px;
+  width: fit-content;
   /* margin: 0 10px; */
 }
 

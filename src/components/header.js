@@ -185,12 +185,7 @@ const Header = ({toggleMobileSidebar, toggleTheme, theme, network}) => {
             </div>
             <div className="d-flex align-items-center" style={{ gap: 15 }}>
                 {/* <span className="sidebar-link">Change theme</span> */}
-                <div
-                    className={`${
-                        theme == "theme-white" ? "" : "active-toggle"
-                    } toggle-button-wrapper`}
-                    onClick={toggleTheme}
-                >
+                <div>
                     <a href="javascript:void(0)">
                         <div>
                             <div className="toggle-circle"></div>
