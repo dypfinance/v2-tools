@@ -1,0 +1,33 @@
+.headerdesc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 15px;
+  letter-spacing: -0.018em;
+  opacity: 0.4;
+}
+
+.buydyp-btn {
+  border-radius: 8px;
+  width: fit-content;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #8e97cd;
+  box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
+  border: solid 3px transparent;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
+    ),
+    linear-gradient(272.84deg, #514bca 0%, rgba(119, 112, 224, 0.2) 100%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px #554fd800 inset;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 34px;
+}

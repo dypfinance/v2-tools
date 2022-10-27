@@ -1391,7 +1391,7 @@ padding: 20px;
   width: 100%;
   /* margin-left: 18%; */
   /* transition: 0.3s; */
-  padding: 108px 20px 0 0;
+  padding: 158px 20px 0 0;
 }
 
 
@@ -3255,7 +3255,7 @@ span.badge.badge-danger {
 } */
 
 .theme-dark .l-table-wrapper-div {
-  background: var(--black);
+  background: var(--light-blue);
 }
 .theme-white .l-table-wrapper-div {
   background: var(--white);

@@ -12,7 +12,7 @@ import Admin from "./components/admin";
 import Farms from "./components/farms";
 import News from "./components/news/news";
 import Sidebar from "./components/sidebar";
-import Header from "./components/header";
+import Header from "./components/header/header";
 import Footer from "./components/Footer/footer";
 import { Route } from "react-router-dom";
 import SubmitInfo from "./components/submit-info/SubmitInfo";
