@@ -27,7 +27,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      theme: "theme-white",
+      theme: "theme-dark",
       ethPrice: "...",
       gasPrice: "...",
       isMinimized: false && window.innerWidth >= 992,
@@ -200,6 +200,11 @@ class App extends React.Component {
     this.checkConnection();
     // this.checkNetworkId();
     this.refreshHotPairs();
+    let toBeAdded = {
+      "theme-dark": "theme-dark",
+    };
+    let { theme } = this.state;
+    document.body.classList.add(toBeAdded[theme]);
     this.subscriptionInterval = setInterval(this.refreshSubscription, 5e3);
   }
 
@@ -276,13 +281,13 @@ class App extends React.Component {
           </div>
         </div>
         <Header
-          toggleTheme={this.toggleTheme}
+          // toggleTheme={this.toggleTheme}
           theme={this.state.theme}
           toggleMobileSidebar={this.toggleMobileSidebar}
           isOpenInMobile={this.state.isOpenInMobile}
           network={this.state.networkId}
         />
-        <div className="content-wrapper">
+        <div className="content-wrapper container-lg m-auto">
           <Sidebar
             appState={this.state}
             theme={this.state.theme}
