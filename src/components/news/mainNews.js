@@ -109,7 +109,7 @@ const MainNews = ({
     if ((bal1 === 0 && bal2 === 0 && isPremium === false) || logout === 'true') {
       setLikeIndicator(false);
       setDislikeIndicator(false);
-      onUpVoteClick();
+      // onUpVoteClick();
     } else {
       if (likeIndicator === true) {
         setLikeIndicator(false);
@@ -117,7 +117,7 @@ const MainNews = ({
       } if (likeIndicator === false) {
         setLikeIndicator(true);
         setDislikeIndicator(false);
-        onUpVoteClick();
+        // onUpVoteClick();
       }
     }
   };
@@ -136,9 +136,9 @@ const MainNews = ({
     } else {
       if (dislikeIndicator === true) {
         setDislikeIndicator(false);
-        onUpVoteClick();
+        // onUpVoteClick();
       } else if (dislikeIndicator === false) {
-        onDownVoteClick();
+        // onDownVoteClick();
         setDislikeIndicator(true);
         setLikeIndicator(false);
       }
