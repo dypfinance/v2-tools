@@ -281,27 +281,31 @@ class App extends React.Component {
           </div>
         </div>
         <Header
-          // toggleTheme={this.toggleTheme}
+          coinbase={this.state.coinbase}
           theme={this.state.theme}
           toggleMobileSidebar={this.toggleMobileSidebar}
           isOpenInMobile={this.state.isOpenInMobile}
           network={this.state.networkId}
+          logout={this.logout}
+          handleSwitchNetwork={this.handleSwitchNetwork}
+          handleConnection={this.handleConnection}
+          showModal={this.showModal}
+          hideModal={this.hideModal}
+          show={this.state.show}
+          isConnected={this.state.isConnected}
         />
         <div className="content-wrapper container-lg m-auto">
           <Sidebar
             appState={this.state}
             theme={this.state.theme}
             isConnected={this.state.isConnected}
-            handleConnection={this.handleConnection}
             toggleMobileSidebar={this.toggleMobileSidebar}
             isOpenInMobile={this.state.isOpenInMobile}
             showModal={this.showModal}
             hideModal={this.hideModal}
             show={this.state.show}
             checkConnection={this.checkConnection}
-            logout={this.logout}
             isPremium={this.state.isPremium}
-            handleSwitchNetwork={this.handleSwitchNetwork}
             network={this.state.networkId}
           />
           <div className="right-content">

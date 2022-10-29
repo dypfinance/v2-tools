@@ -94,68 +94,10 @@ const Sidebar = (props) => {
                                         : "rgba(255, 255, 255, 0.3)",
                                 }}
                             >
-                                <WalletModal
-                                    show={props.show}
-                                    handleClose={props.hideModal}
-                                    handleConnection={props.handleConnection}
-                                />
-                                <div className="home-menu">
-                                    <a href="#" id="wallet">
-                                        <img
-                                            src={!props.isConnected ? NotConnected : Connected}
-                                            alt="Image"
-                                        />
-                                        {/* <i style={{color: '#fff'}} className='fas fa-wallet'></i> */}
-                                        {!props.isConnected ? (
-                                            <span
-                                                style={{
-                                                    color: "#6B7A99",
-                                                }}
-                                                className="notconnect-text"
-                                            >
-                      Wallet not connected
-                    </span>
-                                        ) : (
-                                            // <span>test</span>
-                                            <span
-                                                style={{
-                                                    color: "#fff",
-                                                }}
-                                                className="connect-text"
-                                            >
-                      Connected!
-                    </span>
-                                        )}
-                                        {props.isConnected && (
-                                            <span onClick={props.logout} className="d-flex">
-                      <img
-                          src={Logout}
-                          alt=""
-                          style={{
-                              transform: "rotate(180deg)",
-                              height: 15,
-                              marginLeft: 10,
-                          }}
-                      />
-                      <span style={{color: "#fff"}}>Logout</span>
-                    </span>
-                                        )}
-                                    </a>
-                                    {!props.isConnected && (
-                                        <button
-                                            className="connectwalletbtn"
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                // injected.activate(injected, undefined, true);
-                                                props.showModal();
-                                            }}
-                                        >
-                                            Connect
-                                        </button>
-                                    )}
-                                </div>
+                               
+                               
                             </div>
-                            <h6
+                            {/* <h6
                                 className="networks row m-0"
                                 style={{
                                     border: chainId === 1
@@ -213,7 +155,7 @@ const Sidebar = (props) => {
                   Avalanche
                 </span>
                                 </a>
-                            </h6>
+                            </h6> */}
                         </div>
                         <ul style={{width: "fit-content", margin: "auto"}}>
                             <div
@@ -437,11 +379,11 @@ const Sidebar = (props) => {
                                     </a>
                                 </li>
                             </div>
-                            <div
+                           {/*   <div
                                 className="row m-auto align-items-center twolinks-wrapper"
                                 style={{width: "fit-content", borderRadius: "0px 0px 8px 8px"}}
                             >
-                                <li
+                               <li
                                     className="navlinks"
                                     onClick={() => {
                                         setActiveLink("buydyp");
@@ -505,8 +447,8 @@ const Sidebar = (props) => {
                                         />
                                         <span className="sidebar-link">Account</span>
                                     </NavLink>
-                                </li>
-                            </div>
+                                </li> 
+                            </div>*/}
                         </ul>
                     </div>
                 </div>

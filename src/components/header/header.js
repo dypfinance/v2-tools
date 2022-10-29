@@ -6,10 +6,29 @@ import coin from "./assets/coins.svg";
 import avax from "./assets/avax.svg";
 import bnb from "./assets/bnb.svg";
 import eth from "./assets/eth.svg";
-import dropdown from './assets/dropdown.svg'
+import dropdown from "./assets/dropdown.svg";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import { shortAddress } from "../../functions/shortAddress";
+import ellipse from "./assets/ellipse.svg";
+import user from "./assets/user.svg";
+import logoutimg from "./assets/logout.svg";
+import WalletModal from "../WalletModal";
 
-
-const Header = ({ toggleMobileSidebar, toggleTheme, theme, network }) => {
+const Header = ({
+  toggleMobileSidebar,
+  toggleTheme,
+  theme,
+  network,
+  coinbase,
+  logout,
+  handleSwitchNetwork,
+  showModal,
+  show,
+  hideModal,
+  handleConnection,
+  isConnected,
+}) => {
   const [gasPrice, setGasprice] = useState();
   const [ethPrice, setEthprice] = useState();
   // const [chainId, setChainId] = useState(1)
@@ -32,15 +51,14 @@ const Header = ({ toggleMobileSidebar, toggleTheme, theme, network }) => {
 
   const [hotpairs, setHotpairs] = useState([]);
 
-
   const [ethState, setEthState] = useState(true);
   const [bnbState, setBnbState] = useState(false);
   const [avaxState, setAvaxState] = useState(false);
+  const [avatar, setAvatar] = useState("../../assets/img/person.svg");
 
   const handleEthPool = () => {
-    setAvaxState(false);
-    setBnbState(false);
-    setEthState(true);
+
+    handleSwitchNetwork(1)
   };
 
   const handleBnbPool = () => {
@@ -50,12 +68,8 @@ const Header = ({ toggleMobileSidebar, toggleTheme, theme, network }) => {
   };
 
   const handleAvaxPool = () => {
-    setAvaxState(true);
-    setBnbState(false);
-    setEthState(false);
+    handleSwitchNetwork(43114)
   };
-
-
 
   const fetchData = async () => {
     if (chainId === 1) {
@@ -122,114 +136,158 @@ const Header = ({ toggleMobileSidebar, toggleTheme, theme, network }) => {
     }
   }
 
+  const fetchAvatar = async () => {
+    const response = await fetch(
+      `https://api-image.dyp.finance/api/v1/avatar/${coinbase}`
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        data.avatar
+          ? setAvatar(data.avatar)
+          : setAvatar("/assets/img/person.svg");
+      })
+      .catch(console.error);
+
+    return response;
+  };
+
+  const checklogout = localStorage.getItem("logout");
+
   useEffect(() => {
     fetchData().then();
     refreshHotPairs().then();
     // checkNetworkId()
     ethereum?.on("chainChanged", handleChainChanged);
     ethereum?.on("accountChanged", handleChainChanged);
+
+    if(chainId === 1) {
+      setAvaxState(false); setBnbState(false); setEthState(true)
+    }
+
+    else if(chainId === 43114) {
+      setAvaxState(true); setBnbState(false); setEthState(false)
+    }
   }, [chainId]);
 
+  useEffect(() => {
+    fetchAvatar();
+  }, [coinbase, checklogout]);
+
   return (
-    <header className="header-wrap" style={{ zIndex: 777 }}>
-      <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
-        <div className="d-flex flex-column gap-2 text-start">
-          <h4 className="text-white">Good morning, Dwight</h4>
-          <span className="text-white headerdesc">Good morning, Stewie</span>
-        </div>
-        <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
-          <button className="buydyp-btn btn">
-            <img src={coin} alt="" /> Buy
-          </button>
-          <div>
-          <div className="dropdown">
-             
-              <div
-                className="coins d-flex justify-content-between align-items-center"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                style={{
-                  borderColor:
-                    ethState === true
-                      ? "#566FCE"
+    <>
+      <header className="header-wrap " style={{ zIndex: 777 }}>
+        <div className="d-flex m-0 justify-content-between gap-3 align-items-center w-100">
+          <div className="d-flex flex-column gap-2 text-start">
+            <h4 className="text-white">Good morning, Dwight</h4>
+            <span className="text-white headerdesc">Good morning, Stewie</span>
+          </div>
+          <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
+            <a
+              className="buydyp-btn btn"
+              href={
+                chainId === 1
+                  ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                  : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+              }
+              target={'_blank'} rel="noreferrer"
+            >
+              <img src={coin} alt="" /> Buy
+            </a>
+            <div className="d-flex justify-content-between gap-3 align-items-center">
+              <DropdownButton
+                id="dropdown-basic-button"
+                title={
+                  <span className="dropdown-title">
+                    <img
+                      src={
+                        ethState === true ? eth : bnbState === true ? bnb : avax
+                      }
+                      alt=""
+                    />
+                    {ethState === true
+                      ? "ETH"
                       : bnbState === true
-                      ? "#D5A404"
-                      : "#E84142",
-                }}
+                      ? "BNB"
+                      : "AVAX"}
+                    <img src={dropdown} alt="" />
+                  </span>
+                }
               >
-                {ethState === true ? (
-                  <div
-                    className="d-flex flex-row align-items-center justify-content-start gap-2"
-                    style={{
-                      cursor: "pointer",
-                      color: "#566FCE",
-                      fontSize: 12,
-                    }}
-                  >
-                    <img src={eth} alt=""  />
-                    ETH
-                  </div>
-                ) : bnbState === true ? (
-                  <div
-                    className="d-flex flex-row align-items-center justify-content-start gap-2"
-                    style={{
-                      cursor: "pointer",
-                      color: "#D5A404",
-                      fontSize: 12,
-                    }}
-                  >
-                    <img src={bnb} alt=""  />
-                    BNB
-                  </div>
-                ) : (
-                  <div
-                    className="d-flex flex-row align-items-center justify-content-start gap-2"
-                    style={{
-                      cursor: "pointer",
-                      color: "#E84142",
-                      fontSize: 12,
-                    }}
-                  >
-                    <img src={avax} alt=""  />
-                    AVAX
-                  </div>
+                <Dropdown.Item onClick={() => handleEthPool()}>
+                  <img src={eth} alt="" />
+                  ETH
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleBnbPool()}>
+                  <img src={bnb} alt="" />
+                  BNB
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => handleAvaxPool()}>
+                  <img src={avax} alt="" />
+                  AVAX
+                </Dropdown.Item>
+              </DropdownButton>
+
+              <DropdownButton
+                id="dropdown-basic-button2"
+                onClick={!coinbase && showModal}
+                title={
+                  <span className="dropdown-title walletaccount">
+                    {checklogout === "false" && (
+                      <img
+                        src={avatar}
+                        style={{
+                          height: 18,
+                          borderRadius: "50%",
+                          border: "1px solid #00D849",
+                        }}
+                        alt=""
+                      />
+                    )}
+                    {checklogout === "false" ? (
+                      shortAddress(coinbase)
+                    ) : (
+                      <span className="d-flex align-items-center connecttitle">
+                        Connect
+                        <img
+                          src={ellipse}
+                          alt=""
+                          className="position-relative"
+                          style={{ top: 4 }}
+                        />
+                      </span>
+                    )}
+                    {coinbase && <img src={dropdown} alt="" />}
+                  </span>
+                }
+              >
+                <Dropdown.Item
+                  onClick={() => window.location.assign("/account")}
+                >
+                  <img src={user} alt="" />
+                  Your account
+                </Dropdown.Item>
+                {coinbase && (
+                  <Dropdown.Item onClick={() => logout()}>
+                    <img src={logoutimg} alt="" />
+                    Disconnect wallet
+                  </Dropdown.Item>
                 )}
-                <img src={dropdown} alt=""  />
-              </div>
-              <ul className="dropdown-menu coin-menu p-1">
-                <li
-                  className="d-flex flex-row align-items-center justify-content-start gap-3 py-3 mx-2 coin"
-                  onClick={() => handleEthPool()}
-                  style={{ color: "#566FCE" }}
-                >
-                  <img src={dropdown} alt=""  /> ETH
-                </li>
-                <li
-                  className="d-flex flex-row align-items-center justify-content-start gap-3 py-3 mx-2 coin"
-                  onClick={() => handleBnbPool()}
-                  style={{ color: "#D5A404" }}
-                >
-                  <img src={dropdown} alt=""  /> BNB
-                </li>
-                <li
-                  className="d-flex flex-row align-items-center justify-content-start gap-3 py-3 mx-2 coin"
-                  onClick={() => handleAvaxPool()}
-                  style={{ color: "#E84142" }}
-                >
-                  <img src={dropdown} alt=""  /> AVAX
-                </li>
-              </ul>
+              </DropdownButton>
             </div>
-
-            {/* <button className="buydyp-btn btn">
-               Connect
-            </button> */}
-
           </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {show && (
+        <WalletModal
+          show={show}
+          handleClose={hideModal}
+          handleConnection={handleConnection}
+        />
+      )}
+    </>
   );
 };
 
