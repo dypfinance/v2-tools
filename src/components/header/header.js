@@ -1,8 +1,12 @@
 import { NavLink } from "react-router-dom";
-import './header.css'
+import "./header.css";
 import getFormattedNumber from "../../functions/get-formatted-number";
 import React, { useEffect, useState } from "react";
-import coin from './assets/coins.svg'
+import coin from "./assets/coins.svg";
+import avax from "./assets/avax.svg";
+import bnb from "./assets/bnb.svg";
+import eth from "./assets/eth.svg";
+import dropdown from './assets/dropdown.svg'
 
 
 const Header = ({ toggleMobileSidebar, toggleTheme, theme, network }) => {
@@ -27,6 +31,31 @@ const Header = ({ toggleMobileSidebar, toggleTheme, theme, network }) => {
   // }
 
   const [hotpairs, setHotpairs] = useState([]);
+
+
+  const [ethState, setEthState] = useState(true);
+  const [bnbState, setBnbState] = useState(false);
+  const [avaxState, setAvaxState] = useState(false);
+
+  const handleEthPool = () => {
+    setAvaxState(false);
+    setBnbState(false);
+    setEthState(true);
+  };
+
+  const handleBnbPool = () => {
+    setAvaxState(false);
+    setBnbState(true);
+    setEthState(false);
+  };
+
+  const handleAvaxPool = () => {
+    setAvaxState(true);
+    setBnbState(false);
+    setEthState(false);
+  };
+
+
 
   const fetchData = async () => {
     if (chainId === 1) {
@@ -109,11 +138,94 @@ const Header = ({ toggleMobileSidebar, toggleTheme, theme, network }) => {
           <span className="text-white headerdesc">Good morning, Stewie</span>
         </div>
         <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
-          <button className="buydyp-btn btn"> <img src={coin} alt=''/> Buy</button>
+          <button className="buydyp-btn btn">
+            <img src={coin} alt="" /> Buy
+          </button>
           <div>
-          <button className="buydyp-btn btn"> <img src={coin} alt=''/> ETH</button>
+          <div className="dropdown">
+             
+              <div
+                className="coins d-flex justify-content-between align-items-center"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style={{
+                  borderColor:
+                    ethState === true
+                      ? "#566FCE"
+                      : bnbState === true
+                      ? "#D5A404"
+                      : "#E84142",
+                }}
+              >
+                {ethState === true ? (
+                  <div
+                    className="d-flex flex-row align-items-center justify-content-start gap-2"
+                    style={{
+                      cursor: "pointer",
+                      color: "#566FCE",
+                      fontSize: 12,
+                    }}
+                  >
+                    <img src={eth} alt=""  />
+                    ETH
+                  </div>
+                ) : bnbState === true ? (
+                  <div
+                    className="d-flex flex-row align-items-center justify-content-start gap-2"
+                    style={{
+                      cursor: "pointer",
+                      color: "#D5A404",
+                      fontSize: 12,
+                    }}
+                  >
+                    <img src={bnb} alt=""  />
+                    BNB
+                  </div>
+                ) : (
+                  <div
+                    className="d-flex flex-row align-items-center justify-content-start gap-2"
+                    style={{
+                      cursor: "pointer",
+                      color: "#E84142",
+                      fontSize: 12,
+                    }}
+                  >
+                    <img src={avax} alt=""  />
+                    AVAX
+                  </div>
+                )}
+                <img src={dropdown} alt=""  />
+              </div>
+              <ul className="dropdown-menu coin-menu p-1">
+                <li
+                  className="d-flex flex-row align-items-center justify-content-start gap-3 py-3 mx-2 coin"
+                  onClick={() => handleEthPool()}
+                  style={{ color: "#566FCE" }}
+                >
+                  <img src={dropdown} alt=""  /> ETH
+                </li>
+                <li
+                  className="d-flex flex-row align-items-center justify-content-start gap-3 py-3 mx-2 coin"
+                  onClick={() => handleBnbPool()}
+                  style={{ color: "#D5A404" }}
+                >
+                  <img src={dropdown} alt=""  /> BNB
+                </li>
+                <li
+                  className="d-flex flex-row align-items-center justify-content-start gap-3 py-3 mx-2 coin"
+                  onClick={() => handleAvaxPool()}
+                  style={{ color: "#E84142" }}
+                >
+                  <img src={dropdown} alt=""  /> AVAX
+                </li>
+              </ul>
+            </div>
 
-            <div></div>
+            {/* <button className="buydyp-btn btn">
+               Connect
+            </button> */}
+
           </div>
         </div>
       </div>

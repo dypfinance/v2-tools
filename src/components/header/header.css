@@ -31,3 +31,10 @@
   gap: 5px;
   height: 34px;
 }
+
+.coins {
+  background: rgba(219, 217, 255, 0.06);
+border-radius: 8px;
+height: 34px;
+padding: 5px;
+}
