@@ -28,7 +28,7 @@ const Sidebar = (props) => {
   const [activeLink, setActiveLink] = useState(null);
   const [location, setlocation] = useState("news");
   const [networkId, setNetworkId] = useState(1);
-  const [activeSidebar, setActiveSidebar] = useState(false);
+  const [activeSidebar, setActiveSidebar] = useState(true);
 
   let chainId = parseInt(props.network);
 
@@ -112,8 +112,8 @@ const Sidebar = (props) => {
   const closeSidebar = () => {
     setActiveSidebar(false);
   };
-  sidebar?.addEventListener("mouseover", openSidebar);
-  sidebar?.addEventListener("mouseleave", closeSidebar);
+  // sidebar?.addEventListener("mouseover", openSidebar);
+  // sidebar?.addEventListener("mouseleave", closeSidebar);
 
   return (
     // <div
@@ -589,7 +589,7 @@ const Sidebar = (props) => {
     <div
       id="sidebar" className={`testbar ${activeSidebar ? 'testbar-open' : null} d-flex flex-column justify-content-start align-items-start py-5`}>
       <div className="d-flex w-100 justify-content-center align-items-center pb-5">
-        <img src={activeSidebar ? toolsLogoActive : toolsLogo} alt="" />
+        <img src={activeSidebar ? toolsLogoActive : toolsLogo} alt="" style={{height: '40px'}} />
       </div>
 
       <div
@@ -598,8 +598,7 @@ const Sidebar = (props) => {
       >
         {sidebarItems.map((sideItem) => (
           <div
-            className={`sidebar-item d-flex w-100 ${activeSidebar ? 'justify-content-start ps-4' : 'justify-content-center'} align-items-center`}
-            style={{ gap: 10 }}
+            className={`sidebar-item p-2 d-flex ${activeSidebar ? 'justify-content-start ms-4' : 'justify-content-center'} align-items-center`}
             onClick={() => setActiveLink(sideItem.label)}
           >
             <img
