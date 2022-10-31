@@ -17,9 +17,11 @@ import Footer from "./components/Footer/footer";
 import { Route } from "react-router-dom";
 import SubmitInfo from "./components/submit-info/SubmitInfo";
 import { Switch } from "react-router-dom";
-import { RedirectPathToNewsOnly } from "./functions/redirects";
+import { RedirectPathToHomeOnly } from "./functions/redirects";
 import getSyncStats from "./functions/get-indexing-status";
 import getFormattedNumber from "./functions/get-formatted-number";
+import Earn from "./components/earn/Earn";
+import Dashboard from "./components/dashboard/Dashboard";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -323,6 +325,23 @@ class App extends React.Component {
                   />
                 )}
               />
+                <Route
+                exact
+                path="/earn"
+                render={() => (
+                  <Earn/>
+                )}
+              />
+
+
+<Route
+                exact
+                path="/"
+                render={() => (
+                  <Dashboard/>
+                )}
+              />
+
               <Route
                 exact
                 path="/news/:news_id?"
@@ -422,7 +441,7 @@ class App extends React.Component {
                   />
                 )}
               />
-              <Route component={RedirectPathToNewsOnly} />
+              <Route component={RedirectPathToHomeOnly} />
             </Switch>
 
             <Footer />
