@@ -231,7 +231,7 @@ const Header = ({
 
               <DropdownButton
                 id="dropdown-basic-button2"
-                onClick={!coinbase && showModal}
+                onClick={checklogout === "true" && showModal}
                 title={
                   <span className="dropdown-title walletaccount">
                     {checklogout === "false" && (
@@ -258,7 +258,7 @@ const Header = ({
                         />
                       </span>
                     )}
-                    {coinbase && <img src={dropdown} alt="" />}
+                    {checklogout === "false" && <img src={dropdown} alt="" />}
                   </span>
                 }
               >
@@ -268,7 +268,7 @@ const Header = ({
                   <img src={user} alt="" />
                   Your account
                 </Dropdown.Item>
-                {coinbase && (
+                {checklogout === "false" && (
                   <Dropdown.Item onClick={() => logout()}>
                     <img src={logoutimg} alt="" />
                     Disconnect wallet
