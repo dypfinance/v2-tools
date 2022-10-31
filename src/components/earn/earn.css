@@ -1,0 +1,76 @@
+.earn-wrapper{
+    background: #1D1E42;
+}
+
+
+.earn-hero{
+    background-image: url('../../assets/earnAssets/earnHeroBackground.webp');
+    min-height: 150px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 16px;
+}
+
+.coin{
+    position: absolute;
+    min-width: 150px;
+    min-height: 150px;
+    bottom: -10%;
+}
+
+.coin:nth-child(2){
+    animation: rotate 10s linear infinite;
+}
+
+
+.earn-option{
+    font-weight: 500;
+    font-size: 17px;
+    color: rgba(119, 112, 224, 1);
+    padding: 10px 15px;
+    border:  2px solid rgba(119, 112, 224, 1);
+    border-radius: 8px;
+
+}
+
+hr{
+    width: 80% !important;
+    height: 1px;
+    color: #3B3C68;
+    margin-top: 2rem  !important;
+}
+
+.stake-item{
+    border: 2px solid rgba(142, 151, 205, 0.4) ;
+    border-radius: 8px;
+    background: #26264F;
+    padding: 5px 30px 5px 10px;
+    cursor: pointer;
+    transition: all .25s;
+}
+
+.stake-item-active{
+    box-shadow: 0px 2px 12px rgba(78, 73, 197, 0.22);
+    border: 2px solid rgba(85, 79, 216, 1);
+
+}
+.stake-item img{
+    width: 30px;
+    height: 30px;
+}
+
+.top-picks-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+@keyframes rotate {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
