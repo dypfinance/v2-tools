@@ -106,7 +106,7 @@ const Header = ({toggleMobileSidebar, toggleTheme, theme, network}) => {
 
     return (
 
-        <header className="header-wrap" style={{zIndex: 777 }}>
+        <header className="header-wrap" style={{zIndex: 5 }}>
             <div className="header-left">
                 <div>
                     <img
