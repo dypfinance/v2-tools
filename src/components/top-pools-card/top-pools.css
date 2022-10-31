@@ -1,0 +1,150 @@
+.poolscardwrapper {
+  background: #26264f;
+  box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
+  border-radius: 12px;
+  position: relative;
+  padding: 10px;
+  background-image: url("./assets/toppools-bg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 420px;
+  border: 1px solid #7770df;
+}
+
+.purplediv {
+  width: 4px;
+  height: 45px;
+  position: absolute;
+  border-radius: 0px 100px 100px 0px;
+  left: 0px;
+}
+
+.tvl-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.018em;
+  color: #7a81b4 !important;
+}
+
+.tvl-amount {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: -0.018em;
+  color: #c0cbf7;
+}
+
+.apr-amount {
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 42px;
+  text-align: right;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.apr-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: right;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.token-name {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: -0.018em;
+  color: #f7f7fc !important;
+}
+
+.details-wrapper {
+  background: #26264f;
+  border-radius: 5px 5px 0px 0px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 3px;
+}
+
+.top-pick {
+  border: 2px solid #f0603a;
+  position: relative;
+}
+
+.top-pick::after {
+  content: "";
+  position: absolute;
+  width: 91px;
+  height: 33px;
+  top: -18px;
+  right: -2px;
+  background-image: url(./assets/toppick.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 6px 0px;
+}
+
+.details-text {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.bottomwrapper {
+  background: linear-gradient(0deg, #14142a 0%, rgba(20, 20, 42, 0) 100%);
+  filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.pools-details-wrapper {
+  background: #1d1e42;
+  border-radius: 8px 8px 0px 0px;
+  border: 1px solid #7770df;
+  padding: 10px;
+}
+
+.leftside {
+  background: #1b1b39;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.activewrapper {
+  background: #26264f;
+  border-radius: 500px;
+  padding: 0 5px;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+}
+
+.activetxt {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 12px;
+  letter-spacing: -0.018em;
+  color: #75cac2;
+  text-shadow: 0px 0px 2px rgba(117, 202, 194, 0.6);
+}

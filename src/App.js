@@ -277,11 +277,11 @@ class App extends React.Component {
         <Route component={GoogleAnalyticsReporter} />
 
         <div className="body_overlay"></div>
-        <div className="minimize-wrap">
+        {/* <div className="minimize-wrap">
           <div onClick={this.toggleMinimizeSidebar} className="minimize_btn">
             <span className=""></span>
           </div>
-        </div>
+        </div> */}
         <Header
           coinbase={this.state.coinbase}
           theme={this.state.theme}
@@ -444,7 +444,7 @@ class App extends React.Component {
               <Route component={RedirectPathToHomeOnly} />
             </Switch>
 
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
       </div>
