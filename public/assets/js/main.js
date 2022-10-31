@@ -20,9 +20,9 @@
     });
 
     //dropdown list
-    $('.dropdown').on('click', function() {
-        $(this).toggleClass('open')
-    });
+    // $('.dropdown').on('click', function() {
+    //     $(this).toggleClass('open')
+    // });
     //Open popup
     $('.popup-btn').on('click', function() {
         $('.popup-modal').addClass('open');

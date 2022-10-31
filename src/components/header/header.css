@@ -1,0 +1,107 @@
+.headerdesc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 15px;
+  letter-spacing: -0.018em;
+  opacity: 0.4;
+}
+
+.buydyp-btn {
+  border-radius: 8px;
+  width: fit-content;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #8e97cd;
+  box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
+  border: solid 3px transparent;
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
+    ),
+    linear-gradient(272.84deg, #514bca 0%, rgba(119, 112, 224, 0.2) 100%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 2px 1000px 1px #554fd800 inset;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 34px;
+}
+
+.dropdown-toggle {
+  background: rgba(219, 217, 255, 0.06);
+  border-radius: 8px;
+  height: 34px;
+  padding: 8px;
+  width: 84px;
+  height: 34px;
+  border: 1px solid #7770e0 !important;
+}
+
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+.dropdown-menu.show {
+  background: #26264f !important;
+  box-shadow: 0px 12px 16px rgba(20, 20, 41, 0.4) !important;
+  border-radius: 8px !important;
+  padding: 0px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 18px;
+  color: #f7f7fc !important;
+  padding: 10px 8px;
+}
+
+.dropdown-item:nth-child(1) {
+  border-bottom: 1px solid #3b3c68 !important;
+}
+
+.dropdown-item:nth-child(2) {
+  border-bottom: 1px solid #3b3c68 !important;
+}
+
+.dropdown-item:hover {
+  background: #3b3883;
+}
+
+.dropdown-title {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 18px;
+  color: #8e97cd;
+}
+
+#dropdown-basic-button2 {
+  background: rgba(117, 202, 194, 0.2) !important;
+  border-radius: 8px;
+  border-color: #57b6ab !important;
+  width: fit-content;
+
+}
+
+.connecttitle {
+   color: #75cac2 !important; 
+}
+
+.walletaccount {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #75cac2 !important;
+}
