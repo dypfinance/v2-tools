@@ -1,0 +1,24 @@
+.top-pools-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  width: fit-content;
+  letter-spacing: -0.018em;
+  color: rgba(247, 247, 252, 0.8);
+  padding: 0;
+}
+
+.view-more-title {
+  width: fit-content;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #7770e0;
+  cursor: pointer;
+}
+
+.view-more-title:hover, .view-more-title:focus {
+    text-decoration: underline;
+}

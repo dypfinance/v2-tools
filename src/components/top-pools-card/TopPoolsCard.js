@@ -4,21 +4,27 @@ import DypLogo from "./assets/dyplogo.svg";
 import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
 import TopPoolsDetails from "./TopPoolsDetails";
+// import TopPoolsDetails from "./TopPoolsDetails";
 
 const TopPoolsCard = ({
   tokenLogo,
+  cardId,
   tokenName,
   apr,
   lockTime,
   tvl,
-  onDetailsClick,
+  // onDetailsClick,
   top_pick,
-  showDetails,
+  // showDetails,
 }) => {
+
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
     <>
       <div
         className={`poolscardwrapper ${top_pick === true ? "top-pick" : ""}`}
+        
       >
         <div
           className="purplediv"
@@ -50,7 +56,9 @@ const TopPoolsCard = ({
               <h6 className="tvl-amount">{lockTime}</h6>
             </div>
           </div>
-          <div className="details-wrapper" onClick={onDetailsClick}>
+          <div className="details-wrapper" onClick={()=>{
+            setShowDetails(!showDetails)
+          }}>
             <h6
               className="details-text gap-1 d-flex align-items-center"
               style={{ color: showDetails === false ? "#75CAC2" : "#F8845B" }}
@@ -61,7 +69,7 @@ const TopPoolsCard = ({
           </div>
         </div>
       </div>
-      {showDetails === true && <TopPoolsDetails />}
+     {showDetails && <TopPoolsDetails/>}
     </>
   );
 };
