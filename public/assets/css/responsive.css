@@ -20,13 +20,54 @@
 .sidebar-item{
     cursor: pointer;
     gap: 10px;
-    width: 200px;
     border-radius: 12px;
+    border: 2px solid #26264F;
+    transition:  all .25s;
+}
+
+
+.indicator{
+    transition: all .25s;
+}
+
+.active-indicator{
+    transform: rotate(180deg);
+
+}
+
+.active-width{
+    width: 200px;
 }
 
 
 .sidebar-item:hover{
-    border: 1px solid rgba(119, 112, 224, 1);
+    border: 2px solid rgba(119, 112, 224, 1);
+    
+}
+
+
+.active-side-link{
+    background: linear-gradient(272.84deg, rgba(85, 79, 216, 0.3) 0%, rgba(119, 112, 224, 0.3) 100%);
+    border: 2px solid rgba(119, 112, 224, 1);
+
+}
+
+.accordion-child{
+    font-family: 'Poppins', sans-serif;
+    color: #7770E0 !important;
+    border: 1px solid #26264F;
+    border-radius: 12px;
+    font-size: 14px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all .25s;
+}
+
+.accordion-child-active{
+    color: rgba(240, 97, 59, 1) !important;
+border: 1px solid rgba(240, 97, 59, 1);
+width: fit-content;
+
 }
 
 .sideitem-text{
