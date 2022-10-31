@@ -1,24 +1,25 @@
 import { NavLink } from "react-router-dom";
-import Ethereum from "../assets/ethereum.svg";
-import Avax from "../assets/avalanche.svg";
-import Logo from "../assets/logo.svg";
-import LogoWhite from "../assets/logo-white.svg";
+// import Ethereum from "../assets/ethereum.svg";
+// import Avax from "../assets/avalanche.svg";
+// import Logo from "../assets/logo.svg";
+// import LogoWhite from "../assets/logo-white.svg";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useWeb3React } from "@web3-react/core";
 // import { handleSwitchNetwork } from "../functions/hooks";
-import { injected } from "../functions/connectors";
-import NotConnected from "../assets/notconnected.svg";
-import Connected from "../assets/connected.svg";
-import SubmitInfo from "./submit-info/SubmitInfo";
-import Crown from "../assets/crown.png";
-import RightArrow from "../assets/rightarrow.svg";
-import { useEagerConnect, useInactiveListener } from "../functions/hooks";
-import axios from "axios";
-import WalletModal from "./WalletModal";
-import Logout from "../assets/logout.svg";
-import toolsLogo from "../assets/sidebarIcons/toolsLogo.svg";
-import toolsLogoActive from "../assets/sidebarIcons/toolsLogoActive.svg";
-import accordionIndicator from "../assets/sidebarIcons/accordionIndicator.svg";
+// import { injected } from "../../functions/connectors";
+// import NotConnected from "../assets/notconnected.svg";
+// import Connected from "../assets/connected.svg";
+// import SubmitInfo from "../submit-info/SubmitInfo";
+// import Crown from "../assets/crown.png";
+// import RightArrow from "../assets/rightarrow.svg";
+import { useEagerConnect, useInactiveListener } from "../../functions/hooks";
+// import axios from "axios";
+// import WalletModal from "../WalletModal";
+// import Logout from "../assets/logout.svg";
+import toolsLogo from "../../assets/sidebarIcons/toolsLogo.svg";
+import toolsLogoActive from "../../assets/sidebarIcons/toolsLogoActive.svg";
+import accordionIndicator from "../../assets/sidebarIcons/accordionIndicator.svg";
+import './sidebar.css'
 
 const activateLasers = () => {
   window.$.alert("Coming Soon!");
@@ -644,13 +645,15 @@ const Sidebar = (props) => {
       >
         {sidebarItems.map((sideItem, index) =>
           sideItem.children?.length > 0 ? (
-            <div class="accordion" id="accordionExample">
+            <div className="accordion" id="accordionExample" 
+            key={index}
+            
+            >
               <div
                 data-bs-toggle="collapse"
                 data-bs-target={`#collapse${sideItem.label}`}
                 aria-expanded="true"
                 aria-controls={`collapse${sideItem.label}`}
-                key={index}
                 id={`heading${sideItem.label}`}
                 className={`sidebar-item p-2 d-flex ${
                   activeSidebar
@@ -665,7 +668,7 @@ const Sidebar = (props) => {
               >
                 <img
                   src={
-                    require(`../assets/sidebarIcons/${
+                    require(`../../assets/sidebarIcons/${
                       activeLink === sideItem.label || hover === sideItem.label
                         ? sideItem.icon + "Active.svg"
                         : sideItem.icon + ".svg"
@@ -692,15 +695,15 @@ const Sidebar = (props) => {
               </div>
               <div
                 id={`collapse${sideItem.label}`}
-                class="accordion-collapse collapse"
+                className="accordion-collapse collapse"
                 aria-labelledby={`heading${sideItem.label}`}
                 data-bs-parent="#accordionExample"
               >
                 {activeSidebar ? (
                   <div className="accordion-container d-flex flex-column ms-5 py-3">
-                    {sideItem.children.map((child) => (
-                     <NavLink to={child.link}>
-                       <div className="accordion-child">{child.title}</div>
+                    {sideItem.children.map((child, index) => (
+                     <NavLink to={child.link} key={index} className={({isActive}) => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
+                      {child.title}
                      </NavLink>
                     ))}
                   </div>
@@ -726,7 +729,7 @@ const Sidebar = (props) => {
          >
            <img
              src={
-               require(`../assets/sidebarIcons/${
+               require(`../../assets/sidebarIcons/${
                  activeLink === sideItem.label || hover === sideItem.label
                    ? sideItem.icon + "Active.svg"
                    : sideItem.icon + ".svg"
