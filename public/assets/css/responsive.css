@@ -19,6 +19,14 @@
 
 .sidebar-item{
     cursor: pointer;
+    gap: 10px;
+    width: 200px;
+    border-radius: 12px;
+}
+
+
+.sidebar-item:hover{
+    border: 1px solid rgba(119, 112, 224, 1);
 }
 
 .sideitem-text{
