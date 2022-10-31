@@ -444,7 +444,7 @@ class App extends React.Component {
               <Route component={RedirectPathToHomeOnly} />
             </Switch>
 
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </div>
       </div>
