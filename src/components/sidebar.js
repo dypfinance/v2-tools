@@ -3,7 +3,7 @@ import Ethereum from "../assets/ethereum.svg";
 import Avax from "../assets/avalanche.svg";
 import Logo from "../assets/logo.svg";
 import LogoWhite from "../assets/logo-white.svg";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useWeb3React } from "@web3-react/core";
 // import { handleSwitchNetwork } from "../functions/hooks";
 import { injected } from "../functions/connectors";
@@ -18,16 +18,18 @@ import WalletModal from "./WalletModal";
 import Logout from "../assets/logout.svg";
 import toolsLogo from "../assets/sidebarIcons/toolsLogo.svg";
 import toolsLogoActive from "../assets/sidebarIcons/toolsLogoActive.svg";
+import accordionIndicator from "../assets/sidebarIcons/accordionIndicator.svg";
 
 const activateLasers = () => {
   window.$.alert("Coming Soon!");
 };
 
 const Sidebar = (props) => {
-  const [activeBtn, setActiveBtn] = useState("avax");
+  // const [activeBtn, setActiveBtn] = useState("avax");
   const [activeLink, setActiveLink] = useState(null);
+  const [hover, setHover] = useState(null);
   const [location, setlocation] = useState("news");
-  const [networkId, setNetworkId] = useState(1);
+  // const [networkId, setNetworkId] = useState(1);
   const [activeSidebar, setActiveSidebar] = useState(true);
 
   let chainId = parseInt(props.network);
@@ -73,37 +75,71 @@ const Sidebar = (props) => {
     {
       label: "Earn",
       icon: "earnIcon",
+      link: '/earn'
     },
     {
       label: "Governance",
       icon: "governanceIcon",
+      link: '/governance'
     },
     {
       label: "Bridge",
       icon: "bridgeIcon",
+      link: '/bridge'
     },
     {
       label: "Explorer",
       icon: "explorerIcon",
-      children : [
-        'Pool',
-        'Big Swap',
-        'Top Token',
-        'Yields',
-
-      ]
+      children: [
+        {
+          title: 'Pool',
+          link: '/pool'
+        },
+        {
+          title: 'Big Swap',
+          link: '/bigswap'
+        },
+        {
+          title: 'Top Token',
+          link: '/toptoken'
+        },
+        {
+          title: 'Yields',
+          link: '/yields'
+        },
+        {
+          title: 'Pair Explorer',
+          link: '/pairexplorer'
+        },
+        {
+          title: 'Submit Form',
+          link: '/submitform'
+        },
+       
+      ],
     },
     {
       label: "Projects",
       icon: "projectsIcon",
+      children: [  {
+        title: 'Launchpad',
+        link: '/launchpad'
+      },
+      {
+        title: 'DYP Locker',
+        link: '/dyplocker'
+      },
+    ],
     },
     {
       label: "News",
       icon: "newsIcon",
+      link: '/news'
     },
   ];
 
   const sidebar = document.getElementById("sidebar");
+  const sidebarItem = document.querySelectorAll(".sidebar-item");
 
   const openSidebar = () => {
     setActiveSidebar(true);
@@ -112,8 +148,8 @@ const Sidebar = (props) => {
   const closeSidebar = () => {
     setActiveSidebar(false);
   };
-  // sidebar?.addEventListener("mouseover", openSidebar);
-  // sidebar?.addEventListener("mouseleave", closeSidebar);
+  sidebar?.addEventListener("mouseover", openSidebar);
+  sidebar?.addEventListener("mouseleave", closeSidebar);
 
   return (
     // <div
@@ -587,30 +623,133 @@ const Sidebar = (props) => {
     //   </div>
     // </div>
     <div
-      id="sidebar" className={`testbar ${activeSidebar ? 'testbar-open' : null} d-flex flex-column justify-content-start align-items-start py-5`}>
+      id="sidebar"
+      className={`testbar ${
+        activeSidebar ? "testbar-open" : null
+      } d-flex flex-column justify-content-start align-items-start py-5`}
+    >
       <div className="d-flex w-100 justify-content-center align-items-center pb-5">
-        <img src={activeSidebar ? toolsLogoActive : toolsLogo} alt="" style={{height: '40px'}} />
+        <img
+          src={activeSidebar ? toolsLogoActive : toolsLogo}
+          alt=""
+          style={{ height: "40px" }}
+        />
       </div>
 
       <div
-        className="sidebar-container w-100 justify-content-center align-items-start d-flex flex-column gap-4"
+        className={`sidebar-container w-100 justify-content-center ${
+          activeSidebar ? "align-items-start" : "align-items-center"
+        } d-flex flex-column gap-4`}
         style={{ gap: 35 }}
       >
-        {sidebarItems.map((sideItem) => (
-          <div
-            className={`sidebar-item p-2 d-flex ${activeSidebar ? 'justify-content-start ms-4' : 'justify-content-center'} align-items-center`}
-            onClick={() => setActiveLink(sideItem.label)}
-          >
-            <img
-              src={
-                require(`../assets/sidebarIcons/${activeLink === sideItem.label ? sideItem.icon + 'Active.svg' : sideItem.icon + '.svg' }`).default
-              }
-              alt=""
-              style={{ width: 32, height: 32 }}
-            />
-            {activeSidebar && <h3 className={activeLink === sideItem.label ? "active-text" : 'sideitem-text'}>{sideItem.label}</h3>}
-          </div>
-        ))}
+        {sidebarItems.map((sideItem, index) =>
+          sideItem.children?.length > 0 ? (
+            <div class="accordion" id="accordionExample">
+              <div
+                data-bs-toggle="collapse"
+                data-bs-target={`#collapse${sideItem.label}`}
+                aria-expanded="true"
+                aria-controls={`collapse${sideItem.label}`}
+                key={index}
+                id={`heading${sideItem.label}`}
+                className={`sidebar-item p-2 d-flex ${
+                  activeSidebar
+                    ? "active-width justify-content-start ms-4"
+                    : "justify-content-center"
+                } align-items-center ${
+                  activeLink === sideItem.label ? "active-side-link" : null
+                }`}
+                onClick={() => setActiveLink(sideItem.label)}
+                onMouseEnter={() => setHover(sideItem.label)}
+                onMouseLeave={() => setHover(null)}
+              >
+                <img
+                  src={
+                    require(`../assets/sidebarIcons/${
+                      activeLink === sideItem.label || hover === sideItem.label
+                        ? sideItem.icon + "Active.svg"
+                        : sideItem.icon + ".svg"
+                    }`).default
+                  }
+                  alt=""
+                  style={{ width: 32, height: 32 }}
+                />
+                {activeSidebar && (
+                  <div className="d-flex w-100 flex-row align-items-center justify-content-between">
+                    <h3
+                      className={
+                        activeLink === sideItem.label ||
+                        hover === sideItem.label
+                          ? "active-text"
+                          : "sideitem-text"
+                      }
+                    >
+                      {sideItem.label}
+                    </h3>
+                    <img src={accordionIndicator} alt="indicator" id="indicator"  />
+                  </div>
+                )}
+              </div>
+              <div
+                id={`collapse${sideItem.label}`}
+                class="accordion-collapse collapse"
+                aria-labelledby={`heading${sideItem.label}`}
+                data-bs-parent="#accordionExample"
+              >
+                {activeSidebar ? (
+                  <div className="accordion-container d-flex flex-column ms-5 py-3">
+                    {sideItem.children.map((child) => (
+                     <NavLink to={child.link}>
+                       <div className="accordion-child">{child.title}</div>
+                     </NavLink>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          ) : (
+           sideItem.link?.length > 0 &&
+           <NavLink to={sideItem.link}>
+            <div
+           key={index}
+           id={sideItem.label}
+           className={`sidebar-item p-2 d-flex ${
+             activeSidebar
+               ? "active-width justify-content-start ms-4"
+               : "justify-content-center"
+           } align-items-center ${
+             activeLink === sideItem.label ? "active-side-link" : null
+           }`}
+           onClick={() => setActiveLink(sideItem.label)}
+           onMouseEnter={() => setHover(sideItem.label)}
+           onMouseLeave={() => setHover(null)}
+         >
+           <img
+             src={
+               require(`../assets/sidebarIcons/${
+                 activeLink === sideItem.label || hover === sideItem.label
+                   ? sideItem.icon + "Active.svg"
+                   : sideItem.icon + ".svg"
+               }`).default
+             }
+             alt=""
+             style={{ width: 32, height: 32 }}
+           />
+           {activeSidebar && (
+             <h3
+               className={
+                 activeLink === sideItem.label || hover === sideItem.label
+                   ? "active-text"
+                   : "sideitem-text"
+               }
+             >
+               {sideItem.label}
+             </h3>
+           )}
+         </div>
+           </NavLink>
+          )
+        )}
       </div>
     </div>
   );
