@@ -1,5 +1,3 @@
-// import { Form, Formik } from 'formik'
-// import * as Yup from 'yup';
 import React, { useEffect, useState } from "react";
 import Button from "../../../assets/General/Button";
 import PillsSlider from "../../../assets/General/PillsSlider";

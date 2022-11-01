@@ -1,0 +1,61 @@
+.explorercard-wrapper {
+  padding: 10px;
+  background-color: #26264f;
+  border-radius: 12px;
+  background-image: url("./assets/explorerbg.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  /* width: 27%; */
+}
+
+.purplediv {
+  width: 4px;
+  height: 45px;
+  position: absolute;
+  border-radius: 0px 100px 100px 0px;
+  left: 0px;
+  background: #554fd8;
+}
+
+.explorercard-title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  color: #f7f7fc;
+}
+
+.topapr-title {
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 15px;
+  text-align: right;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.topapr-amount {
+  font-weight: 600;
+  font-size: 32px;
+  text-align: right;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.explorercard-desc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+  color: rgba(142, 151, 205, 0.8);
+  width: 43%;
+}
+
+.explorercard-btntext {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #7770e0;
+}
