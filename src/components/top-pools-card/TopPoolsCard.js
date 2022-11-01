@@ -10,7 +10,7 @@ const TopPoolsCard = ({
   tokenLogo,
   cardId,
   tokenName,
-  apr,
+  apr, 
   lockTime,
   tvl,
   // onDetailsClick,
@@ -23,7 +23,7 @@ const TopPoolsCard = ({
   return (
     <>
       <div
-        className={`poolscardwrapper ${top_pick === true ? "top-pick" : ""}`}
+        className={`poolscardwrapper ${top_pick === true ? "top-pick" : ""} ${showDetails && 'pools-card-open'}`}
         
       >
         <div

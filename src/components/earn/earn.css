@@ -2,6 +2,12 @@
     background: #1D1E42;
 }
 
+.faq-container{
+    background: #26264F;
+    box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
+    border-radius: 12px;
+}
+
 
 .earn-hero{
     background-image: url('../../assets/earnAssets/earnHeroBackground.webp');
@@ -30,7 +36,14 @@
     padding: 10px 15px;
     border:  2px solid rgba(119, 112, 224, 1);
     border-radius: 8px;
+    transition: all .25s;
+    cursor: pointer;
+}
 
+.earn-option-active{
+    color:#F8845B ;
+    background: #493247;
+    border: 2px solid #F8845B;
 }
 
 hr{
@@ -49,6 +62,29 @@ hr{
     transition: all .25s;
 }
 
+.new-pools{
+    background: linear-gradient(90.74deg, rgba(117, 202, 194, 0) 0%, #57B6AB 100%);
+border-radius: 500px;
+padding: 5px;
+left: 0;
+top: -19px;
+}
+
+
+.list-style{
+    padding: 5px;
+    border-radius: 8px;
+    border: 2px solid #1D1E42;
+    cursor: pointer;
+    transition: all .25s;
+}
+
+.list-style-active{
+    background: #282A5C;
+border: 2px solid #7770E0;
+}
+
+
 .stake-item-active{
     box-shadow: 0px 2px 12px rgba(78, 73, 197, 0.22);
     border: 2px solid rgba(85, 79, 216, 1);
@@ -59,11 +95,118 @@ hr{
     height: 30px;
 }
 
+.pill-box{
+    background: #8E97CD;
+border-radius: 100px;
+padding: 3px;
+width: 50px;
+display: flex;
+justify-content: start;
+cursor: pointer;
+transition: all .25s;
+}
+
+.pill{
+    background: #FFFFFF;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+
+}
+
+.pill-box-active{
+    background: #7770E0;
+    justify-content: end;
+}
+
+
+
 .top-picks-container{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 25px;
+
 }
+
+.accordion{
+    --bs-accordion-bg: none;
+    --bs-accordion-border-color: none;
+}
+
+.accordion-item{
+    border: 2px solid #3B3C68;
+    
+}
+
+.accordion-button{
+    font-weight: 500;
+    font-size: 17px;
+    color: #C0CBF7;
+    background: #26264F;
+
+
+}
+.accordion-button::after{
+    filter: brightness(0%) invert(80%);
+    
+    }
+
+.accordion-button:not(.collapsed){
+    background: #36346C;
+    color: #7770E0;
+
+}
+.accordion-button:not(.collapsed)::after{
+filter: brightness(0%) invert(80%);
+
+}
+
+.accordion-button:focus{
+    box-shadow: inherit;
+}
+.accordion-body{
+    background: #26264F;
+    color: #FFFFFF;
+}
+
+.video-container{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.video-wrapper{
+    width: fit-content;
+    border-radius: 8px;
+    border: 5px solid #3B3C68;
+    cursor: pointer;
+}
+
+.play-button{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+
+.list-pools-container{
+    background: #26264F;
+    border: 1px solid #3B3C68;
+    
+    box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
+    border-radius: 12px;
+}
+
+
+.list-pool-card{
+    padding: 15px;
+    background: #26264F;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
 
 @keyframes rotate {
     0%{
