@@ -1,0 +1,175 @@
+.calculator-wrapper {
+  background-color: #26264f;
+  box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #3a3c68;
+  background-image: url(./assets/calculatorbg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.calc-title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  color: #f7f7fc;
+}
+
+#dropdown-basic-button3 {
+  padding: revert !important;
+  width: auto !important;
+}
+
+.pills-container {
+  width: 100%;
+  /* display: flex; */
+  align-items: center;
+  transition: 0.3s;
+  margin-bottom: 21px;
+  margin-top: 21px;
+  gap: 20px;
+  position: relative;
+  justify-content: space-between;
+}
+
+.pill-item {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #7770e0;
+  padding: 10px 16px;
+  margin-bottom: 0;
+  cursor: pointer;
+  background: rgba(20, 20, 42, 0.2);
+  border-radius: 8px;
+  border: 1px solid #7770e0;
+  position: relative;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+.active-color {
+  /* color: $white; */
+  z-index: 2;
+}
+
+.active-color::after {
+  content: "●";
+  color: #f8845b;
+  font-size: 28px;
+  position: absolute;
+  bottom: -8px;
+  margin: 0px -38%;
+}
+
+.separator {
+  background: #3b3c68;
+  height: 1px;
+  width: 100%;
+  margin-bottom: 21px;
+  margin-top: 21px;
+}
+.inputlabel {
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 16px;
+  letter-spacing: 0.4px;
+  color: #8e97cd;
+  display: flex;
+  background: #26264f !important;
+  padding: 0 0px 0 5px;
+  top: -11px;
+  left: 25px;
+}
+
+.requiredstar {
+  color: #f8845b;
+  font-weight: 400;
+  font-size: 8px;
+}
+
+.calcinput {
+  background: #26264f !important;
+  border: 1px solid #8e97cd !important;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.018em;
+  color: #f7f7fc !important;
+  width: 94px;
+}
+
+.output-txt {
+  font-weight: 600;
+  font-size: 36px;
+  text-align: right;
+  letter-spacing: -0.018em;
+  color: #d6d8e7;
+}
+
+.cryptotext {
+  font-weight: 300;
+  font-size: 8px;
+  line-height: 12px;
+  text-align: right;
+  letter-spacing: -0.018em;
+  color: #d6d8e7;
+}
+
+.time-pill-item {
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 18px;
+  color: #6e7191;
+  display: flex;
+  justify-content: center;
+  width: 20%;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.time-pills-container {
+  justify-content: space-between;
+  gap: 10px;
+  background: #26264f;
+  border: 1px solid #8e97cd;
+  border-radius: 8px;
+  width: 73%;
+  padding: 2px;
+  align-items: center;
+}
+
+.calc-footer {
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 12px;
+  text-align: right;
+  letter-spacing: -0.018em;
+  color: #8e97cd;
+  width: 60%;
+}
+
+.earnbtn {
+  background: linear-gradient(90.74deg, #7770e0 0%, #554fd8 100%);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-style: normal;
+font-weight: 500;
+font-size: 12px;
+line-height: 18px;
+color: #FFFFFF;
+}
+
+.earnbtn:hover {
+    color: #fff;
+}

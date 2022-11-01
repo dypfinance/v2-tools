@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import "./dashboard.css";
 import TopPoolsCard from "../top-pools-card/TopPoolsCard";
 import NewsCard from "../newsCard/NewsCard";
+import GovCard from "../gov-card/GovCard";
+import BridgeCard from "../bridgecard/BridgeCard";
+import ExplorerCard from "../explorer-card/ExplorerCard";
+import Calculator from "../calculator/Calculator";
+import FaqCard from "../faqcard/FaqCard";
+import LaunchpadCard from "../launchpad-card/LaunchpadCard";
 import rightarrow from "./assets/right-arrow.svg";
 
 const Dashboard = () => {
@@ -24,6 +30,18 @@ const Dashboard = () => {
 
   return (
     <div className="container-lg dashboardwrapper">
+      <div className="row m-0 justify-content-between gap-2">
+        <div className="w-50">
+      <Calculator />
+
+        </div>
+        <div className="d-flex flex-column gap-3 " style={{width: '49%'}}>
+          <ExplorerCard />
+          <div className="d-flex justify-content-between gap-3">
+          <GovCard />
+          <BridgeCard /></div>
+        </div>
+      </div>
       <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-4">
         <h6 className="top-pools-title">Top Pools</h6>
         <h6 className="view-more-title">
@@ -53,9 +71,11 @@ const Dashboard = () => {
           View all <img src={rightarrow} alt="" />{" "}
         </h6>
       </div>
-      <NewsCard/>
-      <NewsCard/>
-      <NewsCard/> 
+      <FaqCard/>
+      <LaunchpadCard/>
+      <NewsCard />
+      <NewsCard />
+      <NewsCard />
     </div>
   );
 };
