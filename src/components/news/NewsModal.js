@@ -39,6 +39,7 @@ const NewsModal = ({
   const getItemsWithoutCurrentItem = (currentItemId, arrayOfItems) => {
     return arrayOfItems.filter((item) => item?.id !== currentItemId);
   };
+ 
   const elementRef = useRef();
   const [height, setHeight] = useState(0);
   const [likeIndicator, setLikeIndicator] = useState(false);
@@ -57,15 +58,16 @@ const NewsModal = ({
       setLikeIndicator(false);
     }
 
-    if(content!==undefined && content.includes('&nbsp')) {
+    if(content!==undefined && content.includes('@someDomain')) {
      setnewContent(content.replace(/&nbsp;/g, ' ') ) 
     }
-  }, [newsId, content]);
+  }, [newsId, content, title]);
 
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
 
+// console.log(newContent.length)
   
   useEffect(() => {
     if (bal1 === 0 && bal2 === 0 && isPremium === true) {
@@ -129,7 +131,7 @@ const NewsModal = ({
       }
     }
   };
-
+// console.log(content)
   const checkUpVoting = async (itemId) => {
     return await axios
       .get(
@@ -367,7 +369,7 @@ const NewsModal = ({
             <p
               // style={{ maxWidth: 520 }}
               className="left-col-content"
-              dangerouslySetInnerHTML={{ __html: newContent }}
+              dangerouslySetInnerHTML={{ __html: newContent.length > 0 ? newContent : content }}
             ></p>
             <p>
               Source:{" "}
