@@ -66,6 +66,7 @@ const NewsModal = ({
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
 
+// console.log(newContent.length)
   
   useEffect(() => {
     if (bal1 === 0 && bal2 === 0 && isPremium === true) {
@@ -367,7 +368,7 @@ const NewsModal = ({
             <p
               // style={{ maxWidth: 520 }}
               className="left-col-content"
-              dangerouslySetInnerHTML={{ __html: newContent }}
+              dangerouslySetInnerHTML={{ __html: newContent.length > 0 ? newContent : content }}
             ></p>
             <p>
               Source:{" "}
