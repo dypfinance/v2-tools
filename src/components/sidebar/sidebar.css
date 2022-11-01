@@ -7,6 +7,8 @@
     z-index: 11;
     transition: all .25s ease-in-out;
     overflow: hidden;
+    background-image: url('../../assets/sidebarBackground.webp');
+    background-size: cover;
 }
 
 .testbar-open{
@@ -17,7 +19,7 @@
     cursor: pointer;
     gap: 10px;
     border-radius: 12px;
-    border: 2px solid #26264F;
+    border: 2px solid transparent;
     transition:  all .25s;
 }
 
@@ -76,4 +78,11 @@ width: fit-content;
     color: #7770E0 !important;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
+}
+
+.dypius-button{
+    padding: 7px 15px;
+    background: #14142C;
+border-radius: 8px;
+border: 2px solid rgba(60, 62, 108, 1);
 }

@@ -6,7 +6,7 @@ import moreinfo from "./assets/more-info.svg";
 const TopPoolsDetails = () => {
   const [depositValue, setDepositValue] = useState(1000);
   return (
-    <div className="pools-details-wrapper d-flex m-0">
+    <div className="pools-details-wrapper d-flex m-0 container-lg">
       <div className="leftside">
         <div className="activewrapper">
           <h6 className="activetxt">

@@ -177,8 +177,8 @@ const Header = ({
 
   return (
     <>
-      <header className="header-wrap " style={{ zIndex: 777 }}>
-        <div className="d-flex m-0 justify-content-between gap-3 align-items-center w-100">
+      <header className="header-wrap " style={{ zIndex: 5 }}>
+        <div className="container-lg d-flex m-0 justify-content-between gap-3 align-items-center w-100">
           <div className="d-flex flex-column gap-2 text-start">
             <h4 className="text-white">Good morning, Dwight</h4>
             <span className="text-white headerdesc">Good morning, Stewie</span>

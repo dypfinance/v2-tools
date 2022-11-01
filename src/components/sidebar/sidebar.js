@@ -19,6 +19,7 @@ import { useEagerConnect, useInactiveListener } from "../../functions/hooks";
 import toolsLogo from "../../assets/sidebarIcons/toolsLogo.svg";
 import toolsLogoActive from "../../assets/sidebarIcons/toolsLogoActive.svg";
 import accordionIndicator from "../../assets/sidebarIcons/accordionIndicator.svg";
+import sidebarDypius from '../../assets/sidebarDypius.svg'
 import './sidebar.css'
 
 const activateLasers = () => {
@@ -31,7 +32,7 @@ const Sidebar = (props) => {
   const [hover, setHover] = useState(null);
   const [location, setlocation] = useState("news");
   // const [networkId, setNetworkId] = useState(1);
-  const [activeSidebar, setActiveSidebar] = useState(true);
+  const [activeSidebar, setActiveSidebar] = useState(false);
 
   let chainId = parseInt(props.network);
 
@@ -636,7 +637,6 @@ const Sidebar = (props) => {
           style={{ height: "40px" }}
         />
       </div>
-
       <div
         className={`sidebar-container w-100 justify-content-center ${
           activeSidebar ? "align-items-start" : "align-items-center"
@@ -753,6 +753,14 @@ const Sidebar = (props) => {
            </NavLink>
           )
         )}
+      </div>
+      <div className="dypius-link d-flex w-100 justify-content-center align-items-center mt-5">
+        <a href="https://lorenadev.dyp.finance/" target="_blank" rel="noreferrer" className="dypius-button d-flex justify-content-center align-items-center gap-2">
+        <img src={sidebarDypius} alt="" />
+        {activeSidebar &&
+          <span style={{color: '#8E97CD', fontWeight: '500', fontSize: '17px'}}>Dypius.com</span>
+        }
+        </a>
       </div>
     </div>
   );
