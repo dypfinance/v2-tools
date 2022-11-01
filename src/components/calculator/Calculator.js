@@ -1,50 +1,36 @@
-import React, { useEffect, useState } from "react";
-import Button from "../../../assets/General/Button";
-import PillsSlider from "../../../assets/General/PillsSlider";
-import PillButton from "../../../assets/General/PillButton";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { isMobile } from "react-device-detect";
-import ChevronArrowSvg from "../../../assets/General/ChevronArrowSvg/ChevronArrowSvg";
-import getFormattedNumber from "../../../functions/get-formatted-number";
 import { useHistory } from "react-router-dom";
-import './calculator.css'
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import calculator from "./assets/calculator.svg";
+import avax from "./assets/avax.svg";
+import bnb from "./assets/bnb.svg";
+import eth from "./assets/eth.svg";
+import rightarrow from "./assets/rightarrow.svg";
+
+import "./calculator.css";
 
 const Calculator = ({ setSelectedMethod, high_apy }) => {
   const chainButtonsArray = [
     {
-      icon: "eth-icon.svg",
+      icon: "eth.svg",
       text: "ETH",
       action: () => console.log("chain button"),
     },
     {
-      icon: "bsc-icon.svg",
+      icon: "bnb.svg",
       text: "BSC",
       action: () => console.log("chain button"),
     },
     {
-      icon: "avax-icon.svg",
+      icon: "avax.svg",
       text: "AVAX",
       action: () => console.log("chain button"),
     },
   ];
-  const timePillsArray = [
-    {
-      text: "1 month",
-      action: () => console.log("pill button"),
-    },
-    {
-      text: "3 months",
-      action: () => console.log("pill button"),
-    },
-    {
-      text: "6 months",
-      action: () => console.log("pill button"),
-    },
-    {
-      text: "1 year",
-      action: () => console.log("pill button"),
-    },
-  ];
+  const timePillsArray = ["1 month", "3 months", "6 months", "Max"];
   const pillsNames = ["Staking", "Buyback", "Vault", "Farming"];
 
   const getActivePill = (activePill) => {
@@ -171,16 +157,17 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
   };
 
   useEffect(() => {
-    if (activeMethod === "Farming") {
-      if (activeChain.text === "ETH") {
-        setFarmApy(high_apy.highestAPY.highestAPY_ETH_V2);
-      } else if (activeChain.text === "BSC") {
-        setFarmApy(high_apy.highestAPY.highestAPY_BSC_V2);
-      } else {
-        setFarmApy(high_apy.highestAPY.highestAPY_AVAX_V2);
-      }
-    } else if (activeMethod === "Staking") {
-      setStakeApy(25)
+    // if (activeMethod === "Farming") {
+    //   if (activeChain.text === "ETH") {
+    //     setFarmApy(high_apy.highestAPY.highestAPY_ETH_V2);
+    //   } else if (activeChain.text === "BSC") {
+    //     setFarmApy(high_apy.highestAPY.highestAPY_BSC_V2);
+    //   } else {
+    //     setFarmApy(high_apy.highestAPY.highestAPY_AVAX_V2);
+    //   }
+    // } else
+    if (activeMethod === "Staking") {
+      setStakeApy(25);
     } else if (activeMethod === "Buyback") {
       getTotalTvlBuyBack().then();
     } else {
@@ -211,7 +198,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
         );
         // setCalculateApproxCrypto((parseFloat(calculateApproxUSD) *parseFloat(wethPrice)))
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
+          (parseFloat(calculateApproxUSD) / wethPrice, 6)
         );
       } else if (activeChain.text === "BSC") {
         setCalculateApproxUSD(
@@ -221,7 +208,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+          (parseFloat(calculateApproxUSD) / wbnbPrice, 6)
         );
       } else {
         setCalculateApproxUSD(
@@ -231,7 +218,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+          (parseFloat(calculateApproxUSD) / wavaxPrice, 6)
         );
       }
     } else if (activeMethod === "Staking") {
@@ -244,7 +231,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
         );
 
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
+          (parseFloat(calculateApproxUSD) / wethPrice, 6)
         );
       } else if (activeChain.text === "BSC") {
         setCalculateApproxUSD(
@@ -254,7 +241,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+          (parseFloat(calculateApproxUSD) / wbnbPrice, 6)
         );
       } else {
         setCalculateApproxUSD(
@@ -264,7 +251,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+          (parseFloat(calculateApproxUSD) / wavaxPrice, 6)
         );
       }
     } else if (activeMethod === "Buyback") {
@@ -276,7 +263,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
+          (parseFloat(calculateApproxUSD) / wethPrice, 6)
         );
       } else if (activeChain.text === "BSC") {
         setCalculateApproxUSD(
@@ -286,7 +273,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+          (parseFloat(calculateApproxUSD) / wbnbPrice, 6)
         );
       } else {
         setCalculateApproxUSD(
@@ -297,7 +284,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
         );
 
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+          (parseFloat(calculateApproxUSD) / wavaxPrice, 6)
         );
       }
     } else {
@@ -309,7 +296,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
+          (parseFloat(calculateApproxUSD) / wethPrice, 6)
         );
       } else if (activeChain.text === "BSC") {
         setCalculateApproxUSD(
@@ -319,7 +306,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+          (parseFloat(calculateApproxUSD) / wbnbPrice, 6)
         );
       } else {
         setCalculateApproxUSD(
@@ -330,7 +317,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
         );
 
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+          (parseFloat(calculateApproxUSD) / wavaxPrice, 6)
         );
       }
     }
@@ -382,7 +369,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
     if (e === "6 months") {
       setDays(185);
     }
-    if (e === "1 year") {
+    if (e === "Max") {
       setDays(365);
     }
   };
@@ -390,63 +377,151 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
   const handleInputUSD = (e) => {
     setUsdToDeposit(e);
   };
- let navigate = useHistory();
+  let navigate = useHistory();
   const gotoEarn = () => {
-    const generalisedActiveMethod = activeMethod === 'Staking' ? 'Stake' : activeMethod;
     navigate.push("/earn");
-    localStorage.setItem("activeTab", generalisedActiveMethod);
   };
-  
-  return (
-    <div className="elevated-container form mr-lg-4">
-      <div className="ball-decoration"></div>
-      <div className="ball-decoration"></div>
 
+  const [chainState, setchainState] = useState("eth");
+  const [activePill, setActivePill] = useState(pillsNames[0]);
+  const pillRef = useRef([]);
+
+
+  return (
+    <div className="calculator-wrapper">
+      <div className="purple-div"></div>
       <form onSubmit={handleSubmit}>
-        <div className="row">
-          <div className="p-md-0 col-12">
-            <PillsSlider
-              pillsNames={pillsNames}
-              getActivePill={getActivePill}
-              initialActivePill={pillsNames[0]}
-            />
-          </div>
-          <div className="p-md-0 col-12">
-            <div className="pill-buttons-wrapper">
-              {chainButtonsArray.length > 0 &&
-                 activeMethod === 'Vault' ? chainButtonsArray.map(item => {
-                   return item.text === 'ETH' ?
-                  <PillButton
-                    type="chain"
-                    onClick={() => setActiveChain(item)}
-                    key={item.icon}
-                    icon={item.icon}
-                    text={item.text}
-                    active={activeChain}
-                  /> : null
-                 }) : chainButtonsArray.map((item, id) => (
-                  <PillButton
-                    type="chain"
-                    onClick={() => setActiveChain(item)}
-                    key={id}
-                    icon={item.icon}
-                    text={item.text}
-                    active={activeChain}
+        <div className="flex flex-column gap-2 justify-content-between">
+          <div className="d-flex justify-content-between gap-2 align-items-center pb-4">
+            <h6 className="d-flex gap-2 align-items-center calc-title">
+              <img src={calculator} alt="" /> Calculator
+            </h6>
+            <DropdownButton
+              id="dropdown-basic-button3"
+              title={
+                <span className="dropdown-title">
+                  <img
+                    src={
+                      chainState === "eth"
+                        ? eth
+                        : chainState === "bnb"
+                        ? bnb
+                        : avax
+                    }
+                    alt=""
                   />
+                  {chainState === "eth"
+                    ? "Ethereum"
+                    : chainState === "bnb"
+                    ? "BNB Chain"
+                    : "Avalanche"}
+                  {/* <img src={dropdown} alt="" /> */}
+                </span>
+              }
+            >
+              <Dropdown.Item onClick={() =>{ setchainState("eth");setActiveChain(chainButtonsArray[0])} }>
+                <img src={eth} alt="" />
+                Ethereum
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => {setchainState("bnb");setActiveChain(chainButtonsArray[1])}}>
+                <img src={bnb} alt="" />
+                BNB Chain
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => {setchainState("avax");setActiveChain(chainButtonsArray[2])}}>
+                <img src={avax} alt="" />
+                Avalanche
+              </Dropdown.Item>
+            </DropdownButton>
+          </div>
+          <div className="pills-container row m-0">
+            {pillsNames &&
+              pillsNames.length > 0 &&
+              pillsNames.map((item, id) => (
+                <p
+                  key={id}
+                  onClick={() => {
+                    setActivePill(item);
+                    getActivePill(item);
+                  }}
+                  className={`pill-item ${
+                    activePill == item ? "active-color" : ""
+                  }`}
+                  ref={(el) => (pillRef.current[id] = el)}
+                  style={{
+                    background:
+                      activePill == item
+                        ? "rgba(248, 132, 91, 0.2)"
+                        : "rgba(20, 20, 42, 0.2)",
+                    color: activePill == item ? "#f8845b" : "#7770e0",
+                    border:
+                      activePill == item
+                        ? "1px solid #f8845b"
+                        : "1px solid #7770e0",
+                  }}
+                >
+                  {item}
+                </p>
+              ))}
+          </div>
+          <div className="separator"></div>
+          <div className="row justify-content-between align-items-center gap-2 m-0">
+            <div className="inputwrapper position-relative" style={{width: 'fit-content', paddingLeft: 0}}>
+              <h6 className="inputlabel position-absolute">
+                Days<h6 className="requiredstar">*</h6>
+              </h6>
+              <input
+                type="text"
+                className="form-control calcinput"
+                id="days"
+                name="days"
+                value={days}
+                onChange={(e) => handleInputDays(e.target.value)}
+              />
+            </div>
+            <div className="time-pills-container row m-0">
+              {timePillsArray.length > 0 &&
+                timePillsArray.map((item, id) => (
+                  <p
+                    key={id}
+                    onClick={() => {
+                      setActivePill(item);
+                      getActivePill(item);
+                    }}
+                    className={`time-pill-item`}
+                    // ref={(el) => (pillRef.current[id] = el)}
+                    style={{
+                      background:
+                        activePill == item
+                          ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
+                          : "transparent",
+                      color: activePill == item ? "#F7F7FC" : "#6E7191",
+                     border: 'none' 
+                     
+                    }}
+                  >
+                    {item}
+                  </p>
                 ))}
             </div>
           </div>
-        </div>
-        <div className="row price-row">
-          <div className="p-md-0 col-7 d-flex ">
-            <div className="price-box">
-              <span className="sub">Approx.</span>
-              <span className="price">
-                ${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}{" "}
-                <span className="currency">USD</span>
-              </span>
-              <span className="sup">
-                (
+          <div className="d-flex justify-content-between gap-2 align-items-center mt-2">
+            <div className="inputwrapper position-relative">
+              <h6 className="inputlabel position-absolute">
+                USD to deposit<h6 className="requiredstar">*</h6>
+              </h6>
+              <input
+                type="text"
+                className="form-control calcinput w-100"
+                id="usd_to_deposit"
+                name="usd_to_deposit"
+                value={usdToDeposit}
+                onChange={(e) => handleInputUSD(e.target.value)}
+              />
+            </div>
+            <h6 className="output-txt">
+              ${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}
+              <h6 className="cryptotext">
+                Approx. (
                 {calculateApproxCrypto != "∞.undefined" &&
                 calculateApproxCrypto != "..."
                   ? calculateApproxCrypto
@@ -457,80 +532,13 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
                   ? "WAVAX"
                   : "WETH"}
                 )
-              </span>
-            </div>
+              </h6>
+            </h6>
           </div>
-          <div className="p-0 col-5 d-flex align-items-end">
-            <img
-              src={require("../../../assets/images/line-graph.svg").default}
-              alt=""
-            />
-          </div>
-        </div>
-        <div className="row inputs-row">
-          <div className="p-md-0 col-md-6 d-flex  ">
-            <div className="form-group">
-              <label htmlFor="usd_to_deposit" style={{ background: "none" }}>
-                <span style={{ color: "var(--text-gray-8b-nft)" }}>
-                  USD to deposit
-                </span>
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="usd_to_deposit"
-                name="usd_to_deposit"
-                value={usdToDeposit}
-                onChange={(e) => handleInputUSD(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="p-md-0 col-md-6">
-            <div className="form-group">
-              <label htmlFor="days" style={{ background: "none" }}>
-                <span style={{ color: "var(--text-gray-8b-nft)" }}>Days</span>
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="days"
-                name="days"
-                value={days}
-                onChange={(e) => handleInputDays(e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-        <div className="row mt-4">
-          <div className="p-md-0 col-md-6 order-2 order-md-1 ">
-            <Button text="Earn now" icon={<ChevronArrowSvg />} action={()=>{gotoEarn()}}/>
-          </div>
-          <div className="p-md-0 col-md-6 order-1- order-md-2 d-flex align-items-center">
-            <div className="pill-buttons-wrapper time-buttons">
-              {timePillsArray.length > 0 &&
-                timePillsArray.map((item, id) => (
-                  <PillButton
-                    type="time"
-                    onClick={() => {
-                      setActiveTime(item);
-                      handleInputDays2(item.text);
-                    }}
-                    key={id}
-                    icon={item.icon}
-                    text={item.text}
-                    active={activeTime}
-                  />
-                ))}
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="p-md-0 col">
-            <p className="form-info">
-              *This calculator is for informational purposes only. <br />{" "}
-              Calculated yields assume that prices of the deposited assets don't
-              change.
-            </p>
+          <div className="d-flex justify-content-between gap-2 align-items-center mt-5">
+            <button className="earnbtn btn" onClick={()=>{gotoEarn()}}>Earn now <img src={rightarrow} alt=''/> </button>
+            <h6 className="calc-footer">*This calculator is for informational purposes only.
+Calculated yields assume that prices of the deposited assets don't change.</h6>
           </div>
         </div>
       </form>

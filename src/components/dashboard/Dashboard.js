@@ -5,6 +5,9 @@ import NewsCard from "../newsCard/NewsCard";
 import GovCard from "../gov-card/GovCard";
 import BridgeCard from "../bridgecard/BridgeCard";
 import ExplorerCard from "../explorer-card/ExplorerCard";
+import Calculator from "../calculator/Calculator";
+import FaqCard from "../faqcard/FaqCard";
+import LaunchpadCard from "../launchpad-card/LaunchpadCard";
 import rightarrow from "./assets/right-arrow.svg";
 
 const Dashboard = () => {
@@ -29,10 +32,10 @@ const Dashboard = () => {
     <div className="container-lg dashboardwrapper">
       <div className="row m-0 justify-content-between gap-2">
         <div className="w-50">
-      <NewsCard />
+      <Calculator />
 
         </div>
-        <div className="d-flex flex-column gap-3">
+        <div className="d-flex flex-column gap-3 " style={{width: '49%'}}>
           <ExplorerCard />
           <div className="d-flex justify-content-between gap-3">
           <GovCard />
@@ -68,7 +71,8 @@ const Dashboard = () => {
           View all <img src={rightarrow} alt="" />{" "}
         </h6>
       </div>
-
+      <FaqCard/>
+      <LaunchpadCard/>
       <NewsCard />
       <NewsCard />
       <NewsCard />
