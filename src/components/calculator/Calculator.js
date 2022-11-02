@@ -535,7 +535,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
               </h6>
             </h6>
           </div>
-          <div className="d-flex justify-content-between gap-2 align-items-center mt-5">
+          <div className="d-flex justify-content-between gap-2 align-items-center mt-3">
             <button className="earnbtn btn" onClick={()=>{gotoEarn()}}>Earn now <img src={rightarrow} alt=''/> </button>
             <h6 className="calc-footer">*This calculator is for informational purposes only.
 Calculated yields assume that prices of the deposited assets don't change.</h6>

@@ -19,6 +19,16 @@
   cursor: pointer;
 }
 
-.view-more-title:hover, .view-more-title:focus {
-    text-decoration: underline;
+.view-more-title:hover,
+.view-more-title:focus {
+  text-decoration: underline;
+}
+
+.header {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+  opacity: 0.8;
 }
