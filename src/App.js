@@ -22,6 +22,7 @@ import getSyncStats from "./functions/get-indexing-status";
 import getFormattedNumber from "./functions/get-formatted-number";
 import Earn from "./components/earn/Earn";
 import Dashboard from "./components/dashboard/Dashboard";
+import initStakingNew from "./components/FARMINNG/staking-new-front";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -37,7 +38,9 @@ class App extends React.Component {
       isConnected: false,
       chainId: undefined,
       coinbase: null,
-      // network: "avalanche",
+      the_graph_result_ETH_V2: JSON.parse(
+        JSON.stringify(window.the_graph_result_eth_v2)
+    ),
       subscribedPlatformTokenAmount: "...",
       isPremium: false,
       hotPairs: [],
@@ -156,6 +159,15 @@ class App extends React.Component {
       window.alertify.error(String(e) || "Cannot connect wallet!");
       return;
     }
+
+    try {
+      let the_graph_result_ETH_V2 = await window.get_the_graph_eth_v2()
+      this.setState({ the_graph_result_ETH_V2: JSON.parse(JSON.stringify(the_graph_result_ETH_V2)) })
+  } catch (e) {
+    
+      console.error("TVL ETH V2 error: "+e)
+  }
+
     this.setState({ isConnected, coinbase: await window.getCoinbase() });
     this.setState({ show: false });
     return isConnected;
@@ -176,29 +188,30 @@ class App extends React.Component {
       .catch(console.error);
   };
 
-  componentDidMount() {
-    // getSyncStats()
-    // .then((syncStatus) => {
-    // let m = window.alertify.message(
-    //   `Syncing ${getFormattedNumber(
-    //     syncStatus.latestBlock.number
-    //   )} of ${getFormattedNumber(syncStatus.chainHeadBlock.number)} blocks`
-    // );
-    //   let m = window.alertify.message(
-    //     `Warning: The data on this site has only synced to Avalanche block ${getFormattedNumber(
-    //       syncStatus.latestBlock.number
-    //     )} (out of ${getFormattedNumber(
-    //       syncStatus.chainHeadBlock.number
-    //     )}). Please check back soon.`
-    //   );
-    //   m.ondismiss = (f) => false;
-    //   m.element.style.lineHeight = 1.7;
-    // })
-    // .catch(console.error);
-    // window.connectWallet().then();
-    // if(window.ethereum) {
 
-    // }
+  tvl = async () => {
+    try {
+        let the_graph_result_ETH_V2 = await window.get_the_graph_eth_v2()
+        this.setState({ the_graph_result_ETH_V2: JSON.parse(JSON.stringify(the_graph_result_ETH_V2)) })
+    } catch (e) {
+        // window.alertify.error("Cannot fetch TVL");
+        console.error("TVL ETH V2 error: "+e)
+    }
+
+    try {
+        let the_graph_result = await window.refresh_the_graph_result()
+        this.setState({ the_graph_result: JSON.parse(JSON.stringify(the_graph_result)) })
+    } catch (e) {
+        // window.alertify.error("Cannot fetch TVL");
+        console.error("Cannot fetch TVL: "+e)
+    }
+}
+
+  
+
+  componentDidMount() {
+    this.tvl().then()
+   
     this.checkConnection();
     // this.checkNetworkId();
     this.refreshHotPairs();
@@ -269,6 +282,74 @@ class App extends React.Component {
   };
 
   render() {
+    const eth_address = "ETH";
+
+    const { rebase_factors, LP_IDs_V2 } = window;
+
+    const StakingNew1 = initStakingNew({
+      token: window.token_new,
+      staking: window.farming_new_1,
+      constant: window.constant_staking_new5,
+      liquidity: eth_address,
+      lp_symbol: "USD",
+      reward: "30,000",
+      lock: "3 Days",
+      rebase_factor: rebase_factors[0],
+      expiration_time: "14 December 2022",
+      fee: 0.3,
+    });
+
+
+    const StakingNew2 = initStakingNew({
+      token: window.token_new,
+      staking: window.farming_new_2,
+      constant: window.constant_staking_new6,
+      liquidity: eth_address,
+      lp_symbol: "USD",
+      reward: "30,000",
+      lock: "3 Days",
+      rebase_factor: rebase_factors[0],
+      expiration_time: "14 December 2022",
+      fee: 0.3,
+  });
+  const StakingNew3 = initStakingNew({
+      token: window.token_new,
+      staking: window.farming_new_3,
+      constant: window.constant_staking_new7,
+      liquidity: eth_address,
+      lp_symbol: "USD",
+      reward: "30,000",
+      lock: "3 Days",
+      rebase_factor: rebase_factors[0],
+      expiration_time: "14 December 2022",
+      fee: 0.4,
+  });
+  const StakingNew4 = initStakingNew({
+      token: window.token_new,
+      staking: window.farming_new_4,
+      constant: window.constant_staking_new8,
+      liquidity: eth_address,
+      lp_symbol: "USD",
+      reward: "30,000",
+      lock: "3 Days",
+      rebase_factor: rebase_factors[0],
+      expiration_time: "14 December 2022",
+      fee: 0.8,
+  });
+  const StakingNew5 = initStakingNew({
+      token: window.token_new,
+      staking: window.farming_new_5,
+      constant: window.constant_staking_new9,
+      liquidity: eth_address,
+      lp_symbol: "USD",
+      reward: "30,000",
+      lock: "3 Days",
+      rebase_factor: rebase_factors[0],
+      expiration_time: "14 December 2022",
+      fee: 1.2,
+  });
+
+
     document.addEventListener("touchstart", { passive: true });
     return (
       <div
@@ -325,22 +406,27 @@ class App extends React.Component {
                   />
                 )}
               />
-                <Route
+              <Route exact path="/earn" render={() => <Earn />} />
+
+              <Route
                 exact
-                path="/earn"
+                path="/farmtest"
                 render={() => (
-                  <Earn/>
+                  <StakingNew1
+                    is_wallet_connected={this.state.isConnected}
+                    handleConnection={this.handleConnection}
+                    handleConnectionWalletConnect={
+                      this.handleConnection
+                    }
+                    coinbase={this.state.coinbase}
+                    the_graph_result={this.state.the_graph_result_ETH_V2}
+                    lp_id={LP_IDs_V2.weth[0]}
+                    
+                  />
                 )}
               />
 
-
-<Route
-                exact
-                path="/"
-                render={() => (
-                  <Dashboard/>
-                )}
-              />
+              <Route exact path="/" render={() => <Dashboard />} />
 
               <Route
                 exact

@@ -1,12 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import moment from "moment";
-import getFormattedNumber from "../functions/get-formatted-number";
+import getFormattedNumber from "../../functions/get-formatted-number";
 import Address from "./address";
-import Popup from "./popup";
+// import Popup from "./popup";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Button } from "@material-ui/core";
-import Modal from "./modal";
+// import Modal from "./modal";
 
 export default function initStakingNew({
   token,
@@ -98,7 +98,7 @@ export default function initStakingNew({
         usdPerToken: 0,
         tokensToBeSwapped: "",
         tokensToBeDisbursedOrBurnt: "",
-        coinbase: "0x0000000000000000000000000000000000000111",
+
         tvl: "",
         stakingOwner: null,
         approxDeposit: 100 / LP_AMPLIFY_FACTOR,
@@ -236,7 +236,7 @@ export default function initStakingNew({
 
       let selectedTokenBalance = await window.getTokenHolderBalance(
         tokenAddress,
-        this.state.coinbase
+        this.props.coinbase
       );
       this.setState({ selectedTokenBalance });
     };
@@ -355,7 +355,7 @@ export default function initStakingNew({
     };
 
     handleWithdrawDyp = async () => {
-      let amountConstant = await constant.depositedTokens(this.state.coinbase);
+      let amountConstant = await constant.depositedTokens(this.props.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
 
       let deadline = Math.floor(
@@ -375,17 +375,16 @@ export default function initStakingNew({
     handleWithdraw = async (e) => {
       e.preventDefault();
 
-      let amountConstant = await constant.depositedTokens(this.state.coinbase);
+      let amountConstant = await constant.depositedTokens(this.props.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
 
       let withdrawAsToken = this.state.selectedBuybackTokenWithdraw;
 
-      let amountBuyback = await staking.depositedTokens(this.state.coinbase);
+      let amountBuyback = await staking.depositedTokens(this.props.coinbase);
 
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
-
 
       let minAmounts = [0, 0, 0, 0, 0, 0];
 
@@ -407,7 +406,6 @@ export default function initStakingNew({
       );
 
       let selectedToken = this.state.selectedClaimToken;
-
 
       if (selectedToken == 0) {
         try {
@@ -437,8 +435,6 @@ export default function initStakingNew({
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      
-
       try {
         staking.claimAs(window.config.claim_as_usdt_address, 0, 0, 0, deadline);
       } catch (e) {
@@ -452,7 +448,7 @@ export default function initStakingNew({
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      let address = this.state.coinbase;
+      let address = this.props.coinbase;
 
       let amount = await constant.getTotalPendingDivs(address);
       let router = await window.getUniswapRouterContract();
@@ -514,13 +510,6 @@ export default function initStakingNew({
     };
 
     refreshBalance = async () => {
-      let coinbase = this.state.coinbase;
-
-      if (window.coinbase_address) {
-        coinbase = window.coinbase_address;
-        this.setState({ coinbase });
-      }
-
       let lp_data = this.props.the_graph_result.lp_data;
 
       let usd_per_dyps = 0.000001;
@@ -543,16 +532,15 @@ export default function initStakingNew({
           .call();
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
-
-        let _bal = token.balanceOf(coinbase);
-        let _rBal = reward_token.balanceOf(coinbase);
-        let _pDivs = staking.getPendingDivs(coinbase);
-        let _pDivsEth = staking.getPendingDivsEth(coinbase);
-        let _tEarned = staking.totalEarnedTokens(coinbase);
-        let _tEarnedEth = staking.totalEarnedEth(coinbase);
-        let _stakingTime = staking.depositTime(coinbase);
-        let _dTokens = staking.depositedTokens(coinbase);
-        let _lClaimTime = staking.lastClaimedTime(coinbase);
+        let _bal = token.balanceOf(this.props.coinbase);
+        let _rBal = reward_token.balanceOf(this.props.coinbase);
+        let _pDivs = staking.getPendingDivs(this.props.coinbase);
+        let _pDivsEth = staking.getPendingDivsEth(this.props.coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
+        let _tEarnedEth = staking.totalEarnedEth(this.props.coinbase);
+        let _stakingTime = staking.depositTime(this.props.coinbase);
+        let _dTokens = staking.depositedTokens(this.props.coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
         let _tvl = token.balanceOf(staking._address);
 
         //Take iDYP Balance on Staking & Farming
@@ -566,8 +554,10 @@ export default function initStakingNew({
           staking._address
         ); /* TVL of iDYP on Farming */
 
-        let _dTokensDYP = constant.depositedTokens(coinbase);
-        let _pendingDivsStaking = constant.getTotalPendingDivs(coinbase);
+        let _dTokensDYP = constant.depositedTokens(this.props.coinbase);
+        let _pendingDivsStaking = constant.getTotalPendingDivs(
+          this.props.coinbase
+        );
 
         //Take DYPS Balance
         let _tvlDYPS = token_dyps.balanceOf(staking._address); /* TVL of DYPS */
@@ -637,7 +627,9 @@ export default function initStakingNew({
           .plus(tvlValueiDYPFarming)
           .plus(tvlValueConstantDYP)
           .toFixed(18);
-        //console.log({tvlValueConstantDYP})
+
+          console.log(totalValueLocked)
+          
 
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
 
@@ -685,8 +677,8 @@ export default function initStakingNew({
         this.setState({ tokensToBeSwapped });
       });
 
-      window.weth
-        .balanceOf(coinbase)
+      window.farmweth
+        .balanceOf(this.props.coinbase)
         .then((wethBalance) => {
           this.setState({ wethBalance });
         })
@@ -715,12 +707,10 @@ export default function initStakingNew({
           .toFixed(2),
       });
 
-      
-
       try {
         let selectedTokenBalance = await window.getTokenHolderBalance(
           this.state.selectedBuybackToken,
-          this.state.coinbase
+          this.props.coinbase
         );
         this.setState({ selectedTokenBalance });
       } catch (e) {
@@ -760,7 +750,6 @@ export default function initStakingNew({
         totalEarnedTokens,
         depositedTokens,
         stakingTime,
-        coinbase,
         tvl,
         depositedTokensDYP,
         tvlConstantDYP,
@@ -901,6 +890,7 @@ export default function initStakingNew({
       let total_stakers = lp_data ? lp_data[this.props.lp_id].stakers_num : 0;
       // let tvl_usd = lp_data ? lp_data[this.props.lp_id].tvl_usd : 0
       let tvl_usd = this.state.totalValueLocked / 1e18;
+      
 
       apy = getFormattedNumber(apy, 2);
       total_stakers = getFormattedNumber(total_stakers, 0);
@@ -914,7 +904,7 @@ export default function initStakingNew({
       //console.log(total_stakers)
 
       let isOwner =
-        String(this.state.coinbase).toLowerCase() ===
+        String(this.props.coinbase).toLowerCase() ===
         String(window.config.admin_address).toLowerCase();
 
       let apr2 = 50;
@@ -939,107 +929,14 @@ export default function initStakingNew({
           <div className="row">
             <div className="col-12 header-image-farming-new">
               <div className="container">
-                <Popup show={this.state.popup} handleClose={this.hidePopup}>
-                  <div className="earn-hero-content p4token-wrapper">
-                    <p className="h3">
-                      <b>Maximize your Yield Farming Rewards</b>
-                    </p>
-                    <p>
-                      Automatically adds liquidity to
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {tooltip1}
-                          </div>
-                        }
-                      >
-                        <Button
-                          style={{
-                            fontSize: "70%",
-                            textDecoration: "underline",
-                            color: "var(--color_white)",
-                          }}
-                        >
-                          Uniswap V2 & deposit to Staking{" "}
-                        </Button>
-                      </Tooltip>
-                      contract using one asset. To start earning, all you need
-                      is to deposit one of the supported assets (WETH, WBTC,
-                      USDC, or USDT) and earn
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {tooltip2}
-                          </div>
-                        }
-                      >
-                        <Button
-                          style={{
-                            fontSize: "70%",
-                            textDecoration: "underline",
-                            color: "var(--color_white)",
-                            padding: "4px 0px 2px 5px",
-                          }}
-                        >
-                          WETH/USDT/DYP as rewards.
-                        </Button>
-                      </Tooltip>
-                    </p>
-                    {/*{this.state.ApyStake}*/}
-                    <p>
-                      All pool rewards are automatically converted from iDYP to
-                      WETH by the smart contract, decreasing the risk of iDYP
-                      price volatility.
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {tooltip2}
-                          </div>
-                        }
-                      >
-                        <Button
-                          style={{
-                            fontSize: "70%",
-                            textDecoration: "underline",
-                            color: "var(--color_white)",
-                          }}
-                        >
-                          WETH/USDT + DYP{" "}
-                        </Button>
-                      </Tooltip>
-                      is a double reward to the liquidity providers. The users
-                      can choose between two different types of rewards: WETH or
-                      USDT. Maintaining token price stability — every 24 hours,
-                      the smart contract will automatically try converting the
-                      iDYP rewards to WETH. If the iDYP price is affected by
-                      more than
-                      <img src="/img/arrow.svg" alt="images not found" />
-                      2.5%, then the maximum iDYP amount not influencing the
-                      price will be swapped to WETH, with the remaining amount
-                      distributed in the next day’s rewards. After seven days,
-                      if we still have undistributed iDYP rewards, the DeFi
-                      Yield Protocol governance will vote on whether the
-                      remaining iDYP will be distributed to the token holders or
-                      burned (all burned tokens are out of circulation).
-                    </p>
-                    <p>
-                      You will receive the total amount in the initial deposit
-                      asset with withdrawal by burning LP tokens when you
-                      unstake.
-                    </p>
-                  </div>
-                </Popup>
-                <Modal
+                {/* <Modal
                   show={this.state.show}
                   handleConnection={this.props.handleConnection}
                   handleConnectionWalletConnect={
                     this.props.handleConnectionWalletConnect
                   }
                   handleClose={this.hideModal}
-                />
+                /> */}
                 <div className="row">
                   <div className="col-12">
                     <p className="header-title-text">DYP Farming</p>
@@ -1133,7 +1030,7 @@ export default function initStakingNew({
                                     >
                                       <Address
                                         style={{ fontFamily: "monospace" }}
-                                        a={coinbase}
+                                        a={this.props.coinbase}
                                       />
                                     </div>
                                   </div>
@@ -1260,9 +1157,8 @@ export default function initStakingNew({
                                   >
                                     DEPOSIT
                                   </label>
-                                  
                                 </div>
-                               
+
                                 <div>
                                   <p>
                                     Balance:{" "}
@@ -1325,7 +1221,6 @@ export default function initStakingNew({
                                     </button>
                                   </div>
                                 </div>
-                            
                               </div>
                               <div className="row">
                                 <div
@@ -1428,7 +1323,6 @@ export default function initStakingNew({
                                     placeholder="0"
                                     type="text"
                                   />
-                                
                                 </div>
                                 <div className="col-6">
                                   <input
@@ -1446,7 +1340,6 @@ export default function initStakingNew({
                                     placeholder="0"
                                     type="text"
                                   />
-                              
                                 </div>
                               </div>
                               <div className="form-row">
@@ -1487,7 +1380,7 @@ export default function initStakingNew({
                                 </div>
                               </div>
                             </div>
-                            
+
                             <div className="form-row">
                               <div className="col-6">
                                 <button
@@ -1522,7 +1415,6 @@ export default function initStakingNew({
                                 </button>
                               </div>
                             </div>
-                         
                           </form>
                         </div>
                       </div>
@@ -1632,7 +1524,6 @@ export default function initStakingNew({
                                 </button>
                               </div>
                             </div>
-                           
                           </form>
                         </div>
                       </div>
@@ -1708,8 +1599,7 @@ export default function initStakingNew({
                               )}{" "}
                               WETH)
                             </p>
-                            
-                             </form>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -1746,7 +1636,6 @@ export default function initStakingNew({
                         </div>
                         <table className="table-stats table table-sm table-borderless">
                           <tbody>
-                            
                             <tr>
                               <th>Contract Expiration</th>
                               <td className="text-right">
@@ -1760,7 +1649,7 @@ export default function initStakingNew({
                                 <small>DYP</small>
                               </td>
                             </tr>
-                            
+
                             <tr>
                               <th>MY LP Deposit</th>
                               <td className="text-right">
@@ -1822,7 +1711,7 @@ export default function initStakingNew({
                                 <small>iDYP</small>
                               </td>
                             </tr>
-                       
+
                             <tr>
                               <th>TVL USD</th>
                               <td className="text-right">
@@ -1838,7 +1727,6 @@ export default function initStakingNew({
                                 </td>
                               </tr>
                             )}
-                         
 
                             {is_connected ? (
                               <tr>
@@ -1849,7 +1737,9 @@ export default function initStakingNew({
                                   }}
                                   colSpan="2"
                                   className="text-center"
-                                > <a
+                                >
+                                  {" "}
+                                  <a
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     href={`${window.config.etherscan_baseURL}/address/${staking._address}`}
@@ -1867,7 +1757,6 @@ export default function initStakingNew({
                               ""
                             )}
 
-                      
                             {isOwner && (
                               <tr>
                                 <td
@@ -1896,8 +1785,6 @@ export default function initStakingNew({
                     </div>
                   </div>
                 </div>
-
-                
               </div>
             </div>
           </div>
