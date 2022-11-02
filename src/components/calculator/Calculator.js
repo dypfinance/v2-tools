@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import PropTypes from "prop-types";
 import { isMobile } from "react-device-detect";
 import { useHistory } from "react-router-dom";
@@ -9,10 +10,11 @@ import avax from "./assets/avax.svg";
 import bnb from "./assets/bnb.svg";
 import eth from "./assets/eth.svg";
 import rightarrow from "./assets/rightarrow.svg";
+import getFormattedNumber from "../../functions/getFormattedNumber2";
 
 import "./calculator.css";
 
-const Calculator = ({ setSelectedMethod, high_apy }) => {
+const Calculator = ({}) => {
   const chainButtonsArray = [
     {
       icon: "eth.svg",
@@ -35,15 +37,12 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
 
   const getActivePill = (activePill) => {
     setActiveMethod(activePill);
-    setSelectedMethod(activePill);
   };
 
   const [usdToDeposit, setUsdToDeposit] = useState(1000);
   const [days, setDays] = useState(365);
   const [activeChain, setActiveChain] = useState(chainButtonsArray[0]);
-  const [activeTime, setActiveTime] = useState(
-    timePillsArray[timePillsArray.length - 1]
-  );
+  const [activeTime, setActiveTime] = useState( timePillsArray[timePillsArray.length - 1]);
   const [activeMethod, setActiveMethod] = useState(pillsNames[0]);
   const [calculateApproxUSD, setCalculateApproxUSD] = useState(0);
   const [calculateApproxCrypto, setCalculateApproxCrypto] = useState("0");
@@ -51,10 +50,13 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
   const [buybackApy, setBuybackApy] = useState();
   const [vaultApy, setVaultApy] = useState();
   const [farmApy, setFarmApy] = useState();
+  const [apyData, setapyData] = useState();
+
   const [wethPrice, setWethPrice] = useState(0);
   const [wbnbPrice, setWbnbPrice] = useState(0);
   const [wavaxPrice, setWavaxPrice] = useState(0);
 
+  
   let formData = {};
 
   if (isMobile) {
@@ -66,49 +68,45 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
     });
   }
 
-  const getTotalTvl = async () => {
-    const { BigNumber } = window;
-
-    let [usdPerToken, usdPerTokeniDYP, usdiDYPAvax, usdiDYPEth] =
-      await Promise.all([
-        window.getPrice("defi-yield-protocol"),
-        window.getPriceiDYP(),
-        window.getPriceiDYPAvax(),
-        window.getPriceiDYPEth(),
-      ]);
-
-    usdPerTokeniDYP = parseFloat(usdPerTokeniDYP);
-
-    let apr1 = 50;
-    let apy1 = new BigNumber(apr1)
-      .div(1e2)
-      .times(usdPerTokeniDYP)
-      .div(usdPerToken)
-      .times(1e2)
-      .toFixed(2);
-
-    if (activeChain.text === "BSC" && activeMethod === "Staking")
-      setStakeApy(apy1);
-    let apyAvax = new BigNumber(apr1)
-      .div(1e2)
-      .times(usdiDYPAvax)
-      .div(usdPerToken)
-      .times(1e2)
-      .toFixed(2);
-    if (activeChain.text === "AVAX" && activeMethod === "Staking")
-      setStakeApy(apyAvax);
-
-    let apyEth = new BigNumber(apr1)
-      .div(1e2)
-      .times(usdiDYPEth)
-      .div(usdPerToken)
-      .times(1e2)
-      .toFixed(2);
-    if (activeChain.text === "ETH" && activeMethod === "Staking")
-      setStakeApy(apyEth);
-
-    return stakeApy;
+  const getApy = async () => {
+    await axios.get("https://api.dyp.finance/api/highest-apy").then((data) => {
+      setapyData(data.data.highestAPY);
+    });
   };
+
+  const getETHdata = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_eth_v2")
+      .then((data) => {
+        setWethPrice(data.data.the_graph_eth_v2.usd_per_eth);
+      });
+  };
+
+  const getBSCdata = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_bsc_v2")
+      .then((data) => {
+        setWbnbPrice(data.data.the_graph_bsc_v2.usd_per_eth);
+      });
+  };
+
+  const getAVAXdata = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_avax_v2")
+      .then((data) => {
+        const wavaxPrice = data.data.the_graph_avax_v2.usd_per_eth;
+        setWavaxPrice(wavaxPrice);
+      });
+  };
+
+
+
+  useEffect(() => {
+    getApy();
+    getETHdata();
+    getBSCdata();
+    getAVAXdata();
+  }, []);
 
   const getTotalTvlBuyBack = async () => {
     const { BigNumber } = window;
@@ -157,37 +155,27 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
   };
 
   useEffect(() => {
-    if (activeMethod === "Farming") {
-      if (activeChain.text === "ETH") {
-        setFarmApy(high_apy.highestAPY.highestAPY_ETH_V2);
-      } else if (activeChain.text === "BSC") {
-        setFarmApy(high_apy.highestAPY.highestAPY_BSC_V2);
+    if (apyData) {
+      if (activeMethod === "Farming") {
+        if (activeChain.text === "ETH") {
+          setFarmApy(apyData.highestAPY_ETH_V2);
+        } else if (activeChain.text === "BSC") {
+          setFarmApy(apyData.highestAPY_BSC_V2);
+        } else {
+          setFarmApy(apyData.highestAPY_AVAX_V2);
+        }
+      } else if (activeMethod === "Staking") {
+        setStakeApy(25);
+      } else if (activeMethod === "Buyback") {
+        getTotalTvlBuyBack().then();
       } else {
-        setFarmApy(high_apy.highestAPY.highestAPY_AVAX_V2);
+        setVaultApy(18.43);
       }
-    } else
-    if (activeMethod === "Staking") {
-      setStakeApy(25);
-    } else if (activeMethod === "Buyback") {
-      getTotalTvlBuyBack().then();
-    } else {
-      setVaultApy(18.43);
     }
-  }, [activeChain.text, activeMethod]);
-
-  const getWrappedTokenPrices = async () => {
-    const wbnbPrice = await window.the_graph_result_bsc_v2?.usd_per_eth;
-    setWbnbPrice(wbnbPrice);
-    const wavaxPrice = await window.the_graph_result_AVAX?.usd_per_eth;
-    setWavaxPrice(wavaxPrice);
-
-    const wethPrice = await window.the_graph_result_eth_v2?.usd_per_eth;
-
-    setWethPrice(wethPrice);
-  };
+  }, [activeChain.text, activeMethod, apyData]);
 
   useEffect(() => {
-    getWrappedTokenPrices().then();
+
     if (activeMethod === "Farming") {
       if (activeChain.text === "ETH") {
         setCalculateApproxUSD(
@@ -196,9 +184,10 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
             parseInt(days)
           ).toFixed(2)
         );
+
         // setCalculateApproxCrypto((parseFloat(calculateApproxUSD) *parseFloat(wethPrice)))
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wethPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
         );
       } else if (activeChain.text === "BSC") {
         setCalculateApproxUSD(
@@ -208,7 +197,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
         );
       } else {
         setCalculateApproxUSD(
@@ -218,10 +207,12 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
         );
       }
-    } else if (activeMethod === "Staking") {
+    }
+     else if (activeMethod === "Staking") {
+      
       if (activeChain.text === "ETH") {
         setCalculateApproxUSD(
           (
@@ -231,7 +222,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
         );
 
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wethPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
         );
       } else if (activeChain.text === "BSC") {
         setCalculateApproxUSD(
@@ -241,7 +232,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
         );
       } else {
         setCalculateApproxUSD(
@@ -251,7 +242,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
         );
       }
     } else if (activeMethod === "Buyback") {
@@ -263,7 +254,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wethPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
         );
       } else if (activeChain.text === "BSC") {
         setCalculateApproxUSD(
@@ -273,7 +264,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
         );
       } else {
         setCalculateApproxUSD(
@@ -284,7 +275,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
         );
 
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
         );
       }
     } else {
@@ -296,7 +287,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wethPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
         );
       } else if (activeChain.text === "BSC") {
         setCalculateApproxUSD(
@@ -306,7 +297,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
         );
       } else {
         setCalculateApproxUSD(
@@ -317,7 +308,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
         );
 
         setCalculateApproxCrypto(
-          (parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
         );
       }
     }
@@ -330,7 +321,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
     vaultApy,
     usdToDeposit,
     days,
-    getWrappedTokenPrices,
+    wethPrice,
   ]);
 
   const handleSubmit = (e) => {
@@ -350,12 +341,20 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
     setDays(e);
     if (parseInt(e) <= 30) {
       setActiveTime(timePillsArray[0]);
+      setActiveTimePill(timePillsArray[0])
+
     } else if (parseInt(e) > 30 && parseInt(e) < 92) {
       setActiveTime(timePillsArray[1]);
+      setActiveTimePill(timePillsArray[1])
+
     } else if (parseInt(e) > 92 && parseInt(e) < 185) {
       setActiveTime(timePillsArray[2]);
+      setActiveTimePill(timePillsArray[2])
+
     } else if (parseInt(e) > 185) {
       setActiveTime(timePillsArray[3]);
+      setActiveTimePill(timePillsArray[3])
+
     }
   };
 
@@ -386,7 +385,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
   const [activePill, setActivePill] = useState(pillsNames[0]);
   const pillRef = useRef([]);
 
-  const [activeTimePill, setActiveTimePill] = useState(timePillsArray[0]);
+  const [activeTimePill, setActiveTimePill] = useState(timePillsArray[3]);
   const timepillRef = useRef([]);
 
   return (
@@ -503,14 +502,12 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
                 timePillsArray.map((item, id) => (
                   <p
                     key={id}
-                    className={`time-pill-item ${
-                      activeTimePill == item ? "active-color" : ""
-                    }`}
+                    className={`time-pill-item`}
                     ref={(el) => (timepillRef.current[id] = el)}
                     onClick={() => {
                       setActiveTimePill(item);
                       handleInputDays2(item);
-                    }}                    // ref={(el) => (pillRef.current[id] = el)}
+                    }} // ref={(el) => (pillRef.current[id] = el)}
                     style={{
                       background:
                         activeTimePill == item
@@ -583,7 +580,7 @@ Calculator.propTypes = {
     type_of_chain: PropTypes.string,
     time_period: PropTypes.string,
   }),
-  setSelectedMethod: PropTypes.any,
+
   handleSubmit: PropTypes.func,
   handleChange: PropTypes.func,
 };
