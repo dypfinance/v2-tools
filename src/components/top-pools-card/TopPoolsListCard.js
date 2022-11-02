@@ -4,6 +4,7 @@ import greenArrow from './assets/greenarrow.svg'
 import orangeArrow from './assets/orangearrow.svg'
 import TopPoolsDetails from './TopPoolsDetails'
 import topPick from './assets/toppick.svg'
+import './top-pools.css'
 
 const TopPoolsListCard = ({
   tokenLogo,
@@ -14,27 +15,48 @@ const TopPoolsListCard = ({
   tvl,
   // onDetailsClick,
   top_pick,
+  cardType
+
   // showDetails,
 }) => {
 
   const [showDetails, setShowDetails] = useState(false);
 
-
+  const coins = [
+    'ethereum',
+    'wbtc',
+    'usdc',
+    'usdt',
+    'dai'
+  ]
 
   return (
     <> <div className="col-12 d-flex flex-row align-items-center justify-content-between list-pool-card mx-0">
-    <div className="d-flex align-items-center gap-2" style={{width: '100px'}}>
-      <img src={dypLogo} alt="" />
+    <div className={`d-flex align-items-center ${cardType === 'Farming' || cardType === 'Buyback' ? null : 'gap-2'}`} style={{width: '100px'}}>
+      {cardType === 'Farming' || cardType === 'Buyback' ?
+      coins.length > 0 && coins.map((coin, index) => (
+        <img key={index} src={require(`./assets/${coin}.svg`).default} alt="" className="pool-coins" />
+      ))
+      :
+      tokenLogo !== undefined &&
+      <>
+      <img src={require(`./assets/${tokenLogo}`).default} alt="" />
       <h5 className="text-white" style={{fontSize: '25px', fontWeight: '600'}}>{tokenName}</h5>
+      </>
+      
+    }
+      
     </div>
     <div className="d-flex align-items-baseline gap-2">
       <h5 className="text-white" style={{fontSize: '25px', fontWeight: '600'}}>{apr}</h5>
       <p className="text-white" style={{fontSize: '17px', fontWeight: '600'}}>APR</p>
     </div>
-    <div className="d-flex flex-column gap-2">
-      <span style={{fontSize: '10px', fontWeight: '400', color: '#7a81b4'}}>Total Value Locked</span>
-      <h5 style={{fontSize: '19px', fontWeight: '500', color: '#C0CBF7'}}>{tvl}</h5>
-    </div>
+    {cardType !== 'Vault' &&
+     <div className="d-flex flex-column gap-2">
+     <span style={{fontSize: '10px', fontWeight: '400', color: '#7a81b4'}}>Total Value Locked</span>
+     <h5 style={{fontSize: '19px', fontWeight: '500', color: '#C0CBF7'}}>{tvl}</h5>
+   </div>
+    }
     <div className="d-flex flex-column gap-2">
       <span style={{fontSize: '10px', fontWeight: '400', color: '#7a81b4'}}>Lock Time</span>
       <h5 style={{fontSize: '17px', fontWeight: '300', color: '#C0CBF7'}}>{lockTime}</h5>

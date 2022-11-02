@@ -33,7 +33,7 @@ const EarnHero = () => {
       </div>
       <div className="col-6 d-flex gap-5">
         <div className="d-flex flex-column align-items-start">
-          <div className="d-flex flex-column" style={{ marginLeft: "80px" }}>
+          <div className="d-flex flex-column" style={{ marginLeft: "80px", width: '150px' }}>
             <p style={{ fontSize: "9px", color: "#F36D46", fontWeight: "300" }}>
               Rewards paid out
             </p>

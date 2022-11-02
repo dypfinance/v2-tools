@@ -9,10 +9,11 @@ import avax from "./assets/avax.svg";
 import bnb from "./assets/bnb.svg";
 import eth from "./assets/eth.svg";
 import rightarrow from "./assets/rightarrow.svg";
+import xMark from './assets/xMark.svg'
 
 import "./calculator.css";
 
-const Calculator = ({ setSelectedMethod, high_apy }) => {
+const Calculator = ({ setSelectedMethod, high_apy, earnClass, onClose, ref }) => {
   const chainButtonsArray = [
     {
       icon: "eth.svg",
@@ -390,7 +391,7 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
   const timepillRef = useRef([]);
 
   return (
-    <div className="calculator-wrapper">
+    <div id="calculator" className={`calculator-wrapper ${earnClass}`}>
       <div className="purple-div"></div>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-column gap-2 justify-content-between">
@@ -449,6 +450,9 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
                 Avalanche
               </Dropdown.Item>
             </DropdownButton>
+            {earnClass === 'earn-calculator' &&
+            <img src={xMark} width={25} height={25} onClick={onClose} style={{cursor: 'pointer'}} />
+            }
           </div>
           <div className="pills-container row m-0">
             {pillsNames &&
