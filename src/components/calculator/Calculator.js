@@ -14,22 +14,19 @@ import getFormattedNumber from "../../functions/getFormattedNumber2";
 
 import "./calculator.css";
 
-const Calculator = ({}) => {
+const Calculator = ({ }) => {
   const chainButtonsArray = [
     {
       icon: "eth.svg",
       text: "ETH",
-      action: () => console.log("chain button"),
     },
     {
       icon: "bnb.svg",
       text: "BSC",
-      action: () => console.log("chain button"),
     },
     {
       icon: "avax.svg",
       text: "AVAX",
-      action: () => console.log("chain button"),
     },
   ];
   const timePillsArray = ["1 month", "3 months", "6 months", "Max"];
@@ -42,7 +39,7 @@ const Calculator = ({}) => {
   const [usdToDeposit, setUsdToDeposit] = useState(1000);
   const [days, setDays] = useState(365);
   const [activeChain, setActiveChain] = useState(chainButtonsArray[0]);
-  const [activeTime, setActiveTime] = useState( timePillsArray[timePillsArray.length - 1]);
+  const [activeTime, setActiveTime] = useState(timePillsArray[timePillsArray.length - 1]);
   const [activeMethod, setActiveMethod] = useState(pillsNames[0]);
   const [calculateApproxUSD, setCalculateApproxUSD] = useState(0);
   const [calculateApproxCrypto, setCalculateApproxCrypto] = useState("0");
@@ -56,7 +53,7 @@ const Calculator = ({}) => {
   const [wbnbPrice, setWbnbPrice] = useState(0);
   const [wavaxPrice, setWavaxPrice] = useState(0);
 
-  
+
   let formData = {};
 
   if (isMobile) {
@@ -211,8 +208,8 @@ const Calculator = ({}) => {
         );
       }
     }
-     else if (activeMethod === "Staking") {
-      
+    if (activeMethod === "Staking") {
+
       if (activeChain.text === "ETH") {
         setCalculateApproxUSD(
           (
@@ -406,16 +403,16 @@ const Calculator = ({}) => {
                       chainState === "eth"
                         ? eth
                         : chainState === "bnb"
-                        ? bnb
-                        : avax
+                          ? bnb
+                          : avax
                     }
                     alt=""
                   />
                   {chainState === "eth"
                     ? "Ethereum"
                     : chainState === "bnb"
-                    ? "BNB Chain"
-                    : "Avalanche"}
+                      ? "BNB Chain"
+                      : "Avalanche"}
                   {/* <img src={dropdown} alt="" /> */}
                 </span>
               }
@@ -459,9 +456,8 @@ const Calculator = ({}) => {
                     setActivePill(item);
                     getActivePill(item);
                   }}
-                  className={`pill-item ${
-                    activePill == item ? "active-color" : ""
-                  }`}
+                  className={`pill-item ${activePill == item ? "active-color" : ""
+                    }`}
                   ref={(el) => (pillRef.current[id] = el)}
                   style={{
                     background:
@@ -541,14 +537,14 @@ const Calculator = ({}) => {
               <h6 className="cryptotext">
                 Approx. (
                 {calculateApproxCrypto != "∞.undefined" &&
-                calculateApproxCrypto != "..."
+                  calculateApproxCrypto != "..."
                   ? calculateApproxCrypto
                   : "0.0"}
                 {activeChain.text === "BSC"
                   ? "WBNB"
                   : activeChain.text === "AVAX"
-                  ? "WAVAX"
-                  : "WETH"}
+                    ? "WAVAX"
+                    : "WETH"}
                 )
               </h6>
             </h6>
