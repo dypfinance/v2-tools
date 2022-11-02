@@ -157,15 +157,15 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
   };
 
   useEffect(() => {
-    // if (activeMethod === "Farming") {
-    //   if (activeChain.text === "ETH") {
-    //     setFarmApy(high_apy.highestAPY.highestAPY_ETH_V2);
-    //   } else if (activeChain.text === "BSC") {
-    //     setFarmApy(high_apy.highestAPY.highestAPY_BSC_V2);
-    //   } else {
-    //     setFarmApy(high_apy.highestAPY.highestAPY_AVAX_V2);
-    //   }
-    // } else
+    if (activeMethod === "Farming") {
+      if (activeChain.text === "ETH") {
+        setFarmApy(high_apy.highestAPY.highestAPY_ETH_V2);
+      } else if (activeChain.text === "BSC") {
+        setFarmApy(high_apy.highestAPY.highestAPY_BSC_V2);
+      } else {
+        setFarmApy(high_apy.highestAPY.highestAPY_AVAX_V2);
+      }
+    } else
     if (activeMethod === "Staking") {
       setStakeApy(25);
     } else if (activeMethod === "Buyback") {
@@ -386,6 +386,8 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
   const [activePill, setActivePill] = useState(pillsNames[0]);
   const pillRef = useRef([]);
 
+  const [activeTimePill, setActiveTimePill] = useState(timePillsArray[0]);
+  const timepillRef = useRef([]);
 
   return (
     <div className="calculator-wrapper">
@@ -419,15 +421,30 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
                 </span>
               }
             >
-              <Dropdown.Item onClick={() =>{ setchainState("eth");setActiveChain(chainButtonsArray[0])} }>
+              <Dropdown.Item
+                onClick={() => {
+                  setchainState("eth");
+                  setActiveChain(chainButtonsArray[0]);
+                }}
+              >
                 <img src={eth} alt="" />
                 Ethereum
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => {setchainState("bnb");setActiveChain(chainButtonsArray[1])}}>
+              <Dropdown.Item
+                onClick={() => {
+                  setchainState("bnb");
+                  setActiveChain(chainButtonsArray[1]);
+                }}
+              >
                 <img src={bnb} alt="" />
                 BNB Chain
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => {setchainState("avax");setActiveChain(chainButtonsArray[2])}}>
+              <Dropdown.Item
+                onClick={() => {
+                  setchainState("avax");
+                  setActiveChain(chainButtonsArray[2]);
+                }}
+              >
                 <img src={avax} alt="" />
                 Avalanche
               </Dropdown.Item>
@@ -465,7 +482,10 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
           </div>
           <div className="separator"></div>
           <div className="row justify-content-between align-items-center gap-2 m-0">
-            <div className="inputwrapper position-relative" style={{width: 'fit-content', paddingLeft: 0}}>
+            <div
+              className="inputwrapper position-relative"
+              style={{ width: "fit-content", paddingLeft: 0 }}
+            >
               <h6 className="inputlabel position-absolute">
                 Days<h6 className="requiredstar">*</h6>
               </h6>
@@ -483,20 +503,21 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
                 timePillsArray.map((item, id) => (
                   <p
                     key={id}
+                    className={`time-pill-item ${
+                      activeTimePill == item ? "active-color" : ""
+                    }`}
+                    ref={(el) => (timepillRef.current[id] = el)}
                     onClick={() => {
-                      setActivePill(item);
-                      getActivePill(item);
-                    }}
-                    className={`time-pill-item`}
-                    // ref={(el) => (pillRef.current[id] = el)}
+                      setActiveTimePill(item);
+                      handleInputDays2(item);
+                    }}                    // ref={(el) => (pillRef.current[id] = el)}
                     style={{
                       background:
-                        activePill == item
+                        activeTimePill == item
                           ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
                           : "transparent",
-                      color: activePill == item ? "#F7F7FC" : "#6E7191",
-                     border: 'none' 
-                     
+                      color: activeTimePill == item ? "#F7F7FC" : "#6E7191",
+                      border: "none",
                     }}
                   >
                     {item}
@@ -536,9 +557,18 @@ const Calculator = ({ setSelectedMethod, high_apy }) => {
             </h6>
           </div>
           <div className="d-flex justify-content-between gap-2 align-items-center mt-3">
-            <button className="earnbtn btn" onClick={()=>{gotoEarn()}}>Earn now <img src={rightarrow} alt=''/> </button>
-            <h6 className="calc-footer">*This calculator is for informational purposes only.
-Calculated yields assume that prices of the deposited assets don't change.</h6>
+            <button
+              className="earnbtn btn"
+              onClick={() => {
+                gotoEarn();
+              }}
+            >
+              Earn now <img src={rightarrow} alt="" />{" "}
+            </button>
+            <h6 className="calc-footer">
+              *This calculator is for informational purposes only. Calculated
+              yields assume that prices of the deposited assets don't change.
+            </h6>
           </div>
         </div>
       </form>
