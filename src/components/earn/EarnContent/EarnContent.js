@@ -15,25 +15,41 @@ import EarnTopPicks from '../EarnTopPicks/EarnTopPicks'
 
 const EarnContent = () => {
 
-    const [stake, setStake] = useState("eth")
-    const [option, setOption] = useState('Staking')
-    const [listStyle, setListStyle] = useState('table')
-    const [myStakes, setMyStakes] = useState(false)
+    
 
     const options = [
-        'Staking',
-        'Buyback',
-        'Vault',
-        'Farming'
+        {
+            title: 'Staking',
+            content :'Staking ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo'
+        },
+        {
+            title: 'Buyback',
+            content :'Buyback ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo'
+        },
+        {
+            title: 'Vault',
+            content :'Vault ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo'
+        },
+        {
+            title: 'Farming',
+            content :'Farming ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo'
+        },
+       
     ]
+
+    const [stake, setStake] = useState("eth")
+    const [option, setOption] = useState('Staking')
+    const [content, setContent] = useState(options[0].content)
+    const [listStyle, setListStyle] = useState('table')
+    const [myStakes, setMyStakes] = useState(false)
 
   return (
     <>
         <div className="row justify-content-center">
         <div className="d-flex gap-3 justify-content-center p-5">
             {options.map((item, index) => (
-            <div className={`earn-option ${option === item ? 'earn-option-active' : null }`} key={index} onClick={() => setOption(item)}>
-                {item}
+            <div className={`earn-option ${option === item.title ? 'earn-option-active' : null }`} key={index} onClick={() => {setOption(item.title); setContent(item.content)}}>
+                {item.title}
             </div>
 
             ))}
@@ -41,7 +57,7 @@ const EarnContent = () => {
         </div>
         <div className="col-6">
             <p className="text-center" style={{color: '#7A81B4', fontSize: '13px', fontWeight: '400'}}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo
+        {content}
             </p>
         </div>
         <hr />
@@ -55,6 +71,8 @@ const EarnContent = () => {
             </div>
         </div>
         <div className="col-8 d-flex gap-3 justify-content-center">
+            {option !== 'Vault' &&
+            <>
             <div className={`stake-item position-relative d-flex align-items-center gap-2 ${stake === "eth" ? 'stake-item-active': null}`} onClick={() => setStake('eth')}>
                 <img src={stake === "eth" ? ethStakeActive : ethStake} alt="" />
                 <div className="d-flex flex-column">
@@ -84,6 +102,8 @@ const EarnContent = () => {
                     <p style={{fontSize: '11px' , fontWeight: '500', color: '#C0CBF7'}}>25% APR</p>
                 </div>
             </div>
+            </>
+            }
         </div>
         <div className="col-2 d-flex justify-content-end align-items-center gap-3">
             <div className={`pill-box ${myStakes && 'pill-box-active'}`} onClick={() => setMyStakes(!myStakes)}>

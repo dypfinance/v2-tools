@@ -194,9 +194,18 @@ filter: brightness(0%) invert(80%);
 .list-pools-container{
     background: #26264F;
     border: 1px solid #3B3C68;
-    
+    overflow: hidden;
     box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
     border-radius: 12px;
+}
+
+.no-pools-container{
+    background: #26264F;
+    border: 1px solid #3B3C68;
+    overflow: hidden;
+    box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
+    border-radius: 12px;
+
 }
 
 
@@ -205,6 +214,23 @@ filter: brightness(0%) invert(80%);
     background: #26264F;
     margin-left: 15px;
     margin-right: 15px;
+    border-bottom: 1px solid #3B3C68;
+}
+
+
+.calculator-btn{
+    background-color: #26264F;
+background-image: url('../../assets/earnAssets/calculatorButtonBg.png');
+box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
+border-radius: 15px;
+background-size: cover;
+background-repeat: no-repeat;
+border: 4px solid #26264F;
+position: fixed;
+left: 90%;
+top: 75%;
+padding: 10px;
+cursor: pointer;
 }
 
 

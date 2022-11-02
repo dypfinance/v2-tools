@@ -647,7 +647,6 @@ const Sidebar = (props) => {
           sideItem.children?.length > 0 ? (
             <div className="accordion" id="accordionExample" 
             key={index}
-            
             >
               <div
                 data-bs-toggle="collapse"
@@ -702,7 +701,7 @@ const Sidebar = (props) => {
                 {activeSidebar ? (
                   <div className="accordion-container d-flex flex-column ms-5 py-3">
                     {sideItem.children.map((child, index) => (
-                     <NavLink to={child.link} key={index} className={({isActive}) => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
+                     <NavLink key={index} to={child.link}  className={({isActive}) => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
                       {child.title}
                      </NavLink>
                     ))}
