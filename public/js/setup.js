@@ -1,5 +1,68 @@
 const BigNumber = window.BigNumber;
+window.IS_CONNECTED = false
 window.WALLET_TYPE = ''
+window.the_graph_result = {}
+const TOKEN_ADDRESS = "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+
+const TOKENS_DISBURSED_PER_YEAR = [
+	360_000,
+	540_000,
+	900_000,
+	1_200_000,
+
+	360_000,
+	540_000,
+	900_000,
+	1_200_000,
+
+	360_000,
+	540_000,
+	900_000,
+	1_200_000,
+
+	360_000,
+	540_000,
+	900_000,
+	1_200_000,
+]
+
+
+const LP_IDs =
+	{
+		"eth": [
+			"0xba7872534a6c9097d805d8bee97e030f4e372e54-0xa7d6f5fa9b0be0e98b3b40e6ac884e53f2f9460e",
+			"0xba7872534a6c9097d805d8bee97e030f4e372e54-0x0b0a544ae6131801522e3ac1fbac6d311094c94c",
+			"0xba7872534a6c9097d805d8bee97e030f4e372e54-0x16caad63bdfc3ec4a2850336b28efe17e802b896",
+			"0xba7872534a6c9097d805d8bee97e030f4e372e54-0x512ff8739d39e55d75d80046921e7de20c3e9bff",
+		],
+		"wbtc": [
+			"0x44b77e9ce8a20160290fcbaa44196744f354c1b7-0xef71de5cb40f7985feb92aa49d8e3e84063af3bb",
+			"0x44b77e9ce8a20160290fcbaa44196744f354c1b7-0x8b0e324eede360cab670a6ad12940736d74f701e",
+			"0x44b77e9ce8a20160290fcbaa44196744f354c1b7-0x78e2da2eda6df49bae46e3b51528baf5c106e654",
+			"0x44b77e9ce8a20160290fcbaa44196744f354c1b7-0x350f3fe979bfad4766298713c83b387c2d2d7a7a",
+		],
+		"usdt": [
+			"0x76911e11fddb742d75b83c9e1f611f48f19234e4-0x4a76fc15d3fbf3855127ec5da8aaf02de7ca06b3",
+			"0x76911e11fddb742d75b83c9e1f611f48f19234e4-0xf4abc60a08b546fa879508f4261eb4400b55099d",
+			"0x76911e11fddb742d75b83c9e1f611f48f19234e4-0x13f421aa823f7d90730812a33f8cac8656e47dfa",
+			"0x76911e11fddb742d75b83c9e1f611f48f19234e4-0x86690bbe7a9683a8bad4812c2e816fd17bc9715c",
+		],
+		"usdc": [
+			"0xabd9c284116b2e757e3d4f6e36c5050aead24e0c-0x2b5d7a865a3888836d15d69dccbad682663dcdbb",
+			"0xabd9c284116b2e757e3d4f6e36c5050aead24e0c-0xa52250f98293c17c894d58cf4f78c925dc8955d0",
+			"0xabd9c284116b2e757e3d4f6e36c5050aead24e0c-0x924becc8f4059987e4bc4b741b7c354ff52c25e4",
+			"0xabd9c284116b2e757e3d4f6e36c5050aead24e0c-0xbe528593781988974d83c2655cba4c45fc75c033",
+		]
+}
+
+const LP_ID_LIST = Object.keys(LP_IDs).map(key => LP_IDs[key]).flat()
+const TOKENS_DISBURSED_PER_YEAR_BY_LP_ID = {}
+LP_ID_LIST.forEach((lp_id, i) => TOKENS_DISBURSED_PER_YEAR_BY_LP_ID[lp_id] = TOKENS_DISBURSED_PER_YEAR[i])
+const VAULT_ADDRESSES_LIST = LP_ID_LIST.map(id => id.split('-')[1])
+
+window.LP_ID_LIST = LP_ID_LIST
+
+
 // ALL THE ADDRESSES IN CONFIG MUST BE LOWERCASE
 window.config = {
   weth_address: "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7", // LOWERCASE! avax
@@ -151,7 +214,7 @@ window.config = {
 window.infuraWeb3 = new Web3(window.config.infura_endpoint);
 window.bscWeb3 = new Web3(window.config.bsc_endpoint);
 window.avaxWeb3 = new Web3(window.config.avax_endpoint);
-
+window.reward_token = new TOKEN("REWARD_TOKEN")
 // window.config_eth = {
 // 	weth_address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // LOWERCASE!
 // 	platform_token_address: '0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17',
@@ -3696,6 +3759,43 @@ window.PANCAKESWAP_ROUTER_ABI = [
   {stateMutability: "payable", type: "receive"},
 ];
 
+
+window.rebase_factors = [
+	1e0,
+	1e0,
+	1e0,
+	1e0,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+	1e4,
+]
+
+
+
+
+
+/* Farming New */
+window.token_new = new TOKEN("TOKEN_NEW")
+window.farming_new_1 = new STAKING("FARMING_NEW_1")
+
+window.farming_new_2 = new STAKING("FARMING_NEW_2")
+
+window.farming_new_3 = new STAKING("FARMING_NEW_3")
+
+window.farming_new_4 = new STAKING("FARMING_NEW_4")
+
+window.farming_new_5 = new STAKING("FARMING_NEW_5")
+
+
 window.isConnectedOneTime = false;
 window.oneTimeConnectionEvents = [];
 function addOneTimeWalletConnectionListener(fn) {
@@ -3835,6 +3935,63 @@ async function getActiveLocksByToken(tokenAddress, startIndex, endIndex) {
   let locks = await lockerContract.methods.getLocksByIds(lockIds).call();
   return processedLocks(locks);
 }
+
+async function refreshBalance() {
+
+	//await wait(10000)
+	let coinbase;
+	try {
+		if (!window.IS_CONNECTED) throw new Error("Wallet Not Connected!")
+		coinbase = await getCoinbase()
+	} catch (e) {
+		console.warn(e)
+	}
+
+	let reward_token = window.reward_token
+	//console.log('coinbase' + coinbase)
+
+	let _tvl30 = await reward_token.balanceOf('0x7fc2174670d672ad7f666af0704c2d961ef32c73')
+	_tvl30 = _tvl30 / 1e18
+
+	let _tvl60 = await reward_token.balanceOf('0x036e336ea3ac2e255124cf775c4fdab94b2c42e4')
+	_tvl60 = _tvl60 / 1e18
+
+	let _tvl90 = await reward_token.balanceOf('0x0a32749d95217b7ee50127e24711c97849b70c6a')
+	_tvl90 = _tvl90 / 1e18
+
+	let _tvl120 = await reward_token.balanceOf('0x82df1450efd6b504ee069f5e4548f2d5cb229880')
+	_tvl120 = _tvl120 / 1e18 + 0.1
+
+	let _buyback = await reward_token.balanceOf('0xe5262f38bf13410a79149cb40429f8dc5e830542')
+	_buyback = _buyback /1e18
+
+	// console.log({_buyback})
+
+	let [usdPerToken] = await Promise.all([window.getPrice('defi-yield-protocol')])
+	let valueee = (_tvl30 + _tvl60 + _tvl90 + _tvl120 + _buyback) * usdPerToken
+	//console.log('usdper '+valueee)
+	return valueee
+
+}
+
+
+async function get_usd_values_with_apy_and_tvl(...arguments) {
+	return (await get_apy_and_tvl(await get_usd_values(...arguments)))
+}
+
+async function refresh_the_graph_result() {
+	let result = await get_usd_values_with_apy_and_tvl({token_contract_addresses: [TOKEN_ADDRESS], lp_ids: LP_ID_LIST})
+	window.the_graph_result = result
+	window.TVL_FARMING_POOLS = await refreshBalance()
+	return result
+}
+
+
+window.get_usd_values = get_usd_values
+window.get_token_balances = get_token_balances
+window.get_apy_and_tvl = get_apy_and_tvl
+window.get_number_of_stakers = get_number_of_stakers
+window.refresh_the_graph_result = refresh_the_graph_result
 
 async function getActiveLocksByTokenETH(tokenAddress, startIndex, endIndex) {
   let lockerContract = await getContract({ key: "LOCKERETH" });
