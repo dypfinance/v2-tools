@@ -1,12 +1,16 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import moment from "moment";
 import getFormattedNumber from "../../functions/get-formatted-number";
-import Address from "./address";
-// import Popup from "./popup";
-import Tooltip from "@material-ui/core/Tooltip";
-import { Button } from "@material-ui/core";
-// import Modal from "./modal";
+import Modal from "../Modal/Modal";
+import "./top-pools.css";
+
+import ellipse from "./assets/ellipse.svg";
+import arrowup from "./assets/arrow-up.svg";
+import moreinfo from "./assets/more-info.svg";
+import stats from "./assets/stats.svg";
+import referralimg from './assets/referral.svg'
+import copy from './assets/copy.svg'
+
 
 export default function initStakingNew({
   token,
@@ -127,10 +131,10 @@ export default function initStakingNew({
         is_wallet_connected: false,
       };
 
-      this.showModal = this.showModal.bind(this);
+      // this.showModal = this.showModal.bind(this);
       this.hideModal = this.hideModal.bind(this);
 
-      this.showPopup = this.showPopup.bind(this);
+      // this.showPopup = this.showPopup.bind(this);
       this.hidePopup = this.hidePopup.bind(this);
     }
 
@@ -189,13 +193,13 @@ export default function initStakingNew({
 
     componentDidMount() {
       this.refreshBalance();
-      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
     }
 
     componentWillUnmount() {
-      clearInterval(window._refreshBalInterval);
+      // clearInterval(window._refreshBalInterval);
     }
 
     getPriceDYP = async () => {
@@ -532,34 +536,48 @@ export default function initStakingNew({
           .call();
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
+
         let _bal = token.balanceOf(this.props.coinbase);
+
         let _rBal = reward_token.balanceOf(this.props.coinbase);
         let _pDivs = staking.getPendingDivs(this.props.coinbase);
-        let _pDivsEth = staking.getPendingDivsEth(this.props.coinbase);
-        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
-        let _tEarnedEth = staking.totalEarnedEth(this.props.coinbase);
-        let _stakingTime = staking.depositTime(this.props.coinbase);
-        let _dTokens = staking.depositedTokens(this.props.coinbase);
-        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
-        let _tvl = token.balanceOf(staking._address);
 
+        let _pDivsEth = staking.getPendingDivsEth(this.props.coinbase);
+
+        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
+
+        let _tEarnedEth = staking.totalEarnedEth(this.props.coinbase);
+
+        let _stakingTime = staking.depositTime(this.props.coinbase);
+
+        let _dTokens = staking.depositedTokens(this.props.coinbase);
+
+        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
+
+        let _tvl = token.balanceOf(staking._address); //not 0
+
+        //not 0
         //Take iDYP Balance on Staking & Farming
-        let _tvlConstantiDYP = reward_token_idyp.balanceOf(
-          constant._address
-        ); /* TVL of iDYP on Staking */
+        let _tvlConstantiDYP = reward_token_idyp.balanceOf(constant._address);
+        /* TVL of iDYP on Staking */
+
+        //not 0
         let _tvlConstantDYP = reward_token.balanceOf(
           constant._address
         ); /* TVL of iDYP on Staking */
+
+        //not 0
         let _tvliDYP = reward_token_idyp.balanceOf(
           staking._address
         ); /* TVL of iDYP on Farming */
 
         let _dTokensDYP = constant.depositedTokens(this.props.coinbase);
+
         let _pendingDivsStaking = constant.getTotalPendingDivs(
           this.props.coinbase
         );
 
-        //Take DYPS Balance
+        //not 0
         let _tvlDYPS = token_dyps.balanceOf(staking._address); /* TVL of DYPS */
 
         let [
@@ -628,9 +646,6 @@ export default function initStakingNew({
           .plus(tvlValueConstantDYP)
           .toFixed(18);
 
-          console.log(totalValueLocked)
-          
-
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
 
         this.setState({
@@ -683,6 +698,8 @@ export default function initStakingNew({
           this.setState({ wethBalance });
         })
         .catch(console.error);
+
+      // console.log(window.farmweth.balanceOf(this.props.coinbase))
 
       staking.lastSwapExecutionTime().then((lastSwapExecutionTime) => {
         this.setState({ lastSwapExecutionTime });
@@ -890,7 +907,6 @@ export default function initStakingNew({
       let total_stakers = lp_data ? lp_data[this.props.lp_id].stakers_num : 0;
       // let tvl_usd = lp_data ? lp_data[this.props.lp_id].tvl_usd : 0
       let tvl_usd = this.state.totalValueLocked / 1e18;
-      
 
       apy = getFormattedNumber(apy, 2);
       total_stakers = getFormattedNumber(total_stakers, 0);
@@ -925,871 +941,946 @@ export default function initStakingNew({
       let tooltip2 = infoItems2.join("\n");
 
       return (
-        <div>
-          <div className="row">
-            <div className="col-12 header-image-farming-new">
-              <div className="container">
-                {/* <Modal
-                  show={this.state.show}
-                  handleConnection={this.props.handleConnection}
-                  handleConnectionWalletConnect={
-                    this.props.handleConnectionWalletConnect
-                  }
-                  handleClose={this.hideModal}
-                /> */}
-                <div className="row">
-                  <div className="col-12">
-                    <p className="header-title-text">DYP Farming</p>
-                  </div>
-                  <div className="col-7 col-md-7 col-lg-6 col-xl-5">
-                    <div className="row">
-                      <div className="col-9 col-md-5 mb-4">
-                        <button
-                          onClick={this.showPopup}
-                          className="btn  btn-block btn-primary button"
-                          type="button"
-                          style={{ maxWidth: "100%", width: "100%" }}
-                        >
-                          <img
-                            src="img/icon/bulb.svg"
-                            style={{ float: "left" }}
-                            alt="wallet"
-                          />
-                          More info
-                        </button>
-                      </div>
-                      <div className="col-11 col-md-5 mb-4">
-                        <button
-                          onClick={() =>
-                            window.open(
-                              "https://www.youtube.com/watch?v=xc2S9Jei7DA",
-                              "_blank"
-                            )
-                          }
-                          className="btn  btn-block btn-primary l-outline-btn button"
-                          type="submit"
-                          style={{ maxWidth: "100%", width: "100%" }}
-                        >
-                          <img
-                            src="img/icon/video.svg"
-                            style={{ float: "left" }}
-                            alt="wallet"
-                          />
-                          Video tutorial
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <div className="container">
+          <div className="allwrapper">
+          <div className="leftside w-100">
+            <div className="activewrapper">
+              <h6 className="activetxt">
+                <img
+                  src={ellipse}
+                  alt=""
+                  className="position-relative"
+                  style={{ top: 3 }}
+                />
+                Active status
+              </h6>
+               <div className="d-flex align-items-center justify-content-between gap-2">
+                <h6 className="earnrewards-text">Earn rewards in:</h6>
+                <h6 className="earnrewards-token">DYP</h6>
               </div>
-            </div>
-
-            <div className="container">
-              <div className="token-staking mt-4">
-                <div className="row p-3 p-sm-0 p-md-0">
-                  <div className="col-12">
-                    <div className="row">
-                      <div className="col-lg-6 col-xs-12">
-                        <div className="row token-staking-form">
-                          <div className="col-12">
-                            <div
-                              className="l-box"
-                              style={{ padding: "0.5rem" }}
-                            >
-                              {is_connected ? (
-                                <div className="row justify-content-center">
-                                  <div
-                                    className="col-9 col-sm-8 col-md-7 text-center text-md-left"
-                                    style={{ marginTop: "0px" }}
-                                  >
-                                    <img
-                                      src="img/connected.png"
-                                      style={{
-                                        marginRight: "10px",
-                                        marginTop: "3px",
-                                      }}
-                                      alt="wallet"
-                                    />
-                                    <span
-                                      htmlFor="deposit-amount"
-                                      style={{
-                                        margin: "0",
-                                        top: "3px",
-                                        position: "relative",
-                                      }}
-                                    >
-                                      Wallet has been connected
-                                    </span>
-                                  </div>
-                                  <div className="col-8 col-sm-6 col-md-5 text-center">
-                                    <div
-                                      style={{
-                                        marginTop: "5px",
-                                        paddingRight: "15px",
-                                      }}
-                                    >
-                                      <Address
-                                        style={{ fontFamily: "monospace" }}
-                                        a={this.props.coinbase}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className="row justify-content-center">
-                                  <div
-                                    className="col-11 col-sm-8 col-md-8 text-center text-md-left mb-3 mb-md-0"
-                                    style={{ marginTop: "0px" }}
-                                  >
-                                    <img
-                                      src="img/icon/wallet.svg"
-                                      style={{
-                                        marginRight: "10px",
-                                        marginTop: "3px",
-                                      }}
-                                      alt="wallet"
-                                    />
-                                    <label
-                                      htmlFor="deposit-amount"
-                                      style={{
-                                        margin: "0",
-                                        top: "3px",
-                                        position: "relative",
-                                      }}
-                                    >
-                                      Please connect wallet to use this dApp
-                                    </label>
-                                  </div>
-                                  <div className="col-10 col-md-4 mb-3 mb-md-0">
-                                    <button
-                                      type="submit"
-                                      onClick={this.showModal}
-                                      className="btn  btn-block btn-primary l-outline-btn"
-                                    >
-                                      Connect Wallet
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-xs-12">
-                        <div className="row token-staking-form">
-                          <div className="col-12 padding-mobile">
-                            <div
-                              className=""
-                              style={{
-                                background:
-                                  "linear-gradient(257.76deg, #32B1F7 6.29%, #1D91D0 93.71%)",
-                                boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.06)",
-                                borderRadius: "6px",
-                                paddingLeft: "5px",
-                                padding: "10px",
-                              }}
-                            >
-                              <div className="row">
-                                <div
-                                  style={{ marginTop: "0px", paddingLeft: "" }}
-                                  className="col-4 col-sm-4 col-md-3 mb-3 mb-md-0 pr-0"
-                                >
-                                  <img
-                                    src="img/icon/eth.svg"
-                                    style={{
-                                      marginRight: "4px",
-                                      marginTop: "5px",
-                                    }}
-                                    alt="wallet"
-                                  />
-                                  <label
-                                    htmlFor="deposit-amount"
-                                    style={{
-                                      margin: "0px",
-                                      top: "3px",
-                                      position: "relative",
-                                      color: "white",
-                                    }}
-                                  >
-                                    Ethereum
-                                  </label>
-                                </div>
-                                <div className="col-8 col-sm-6 col-md-5 mb-3 mb-md-0 pr-2">
-                                  <div className="test">
-                                    <div className="tvl_test">
-                                      TVL USD{" "}
-                                      <span className="testNumber">
-                                        $ {tvl_usd}{" "}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-7 col-sm-4 col-md-4 mb-1 mb-md-0">
-                                  <div className="test">
-                                    <div className="tvl_test">
-                                      APR{" "}
-                                      <span className="testNumber">
-                                        {" "}
-                                        <img src="img/icon/vector.svg" /> {apy}%{" "}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-lg-6">
-                    <div className="row token-staking-form">
-                      <div className="col-12">
-                        <div className="l-box">
-                          {showDeposit == true ? (
-                            <form onSubmit={(e) => e.preventDefault()}>
-                              <div className="form-group">
-                                <div className="row">
-                                  <label
-                                    htmlFor="deposit-amount"
-                                    className="col-7 d-block text-left"
-                                  >
-                                    DEPOSIT
-                                  </label>
-                                </div>
-
-                                <div>
-                                  <p>
-                                    Balance:{" "}
-                                    {getFormattedNumber(
-                                      this.state.selectedTokenBalance /
-                                        10 ** this.state.selectedTokenDecimals,
-                                      6
-                                    )}{" "}
-                                    {this.state.selectedTokenSymbol}
-                                  </p>
-                                  <select
-                                    disabled={!is_connected}
-                                    value={this.state.selectedBuybackToken}
-                                    onChange={(e) =>
-                                      this.handleSelectedTokenChange(
-                                        e.target.value
-                                      )
-                                    }
-                                    className="form-control"
-                                  >
-                                    {Object.keys(
-                                      window.buyback_tokens_farming
-                                    ).map((t) => (
-                                      <option key={t} value={t}>
-                                        {" "}
-                                        {
-                                          window.buyback_tokens_farming[t]
-                                            .symbol
-                                        }{" "}
-                                      </option>
-                                    ))}
-                                  </select>
-                                  <br />
-                                </div>
-                                <div className="input-group ">
-                                  <input
-                                    disabled={!is_connected}
-                                    value={
-                                      Number(this.state.depositAmount) > 0
-                                        ? this.state.depositAmount
-                                        : this.state.depositAmount
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        depositAmount: e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                  />
-                                  <div className="input-group-append">
-                                    <button
-                                      disabled={!is_connected}
-                                      className="btn  btn-primary right-radius btn-max l-light-btn"
-                                      style={{ cursor: "pointer" }}
-                                      onClick={this.handleSetMaxDeposit}
-                                    >
-                                      MAX
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="row">
-                                <div
-                                  style={{ paddingRight: "0.3rem" }}
-                                  className="col-6"
-                                >
-                                  <button
-                                    disabled={!is_connected}
-                                    onClick={this.handleApprove}
-                                    className="btn  btn-block btn-primary "
-                                    type="button"
-                                  >
-                                    APPROVE
-                                  </button>
-                                </div>
-                                <div
-                                  style={{ paddingLeft: "0.3rem" }}
-                                  className="col-6"
-                                >
-                                  <button
-                                    disabled={!is_connected}
-                                    onClick={this.handleStake}
-                                    className="btn  btn-block btn-primary l-outline-btn"
-                                    type="submit"
-                                  >
-                                    DEPOSIT
-                                  </button>
-                                </div>
-                              </div>
-                              <p
-                                style={{ fontSize: ".8rem" }}
-                                className="mt-1 text-center mb-0 text-muted mt-3"
-                              >
-                                Please approve before deposit. PERFORMANCE FEE{" "}
-                                {fee}%<br />
-                                Performance fees are already subtracted from the
-                                displayed APR.
-                              </p>
-                            </form>
-                          ) : (
-                            <div className="row">
-                              <div
-                                className="col-md-12 d-block text-muted small"
-                                style={{ fontSize: "15px" }}
-                              >
-                                <b>NOTE:</b>
-                              </div>
-                              <div
-                                className="col-md-12 d-block text-muted small"
-                                style={{ fontSize: "15px" }}
-                              >
-                                Deposit not available because the contract
-                                expires faster than the pool lock time.
-                              </div>
-                              <div
-                                className="col-md-12 d-block mb-0 text-muted small"
-                                style={{ fontSize: "15px" }}
-                              >
-                                New contracts with improved strategies are
-                                coming soon, waiting for security audit results.
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <div className="l-box">
-                          <form onSubmit={this.handleWithdraw}>
-                            <div className="form-group">
-                              <label
-                                htmlFor="deposit-amount"
-                                className="d-block text-left"
-                              >
-                                WITHDRAW
-                              </label>
-                              <div
-                                className="form-row "
-                                style={{ paddingBottom: "20px" }}
-                              >
-                                <div className="col-6">
-                                  <input
-                                    disabled={!is_connected}
-                                    value={
-                                      Number(this.state.withdrawAmount) > 0
-                                        ? `${
-                                            this.state.withdrawAmount *
-                                            LP_AMPLIFY_FACTOR
-                                          } LP`
-                                        : `${this.state.withdrawAmount} LP`
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        withdrawAmount:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value / LP_AMPLIFY_FACTOR
-                                            : e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                  />
-                                </div>
-                                <div className="col-6">
-                                  <input
-                                    disabled={!is_connected}
-                                    value={`${depositedTokensDYP} DYP`}
-                                    onChange={(e) =>
-                                      this.setState({
-                                        withdrawAmount:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value / LP_AMPLIFY_FACTOR
-                                            : e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                  />
-                                </div>
-                              </div>
-                              <div className="form-row">
-                                <div className="col-6">
-                                  <select
-                                    disabled={!is_connected}
-                                    value={
-                                      this.state.selectedBuybackTokenWithdraw
-                                    }
-                                    onChange={(e) =>
-                                      this.handleSelectedTokenChangeWithdraw(
-                                        e.target.value
-                                      )
-                                    }
-                                    className="form-control"
-                                  >
-                                    {Object.keys(
-                                      window.buyback_tokens_farming
-                                    ).map((t) => (
-                                      <option key={t} value={t}>
-                                        {" "}
-                                        {
-                                          window.buyback_tokens_farming[t]
-                                            .symbol
-                                        }{" "}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                                <div className="col-6">
-                                  <select
-                                    disabled={!is_connected}
-                                    defaultValue="DYP"
-                                    className="form-control"
-                                  >
-                                    <option value="DYP"> DYP </option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="form-row">
-                              <div className="col-6">
-                                <button
-                                  title={
-                                    canWithdraw
-                                      ? ""
-                                      : `You recently staked, you can unstake ${cliffTimeInWords}`
-                                  }
-                                  disabled={!canWithdraw || !is_connected}
-                                  className="btn  btn-primary btn-block l-outline-btn"
-                                  type="submit"
-                                >
-                                  WITHDRAW
-                                </button>
-                              </div>
-                              <div className="col-6">
-                                <button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    this.handleWithdrawDyp();
-                                  }}
-                                  title={
-                                    canWithdraw
-                                      ? ""
-                                      : `You recently staked, you can unstake ${cliffTimeInWords}`
-                                  }
-                                  disabled={!canWithdraw || !is_connected}
-                                  className="btn  btn-primary btn-block l-outline-btn"
-                                  type="submit"
-                                >
-                                  WITHDRAW
-                                </button>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <div className="l-box">
-                          <form onSubmit={this.handleClaimDivs}>
-                            <div className="form-group">
-                              <label
-                                htmlFor="deposit-amount"
-                                className="text-left d-block"
-                              >
-                                REWARDS
-                              </label>
-                              <div className="form-row mb-3">
-                                <div className="col-6">
-                                  <input
-                                    disabled={!is_connected}
-                                    value={
-                                      Number(pendingDivsEth) > 0
-                                        ? `${pendingDivsEth} WETH`
-                                        : `${pendingDivsEth} WETH`
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        pendingDivsEth:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value
-                                            : e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                  />
-                                </div>
-                                <div className="col-6">
-                                  <input
-                                    disabled={!is_connected}
-                                    value={
-                                      Number(pendingDivs) > 0
-                                        ? `${pendingDivs} DYP`
-                                        : `${pendingDivs} DYP`
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        pendingDivs:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value
-                                            : e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                  />
-                                </div>
-                              </div>
-                              <div className="form-row">
-                                <div className="col-6">
-                                  <select
-                                    disabled={!is_connected}
-                                    value={this.state.selectedClaimToken}
-                                    onChange={(e) =>
-                                      this.handleClaimToken(e.target.value)
-                                    }
-                                    className="form-control"
-                                  >
-                                    <option value="0"> WETH </option>
-                                    <option value="1"> USDT </option>
-                                  </select>
-                                </div>
-                                <div className="col-6">
-                                  <select
-                                    disabled={!is_connected}
-                                    defaultValue="DYP"
-                                    className="form-control"
-                                  >
-                                    <option value="DYP"> DYP </option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="form-row">
-                              <div className="col-6">
-                                <button
-                                  title={claimTitle}
-                                  disabled={!is_connected}
-                                  className="btn  btn-primary btn-block l-outline-btn"
-                                  type="submit"
-                                >
-                                  CLAIM
-                                </button>
-                              </div>
-                              <div className="col-6">
-                                <button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    this.handleClaimDyp();
-                                  }}
-                                  title={claimTitle}
-                                  disabled={!is_connected}
-                                  className="btn  btn-primary btn-block l-outline-btn"
-                                  type="submit"
-                                >
-                                  CLAIM
-                                </button>
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <div className="l-box">
-                          <form onSubmit={(e) => e.preventDefault()}>
-                            <div className="form-group">
-                              <label
-                                htmlFor="deposit-amount"
-                                className="d-block text-left"
-                              >
-                                RETURN CALCULATOR
-                              </label>
-                              <div className="row">
-                                <div className="col">
-                                  <label
-                                    style={{
-                                      fontSize: "1rem",
-                                      fontWeight: "normal",
-                                    }}
-                                  >
-                                    USD to Deposit
-                                  </label>
-                                  <input
-                                    className="form-control "
-                                    value={
-                                      Number(this.state.approxDeposit) > 0
-                                        ? this.state.approxDeposit *
-                                          LP_AMPLIFY_FACTOR
-                                        : this.state.approxDeposit
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        approxDeposit:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value / LP_AMPLIFY_FACTOR
-                                            : e.target.value,
-                                      })
-                                    }
-                                    placeholder="0"
-                                    type="text"
-                                  />
-                                </div>
-                                <div className="col">
-                                  <label
-                                    style={{
-                                      fontSize: "1rem",
-                                      fontWeight: "normal",
-                                    }}
-                                  >
-                                    Days
-                                  </label>
-                                  <input
-                                    className="form-control "
-                                    value={this.state.approxDays}
-                                    onChange={(e) =>
-                                      this.setState({
-                                        approxDays: e.target.value,
-                                      })
-                                    }
-                                    type="text"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <p>
-                              Approx. $
-                              {getFormattedNumber(this.getApproxReturnUSD(), 2)}{" "}
-                              USD (
-                              {getFormattedNumber(
-                                this.getApproxReturnUSD() / this.getUsdPerETH(),
-                                6
-                              )}{" "}
-                              WETH)
-                            </p>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <div className="l-box pl-3 pr-3">
-                      <div className="table-responsive container">
-                        <div className="row" style={{ marginLeft: "0px" }}>
-                          <label
-                            className="col-md-8 d-block text-left"
-                            style={{
-                              fontSize: "1.1rem",
-                              fontWeight: "600",
-                              padding: ".3rem",
-                            }}
-                          >
-                            MY STATS
-                          </label>
-                          <div className="col-4">
-                            <NavLink
-                              rel="noopener noreferrer"
-                              to={"/staking-stats-new"}
-                            >
-                              {is_connected && (
-                                <button
-                                  className="btn btn-sm btn-block btn-primary l-outline-btn"
-                                  type="button"
-                                >
-                                  VIEW ALL
-                                </button>
-                              )}
-                            </NavLink>
-                          </div>
-                        </div>
-                        <table className="table-stats table table-sm table-borderless">
-                          <tbody>
-                            <tr>
-                              <th>Contract Expiration</th>
-                              <td className="text-right">
-                                <strong>{expiration_time}</strong>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>My DYP Balance</th>
-                              <td className="text-right">
-                                <strong>{reward_token_balance}</strong>{" "}
-                                <small>DYP</small>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <th>MY LP Deposit</th>
-                              <td className="text-right">
-                                <strong>{myDepositedLpTokens}</strong>{" "}
-                                <small>iDYP/WETH</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Total LP Deposited</th>
-                              <td className="text-right">
-                                <strong>{tvl}</strong> <small>iDYP/WETH</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>My DYP Deposit</th>
-                              <td className="text-right">
-                                <strong>{depositedTokensDYP}</strong>{" "}
-                                <small>DYP</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Total DYP Deposited</th>
-                              <td className="text-right">
-                                <strong>{tvlConstantDYP}</strong>{" "}
-                                <small>DYP</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>My Share</th>
-                              <td className="text-right">
-                                <strong>{myShare}</strong> <small>%</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Total Earned DYP</th>
-                              <td className="text-right">
-                                <strong>{totalEarnedTokens}</strong>{" "}
-                                <small>DYP</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Total Earned WETH</th>
-                              <td className="text-right">
-                                <strong>{totalEarnedEth}</strong>{" "}
-                                <small>WETH</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>To be Swapped</th>
-                              <td className="text-right">
-                                <strong>{tokensToBeSwapped}</strong>{" "}
-                                <small>iDYP</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>To be burnt / disbursed</th>
-                              <td className="text-right">
-                                <strong>{tokensToBeDisbursedOrBurnt}</strong>{" "}
-                                <small>iDYP</small>
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <th>TVL USD</th>
-                              <td className="text-right">
-                                <strong>${tvl_usd}</strong> <small>USD</small>
-                              </td>
-                            </tr>
-                            {isOwner && (
-                              <tr>
-                                <th>Total Stakers</th>
-                                <td className="text-right">
-                                  <strong>{total_stakers}</strong>{" "}
-                                  <small></small>
-                                </td>
-                              </tr>
-                            )}
-
-                            {is_connected ? (
-                              <tr>
-                                <td
-                                  style={{
-                                    fontSize: "1rem",
-                                    paddingTop: "2rem",
-                                  }}
-                                  colSpan="2"
-                                  className="text-center"
-                                >
-                                  {" "}
-                                  <a
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href={`${window.config.etherscan_baseURL}/address/${staking._address}`}
-                                  >
-                                    View Transaction History on Etherscan
-                                  </a>{" "}
-                                  &nbsp;{" "}
-                                  <i
-                                    style={{ fontSize: ".8rem" }}
-                                    className="fas fa-external-link-alt"
-                                  ></i>
-                                </td>
-                              </tr>
-                            ) : (
-                              ""
-                            )}
-
-                            {isOwner && (
-                              <tr>
-                                <td
-                                  style={{ fontSize: "1rem" }}
-                                  colSpan="2"
-                                  className="text-center"
-                                >
-                                  <a
-                                    onClick={this.handleListDownload}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href="#"
-                                  >
-                                    <i
-                                      style={{ fontSize: ".8rem" }}
-                                      className="fas fa-download"
-                                    ></i>{" "}
-                                    Download Stakers List{" "}
-                                  </a>
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               <div className="d-flex align-items-center justify-content-between gap-2">
+                <h6 className="earnrewards-text">Performance fee:</h6>
+                <h6 className="earnrewards-token">{fee}%</h6>
+              </div>
+              <h6 className="bottomitems">
+                  <img src={arrowup} alt="" />
+                  Video tutorial
+                </h6>
+                <h6 className="bottomitems">
+                  <img src={arrowup} alt="" />
+                  Get DYP
+                </h6>
+                <div
+                onClick={() => {
+                  this.showPopup();
+                }}
+              >
+                <h6 className="bottomitems">
+                  <img src={moreinfo} alt="" />
+                  More info
+                </h6>
               </div>
             </div>
           </div>
+          <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
+            <div className="otherside">
+              <div className="activewrapper" style={{ visibility: "hidden" }}>
+                <h6 className="activetxt">
+                  <img
+                    src={ellipse}
+                    alt=""
+                    className="position-relative"
+                    style={{ top: 3 }}
+                  />
+                  Active status
+                </h6>
+              </div>
+              <div className="d-flex flex-column gap-2 justify-content-between">
+                <div className="d-flex align-items-center justify-content-between gap-2">
+                  <h6 className="earnrewards-text">Contract expires:</h6>
+                  <h6 className="earnrewards-token">{expiration_time}</h6>
+                </div>
+                <div className="d-flex align-items-center justify-content-between gap-2">
+                  <h6 className="earnrewards-text">Total value locked:</h6>
+                  <h6 className="earnrewards-token">$ {tvl_usd}</h6>
+                </div>
+              </div>
+              <button className="btn green-btn">
+                TBD Claim reward 0.01 ETH
+              </button>
+            </div>
+            <div className="otherside-border">
+              <h6 className="deposit-txt">Deposit</h6>
+              <div className="d-flex flex-column gap-2 justify-content-between">
+                <div className="d-flex align-items-center justify-content-between gap-2">
+                  <div className="position-relative">
+                    <h6 className="amount-txt">Amount</h6>
+                    <input
+                      type={"text"}
+                      className="styledinput"
+                      value={0}
+                      // onChange={(e) => setDepositValue(e.target.value)}
+                    />
+                  </div>
+                  <button className="btn maxbtn">Max</button>
+                </div>
+              </div>
+              <button className="btn filledbtn">TBD Approve</button>
+            </div>
+            <div className="otherside-border">
+              <h6 className="withdraw-txt">Withdraw</h6>
+              <div className="d-flex flex-column gap-2 justify-content-between">
+                <div className="d-flex align-items-center justify-content-between gap-2">
+                  <div className="position-relative">
+                    <h6 className="amount-txt">Amount</h6>
+                    <input
+                      type={"text"}
+                      className="styledinput"
+                      value={0}
+                      // onChange={(e) => setDepositValue(e.target.value)}
+                    />
+                  </div>
+                  <button className="btn maxbtn">Max</button>
+                </div>
+              </div>
+              <button className="btn filledbtn">TBD Approve</button>
+            </div>
+          </div>
+</div>
+          <Modal
+            visible={this.state.popup}
+            modalId="tymodal"
+            setIsVisible={() => {
+              this.setState({ popup: false });
+            }}
+          >
+            <div className="earn-hero-content p4token-wrapper">
+              <div className="l-box pl-3 pr-3">
+                <div className="table-responsive container">
+                  <div className="row" style={{ marginLeft: "0px" }}>
+                    <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                      <h6 className="d-flex gap-2 align-items-center statstext">
+                        <img src={stats} alt="" />
+                        Stats
+                      </h6>
+                      <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                        My address
+                        <h6 className="addresstxt">
+                          {this.props.coinbase?.slice(0, 10) + "..."}
+                        </h6>
+                        <img src={arrowup} alt="" />
+                      </h6>
+                    </div>
+                  </div>
+                  <table className="table-stats table table-sm table-borderless">
+                    <tbody>
+                      <tr>
+                        <td className="text-right">
+                          <th>Contract Expiration</th>
+                          <strong>{expiration_time}</strong>
+                        </td>
+                        <td className="text-right">
+                          <th>My DYP Balance</th>
+                          <div>
+                            <strong>{reward_token_balance}</strong>{" "}
+                            <small>DYP</small>
+                          </div>
+                        </td>
+
+                        <td className="text-right">
+                          <th>My DYP Deposit</th>
+                          <div>
+                            <strong>{depositedTokensDYP}</strong>{" "}
+                            <small>DYP</small>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="text-right">
+                          <th>Total DYP Deposited</th>
+                          <div>
+                            <strong>{tvlConstantDYP}</strong> <small>DYP</small>
+                          </div>
+                        </td>
+
+                        <td className="text-right">
+                          <th>Total Earned DYP</th>
+                          <div>
+                            <strong>{totalEarnedTokens}</strong>
+                            <small>DYP</small>
+                          </div>
+                        </td>
+
+                        <td className="text-right">
+                          <th>Total Earned WETH</th>
+                          <div>
+                            <strong>{totalEarnedEth}</strong>{" "}
+                            <small>WETH</small>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="text-right">
+                          <th>TVL USD</th>
+                          <div>
+                            <strong>${tvl_usd}</strong> <small>USD</small>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="referralwrapper">
+                    <div className="d-flex gap-2 align-items-start">
+                      <img src={referralimg} alt="" />
+                      <div
+                        className="d-flex gap-2 flex-column"
+                        style={{ width: "67%" }}
+                      >
+                        <h6 className="referraltitle">Referral link</h6>
+                        <h6 className="referraldesc">
+                          Refferal link gives you 5% for each invite friend you
+                          bring to buy DYP example
+                        </h6>
+                      </div>
+                      <button className="copybtn btn">
+                        {" "}
+                        <img src={copy} alt="" /> Copy{" "}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Modal>
         </div>
       );
+      {
+        /* <div className="container">
+                <div className="token-staking mt-4">
+                  <div className="row p-3 p-sm-0 p-md-0">
+                     <div className="col-12">
+                      <div className="row">
+                        <div className="col-lg-6 col-xs-12">
+                          <div className="row token-staking-form">
+                            <div className="col-12 padding-mobile">
+                              <div
+                                className=""
+                                style={{
+                                  background:
+                                    "linear-gradient(257.76deg, #32B1F7 6.29%, #1D91D0 93.71%)",
+                                  boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.06)",
+                                  borderRadius: "6px",
+                                  paddingLeft: "5px",
+                                  padding: "10px",
+                                }}
+                              >
+                                <div className="row">
+                                  <div
+                                    style={{
+                                      marginTop: "0px",
+                                      paddingLeft: "",
+                                    }}
+                                    className="col-4 col-sm-4 col-md-3 mb-3 mb-md-0 pr-0"
+                                  >
+                                   
+                                    <label
+                                      htmlFor="deposit-amount"
+                                      style={{
+                                        margin: "0px",
+                                        top: "3px",
+                                        position: "relative",
+                                        color: "white",
+                                      }}
+                                    >
+                                      Ethereum
+                                    </label>
+                                  </div>
+                                  <div className="col-8 col-sm-6 col-md-5 mb-3 mb-md-0 pr-2">
+                                    <div className="test">
+                                      <div className="tvl_test">
+                                        TVL USD{" "}
+                                        <span className="testNumber">
+                                          $ {tvl_usd}{" "}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-7 col-sm-4 col-md-4 mb-1 mb-md-0">
+                                    <div className="test">
+                                      <div className="tvl_test">
+                                        APR{" "}
+                                        <span className="testNumber">
+                                          {" "}
+                                          <img src="img/icon/vector.svg" />{" "}
+                                          {apy}%{" "}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+
+                    <div className="col-lg-6">
+                      <div className="row token-staking-form">
+                        <div className="col-12">
+                          <div className="l-box">
+                            {showDeposit == true ? (
+                              <form onSubmit={(e) => e.preventDefault()}>
+                                <div className="form-group">
+                                  <div className="row">
+                                    <label
+                                      htmlFor="deposit-amount"
+                                      className="col-7 d-block text-left"
+                                    >
+                                      DEPOSIT
+                                    </label>
+                                  </div>
+
+                                  <div>
+                                    <p>
+                                      Balance:{" "}
+                                      {getFormattedNumber(
+                                        this.state.selectedTokenBalance /
+                                          10 **
+                                            this.state.selectedTokenDecimals,
+                                        6
+                                      )}{" "}
+                                      {this.state.selectedTokenSymbol}
+                                    </p>
+                                    <select
+                                      disabled={!is_connected}
+                                      value={this.state.selectedBuybackToken}
+                                      onChange={(e) =>
+                                        this.handleSelectedTokenChange(
+                                          e.target.value
+                                        )
+                                      }
+                                      className="form-control"
+                                    >
+                                      {Object.keys(
+                                        window.buyback_tokens_farming
+                                      ).map((t) => (
+                                        <option key={t} value={t}>
+                                          {" "}
+                                          {
+                                            window.buyback_tokens_farming[t]
+                                              .symbol
+                                          }{" "}
+                                        </option>
+                                      ))}
+                                    </select>
+                                    <br />
+                                  </div>
+                                  <div className="input-group ">
+                                    <input
+                                      disabled={!is_connected}
+                                      value={
+                                        Number(this.state.depositAmount) > 0
+                                          ? this.state.depositAmount
+                                          : this.state.depositAmount
+                                      }
+                                      onChange={(e) =>
+                                        this.setState({
+                                          depositAmount: e.target.value,
+                                        })
+                                      }
+                                      className="form-control left-radius"
+                                      placeholder="0"
+                                      type="text"
+                                    />
+                                    <div className="input-group-append">
+                                      <button
+                                        disabled={!is_connected}
+                                        className="btn  btn-primary right-radius btn-max l-light-btn"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={this.handleSetMaxDeposit}
+                                      >
+                                        MAX
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div
+                                    style={{ paddingRight: "0.3rem" }}
+                                    className="col-6"
+                                  >
+                                    <button
+                                      disabled={!is_connected}
+                                      onClick={this.handleApprove}
+                                      className="btn  btn-block btn-primary "
+                                      type="button"
+                                    >
+                                      APPROVE
+                                    </button>
+                                  </div>
+                                  <div
+                                    style={{ paddingLeft: "0.3rem" }}
+                                    className="col-6"
+                                  >
+                                    <button
+                                      disabled={!is_connected}
+                                      onClick={this.handleStake}
+                                      className="btn  btn-block btn-primary l-outline-btn"
+                                      type="submit"
+                                    >
+                                      DEPOSIT
+                                    </button>
+                                  </div>
+                                </div>
+                                <p
+                                  style={{ fontSize: ".8rem" }}
+                                  className="mt-1 text-center mb-0 text-muted mt-3"
+                                >
+                                  Please approve before deposit. PERFORMANCE FEE{" "}
+                                  {fee}%<br />
+                                  Performance fees are already subtracted from
+                                  the displayed APR.
+                                </p>
+                              </form>
+                            ) : (
+                              <div className="row">
+                                <div
+                                  className="col-md-12 d-block text-muted small"
+                                  style={{ fontSize: "15px" }}
+                                >
+                                  <b>NOTE:</b>
+                                </div>
+                                <div
+                                  className="col-md-12 d-block text-muted small"
+                                  style={{ fontSize: "15px" }}
+                                >
+                                  Deposit not available because the contract
+                                  expires faster than the pool lock time.
+                                </div>
+                                <div
+                                  className="col-md-12 d-block mb-0 text-muted small"
+                                  style={{ fontSize: "15px" }}
+                                >
+                                  New contracts with improved strategies are
+                                  coming soon, waiting for security audit
+                                  results.
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <div className="l-box">
+                            <form onSubmit={this.handleWithdraw}>
+                              <div className="form-group">
+                                <label
+                                  htmlFor="deposit-amount"
+                                  className="d-block text-left"
+                                >
+                                  WITHDRAW
+                                </label>
+                                <div
+                                  className="form-row "
+                                  style={{ paddingBottom: "20px" }}
+                                >
+                                  <div className="col-6">
+                                    <input
+                                      disabled={!is_connected}
+                                      value={
+                                        Number(this.state.withdrawAmount) > 0
+                                          ? `${
+                                              this.state.withdrawAmount *
+                                              LP_AMPLIFY_FACTOR
+                                            } LP`
+                                          : `${this.state.withdrawAmount} LP`
+                                      }
+                                      onChange={(e) =>
+                                        this.setState({
+                                          withdrawAmount:
+                                            Number(e.target.value) > 0
+                                              ? e.target.value /
+                                                LP_AMPLIFY_FACTOR
+                                              : e.target.value,
+                                        })
+                                      }
+                                      className="form-control left-radius"
+                                      placeholder="0"
+                                      type="text"
+                                    />
+                                  </div>
+                                  <div className="col-6">
+                                    <input
+                                      disabled={!is_connected}
+                                      value={`${depositedTokensDYP} DYP`}
+                                      onChange={(e) =>
+                                        this.setState({
+                                          withdrawAmount:
+                                            Number(e.target.value) > 0
+                                              ? e.target.value /
+                                                LP_AMPLIFY_FACTOR
+                                              : e.target.value,
+                                        })
+                                      }
+                                      className="form-control left-radius"
+                                      placeholder="0"
+                                      type="text"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="form-row">
+                                  <div className="col-6">
+                                    <select
+                                      disabled={!is_connected}
+                                      value={
+                                        this.state.selectedBuybackTokenWithdraw
+                                      }
+                                      onChange={(e) =>
+                                        this.handleSelectedTokenChangeWithdraw(
+                                          e.target.value
+                                        )
+                                      }
+                                      className="form-control"
+                                    >
+                                      {Object.keys(
+                                        window.buyback_tokens_farming
+                                      ).map((t) => (
+                                        <option key={t} value={t}>
+                                          {" "}
+                                          {
+                                            window.buyback_tokens_farming[t]
+                                              .symbol
+                                          }{" "}
+                                        </option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                  <div className="col-6">
+                                    <select
+                                      disabled={!is_connected}
+                                      defaultValue="DYP"
+                                      className="form-control"
+                                    >
+                                      <option value="DYP"> DYP </option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="form-row">
+                                <div className="col-6">
+                                  <button
+                                    title={
+                                      canWithdraw
+                                        ? ""
+                                        : `You recently staked, you can unstake ${cliffTimeInWords}`
+                                    }
+                                    disabled={!canWithdraw || !is_connected}
+                                    className="btn  btn-primary btn-block l-outline-btn"
+                                    type="submit"
+                                  >
+                                    WITHDRAW
+                                  </button>
+                                </div>
+                                <div className="col-6">
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      this.handleWithdrawDyp();
+                                    }}
+                                    title={
+                                      canWithdraw
+                                        ? ""
+                                        : `You recently staked, you can unstake ${cliffTimeInWords}`
+                                    }
+                                    disabled={!canWithdraw || !is_connected}
+                                    className="btn  btn-primary btn-block l-outline-btn"
+                                    type="submit"
+                                  >
+                                    WITHDRAW
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <div className="l-box">
+                            <form onSubmit={this.handleClaimDivs}>
+                              <div className="form-group">
+                                <label
+                                  htmlFor="deposit-amount"
+                                  className="text-left d-block"
+                                >
+                                  REWARDS
+                                </label>
+                                <div className="form-row mb-3">
+                                  <div className="col-6">
+                                    <input
+                                      disabled={!is_connected}
+                                      value={
+                                        Number(pendingDivsEth) > 0
+                                          ? `${pendingDivsEth} WETH`
+                                          : `${pendingDivsEth} WETH`
+                                      }
+                                      onChange={(e) =>
+                                        this.setState({
+                                          pendingDivsEth:
+                                            Number(e.target.value) > 0
+                                              ? e.target.value
+                                              : e.target.value,
+                                        })
+                                      }
+                                      className="form-control left-radius"
+                                      placeholder="0"
+                                      type="text"
+                                    />
+                                  </div>
+                                  <div className="col-6">
+                                    <input
+                                      disabled={!is_connected}
+                                      value={
+                                        Number(pendingDivs) > 0
+                                          ? `${pendingDivs} DYP`
+                                          : `${pendingDivs} DYP`
+                                      }
+                                      onChange={(e) =>
+                                        this.setState({
+                                          pendingDivs:
+                                            Number(e.target.value) > 0
+                                              ? e.target.value
+                                              : e.target.value,
+                                        })
+                                      }
+                                      className="form-control left-radius"
+                                      placeholder="0"
+                                      type="text"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="form-row">
+                                  <div className="col-6">
+                                    <select
+                                      disabled={!is_connected}
+                                      value={this.state.selectedClaimToken}
+                                      onChange={(e) =>
+                                        this.handleClaimToken(e.target.value)
+                                      }
+                                      className="form-control"
+                                    >
+                                      <option value="0"> WETH </option>
+                                      <option value="1"> USDT </option>
+                                    </select>
+                                  </div>
+                                  <div className="col-6">
+                                    <select
+                                      disabled={!is_connected}
+                                      defaultValue="DYP"
+                                      className="form-control"
+                                    >
+                                      <option value="DYP"> DYP </option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="form-row">
+                                <div className="col-6">
+                                  <button
+                                    title={claimTitle}
+                                    disabled={!is_connected}
+                                    className="btn  btn-primary btn-block l-outline-btn"
+                                    type="submit"
+                                  >
+                                    CLAIM
+                                  </button>
+                                </div>
+                                <div className="col-6">
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      this.handleClaimDyp();
+                                    }}
+                                    title={claimTitle}
+                                    disabled={!is_connected}
+                                    className="btn  btn-primary btn-block l-outline-btn"
+                                    type="submit"
+                                  >
+                                    CLAIM
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <div className="l-box">
+                            <form onSubmit={(e) => e.preventDefault()}>
+                              <div className="form-group">
+                                <label
+                                  htmlFor="deposit-amount"
+                                  className="d-block text-left"
+                                >
+                                  RETURN CALCULATOR
+                                </label>
+                                <div className="row">
+                                  <div className="col">
+                                    <label
+                                      style={{
+                                        fontSize: "1rem",
+                                        fontWeight: "normal",
+                                      }}
+                                    >
+                                      USD to Deposit
+                                    </label>
+                                    <input
+                                      className="form-control "
+                                      value={
+                                        Number(this.state.approxDeposit) > 0
+                                          ? this.state.approxDeposit *
+                                            LP_AMPLIFY_FACTOR
+                                          : this.state.approxDeposit
+                                      }
+                                      onChange={(e) =>
+                                        this.setState({
+                                          approxDeposit:
+                                            Number(e.target.value) > 0
+                                              ? e.target.value /
+                                                LP_AMPLIFY_FACTOR
+                                              : e.target.value,
+                                        })
+                                      }
+                                      placeholder="0"
+                                      type="text"
+                                    />
+                                  </div>
+                                  <div className="col">
+                                    <label
+                                      style={{
+                                        fontSize: "1rem",
+                                        fontWeight: "normal",
+                                      }}
+                                    >
+                                      Days
+                                    </label>
+                                    <input
+                                      className="form-control "
+                                      value={this.state.approxDays}
+                                      onChange={(e) =>
+                                        this.setState({
+                                          approxDays: e.target.value,
+                                        })
+                                      }
+                                      type="text"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <p>
+                                Approx. $
+                                {getFormattedNumber(
+                                  this.getApproxReturnUSD(),
+                                  2
+                                )}{" "}
+                                USD (
+                                {getFormattedNumber(
+                                  this.getApproxReturnUSD() /
+                                    this.getUsdPerETH(),
+                                  6
+                                )}{" "}
+                                WETH)
+                              </p>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-6">
+                      <div className="l-box pl-3 pr-3">
+                        <div className="table-responsive container">
+                          <div className="row" style={{ marginLeft: "0px" }}>
+                            <label
+                              className="col-md-8 d-block text-left"
+                              style={{
+                                fontSize: "1.1rem",
+                                fontWeight: "600",
+                                padding: ".3rem",
+                              }}
+                            >
+                              MY STATS
+                            </label>
+                            <div className="col-4">
+                              <NavLink
+                                rel="noopener noreferrer"
+                                to={"/staking-stats-new"}
+                              >
+                                {is_connected && (
+                                  <button
+                                    className="btn btn-sm btn-block btn-primary l-outline-btn"
+                                    type="button"
+                                  >
+                                    VIEW ALL
+                                  </button>
+                                )}
+                              </NavLink>
+                            </div>
+                          </div>
+                          <table className="table-stats table table-sm table-borderless">
+                            <tbody>
+                              <tr>
+                                <th>Contract Expiration</th>
+                                <td className="text-right">
+                                  <strong>{expiration_time}</strong>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>My DYP Balance</th>
+                                <td className="text-right">
+                                  <strong>{reward_token_balance}</strong>{" "}
+                                  <small>DYP</small>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <th>MY LP Deposit</th>
+                                <td className="text-right">
+                                  <strong>{myDepositedLpTokens}</strong>{" "}
+                                  <small>iDYP/WETH</small>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Total LP Deposited</th>
+                                <td className="text-right">
+                                  <strong>{tvl}</strong>{" "}
+                                  <small>iDYP/WETH</small>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>My DYP Deposit</th>
+                                <td className="text-right">
+                                  <strong>{depositedTokensDYP}</strong>{" "}
+                                  <small>DYP</small>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Total DYP Deposited</th>
+                                <td className="text-right">
+                                  <strong>{tvlConstantDYP}</strong>{" "}
+                                  <small>DYP</small>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>My Share</th>
+                                <td className="text-right">
+                                  <strong>{myShare}</strong> <small>%</small>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Total Earned DYP</th>
+                                <td className="text-right">
+                                  <strong>{totalEarnedTokens}</strong>{" "}
+                                  <small>DYP</small>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>Total Earned WETH</th>
+                                <td className="text-right">
+                                  <strong>{totalEarnedEth}</strong>{" "}
+                                  <small>WETH</small>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>To be Swapped</th>
+                                <td className="text-right">
+                                  <strong>{tokensToBeSwapped}</strong>{" "}
+                                  <small>iDYP</small>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>To be burnt / disbursed</th>
+                                <td className="text-right">
+                                  <strong>{tokensToBeDisbursedOrBurnt}</strong>{" "}
+                                  <small>iDYP</small>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <th>TVL USD</th>
+                                <td className="text-right">
+                                  <strong>${tvl_usd}</strong> <small>USD</small>
+                                </td>
+                              </tr>
+                              {isOwner && (
+                                <tr>
+                                  <th>Total Stakers</th>
+                                  <td className="text-right">
+                                    <strong>{total_stakers}</strong>{" "}
+                                    <small></small>
+                                  </td>
+                                </tr>
+                              )}
+
+                              {is_connected ? (
+                                <tr>
+                                  <td
+                                    style={{
+                                      fontSize: "1rem",
+                                      paddingTop: "2rem",
+                                    }}
+                                    colSpan="2"
+                                    className="text-center"
+                                  >
+                                    {" "}
+                                    <a
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      href={`${window.config.etherscan_baseURL}/address/${staking._address}`}
+                                    >
+                                      View Transaction History on Etherscan
+                                    </a>{" "}
+                                    &nbsp;{" "}
+                                    <i
+                                      style={{ fontSize: ".8rem" }}
+                                      className="fas fa-external-link-alt"
+                                    ></i>
+                                  </td>
+                                </tr>
+                              ) : (
+                                ""
+                              )}
+
+                              {isOwner && (
+                                <tr>
+                                  <td
+                                    style={{ fontSize: "1rem" }}
+                                    colSpan="2"
+                                    className="text-center"
+                                  >
+                                    <a
+                                      onClick={this.handleListDownload}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      href="#"
+                                    >
+                                      <i
+                                        style={{ fontSize: ".8rem" }}
+                                        className="fas fa-download"
+                                      ></i>{" "}
+                                      Download Stakers List{" "}
+                                    </a>
+                                  </td>
+                                </tr>
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>*/
+      }
     }
   }
 

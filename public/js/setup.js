@@ -269,6 +269,8 @@ class CONSTANT_STAKING_NEW {
         };
       }
     );
+
+    
   }
 
   async depositTOKEN(amount, referrer) {
@@ -819,6 +821,8 @@ window.avaxWeb3 = new Web3(window.config.avax_endpoint);
 window.REWARD_TOKEN_ABI = window.TOKEN_ABI;
 
 window.FARMWETH_ABI = window.TOKEN_ABI;
+window.TOKEN_NEW_ABI = window.TOKEN_ABI;
+
 window.farmweth = new TOKEN("FARMWETH");
 
 //DYP-ETH
@@ -11359,9 +11363,6 @@ window.farming_new_4 = new STAKING("FARMING_NEW_4");
 
 window.farming_new_5 = new STAKING("FARMING_NEW_5");
 
-window.constant_staking_new5 = new CONSTANT_STAKING_NEW(
-  "CONSTANT_STAKINGNEW_NEW5"
-);
 window.constant_staking_30 = new CONSTANT_STAKING_OLD("CONSTANT_STAKINGOLD_30");
 
 window.isConnectedOneTime = false;
@@ -11438,9 +11439,8 @@ function getCoinbase() {
 
 async function getContract({ key, address = null, ABI = null }) {
   ABI = ABI || window[key + "_ABI"];
-  // alert(ABI)
   address = address || window.config[key.toLowerCase() + "_address"];
-  // console.log('addr or key', address,)
+  
   if (!window.cached_contracts[key + "-" + address.toLowerCase()]) {
     window.web3 = new Web3(window.ethereum);
     window.cached_contracts[key + "-" + address?.toLowerCase()] =
@@ -11618,6 +11618,41 @@ async function get_apy_and_tvl(usd_values) {
 
   return { token_data, lp_data, usd_per_eth, token_price_usd };
 }
+
+
+
+
+Object.keys(window.config).filter(k => (k.startsWith('token_') ||
+	k.startsWith('staking_') || k.startsWith('constant_staking_')) ||
+	k.startsWith('constant_stakingnew_') ||
+	k.startsWith('buyback_staking1_1_') ||
+	k.startsWith('buyback_staking1_2_') ||
+	k.startsWith('reward_token_idyp')  ||
+	k.startsWith('reward_token_dyps')  ||
+	k.startsWith('farmweth')  ||
+
+
+  k.startsWith('farming_new_')  ||
+	k.startsWith ('constant_stakingdai_') ||
+	k.startsWith('constant_stakingold_') &&
+	k.endsWith('_address'))
+	.forEach(k => {
+		window[k.replace('_address', '_ABI').toUpperCase()] = (
+			k.startsWith('token_')) ? window.TOKEN_ABI :
+      ( k.startsWith('reward_token_idyp')) ? window.TOKEN_ABI :
+      ( k.startsWith('reward_token_dyps')) ? window.TOKEN_ABI :
+      ( k.startsWith('farmweth')) ? window.TOKEN_ABI :
+
+			(k.startsWith('constant_staking_')) ? window.CONSTANT_STAKING_ABI :
+				(k.startsWith('constant_stakingnew_')) ? window.CONSTANT_STAKINGNEW_ABI :
+					(k.startsWith('buyback_staking1_1_')) ? window.BUYBACK_STAKING1_1_ABI :
+						(k.startsWith('buyback_staking1_2_')) ? window.BUYBACK_STAKING1_2_ABI :
+							(k.startsWith('farming_new_')) ? window.FARMING_NEW_ABI :
+								(k.startsWith ('constant_stakingdai_')) ? window.CONSTANT_STAKING_DAI_ABI :
+									(k.startsWith('constant_stakingold_')) ? window.CONSTANT_STAKING_OLD_ABI : window.STAKING_ABI
+	})
+
+
 
 function getPrice(coingecko_id = "ethereum", vs_currency = "usd") {
   return new Promise((resolve, reject) => {

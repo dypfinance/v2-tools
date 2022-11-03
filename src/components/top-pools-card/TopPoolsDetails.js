@@ -3,7 +3,7 @@ import ellipse from "./assets/ellipse.svg";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
 
-const TopPoolsDetails = () => {
+const TopPoolsDetails = ({performanceFee, rewardsToken, contractExp, tvl }) => {
   const [depositValue, setDepositValue] = useState(1000);
   return (
     <div className="pools-details-wrapper d-flex m-0 container-lg">

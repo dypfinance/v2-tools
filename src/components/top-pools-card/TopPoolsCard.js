@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import "./top-pools.css";
-import DypLogo from "./assets/dyplogo.svg";
 import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
 import TopPoolsDetails from "./TopPoolsDetails";
-import usdc from "./assets/usdc.svg";
-import usdt from "./assets/usdt.svg";
-import dai from "./assets/dai.svg";
-import wbtc from "./assets/wbtc.svg";
-import ethereum from "./assets/ethereum.svg";
+
 // import TopPoolsDetails from "./TopPoolsDetails";
 
 const TopPoolsCard = ({

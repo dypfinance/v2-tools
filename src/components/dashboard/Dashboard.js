@@ -11,8 +11,10 @@ import LaunchpadCard from "../launchpad-card/LaunchpadCard";
 import ChainlinkCard from "../chainlink-card/ChainlinkCard";
 import TrendingNews from "../newsCard/TrendingNews";
 import rightarrow from "./assets/right-arrow.svg";
+import TopPoolsDetails from "../top-pools-card/TopPoolsDetails";
+import initStakingNew from "../FARMINNG/staking-new-front";
 
-const Dashboard = () => {
+const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id }) => {
   const cards = [
     {
       top_pick: true,
@@ -30,13 +32,33 @@ const Dashboard = () => {
     },
   ];
 
+  const [activeCard, setActiveCard] = useState();
+
+  const eth_address = "ETH";
+  const { rebase_factors } = window;
+
+  const StakingNew1 = initStakingNew({
+    token: window.token_new,
+    staking: window.farming_new_1,
+    constant: window.constant_staking_new5,
+    liquidity: eth_address,
+    lp_symbol: "USD",
+    reward: "30,000",
+    lock: "3 Days",
+    rebase_factor: rebase_factors[0],
+    expiration_time: "14 December 2022",
+    fee: 0.3,
+  });
   return (
     <div className="container-lg dashboardwrapper">
       <div className="d-flex m-0 justify-content-between gap-3">
         <div className="d-flex flex-column gap-3 justify-content-between">
           <div className="d-flex m-0 gap-3 justify-content-between">
             <Calculator />
-            <div className="d-flex flex-column gap-3 justify-content-between" style={{ width: "49%" }}>
+            <div
+              className="d-flex flex-column gap-3 justify-content-between"
+              style={{ width: "49%" }}
+            >
               <ExplorerCard />
               <div className="d-flex justify-content-between gap-3">
                 <GovCard />
@@ -51,21 +73,28 @@ const Dashboard = () => {
                 View all <img src={rightarrow} alt="" />{" "}
               </h6>
             </div>
-            <div className="row m-0 gap-2">
-              {cards.length > 0 &&
-                cards.map((item, index) => {
-                  return (
-                    <TopPoolsCard
-                      cardId={item.tokenName}
-                      key={index}
-                      top_pick={item.top_pick}
-                      tokenName={item.tokenName}
-                      apr={item.apr}
-                      tvl={item.tvl}
-                      lockTime={item.lockTime}
-                    />
-                  );
-                })}
+            <div>
+              <div className="row m-0 gap-2">
+                {cards.length > 0 &&
+                  cards.map((item, index) => {
+                    return (
+                      <TopPoolsCard
+                        cardId={item.tokenName}
+                        key={index}
+                        top_pick={item.top_pick}
+                        tokenName={item.tokenName}
+                        apr={item.apr}
+                        tvl={item.tvl}
+                        lockTime={item.lockTime}
+                        onClick={() => {
+                          setActiveCard(cards[index]);
+                        }}
+                      />
+                    );
+                  })}
+              </div>
+              {/* {activeCard && <TopPoolsDetails />} */}
+              {/* {showDetails && <TopPoolsDetails />} */}
             </div>
           </div>
           <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-4 pt-4">
@@ -75,12 +104,22 @@ const Dashboard = () => {
             </h6>
           </div>
           <div className="d-flex gap-3 justify-content-between">
-
-      
-           <TrendingNews image={'news1.png'} title={'We are excited to announce our partnership with @ANKR 👉🏽 one of the world leaders in Web3 infrastructure. '} date={'Sept 10, 2022'} />
-            <NewsCard image={'news2.png'} title={'Check out the new and improved #DYP TOOLS!'}/>
-            <NewsCard image={'news3.png'} title={'Check out the new and improved #DYP TOOLS!'}/>
-    </div>
+            <TrendingNews
+              image={"news1.png"}
+              title={
+                "We are excited to announce our partnership with @ANKR 👉🏽 one of the world leaders in Web3 infrastructure. "
+              }
+              date={"Sept 10, 2022"}
+            />
+            <NewsCard
+              image={"news2.png"}
+              title={"Check out the new and improved #DYP TOOLS!"}
+            />
+            <NewsCard
+              image={"news3.png"}
+              title={"Check out the new and improved #DYP TOOLS!"}
+            />
+          </div>
         </div>
         <div className="d-flex flex-column gap-3">
           <ChainlinkCard />
@@ -96,6 +135,12 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      {/* <StakingNew1
+        is_wallet_connected={isConnected}
+        coinbase={coinbase}
+        the_graph_result={the_graph_result}
+        lp_id={lp_id[0]}
+      /> */}
     </div>
   );
 };

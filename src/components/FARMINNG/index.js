@@ -280,7 +280,7 @@ class Test extends React.Component {
                             this.handleConnectionWalletConnect
                         }
                         the_graph_result={this.state.the_graph_result}
-                        {...props}
+                        // {...props}
                     />
 
 
@@ -293,7 +293,7 @@ class Test extends React.Component {
                         }
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_IDs_V2.weth[4]}
-                        {...props}
+                        // {...props}
                     />
 
 
@@ -337,7 +337,7 @@ class Test extends React.Component {
                         }
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_IDs_V2.weth[0]}
-                        {...props}
+                        // {...props}
                     />
 
 
@@ -349,7 +349,7 @@ class Test extends React.Component {
                         }
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_IDs_V2.weth[1]}
-                        {...props}
+                        // {...props}
                     />
 
 
@@ -361,7 +361,7 @@ class Test extends React.Component {
                         }
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_IDs_V2.weth[2]}
-                        {...props}
+                        // {...props}
                     />
 
 
@@ -373,7 +373,7 @@ class Test extends React.Component {
                         }
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_IDs_V2.weth[3]}
-                        {...props}
+                        // {...props}
                     />
 
 
@@ -385,7 +385,7 @@ class Test extends React.Component {
                         }
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_IDs_V2.weth[4]}
-                        {...props}
+                        // {...props}
                     />
 
 
@@ -397,7 +397,7 @@ class Test extends React.Component {
                             this.handleConnectionWalletConnect
                         }
                         the_graph_result={this.state.the_graph_result_ETH_V2}
-                        {...props}
+                        // {...props}
                     />
 
                 </div>

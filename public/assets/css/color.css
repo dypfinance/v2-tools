@@ -31,7 +31,7 @@ body.theme-dark .header-left a,
 body.theme-dark .header-left span,
 body.theme-dark .news-title, 
 body.theme-dark .CircularProgressbar .CircularProgressbar-text {
-  /* color: var(--white) !important; */
+  color: var(--white) !important;
   fill: var(--white) !important;
 
 }
