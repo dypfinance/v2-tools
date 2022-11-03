@@ -631,11 +631,12 @@ const Sidebar = (props) => {
       } d-flex flex-column justify-content-start align-items-start py-5`}
     >
       <div className="d-flex w-100 justify-content-center align-items-center pb-5">
+        <NavLink to='/'>
         <img
           src={activeSidebar ? toolsLogoActive : toolsLogo}
           alt=""
           style={{ height: "40px" }}
-        />
+        /></NavLink>
       </div>
       <div
         className={`sidebar-container w-100 justify-content-center ${

@@ -4,7 +4,6 @@ import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
 import TopPoolsDetails from "./TopPoolsDetails";
 
-
 const TopPoolsCard = ({
   tokenLogo,
   cardId,
@@ -12,7 +11,9 @@ const TopPoolsCard = ({
   apr,
   lockTime,
   tvl,
-  // onDetailsClick,
+  onShowDetailsClick,
+  onHideDetailsClick,
+
   top_pick,
   cardType,
   // showDetails,
@@ -20,6 +21,18 @@ const TopPoolsCard = ({
   const [showDetails, setShowDetails] = useState(false);
 
   const coins = ["ethereum", "wbtc", "usdc", "usdt", "dai"];
+
+  const handleDetails = () => {
+    if(showDetails === false) {
+      setShowDetails(true);
+      onShowDetailsClick()
+    }
+
+    else if(showDetails === true) {
+      setShowDetails(false);
+      onHideDetailsClick()
+    }
+  }
 
   return (
     <>
@@ -76,7 +89,8 @@ const TopPoolsCard = ({
           <div
             className="details-wrapper"
             onClick={() => {
-              setShowDetails(!showDetails);
+              handleDetails()
+              
             }}
           >
             <h6
@@ -89,7 +103,7 @@ const TopPoolsCard = ({
           </div>
         </div>
       </div>
-      {showDetails && <TopPoolsDetails />}
+      
     </>
   );
 };

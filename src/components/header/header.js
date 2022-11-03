@@ -217,15 +217,15 @@ const Header = ({
               >
                 <Dropdown.Item onClick={() => handleEthPool()}>
                   <img src={eth} alt="" />
-                  ETH
+                  Ethereum
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => handleBnbPool()}>
                   <img src={bnb} alt="" />
-                  BNB
+                  BNB Chain
                 </Dropdown.Item>
                 <Dropdown.Item onClick={() => handleAvaxPool()}>
                   <img src={avax} alt="" />
-                  AVAX
+                  Avalanche
                 </Dropdown.Item>
               </DropdownButton>
 

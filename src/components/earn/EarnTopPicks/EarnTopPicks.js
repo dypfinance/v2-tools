@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import TopPoolsCard from "../../top-pools-card/TopPoolsCard";
 import TopPoolsListCard from "../../top-pools-card/TopPoolsListCard";
 import noPoolsIcon from '../../../assets/earnAssets/noPoolsIcon.svg'
+
 import axios from "axios";
 import getFormattedNumber from "../../../functions/getFormattedNumber2";
 
-const EarnTopPicks = ({topList, listType, chain}) => {
+import initStakingNew from "../../FARMINNG/staking-new-front";
+
+const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isConnected}) => {
+
+
   const stake = [
     {
       icon: 'dyplogo.svg',
@@ -57,6 +62,44 @@ const EarnTopPicks = ({topList, listType, chain}) => {
     },
   ];
  
+  const farming = [
+    {
+      top_pick: false,
+      tokenName: "DYP",
+      apr: '1.08%',
+      tvl: '$48,543.20',
+      lockTime: 'No lock',
+    },
+    {
+      top_pick: false,
+      tokenName: "AVAX",
+      apr: '1.08%',
+      tvl: '$48,543.20',
+      lockTime: 'No lock',
+    },
+    {
+      top_pick: false,
+      tokenName: "BSC",
+      apr: '1.08%',
+      tvl: '$48,543.20',
+      lockTime: 'No lock',
+    },
+    {
+      top_pick: false,
+      tokenName: "BSC",
+      apr: '1.08%',
+      tvl: '$48,543.20',
+      lockTime: 'No lock',
+    },
+    {
+      top_pick: false,
+      tokenName: "BSC",
+      apr: '1.08%',
+      tvl: '$48,543.20',
+      lockTime: 'No lock',
+    },
+  ];
+
 
   const vault = [
     {
@@ -150,6 +193,45 @@ const EarnTopPicks = ({topList, listType, chain}) => {
   }
 
 
+
+  const [activeCard, setActiveCard] = useState();
+  const [cardIndex, setcardIndex] = useState();
+
+  const eth_address = "ETH";
+  const { rebase_factors } = window;
+
+  const stakeArray = [
+    window.farming_new_1,
+    window.farming_new_2,
+    window.farming_new_3,
+    window.farming_new_4,
+    window.farming_new_5,
+  ];
+  const constantArray = [
+    window.constant_staking_new5,
+    window.constant_staking_new6,
+    window.constant_staking_new7,
+    window.constant_staking_new8,
+    window.constant_staking_new9,
+  ];
+  const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
+
+  const StakingNew1 = initStakingNew({
+    token: window.token_new,
+    // staking: window.farming_new_1,
+    staking: stakeArray[cardIndex],
+
+    constant: constantArray[cardIndex],
+    liquidity: eth_address,
+    lp_symbol: "USD",
+    reward: "30,000",
+    lock: "3 Days",
+    rebase_factor: rebase_factors[0],
+    expiration_time: "14 December 2022",
+    fee: feeArray[cardIndex],
+  });
+
+
   useEffect(() => {
     if(topList === 'Staking'){
       setTopPools(stake)
@@ -180,6 +262,7 @@ const EarnTopPicks = ({topList, listType, chain}) => {
     topPools.length > 0 ?
     <div className={`row ${listing === 'list' ? 'w-100' : null} justify-content-center gap-4`}>
     {listing === 'table' ? 
+    <div>
     <div className="top-picks-container">
     {topPools.map((pool, index) => (
        <TopPoolsCard
@@ -190,13 +273,27 @@ const EarnTopPicks = ({topList, listType, chain}) => {
        tvl={'$' + getFormattedNumber(pool.tvl_usd)}
        lockTime={pool.lockTime ? pool.lockTime : 'No Lock'}
        tokenLogo={pool.icon}
-       onDetailsClick={() => {
-         setShowDetails(!showDetails);
-       }}
+       onShowDetailsClick={() => {
+        setActiveCard(topPools[index]);
+        setcardIndex(index);
+      }}
+      onHideDetailsClick={() => {
+        setActiveCard(null);
+      }}
        cardType={topList}
-       showDetails={showDetails}
      />
      ))}
+    </div>
+
+    {activeCard && topList === 'Farming' && (
+                <StakingNew1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                />
+              )}
+
     </div>
    :
    <div className="list-pools-container px-0">
