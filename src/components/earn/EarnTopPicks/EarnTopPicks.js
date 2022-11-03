@@ -2,32 +2,38 @@ import React, { useEffect, useState } from "react";
 import TopPoolsCard from "../../top-pools-card/TopPoolsCard";
 import TopPoolsListCard from "../../top-pools-card/TopPoolsListCard";
 import noPoolsIcon from '../../../assets/earnAssets/noPoolsIcon.svg'
+
+import axios from "axios";
+import getFormattedNumber from "../../../functions/getFormattedNumber2";
+
 import initStakingNew from "../../FARMINNG/staking-new-front";
 
 const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isConnected}) => {
+
+
   const stake = [
     {
       icon: 'dyplogo.svg',
       top_pick: true,
       tokenName: "DYP",
-      apr: '1.08%',
-      tvl: '$48,543.20',
+      apy: '1.08',
+      tvl_usd: '48543.20',
       lockTime: 'No lock',
     },
     {
       icon: 'dyplogo.svg',
       top_pick: false,
       tokenName: "AVAX",
-      apr: '1.08%',
-      tvl: '$48,543.20',
+      apy: '1.08',
+      tvl_usd: '48543.20',
       lockTime: 'No lock',
     },
     {
       icon: 'dyplogo.svg',
       top_pick: true,
       tokenName: "BSC",
-      apr: '1.08%',
-      tvl: '$48,543.20',
+      apy: '1.08',
+      tvl_usd: '48543.20',
       lockTime: 'No lock',
     },
 
@@ -36,22 +42,22 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
     {
       top_pick: true,
       tokenName: "DYP",
-      apr: '1.08%',
-      tvl: '$48,543.20',
+      apy: '1.08',
+      tvl_usd: '48543.20',
       lockTime: 'No lock',
     },
     {
       top_pick: false,
       tokenName: "AVAX",
-      apr: '1.08%',
-      tvl: '$48,543.20',
+      apy: '1.08',
+      tvl_usd: '48543.20',
       lockTime: 'No lock',
     },
     {
       top_pick: false,
       tokenName: "BSC",
-      apr: '1.08%',
-      tvl: '$48,543.20',
+      apy: '1.08',
+      tvl_usd: '48543.20',
       lockTime: 'No lock',
     },
   ];
@@ -94,12 +100,13 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
     },
   ];
 
+
   const vault = [
     {
       icon: "ethereum.svg",
       tokenName: "ETH",
-      apr: "3% - 13%",
-      tvl: ``,
+      apy: "3 - 13",
+      tvl_usd: ``,
       lockTime: "No lock",
       top_pick: true,
       new_badge: false,
@@ -108,16 +115,16 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
     {
       icon: "wbtc.svg",
       tokenName: "WBTC",
-      apr: "3% - 13%",
-      tvl: ``,
+      apy: "3 - 13",
+      tvl_usd: ``,
       lockTime: "No lock",
       link: "https://vault.dyp.finance/vault-wbtc",
     },
     {
       icon: "usdc.svg",
       tokenName: "USDC",
-      apr: "8% - 22%",
-      tvl: ``,
+      apy: "8 - 22",
+      tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
       top_pick: false,
@@ -126,8 +133,8 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
     {
       icon: "usdt.svg",
       tokenName: "USDT",
-      apr: "9% - 23%",
-      tvl: ``,
+      apy: "9 - 23",
+      tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
       top_pick: false,
@@ -136,8 +143,8 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
     {
       icon: "dai.svg",
       tokenName: "DAI",
-      apr: "8% - 21%",
-      tvl: ``,
+      apy: "8 - 21",
+      tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
       top_pick: false,
@@ -146,10 +153,45 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
   ];
 
 
-  
+  const [farming, setFarming] = useState([])
   const [showDetails, setShowDetails] = useState(false);
   const [topPools, setTopPools] = useState(stake);
-  const [listing, setListing] = useState(listType)
+  const [listing, setListing] = useState(listType);
+
+  const fetchEthFarming = async() => {
+   
+    await axios.get('https://api.dyp.finance/api/the_graph_eth_v2').then((res) => {
+     let temparray = Object.entries(res.data.the_graph_eth_v2.lp_data)
+     let slicedArray = []
+     temparray.map((item) => {
+      slicedArray.push(item[1])
+     })
+     setFarming(slicedArray)
+     
+     
+    }).catch(err => console.error(err))
+  }
+  const fetchBscFarming = async() => {
+    await axios.get('https://api.dyp.finance/api/the_graph_bsc_v2').then((res) => {
+      let temparray = Object.entries(res.data.the_graph_bsc_v2.lp_data)
+      let slicedArray = []
+      temparray.map((item) => {
+       slicedArray.push(item[1])
+      })
+      setFarming(slicedArray)
+    }).catch(err => console.error(err))
+  }
+  const fetchAvaxFarming = async() => {
+    await axios.get('https://api.dyp.finance/api/the_graph_avax_v2').then((res) => {
+      let temparray = Object.entries(res.data.the_graph_avax_v2.lp_data)
+      let slicedArray = []
+      temparray.map((item) => {
+       slicedArray.push(item[1])
+      })
+      setFarming(slicedArray)
+    }).catch(err => console.error(err))
+  }
+
 
 
   const [activeCard, setActiveCard] = useState();
@@ -203,8 +245,16 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
       setTopPools(farming)
     }
 
+    if(chain === 'eth'){
+    fetchEthFarming()
+    }else if(chain === 'bnb'){
+      fetchBscFarming()
+    }else if(chain === 'avax'){
+      fetchAvaxFarming();
+    }
+
     setListing(listType)
-  }, [topList, listType])
+  }, [topList, listType, chain])
   
 
   return (
@@ -219,9 +269,9 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
        key={index}
        top_pick={pool.top_pick}
        tokenName={pool.tokenName}
-       apr={pool.apr}
-       tvl={pool.tvl}
-       lockTime={pool.lockTime}
+       apr={pool.apy + '%'}
+       tvl={'$' + getFormattedNumber(pool.tvl_usd)}
+       lockTime={pool.lockTime ? pool.lockTime : 'No Lock'}
        tokenLogo={pool.icon}
        onShowDetailsClick={() => {
         setActiveCard(topPools[index]);
@@ -252,9 +302,10 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
      key={index}
      top_pick={pool.top_pick}
      tokenName={pool.tokenName}
-     apr={pool.apr}
-     tvl={pool.tvl}
-     lockTime={pool.lockTime}
+     apr={pool.apy + '%'}
+
+     tvl={'$' + getFormattedNumber(pool.tvl_usd)}
+     lockTime={pool.lockTime ? pool.lockTime : 'No Lock'}
      cardType={topList}
      tokenLogo={pool.icon}
      onDetailsClick={() => {

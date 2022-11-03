@@ -95,7 +95,7 @@ const Sidebar = (props) => {
       children: [
         {
           title: 'Pool',
-          link: '/pool'
+          link: '/pool-explorer'
         },
         {
           title: 'Big Swap',
@@ -702,7 +702,7 @@ const Sidebar = (props) => {
                 {activeSidebar ? (
                   <div className="accordion-container d-flex flex-column ms-5 py-3">
                     {sideItem.children.map((child, index) => (
-                     <NavLink key={index} to={child.link}  className={({isActive}) => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
+                     <NavLink key={index} to={child.link}  className={isActive => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
                       {child.title}
                      </NavLink>
                     ))}

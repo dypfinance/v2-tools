@@ -22,7 +22,11 @@ import getSyncStats from "./functions/get-indexing-status";
 import getFormattedNumber from "./functions/get-formatted-number";
 import Earn from "./components/earn/Earn";
 import Dashboard from "./components/dashboard/Dashboard";
+
+import Governance from "./components/governance/Governance";
+
 import initStakingNew from "./components/FARMINNG/staking-new-front";
+
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -366,6 +370,13 @@ class App extends React.Component {
                     lp_id={LP_ID_Array}
                     isConnected={this.state.isConnected}
                   />
+                )}
+              />
+                <Route
+                exact
+                path="/governance"
+                render={() => (
+                  <Governance/>
                 )}
               />
 

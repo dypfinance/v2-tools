@@ -4,8 +4,6 @@ import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
 import TopPoolsDetails from "./TopPoolsDetails";
 
-// import TopPoolsDetails from "./TopPoolsDetails";
-
 const TopPoolsCard = ({
   tokenLogo,
   cardId,
@@ -105,7 +103,7 @@ const TopPoolsCard = ({
           </div>
         </div>
       </div>
-      {/* {showDetails && <TopPoolsDetails />} */}
+      
     </>
   );
 };

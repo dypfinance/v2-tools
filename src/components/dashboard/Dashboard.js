@@ -22,7 +22,8 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) 
       apr: "1.09%",
       tvl: "$48,382.30",
       lockTime: "No lock",
-      icon: "dyplogo.svg",
+      
+      tokenLogo: 'dyplogo.svg',
     },
     {
       top_pick: false,
@@ -30,7 +31,7 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) 
       apr: "1.09%",
       tvl: "$48,382.30",
       lockTime: "No lock",
-      icon: "dyplogo.svg",
+      tokenLogo: 'dyplogo.svg',
     },
   ];
 
@@ -108,7 +109,7 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) 
                         apr={item.apr}
                         tvl={item.tvl}
                         lockTime={item.lockTime}
-                        tokenLogo={item.icon}
+                        tokenLogo={item.tokenLogo}
                         onShowDetailsClick={() => {
                           setActiveCard(cards[index]);
                           setcardIndex(index);
@@ -130,6 +131,7 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) 
                 />
               )}
               {/* {showDetails && <TopPoolsDetails />} */}
+
             </div>
           </div>
           <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-4 pt-4">
