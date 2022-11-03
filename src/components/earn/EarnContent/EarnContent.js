@@ -115,7 +115,7 @@ const EarnContent = () => {
         </div>
         </div>
     </div> 
-    <EarnTopPicks topList={option} listType={listStyle} />
+    <EarnTopPicks topList={option} listType={listStyle} chain={stake} />
     </>
   )
 }

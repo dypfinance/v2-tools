@@ -20,6 +20,7 @@ const Dashboard = () => {
       apr: "1.09%",
       tvl: "$48,382.30",
       lockTime: "No lock",
+      tokenLogo: 'dyplogo.svg',
     },
     {
       top_pick: false,
@@ -27,6 +28,8 @@ const Dashboard = () => {
       apr: "1.09%",
       tvl: "$48,382.30",
       lockTime: "No lock",
+      tokenLogo: 'dyplogo.svg',
+
     },
   ];
 
@@ -63,6 +66,7 @@ const Dashboard = () => {
                       apr={item.apr}
                       tvl={item.tvl}
                       lockTime={item.lockTime}
+                      tokenLogo={item.tokenLogo}
                     />
                   );
                 })}
