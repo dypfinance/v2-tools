@@ -12,7 +12,7 @@ import tableIconActive from "../../../assets/earnAssets/tableIconActive.svg";
 import listIconActive from "../../../assets/earnAssets/listIconActive.svg";
 import EarnTopPicks from "../EarnTopPicks/EarnTopPicks";
 
-const EarnContent = ({coinbase, the_graph_result, lp_id, isConnected}) => {
+const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId }) => {
   const options = [
     {
       title: "Staking",
@@ -215,10 +215,17 @@ const EarnContent = ({coinbase, the_graph_result, lp_id, isConnected}) => {
             <h5 className="text-white">My Stakes</h5>
           </div>
         </div>
-
       </div>
-      <EarnTopPicks topList={option} listType={listStyle} chain={stake}  coinbase = {coinbase} the_graph_result = {the_graph_result} lp_id = {lp_id} isConnected = {isConnected}/>
-
+      <EarnTopPicks
+        topList={option}
+        listType={listStyle}
+        chain={stake}
+        coinbase={coinbase}
+        the_graph_result={the_graph_result}
+        lp_id={lp_id}
+        isConnected={isConnected}
+        chainId= {chainId}
+      />
     </>
   );
 };

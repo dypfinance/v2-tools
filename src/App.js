@@ -369,6 +369,8 @@ class App extends React.Component {
                     the_graph_result={this.state.the_graph_result_ETH_V2}
                     lp_id={LP_ID_Array}
                     isConnected={this.state.isConnected}
+          network={this.state.networkId}
+
                   />
                 )}
               />
