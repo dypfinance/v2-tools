@@ -8,7 +8,7 @@ import getFormattedNumber from "../../../functions/getFormattedNumber2";
 
 import initStakingNew from "../../FARMINNG/staking-new-front";
 
-const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isConnected}) => {
+const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isConnected, chain, chainId}) => {
 
 
   const stake = [
@@ -153,7 +153,7 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
   ];
 
 
-  const [farming, setFarming] = useState([])
+  const [farmingItem, setFarming] = useState([])
   const [showDetails, setShowDetails] = useState(false);
   const [topPools, setTopPools] = useState(stake);
   const [listing, setListing] = useState(listType);
@@ -220,7 +220,7 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
     token: window.token_new,
     // staking: window.farming_new_1,
     staking: stakeArray[cardIndex],
-
+    chainId: chainId,
     constant: constantArray[cardIndex],
     liquidity: eth_address,
     lp_symbol: "USD",
@@ -291,6 +291,7 @@ const EarnTopPicks = ({topList, listType, coinbase, the_graph_result, lp_id, isC
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
                   lp_id={lp_id[cardIndex]}
+                  chainId ={chainId}
                 />
               )}
 
