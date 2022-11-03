@@ -19,6 +19,7 @@ export default function initStakingNew({
   rebase_factor,
   expiration_time,
   fee,
+  chainId
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -941,9 +942,9 @@ export default function initStakingNew({
       let tooltip2 = infoItems2.join("\n");
 
       return (
-        <div className="container">
+        <div className="container-lg">
           <div className="allwrapper">
-          <div className="leftside w-100">
+          <div className="leftside2 w-100">
             <div className="activewrapper">
               <h6 className="activetxt">
                 <img
@@ -966,10 +967,20 @@ export default function initStakingNew({
                   <img src={arrowup} alt="" />
                   Video tutorial
                 </h6>
-                <h6 className="bottomitems">
+                
+                <a
+                
+              href={
+                chainId === 1
+                  ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                  : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+              }
+              target={'_blank'} rel="noreferrer"
+            >
+              <h6 className="bottomitems">
                   <img src={arrowup} alt="" />
                   Get DYP
-                </h6>
+                </h6></a>
                 <div
                 onClick={() => {
                   this.showPopup();

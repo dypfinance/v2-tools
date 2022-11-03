@@ -288,73 +288,17 @@ class App extends React.Component {
   };
 
   render() {
-    const eth_address = "ETH";
+    
 
-    const { rebase_factors, LP_IDs_V2 } = window;
+    const { LP_IDs_V2 } = window;
 
-    const StakingNew1 = initStakingNew({
-      token: window.token_new,
-      staking: window.farming_new_1,
-      constant: window.constant_staking_new5,
-      liquidity: eth_address,
-      lp_symbol: "USD",
-      reward: "30,000",
-      lock: "3 Days",
-      rebase_factor: rebase_factors[0],
-      expiration_time: "14 December 2022",
-      fee: 0.3,
-    });
-
-    const StakingNew2 = initStakingNew({
-      token: window.token_new,
-      staking: window.farming_new_2,
-      constant: window.constant_staking_new6,
-      liquidity: eth_address,
-      lp_symbol: "USD",
-      reward: "30,000",
-      lock: "3 Days",
-      rebase_factor: rebase_factors[0],
-      expiration_time: "14 December 2022",
-      fee: 0.3,
-    });
-    const StakingNew3 = initStakingNew({
-      token: window.token_new,
-      staking: window.farming_new_3,
-      constant: window.constant_staking_new7,
-      liquidity: eth_address,
-      lp_symbol: "USD",
-      reward: "30,000",
-      lock: "3 Days",
-      rebase_factor: rebase_factors[0],
-      expiration_time: "14 December 2022",
-      fee: 0.4,
-    });
-    const StakingNew4 = initStakingNew({
-      token: window.token_new,
-      staking: window.farming_new_4,
-      constant: window.constant_staking_new8,
-      liquidity: eth_address,
-      lp_symbol: "USD",
-      reward: "30,000",
-      lock: "3 Days",
-      rebase_factor: rebase_factors[0],
-      expiration_time: "14 December 2022",
-      fee: 0.8,
-    });
-    const StakingNew5 = initStakingNew({
-      token: window.token_new,
-      staking: window.farming_new_5,
-      constant: window.constant_staking_new9,
-      liquidity: eth_address,
-      lp_symbol: "USD",
-      reward: "30,000",
-      lock: "3 Days",
-      rebase_factor: rebase_factors[0],
-      expiration_time: "14 December 2022",
-      fee: 1.2,
-    });
-
-    const LP_ID_Array = [LP_IDs_V2.weth[0], LP_IDs_V2.weth[1], LP_IDs_V2.weth[2], LP_IDs_V2.weth[3], LP_IDs_V2.weth[4]]
+    const LP_ID_Array = [
+      LP_IDs_V2.weth[0],
+      LP_IDs_V2.weth[1],
+      LP_IDs_V2.weth[2],
+      LP_IDs_V2.weth[3],
+      LP_IDs_V2.weth[4],
+    ];
 
     document.addEventListener("touchstart", { passive: true });
     return (
@@ -412,7 +356,18 @@ class App extends React.Component {
                   />
                 )}
               />
-              <Route exact path="/earn" render={() => <Earn />} />
+              <Route
+                exact
+                path="/earn"
+                render={() => (
+                  <Earn
+                    coinbase={this.state.coinbase}
+                    the_graph_result={this.state.the_graph_result_ETH_V2}
+                    lp_id={LP_ID_Array}
+                    isConnected={this.state.isConnected}
+                  />
+                )}
+              />
 
               {/* <Route
                 exact
@@ -438,8 +393,8 @@ class App extends React.Component {
                     the_graph_result={this.state.the_graph_result_ETH_V2}
                     lp_id={LP_ID_Array}
                     isConnected={this.state.isConnected}
-                    rebase_factors = {this.rebase_factors}
-                    eth_address = {this.eth_address}
+          network={this.state.networkId}
+
                   />
                 )}
               />

@@ -5,7 +5,7 @@ import EarnFaq from "./EarnFaq/EarnFaq";
 import EarnHero from "./EarnHero/EarnHero";
 import calculatorIcon from '../../assets/earnAssets/calculator.svg'
 import Calculator from "../calculator/Calculator";
-const Earn = () => {
+const Earn = ({coinbase, the_graph_result, lp_id, isConnected}) => {
 
   const [showCalculator, setShowCalculator] = useState(false)
 
@@ -25,7 +25,7 @@ const Earn = () => {
   return (
     <div className="container-lg earn-wrapper d-flex flex-column justify-content-center align-items-center py-3 position-relative">
       <EarnHero />
-      <EarnContent />
+      <EarnContent coinbase = {coinbase} the_graph_result = {the_graph_result} lp_id = {lp_id} isConnected = {isConnected} />
       <EarnFaq />
       <div className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white" onClick={() => setShowCalculator(true)}>
         <img src={calculatorIcon} alt="" style={{width: 30, height: 30}} /> Calculator

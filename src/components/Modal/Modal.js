@@ -22,7 +22,6 @@ const Modal = ({   visible, modalId, setIsVisible, children }) => {
       aria-labelledby={"modalLabel" + modalId}
       aria-hidden="true"
       style={style}
-      onClick={closeModal}
     >
       <div className="modal-dialog tymodal">
         <div className="modal-content">

@@ -14,7 +14,7 @@ import rightarrow from "./assets/right-arrow.svg";
 import TopPoolsDetails from "../top-pools-card/TopPoolsDetails";
 import initStakingNew from "../FARMINNG/staking-new-front";
 
-const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id }) => {
+const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) => {
   const cards = [
     {
       top_pick: true,
@@ -22,6 +22,7 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id }) => {
       apr: "1.09%",
       tvl: "$48,382.30",
       lockTime: "No lock",
+      icon: "dyplogo.svg",
     },
     {
       top_pick: false,
@@ -29,26 +30,47 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id }) => {
       apr: "1.09%",
       tvl: "$48,382.30",
       lockTime: "No lock",
+      icon: "dyplogo.svg",
     },
   ];
 
   const [activeCard, setActiveCard] = useState();
+  const [cardIndex, setcardIndex] = useState();
 
   const eth_address = "ETH";
   const { rebase_factors } = window;
 
+  const stakeArray = [
+    window.farming_new_1,
+    window.farming_new_2,
+    window.farming_new_3,
+    window.farming_new_4,
+    window.farming_new_5,
+  ];
+  const constantArray = [
+    window.constant_staking_new5,
+    window.constant_staking_new6,
+    window.constant_staking_new7,
+    window.constant_staking_new8,
+    window.constant_staking_new9,
+  ];
+  const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
+
   const StakingNew1 = initStakingNew({
     token: window.token_new,
-    staking: window.farming_new_1,
-    constant: window.constant_staking_new5,
+    // staking: window.farming_new_1,
+    staking: stakeArray[cardIndex],
+    chainId: network,
+    constant: constantArray[cardIndex],
     liquidity: eth_address,
     lp_symbol: "USD",
     reward: "30,000",
     lock: "3 Days",
     rebase_factor: rebase_factors[0],
     expiration_time: "14 December 2022",
-    fee: 0.3,
+    fee: feeArray[cardIndex],
   });
+  
   return (
     <div className="container-lg dashboardwrapper">
       <div className="d-flex m-0 justify-content-between gap-3">
@@ -86,14 +108,27 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id }) => {
                         apr={item.apr}
                         tvl={item.tvl}
                         lockTime={item.lockTime}
-                        onClick={() => {
+                        tokenLogo={item.icon}
+                        onShowDetailsClick={() => {
                           setActiveCard(cards[index]);
+                          setcardIndex(index);
+                        }}
+                        onHideDetailsClick={() => {
+                          setActiveCard(null);
                         }}
                       />
                     );
                   })}
               </div>
-              {/* {activeCard && <TopPoolsDetails />} */}
+              {activeCard && (
+                <StakingNew1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={network}
+                />
+              )}
               {/* {showDetails && <TopPoolsDetails />} */}
             </div>
           </div>
