@@ -282,6 +282,7 @@ export default class BigSwapExplorer extends React.Component {
         ];
         return (
             <DataTable
+                
                 progressComponent={<Circular />}
                 compact={true}
                 keyField="id"

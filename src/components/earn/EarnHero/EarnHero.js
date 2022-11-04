@@ -38,6 +38,7 @@ const EarnHero = () => {
               Rewards paid out
             </p>
             <CountUp
+              className="count-up"
               style={{
                 fontSize: "19px",
                 color: "#F36D46",
