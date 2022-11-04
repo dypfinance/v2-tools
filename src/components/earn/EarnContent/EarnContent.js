@@ -12,7 +12,7 @@ import tableIconActive from "../../../assets/earnAssets/tableIconActive.svg";
 import listIconActive from "../../../assets/earnAssets/listIconActive.svg";
 import EarnTopPicks from "../EarnTopPicks/EarnTopPicks";
 
-const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId }) => {
+const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, handleConnection }) => {
   const options = [
     {
       title: "Staking",
@@ -225,6 +225,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId }
         lp_id={lp_id}
         isConnected={isConnected}
         chainId= {chainId}
+        handleConnection={handleConnection}
       />
     </>
   );

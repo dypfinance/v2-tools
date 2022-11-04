@@ -27,7 +27,6 @@ import Governance from "./components/governance/Governance";
 
 import initStakingNew from "./components/FARMINNG/staking-new-front";
 
-
 const API_BASEURL = window.config.api_baseurl;
 
 class App extends React.Component {
@@ -157,7 +156,7 @@ class App extends React.Component {
     let isConnected = this.state.isConnected;
     try {
       localStorage.setItem("logout", "false");
-      isConnected = await window.connectWallet()
+      isConnected = await window.connectWallet();
 
       let the_graph_result_ETH_V2 = await window.get_the_graph_eth_v2();
       this.setState({
@@ -165,11 +164,10 @@ class App extends React.Component {
           JSON.stringify(the_graph_result_ETH_V2)
         ),
       });
-
     } catch (e) {
       this.setState({ show: false });
       window.alertify.error(String(e) || "Cannot connect wallet!");
-      console.log(e)
+      console.log(e);
       return;
     }
 
@@ -290,8 +288,6 @@ class App extends React.Component {
   };
 
   render() {
-    
-
     const { LP_IDs_V2 } = window;
 
     const LP_ID_Array = [
@@ -367,18 +363,12 @@ class App extends React.Component {
                     the_graph_result={this.state.the_graph_result_ETH_V2}
                     lp_id={LP_ID_Array}
                     isConnected={this.state.isConnected}
-          network={this.state.networkId}
-
+                    network={this.state.networkId}
+                    handleConnection={this.handleConnection}
                   />
                 )}
               />
-                <Route
-                exact
-                path="/governance"
-                render={() => (
-                  <Governance/>
-                )}
-              />
+              <Route exact path="/governance" render={() => <Governance />} />
 
               {/* <Route
                 exact
@@ -406,8 +396,6 @@ class App extends React.Component {
                     isConnected={this.state.isConnected}
                     network={this.state.networkId}
                     handleConnection={this.handleConnection}
-
-
                   />
                 )}
               />
