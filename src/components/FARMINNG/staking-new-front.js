@@ -2,15 +2,17 @@ import React from "react";
 import moment from "moment";
 import getFormattedNumber from "../../functions/get-formatted-number";
 import Modal from "../Modal/Modal";
+import Address from "./address";
+import WalletModal from "../WalletModal";
 import "./top-pools.css";
 
 import ellipse from "./assets/ellipse.svg";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
-import referralimg from './assets/referral.svg'
-import copy from './assets/copy.svg'
-
+import referralimg from "./assets/referral.svg";
+import copy from "./assets/copy.svg";
+import wallet from "./assets/wallet.svg";
 
 export default function initStakingNew({
   token,
@@ -19,7 +21,8 @@ export default function initStakingNew({
   rebase_factor,
   expiration_time,
   fee,
-  chainId
+  chainId,
+  handleConnection,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -103,6 +106,7 @@ export default function initStakingNew({
         usdPerToken: 0,
         tokensToBeSwapped: "",
         tokensToBeDisbursedOrBurnt: "",
+        coinbase: "0x0000000000000000000000000000000000000111",
 
         tvl: "",
         stakingOwner: null,
@@ -132,7 +136,7 @@ export default function initStakingNew({
         is_wallet_connected: false,
       };
 
-      // this.showModal = this.showModal.bind(this);
+      this.showModal = this.showModal.bind(this);
       this.hideModal = this.hideModal.bind(this);
 
       // this.showPopup = this.showPopup.bind(this);
@@ -195,7 +199,9 @@ export default function initStakingNew({
     componentDidMount() {
       this.refreshBalance();
       // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
-
+      if (this.props.coinbase !== null) {
+        this.setState({ coinbase: this.props.coinbase });
+      }
       this.getPriceDYP();
     }
 
@@ -241,7 +247,7 @@ export default function initStakingNew({
 
       let selectedTokenBalance = await window.getTokenHolderBalance(
         tokenAddress,
-        this.props.coinbase
+        this.state.coinbase
       );
       this.setState({ selectedTokenBalance });
     };
@@ -360,7 +366,7 @@ export default function initStakingNew({
     };
 
     handleWithdrawDyp = async () => {
-      let amountConstant = await constant.depositedTokens(this.props.coinbase);
+      let amountConstant = await constant.depositedTokens(this.state.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
 
       let deadline = Math.floor(
@@ -380,12 +386,12 @@ export default function initStakingNew({
     handleWithdraw = async (e) => {
       e.preventDefault();
 
-      let amountConstant = await constant.depositedTokens(this.props.coinbase);
+      let amountConstant = await constant.depositedTokens(this.state.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
 
       let withdrawAsToken = this.state.selectedBuybackTokenWithdraw;
 
-      let amountBuyback = await staking.depositedTokens(this.props.coinbase);
+      let amountBuyback = await staking.depositedTokens(this.state.coinbase);
 
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
@@ -453,7 +459,7 @@ export default function initStakingNew({
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      let address = this.props.coinbase;
+      let address = this.state.coinbase;
 
       let amount = await constant.getTotalPendingDivs(address);
       let router = await window.getUniswapRouterContract();
@@ -515,8 +521,14 @@ export default function initStakingNew({
     };
 
     refreshBalance = async () => {
-      let lp_data = this.props.the_graph_result.lp_data;
+      //       let coinbase = this.props.coinbase;
 
+      //       if (window.coinbase_address) {
+      //         coinbase = window.coinbase_address;
+      //         this.setState({ coinbase });
+      //       }
+      // console.log(window.coinbase_address)
+      let lp_data = this.props.the_graph_result.lp_data;
       let usd_per_dyps = 0.000001;
 
       try {
@@ -538,22 +550,22 @@ export default function initStakingNew({
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
-        let _bal = token.balanceOf(this.props.coinbase);
+        let _bal = token.balanceOf(this.state.coinbase);
 
-        let _rBal = reward_token.balanceOf(this.props.coinbase);
-        let _pDivs = staking.getPendingDivs(this.props.coinbase);
+        let _rBal = reward_token.balanceOf(this.state.coinbase);
+        let _pDivs = staking.getPendingDivs(this.state.coinbase);
 
-        let _pDivsEth = staking.getPendingDivsEth(this.props.coinbase);
+        let _pDivsEth = staking.getPendingDivsEth(this.state.coinbase);
 
-        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
 
-        let _tEarnedEth = staking.totalEarnedEth(this.props.coinbase);
+        let _tEarnedEth = staking.totalEarnedEth(this.state.coinbase);
 
-        let _stakingTime = staking.depositTime(this.props.coinbase);
+        let _stakingTime = staking.depositTime(this.state.coinbase);
 
-        let _dTokens = staking.depositedTokens(this.props.coinbase);
+        let _dTokens = staking.depositedTokens(this.state.coinbase);
 
-        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.state.coinbase);
 
         let _tvl = token.balanceOf(staking._address); //not 0
 
@@ -572,10 +584,10 @@ export default function initStakingNew({
           staking._address
         ); /* TVL of iDYP on Farming */
 
-        let _dTokensDYP = constant.depositedTokens(this.props.coinbase);
+        let _dTokensDYP = constant.depositedTokens(this.state.coinbase);
 
         let _pendingDivsStaking = constant.getTotalPendingDivs(
-          this.props.coinbase
+          this.state.coinbase
         );
 
         //not 0
@@ -728,7 +740,7 @@ export default function initStakingNew({
       try {
         let selectedTokenBalance = await window.getTokenHolderBalance(
           this.state.selectedBuybackToken,
-          this.props.coinbase
+          this.state.coinbase
         );
         this.setState({ selectedTokenBalance });
       } catch (e) {
@@ -921,7 +933,7 @@ export default function initStakingNew({
       //console.log(total_stakers)
 
       let isOwner =
-        String(this.props.coinbase).toLowerCase() ===
+        String(this.state.coinbase).toLowerCase() ===
         String(window.config.admin_address).toLowerCase();
 
       let apr2 = 50;
@@ -944,58 +956,8 @@ export default function initStakingNew({
       return (
         <div className="container-lg">
           <div className="allwrapper">
-          <div className="leftside2 w-100">
-            <div className="activewrapper">
-              <h6 className="activetxt">
-                <img
-                  src={ellipse}
-                  alt=""
-                  className="position-relative"
-                  style={{ top: 3 }}
-                />
-                Active status
-              </h6>
-               <div className="d-flex align-items-center justify-content-between gap-2">
-                <h6 className="earnrewards-text">Earn rewards in:</h6>
-                <h6 className="earnrewards-token">DYP</h6>
-              </div>
-               <div className="d-flex align-items-center justify-content-between gap-2">
-                <h6 className="earnrewards-text">Performance fee:</h6>
-                <h6 className="earnrewards-token">{fee}%</h6>
-              </div>
-              <h6 className="bottomitems">
-                  <img src={arrowup} alt="" />
-                  Video tutorial
-                </h6>
-                
-                <a
-                
-              href={
-                chainId === 1
-                  ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                  : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-              }
-              target={'_blank'} rel="noreferrer"
-            >
-              <h6 className="bottomitems">
-                  <img src={arrowup} alt="" />
-                  Get DYP
-                </h6></a>
-                <div
-                onClick={() => {
-                  this.showPopup();
-                }}
-              >
-                <h6 className="bottomitems">
-                  <img src={moreinfo} alt="" />
-                  More info
-                </h6>
-              </div>
-            </div>
-          </div>
-          <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-            <div className="otherside">
-              <div className="activewrapper" style={{ visibility: "hidden" }}>
+            <div className="leftside2 w-100">
+              <div className="activewrapper">
                 <h6 className="activetxt">
                   <img
                     src={ellipse}
@@ -1005,59 +967,114 @@ export default function initStakingNew({
                   />
                   Active status
                 </h6>
-              </div>
-              <div className="d-flex flex-column gap-2 justify-content-between">
                 <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Contract expires:</h6>
-                  <h6 className="earnrewards-token">{expiration_time}</h6>
+                  <h6 className="earnrewards-text">Earn rewards in:</h6>
+                  <h6 className="earnrewards-token">DYP</h6>
                 </div>
                 <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Total value locked:</h6>
-                  <h6 className="earnrewards-token">$ {tvl_usd}</h6>
+                  <h6 className="earnrewards-text">Performance fee:</h6>
+                  <h6 className="earnrewards-token">{fee}%</h6>
+                </div>
+                <h6 className="bottomitems">
+                  <img src={arrowup} alt="" />
+                  Video tutorial
+                </h6>
+
+                <a
+                  href={
+                    chainId === 1
+                      ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                  }
+                  target={"_blank"}
+                  rel="noreferrer"
+                >
+                  <h6 className="bottomitems">
+                    <img src={arrowup} alt="" />
+                    Get DYP
+                  </h6>
+                </a>
+                <div
+                  onClick={() => {
+                    this.showPopup();
+                  }}
+                >
+                  <h6 className="bottomitems">
+                    <img src={moreinfo} alt="" />
+                    More info
+                  </h6>
                 </div>
               </div>
-              <button className="btn green-btn">
-                TBD Claim reward 0.01 ETH
-              </button>
             </div>
-            <div className="otherside-border">
-              <h6 className="deposit-txt">Deposit</h6>
-              <div className="d-flex flex-column gap-2 justify-content-between">
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <div className="position-relative">
-                    <h6 className="amount-txt">Amount</h6>
-                    <input
-                      type={"text"}
-                      className="styledinput"
-                      value={0}
-                      // onChange={(e) => setDepositValue(e.target.value)}
-                    />
-                  </div>
-                  <button className="btn maxbtn">Max</button>
+            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
+              <div className="firstblockwrapper">
+                <div
+                  className="d-flex flex-column justify-content-between gap-2"
+                  style={{ height: "100%" }}
+                >
+                  <h6 className="start-title">Start Farming</h6>
+                  <h6 className="start-desc">
+                    {this.props.coinbase === null
+                      ? "Connect wallet to view and interact with deposits and withdraws"
+                      : "Interact with deposits and withdraws"}
+                  </h6>
+                  {this.props.coinbase === null ? (
+                    <button className="connectbtn btn" onClick={this.showModal}>
+                      {" "}
+                      <img src={wallet} alt="" /> Connect wallet
+                    </button>
+                  ) : (
+                    <div className="addressbtn btn">
+                      <Address
+                        a={this.props.coinbase}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
-              <button className="btn filledbtn">TBD Approve</button>
-            </div>
-            <div className="otherside-border">
-              <h6 className="withdraw-txt">Withdraw</h6>
-              <div className="d-flex flex-column gap-2 justify-content-between">
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <div className="position-relative">
-                    <h6 className="amount-txt">Amount</h6>
-                    <input
-                      type={"text"}
-                      className="styledinput"
-                      value={0}
-                      // onChange={(e) => setDepositValue(e.target.value)}
-                    />
-                  </div>
-                  <button className="btn maxbtn">Max</button>
-                </div>
+              <div className="otherside">
+                <button className="btn green-btn">
+                  TBD Claim reward 0.01 ETH
+                </button>
               </div>
-              <button className="btn filledbtn">TBD Approve</button>
+              <div className="otherside-border">
+                <h6 className="deposit-txt">Deposit</h6>
+                <div className="d-flex flex-column gap-2 justify-content-between">
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <div className="position-relative">
+                      <h6 className="amount-txt">Amount</h6>
+                      <input
+                        type={"text"}
+                        className="styledinput"
+                        value={0}
+                        // onChange={(e) => setDepositValue(e.target.value)}
+                      />
+                    </div>
+                    <button className="btn maxbtn">Max</button>
+                  </div>
+                </div>
+                <button className="btn filledbtn">TBD Approve</button>
+              </div>
+              <div className="otherside-border">
+                <h6 className="withdraw-txt">Withdraw</h6>
+                <div className="d-flex flex-column gap-2 justify-content-between">
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <div className="position-relative">
+                      <h6 className="amount-txt">Amount</h6>
+                      <input
+                        type={"text"}
+                        className="styledinput"
+                        value={0}
+                        // onChange={(e) => setDepositValue(e.target.value)}
+                      />
+                    </div>
+                    <button className="btn maxbtn">Max</button>
+                  </div>
+                </div>
+                <button className="btn filledbtn">TBD Approve</button>
+              </div>
             </div>
           </div>
-</div>
           <Modal
             visible={this.state.popup}
             modalId="tymodal"
@@ -1164,6 +1181,13 @@ export default function initStakingNew({
               </div>
             </div>
           </Modal>
+          {this.state.show && (
+            <WalletModal
+              show={this.state.show}
+              handleClose={this.state.hideModal}
+              handleConnection={this.props.handleConnection}
+            />
+          )}
         </div>
       );
       {

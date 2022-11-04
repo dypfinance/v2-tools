@@ -139,8 +139,8 @@
   font-size: 10px;
   line-height: 16px;
   width: 73px;
-height: 28px;
-color: #75cac2;
+  height: 28px;
+  color: #75cac2;
 }
 
 .tvl-amount {
@@ -229,7 +229,7 @@ color: #75cac2;
 }
 
 .pools-details-wrapper {
-  background: #14142A !important;
+  background: #14142a !important;
   border-radius: 8px 8px 0px 0px;
   /* border: 1px solid #7770df; */
   padding: 10px;
@@ -247,7 +247,7 @@ color: #75cac2;
 }
 
 .otherside {
-   background: #26264F !important;
+  background: #26264f !important;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -257,8 +257,51 @@ color: #75cac2;
   justify-content: space-between;
 }
 
+.firstblockwrapper {
+  background: transparent;
+  padding: 10px;
+  width: 166px;
+}
+
+.start-title {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.018em;
+  color: #75cac2;
+}
+
+.start-desc {
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 12px;
+  letter-spacing: -0.018em;
+  color: #599993;
+}
+
+.connectbtn, .connectbtn:hover, .connectbtn:focus {
+  background: #354666;
+  border-radius: 8px;
+  border: 1px solid #57b6ab;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #75cac2;
+  width: 145px;
+}
+
+.addressbtn {
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid #57B6AB;
+  padding: 5px 10px;
+  color: #599993;
+
+}
+
 .otherside-border {
-  background: #26264F !important;
+  background: #26264f !important;
 
   border: 1px solid #3b3c68;
   border-radius: 8px;
@@ -270,10 +313,10 @@ color: #75cac2;
 }
 
 .allwrapper {
-  background: #14142A;
-box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
-border-radius: 12px;
-border: 1px solid #7770DF
+  background: #14142a;
+  box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
+  border-radius: 12px;
+  border: 1px solid #7770df;
 }
 
 .activewrapper {

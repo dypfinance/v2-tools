@@ -14,7 +14,7 @@ import rightarrow from "./assets/right-arrow.svg";
 import TopPoolsDetails from "../top-pools-card/TopPoolsDetails";
 import initStakingNew from "../FARMINNG/staking-new-front";
 
-const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) => {
+ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network, handleConnection  }) => {
   const cards = [
     {
       top_pick: true,
@@ -62,6 +62,7 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) 
     // staking: window.farming_new_1,
     staking: stakeArray[cardIndex],
     chainId: network,
+    coinbase: coinbase,
     constant: constantArray[cardIndex],
     liquidity: eth_address,
     lp_symbol: "USD",
@@ -70,6 +71,7 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) 
     rebase_factor: rebase_factors[0],
     expiration_time: "14 December 2022",
     fee: feeArray[cardIndex],
+    handleConnection: handleConnection
   });
   
   return (
@@ -128,6 +130,7 @@ const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network }) 
                   the_graph_result={the_graph_result}
                   lp_id={lp_id[cardIndex]}
                   chainId={network}
+                  handleConnection = {handleConnection}
                 />
               )}
               {/* {showDetails && <TopPoolsDetails />} */}

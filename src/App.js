@@ -157,22 +157,20 @@ class App extends React.Component {
     let isConnected = this.state.isConnected;
     try {
       localStorage.setItem("logout", "false");
-      isConnected = await window.connectWallet();
-    } catch (e) {
-      this.setState({ show: false });
-      window.alertify.error(String(e) || "Cannot connect wallet!");
-      return;
-    }
+      isConnected = await window.connectWallet()
 
-    try {
       let the_graph_result_ETH_V2 = await window.get_the_graph_eth_v2();
       this.setState({
         the_graph_result_ETH_V2: JSON.parse(
           JSON.stringify(the_graph_result_ETH_V2)
         ),
       });
+
     } catch (e) {
-      console.error("TVL ETH V2 error: " + e);
+      this.setState({ show: false });
+      window.alertify.error(String(e) || "Cannot connect wallet!");
+      console.log(e)
+      return;
     }
 
     this.setState({ isConnected, coinbase: await window.getCoinbase() });
@@ -406,7 +404,9 @@ class App extends React.Component {
                     the_graph_result={this.state.the_graph_result_ETH_V2}
                     lp_id={LP_ID_Array}
                     isConnected={this.state.isConnected}
-          network={this.state.networkId}
+                    network={this.state.networkId}
+                    handleConnection={this.handleConnection}
+
 
                   />
                 )}
