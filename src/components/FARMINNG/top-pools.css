@@ -420,8 +420,11 @@
   color: #75cac2;
 }
 
+
+
 .green-btn:hover,
 .green-btn:focus {
+  border: 1px solid #75cac2;
   background: #75cac2;
   color: #fff;
 }
@@ -491,6 +494,7 @@
   font-size: 12px;
   line-height: 18px;
   color: #fff;
+  border: none;
 }
 
 .withdraw-txt {

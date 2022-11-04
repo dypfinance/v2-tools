@@ -28,7 +28,7 @@ const GovernanceBalance = () => {
       icon: 'eth.svg'
     },
     {
-      title: 'BSC Pools',
+      title: 'BNB Pools',
       icon: 'bnb.svg'
     },
     {

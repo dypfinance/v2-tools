@@ -130,6 +130,10 @@ border: 1px solid #7770E0;
 padding: 10px 40px;
 background: #26264F;
 }
+.load-more-button:focus{
+border: 1px solid #7770E0;
+
+}
 
 .load-more-button:hover{
 color: #fff;

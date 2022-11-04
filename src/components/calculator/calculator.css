@@ -169,6 +169,7 @@
 
 .earnbtn {
   background: linear-gradient(90.74deg, #7770e0 0%, #554fd8 100%);
+  border: none;
   border-radius: 8px;
   padding: 10px;
   display: flex;
