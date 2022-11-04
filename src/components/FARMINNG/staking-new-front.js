@@ -10,9 +10,11 @@ import ellipse from "./assets/ellipse.svg";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
+import purplestats from "./assets/purpleStat.svg";
 import referralimg from "./assets/referral.svg";
 import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default function initStakingNew({
   token,
@@ -126,6 +128,7 @@ export default function initStakingNew({
           window.buyback_tokens_farming[
             Object.keys(window.buyback_tokens_farming)[0]
           ].symbol,
+        selectedTokenLogo: "weth",
 
         selectedBuybackTokenWithdraw: Object.keys(
           window.buyback_tokens_farming
@@ -243,6 +246,9 @@ export default function initStakingNew({
         selectedTokenBalance: "",
         selectedTokenDecimals: tokenDecimals,
         selectedTokenSymbol,
+      });
+      this.setState({
+        selectedTokenLogo: window.buyback_tokens_farming[tokenAddress].symbol,
       });
 
       let selectedTokenBalance = await window.getTokenHolderBalance(
@@ -954,7 +960,7 @@ export default function initStakingNew({
       let tooltip2 = infoItems2.join("\n");
 
       return (
-        <div className="container-lg">
+        <div className="container-lg p-0">
           <div className="allwrapper">
             <div className="leftside2 w-100">
               <div className="activewrapper">
@@ -969,16 +975,47 @@ export default function initStakingNew({
                 </h6>
                 <div className="d-flex align-items-center justify-content-between gap-2">
                   <h6 className="earnrewards-text">Earn rewards in:</h6>
-                  <h6 className="earnrewards-token">DYP</h6>
+                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                    DYP
+                  </h6>
                 </div>
                 <div className="d-flex align-items-center justify-content-between gap-2">
                   <h6 className="earnrewards-text">Performance fee:</h6>
-                  <h6 className="earnrewards-token">{fee}%</h6>
+                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                    {fee}%
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {
+                            "Performance fee is subtracted from the displayed APR."
+                          }
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </h6>
                 </div>
-                <h6 className="bottomitems">
-                  <img src={arrowup} alt="" />
-                  Video tutorial
-                </h6>
+
+                <div className="d-flex align-items-center justify-content-between gap-2">
+                  <h6 className="earnrewards-text">APR:</h6>
+                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                    {apy}%
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {
+                            "APR reflects the interest rate of earnings on an account over the course of one year. "
+                          }
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </h6>
+                </div>
 
                 <a
                   href={
@@ -1000,8 +1037,8 @@ export default function initStakingNew({
                   }}
                 >
                   <h6 className="bottomitems">
-                    <img src={moreinfo} alt="" />
-                    More info
+                    <img src={purplestats} alt="" />
+                    Stats
                   </h6>
                 </div>
               </div>
@@ -1025,24 +1062,73 @@ export default function initStakingNew({
                     </button>
                   ) : (
                     <div className="addressbtn btn">
-                      <Address
-                        a={this.props.coinbase}
-                      />
+                      <Address a={this.props.coinbase} />
                     </div>
                   )}
                 </div>
               </div>
-              <div className="otherside">
+              {/* <div className="otherside">
                 <button className="btn green-btn">
                   TBD Claim reward 0.01 ETH
                 </button>
-              </div>
+              </div> */}
               <div className="otherside-border">
-                <h6 className="deposit-txt">Deposit</h6>
+                <div className="d-flex justify-content-between align-items-center gap-2">
+                  <h6 className="deposit-txt">
+                    Deposit
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"lorem impsum deposit text"}
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </h6>
+                  <h6 className="mybalance-text">
+                    Balance:
+                    <b>
+                      {getFormattedNumber(
+                        this.state.selectedTokenBalance /
+                          10 ** this.state.selectedTokenDecimals,
+                        6
+                      )}
+                    </b>
+                    <img
+                      src={
+                        require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                          .default
+                      }
+                      alt=""
+                      style={{ width: 14, height: 14 }}
+                    />
+                    <span>
+                      <select
+                        disabled={!is_connected}
+                        value={this.state.selectedBuybackToken}
+                        onChange={(e) =>
+                          this.handleSelectedTokenChange(e.target.value)
+                        }
+                        className="form-control inputfarming p-0"
+                      >
+                        {Object.keys(window.buyback_tokens_farming).map((t) => (
+                          <option key={t} value={t}>
+                            {" "}
+                            {window.buyback_tokens_farming[t].symbol}{" "}
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* {this.state.selectedTokenSymbol} */}
+                    </span>
+                  </h6>
+                </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <div className="position-relative">
-                      <h6 className="amount-txt">Amount</h6>
+                      <h6 className="amount-txt">Your balance</h6>
                       <input
                         type={"text"}
                         className="styledinput"
@@ -1050,28 +1136,144 @@ export default function initStakingNew({
                         // onChange={(e) => setDepositValue(e.target.value)}
                       />
                     </div>
-                    <button className="btn maxbtn">Max</button>
+                    <button className="btn maxbtn">Max</button>{" "}
+                    <button className="btn filledbtn">Approve</button>
                   </div>
                 </div>
-                <button className="btn filledbtn">TBD Approve</button>
               </div>
               <div className="otherside-border">
-                <h6 className="withdraw-txt">Withdraw</h6>
+                <div className="d-flex justify-content-between gap-2 ">
+                  <h6 className="deposit-txt">Rewards</h6>
+                  <h6 className="withdraw-littletxt">
+                    Reward updated each day 00:00 (UTC) <b>22:36</b>
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"rewards text"}
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </h6>
+                </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
-                  <div className="d-flex align-items-center justify-content-between gap-2">
+                  <div className="d-flex align-items-center justify-content-between gap-2"></div>
+                  <div className="form-row d-flex gap-2">
+                    {/*<p className='form-control  text-center' style={{border: 'none', marginBottom: 0, paddingLeft: '1px', paddingRight: '10px',  background: 'transparent', color: 'var(--text-color)'}}><span style={{fontSize: '1.2rem', color: 'var(--text-color)'}}>{pendingDivsEth}</span> <small className='text-bold'>WAVAX</small></p>*/}
+
+                    <div className="d-flex align-items-center">
+                      <div className="position-relative">
+                        <h6 className="amount-txt">Amount</h6>
+                        <input
+                          disabled={!is_connected}
+                          value={
+                            Number(pendingDivsEth) > 0
+                              ? `${pendingDivsEth} WETH`
+                              : `${pendingDivsEth} WETH`
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              pendingDivsEth:
+                                Number(e.target.value) > 0
+                                  ? e.target.value
+                                  : e.target.value,
+                            })
+                          }
+                          className="form-control left-radius inputfarming styledinput"
+                          placeholder="0"
+                          type="text"
+                          style={{ width: "115px" }}
+                        />
+                      </div>
+                      <select
+                        disabled={!is_connected}
+                        value={this.state.selectedClaimToken}
+                        onChange={(e) => this.handleClaimToken(e.target.value)}
+                        className="form-control inputfarming"
+                      >
+                        <option value="0"> WETH </option>
+                        <option value="1"> USDT </option>
+                      </select>
+                    </div>
+                    <div className="d-flex align-items-center">
                     <div className="position-relative">
                       <h6 className="amount-txt">Amount</h6>
                       <input
-                        type={"text"}
-                        className="styledinput"
-                        value={0}
-                        // onChange={(e) => setDepositValue(e.target.value)}
+                        disabled={!is_connected}
+                        value={
+                          Number(pendingDivs) > 0
+                            ? `${pendingDivs} DYP`
+                            : `${pendingDivs} DYP`
+                        }
+                        onChange={(e) =>
+                          this.setState({
+                            pendingDivs:
+                              Number(e.target.value) > 0
+                                ? e.target.value
+                                : e.target.value,
+                          })
+                        }
+                        className="form-control left-radius inputfarming styledinput"
+                        placeholder="0"
+                        type="text"
+                        style={{ width: "115px" }}
                       />
                     </div>
-                    <button className="btn maxbtn">Max</button>
+                    <select
+                        disabled={!is_connected}
+                        defaultValue="DYP"
+                        className="form-control inputfarming"
+                      >
+                        <option value="DYP"> DYP </option>
+                      </select>
+                    </div>
+                    <button className="btn filledbtn">
+                  Claim
+                  </button>
                   </div>
+
+                  {/* <button
+                      title={claimTitle}
+                      disabled={!is_connected}
+                      className="btn  btn-primary btn-block l-outline-btn"
+                      type="submit"
+                    >
+                      CLAIM
+                    </button> */}
+                  {/* <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.handleClaimDyp();
+                    }}
+                    title={claimTitle}
+                    disabled={!is_connected}
+                    className="btn  btn-primary btn-block l-outline-btn"
+                    type="submit"
+                  >
+                    CLAIM
+                  </button> */}
+                  
                 </div>
-                <button className="btn filledbtn">TBD Approve</button>
+              </div>
+
+              <div className="otherside-border">
+                <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
+                  WITHDRAW DEPOSIT
+                  <Tooltip
+                    placement="top"
+                    title={
+                      <div style={{ whiteSpace: "pre-line" }}>
+                        {"withdraw deposit text"}
+                      </div>
+                    }
+                  >
+                    <img src={moreinfo} alt="" />
+                  </Tooltip>
+                </h6>
+
+                <button className="btn filledbtn">Withdraw</button>
               </div>
             </div>
           </div>
@@ -1093,19 +1295,25 @@ export default function initStakingNew({
                       </h6>
                       <h6 className="d-flex gap-2 align-items-center myaddrtext">
                         My address
-                        <h6 className="addresstxt">
-                          {this.props.coinbase?.slice(0, 10) + "..."}
-                        </h6>
+                        <a
+                          href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
+                          target={"_blank"}
+                          rel="noreferrer"
+                        >
+                          <h6 className="addresstxt">
+                            {this.props.coinbase?.slice(0, 10) + "..."}
+                          </h6>
+                        </a>
                         <img src={arrowup} alt="" />
                       </h6>
                     </div>
                   </div>
-                  <table className="table-stats table table-sm table-borderless">
+                  <table className="table-stats table table-sm table-borderless mt-2">
                     <tbody>
                       <tr>
                         <td className="text-right">
                           <th>Contract Expiration</th>
-                          <strong>{expiration_time}</strong>
+                          <small>{expiration_time}</small>
                         </td>
                         <td className="text-right">
                           <th>My DYP Balance</th>
@@ -1135,7 +1343,7 @@ export default function initStakingNew({
                         <td className="text-right">
                           <th>Total Earned DYP</th>
                           <div>
-                            <strong>{totalEarnedTokens}</strong>
+                            <strong>{totalEarnedTokens}</strong>{" "}
                             <small>DYP</small>
                           </div>
                         </td>

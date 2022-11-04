@@ -16,6 +16,7 @@ const EarnTopPicks = ({
   isConnected,
   chain,
   chainId,
+  handleConnection
 }) => {
   const stake = [
     {
@@ -200,6 +201,7 @@ const EarnTopPicks = ({
     rebase_factor: rebase_factors[0],
     expiration_time: "14 December 2022",
     fee: feeArray[cardIndex],
+    handleConnection:handleConnection
   });
 
   useEffect(() => {
@@ -259,6 +261,7 @@ const EarnTopPicks = ({
               the_graph_result={the_graph_result}
               lp_id={lp_id[cardIndex]}
               chainId={chainId}
+              handleConnection={handleConnection}
             />
           )}
         </div>

@@ -279,7 +279,9 @@
   color: #599993;
 }
 
-.connectbtn, .connectbtn:hover, .connectbtn:focus {
+.connectbtn,
+.connectbtn:hover,
+.connectbtn:focus {
   background: #354666;
   border-radius: 8px;
   border: 1px solid #57b6ab;
@@ -291,13 +293,41 @@
   width: 145px;
 }
 
+.mybalance-text {
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 12px;
+  letter-spacing: -0.018em;
+  color: #599993;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.inputfarming {
+  width: fit-content;
+  background: transparent !important;
+  color: #8e97cd !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 18px;
+}
+
+.withdraw-littletxt {
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 12px;
+  letter-spacing: 0.4px;
+  color: #8e97cd;
+}
+
 .addressbtn {
   border-radius: 8px;
   background: transparent;
-  border: 1px solid #57B6AB;
+  border: 1px solid #57b6ab;
   padding: 5px 10px;
   color: #599993;
-
 }
 
 .otherside-border {
