@@ -234,6 +234,7 @@ const EarnTopPicks = ({
             {topPools.map((pool, index) => (
               <TopPoolsCard
                 key={index}
+                chain={chain}
                 top_pick={pool.top_pick}
                 tokenName={pool.tokenName}
                 apr={pool.apy + "%"}
@@ -267,6 +268,7 @@ const EarnTopPicks = ({
           {topPools.map((pool, index) => (
             <TopPoolsListCard
               key={index}
+              chain={chain}
               top_pick={pool.top_pick}
               tokenName={pool.tokenName}
               apr={pool.apy + "%"}

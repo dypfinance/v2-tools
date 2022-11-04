@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./top-pools.css";
 import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
@@ -13,15 +13,20 @@ const TopPoolsCard = ({
   tvl,
   onShowDetailsClick,
   onHideDetailsClick,
-
   top_pick,
   cardType,
+  chain
   // showDetails,
 }) => {
+  
+  const ethCoins = ["ethereum", "wbtc", "usdc", "usdt", "dai"];
+  const bscCoins = ["bsc", "wbtc", "ethereum", "dai", "pancakeswap" ]
+  const avaxCoins = ["avax", "ethereum", "wbtc", "usdt", "pangolin"]
+  
   const [showDetails, setShowDetails] = useState(false);
+  const [coins, setCoins] = useState(ethCoins)
 
-  const coins = ["ethereum", "wbtc", "usdc", "usdt", "dai"];
-
+  
   const handleDetails = () => {
     if(showDetails === false) {
       setShowDetails(true);
@@ -33,6 +38,18 @@ const TopPoolsCard = ({
       onHideDetailsClick()
     }
   }
+
+
+  useEffect(() => {
+    if(chain === 'eth'){
+      setCoins(ethCoins)
+    }else if(chain === 'bnb'){
+      setCoins(bscCoins)
+    }else if(chain === 'avax'){
+      setCoins(avaxCoins)
+    }
+  }, [chain])
+  
 
   return (
     <>

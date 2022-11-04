@@ -1,4 +1,5 @@
 import React from 'react'
+import SkeletonCard from '../../SkeletonCard/SkeletonCard'
 import EtherPoolsCard from '../EtherPoolsCard/EtherPoolsCard'
 
 const EtherPools = () => {
@@ -11,6 +12,7 @@ const EtherPools = () => {
             <EtherPoolsCard />
             <EtherPoolsCard />
             <EtherPoolsCard />
+            <SkeletonCard />
     </div>
     <div className="mt-5">
     <button className="btn load-more-button">Load More</button>
