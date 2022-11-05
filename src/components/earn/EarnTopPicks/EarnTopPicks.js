@@ -5,6 +5,7 @@ import noPoolsIcon from "../../../assets/earnAssets/noPoolsIcon.svg";
 import axios from "axios";
 import getFormattedNumber from "../../../functions/getFormattedNumber2";
 import initStakingNew from "../../FARMINNG/staking-new-front";
+import initBuybackStakingNew from "../../FARMINNG/buy-back-staking-new-front";
 import { FadeLoader } from "react-spinners";
 
 const EarnTopPicks = ({
@@ -16,7 +17,7 @@ const EarnTopPicks = ({
   isConnected,
   chain,
   chainId,
-  handleConnection
+  handleConnection,
 }) => {
   const stake = [
     {
@@ -55,13 +56,6 @@ const EarnTopPicks = ({
     {
       top_pick: false,
       tokenName: "AVAX",
-      apy: "1.08",
-      tvl_usd: "48543.20",
-      lockTime: "No lock",
-    },
-    {
-      top_pick: false,
-      tokenName: "BSC",
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
@@ -124,7 +118,7 @@ const EarnTopPicks = ({
   const [topPools, setTopPools] = useState(stake);
   const [listing, setListing] = useState(listType);
 
-  var farming = []
+  var farming = [];
 
   const fetchEthFarming = async () => {
     await axios
@@ -186,7 +180,19 @@ const EarnTopPicks = ({
     window.constant_staking_new8,
     window.constant_staking_new9,
   ];
+
+  const stakeArrayBuyBack = [
+    window.buyback_staking1_1,
+    window.buyback_staking1_2,
+  ];
+  const constantArrayBuyback = [
+    window.constant_staking_new3,
+    window.constant_staking_new4,
+  ];
+
   const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
+  const feeArrayBuyback = [1, 3.5];
+  const aprArray = [30, 100];
 
   const StakingNew1 = initStakingNew({
     token: window.token_new,
@@ -201,7 +207,19 @@ const EarnTopPicks = ({
     rebase_factor: rebase_factors[0],
     expiration_time: "14 December 2022",
     fee: feeArray[cardIndex],
-    handleConnection:handleConnection
+    handleConnection: handleConnection,
+  });
+
+  //Buyback New
+  const BuybackStaking1 = initBuybackStakingNew({
+    staking: stakeArrayBuyBack[cardIndex],
+    constant: constantArrayBuyback[cardIndex],
+    apr: aprArray[cardIndex],
+    expiration_time: "14 December 2022",
+    fee: feeArrayBuyback[cardIndex],
+    coinbase:  coinbase,
+    handleConnection: handleConnection,
+    chainId: chainId,
   });
 
   useEffect(() => {
@@ -227,9 +245,7 @@ const EarnTopPicks = ({
   }, [topList, listType, chain]);
 
   return topPools.length > 0 ? (
-    <div
-      className={`row w-100 justify-content-center gap-4`}
-    >
+    <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (
         <div>
           <div className="top-picks-container">
@@ -255,7 +271,7 @@ const EarnTopPicks = ({
             ))}
           </div>
 
-          {activeCard && topList === "Farming" && (
+          {activeCard && topList === "Farming" ? (
             <StakingNew1
               is_wallet_connected={isConnected}
               coinbase={coinbase}
@@ -264,7 +280,16 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
             />
-          )}
+          ) : activeCard && topList === 'Buyback' ?(
+            <BuybackStaking1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+            />
+          ) : <></>}
         </div>
       ) : (
         <div className="list-pools-container px-0">
@@ -312,8 +337,11 @@ const EarnTopPicks = ({
     //     </div>
     //   </div>
     // </>
-    <div className="w-100 d-flex justify-content-center align-items-center mt-5" style={{minHeight: '240px'}}>
-      <FadeLoader  color="#7770DF" />
+    <div
+      className="w-100 d-flex justify-content-center align-items-center mt-5"
+      style={{ minHeight: "240px" }}
+    >
+      <FadeLoader color="#7770DF" />
     </div>
   );
 };

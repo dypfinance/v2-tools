@@ -25,7 +25,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 
 import Governance from "./components/governance/Governance";
 
-import initStakingNew from "./components/FARMINNG/staking-new-front";
+import initBuybackStakingNew from "./components/FARMINNG/buy-back-staking-new-front";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -299,6 +299,9 @@ class App extends React.Component {
     ];
 
     document.addEventListener("touchstart", { passive: true });
+
+
+
     return (
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
@@ -399,7 +402,8 @@ class App extends React.Component {
                   />
                 )}
               />
-
+            
+            
               <Route
                 exact
                 path="/news/:news_id?"
