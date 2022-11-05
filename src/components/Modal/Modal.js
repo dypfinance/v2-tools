@@ -1,4 +1,5 @@
 import React from "react";
+import xMark from './xMark.svg'
 
 
 const Modal = ({   visible, modalId, setIsVisible, children }) => {
@@ -25,13 +26,9 @@ const Modal = ({   visible, modalId, setIsVisible, children }) => {
     >
       <div className="modal-dialog tymodal">
         <div className="modal-content">
-          <div className="modal-header">
+          <div className="modal-header justify-content-end">
            
-            <button
-              type="button"
-              className="btn-close"
-              onClick={closeModal}
-            ></button>
+           <img src={xMark} style={{cursor: 'pointer'}}  onClick={closeModal}/>
 
           </div>
           <div className="modal-body">

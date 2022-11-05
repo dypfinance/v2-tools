@@ -96,6 +96,7 @@ import initStakingNew from "../FARMINNG/staking-new-front";
               <h6 className="top-pools-title">Top Pools</h6>
               <h6 className="view-more-title">
                 View all <img src={rightarrow} alt="" />{" "}
+
               </h6>
             </div>
             <div>
