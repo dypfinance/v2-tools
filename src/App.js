@@ -13,19 +13,14 @@ import Farms from "./components/farms";
 import News from "./components/news/news";
 import Sidebar from "./components/sidebar/sidebar";
 import Header from "./components/header/header";
-import Footer from "./components/Footer/footer";
 import { Route } from "react-router-dom";
 import SubmitInfo from "./components/submit-info/SubmitInfo";
 import { Switch } from "react-router-dom";
 import { RedirectPathToHomeOnly } from "./functions/redirects";
-import getSyncStats from "./functions/get-indexing-status";
-import getFormattedNumber from "./functions/get-formatted-number";
 import Earn from "./components/earn/Earn";
 import Dashboard from "./components/dashboard/Dashboard";
-
 import Governance from "./components/governance/Governance";
 
-import initBuybackStakingNew from "./components/FARMINNG/buy-back-staking-new-front";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -373,20 +368,6 @@ class App extends React.Component {
               />
               <Route exact path="/governance" render={() => <Governance />} />
 
-              {/* <Route
-                exact
-                path="/farmtest"
-                render={() => (
-                  <StakingNew1
-                    is_wallet_connected={this.state.isConnected}
-                    handleConnection={this.handleConnection}
-                    handleConnectionWalletConnect={this.handleConnection}
-                    coinbase={this.state.coinbase}
-                    the_graph_result={this.state.the_graph_result_ETH_V2}
-                    lp_id={LP_IDs_V2.weth[0]}
-                  />
-                )}
-              /> */}
 
               <Route
                 exact
@@ -402,8 +383,7 @@ class App extends React.Component {
                   />
                 )}
               />
-            
-            
+
               <Route
                 exact
                 path="/news/:news_id?"

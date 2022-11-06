@@ -1337,6 +1337,7 @@ export default function initStakingNew({
                       disabled={!is_connected}
                       className="btn  btn-primary btn-block l-outline-btn"
                       type="submit"
+                      onClick={this.handleClaimDivs}
                     >
                       CLAIM
                     </button> */}

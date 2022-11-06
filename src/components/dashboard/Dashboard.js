@@ -13,6 +13,7 @@ import TrendingNews from "../newsCard/TrendingNews";
 import rightarrow from "./assets/right-arrow.svg";
 import TopPoolsDetails from "../top-pools-card/TopPoolsDetails";
 import initStakingNew from "../FARMINNG/staking-new-front";
+import { NavLink } from "react-router-dom";
 
  const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network, handleConnection  }) => {
   const cards = [
@@ -140,9 +141,9 @@ import initStakingNew from "../FARMINNG/staking-new-front";
           </div>
           <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-4 pt-4">
             <h6 className="top-pools-title">News</h6>
-            <h6 className="view-more-title">
-              View all <img src={rightarrow} alt="" />
-            </h6>
+            <NavLink className="view-more-title" to='/news' style={{color: '#7770e0'}}>
+            View all <img src={rightarrow} alt="" /> 
+          </NavLink>
           </div>
           <div className="d-flex gap-3 justify-content-between">
             <TrendingNews
@@ -176,12 +177,6 @@ import initStakingNew from "../FARMINNG/staking-new-front";
           </div>
         </div>
       </div>
-      {/* <StakingNew1
-        is_wallet_connected={isConnected}
-        coinbase={coinbase}
-        the_graph_result={the_graph_result}
-        lp_id={lp_id[0]}
-      /> */}
     </div>
   );
 };

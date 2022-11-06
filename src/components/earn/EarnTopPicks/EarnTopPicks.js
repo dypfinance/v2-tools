@@ -6,6 +6,9 @@ import axios from "axios";
 import getFormattedNumber from "../../../functions/getFormattedNumber2";
 import initStakingNew from "../../FARMINNG/staking-new-front";
 import initBuybackStakingNew from "../../FARMINNG/buy-back-staking-new-front";
+import initConstantStakingNew from "../../FARMINNG/constant-staking-new-front";
+import initConstantStakingiDYP from "../../FARMINNG/constant-staking-idyp-new-front";
+
 import { FadeLoader } from "react-spinners";
 
 const EarnTopPicks = ({
@@ -31,20 +34,45 @@ const EarnTopPicks = ({
     {
       icon: "dyplogo.svg",
       top_pick: false,
-      tokenName: "AVAX",
+      tokenName: "DYP",
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
     },
     {
       icon: "dyplogo.svg",
-      top_pick: true,
-      tokenName: "BSC",
+      top_pick: false,
+      tokenName: "iDYP",
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
     },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 days",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 days",
+    },
   ];
+
   const buyback = [
     {
       top_pick: true,
@@ -162,6 +190,7 @@ const EarnTopPicks = ({
 
   const [activeCard, setActiveCard] = useState();
   const [cardIndex, setcardIndex] = useState();
+  const [cardIndexiDyp, setcardIndexiDyp] = useState();
 
   const eth_address = "ETH";
   const { rebase_factors } = window;
@@ -190,9 +219,34 @@ const EarnTopPicks = ({
     window.constant_staking_new4,
   ];
 
+  const stakeArrayStakeNew = [
+    window.constant_staking_new1,
+    window.constant_staking_new2,
+  ];
+
   const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
   const feeArrayBuyback = [1, 3.5];
   const aprArray = [30, 100];
+
+  const feeArrayStake = [0.25, 0.5];
+  const aprArrayStake = [25, 50];
+
+  const stakeArrayiDYP = [
+    window.constant_staking_idyp_1,
+    window.constant_staking_idyp_2,
+    window.constant_staking_idyp_3,
+    window.constant_staking_idyp_4,
+  ];
+
+  const performancefeeArrayidyp = [0, 0, 1, 3.5];
+  const withdrawFeeiDyp = [0.25, 0.25, 0, 0];
+  const aprArrayiDyp = [20, 45, 15, 30];
+  const expirationArray = [
+    "28 February 2023",
+    "28 February 2023",
+    "15 August 2023",
+    "15 August 2023",
+  ];
 
   const StakingNew1 = initStakingNew({
     token: window.token_new,
@@ -217,7 +271,32 @@ const EarnTopPicks = ({
     apr: aprArray[cardIndex],
     expiration_time: "14 December 2022",
     fee: feeArrayBuyback[cardIndex],
-    coinbase:  coinbase,
+    coinbase: coinbase,
+    handleConnection: handleConnection,
+    chainId: chainId,
+  });
+
+  const ConstantStaking1 = initConstantStakingNew({
+    staking: stakeArrayStakeNew[cardIndex],
+    apr: aprArrayStake[cardIndex],
+    liquidity: eth_address,
+    expiration_time: "14 December 2022",
+    other_info: false,
+    fee: feeArrayStake[cardIndex],
+    coinbase: coinbase,
+    handleConnection: handleConnection,
+    chainId: chainId,
+  });
+
+  const ConstantStakingiDYP1 = initConstantStakingiDYP({
+    staking: stakeArrayiDYP[cardIndexiDyp],
+    apr: aprArrayiDyp[cardIndexiDyp],
+    liquidity: eth_address,
+    expiration_time: expirationArray[cardIndexiDyp],
+    other_info: true,
+    fee_s: performancefeeArrayidyp[cardIndexiDyp],
+    fee_u: withdrawFeeiDyp[cardIndexiDyp],
+    coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
   });
@@ -244,6 +323,19 @@ const EarnTopPicks = ({
     setListing(listType);
   }, [topList, listType, chain]);
 
+  const handleCardIndexStake = (index) => {
+    // console.log(index)
+
+    if (topList === "Staking") {
+      if (index >= 2) {
+        const newIndex = index - 2;
+        setcardIndexiDyp(newIndex);
+        setcardIndex(index);
+      }
+      else setcardIndex(index);
+    } else setcardIndex(index);
+  };
+  
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (
@@ -261,7 +353,7 @@ const EarnTopPicks = ({
                 tokenLogo={pool.icon}
                 onShowDetailsClick={() => {
                   setActiveCard(topPools[index]);
-                  setcardIndex(index);
+                  handleCardIndexStake(index);
                 }}
                 onHideDetailsClick={() => {
                   setActiveCard(null);
@@ -280,7 +372,7 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
             />
-          ) : activeCard && topList === 'Buyback' ?(
+          ) : activeCard && topList === "Buyback" ? (
             <BuybackStaking1
               is_wallet_connected={isConnected}
               coinbase={coinbase}
@@ -289,7 +381,27 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
             />
-          ) : <></>}
+          ) : activeCard && topList === "Staking" && cardIndex < 2 ? (
+            <ConstantStaking1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+            />
+          ) : activeCard && cardIndex >= 2 && topList === "Staking" ? (
+            <ConstantStakingiDYP1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       ) : (
         <div className="list-pools-container px-0">
