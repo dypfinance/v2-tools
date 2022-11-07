@@ -4169,7 +4169,8 @@ display: flex;
 flex-direction: column;
 gap: 10px;
 width: 403px;
-min-height: 396px;
+/* min-height: 396px; */
+height: auto;
 margin: auto;
 
 }

@@ -11383,6 +11383,15 @@ function getData(ajaxurl) {
   });
 }
 
+async function getMaxFee(){
+	let maxPriorityFeePerGas = new BigNumber(10000000000).toFixed(0)*1
+	let latestGasPrice = await window.web3.eth.getGasPrice()
+	latestGasPrice = new BigNumber(latestGasPrice * 1.125 + maxPriorityFeePerGas).toFixed(0)*1
+
+	return {latestGasPrice, maxPriorityFeePerGas}
+}
+
+
 // function to connect metamask
 async function connectWallet() {
   function onConnect() {

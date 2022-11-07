@@ -86,7 +86,7 @@ const EarnTopPicks = ({
       tokenName: "AVAX",
       apy: "1.08",
       tvl_usd: "48543.20",
-      lockTime: "No lock",
+      lockTime: "90 Days",
     },
   ];
 
@@ -248,6 +248,9 @@ const EarnTopPicks = ({
     "15 August 2023",
   ];
 
+  const lockarrayFarm = ['No Lock', '3 Days', '30 Days', '60 Days','90 Days',];
+
+
   const StakingNew1 = initStakingNew({
     token: window.token_new,
     // staking: window.farming_new_1,
@@ -262,7 +265,12 @@ const EarnTopPicks = ({
     expiration_time: "14 December 2022",
     fee: feeArray[cardIndex],
     handleConnection: handleConnection,
+    lockTime: lockarrayFarm[cardIndex]
+
   });
+
+  const lockarrayBuyback = ['No Lock', '90 Days'];
+
 
   //Buyback New
   const BuybackStaking1 = initBuybackStakingNew({
@@ -274,11 +282,14 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
+    lockTime: lockarrayBuyback[cardIndex]
+
   });
 
   const lockarray = ['No Lock', '90 Days'];
 
   const lockarrayiDyp = ['No Lock', '90 Days', 'No Lock', '90 Days',];
+
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
