@@ -351,3 +351,27 @@
   transform: translateX(-40px);
   /* z-index: 2; */
 }
+.pool-coins:nth-child(6){
+  transform: translateX(-50px);
+  /* z-index: 2; */
+}
+.pool-coins:nth-child(7){
+  transform: translateX(-60px);
+  /* z-index: 2; */
+}
+.pool-coins:nth-child(8){
+  transform: translateX(-70px);
+  /* z-index: 2; */
+}
+.pool-coins:nth-child(9){
+  transform: translateX(-80px);
+  /* z-index: 2; */
+}
+.pool-coins:nth-child(10){
+  transform: translateX(-90px);
+  /* z-index: 2; */
+}
+.pool-coins:nth-child(11){
+  transform: translateX(-100px);
+  /* z-index: 2; */
+}

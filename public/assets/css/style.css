@@ -4220,7 +4220,21 @@ body.theme-dark span.l-return-type {
 
 .disabled-btn{
   color: #6E7191 !important;
-  background-color: #14142A !important;
+  background: #14142A !important;
   border: 1px solid #14142A  !important;
   border-radius: 10px;
 }
+
+.success-button{
+  color: #FFFFFF !important;
+  background: linear-gradient(90.74deg, #75CAC2 0%, #57B6AB 100%) !important;
+  border: none  !important;
+  border-radius: 10px;
+}
+.fail-button{
+  color: #FFFFFF !important;
+  background: linear-gradient(90.74deg, #F8845B 0%, #F0603A 100%) !important;
+  border: none  !important;
+  border-radius: 10px;
+}
+

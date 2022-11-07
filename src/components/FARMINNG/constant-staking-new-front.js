@@ -9,7 +9,8 @@ import "./top-pools.css";
 import ellipse from "./assets/ellipse.svg";
 import empty from "./assets/empty.svg";
 import check from "./assets/check.svg";
-
+import successMark from "../../assets/successMark.svg";
+import failMark from "../../assets/failMark.svg";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
@@ -28,7 +29,7 @@ export default function initConstantStakingNew({
   fee,
   chainId,
   handleConnection,
-  lockTime
+  lockTime,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -103,7 +104,8 @@ export default function initConstantStakingNew({
         stakingTime: "",
         depositedTokens: "",
         lastClaimedTime: "",
-
+        buttonLoading: false,
+        buttonStatus: "initial",
         depositAmount: "",
         withdrawAmount: "",
 
@@ -137,6 +139,20 @@ export default function initConstantStakingNew({
       this.showPopup = this.showPopup.bind(this);
       this.hidePopup = this.hidePopup.bind(this);
     }
+
+    setButtonState = () => {
+      if (this.state.buttonStatus === "initial") {
+        this.setState({ buttonLoading: true });
+        setTimeout(() => {
+          this.setState({ buttonLoading: false, buttonStatus: "deposit" });
+        }, 2000);
+      } else if (this.state.buttonStatus === "deposit") {
+        this.setState({ buttonLoading: true });
+        setTimeout(() => {
+          this.setState({ buttonLoading: false, buttonStatus: "success" });
+        }, 2000);
+      }
+    };
 
     showModal = () => {
       this.setState({ show: true });
@@ -878,7 +894,7 @@ export default function initConstantStakingNew({
                     <div className="position-relative">
                       <h6 className="amount-txt">Amount</h6>
                       <input
-                        type={"text"}
+                        type={"number"}
                         className="styledinput"
                         placeholder="0.0"
                         style={{ width: 200 }}
@@ -900,17 +916,47 @@ export default function initConstantStakingNew({
                     >
                       Max
                     </button>
-                    <button
+                    {/* <button
                       className="btn filledbtn"
                       onClick={this.handleApprove}
                     >
                       Approve
-                    </button>
+                    </button> */}
                     <button
-                      className="btn filledbtn"
-                      onClick={this.handleStake}
+                      disabled={
+                        this.state.depositAmount === "" ||
+                        this.state.buttonLoading === true
+                          ? true
+                          : false
+                      }
+                      className={`btn filledbtn ${
+                        this.state.depositAmount === "" && "disabled-btn"
+                      } ${
+                        this.state.buttonStatus === "deposit"
+                          ? "success-button"
+                          : this.state.buttonStatus === "success"
+                          ? "fail-button"
+                          : null
+                      } d-flex justify-content-center align-items-center gap-2`}
+                      onClick={this.setButtonState}
                     >
-                      Deposit
+                      {this.state.buttonLoading ? (
+                        <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      ) : this.state.buttonStatus === "initial" ? (
+                        <>Approve</>
+                      ) : this.state.buttonStatus === "deposit" ? (
+                        <>Deposit</>
+                      ) : (
+                        <>
+                          <img src={failMark} alt="" />
+                          Failed
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -958,7 +1004,8 @@ export default function initConstantStakingNew({
                       />
                     </div>
                     <button
-                      className="btn filledbtn"
+                    disabled
+                      className="btn filledbtn disabled-btn"
                       style={{ height: "fit-content" }}
                       onClick={(e) => {
                         e.preventDefault();
@@ -969,7 +1016,8 @@ export default function initConstantStakingNew({
                     </button>
 
                     <button
-                      className="btn filledbtn"
+                    disabled
+                      className="btn filledbtn disabled-btn"
                       style={{ height: "fit-content" }}
                       onClick={this.handleReinvest}
                     >
@@ -995,7 +1043,8 @@ export default function initConstantStakingNew({
                 </h6>
 
                 <button
-                  className="btn filledbtn"
+                disabled
+                  className="btn filledbtn disabled-btn"
                   onClick={() => {
                     this.setState({ showWithdrawModal: true });
                   }}

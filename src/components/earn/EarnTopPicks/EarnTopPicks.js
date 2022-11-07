@@ -72,7 +72,7 @@ const EarnTopPicks = ({
       lockTime: "90 days",
     },
   ];
-
+ 
   const buyback = [
     {
       top_pick: true,
@@ -326,7 +326,8 @@ const EarnTopPicks = ({
     } else if (chain === "avax") {
       fetchAvaxFarming();
     }
-
+    setActiveCard()
+    setShowDetails(false)
     setListing(listType);
   }, [topList, listType, chain]);
 
