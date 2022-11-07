@@ -248,6 +248,9 @@ const EarnTopPicks = ({
     "15 August 2023",
   ];
 
+  const lockarrayFarm = ['No Lock', '3 Days', '30 Days', '60 Days','90 Days',];
+
+
   const StakingNew1 = initStakingNew({
     token: window.token_new,
     // staking: window.farming_new_1,
@@ -262,6 +265,8 @@ const EarnTopPicks = ({
     expiration_time: "14 December 2022",
     fee: feeArray[cardIndex],
     handleConnection: handleConnection,
+    lockTime: lockarrayFarm[cardIndex]
+
   });
 
   //Buyback New
@@ -279,6 +284,7 @@ const EarnTopPicks = ({
   const lockarray = ['No Lock', '90 Days'];
 
   const lockarrayiDyp = ['No Lock', '90 Days', 'No Lock', '90 Days',];
+
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],

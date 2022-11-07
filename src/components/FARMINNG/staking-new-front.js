@@ -28,7 +28,7 @@ export default function initStakingNew({
   fee,
   chainId,
   handleConnection,
-  lockTime
+  lockTime,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -398,7 +398,7 @@ export default function initStakingNew({
     };
 
     handleWithdraw = async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
 
       let amountConstant = await constant.depositedTokens(this.state.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
@@ -888,7 +888,7 @@ export default function initStakingNew({
       tvl = new BigNumber(this.state.tvlUSD * LP_AMPLIFY_FACTOR)
         .div(1e18)
         .toString(10);
-      tvl = getFormattedNumber(tvl, 2);
+      tvl = getFormattedNumber(tvl, 3);
 
       stakingTime = stakingTime * 1e3;
       cliffTime = cliffTime * 1e3;
@@ -985,7 +985,7 @@ export default function initStakingNew({
                   <div className="d-flex align-items-center justify-content-between gap-3">
                     <h6 className="earnrewards-text">Earn rewards in:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      DYP
+                      WETH & DYP
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1017,6 +1017,24 @@ export default function initStakingNew({
                           <div style={{ whiteSpace: "pre-line" }}>
                             {
                               "APR reflects the interest rate of earnings on an account over the course of one year. "
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Lock time:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {lockTime}
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "The amount of time your deposited assets will be locked."
                             }
                           </div>
                         }
@@ -1238,7 +1256,10 @@ export default function initStakingNew({
                           style={{ width: "100px", padding: 15, height: 35 }}
                         />
                       </div>
-                      <div className="d-flex align-items-center">
+                      <div
+                        className="d-flex align-items-center"
+                        style={{ paddingLeft: "10px" }}
+                      >
                         <img
                           src={
                             require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
@@ -1310,7 +1331,10 @@ export default function initStakingNew({
                         />
                       </div>
 
-                      <div className="d-flex align-items-center">
+                      <div
+                        className="d-flex align-items-center"
+                        style={{ paddingLeft: "10px" }}
+                      >
                         <img
                           src={
                             require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
@@ -1320,10 +1344,10 @@ export default function initStakingNew({
                           style={{ width: 14, height: 14 }}
                         />
                         <select
-                          disabled={!is_connected}
+                          disabled
                           defaultValue="DYP"
-                          className=" inputfarming"
-                          style={{ border: "none" }}
+                          className="form-control inputfarming"
+                          style={{ border: "none", padding: "0 0 0 3px" }}
                         >
                           <option value="DYP"> DYP </option>
                         </select>
@@ -1401,12 +1425,12 @@ export default function initStakingNew({
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
-                  <div className="table-responsive container">
+                  <div className="container">
                     <div className="row" style={{ marginLeft: "0px" }}>
                       <div className="d-flex justify-content-between gap-2 align-items-center p-0">
                         <h6 className="d-flex gap-2 align-items-center statstext">
                           <img src={stats} alt="" />
-                          Stats
+                          My Stats
                         </h6>
                         <h6 className="d-flex gap-2 align-items-center myaddrtext">
                           My address
@@ -1427,35 +1451,32 @@ export default function initStakingNew({
                       <tbody>
                         <tr>
                           <td className="text-right">
-                            <th>Contract Expiration</th>
-                            <small>{expiration_time}</small>
-                          </td>
-                          <td className="text-right">
-                            <th>My DYP Balance</th>
+                            <th>MY LP Deposit</th>
                             <div>
-                              <strong>{reward_token_balance}</strong>{" "}
-                              <small>DYP</small>
+                              <strong>{myDepositedLpTokens}</strong>{" "}
+                              <small>iDYP/WETH</small>
                             </div>
                           </td>
-
+                          
                           <td className="text-right">
-                            <th>My DYP Deposit</th>
+                            <th>Total LP Deposited</th>
                             <div>
-                              <strong>{depositedTokensDYP}</strong>{" "}
-                              <small>DYP</small>
+                              <strong>{tvl}</strong>{" "}
+                              <small>iDYP/WETH</small>
                             </div>
                           </td>
-                        </tr>
-
-                        <tr>
                           <td className="text-right">
-                            <th>Total DYP Deposited</th>
+                            <th>Total DYP Deposited	</th>
                             <div>
                               <strong>{tvlConstantDYP}</strong>{" "}
                               <small>DYP</small>
                             </div>
                           </td>
 
+                        </tr>
+
+                        <tr>
+                       
                           <td className="text-right">
                             <th>Total Earned DYP</th>
                             <div>
@@ -1471,36 +1492,89 @@ export default function initStakingNew({
                               <small>WETH</small>
                             </div>
                           </td>
+                          <td className="text-right">
+                            <th>My Share</th>
+                            <div>
+                              <strong>{myShare}</strong> <small>%</small>
+                            </div>
+                          </td>
                         </tr>
                         <tr>
-                          <td className="text-right">
+                          
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="container">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                        <h6 className="d-flex gap-2 align-items-center statstext">
+                          <img src={stats} alt="" />
+                          Pool stats
+                        </h6>
+                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                          My address tbd
+                          <a
+                            href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
+                            target={"_blank"}
+                            rel="noreferrer"
+                          >
+                            <h6 className="addresstxt">
+                              {this.props.coinbase?.slice(0, 10) + "..."}
+                            </h6>
+                          </a>
+                          <img src={arrowup} alt="" />
+                        </h6>
+                      </div>
+                    </div>
+                    <table className="table-stats table table-sm table-borderless mt-2">
+                      <tbody>
+                        <tr>
+                        <td className="text-right">
                             <th>TVL USD</th>
                             <div>
                               <strong>${tvl_usd}</strong> <small>USD</small>
                             </div>
                           </td>
+
+                          <td className="text-right">
+                            <th>Total LP deposited</th>
+                            <div>
+                              <strong>{tvl}</strong>{" "}
+                              <small>DYP/ETH</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>To be swapped</th>
+                            <div>
+                              <strong>{tokensToBeSwapped}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
                         </tr>
+
+                        <tr>
+                          <td className="text-right">
+                            <th>To be burnt / disbursed</th>
+                            <div>
+                              <strong>{tokensToBeDisbursedOrBurnt}</strong>{" "}
+                              <small>iDYP</small>
+                            </div>
+                          </td>
+
+
+                          <td className="text-right">
+                            <th>Contract Expiration</th>
+                            <small>{expiration_time}</small>
+                          </td>
+
+                          
+                        </tr> 
                       </tbody>
                     </table>
-                    <div className="referralwrapper">
-                      <div className="d-flex gap-2 align-items-start">
-                        <img src={referralimg} alt="" />
-                        <div
-                          className="d-flex gap-2 flex-column"
-                          style={{ width: "67%" }}
-                        >
-                          <h6 className="referraltitle">Referral link</h6>
-                          <h6 className="referraldesc">
-                            Refferal link gives you 5% for each invite friend
-                            you bring to buy DYP example
-                          </h6>
-                        </div>
-                        <button className="copybtn btn">
-                          {" "}
-                          <img src={copy} alt="" /> Copy{" "}
-                        </button>
-                      </div>
-                    </div>
+                  
                   </div>
                 </div>
               </div>
