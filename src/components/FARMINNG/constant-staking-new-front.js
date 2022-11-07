@@ -104,8 +104,8 @@ export default function initConstantStakingNew({
         stakingTime: "",
         depositedTokens: "",
         lastClaimedTime: "",
-        buttonLoading: false,
-        buttonStatus: "initial",
+        depositLoading: false,
+        depositStatus: "initial",
         depositAmount: "",
         withdrawAmount: "",
         claimLoading: false,
@@ -143,16 +143,16 @@ export default function initConstantStakingNew({
       this.hidePopup = this.hidePopup.bind(this);
     }
 
-    setButtonState = () => {
-      if (this.state.buttonStatus === "initial") {
-        this.setState({ buttonLoading: true });
+    clickDeposit = () => {
+      if (this.state.depositStatus === "initial") {
+        this.setState({ depositLoading: true });
         setTimeout(() => {
-          this.setState({ buttonLoading: false, buttonStatus: "deposit" });
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
         }, 2000);
-      } else if (this.state.buttonStatus === "deposit") {
-        this.setState({ buttonLoading: true });
+      } else if (this.state.depositStatus === "deposit") {
+        this.setState({ depositLoading: true });
         setTimeout(() => {
-          this.setState({ buttonLoading: false, buttonStatus: "success" });
+          this.setState({ depositLoading: false, depositStatus: "success" });
         }, 2000);
       }
     };
@@ -945,31 +945,31 @@ export default function initConstantStakingNew({
                     <button
                       disabled={
                         this.state.depositAmount === "" ||
-                        this.state.buttonLoading === true
+                        this.state.depositLoading === true
                           ? true
                           : false
                       }
                       className={`btn filledbtn ${
                         this.state.depositAmount === "" && "disabled-btn"
                       } ${
-                        this.state.buttonStatus === "deposit"
+                        this.state.depositStatus === "deposit"
                           ? "success-button"
-                          : this.state.buttonStatus === "success"
+                          : this.state.depositStatus === "success"
                           ? "fail-button"
                           : null
                       } d-flex justify-content-center align-items-center gap-2`}
-                      onClick={this.setButtonState}
+                      onClick={this.clickDeposit}
                     >
-                      {this.state.buttonLoading ? (
+                      {this.state.depositLoading ? (
                         <div
                           class="spinner-border spinner-border-sm text-light"
                           role="status"
                         >
                           <span class="visually-hidden">Loading...</span>
                         </div>
-                      ) : this.state.buttonStatus === "initial" ? (
+                      ) : this.state.depositStatus === "initial" ? (
                         <>Approve</>
-                      ) : this.state.buttonStatus === "deposit" ? (
+                      ) : this.state.depositStatus === "deposit" ? (
                         <>Deposit</>
                       ) : (
                         <>
