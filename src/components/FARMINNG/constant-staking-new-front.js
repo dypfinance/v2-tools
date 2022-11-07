@@ -108,7 +108,10 @@ export default function initConstantStakingNew({
         buttonStatus: "initial",
         depositAmount: "",
         withdrawAmount: "",
-
+        claimLoading: false,
+        claimStatus: 'initial',
+        reInvestLoading: false,
+        reInvestStatus: 'initial',
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
         referralFeeEarned: "",
@@ -153,6 +156,23 @@ export default function initConstantStakingNew({
         }, 2000);
       }
     };
+
+
+    clickClaim = () => {
+      this.setState({claimLoading: true})
+      setTimeout(() => {
+        this.setState({claimStatus: 'claimed'})
+        this.setState({claimLoading: false})
+      }, 2000);
+    }
+
+    clickreInvest = () => {
+      this.setState({reInvestLoading: true})
+      setTimeout(() => {
+        this.setState({claimStatus: 'claimed'})
+        this.setState({reInvestLoading: false})
+      }, 2000);
+    }
 
     showModal = () => {
       this.setState({ show: true });
@@ -1004,24 +1024,39 @@ export default function initConstantStakingNew({
                       />
                     </div>
                     <button
-                    disabled
-                      className="btn filledbtn disabled-btn"
+                    disabled={this.state.claimStatus === 'claimed' ? true : false}
+                      className={`btn filledbtn ${this.state.claimStatus === 'claimed' ? 'disabled-btn' : null} d-flex justify-content-center align-items-center gap-2`}
                       style={{ height: "fit-content" }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.handleClaimDivs();
-                      }}
+                      onClick={this.clickClaim}
                     >
-                      Claim
+                     {this.state.claimLoading ?
+                      <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                        :
+                        <>Claim</>
+                    }
                     </button>
 
                     <button
-                    disabled
-                      className="btn filledbtn disabled-btn"
+                    disabled={this.state.claimStatus === 'claimed' ? true : false}
+                      className={`btn filledbtn ${this.state.claimStatus === 'claimed' ? 'disabled-btn' : null} d-flex justify-content-center align-items-center gap-2`}
                       style={{ height: "fit-content" }}
-                      onClick={this.handleReinvest}
+                      onClick={this.clickreInvest}
                     >
-                      Reinvest
+                      {this.state.reInvestLoading ?
+                       <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      :
+                      <>Reinvest</>
+                    }
                     </button>
                   </div>
                 </div>
