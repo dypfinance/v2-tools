@@ -28,6 +28,7 @@ export default function initStakingNew({
   fee,
   chainId,
   handleConnection,
+  lockTime
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -971,82 +972,85 @@ export default function initStakingNew({
           <div className="allwrapper">
             <div className="leftside2 w-100">
               <div className="activewrapper">
-                <h6 className="activetxt">
-                  <img
-                    src={ellipse}
-                    alt=""
-                    className="position-relative"
-                    style={{ top: 3 }}
-                  />
-                  Active status
-                </h6>
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Earn rewards in:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    DYP
+                <div className="d-flex align-items-center justify-content-between gap-5">
+                  <h6 className="activetxt">
+                    <img
+                      src={ellipse}
+                      alt=""
+                      className="position-relative"
+                      style={{ top: 3 }}
+                    />
+                    Active status
                   </h6>
-                </div>
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Performance fee:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {fee}%
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {
-                            "Performance fee is subtracted from the displayed APR."
-                          }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
-                </div>
+                  <div className="d-flex align-items-center justify-content-between gap-3">
+                    <h6 className="earnrewards-text">Earn rewards in:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      DYP
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Performance fee:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {fee}%
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "Performance fee is subtracted from the displayed APR."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
 
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">APR:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {apy}%
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {
-                            "APR reflects the interest rate of earnings on an account over the course of one year. "
-                          }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">APR:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {apy}%
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "APR reflects the interest rate of earnings on an account over the course of one year. "
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
                 </div>
-
-                <a
-                  href={
-                    chainId === 1
-                      ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                      : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                  }
-                  target={"_blank"}
-                  rel="noreferrer"
-                >
-                  <h6 className="bottomitems">
-                    <img src={arrowup} alt="" />
-                    Get DYP
-                  </h6>
-                </a>
-                <div
-                  onClick={() => {
-                    this.showPopup();
-                  }}
-                >
-                  <h6 className="bottomitems">
-                    <img src={purplestats} alt="" />
-                    Stats
-                  </h6>
+                <div className="d-flex align-items-center justify-content-between gap-3">
+                  <a
+                    href={
+                      chainId === 1
+                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                    }
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <h6 className="bottomitems">
+                      <img src={arrowup} alt="" />
+                      Get DYP
+                    </h6>
+                  </a>
+                  <div
+                    onClick={() => {
+                      this.showPopup();
+                    }}
+                  >
+                    <h6 className="bottomitems">
+                      <img src={purplestats} alt="" />
+                      Stats
+                    </h6>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1160,7 +1164,12 @@ export default function initStakingNew({
                     >
                       Max
                     </button>
-                    <button className="btn filledbtn"  onClick={this.handleApprove}>Approve</button>
+                    <button
+                      className="btn filledbtn"
+                      onClick={this.handleApprove}
+                    >
+                      Approve
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1567,8 +1576,8 @@ export default function initStakingNew({
                                   ? `${
                                       this.state.withdrawAmount *
                                       LP_AMPLIFY_FACTOR
-                                    } LP`
-                                  : `${this.state.withdrawAmount} LP`
+                                    }`
+                                  : `${this.state.withdrawAmount}`
                               }
                               onChange={(e) =>
                                 this.setState({

@@ -19,7 +19,6 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 
-
 export default function initConstantStakingNew({
   staking,
   apr,
@@ -29,6 +28,7 @@ export default function initConstantStakingNew({
   fee,
   chainId,
   handleConnection,
+  lockTime
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -116,7 +116,7 @@ export default function initConstantStakingNew({
         selectedTokenLogo: "weth",
         selectedRewardTokenLogo1: "weth",
         selectedRewardTokenLogo2: "dyp",
-        
+
         usdPerToken: "",
 
         contractDeployTime: "",
@@ -193,7 +193,7 @@ export default function initConstantStakingNew({
 
     componentDidMount() {
       this.refreshBalance();
-    //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       if (this.props.coinbase !== null) {
         this.setState({ coinbase: this.props.coinbase });
@@ -241,7 +241,7 @@ export default function initConstantStakingNew({
     };
 
     componentWillUnmount() {
-    //   clearInterval(window._refreshBalInterval);
+      //   clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -715,471 +715,490 @@ export default function initConstantStakingNew({
 
       return (
         <div className="container-lg p-0">
-        <div className="allwrapper">
-          <div className="leftside2 w-100">
-            <div className="activewrapper">
-              <h6 className="activetxt">
-                <img
-                  src={ellipse}
-                  alt=""
-                  className="position-relative"
-                  style={{ top: 3 }}
-                />
-                Active status
-              </h6>
-              <div className="d-flex align-items-center justify-content-between gap-2">
-                <h6 className="earnrewards-text">Earn rewards in:</h6>
-                <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                  DYP
-                </h6>
-              </div>
-              <div className="d-flex align-items-center justify-content-between gap-2">
-                <h6 className="earnrewards-text">Performance fee:</h6>
-                <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                  {fee}%
-                  <Tooltip
-                    placement="top"
-                    title={
-                      <div style={{ whiteSpace: "pre-line" }}>
-                        {
-                          "Performance fee is subtracted from the displayed APR."
-                        }
-                      </div>
-                    }
-                  >
-                    <img src={moreinfo} alt="" />
-                  </Tooltip>
-                </h6>
-              </div>
-
-              <div className="d-flex align-items-center justify-content-between gap-2">
-                <h6 className="earnrewards-text">APR:</h6>
-                <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                  {getFormattedNumber(this.state.apy, 2)}%{" "}
-                  <Tooltip
-                    placement="top"
-                    title={
-                      <div style={{ whiteSpace: "pre-line" }}>
-                        {
-                          "APR reflects the interest rate of earnings on an account over the course of one year. "
-                        }
-                      </div>
-                    }
-                  >
-                    <img src={moreinfo} alt="" />
-                  </Tooltip>
-                </h6>
-              </div>
-
-              <a
-                href={
-                  chainId === 1
-                    ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                    : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                }
-                target={"_blank"}
-                rel="noreferrer"
-              >
-                <h6 className="bottomitems">
-                  <img src={arrowup} alt="" />
-                  Get DYP
-                </h6>
-              </a>
-              <div
-                onClick={() => {
-                  this.showPopup();
-                }}
-              >
-                <h6 className="bottomitems">
-                  <img src={purplestats} alt="" />
-                  Stats
-                </h6>
-              </div>
-            </div>
-          </div>
-          <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-            <div className="firstblockwrapper">
-              <div
-                className="d-flex flex-column justify-content-between gap-2"
-                style={{ height: "100%" }}
-              >
-                <h6 className="start-title">Start Staking</h6>
-                <h6 className="start-desc">
-                  {this.props.coinbase === null
-                    ? "Connect wallet to view and interact with deposits and withdraws"
-                    : "Interact with deposits and withdraws"}
-                </h6>
-                {this.props.coinbase === null ? (
-                  <button className="connectbtn btn" onClick={this.showModal}>
-                    {" "}
-                    <img src={wallet} alt="" /> Connect wallet
-                  </button>
-                ) : (
-                  <div className="addressbtn btn">
-                    <Address a={this.props.coinbase} />
+          <div className="allwrapper">
+            <div className="leftside2 w-100">
+              <div className="activewrapper">
+                <div className="d-flex align-items-center justify-content-between gap-5">
+                  <h6 className="activetxt">
+                    <img
+                      src={ellipse}
+                      alt=""
+                      className="position-relative"
+                      style={{ top: 3 }}
+                    />
+                    Active status
+                  </h6>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Earn rewards in:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      DYP
+                    </h6>
                   </div>
-                )}
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Performance fee:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {fee}%
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "Performance fee is subtracted from the displayed APR."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">APR:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {getFormattedNumber(this.state.apy, 2)}%{" "}
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "APR reflects the interest rate of earnings on an account over the course of one year. "
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Lock time:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {lockTime}
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "The amount of time your deposited assets will be locked."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                </div>
+
+                <div className="d-flex align-items-center justify-content-between gap-3">
+                  <a
+                    href={
+                      chainId === 1
+                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                    }
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <h6 className="bottomitems">
+                      <img src={arrowup} alt="" />
+                      Get DYP
+                    </h6>
+                  </a>
+                  <div
+                    onClick={() => {
+                      this.showPopup();
+                    }}
+                  >
+                    <h6 className="bottomitems">
+                      <img src={purplestats} alt="" />
+                      Stats
+                    </h6>
+                  </div>
+                </div>
               </div>
             </div>
-            {/* <div className="otherside">
+            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
+              <div className="firstblockwrapper">
+                <div
+                  className="d-flex flex-column justify-content-between gap-2"
+                  style={{ height: "100%" }}
+                >
+                  <h6 className="start-title">Start Staking</h6>
+                  <h6 className="start-desc">
+                    {this.props.coinbase === null
+                      ? "Connect wallet to view and interact with deposits and withdraws"
+                      : "Interact with deposits and withdraws"}
+                  </h6>
+                  {this.props.coinbase === null ? (
+                    <button className="connectbtn btn" onClick={this.showModal}>
+                      {" "}
+                      <img src={wallet} alt="" /> Connect wallet
+                    </button>
+                  ) : (
+                    <div className="addressbtn btn">
+                      <Address a={this.props.coinbase} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* <div className="otherside">
               <button className="btn green-btn">
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-            <div className="otherside-border">
-              <div className="d-flex justify-content-between align-items-center gap-2">
-                <h6 className="deposit-txt">
-                  Deposit
-                  <Tooltip
-                    placement="top"
-                    title={
-                      <div style={{ whiteSpace: "pre-line" }}>
-                        {"lorem impsum deposit text"}
-                      </div>
-                    }
-                  >
-                    <img src={moreinfo} alt="" />
-                  </Tooltip>
-                </h6>
-                <h6 className="mybalance-text">
-                  Balance:
-                  <b>
-                  {token_balance}
-                  </b>
-                  <img
-                    src={
-                      require(`./assets/dyp.svg`)
-                        .default
-                    }
-                    alt=""
-                    style={{ width: 14, height: 14 }}
-                  />
-                  
-                </h6>
-              </div>
-              <div className="d-flex flex-column gap-2 justify-content-between">
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <div className="position-relative">
-                    <h6 className="amount-txt">Amount</h6>
-                    <input
-                      type={"text"}
-                      className="styledinput"
-                      placeholder="0.0"
-                      style={{ width: 200 }}
-                      value={
-                        Number(this.state.depositAmount) > 0
-                          ? this.state.depositAmount
-                          : this.state.depositAmount
+              <div className="otherside-border">
+                <div className="d-flex justify-content-between align-items-center gap-2">
+                  <h6 className="deposit-txt">
+                    Deposit
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"lorem impsum deposit text"}
+                        </div>
                       }
-                      onChange={(e) =>
-                        this.setState({
-                          depositAmount: e.target.value,
-                        })
-                      }
-                      
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </h6>
+                  <h6 className="mybalance-text">
+                    Balance:
+                    <b>{token_balance}</b>
+                    <img
+                      src={require(`./assets/dyp.svg`).default}
+                      alt=""
+                      style={{ width: 14, height: 14 }}
                     />
+                  </h6>
+                </div>
+                <div className="d-flex flex-column gap-2 justify-content-between">
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <div className="position-relative">
+                      <h6 className="amount-txt">Amount</h6>
+                      <input
+                        type={"text"}
+                        className="styledinput"
+                        placeholder="0.0"
+                        style={{ width: 200 }}
+                        value={
+                          Number(this.state.depositAmount) > 0
+                            ? this.state.depositAmount
+                            : this.state.depositAmount
+                        }
+                        onChange={(e) =>
+                          this.setState({
+                            depositAmount: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <button
+                      className="btn maxbtn"
+                      onClick={this.handleSetMaxDeposit}
+                    >
+                      Max
+                    </button>
+                    <button
+                      className="btn filledbtn"
+                      onClick={this.handleApprove}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="btn filledbtn"
+                      onClick={this.handleStake}
+                    >
+                      Deposit
+                    </button>
                   </div>
-                  <button
-                    className="btn maxbtn"
-                    onClick={this.handleSetMaxDeposit}
-                  >
-                    Max
-                  </button>
-                  <button className="btn filledbtn"  onClick={this.handleApprove}>Approve</button>
-                  <button className="btn filledbtn"  onClick={this.handleStake}>Deposit</button>
                 </div>
               </div>
-            </div>
-            <div className="otherside-border">
-              <div className="d-flex justify-content-between gap-2 ">
-                <h6 className="withdraw-txt">Rewards</h6>
-                <h6 className="withdraw-littletxt">
-                  Reward updated each day 00:00 (UTC) <b>22:36</b>
-                  <Tooltip
-                    placement="top"
-                    title={
-                      <div style={{ whiteSpace: "pre-line" }}>
-                        {"rewards text"}
-                      </div>
-                    }
-                  >
-                    <img src={moreinfo} alt="" />
-                  </Tooltip>
-                </h6>
-              </div>
-              <div className="d-flex flex-column gap-2 justify-content-between">
-                <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                <div className="form-row d-flex gap-2 align-items-end">
+              <div className="otherside-border">
+                <div className="d-flex justify-content-between gap-2 ">
+                  <h6 className="withdraw-txt">Rewards</h6>
+                  <h6 className="withdraw-littletxt">
+                    Reward updated each day 00:00 (UTC) <b>22:36</b>
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"rewards text"}
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </h6>
+                </div>
+                <div className="d-flex flex-column gap-2 justify-content-between">
+                  <div className="d-flex align-items-center justify-content-between gap-2"></div>
+                  <div className="form-row d-flex gap-2 align-items-end">
                     <div className="position-relative">
                       <input
                         disabled
                         value={
-                            Number(pendingDivs) > 0
-                              ? `${pendingDivs} DYP`
-                              : `${pendingDivs} DYP`
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              pendingDivs:
-                                Number(e.target.value) > 0
-                                  ? e.target.value
-                                  : e.target.value,
-                            })
-                          }
+                          Number(pendingDivs) > 0
+                            ? `${pendingDivs} DYP`
+                            : `${pendingDivs} DYP`
+                        }
+                        onChange={(e) =>
+                          this.setState({
+                            pendingDivs:
+                              Number(e.target.value) > 0
+                                ? e.target.value
+                                : e.target.value,
+                          })
+                        }
                         className=" left-radius inputfarming styledinput2"
                         placeholder="0"
                         type="text"
                         style={{ width: "120px", padding: 15, height: 35 }}
                       />
                     </div>
-                  <button
-                    className="btn filledbtn"
-                    style={{ height: "fit-content" }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.handleClaimDivs()
-                    }}
-                  >
-                    Claim
-                  </button>
+                    <button
+                      className="btn filledbtn"
+                      style={{ height: "fit-content" }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.handleClaimDivs();
+                      }}
+                    >
+                      Claim
+                    </button>
 
-                  <button
-                    className="btn filledbtn"
-                    style={{ height: "fit-content" }}
-                    onClick={this.handleReinvest}
-                  >
-                    Reinvest
-                  </button>
+                    <button
+                      className="btn filledbtn"
+                      style={{ height: "fit-content" }}
+                      onClick={this.handleReinvest}
+                    >
+                      Reinvest
+                    </button>
+                  </div>
                 </div>
-
-             
-             
               </div>
-            </div>
 
-            <div className="otherside-border">
-              <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
-                WITHDRAW DEPOSIT
-                <Tooltip
-                  placement="top"
-                  title={
-                    <div style={{ whiteSpace: "pre-line" }}>
-                      {"withdraw deposit text"}
-                    </div>
-                  }
+              <div className="otherside-border">
+                <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
+                  WITHDRAW DEPOSIT
+                  <Tooltip
+                    placement="top"
+                    title={
+                      <div style={{ whiteSpace: "pre-line" }}>
+                        {"withdraw deposit text"}
+                      </div>
+                    }
+                  >
+                    <img src={moreinfo} alt="" />
+                  </Tooltip>
+                </h6>
+
+                <button
+                  className="btn filledbtn"
+                  onClick={() => {
+                    this.setState({ showWithdrawModal: true });
+                  }}
                 >
-                  <img src={moreinfo} alt="" />
-                </Tooltip>
-              </h6>
-
-              <button
-                className="btn filledbtn"
-                onClick={() => {
-                  this.setState({ showWithdrawModal: true });
-                }}
-              >
-                Withdraw
-              </button>
+                  Withdraw
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        {this.state.popup && (
-          <Modal
-            visible={this.state.popup}
-            modalId="tymodal"
-            setIsVisible={() => {
-              this.setState({ popup: false });
-            }}
-          >
-            <div className="earn-hero-content p4token-wrapper">
-              <div className="l-box pl-3 pr-3">
-                <div className="table-responsive container">
-                  <div className="row" style={{ marginLeft: "0px" }}>
-                    <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                      <h6 className="d-flex gap-2 align-items-center statstext">
-                        <img src={stats} alt="" />
-                        Stats
-                      </h6>
-                      <h6 className="d-flex gap-2 align-items-center myaddrtext">
-                        My address
-                        <a
-                          href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
-                          target={"_blank"}
-                          rel="noreferrer"
-                        >
-                          <h6 className="addresstxt">
-                            {this.props.coinbase?.slice(0, 10) + "..."}
-                          </h6>
-                        </a>
-                        <img src={arrowup} alt="" />
-                      </h6>
-                    </div>
-                  </div>
-                  <table className="table-stats table table-sm table-borderless mt-2">
-                    <tbody>
-                      <tr>
-                        <td className="text-right">
-                          <th>Contract Expiration</th>
-                          <small>{expiration_time}</small>
-                        </td>
-                        <td className="text-right">
-                          <th>My DYP Balance</th>
-                          <div>
-                            <strong>{token_balance}</strong>{" "}
-                            <small>DYP</small>
-                          </div>
-                        </td>
-
-                        <td className="text-right">
-                          <th>My DYP Deposit</th>
-                          <div>
-                            <strong>{depositedTokens}</strong>{" "}
-                            <small>DYP</small>
-                          </div>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td className="text-right">
-                          <th>Total DYP Locked</th>
-                          <div>
-                            <strong>{tvl}</strong>{" "}
-                            <small>DYP</small>
-                          </div>
-                        </td>
-
-                        <td className="text-right">
-                          <th>Referral Fee Earned</th>
-                          <div>
-                            <strong>{referralFeeEarned}</strong>{" "}
-                            <small>DYP</small>
-                          </div>
-                        </td>
-
-                        <td className="text-right">
-                          <th>TVL USD</th>
-                          <div>
-                            <strong>${tvl_usd}</strong>{" "}
-                            <small>USD</small>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="text-right">
-                          <th>TVL USD</th>
-                          <div>
-                            <strong>${tvl_usd}</strong> <small>USD</small>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <div className="referralwrapper">
-                    <div className="d-flex gap-2 align-items-start">
-                      <img src={referralimg} alt="" />
-                      <div
-                        className="d-flex gap-2 flex-column"
-                        style={{ width: "67%" }}
-                      >
-                        <h6 className="referraltitle">Referral link</h6>
-                        <h6 className="referraldesc">
-                          Refferal link gives you 5% for each invite friend
-                          you bring to buy DYP example
+          {this.state.popup && (
+            <Modal
+              visible={this.state.popup}
+              modalId="tymodal"
+              setIsVisible={() => {
+                this.setState({ popup: false });
+              }}
+            >
+              <div className="earn-hero-content p4token-wrapper">
+                <div className="l-box pl-3 pr-3">
+                  <div className="table-responsive container">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                        <h6 className="d-flex gap-2 align-items-center statstext">
+                          <img src={stats} alt="" />
+                          Stats
+                        </h6>
+                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                          My address
+                          <a
+                            href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
+                            target={"_blank"}
+                            rel="noreferrer"
+                          >
+                            <h6 className="addresstxt">
+                              {this.props.coinbase?.slice(0, 10) + "..."}
+                            </h6>
+                          </a>
+                          <img src={arrowup} alt="" />
                         </h6>
                       </div>
-                      <button className="copybtn btn">
-                        {" "}
-                        <img src={copy} alt="" /> Copy{" "}
-                      </button>
+                    </div>
+                    <table className="table-stats table table-sm table-borderless mt-2">
+                      <tbody>
+                        <tr>
+                          <td className="text-right">
+                            <th>Contract Expiration</th>
+                            <small>{expiration_time}</small>
+                          </td>
+                          <td className="text-right">
+                            <th>My DYP Balance</th>
+                            <div>
+                              <strong>{token_balance}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>My DYP Deposit</th>
+                            <div>
+                              <strong>{depositedTokens}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td className="text-right">
+                            <th>Total DYP Locked</th>
+                            <div>
+                              <strong>{tvl}</strong> <small>DYP</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>Referral Fee Earned</th>
+                            <div>
+                              <strong>{referralFeeEarned}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>TVL USD</th>
+                            <div>
+                              <strong>${tvl_usd}</strong> <small>USD</small>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-right">
+                            <th>TVL USD</th>
+                            <div>
+                              <strong>${tvl_usd}</strong> <small>USD</small>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="referralwrapper">
+                      <div className="d-flex gap-2 align-items-start">
+                        <img src={referralimg} alt="" />
+                        <div
+                          className="d-flex gap-2 flex-column"
+                          style={{ width: "67%" }}
+                        >
+                          <h6 className="referraltitle">Referral link</h6>
+                          <h6 className="referraldesc">
+                            Refferal link gives you 5% for each invite friend
+                            you bring to buy DYP example
+                          </h6>
+                        </div>
+                        <button className="copybtn btn">
+                          {" "}
+                          <img src={copy} alt="" /> Copy{" "}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Modal>
-        )}
+            </Modal>
+          )}
 
-        {this.state.showWithdrawModal && (
-          <Modal
-            visible={this.state.showWithdrawModal}
-            modalId="withdrawmodal"
-            setIsVisible={() => {
-              this.setState({ showWithdrawModal: false });
-            }}
-          >
-            <div className="earn-hero-content p4token-wrapper">
-              <div className="l-box pl-3 pr-3">
-                <div className="container">
-                  <div className="row" style={{ marginLeft: "0px" }}>
-                    <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                      <h6 className="d-flex gap-2 align-items-center statstext">
-                        <img src={stats} alt="" />
-                        Withdraw deposit
+          {this.state.showWithdrawModal && (
+            <Modal
+              visible={this.state.showWithdrawModal}
+              modalId="withdrawmodal"
+              setIsVisible={() => {
+                this.setState({ showWithdrawModal: false });
+              }}
+            >
+              <div className="earn-hero-content p4token-wrapper">
+                <div className="l-box pl-3 pr-3">
+                  <div className="container">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                        <h6 className="d-flex gap-2 align-items-center statstext">
+                          <img src={stats} alt="" />
+                          Withdraw deposit
+                        </h6>
+                      </div>
+                      <h6 className="withdrawdesc mt-2">
+                        Your deposit is locked for 30 day. After 30 days you can
+                        withdraw or you can continue to earn rewards everyday
                       </h6>
                     </div>
-                    <h6 className="withdrawdesc mt-2">
-                      Your deposit is locked for 30 day. After 30 days you can
-                      withdraw or you can continue to earn rewards everyday
-                    </h6>
-                  </div>
 
-                  <div className="d-flex flex-column mt-2">
-                
-                    <div className="d-flex  gap-2 justify-content-between align-items-center">
-                      <div className="d-flex flex-column gap-1">
-                        <h6 className="withsubtitle">DYP amount</h6>
-                        <h6 className="withtitle">
-                          <input
-                            disabled={!is_connected}
-                            value={this.state.withdrawAmount}
-                            onChange={(e) =>
+                    <div className="d-flex flex-column mt-2">
+                      <div className="d-flex  gap-2 justify-content-between align-items-center">
+                        <div className="d-flex flex-column gap-1">
+                          <h6 className="withsubtitle">DYP amount</h6>
+                          <h6 className="withtitle">
+                            <input
+                              disabled={!is_connected}
+                              value={this.state.withdrawAmount}
+                              onChange={(e) =>
                                 this.setState({
                                   withdrawAmount: e.target.value,
                                 })
                               }
-                            className="inputfarming styledinput2 left-radius"
-                            placeholder="0"
-                            style={{ fontSize: 20, width: 170 }}
-                            type="text"
-                          />
-                        </h6>
+                              className="inputfarming styledinput2 left-radius"
+                              placeholder="0"
+                              style={{ fontSize: 20, width: 170 }}
+                              type="text"
+                            />
+                          </h6>
+                        </div>
+                        <div className="d-flex flex-column gap-1">
+                          <h6 className="withsubtitle">Value dollar amount</h6>
+                          <h6
+                            className="withtitle"
+                            style={{ color: "#C0CBF7" }}
+                          >
+                            $100.00
+                          </h6>
+                        </div>
                       </div>
-                      <div className="d-flex flex-column gap-1">
-                        <h6 className="withsubtitle">Value dollar amount</h6>
-                        <h6
-                          className="withtitle"
-                          style={{ color: "#C0CBF7" }}
+                      <div className="separator"></div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <button
+                          className="btn filledbtn"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            this.handleWithdraw();
+                          }}
+                          title={
+                            canWithdraw
+                              ? ""
+                              : `You recently staked, you can unstake ${cliffTimeInWords}`
+                          }
                         >
-                          $100.00
-                        </h6>
-                      </div>
-                    </div>
-                    <div className="separator"></div>
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <button
-                        className="btn filledbtn"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          this.handleWithdraw();
-                        }}
-                        title={
-                          canWithdraw
-                            ? ""
-                            : `You recently staked, you can unstake ${cliffTimeInWords}`
-                        }
-                      >
-                        Withdraw
-                      </button>
+                          Withdraw
+                        </button>
 
-                      <div
-                        className="d-flex flex-column gap-1"
-                        style={{ width: "30%" }}
-                      >
-                        <h6 className="withsubtitle">Total Rewards</h6>
-                        <h6 className="withtitle">$300.00</h6>
-                      </div>
+                        <div
+                          className="d-flex flex-column gap-1"
+                          style={{ width: "30%" }}
+                        >
+                          <h6 className="withsubtitle">Total Rewards</h6>
+                          <h6 className="withtitle">$300.00</h6>
+                        </div>
 
-                      {/* <div className="form-row">
+                        {/* <div className="form-row">
                               <div className="col-6">
                                 <button
                                   title={
@@ -1213,22 +1232,22 @@ export default function initConstantStakingNew({
                                 </button>
                               </div>
                             </div> */}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Modal>
-        )}
+            </Modal>
+          )}
 
-        {this.state.show && (
-          <WalletModal
-            show={this.state.show}
-            handleClose={this.state.hideModal}
-            handleConnection={this.props.handleConnection}
-          />
-        )}
-      </div>
+          {this.state.show && (
+            <WalletModal
+              show={this.state.show}
+              handleClose={this.state.hideModal}
+              handleConnection={this.props.handleConnection}
+            />
+          )}
+        </div>
 
         // <div>
         //   <div className="row">

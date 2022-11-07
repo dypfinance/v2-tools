@@ -19,6 +19,11 @@
   cursor: pointer;
 }
 
+.toppool-allwrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .view-more-title:hover,
 .view-more-title:focus {
   text-decoration: underline;
