@@ -1,110 +1,96 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import metamaskVideo from '../../../assets/earnAssets/metamaskVideo.png'
 import stakeVideo from '../../../assets/earnAssets/stakeVideo.png'
 import playButton from '../../../assets/earnAssets/playButton.svg'
+import axios from "axios";
+import DisabledButton from "../../disabledButton/DisabledButton";
+import SuccessButton from "../../universalButton/UniversalButton";
+import UniversalButton from "../../universalButton/UniversalButton";
 
-const EarnFaq = () => {
+const EarnFaq = ({faqTypes}) => {
+
+  const categories = [
+    
+    {
+      id: "63481594d7e11d6f1849f730",
+      title: "Stake",
+      icon: "stake"
+    },
+    {
+      id: "63488547062d4b709c4a250b",
+      title: "Buyback",
+      icon: "buyback"
+    },
+    {
+      id: "634885c5062d4b709c4a250f",
+      title: "Vault",
+      icon: "vault"
+    },
+    {
+      id: "6348811e062d4b709c4a24f9",
+      title: "Farming",
+      icon: "farm"
+    },
+   
+   
+  ]
+
+  const [faqItems, setFaqItems] = useState([])
+  const [faqTitle, setFaqTitle] = useState('')
+
+  const fetchFaq = async(category) => {
+    await axios.get(`https://news-manage.dyp.finance/api/faqs/${category.id}`).then((res) => {
+      setFaqItems(res.data)
+      console.log(res.data);
+      setFaqTitle(category.title)
+    }).catch((err) => console.error(err)) 
+  }
+
+  useEffect(() => {
+    if(faqTypes === 'Staking'){
+      fetchFaq(categories[0])
+    }else if(faqTypes === 'Buyback'){
+      fetchFaq(categories[1])
+    }else if(faqTypes === 'Vault'){
+      fetchFaq(categories[2])
+    }else{
+      fetchFaq(categories[3])
+    }
+  }, [faqTypes])
+  
+
+
   return (
     <div className="row w-100 my-5 py-3 px-1 m-3 faq-container">
       <div className="col-7">
-        <h3 className="mb-3" style={{color: '#c6c6d0'}}>Earn FAQ</h3>
+        <UniversalButton title="Success" loading={false} failState={false} />
+        <h3 className="mb-3" style={{color: '#c6c6d0'}}>{faqTitle} FAQs</h3>
         <div className="accordion" id="accordionExample">
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="headingOne">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              >
-                Accordion Item #1
-              </button>
-            </h2>
-            <div
-              id="collapseOne"
-              className="accordion-collapse collapse"
-              aria-labelledby="headingOne"
-              data-bs-parent="#accordionExample"
-            >
-              <div className="accordion-body">
-                <strong>This is the first item's accordion body.</strong> It is
-                shown by default, until the collapse plugin adds the appropriate
-                classes that we use to style each element. These classes control
-                the overall appearance, as well as the showing and hiding via
-                CSS transitions. You can modify any of this with custom CSS or
-                overriding our default variables. It's also worth noting that
-                just about any HTML can go within the{" "}
-                <code>.accordion-body</code>, though the transition does limit
-                overflow.
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="headingTwo">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo"
-                aria-expanded="false"
-                aria-controls="collapseTwo"
-              >
-                Accordion Item #2
-              </button>
-            </h2>
-            <div
-              id="collapseTwo"
-              className="accordion-collapse collapse"
-              aria-labelledby="headingTwo"
-              data-bs-parent="#accordionExample"
-            >
-              <div className="accordion-body">
-                <strong>This is the second item's accordion body.</strong> It is
-                hidden by default, until the collapse plugin adds the
-                appropriate classes that we use to style each element. These
-                classes control the overall appearance, as well as the showing
-                and hiding via CSS transitions. You can modify any of this with
-                custom CSS or overriding our default variables. It's also worth
-                noting that just about any HTML can go within the{" "}
-                <code>.accordion-body</code>, though the transition does limit
-                overflow.
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="headingThree">
-              <button
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseThree"
-                aria-expanded="false"
-                aria-controls="collapseThree"
-              >
-                Accordion Item #3
-              </button>
-            </h2>
-            <div
-              id="collapseThree"
-              className="accordion-collapse collapse"
-              aria-labelledby="headingThree"
-              data-bs-parent="#accordionExample"
-            >
-              <div className="accordion-body">
-                <strong>This is the third item's accordion body.</strong> It is
-                hidden by default, until the collapse plugin adds the
-                appropriate classes that we use to style each element. These
-                classes control the overall appearance, as well as the showing
-                and hiding via CSS transitions. You can modify any of this with
-                custom CSS or overriding our default variables. It's also worth
-                noting that just about any HTML can go within the{" "}
-                <code>.accordion-body</code>, though the transition does limit
-                overflow.
-              </div>
-            </div>
-          </div>
+         {faqItems.map((faqItem) => (
+           <div className="accordion-item">
+           <h2 className="accordion-header" id="headingOne">
+             <button
+               className="accordion-button collapsed"
+               type="button"
+               data-bs-toggle="collapse"
+               data-bs-target={`#${faqItem.collapse}`}
+               aria-expanded="true"
+               aria-controls={faqItem.collapse}
+             >
+              {faqItem.title}
+             </button>
+           </h2>
+           <div
+             id={faqItem.collapse}
+             className="accordion-collapse collapse"
+             aria-labelledby={faqItem.heading}
+             data-bs-parent="#accordionExample"
+           >
+             <div className="accordion-body" dangerouslySetInnerHTML={{ __html: faqItem.content}}>
+             </div>
+           </div>
+         </div>
+         ))}
         </div>
       </div>
       <div className="col-5">

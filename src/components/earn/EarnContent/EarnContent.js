@@ -11,6 +11,7 @@ import tableIcon from "../../../assets/earnAssets/tableIcon.svg";
 import tableIconActive from "../../../assets/earnAssets/tableIconActive.svg";
 import listIconActive from "../../../assets/earnAssets/listIconActive.svg";
 import EarnTopPicks from "../EarnTopPicks/EarnTopPicks";
+import EarnFaq from "../EarnFaq/EarnFaq";
 
 const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, handleConnection }) => {
   const options = [
@@ -227,6 +228,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
         chainId= {chainId}
         handleConnection={handleConnection}
       />
+      <EarnFaq faqTypes={option} />
     </>
   );
 };

@@ -4,7 +4,7 @@ import './skeletoncard.css'
 const SkeletonCard = () => {
   return (
     <div className="skeleton-card p-3 d-flex flex-column position-relative">
-        <div className="purplediv" style={{background: '#4A4D7B'}}></div>
+        <div className="purplediv" style={{background: '#4A4D7B', top: '12px'}}></div>
         <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex justify-content-center align-items-center gap-2">
                 <div className="circle-div"></div>
