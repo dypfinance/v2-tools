@@ -86,7 +86,7 @@ const EarnTopPicks = ({
       tokenName: "AVAX",
       apy: "1.08",
       tvl_usd: "48543.20",
-      lockTime: "No lock",
+      lockTime: "90 Days",
     },
   ];
 
@@ -269,6 +269,9 @@ const EarnTopPicks = ({
 
   });
 
+  const lockarrayBuyback = ['No Lock', '90 Days'];
+
+
   //Buyback New
   const BuybackStaking1 = initBuybackStakingNew({
     staking: stakeArrayBuyBack[cardIndex],
@@ -279,6 +282,8 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
+    lockTime: lockarrayBuyback[cardIndex]
+
   });
 
   const lockarray = ['No Lock', '90 Days'];
