@@ -72,7 +72,7 @@ const EarnTopPicks = ({
       lockTime: "90 days",
     },
   ];
-
+ 
   const buyback = [
     {
       top_pick: true,
@@ -321,13 +321,25 @@ const EarnTopPicks = ({
 
   useEffect(() => {
     if (topList === "Staking") {
-      setTopPools(stake);
+      setTopPools([])
+      setTimeout(() => {
+        setTopPools(stake);
+      }, 500);
     } else if (topList === "Buyback") {
-      setTopPools(buyback);
+      setTopPools([])
+      setTimeout(() => {
+        setTopPools(buyback);
+      }, 500);
     } else if (topList === "Vault") {
-      setTopPools(vault);
+      setTopPools([])
+      setTimeout(() => {
+        setTopPools(vault);
+      }, 500);;
     } else if (topList === "Farming") {
-      setTopPools(farming);
+      setTopPools([])
+      setTimeout(() => {
+        setTopPools(farming);
+      }, 500);
     }
 
     if (chain === "eth") {
@@ -337,7 +349,8 @@ const EarnTopPicks = ({
     } else if (chain === "avax") {
       fetchAvaxFarming();
     }
-
+    setActiveCard(null)
+    setShowDetails(false)
     setListing(listType);
   }, [topList, listType, chain]);
 

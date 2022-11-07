@@ -19,9 +19,9 @@ const TopPoolsCard = ({
   // showDetails,
 }) => {
   
-  const ethCoins = ["ethereum", "wbtc", "usdc", "usdt", "dai"];
-  const bscCoins = ["bsc", "wbtc", "ethereum", "dai", "pancakeswap" ]
-  const avaxCoins = ["avax", "ethereum", "wbtc", "usdt", "pangolin"]
+  const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
+  const bscCoins = ["bsc", "btcb", "ethereum", "busd", "pancakeswap", "idypius" ]
+  const avaxCoins = ["avax", "ethereum", "wbtc", "usdt", "usdc", "dai", "idypius", "pangolin", "benqi", "xava", "link"]
   
   const [showDetails, setShowDetails] = useState(false);
   const [coins, setCoins] = useState(ethCoins)
@@ -70,7 +70,7 @@ const TopPoolsCard = ({
             <div className="d-flex align-items-center">
               {cardType === "Farming" || cardType === "Buyback" ? (
                coins.length > 0 && 
-               coins.map((coin, index) => (
+               coins.slice(0,5).map((coin, index) => (
                   <img
                     key={index}
                     src={require(`./assets/${coin}.svg`).default}

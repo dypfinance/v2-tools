@@ -63,7 +63,6 @@ const EarnFaq = ({faqTypes}) => {
   return (
     <div className="row w-100 my-5 py-3 px-1 m-3 faq-container">
       <div className="col-7">
-        <UniversalButton title="Success" loading={false} failState={false} />
         <h3 className="mb-3" style={{color: '#c6c6d0'}}>{faqTitle} FAQs</h3>
         <div className="accordion" id="accordionExample">
          {faqItems.map((faqItem) => (

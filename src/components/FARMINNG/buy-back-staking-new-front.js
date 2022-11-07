@@ -8,7 +8,8 @@ import "./top-pools.css";
 import ellipse from "./assets/ellipse.svg";
 import empty from "./assets/empty.svg";
 import check from "./assets/check.svg";
-
+import successMark from "../../assets/successMark.svg";
+import failMark from "../../assets/failMark.svg";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
@@ -101,10 +102,14 @@ export default function initStaking({
         stakingTime: "",
         depositedTokens: "",
         lastClaimedTime: "",
-
+        depositLoading: false,
+        depositStatus: "initial",
         depositAmount: "",
         withdrawAmount: 0,
-
+        selectedPool: "",
+        claimLoading: false,
+        claimStatus: 'initial',
+        reInvestLoading: false,
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
         stakingOwner: null,
@@ -115,7 +120,7 @@ export default function initStaking({
         selectedRewardTokenLogo2: "dyp",
         usdPerToken: 0,
         showWithdrawModal: false,
-
+        
         selectedBuybackToken: Object.keys(window.buyback_tokens)[0],
         selectedTokenDecimals:
           window.buyback_tokens[Object.keys(window.buyback_tokens)[0]].decimals,
@@ -132,11 +137,42 @@ export default function initStaking({
         apyBuyback2: 0,
       };
 
+
       this.showModal = this.showModal.bind(this);
       this.hideModal = this.hideModal.bind(this);
 
       this.showPopup = this.showPopup.bind(this);
       this.hidePopup = this.hidePopup.bind(this);
+    }
+
+
+    clickDeposit = () => {
+      if (this.state.depositStatus === "initial") {
+        this.setState({ depositLoading: true });
+        setTimeout(() => {
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
+        }, 2000);
+      } else if (this.state.depositStatus === "deposit") {
+        this.setState({ depositLoading: true });
+        setTimeout(() => {
+          this.setState({ depositLoading: false, depositStatus: "success" });
+        }, 2000);
+      }
+    };
+
+    clickClaim = () => {
+      this.setState({claimLoading: true})
+      setTimeout(() => {
+        this.setState({claimStatus: 'claimed'})
+        this.setState({claimLoading: false})
+      }, 2000 );
+    }
+    clickReInvest = () => {
+      this.setState({reInvestLoading: true})
+      setTimeout(() => {
+        this.setState({claimStatus: 'claimed'})
+        this.setState({reInvestLoading: false})
+      }, 2000 );
     }
 
     showModal = () => {
@@ -1073,7 +1109,7 @@ export default function initStaking({
                     <div className="position-relative">
                       <h6 className="amount-txt">Amount</h6>
                       <input
-                        type={"text"}
+                        type={"number"}
                         className="styledinput"
                         placeholder="0.0"
                         style={{ width: 200 }}
@@ -1097,10 +1133,40 @@ export default function initStaking({
                       Max
                     </button>
                     <button
-                      className="btn filledbtn"
-                      onClick={this.handleApprove}
+                      disabled={
+                        this.state.depositAmount === "" ||
+                        this.state.depositLoading === true
+                          ? true
+                          : false
+                      }
+                      className={`btn filledbtn ${
+                        this.state.depositAmount === "" && "disabled-btn"
+                      } ${
+                        this.state.depositStatus === "deposit"
+                          ? "success-button"
+                          : this.state.depositStatus === "success"
+                          ? "fail-button"
+                          : null
+                      } d-flex justify-content-center align-items-center gap-2`}
+                      onClick={this.clickDeposit}
                     >
-                      Approve
+                      {this.state.depositLoading ? (
+                        <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      ) : this.state.depositStatus === "initial" ? (
+                        <>Approve</>
+                      ) : this.state.depositStatus === "deposit" ? (
+                        <>Deposit</>
+                      ) : (
+                        <>
+                          <img src={failMark} alt="" />
+                          Failed
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -1191,25 +1257,39 @@ export default function initStaking({
                       </div> */}
                     </div>
                     <button
-                      className="btn filledbtn"
+                    disabled={this.state.selectedPool === "" || this.state.claimStatus === 'claimed' ? true: false}
+                      className={`btn filledbtn ${this.state.claimStatus === 'claimed' || this.state.selectedPool === "" ? 'disabled-btn' : null} d-flex justify-content-center align-items-center`}
                       style={{ height: "fit-content" }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.handleClaimDyp();
-                      }}
+                      onClick={this.clickClaim}
                     >
-                      Claim
+                      {this.state.claimLoading ?
+                       <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      :
+                      <>Claim</>
+                    }
                     </button>
 
                     <button
-                      className="btn filledbtn"
+                    disabled={this.state.selectedPool === "" || this.state.claimStatus === 'claimed' ? true: false}
+                      className={`btn filledbtn ${this.state.claimStatus === 'claimed' || this.state.selectedPool === "" ? 'disabled-btn' : null} d-flex justify-content-center align-items-center`}
                       style={{ height: "fit-content" }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.handleReinvest();
-                      }}
+                      onClick={this.clickReInvest}
                     >
-                      Reinvest
+                       {this.state.reInvestLoading ?
+                       <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      :
+                      <>Reinvest</>
+                    }
                     </button>
                   </div>
 
@@ -1252,7 +1332,8 @@ export default function initStaking({
                 </h6>
 
                 <button
-                  className="btn filledbtn"
+                disabled
+                  className="btn filledbtn disabled-btn"
                   onClick={() => {
                     this.setState({ showWithdrawModal: true });
                   }}
