@@ -276,6 +276,10 @@ const EarnTopPicks = ({
     chainId: chainId,
   });
 
+  const lockarray = ['No Lock', '90 Days'];
+
+  const lockarrayiDyp = ['No Lock', '90 Days', 'No Lock', '90 Days',];
+
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
     apr: aprArrayStake[cardIndex],
@@ -286,6 +290,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
+    lockTime: lockarray[cardIndex]
   });
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
@@ -299,6 +304,8 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
+    lockTime: lockarrayiDyp[cardIndexiDyp]
+
   });
 
   useEffect(() => {

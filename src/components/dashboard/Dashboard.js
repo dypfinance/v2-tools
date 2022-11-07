@@ -101,7 +101,7 @@ import { NavLink } from "react-router-dom";
               </h6>
             </div>
             <div>
-              <div className="row m-0 gap-2">
+              <div className="row m-0 gap-2 toppool-allwrapper">
                 {cards.length > 0 &&
                   cards.map((item, index) => {
                     return (
