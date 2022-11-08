@@ -549,6 +549,158 @@ class BUYBACK_STAKING {
 
 
 
+class VAULT {
+	constructor(vaultAddress, tokenAddress) {
+		this._address = vaultAddress;
+		this.tokenAddress = tokenAddress;
+		[
+			"owner",
+			"getExchangeRateStored",
+			"LOCKUP_DURATION",
+			"UNDERLYING_DECIMALS",
+			"TRUSTED_CTOKEN_ADDRESS",
+			"MIN_ETH_FEE_IN_WEI",
+			"FEE_PERCENT_X_100",
+			"FEE_PERCENT_TO_BUYBACK_X_100",
+			"REWARD_INTERVAL",
+			"contractStartTime",
+			"getNumberOfHolders",
+			"cTokenBalance",
+			"depositTokenBalance",
+			"totalTokensDepositedByUser",
+			"totalTokensWithdrawnByUser",
+			"totalEarnedCompoundDivs",
+			"totalEarnedEthDivs",
+			"totalEarnedTokenDivs",
+			"totalEarnedPlatformTokenDivs",
+			"depositTime",
+			"lastClaimedTime",
+			"totalDepositedTokens",
+			"totalCTokens",
+			"tokenDivsBalance",
+			"ethDivsBalance",
+			"platformTokenDivsBalance",
+			"totalEthDisbursed",
+			"totalTokensDisbursed",
+			"tokenDivsOwing",
+			"ethDivsOwing",
+			"getDepositorsList",
+			"platformTokenDivsOwing",
+			"getEstimatedCompoundDivsOwing"
+		].forEach(fn_name => {
+			this[fn_name] = async function (...args) {
+				let contract = await getVaultContract(vaultAddress)
+				return (await contract.methods[fn_name](...args).call())
+			}
+		});
+
+		[
+			"claim",
+			"getExchangeRateCurrent",
+			"deposit",
+			"withdraw"
+		].forEach(fn_name => {
+			this[fn_name] = async function (args, value=0) {
+				let contract = await getVaultContract(vaultAddress)
+				return (await contract.methods[fn_name](...args).send({ value, from: await getCoinbase() }))
+			}
+		})
+	}
+
+	approveToken = async (amount) => {
+		let token_contract = await getTokenContract(this.tokenAddress)
+		return (await token_contract.methods.approve(this._address, amount).send({ value, from: await getCoinbase() }))
+	}
+
+	getTvlUsdAndApyPercent = async (UNDERLYING_DECIMALS=18, PLATFORM_TOKEN_DECIMALS=18) => {
+		let ethBalance = await window.ethweb3.eth.getBalance(this._address)
+		let underlyingBalance1 = await this.totalDepositedTokens()
+		let underlyingBalance2 = await (await getTokenContract(this.tokenAddress)).methods.balanceOf(this._address).call()
+		let platformTokenBalance = await (await getTokenContract(window.config.token_dyp_address)).methods.balanceOf(this._address).call()
+
+		ethBalance = ethBalance / 1e18
+		underlyingBalance1 = underlyingBalance1 / 10 ** UNDERLYING_DECIMALS
+		underlyingBalance2 = underlyingBalance2 / 10 ** UNDERLYING_DECIMALS
+		let underlyingBalance = underlyingBalance1 + underlyingBalance2
+		platformTokenBalance = platformTokenBalance / 10 ** PLATFORM_TOKEN_DECIMALS
+
+		let underlyingId = window.config.cg_ids[this.tokenAddress.toLowerCase()]
+		let platformTokenId = window.config.cg_ids[window.config.token_dyp_address.toLowerCase()]
+		let priceIds = `ethereum,${underlyingId},${platformTokenId}`
+		let prices = await getPrices(priceIds)
+
+		let ethUsdValue = (ethBalance * prices['ethereum']['usd']) || 0
+		let underlyingUsdValue = (underlyingBalance * prices[underlyingId]['usd']) || 0
+		let platformTokenUsdValue = (platformTokenBalance * prices[platformTokenId]['usd']) || 0
+
+		let tvlUsd = (ethUsdValue + underlyingUsdValue + platformTokenUsdValue) || 0
+
+		
+
+
+		// ------- apy percent calculations ----------
+		let apyPercent = 0
+		
+		let platformTokenApyPercent = 0;
+
+		let contractStartTime = await this.contractStartTime()
+		let now = Math.floor(Date.now() / 1e3)
+		let daysSinceDeployment = Math.floor(Math.max(1, (now - contractStartTime) / 60 / 60 / 24  || 1))
+		let totalEthDisbursed = await this.totalEthDisbursed()
+		let totalTokensDisbursed = await this.totalTokensDisbursed()
+
+		totalEthDisbursed  = totalEthDisbursed / 1e18
+		totalTokensDisbursed = totalTokensDisbursed / 10 ** UNDERLYING_DECIMALS
+		
+		let usdValueOfEthDisbursed = (totalEthDisbursed * prices['ethereum']['usd']) || 0
+		let usdValueOfTokenDisbursed = (totalTokensDisbursed * prices[underlyingId]['usd']) || 0
+		let usdValueDisbursed = (usdValueOfEthDisbursed + usdValueOfTokenDisbursed) || 0
+		let usdValueDisbursedPerDay = usdValueDisbursed / daysSinceDeployment
+
+		let usdValueDisbursedPerYear = usdValueDisbursedPerDay * 365
+		
+		let usdValueOfDepositedTokens = (underlyingBalance1 * prices[underlyingId]['usd']) || 1
+
+		let feesApyPercent = (usdValueDisbursedPerYear / usdValueOfDepositedTokens) * 100
+
+		let compoundApyPercent = 0
+
+		let ctokenAddr = await this.TRUSTED_CTOKEN_ADDRESS()
+
+		let compResult = await window.jQuery.ajax({
+			url: `https://api.compound.finance/api/v2/ctoken?addresses=${ctokenAddr}&network=${window.config.compound_network}`,
+			method: 'GET',
+			headers: {
+				'compound-api-key': window.config.compound_api_key
+			}
+		})
+
+		if (!compResult.error) {
+			compoundApyPercent = (Number(compResult.cToken[0]?.supply_rate?.value) || 0)*100
+		}
+
+		//console.log({compResult, compoundApyPercent})
+
+		apyPercent = (platformTokenApyPercent + compoundApyPercent + feesApyPercent)||0
+
+		// console.log({
+		// 	tvlUsd,ethUsdValue,underlyingUsdValue,platformTokenUsdValue,
+		// 	underlyingBalance, ethBalance, platformTokenBalance,
+		//
+		// 	feesApyPercent, platformTokenApyPercent, compoundApyPercent, apyPercent
+		// })
+
+		// console.log({
+		// 	usdValueDisbursed, usdValueDisbursedPerDay, usdValueDisbursedPerYear,
+		// 	usdValueOfDepositedTokens
+		// })
+
+		return {tvl_usd: tvlUsd, apy_percent: apyPercent}
+	}
+
+}
+
+
 class VAULT_NEW {
 	constructor(vaultAddress, tokenAddress) {
 		this._address = vaultAddress;
@@ -666,6 +818,7 @@ class VAULT_NEW {
 
 		let usdValueDisbursedPerYear = usdValueDisbursedPerDay * 365
 
+
 		let usdValueOfDepositedTokens = (underlyingBalance1 * prices[underlyingId]['usd']) || 1
 
 		let feesApyPercent = (usdValueDisbursedPerYear / usdValueOfDepositedTokens) * 100
@@ -681,6 +834,7 @@ class VAULT_NEW {
 				'compound-api-key': window.config.compound_api_key
 			}
 		})
+
 
 		if (!compResult.error) {
 			compoundApyPercent = (Number(compResult.cToken[0]?.supply_rate?.value) || 0)*100
@@ -921,6 +1075,10 @@ window.config = {
   pangolin_router_address: "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106",
   pancakeswap_router_address: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
   uniswap_router_address: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+
+
+	compound_api_key: null,
+	compound_network: 'mainnet',
 
   api_baseurl: "https://app-tools-avax.dyp.finance",
   apieth_baseurl: "https://app-tools.dyp.finance",

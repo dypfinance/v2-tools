@@ -375,10 +375,10 @@ class App extends React.Component {
                 )}
               />
               <Route exact path="/governance" render={() => <Governance />} />
-              {/* <Route
+             {/* <Route
             exact
             path="/vault-weth"
-            render={(props) => (
+            render={(props) => ( 
               <VaultWETH
                 is_wallet_connected={this.state.isConnected}
                 handleConnection={this.handleConnection}

@@ -8,6 +8,7 @@ import initStakingNew from "../../FARMINNG/staking-new-front";
 import initBuybackStakingNew from "../../FARMINNG/buy-back-staking-new-front";
 import initConstantStakingNew from "../../FARMINNG/constant-staking-new-front";
 import initConstantStakingiDYP from "../../FARMINNG/constant-staking-idyp-new-front";
+import initVaultNew from "../../FARMINNG/vault-new";
 
 import { FadeLoader } from "react-spinners";
 
@@ -72,7 +73,7 @@ const EarnTopPicks = ({
       lockTime: "90 days",
     },
   ];
- 
+
   const buyback = [
     {
       top_pick: true,
@@ -248,8 +249,7 @@ const EarnTopPicks = ({
     "15 August 2023",
   ];
 
-  const lockarrayFarm = ['No Lock', '3 Days', '30 Days', '60 Days','90 Days',];
-
+  const lockarrayFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
 
   const StakingNew1 = initStakingNew({
     token: window.token_new,
@@ -265,12 +265,10 @@ const EarnTopPicks = ({
     expiration_time: "14 December 2022",
     fee: feeArray[cardIndex],
     handleConnection: handleConnection,
-    lockTime: lockarrayFarm[cardIndex]
-
+    lockTime: lockarrayFarm[cardIndex],
   });
 
-  const lockarrayBuyback = ['No Lock', '90 Days'];
-
+  const lockarrayBuyback = ["No Lock", "90 Days"];
 
   //Buyback New
   const BuybackStaking1 = initBuybackStakingNew({
@@ -282,14 +280,12 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
-    lockTime: lockarrayBuyback[cardIndex]
-
+    lockTime: lockarrayBuyback[cardIndex],
   });
 
-  const lockarray = ['No Lock', '90 Days'];
+  const lockarray = ["No Lock", "90 Days"];
 
-  const lockarrayiDyp = ['No Lock', '90 Days', 'No Lock', '90 Days',];
-
+  const lockarrayiDyp = ["No Lock", "90 Days", "No Lock", "90 Days"];
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
@@ -301,7 +297,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
-    lockTime: lockarray[cardIndex]
+    lockTime: lockarray[cardIndex],
   });
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
@@ -315,28 +311,58 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
-    lockTime: lockarrayiDyp[cardIndexiDyp]
+    lockTime: lockarrayiDyp[cardIndexiDyp],
+  });
 
+  const vaultArray = [
+    window.vault_weth,
+    window.vault_wbtc,
+    window.vault_usdt,
+    window.vault_usdc,
+    window.vault_dai,
+  ];
+  const tokenvaultArray = [
+    window.token_weth,
+    window.token_wbtc,
+    window.token_usdt,
+    window.vault_usdc,
+    window.token_usdc,
+  ];
+  const vaultplatformArray = [10, 10, 15, 15, 15];
+  const vaultdecimalsArray = [18, 8, 6, 6, 18];
+  const vaultsymbolArray = ["WETH", "WBTC", "USDT", "USDC", "DAI"];
+
+  const VaultCard = initVaultNew({
+    vault: vaultArray[cardIndex],
+    token: tokenvaultArray[cardIndex],
+    platformTokenApyPercent: vaultplatformArray[cardIndex],
+    UNDERLYING_DECIMALS: vaultdecimalsArray[cardIndex],
+    UNDERLYING_SYMBOL: vaultsymbolArray[cardIndex],
+    expiration_time: "04 March 2023",
+    coinbase: coinbase,
+    lockTime: "No Lock",
+    handleConnection: handleConnection,
+    chainId: chainId,
   });
 
   useEffect(() => {
     if (topList === "Staking") {
-      setTopPools([])
+      setTopPools([]);
       setTimeout(() => {
         setTopPools(stake);
       }, 500);
     } else if (topList === "Buyback") {
-      setTopPools([])
+      setTopPools([]);
       setTimeout(() => {
         setTopPools(buyback);
       }, 500);
     } else if (topList === "Vault") {
-      setTopPools([])
+      setTopPools([]);
       setTimeout(() => {
         setTopPools(vault);
-      }, 500);;
+      }, 500);
     } else if (topList === "Farming") {
-      setTopPools([])
+      setTopPools([]);
       setTimeout(() => {
         setTopPools(farming);
       }, 500);
@@ -349,8 +375,8 @@ const EarnTopPicks = ({
     } else if (chain === "avax") {
       fetchAvaxFarming();
     }
-    setActiveCard(null)
-    setShowDetails(false)
+    setActiveCard(null);
+    setShowDetails(false);
     setListing(listType);
   }, [topList, listType, chain]);
 
@@ -362,11 +388,10 @@ const EarnTopPicks = ({
         const newIndex = index - 2;
         setcardIndexiDyp(newIndex);
         setcardIndex(index);
-      }
-      else setcardIndex(index);
+      } else setcardIndex(index);
     } else setcardIndex(index);
   };
-  
+
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (
@@ -430,9 +455,15 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
             />
-          ) : (
-            <></>
-          )}
+          ) : activeCard && topList === "Vault" ? (
+            <VaultCard
+            is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              chainId={chainId}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+            />
+          ) : <></>}
         </div>
       ) : (
         <div className="list-pools-container px-0">
