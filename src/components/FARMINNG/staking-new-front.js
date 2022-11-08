@@ -414,7 +414,7 @@ export default function initStakingNew({
 
       //console.log({selectedBuybackToken ,amount, minAmounts, deadline})
 
-      staking.deposit(selectedBuybackToken, amount, minAmounts, deadline);
+      staking.deposit(selectedBuybackToken, amount, minAmounts, deadline)
     };
 
     handleWithdrawDyp = async () => {
