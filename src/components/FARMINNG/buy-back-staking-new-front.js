@@ -310,6 +310,8 @@ export default function initStaking({
 
     handleApprove = async(e) => {
       let amount = this.state.depositAmount;
+      this.setState({ depositLoading: true });
+
       amount = new BigNumber(amount)
         .times(10 ** this.state.selectedTokenDecimals)
         .toFixed(0);
@@ -326,6 +328,7 @@ export default function initStaking({
     };
 
     handleStake = async (e) => {
+      this.setState({ depositLoading: true });
 
       let selectedBuybackToken = this.state.selectedBuybackToken;
       let amount = this.state.depositAmount;
@@ -508,6 +511,9 @@ export default function initStaking({
         constant.claim(referralFee, _amountOutMinConstant, deadline).then(()=>{
           this.setState({ claimStatus: "success" });
           this.setState({ claimLoading: false });
+      }).catch(()=>{
+        this.setState({ claimStatus: "failed" });
+        this.setState({ claimLoading: false });
       })
       } catch (e) {
         this.setState({ claimStatus: "failed" });
