@@ -72,7 +72,7 @@ const EarnTopPicks = ({
       lockTime: "90 days",
     },
   ];
- 
+
   const buyback = [
     {
       top_pick: true,
@@ -248,8 +248,7 @@ const EarnTopPicks = ({
     "15 August 2023",
   ];
 
-  const lockarrayFarm = ['No Lock', '3 Days', '30 Days', '60 Days','90 Days',];
-
+  const lockarrayFarm = ["No Lock", 3, 30, 60, 90];
 
   const StakingNew1 = initStakingNew({
     token: window.token_new,
@@ -265,12 +264,10 @@ const EarnTopPicks = ({
     expiration_time: "14 December 2022",
     fee: feeArray[cardIndex],
     handleConnection: handleConnection,
-    lockTime: lockarrayFarm[cardIndex]
-
+    lockTime: lockarrayFarm[cardIndex],
   });
 
-  const lockarrayBuyback = ['No Lock', '90 Days'];
-
+  const lockarrayBuyback = ["No Lock", 90];
 
   //Buyback New
   const BuybackStaking1 = initBuybackStakingNew({
@@ -282,14 +279,12 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
-    lockTime: lockarrayBuyback[cardIndex]
-
+    lockTime: lockarrayBuyback[cardIndex],
   });
 
-  const lockarray = ['No Lock', '90 Days'];
+  const lockarray = ["No Lock", 90];
 
-  const lockarrayiDyp = ['No Lock', '90 Days', 'No Lock', '90 Days',];
-
+  const lockarrayiDyp = ["No Lock", 90, "No Lock", 90];
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
@@ -301,7 +296,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
-    lockTime: lockarray[cardIndex]
+    lockTime: lockarray[cardIndex],
   });
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
@@ -315,28 +310,27 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
-    lockTime: lockarrayiDyp[cardIndexiDyp]
-
+    lockTime: lockarrayiDyp[cardIndexiDyp],
   });
 
   useEffect(() => {
     if (topList === "Staking") {
-      setTopPools([])
+      setTopPools([]);
       setTimeout(() => {
         setTopPools(stake);
       }, 500);
     } else if (topList === "Buyback") {
-      setTopPools([])
+      setTopPools([]);
       setTimeout(() => {
         setTopPools(buyback);
       }, 500);
     } else if (topList === "Vault") {
-      setTopPools([])
+      setTopPools([]);
       setTimeout(() => {
         setTopPools(vault);
-      }, 500);;
+      }, 500);
     } else if (topList === "Farming") {
-      setTopPools([])
+      setTopPools([]);
       setTimeout(() => {
         setTopPools(farming);
       }, 500);
@@ -349,8 +343,8 @@ const EarnTopPicks = ({
     } else if (chain === "avax") {
       fetchAvaxFarming();
     }
-    setActiveCard(null)
-    setShowDetails(false)
+    setActiveCard(null);
+    setShowDetails(false);
     setListing(listType);
   }, [topList, listType, chain]);
 
@@ -362,11 +356,10 @@ const EarnTopPicks = ({
         const newIndex = index - 2;
         setcardIndexiDyp(newIndex);
         setcardIndex(index);
-      }
-      else setcardIndex(index);
+      } else setcardIndex(index);
     } else setcardIndex(index);
   };
-  
+
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (

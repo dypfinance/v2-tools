@@ -19,6 +19,31 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Modal from "../Modal/Modal";
+import Countdown from "react-countdown";
+
+
+
+const renderer = ({days, hours, minutes, seconds}) => {
+  return (
+    <div className="d-flex gap-3 justify-content-center align-items-center">
+      <div className="d-flex gap-1 align-items-baseline">
+      <span>{days < 10 ? "0" + days : days}</span>
+      <span style={{fontSize: '13px'}}>days</span>
+      </div>
+     <div className="d-flex gap-1 align-items-baseline">
+     <span>{hours < 10 ? "0" + hours : hours}</span>
+      <span style={{fontSize: '13px'}}>hours</span>
+     </div>
+      <div className="d-flex gap-1 align-items-baseline">
+      <span>{minutes < 10 ? "0" + minutes : minutes}</span>
+      <span style={{fontSize: '13px'}}>minutes</span>
+      </div>
+      <span className="d-none">{seconds < 10 ? "0" + seconds : seconds}</span>
+      <span className="d-none">seconds</span>
+    </div>
+  )
+}
+
 
 export default function initStaking({
   staking,
@@ -248,7 +273,7 @@ export default function initStaking({
 
     componentDidMount() {
       this.refreshBalance();
-      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
 
@@ -305,7 +330,7 @@ export default function initStaking({
     };
 
     componentWillUnmount() {
-      clearInterval(window._refreshBalInterval);
+      // clearInterval(window._refreshBalInterval);
     }
 
     handleApprove = async (e) => {
@@ -1607,7 +1632,7 @@ export default function initStaking({
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                          : `Your deposit is locked for ${lockTime.toLowerCase()}. After ${lockTime.toLowerCase()} you can
+                          : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
                         withdraw or you can continue to earn rewards everyday`}
                       </h6>
                     </div>
@@ -1646,7 +1671,11 @@ export default function initStaking({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                            {lockTime === "No Lock" ? "No Lock" : lockTime}
+                          {lockTime === "No Lock" ? "No Lock" : 
+                            <Countdown date={Date.now() + lockTime*86400000}
+                            renderer={renderer} 
+                            />
+                            }
                           </h6>
                         </div>
                       </div>
