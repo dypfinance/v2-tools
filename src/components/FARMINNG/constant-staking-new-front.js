@@ -110,9 +110,9 @@ export default function initConstantStakingNew({
         depositAmount: "",
         withdrawAmount: "",
         claimLoading: false,
-        claimStatus: 'initial',
+        claimStatus: "initial",
         reInvestLoading: false,
-        reInvestStatus: 'initial',
+        reInvestStatus: "initial",
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
         referralFeeEarned: "",
@@ -122,7 +122,8 @@ export default function initConstantStakingNew({
         selectedTokenLogo: "weth",
         selectedRewardTokenLogo1: "weth",
         selectedRewardTokenLogo2: "dyp",
-
+        withdrawLoading: false,
+        withdrawStatus: "initial",
         usdPerToken: "",
 
         contractDeployTime: "",
@@ -158,22 +159,21 @@ export default function initConstantStakingNew({
       }
     };
 
-
     clickClaim = () => {
-      this.setState({claimLoading: true})
+      this.setState({ claimLoading: true });
       setTimeout(() => {
-        this.setState({claimStatus: 'claimed'})
-        this.setState({claimLoading: false})
+        this.setState({ claimStatus: "claimed" });
+        this.setState({ claimLoading: false });
       }, 2000);
-    }
+    };
 
     clickreInvest = () => {
-      this.setState({reInvestLoading: true})
+      this.setState({ reInvestLoading: true });
       setTimeout(() => {
-        this.setState({claimStatus: 'claimed'})
-        this.setState({reInvestLoading: false})
+        this.setState({ claimStatus: "claimed" });
+        this.setState({ reInvestLoading: false });
       }, 2000);
-    }
+    };
 
     showModal = () => {
       this.setState({ show: true });
@@ -288,29 +288,25 @@ export default function initConstantStakingNew({
       staking.depositTOKEN(amount);
     };
 
-    handleApprove = (e) => {
-      e.preventDefault();
+    handleApprove = async (e) => {
+      // e.preventDefault();
+      this.setState({ depositLoading: true });
+
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
-      reward_token.approve(staking._address, amount);
+      await reward_token
+        .approve(staking._address, amount)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
+        })
+        .catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
     };
-    // handleStake = (e) => {
-    //     let amount = this.state.depositAmount
-    //     amount = new BigNumber(amount).times(1e18).toFixed(0)
-    //     let referrer = this.props.referrer
-    //
-    //     if (referrer) {
-    //         referrer = String(referrer).trim().toLowerCase()
-    //     }
-    //
-    //     if (!window.web3.utils.isAddress(referrer)) {
-    //         referrer = window.config.ZERO_ADDRESS
-    //     }
-    //     staking.stake(amount, referrer)
-    // }
 
     handleStake = async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
+      this.setState({ depositLoading: true });
 
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
@@ -357,23 +353,39 @@ export default function initConstantStakingNew({
 
       console.log({ amount, referrer, referralFee, deadline });
 
-      staking.stake(amount, referrer, 0, deadline);
+      staking
+        .stake(amount, referrer, 0, deadline)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "success" });
+        })
+        .catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
     };
 
     handleWithdraw = async (e) => {
       // e.preventDefault();
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
+      this.setState({ withdrawLoading: true });
 
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      staking.unstake(amount, 0, deadline);
+      staking.unstake(amount, 0, deadline).then(()=>{
+        this.setState({ withdrawStatus: "success" });
+        this.setState({ withdrawLoading: false });
+    }).catch(()=>{
+      this.setState({ withdrawStatus: "failed" });
+      this.setState({ withdrawLoading: false });
+    })
     };
 
     handleClaimDivs = async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
+      this.setState({ claimLoading: true });
+      this.setState({ claimStatus: "claim" });
 
       let address = this.state.coinbase;
       let amount = await staking.getTotalPendingDivs(address);
@@ -391,7 +403,15 @@ export default function initConstantStakingNew({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call();
+        .call()
+        .then(() => {
+          this.setState({ claimStatus: "success" });
+          this.setState({ claimLoading: false });
+        })
+        .catch(() => {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+        });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
         .times(100 - window.config.slippage_tolerance_percent)
@@ -410,7 +430,16 @@ export default function initConstantStakingNew({
 
       console.log({ referralFee, _amountOutMin, deadline });
 
-      staking.claim(0, _amountOutMin, deadline);
+      staking
+        .claim(0, _amountOutMin, deadline)
+        .then(() => {
+          this.setState({ claimStatus: "success" });
+          this.setState({ claimLoading: false });
+        })
+        .catch(() => {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+        });
     };
 
     handleSetMaxDeposit = (e) => {
@@ -607,8 +636,8 @@ export default function initConstantStakingNew({
     };
 
     handleReinvest = async (e) => {
-      e.preventDefault();
-
+      // e.preventDefault();
+      this.setState({ reInvestStatus: "invest", reInvestLoading: true });
       let address = this.state.coinbase;
       let amount = await staking.getTotalPendingDivs(address);
 
@@ -625,7 +654,15 @@ export default function initConstantStakingNew({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call();
+        .call()
+        .then(() => {
+          this.setState({ reInvestStatus: "success" });
+          this.setState({ reInvestLoading: false });
+        })
+        .catch(() => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+        });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
         .times(100 - window.config.slippage_tolerance_percent)
@@ -647,7 +684,16 @@ export default function initConstantStakingNew({
 
       console.log({ referralFee, _amountOutMin, deadline });
 
-      staking.reInvest(0, _amountOutMin, deadline);
+      staking
+        .reInvest(0, _amountOutMin, deadline)
+        .then(() => {
+          this.setState({ reInvestStatus: "success" });
+          this.setState({ reInvestLoading: false });
+        })
+        .catch(() => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+        });
     };
 
     render() {
@@ -953,13 +999,20 @@ export default function initConstantStakingNew({
                       className={`btn filledbtn ${
                         this.state.depositAmount === "" && "disabled-btn"
                       } ${
-                        this.state.depositStatus === "deposit"
+                        this.state.depositStatus === "deposit" ||
+                        this.state.depositStatus === "success"
                           ? "success-button"
-                          : this.state.depositStatus === "success"
+                          : this.state.depositStatus === "fail"
                           ? "fail-button"
                           : null
                       } d-flex justify-content-center align-items-center gap-2`}
-                      onClick={this.clickDeposit}
+                      onClick={() => {
+                        this.state.depositStatus === "deposit"
+                          ? this.handleStake()
+                          : this.state.depositStatus === "initial"
+                          ? this.handleApprove()
+                          : console.log("");
+                      }}
                     >
                       {this.state.depositLoading ? (
                         <div
@@ -972,6 +1025,8 @@ export default function initConstantStakingNew({
                         <>Approve</>
                       ) : this.state.depositStatus === "deposit" ? (
                         <>Deposit</>
+                      ) : this.state.depositStatus === "success" ? (
+                        <>Success</>
                       ) : (
                         <>
                           <img src={failMark} alt="" />
@@ -1025,39 +1080,91 @@ export default function initConstantStakingNew({
                       />
                     </div>
                     <button
-                    disabled={this.state.claimStatus === 'claimed' ? true : false}
-                      className={`btn filledbtn ${this.state.claimStatus === 'claimed' ? 'disabled-btn' : null} d-flex justify-content-center align-items-center gap-2`}
+                      disabled={
+                        this.state.claimStatus === "claimed" ||
+                        this.state.claimStatus === "success"
+                          ? true
+                          : false
+                      }
+                      className={`btn filledbtn ${
+                        this.state.claimStatus === "claimed"
+                          ? "disabled-btn"
+                          : this.state.claimStatus === "failed"
+                          ? "fail-button"
+                          : this.state.claimStatus === "success"
+                          ? "success-button"
+                          : null
+                      } d-flex justify-content-center align-items-center gap-2`}
                       style={{ height: "fit-content" }}
-                      onClick={this.clickClaim}
+                      onClick={this.handleClaimDivs}
                     >
-                     {this.state.claimLoading ?
-                      <div
+                      {this.state.claimLoading &&
+                      this.state.claimStatus === "initial" ? (
+                        <div
                           class="spinner-border spinner-border-sm text-light"
                           role="status"
                         >
                           <span class="visually-hidden">Loading...</span>
                         </div>
-                        :
+                      ) : this.state.claimStatus === "failed" ? (
+                        <>
+                          <img src={failMark} alt="" />
+                          Failed
+                        </>
+                      ) : this.state.claimStatus === "success" ? (
+                        <>Success</>
+                      ) : (
                         <>Claim</>
-                    }
+                      )}
                     </button>
 
                     <button
-                    disabled={this.state.claimStatus === 'claimed' ? true : false}
-                      className={`btn filledbtn ${this.state.claimStatus === 'claimed' ? 'disabled-btn' : null} d-flex justify-content-center align-items-center gap-2`}
+                      disabled={
+                        // this.state.claimStatus === "invest" ? true :
+                        false
+                      }
+                      className={`btn filledbtn ${
+                        this.state.reInvestStatus === "invest"
+                          ? "disabled-btn"
+                          :  this.state.reInvestStatus === "failed"
+                          ? "fail-button" : this.state.reInvestStatus === "success" ? "success-button"
+                          :null
+                      } d-flex justify-content-center align-items-center gap-2`}
                       style={{ height: "fit-content" }}
-                      onClick={this.clickreInvest}
+                      onClick={
+                        this.handleReinvest
+                        // this.clickreInvest
+                      }
                     >
-                      {this.state.reInvestLoading ?
-                       <div
+                      {/* {this.state.reInvestLoading && this.state.claimStatus === 'invest' ? (
+                        <div
                           class="spinner-border spinner-border-sm text-light"
                           role="status"
                         >
                           <span class="visually-hidden">Loading...</span>
                         </div>
-                      :
-                      <>Reinvest</>
-                    }
+                      ) : (
+                        <>Reinvest</>
+                      )} */}
+
+                      {this.state.reInvestLoading &&
+                      this.state.reInvestStatus === "invest" ? (
+                        <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      ) : this.state.reInvestStatus === "failed" ? (
+                        <>
+                          <img src={failMark} alt="" />
+                          Failed
+                        </>
+                      ) : this.state.reInvestStatus === "success" ? (
+                        <>Success</>
+                      ) : (
+                        <>Reinvest</>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -1079,8 +1186,13 @@ export default function initConstantStakingNew({
                 </h6>
 
                 <button
-                disabled
-                  className="btn filledbtn disabled-btn"
+                  // disabled={this.state.depositStatus === "success" ? false : true}
+                  className={ 
+                    // this.state.depositStatus === "success" ?
+                     'filledbtn btn'
+                      // :
+                    //  "btn disabled-btn"
+                    }
                   onClick={() => {
                     this.setState({ showWithdrawModal: true });
                   }}
@@ -1253,12 +1365,12 @@ export default function initConstantStakingNew({
                         target="_blank"
                         rel="noopener noreferrer"
                         href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
-                        className='maxbtn'
-                        style={{color: '#7770e0'}}
+                        className="maxbtn"
+                        style={{ color: "#7770e0" }}
                       >
                         Etherscan
                         <img src={arrowup} alt="" />
-                         </a>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -1336,7 +1448,45 @@ export default function initConstantStakingNew({
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
-                        <button
+
+                      <button
+                      disabled={
+                        this.state.withdrawStatus === "failed" || this.state.withdrawStatus === "success" || this.state.withdrawAmount === ''
+                          ? true
+                          : false
+                      }
+                      className={` w-100 btn filledbtn ${
+                           this.state.withdrawStatus === "failed"
+                          ? "fail-button" : this.state.withdrawStatus === "success"
+                          ? "success-button" : this.state.withdrawAmount === ""
+                          ? 'disabled-btn'
+                          : null
+                      } d-flex justify-content-center align-items-center`}
+                      style={{ height: "fit-content" }}
+                      onClick={()=>{ this.handleWithdraw() }}
+                    >
+                      {this.state.withdrawLoading ? (
+                        <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      ) : this.state.withdrawStatus === "failed" ? (
+                        <>
+                          <img src={failMark} alt="" />
+                          Failed
+                        </>
+                      ) : this.state.withdrawStatus === "success" ? (
+                        <>
+                          Success
+                        </>
+                      ) : (
+                        <>Withdraw</>
+                      )}
+                    </button>
+
+                        {/* <button
                           className="btn filledbtn w-100"
                           onClick={(e) => {
                             // e.preventDefault();
@@ -1349,7 +1499,7 @@ export default function initConstantStakingNew({
                           }
                         >
                           Withdraw
-                        </button>
+                        </button> */}
 
                         {/* <div className="form-row">
                               <div className="col-6">

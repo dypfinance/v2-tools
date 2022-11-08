@@ -492,8 +492,6 @@ export default function initStakingNew({
 
       if (selectedToken == 0) {
         try {
-         
-
           staking.claim(0, 0, deadline)
           .then(()=>{
 
@@ -1606,7 +1604,7 @@ export default function initStakingNew({
                   // disabled={this.state.depositStatus === "success" ? false : true}
                   className={ 
                     // this.state.depositStatus === "success" ?
-                     'filledbtn'
+                     'filledbtn btn'
                       // :
                     //  "btn disabled-btn"
                     }
