@@ -117,6 +117,8 @@ export default function initStakingNew({
         selectedPool: "",
         depositLoading: false,
         depositStatus: "initial",
+        withdrawLoading: false,
+        withdrawStatus: "initial",
         claimLoading: false,
         claimStatus: "initial",
         tvl: "",
@@ -420,6 +422,7 @@ export default function initStakingNew({
     handleWithdrawDyp = async () => {
       let amountConstant = await constant.depositedTokens(this.state.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
+      this.setState({ withdrawLoading: true });
 
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
@@ -428,8 +431,15 @@ export default function initStakingNew({
       //console.log({withdrawAsToken, amountBuyback, deadline})
 
       try {
-        constant.unstake(amountConstant, 0, deadline);
+        constant.unstake(amountConstant, 0, deadline).then(()=>{
+          this.setState({ withdrawStatus: "success" });
+          this.setState({ withdrawLoading: false });
+      }).catch(()=>{
+        this.setState({ withdrawStatus: "failed" });
+        this.setState({ withdrawLoading: false });
+      })
       } catch (e) {
+        
         console.error(e);
         return;
       }
@@ -437,6 +447,7 @@ export default function initStakingNew({
 
     handleWithdraw = async (e) => {
       // e.preventDefault();
+      this.setState({ withdrawLoading: true });
 
       let amountConstant = await constant.depositedTokens(this.state.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
@@ -453,8 +464,16 @@ export default function initStakingNew({
 
       console.log({ withdrawAsToken, amountBuyback, minAmounts, deadline });
 
+
       try {
-        staking.withdraw(withdrawAsToken, amountBuyback, minAmounts, deadline);
+
+        staking.withdraw(withdrawAsToken, amountBuyback, minAmounts, deadline).then(()=>{
+          this.setState({ withdrawStatus: "success" });
+          this.setState({ withdrawLoading: false });
+      }).catch(()=>{
+        this.setState({ withdrawStatus: "failed" });
+        this.setState({ withdrawLoading: false });
+      })
       } catch (e) {
         console.error(e);
         return;
@@ -1563,8 +1582,13 @@ export default function initStakingNew({
                 </h6>
 
                 <button
-                  disabled={this.state.depositStatus === "success" ? false : true}
-                  className="btn filledbtn disabled-btn"
+                  // disabled={this.state.depositStatus === "success" ? false : true}
+                  className={ 
+                    // this.state.depositStatus === "success" ?
+                     'filledbtn'
+                      // :
+                    //  "btn disabled-btn"
+                    }
                   onClick={() => {
                     this.setState({ showWithdrawModal: true });
                   }}
@@ -2006,10 +2030,9 @@ export default function initStakingNew({
 
                       <div className="separator"></div>
                       <div className="d-flex align-items-center justify-content-between gap-2">
-                        <button
+                        {/* <button
                           className="btn filledbtn w-100"
                           onClick={(e) => {
-                            // e.preventDefault();
                             this.handleWithdrawDyp();
                           }}
                           title={
@@ -2019,7 +2042,47 @@ export default function initStakingNew({
                           }
                         >
                           Withdraw
-                        </button>
+                        </button> */}
+
+                          <button
+                      disabled={
+                        this.state.selectedPool === "" ||
+                        this.state.withdrawStatus === "failed" || this.state.withdrawStatus === "success"
+                          ? true
+                          : false
+                      }
+                      className={` w-100 btn filledbtn ${
+                        this.state.selectedPool === ""
+                          ? "disabled-btn"
+                          : this.state.withdrawStatus === "failed"
+                          ? "fail-button" : this.state.withdrawStatus === "success"
+                          ? "success-button"
+                          : null
+                      } d-flex justify-content-center align-items-center`}
+                      style={{ height: "fit-content" }}
+                      onClick={()=>{ this.state.selectedPool === 'weth' ? this.handleWithdraw() : this.handleWithdrawDyp()}}
+                    >
+                      {this.state.withdrawLoading ? (
+                        <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      ) : this.state.withdrawStatus === "failed" ? (
+                        <>
+                          <img src={failMark} alt="" />
+                          Failed
+                        </>
+                      ) : this.state.withdrawStatus === "success" ? (
+                        <>
+                          Success
+                        </>
+                      ) : (
+                        <>Withdraw</>
+                      )}
+                    </button>
+
 
                         {/* <div className="form-row">
                                 <div className="col-6">
