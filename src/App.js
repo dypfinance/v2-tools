@@ -20,7 +20,7 @@ import { RedirectPathToHomeOnly } from "./functions/redirects";
 import Earn from "./components/earn/Earn";
 import Dashboard from "./components/dashboard/Dashboard";
 import Governance from "./components/governance/Governance";
-
+import initVaultNew from "./components/FARMINNG/vault-new";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -295,8 +295,16 @@ class App extends React.Component {
 
     document.addEventListener("touchstart", { passive: true });
 
-
-
+    // const VaultWETH = initVaultNew({
+    //   vault: window.vault_weth,
+    //   token: window.token_weth,
+    //   platformTokenApyPercent: 10,
+    //   UNDERLYING_DECIMALS: 18,
+    //   UNDERLYING_SYMBOL: "WETH",
+    //   expiration_time: "04 March 2023",
+    //   coinbase: this.state.coinbase
+    // });
+    
     return (
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
@@ -367,7 +375,23 @@ class App extends React.Component {
                 )}
               />
               <Route exact path="/governance" render={() => <Governance />} />
+              {/* <Route
+            exact
+            path="/vault-weth"
+            render={(props) => (
+              <VaultWETH
+                is_wallet_connected={this.state.isConnected}
+                handleConnection={this.handleConnection}
+                handleConnectionWalletConnect={
+                  this.handleConnection
+                }
+                the_graph_result={this.state.the_graph_result_ETH_V2}
+                {...props}
+                coinbase={this.state.coinbase}
 
+              />
+            )}
+          /> */}
 
               <Route
                 exact

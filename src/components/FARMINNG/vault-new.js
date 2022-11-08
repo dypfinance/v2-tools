@@ -1,11 +1,10 @@
 import React from "react";
 import moment from "moment";
 // import { NavLink } from 'react-router-dom'
-import getFormattedNumber from "../functions/get-formatted-number";
+import getFormattedNumber from "../../functions/get-formatted-number";
 import Address from "./address";
-import Boxes from "./boxes";
-import Modal from "./modal";
-import Popup from "./popup";
+import Modal from "../Modal/Modal";
+
 // import Clipboard from 'react-clipboard.js'
 // import ReactTooltip from 'react-tooltip'
 
@@ -18,6 +17,7 @@ export default function initVault({
   UNDERLYING_DECIMALS = 18,
   UNDERLYING_SYMBOL = "DAI",
   expiration_time,
+  coinbase
 }) {
   let { BigNumber, alertify, token_dyps } = window;
   let token_symbol = UNDERLYING_SYMBOL;
@@ -188,8 +188,14 @@ export default function initVault({
     };
 
     componentDidMount() {
+
+      if (coinbase !== null) {
+        this.setState({ coinbase: coinbase });
+      }
+
       this.refreshBalance();
-      window._refreshBalInterval = setInterval(this.refreshBalance, 8000);
+      // window._refreshBalInterval = setInterval(this.refreshBalance, 8000);
+      // console.log( vault.getTvlUsdAndApyPercent(UNDERLYING_DECIMALS))
       vault
         .getTvlUsdAndApyPercent(UNDERLYING_DECIMALS)
         .then(({ tvl_usd, apy_percent }) =>
@@ -206,7 +212,7 @@ export default function initVault({
     }
 
     componentWillUnmount() {
-      clearInterval(window._refreshBalInterval);
+      // clearInterval(window._refreshBalInterval);
     }
 
     handleApprove = (e) => {
@@ -411,7 +417,8 @@ export default function initVault({
     };
 
     refreshBalance = async () => {
-      let coinbase = this.state.coinbase;
+      // let coinbase = this.state.coinbase;
+
 
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
@@ -427,13 +434,19 @@ export default function initVault({
         : 1;
 
       try {
+      
         let _bal = token.balanceOf(coinbase);
+
         let _stakingTime = vault.depositTime(coinbase);
+   
         let _dTokens = vault.depositTokenBalance(coinbase);
+
         let _lClaimTime = vault.lastClaimedTime(coinbase);
+
         let tStakers = vault.getNumberOfHolders();
 
         //Take DYPS Balance
+     
         let _tvlDYPS = token_dyps.balanceOf(vault._address); /* TVL of DYPS */
 
         let [
@@ -455,8 +468,9 @@ export default function initVault({
         let usdValueDYPS = new BigNumber(tvlDYPS)
           .times(usd_per_dyps)
           .toFixed(18);
-        let tvlUSD = new BigNumber(usdValueDYPS).div(1e18).toFixed(0);
+   
 
+        let tvlUSD = new BigNumber(usdValueDYPS).div(1e18).toFixed(0);
         this.setState({
           token_balance,
           stakingTime,
@@ -469,14 +483,20 @@ export default function initVault({
         this.setState({ owner });
 
         let _pDivsToken = vault.tokenDivsOwing(coinbase);
+
         let _pDivsComp = vault.getEstimatedCompoundDivsOwing(coinbase);
+
         let _pDivsDyp = vault.platformTokenDivsOwing(coinbase);
+
         let _pDivsEth = vault.ethDivsOwing(coinbase);
 
         let _pBalToken = vault.tokenDivsBalance(coinbase);
-        let _pBalEth = vault.ethDivsBalance(coinbase);
-        let _pBalDyp = vault.platformTokenDivsBalance(coinbase);
 
+
+        let _pBalEth = vault.ethDivsBalance(coinbase);
+
+
+        let _pBalDyp = vault.platformTokenDivsBalance(coinbase);
         let [
           pendingDivsEth,
           pendingDivsComp,
@@ -516,8 +536,8 @@ export default function initVault({
       } catch (e) {
         console.error(e);
       }
-
-      window.token_idyp
+      
+      window.reward_token_idyp
         .balanceOf(coinbase)
         .then((platform_token_balance) =>
           this.setState({ platform_token_balance })
@@ -526,7 +546,7 @@ export default function initVault({
       vault
         .totalDepositedTokens()
         .then((totalDepositedTokens) => {
-          //console.log({ totalDepositedTokens })
+          // console.log({ totalDepositedTokens })
           this.setState({ totalDepositedTokens });
         })
         .catch(console.log);
@@ -710,7 +730,7 @@ export default function initVault({
               }}
             >
               <div className="container">
-                <Popup show={this.state.popup} handleClose={this.hidePopup}>
+                <Modal show={this.state.popup} handleClose={this.hidePopup}>
                   <div className="earn-hero-content p4token-wrapper">
                     <p className="h3">
                       <b>DYP Vault</b>
@@ -726,7 +746,7 @@ export default function initVault({
                       and burn it.
                     </p>
                   </div>
-                </Popup>
+                </Modal>
                 <Modal
                   show={this.state.show}
                   handleConnection={this.props.handleConnection}
@@ -836,10 +856,10 @@ export default function initVault({
                                         paddingRight: "15px",
                                       }}
                                     >
-                                      <Address
+                                      {/* <Address
                                         style={{ fontFamily: "monospace" }}
                                         a={coinbase}
-                                      />
+                                      /> */}
                                     </div>
                                   </div>
                                 </div>
@@ -1364,10 +1384,10 @@ export default function initVault({
                             <tr>
                               <th>Contract Address</th>
                               <td className="text-right">
-                                <Address
+                                {/* <Address
                                   style={{ fontFamily: "monospace" }}
                                   a={vault._address}
-                                />
+                                /> */}
                               </td>
                             </tr>
 
