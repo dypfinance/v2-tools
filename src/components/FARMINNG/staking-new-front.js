@@ -492,18 +492,28 @@ export default function initStakingNew({
 
       if (selectedToken == 0) {
         try {
-          staking.claim(0, 0, deadline).then(()=>{
+         
+
+          staking.claim(0, 0, deadline)
+          .then(()=>{
+
             this.setState({ claimStatus: "success" });
             this.setState({ claimLoading: false });
+        }).catch(()=>{
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
         })
         } catch (e) {
+
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
           console.error(e);
           return;
         }
       } else {
+
         try {
+
           staking.claimAs(
             window.config.claim_as_usdt_address,
             0,
@@ -513,8 +523,13 @@ export default function initStakingNew({
           ).then(()=>{
               this.setState({ claimStatus: "success" });
               this.setState({ claimLoading: false });
+          }).catch(()=>{
+
+            this.setState({ claimStatus: "failed" });
+            this.setState({ claimLoading: false });
           })
         } catch (e) {
+
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
           console.error(e);
@@ -581,7 +596,13 @@ export default function initStakingNew({
       referralFee = referralFee.toString();
 
       try {
-        constant.claim(referralFee, _amountOutMinConstant, deadline);
+        constant.claim(referralFee, _amountOutMinConstant, deadline).then(() => {
+          this.setState({ claimStatus: "success" });
+          this.setState({ claimLoading: false });
+        }).catch(() => {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+        });
       } catch (e) {
         console.error(e);
         return;
