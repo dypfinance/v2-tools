@@ -43,6 +43,15 @@ const LP_IDs = {
     "0xabd9c284116b2e757e3d4f6e36c5050aead24e0c-0x924becc8f4059987e4bc4b741b7c354ff52c25e4",
     "0xabd9c284116b2e757e3d4f6e36c5050aead24e0c-0xbe528593781988974d83c2655cba4c45fc75c033",
   ],
+
+  wavax: [
+    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x035d65babf595758d7a439d5870badc44218d028",
+    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x6c325dfea0d18387d423c869e328ef005cba024f",
+    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x85c4f0cea0994de365dc47ba22dd0fd9899f93ab",
+    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x6f5dc6777b2b4667bf183d093111867239518af5",
+    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x10e105676cac55b74cb6500a8fb5d2f84804393d",
+  ],
+
 };
 
 const LP_ID_LIST = Object.keys(LP_IDs)
@@ -1010,7 +1019,11 @@ window.config = {
 
   //Farming new
   token_new_address: "0x7463286a379f6f128058bb92b355e3d6e8bdb219",
+  token_newavax_address: "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a",
+
   farming_new_1_address: "0xa68BBe793ad52d0E62bBf34A67F02235bA69E737",
+  farming_newavax_1_address: "0x035d65babF595758D7A439D5870BAdc44218D028",
+
   constant_stakingnew_new5_address:
     "0x0b92E7f074e7Ade0181A29647ea8474522e6A7C2",
 
@@ -1040,12 +1053,15 @@ window.config = {
   USDC_address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
 
   claim_as_eth_address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  claim_as_ethavax_address: "0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab",
+
   claim_as_usdt_address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
 
   constant_staking_200_address: "0x45152e167cc2ebd4011138f646dc80eec9c8582e",
   constant_staking_300_address: "0x45152e167cc2ebd4011138f646dc80eec9c8582e",
 
   reward_token_dyps_address: "0xd4f11Bf85D751F426EF59b705E42b3da3357250f",
+  reward_token_dypsavax_address: "0x4689545A1389E7778Fd4e66F854C91Bf8aBacBA9",
 
   //Constant Staking DYP -> DAI
   constant_stakingdai_address: "0x44bEd8ea3296bda44870d0Da98575520De1735d4",
@@ -1283,6 +1299,8 @@ window.reward_token_idyp = new TOKEN("REWARD_TOKEN_IDYP");
 
 window.REWARD_TOKEN_DYPS_ABI = window.TOKEN_ABI;
 window.token_dyps = new TOKEN("REWARD_TOKEN_DYPS");
+window.token_dypsavax = new TOKEN("REWARD_TOKEN_DYPS");
+
 // window.token_dyps = new TOKEN(window.config.reward_token_dyps_address)
 //constant staking NEW CONTRACTS
 window.constant_staking_new1 = new CONSTANT_STAKING_NEW(
@@ -1309,7 +1327,10 @@ window.constant_staking_new4 = new CONSTANT_STAKING_NEW(
 
 /* Farming New */
 window.token_new = new TOKEN("TOKEN_NEW");
+window.token_newavax = new TOKEN("TOKEN_NEW");
 window.farming_new_1 = new STAKING("FARMING_NEW_1");
+window.farming_newavax_1 = new STAKING("FARMING_NEW_1");
+
 window.constant_staking_new5 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW5"
 );
@@ -1317,6 +1338,10 @@ window.constant_staking_new5 = new CONSTANT_STAKING_NEW(
 window.farming_new_2 = new STAKING("FARMING_NEW_2");
 window.constant_staking_new6 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW6"
+);
+
+window.constant_staking_newavax5 = new CONSTANT_STAKING_NEW(
+  "CONSTANT_STAKINGNEW_NEW5"
 );
 
 window.farming_new_3 = new STAKING("FARMING_NEW_3");
@@ -12823,6 +12848,9 @@ window.rebase_factors = [
   1, 1, 1, 1, 1e4, 1e4, 1e4, 1e4, 1e4, 1e4, 1e4, 1e4, 1e4, 1e4, 1e4, 1e4,
 ];
 
+window.rebase_factorsavax = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+
+
 /* Farming New */
 window.token_new = new TOKEN("TOKEN_NEW");
 
@@ -13065,6 +13093,54 @@ window.buyback_tokens_farming = {
   // }
 };
 
+window.buyback_tokens_farmingavax = {
+  "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7": {
+    symbol: "WAVAX",
+    decimals: 18,
+  },
+  "0x49d5c2bdffac6ce2bfdb6640f4f80f226bc10bab": {
+    symbol: "WETH.e",
+    decimals: 18,
+  },
+  "0x50b7545627a5162f82a992c33b87adc75187b218": {
+    symbol: "WBTC.e",
+    decimals: 8,
+  },
+  "0x60781c2586d68229fde47564546784ab3faca982": {
+    symbol: "PNG",
+    decimals: 18,
+  },
+  "0xc7198437980c041c805a1edcba50c1ce5db95118": {
+    symbol: "USDT.e",
+    decimals: 6,
+  },
+  "0x8729438eb15e2c8b576fcc6aecda6a148776c0f5": {
+    symbol: "QI",
+    decimals: 18,
+  },
+  "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664": {
+    symbol: "USDC.e",
+    decimals: 6,
+  },
+  "0xd586e7f844cea2f87f50152665bcbc2c279d8d70": {
+    symbol: "DAI.e",
+    decimals: 18,
+  },
+  "0xd1c3f94de7e5b45fa4edbba472491a9f4b166fc4": {
+    symbol: "XAVA",
+    decimals: 18,
+  },
+  "0x5947bb275c521040051d82396192181b413227a3": {
+    symbol: "LINK.e",
+    decimals: 18,
+  },
+  "0xbd100d061e120b2c67a24453cf6368e63f1be056": {
+    symbol: "iDYP",
+    decimals: 18,
+  },
+};
+
+
 const LP_IDs_V2 = {
   weth: [
     "0x7463286a379f6f128058bb92b355e3d6e8bdb219-0xa68bbe793ad52d0e62bbf34a67f02235ba69e737",
@@ -13084,6 +13160,22 @@ const LP_ID_LIST_V2 = Object.keys(LP_IDs_V2)
 window.LP_ID_LIST_V2 = LP_ID_LIST_V2;
 
 window.the_graph_result_eth_v2 = {};
+
+
+window.the_graph_result_avax_v2 = {}
+
+async function get_the_graph_avax_v2() {
+	try {
+		const res = await getData('https://api.dyp.finance/api/the_graph_avax_v2')
+		window.the_graph_result_avax_v2 = res.the_graph_avax_v2
+	} catch(err) {
+		console.log(err);
+	}
+	return window.the_graph_result_avax_v2
+}
+
+window.get_the_graph_avax_v2 = get_the_graph_avax_v2
+
 
 async function get_the_graph_eth_v2() {
   try {
@@ -13404,11 +13496,24 @@ async function refresh_the_graph_result() {
   return result;
 }
 
+
+async function refresh_the_graph_resultavax() {
+  let result = await get_usd_values_with_apy_and_tvl({
+    token_contract_addresses: [TOKEN_ADDRESS, TOKEN_IDYP_ADDRESS],
+    lp_ids: LP_ID_LIST,
+  });
+  window.the_graph_result = result;
+  //window.TVL_FARMING_POOLS = await refreshBalance()
+  return result;
+}
+
 window.get_usd_values = get_usd_values;
 window.get_token_balances = get_token_balances;
 window.get_apy_and_tvl = get_apy_and_tvl;
 window.get_number_of_stakers = get_number_of_stakers;
 window.refresh_the_graph_result = refresh_the_graph_result;
+window.refresh_the_graph_resultavax = refresh_the_graph_resultavax;
+
 
 async function getActiveLocksByTokenETH(tokenAddress, startIndex, endIndex) {
   let lockerContract = await getContract({ key: "LOCKERETH" });
