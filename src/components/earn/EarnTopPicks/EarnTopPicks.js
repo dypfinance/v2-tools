@@ -38,7 +38,7 @@ const EarnTopPicks = ({
       tokenName: "DYP",
       apy: "1.08",
       tvl_usd: "48543.20",
-      lockTime: "No lock",
+      lockTime: "90 Days",
     },
     {
       icon: "dyplogo.svg",
