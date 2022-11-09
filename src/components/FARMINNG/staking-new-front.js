@@ -5,13 +5,14 @@ import Modal from "../Modal/Modal";
 import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
-
+import Countdown from "react-countdown";
 import ellipse from "./assets/ellipse.svg";
 import empty from "./assets/empty.svg";
 import check from "./assets/check.svg";
 import successMark from "../../assets/successMark.svg";
 import failMark from "../../assets/failMark.svg";
 import arrowup from "./assets/arrow-up.svg";
+import whiteArrowUp from './assets/whiteArrowUp.svg'
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
 import purplestats from "./assets/purpleStat.svg";
@@ -19,6 +20,28 @@ import referralimg from "./assets/referral.svg";
 import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
+
+
+const renderer = ({days, hours, minutes, seconds}) => {
+  return (
+    <div className="d-flex gap-3 justify-content-center align-items-center">
+      <div className="d-flex gap-1 align-items-baseline">
+      <span>{days < 10 ? "0" + days : days}</span>
+      <span style={{fontSize: '13px'}}>days</span>
+      </div>
+     <div className="d-flex gap-1 align-items-baseline">
+     <span>{hours < 10 ? "0" + hours : hours}</span>
+      <span style={{fontSize: '13px'}}>hours</span>
+     </div>
+      <div className="d-flex gap-1 align-items-baseline">
+      <span>{minutes < 10 ? "0" + minutes : minutes}</span>
+      <span style={{fontSize: '13px'}}>minutes</span>
+      </div>
+      <span className="d-none">{seconds < 10 ? "0" + seconds : seconds}</span>
+      <span className="d-none">seconds</span>
+    </div>
+  )
+}
 
 export default function initStakingNew({
   token,
@@ -97,6 +120,7 @@ export default function initStakingNew({
     constructor(props) {
       super(props);
       this.state = {
+      unlockDate: new Date(Date.now() + 3 * 30 * 24 * 60 * 60 * 1000),
         token_balance: "",
         reward_token_balance: "",
         pendingDivs: "",
@@ -1671,12 +1695,19 @@ export default function initStakingNew({
                             </div>
                           </td>
                           <td className="text-right">
+                            <th>My DYP Stake</th>
+                            <div>
+                              <strong>{reward_token_balance}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+                          {/* <td className="text-right">
                             <th>Total DYP Deposited </th>
                             <div>
                               <strong>{tvlConstantDYP}</strong>{" "}
                               <small>DYP</small>
                             </div>
-                          </td>
+                          </td> */}
                         </tr>
 
                         <tr>
@@ -1776,17 +1807,7 @@ export default function initStakingNew({
                               gap: 5,
                             }}
                           >
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
-                              className="maxbtn d-flex align-items-center"
-                              style={{ height: "25px" }}
-                            >
-                              Etherscan
-                              <img src={arrowup} alt="" />
-                            </a>
-
+                         
                             <a
                               target="_blank"
                               rel="noopener noreferrer"
@@ -1797,6 +1818,17 @@ export default function initStakingNew({
                               Audit
                               <img src={arrowup} alt="" />
                             </a>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
+                              className="text-white mt-2"
+                              style={{ height: "25px", textDecoration: 'underline', fontSize: '9px', }}
+                            >
+                              View on Etherscan
+                              <img src={whiteArrowUp} alt="" className="ms-1" />
+                            </a>
+
                           </td>
                         </tr>
                       </tbody>
@@ -1828,7 +1860,7 @@ export default function initStakingNew({
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                          : `Your deposit is locked for ${lockTime.toLowerCase()}. After ${lockTime.toLowerCase()} you can
+                          : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
                         withdraw or you can continue to earn rewards everyday`}
                       </h6>
                     </div>
@@ -1838,7 +1870,10 @@ export default function initStakingNew({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                            {lockTime === "No Lock" ? "No Lock" : lockTime}
+                            {lockTime === "No Lock" ? "No Lock" : 
+                            <Countdown date={Date.now() + lockTime*86400000} renderer={renderer} />
+                            
+                            }
                           </h6>
                         </div>
                       </div>

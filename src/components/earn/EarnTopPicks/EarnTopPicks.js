@@ -249,7 +249,8 @@ const EarnTopPicks = ({
     "15 August 2023",
   ];
 
-  const lockarrayFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
+
+  const lockarrayFarm = ["No Lock", 3, 30, 60, 90];
 
   const StakingNew1 = initStakingNew({
     token: window.token_new,
@@ -268,7 +269,9 @@ const EarnTopPicks = ({
     lockTime: lockarrayFarm[cardIndex],
   });
 
-  const lockarrayBuyback = ["No Lock", "90 Days"];
+
+  const lockarrayBuyback = ["No Lock", 90];
+
 
   //Buyback New
   const BuybackStaking1 = initBuybackStakingNew({
@@ -283,9 +286,11 @@ const EarnTopPicks = ({
     lockTime: lockarrayBuyback[cardIndex],
   });
 
-  const lockarray = ["No Lock", "90 Days"];
 
-  const lockarrayiDyp = ["No Lock", "90 Days", "No Lock", "90 Days"];
+  const lockarray = ["No Lock", 90];
+
+  const lockarrayiDyp = ["No Lock", 90, "No Lock", 90];
+
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
@@ -312,6 +317,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayiDyp[cardIndexiDyp],
+
   });
 
   const vaultArray = [

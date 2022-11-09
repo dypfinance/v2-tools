@@ -20,6 +20,30 @@ import referralimg from "./assets/referral.svg";
 import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
+import Countdown from "react-countdown";
+
+
+const renderer = ({days, hours, minutes, seconds}) => {
+  return (
+    <div className="d-flex gap-3 justify-content-center align-items-center">
+      <div className="d-flex gap-1 align-items-baseline">
+      <span>{days < 10 ? "0" + days : days}</span>
+      <span style={{fontSize: '13px'}}>days</span>
+      </div>
+     <div className="d-flex gap-1 align-items-baseline">
+     <span>{hours < 10 ? "0" + hours : hours}</span>
+      <span style={{fontSize: '13px'}}>hours</span>
+     </div>
+      <div className="d-flex gap-1 align-items-baseline">
+      <span>{minutes < 10 ? "0" + minutes : minutes}</span>
+      <span style={{fontSize: '13px'}}>minutes</span>
+      </div>
+      <span className="d-none">{seconds < 10 ? "0" + seconds : seconds}</span>
+      <span className="d-none">seconds</span>
+    </div>
+  )
+}
+
 
 export default function initConstantStakingNew({
   staking,
@@ -925,9 +949,26 @@ export default function initConstantStakingNew({
             </div> */}
               <div className="otherside-border">
                 <div className="d-flex justify-content-between align-items-center gap-2">
-                  <h6 className="deposit-txt">
+                 <div className="d-flex justify-content-center align-items-center gap-3">
+                 <h6 className="deposit-txt">
                     Deposit
-                    <Tooltip
+                  
+                  </h6>
+                  <div className="d-flex gap-2 align-items-center">
+                  <img
+                      src={require(`./assets/dyp.svg`).default}
+                      alt=""
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <h6 className="text-white" style={{fontSize: '11px', fontWeight: '600'}}>DYP</h6>
+                  </div>
+                  <h6 className="mybalance-text">
+                    Balance:
+                    <b>{token_balance}</b>
+                    
+                  </h6>
+                 </div>
+                  <Tooltip
                       placement="top"
                       title={
                         <div style={{ whiteSpace: "pre-line" }}>
@@ -937,16 +978,6 @@ export default function initConstantStakingNew({
                     >
                       <img src={moreinfo} alt="" />
                     </Tooltip>
-                  </h6>
-                  <h6 className="mybalance-text">
-                    Balance:
-                    <b>{token_balance}</b>
-                    <img
-                      src={require(`./assets/dyp.svg`).default}
-                      alt=""
-                      style={{ width: 14, height: 14 }}
-                    />
-                  </h6>
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1237,18 +1268,19 @@ export default function initConstantStakingNew({
                             </div>
                           </td>
 
-                          <td className="text-right">
-                            <th>Referral Fee Earned</th>
-                            <div>
-                              <strong>{referralFeeEarned}</strong>{" "}
-                              <small>DYP</small>
-                            </div>
-                          </td>
+                         
 
                           <td className="text-right">
                             <th>My DYP Balance</th>
                             <div>
                               <strong>{token_balance}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <th>Referral Fee Earned</th>
+                            <div>
+                              <strong>{referralFeeEarned}</strong>{" "}
                               <small>DYP</small>
                             </div>
                           </td>
@@ -1391,7 +1423,7 @@ export default function initConstantStakingNew({
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                          : `Your deposit is locked for ${lockTime.toLowerCase()}. After ${lockTime.toLowerCase()} you can
+                          : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
                         withdraw or you can continue to earn rewards everyday`}
                       </h6>
                     </div>
@@ -1401,7 +1433,11 @@ export default function initConstantStakingNew({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                            {lockTime === "No Lock" ? "No Lock" : lockTime}
+                          {lockTime === "No Lock" ? "No Lock" : 
+                            <Countdown date={Date.now() + lockTime*86400000}
+                            renderer={renderer} 
+                            />
+                            }
                           </h6>
                         </div>
                       </div>

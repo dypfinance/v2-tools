@@ -368,7 +368,7 @@
 
 .activewrapper {
   background: #26264f;
-  border-radius: 500px;
+  border-radius: 8px;
   padding: 10px;
   display: flex;
   justify-content: space-between;
@@ -412,16 +412,16 @@
 
 .withdrawdesc {
   font-weight: 400;
-  font-size: 8px;
+  font-size: 11px;
   line-height: 12px;
   letter-spacing: -0.018em;
-  color: #f7f7fc;
+  color: #c0cbf7;
 }
 
 .withsubtitle {
   font-style: normal;
   font-weight: 400;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 14px;
   letter-spacing: -0.018em;
   color: #7a81b4;
@@ -457,7 +457,7 @@
   font-size: 8px;
   line-height: 14px;
   letter-spacing: -0.018em;
-  color: #7770e0;
+  color: #857dfa;
   display: flex;
   align-items: center;
   justify-content: flex-start;
