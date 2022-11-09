@@ -32,7 +32,7 @@ const Sidebar = (props) => {
   const [hover, setHover] = useState(null);
   const [location, setlocation] = useState("news");
   // const [networkId, setNetworkId] = useState(1);
-  const [activeSidebar, setActiveSidebar] = useState(false);
+  const [activeSidebar, setActiveSidebar] = useState(true);
 
   let chainId = parseInt(props.network);
 
@@ -150,8 +150,8 @@ const Sidebar = (props) => {
   const closeSidebar = () => {
     setActiveSidebar(false);
   };
-  sidebar?.addEventListener("mouseover", openSidebar);
-  sidebar?.addEventListener("mouseleave", closeSidebar);
+  // sidebar?.addEventListener("mouseover", openSidebar);
+  // sidebar?.addEventListener("mouseleave", closeSidebar);
 
   return (
     // <div

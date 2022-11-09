@@ -13,7 +13,7 @@ const ExplorerCard = () => {
             <img src={zoom} alt="" /> Explorer
           </h6>
           <div className="d-flex flex-column gap-0">
-            <h6 className="topapr-title">Top APR</h6>
+            {/* <h6 className="topapr-title">Top APR</h6> */}
             <h6 className="topapr-amount">1.09%</h6>
           </div>
         </div>

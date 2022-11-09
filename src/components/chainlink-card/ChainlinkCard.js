@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import chainlinkLogo from "./assets/chainlink-logo.png";
-import eth from "./assets/eth.svg";
-import bnb from "./assets/bnb.svg";
-import avax from "./assets/avax.svg";
+import chainlinkLogo from "./assets/chainlinkLogo.svg";
+import eth from "../../assets/earnAssets/ethereumIcon.svg";
+import bnb from "../../assets/earnAssets/bnbIcon.svg";
+import avax from "../../assets/earnAssets/avaxIcon.svg";
 import "./chainlink.css";
 import getFormattedNumber from "../../functions/get-formatted-number";
 
@@ -30,37 +30,34 @@ const ChainlinkCard = () => {
               target={"_blank"}
               rel="noreferrer"
             >
-              <img src={chainlinkLogo} alt=""  style={{width: 20, height: 20}}/>
+              <img src={chainlinkLogo} className='pe-1' alt=""  style={{width: 20, height: 20}}/>
               Provided by Chainlink
             </a>
           </h6>
         </div>
         <div className="chbottomwrapper">
           <div>
-            <h6 className="d-flex align-items-center gap-2 totalpaidtxt">
+            <h6 className="d-flex align-items-center gap-2 totalpaidtxt text-white">
               <img src={eth} alt="" />
-              {getFormattedNumber(totalpaid?.ethTotal.wethPaiOutTotals, 0)}
-              <h6 className="tokenname">ETH</h6>
+              {getFormattedNumber(totalpaid?.ethTotal.wethPaiOutTotals, 0)} ETH
             </h6>
           </div>
           <div>
-            <h6 className="d-flex align-items-center gap-2 totalpaidtxt">
+            <h6 className="d-flex align-items-center gap-2 totalpaidtxt text-white">
               <img src={bnb} alt="" />
               {getFormattedNumber(
                 totalpaid?.bnbTotal.wbnbPaidOutTotals,
                 0
-              )}
-              <h6 className="tokenname">BNB</h6>
+              )} BNB
             </h6>
           </div>
           <div>
-            <h6 className="d-flex align-items-center gap-2 totalpaidtxt">
+            <h6 className="d-flex align-items-center gap-2 totalpaidtxt text-white">
               <img src={avax} alt="" />
               {getFormattedNumber(
                 totalpaid?.avaxTotal.avaxPaidOutTotals,
                 0
-              )}
-              <h6 className="tokenname">AVAX</h6>
+              )} AVAX
             </h6>
           </div>
         </div>

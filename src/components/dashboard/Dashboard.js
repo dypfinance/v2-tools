@@ -76,9 +76,9 @@ import { NavLink } from "react-router-dom";
   });
   
   return (
-    <div className="container-lg dashboardwrapper">
+    <div className="container-lg dashboardwrapper px-0">
       <div className="d-flex m-0 justify-content-between gap-3">
-        <div className="d-flex flex-column gap-3 justify-content-between">
+        <div className="d-flex flex-column gap-3 justify-content-between main-dashboard-container p-4">
           <div className="d-flex m-0 gap-3 justify-content-between">
             <Calculator />
             <div
