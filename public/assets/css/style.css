@@ -2227,6 +2227,10 @@ color: #303134 !important;
   border-radius: 8px;
 }
 
+.MuiTooltip-popper, .MuiTooltip-tooltip, .MuiTooltip-tooltipPlacementTop {
+  background: #14142A !important;
+}
+
 /* 
 
 .tooltip .tooltiptext {

@@ -14,6 +14,10 @@ const TOKENS_DISBURSED_PER_YEAR = [
   360_000, 540_000, 900_000, 1_200_000,
 ];
 
+
+
+
+
 const LP_IDs = {
   eth: [
     "0xba7872534a6c9097d805d8bee97e030f4e372e54-0xa7d6f5fa9b0be0e98b3b40e6ac884e53f2f9460e",
@@ -52,6 +56,34 @@ LP_ID_LIST.forEach(
 const VAULT_ADDRESSES_LIST = LP_ID_LIST.map((id) => id.split("-")[1]);
 
 window.LP_ID_LIST = LP_ID_LIST;
+
+
+
+
+function getTokenContract(address) {
+	return getContract({address, ABI: window.TOKEN_ABI})
+}
+
+
+function getVaultContract(address) {
+	return getContract({address, ABI: window.VAULT_ABI})
+}
+
+function getPrices(coingecko_ids = 'ethereum', vs_currencies = 'usd') {
+	return new Promise((resolve, reject) => {
+		window.$.get(`https://api.coingecko.com/api/v3/simple/price?ids=${coingecko_ids}&vs_currencies=${vs_currencies}`)
+			.then((result) => {
+				resolve(result)
+			})
+			.catch((error) => {
+				reject(error)
+			})
+	})
+}
+
+window.getPrices = getPrices
+
+
 
 class STAKING {
   constructor(ticker = "STAKING", token = "TOKEN") {
@@ -517,12 +549,343 @@ class BUYBACK_STAKING {
 
 
 
+class VAULT {
+	constructor(vaultAddress, tokenAddress) {
+		this._address = vaultAddress;
+		this.tokenAddress = tokenAddress;
+		[
+			"owner",
+			"getExchangeRateStored",
+			"LOCKUP_DURATION",
+			"UNDERLYING_DECIMALS",
+			"TRUSTED_CTOKEN_ADDRESS",
+			"MIN_ETH_FEE_IN_WEI",
+			"FEE_PERCENT_X_100",
+			"FEE_PERCENT_TO_BUYBACK_X_100",
+			"REWARD_INTERVAL",
+			"contractStartTime",
+			"getNumberOfHolders",
+			"cTokenBalance",
+			"depositTokenBalance",
+			"totalTokensDepositedByUser",
+			"totalTokensWithdrawnByUser",
+			"totalEarnedCompoundDivs",
+			"totalEarnedEthDivs",
+			"totalEarnedTokenDivs",
+			"totalEarnedPlatformTokenDivs",
+			"depositTime",
+			"lastClaimedTime",
+			"totalDepositedTokens",
+			"totalCTokens",
+			"tokenDivsBalance",
+			"ethDivsBalance",
+			"platformTokenDivsBalance",
+			"totalEthDisbursed",
+			"totalTokensDisbursed",
+			"tokenDivsOwing",
+			"ethDivsOwing",
+			"getDepositorsList",
+			"platformTokenDivsOwing",
+			"getEstimatedCompoundDivsOwing"
+		].forEach(fn_name => {
+			this[fn_name] = async function (...args) {
+				let contract = await getVaultContract(vaultAddress)
+				return (await contract.methods[fn_name](...args).call())
+			}
+		});
+
+		[
+			"claim",
+			"getExchangeRateCurrent",
+			"deposit",
+			"withdraw"
+		].forEach(fn_name => {
+			this[fn_name] = async function (args, value=0) {
+				let contract = await getVaultContract(vaultAddress)
+				return (await contract.methods[fn_name](...args).send({ value, from: await getCoinbase() }))
+			}
+		})
+	}
+
+	approveToken = async (amount) => {
+		let token_contract = await getTokenContract(this.tokenAddress)
+		return (await token_contract.methods.approve(this._address, amount).send({ value, from: await getCoinbase() }))
+	}
+
+	getTvlUsdAndApyPercent = async (UNDERLYING_DECIMALS=18, PLATFORM_TOKEN_DECIMALS=18) => {
+		let ethBalance = await window.ethweb3.eth.getBalance(this._address)
+		let underlyingBalance1 = await this.totalDepositedTokens()
+		let underlyingBalance2 = await (await getTokenContract(this.tokenAddress)).methods.balanceOf(this._address).call()
+		let platformTokenBalance = await (await getTokenContract(window.config.token_dyp_address)).methods.balanceOf(this._address).call()
+
+		ethBalance = ethBalance / 1e18
+		underlyingBalance1 = underlyingBalance1 / 10 ** UNDERLYING_DECIMALS
+		underlyingBalance2 = underlyingBalance2 / 10 ** UNDERLYING_DECIMALS
+		let underlyingBalance = underlyingBalance1 + underlyingBalance2
+		platformTokenBalance = platformTokenBalance / 10 ** PLATFORM_TOKEN_DECIMALS
+
+		let underlyingId = window.config.cg_ids[this.tokenAddress.toLowerCase()]
+		let platformTokenId = window.config.cg_ids[window.config.token_dyp_address.toLowerCase()]
+		let priceIds = `ethereum,${underlyingId},${platformTokenId}`
+		let prices = await getPrices(priceIds)
+
+		let ethUsdValue = (ethBalance * prices['ethereum']['usd']) || 0
+		let underlyingUsdValue = (underlyingBalance * prices[underlyingId]['usd']) || 0
+		let platformTokenUsdValue = (platformTokenBalance * prices[platformTokenId]['usd']) || 0
+
+		let tvlUsd = (ethUsdValue + underlyingUsdValue + platformTokenUsdValue) || 0
+
+		
+
+
+		// ------- apy percent calculations ----------
+		let apyPercent = 0
+		
+		let platformTokenApyPercent = 0;
+
+		let contractStartTime = await this.contractStartTime()
+		let now = Math.floor(Date.now() / 1e3)
+		let daysSinceDeployment = Math.floor(Math.max(1, (now - contractStartTime) / 60 / 60 / 24  || 1))
+		let totalEthDisbursed = await this.totalEthDisbursed()
+		let totalTokensDisbursed = await this.totalTokensDisbursed()
+
+		totalEthDisbursed  = totalEthDisbursed / 1e18
+		totalTokensDisbursed = totalTokensDisbursed / 10 ** UNDERLYING_DECIMALS
+		
+		let usdValueOfEthDisbursed = (totalEthDisbursed * prices['ethereum']['usd']) || 0
+		let usdValueOfTokenDisbursed = (totalTokensDisbursed * prices[underlyingId]['usd']) || 0
+		let usdValueDisbursed = (usdValueOfEthDisbursed + usdValueOfTokenDisbursed) || 0
+		let usdValueDisbursedPerDay = usdValueDisbursed / daysSinceDeployment
+
+		let usdValueDisbursedPerYear = usdValueDisbursedPerDay * 365
+		
+		let usdValueOfDepositedTokens = (underlyingBalance1 * prices[underlyingId]['usd']) || 1
+
+		let feesApyPercent = (usdValueDisbursedPerYear / usdValueOfDepositedTokens) * 100
+
+		let compoundApyPercent = 0
+
+		let ctokenAddr = await this.TRUSTED_CTOKEN_ADDRESS()
+
+		let compResult = await window.jQuery.ajax({
+			url: `https://api.compound.finance/api/v2/ctoken?addresses=${ctokenAddr}&network=${window.config.compound_network}`,
+			method: 'GET',
+			headers: {
+				'compound-api-key': window.config.compound_api_key
+			}
+		})
+
+		if (!compResult.error) {
+			compoundApyPercent = (Number(compResult.cToken[0]?.supply_rate?.value) || 0)*100
+		}
+
+		//console.log({compResult, compoundApyPercent})
+
+		apyPercent = (platformTokenApyPercent + compoundApyPercent + feesApyPercent)||0
+
+		// console.log({
+		// 	tvlUsd,ethUsdValue,underlyingUsdValue,platformTokenUsdValue,
+		// 	underlyingBalance, ethBalance, platformTokenBalance,
+		//
+		// 	feesApyPercent, platformTokenApyPercent, compoundApyPercent, apyPercent
+		// })
+
+		// console.log({
+		// 	usdValueDisbursed, usdValueDisbursedPerDay, usdValueDisbursedPerYear,
+		// 	usdValueOfDepositedTokens
+		// })
+
+		return {tvl_usd: tvlUsd, apy_percent: apyPercent}
+	}
+
+}
+
+
+class VAULT_NEW {
+	constructor(vaultAddress, tokenAddress) {
+		this._address = vaultAddress;
+		this.tokenAddress = tokenAddress;
+		[
+			"owner",
+			"getExchangeRateStored",
+			"LOCKUP_DURATION",
+			"UNDERLYING_DECIMALS",
+			"TRUSTED_CTOKEN_ADDRESS",
+			"MIN_ETH_FEE_IN_WEI",
+			"FEE_PERCENT_X_100",
+			"FEE_PERCENT_TO_BUYBACK_X_100",
+			"REWARD_INTERVAL",
+			"contractStartTime",
+			"getNumberOfHolders",
+			"cTokenBalance",
+			"depositTokenBalance",
+			"totalTokensDepositedByUser",
+			"totalTokensWithdrawnByUser",
+			"totalEarnedCompoundDivs",
+			"totalEarnedEthDivs",
+			"totalEarnedTokenDivs",
+			"totalEarnedPlatformTokenDivs",
+			"depositTime",
+			"lastClaimedTime",
+			"totalDepositedTokens",
+			"totalCTokens",
+			"tokenDivsBalance",
+			"ethDivsBalance",
+			"platformTokenDivsBalance",
+			"totalEthDisbursed",
+			"totalTokensDisbursed",
+			"tokenDivsOwing",
+			"ethDivsOwing",
+			"getDepositorsList",
+			"platformTokenDivsOwing",
+			"getEstimatedCompoundDivsOwing"
+		].forEach(fn_name => {
+			this[fn_name] = async function (...args) {
+				let contract = await getVaultContract(vaultAddress)
+				return (await contract.methods[fn_name](...args).call())
+			}
+		});
+
+		[
+			"claim",
+			"getExchangeRateCurrent",
+			"deposit",
+			"withdraw"
+		].forEach(fn_name => {
+			this[fn_name] = async function (args, value=0) {
+				let contract = await getVaultContract(vaultAddress)
+				return (await contract.methods[fn_name](...args).send({ value, from: await getCoinbase() }))
+			}
+		})
+	}
+
+	approveToken = async (amount) => {
+		let token_contract = await getTokenContract(this.tokenAddress)
+    
+		return (await token_contract.methods.approve(this._address, amount).send({ value, from: await getCoinbase() }))
+	}
+
+	getTvlUsdAndApyPercent = async (UNDERLYING_DECIMALS=18, PLATFORM_TOKEN_DECIMALS=18) => {
+		let ethBalance = await window.infuraWeb3.eth.getBalance(this._address)
+		let underlyingBalance1 = await this.totalDepositedTokens()
+
+		let underlyingBalance2 = await (await getTokenContract(this.tokenAddress)).methods.balanceOf(this._address).call()
+
+		let platformTokenBalance = await (await getTokenContract(window.config.reward_token_idyp_address)).methods.balanceOf(this._address).call()
+    
+
+		ethBalance = ethBalance / 1e18
+		underlyingBalance1 = underlyingBalance1 / 10 ** UNDERLYING_DECIMALS
+		underlyingBalance2 = underlyingBalance2 / 10 ** UNDERLYING_DECIMALS
+		let underlyingBalance = underlyingBalance1 + underlyingBalance2
+		platformTokenBalance = platformTokenBalance / 10 ** PLATFORM_TOKEN_DECIMALS
+
+		let underlyingId = window.config.cg_ids[this.tokenAddress.toLowerCase()]
+
+		let platformTokenId = window.config.cg_ids[window.config.reward_token_idyp_address.toLowerCase()]
+
+		let priceIds = `ethereum,${underlyingId},${platformTokenId}`
+    
+
+		let prices = await getPrices(priceIds)
+		let ethUsdValue = (ethBalance * prices['ethereum']['usd']) || 0
+		let underlyingUsdValue = (underlyingBalance * prices[underlyingId]['usd']) || 0
+		let platformTokenUsdValue = (platformTokenBalance * prices[platformTokenId]['usd']) || 0
+
+		let tvlUsd = (ethUsdValue + underlyingUsdValue + platformTokenUsdValue) || 0
+
+
+
+
+		// ------- apy percent calculations ----------
+		let apyPercent = 0
+
+		let platformTokenApyPercent = 0;
+
+		let contractStartTime = await this.contractStartTime()
+		let now = Math.floor(Date.now() / 1e3)
+		let daysSinceDeployment = Math.floor(Math.max(1, (now - contractStartTime) / 60 / 60 / 24  || 1))
+		let totalEthDisbursed = await this.totalEthDisbursed()
+		let totalTokensDisbursed = await this.totalTokensDisbursed()
+
+		totalEthDisbursed  = totalEthDisbursed / 1e18
+		totalTokensDisbursed = totalTokensDisbursed / 10 ** UNDERLYING_DECIMALS
+
+		let usdValueOfEthDisbursed = (totalEthDisbursed * prices['ethereum']['usd']) || 0
+		let usdValueOfTokenDisbursed = (totalTokensDisbursed * prices[underlyingId]['usd']) || 0
+		let usdValueDisbursed = (usdValueOfEthDisbursed + usdValueOfTokenDisbursed) || 0
+		let usdValueDisbursedPerDay = usdValueDisbursed / daysSinceDeployment
+
+		let usdValueDisbursedPerYear = usdValueDisbursedPerDay * 365
+
+
+		let usdValueOfDepositedTokens = (underlyingBalance1 * prices[underlyingId]['usd']) || 1
+
+		let feesApyPercent = (usdValueDisbursedPerYear / usdValueOfDepositedTokens) * 100
+
+		let compoundApyPercent = 0
+
+		let ctokenAddr = await this.TRUSTED_CTOKEN_ADDRESS()
+
+		let compResult = await window.jQuery.ajax({
+			url: `https://api.compound.finance/api/v2/ctoken?addresses=${ctokenAddr}&network=${window.config.compound_network}`,
+			method: 'GET',
+			headers: {
+				'compound-api-key': window.config.compound_api_key
+			}
+		})
+
+
+		if (!compResult.error) {
+			compoundApyPercent = (Number(compResult.cToken[0]?.supply_rate?.value) || 0)*100
+		}
+
+		//console.log({compResult, compoundApyPercent})
+
+		apyPercent = (platformTokenApyPercent + compoundApyPercent + feesApyPercent)||0
+
+		// console.log({
+		// 	tvlUsd,ethUsdValue,underlyingUsdValue,platformTokenUsdValue,
+		// 	underlyingBalance, ethBalance, platformTokenBalance,
+		//
+		// 	feesApyPercent, platformTokenApyPercent, compoundApyPercent, apyPercent
+		// })
+
+		// console.log({
+		// 	usdValueDisbursed, usdValueDisbursedPerDay, usdValueDisbursedPerYear,
+		// 	usdValueOfDepositedTokens
+		// })
+
+		return {tvl_usd: tvlUsd, apy_percent: apyPercent}
+	}
+
+}
+
+
+
+
+
 // ALL THE ADDRESSES IN CONFIG MUST BE LOWERCASE
 window.config = {
+
+  cg_ids: {
+    // lowercase contract address => coingecko id
+    '0x6b175474e89094c44da98b954eedeac495271d0f': 'dai',
+    '0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17': 'defi-yield-protocol',
+    '0xdac17f958d2ee523a2206206994597c13d831ec7': 'tether',
+    '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2': 'weth',
+    '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599': 'bitcoin',
+    '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': 'dai',
+    '0xbd100d061e120b2c67a24453cf6368e63f1be056': 'idefiyieldprotocol'
+  },
+
   weth_address: "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7", // LOWERCASE! avax
   weth2_address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", // ethereum
 
   farmweth_address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //farm weth
+
+	token_weth_address: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', //vault weth
+
 
   // WBNB !! weth_address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', // LOWERCASE!
 
@@ -672,6 +1035,8 @@ window.config = {
     "0x1aB008CbfC99d0CA7e3FD8987ce1ebf832506F53",
 
   reward_token_idyp_address: "0xbd100d061e120b2c67a24453cf6368e63f1be056",
+
+
   USDC_address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
 
   claim_as_eth_address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
@@ -686,6 +1051,23 @@ window.config = {
   constant_stakingdai_address: "0x44bEd8ea3296bda44870d0Da98575520De1735d4",
   reward_token_dai_address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
 
+
+
+  token_wbtc_address: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+	token_usdt_address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+	token_usdc_address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+	token_dai_address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
+
+
+  vault_weth_address: '0x28eabA060E5EF0d41eeB20d41aafaE8f685739d9',
+	vault_wbtc_address: '0x2F2cff66fEB7320FC9Adf91b7B74bFb5a80C7C35',
+	vault_usdt_address: '0xA987aEE0189Af45d5FA95a9FBBCB4374228f375E',
+	vault_usdc_address: '0x251B9ee6cEd97565A821C5608014a107ddc9C98F',
+	vault_dai_address: '0x54F30bFfeb925F47225e148f0bAe17a452d6b8c0',
+
+
+  
+
   subscription_address: "0xba4b2bab726f645677681ddc74b29543d10b28af",
   subscriptioneth_address: "0x943023d8e0f591C08a0E2B922452a7Dc37173C9b",
   ZERO_ADDRESS: "0x0000000000000000000000000000000000000000",
@@ -693,6 +1075,10 @@ window.config = {
   pangolin_router_address: "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106",
   pancakeswap_router_address: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
   uniswap_router_address: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+
+
+	compound_api_key: null,
+	compound_network: 'mainnet',
 
   api_baseurl: "https://app-tools-avax.dyp.finance",
   apieth_baseurl: "https://app-tools.dyp.finance",
@@ -862,7 +1248,7 @@ window.staking_usdc_30 = new STAKING("STAKING_USDC30", "TOKEN_USDC30");
 window.token_usdc_60 = new TOKEN("TOKEN_USDC60");
 window.staking_usdc_60 = new STAKING("STAKING_USDC60", "TOKEN_USDC60");
 
-window.token_usdc_90 = new TOKEN("TOKEN_USDC90");
+window.token_usdc_90 = new TOKEN("TOKEN_USDC90"); 
 window.staking_usdc_90 = new STAKING("STAKING_USDC90", "TOKEN_USDC90");
 
 //DYP-USDT
@@ -897,7 +1283,7 @@ window.reward_token_idyp = new TOKEN("REWARD_TOKEN_IDYP");
 
 window.REWARD_TOKEN_DYPS_ABI = window.TOKEN_ABI;
 window.token_dyps = new TOKEN("REWARD_TOKEN_DYPS");
-
+// window.token_dyps = new TOKEN(window.config.reward_token_dyps_address)
 //constant staking NEW CONTRACTS
 window.constant_staking_new1 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW1"
@@ -11344,7 +11730,1093 @@ window.CONSTANT_STAKING_ABI = [
   },
 ];
 
+
+window.VAULT_ABI = [
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "CompoundRewardClaimed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Deposit",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "EtherRewardClaimed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "EtherRewardDisbursed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "previousOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "PlatformTokenAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "PlatformTokenRewardClaimed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "TokenRewardClaimed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "TokenRewardDisbursed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Withdraw",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "BURN_ADDRESS",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FEE_PERCENT_TO_BUYBACK_X_100",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "FEE_PERCENT_X_100",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "LOCKUP_DURATION",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "MIN_ETH_FEE_IN_WEI",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ONE_HUNDRED_X_100",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "POINT_MULTIPLIER",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "REWARD_INTERVAL",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "REWARD_RETURN_PERCENT_X_100",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "TRUSTED_CTOKEN_ADDRESS",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "TRUSTED_DEPOSIT_TOKEN_ADDRESS",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "TRUSTED_PLATFORM_TOKEN_ADDRESS",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "addPlatformTokenBalance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "cTokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amountOutMin_platformTokens",
+				"type": "uint256"
+			}
+		],
+		"name": "claim",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "claimCompoundDivs",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "claimEthDivs",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			}
+		],
+		"name": "claimExtraTokens",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amountOutMin_platformTokens",
+				"type": "uint256"
+			}
+		],
+		"name": "claimPlatformTokenDivs",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "claimTokenDivs",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "contractStartTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountOutMin_ethFeeBuyBack",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			}
+		],
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "depositTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "depositTokenBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "ethDivsBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "ethDivsOwing",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_cTokenBalance",
+				"type": "uint256"
+			}
+		],
+		"name": "getConvertedBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "startIndex",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "endIndex",
+				"type": "uint256"
+			}
+		],
+		"name": "getDepositorsList",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "stakers",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "stakingTimestamps",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "lastClaimedTimeStamps",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "stakedTokens",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "getEstimatedCompoundDivsOwing",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getExchangeRateCurrent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getExchangeRateStored",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNumberOfHolders",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "lastClaimedTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "lastEthDivPoints",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "lastTokenDivPoints",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "platformTokenDivsBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "platformTokenDivsOwing",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "tokenBalances",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "tokenDivsBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "tokenDivsOwing",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalCTokens",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalDepositedTokens",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "totalEarnedCompoundDivs",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "totalEarnedEthDivs",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "totalEarnedPlatformTokenDivs",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "totalEarnedTokenDivs",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalEthDisbursed",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalEthDivPoints",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalTokenDivPoints",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "totalTokensDepositedByUser",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalTokensDisbursed",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "totalTokensWithdrawnByUser",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "uniswapRouterV2",
+		"outputs": [
+			{
+				"internalType": "contract IUniswapV2Router",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountOutMin_ethFeeBuyBack",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountOutMin_tokenFeeBuyBack",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "deadline",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	}
+]
+
 window.FARMWETH_ABI = window.TOKEN_ABI;
+window.TOKEN_WETH = window.TOKEN_ABI;
+window.TOKEN_WBTC = window.TOKEN_ABI;
+window.TOKEN_USDT = window.TOKEN_ABI;
+window.TOKEN_USDC = window.TOKEN_ABI;
+window.TOKEN_DAI = window.TOKEN_ABI;
+
+
 window.REWARD_TOKEN_ABI = window.TOKEN_ABI;
 
 window.rebase_factors = [
@@ -11353,6 +12825,23 @@ window.rebase_factors = [
 
 /* Farming New */
 window.token_new = new TOKEN("TOKEN_NEW");
+
+// window.token_weth = new TOKEN(window.config.token_weth_address)
+window.token_weth = new TOKEN("TOKEN_WETH")
+window.token_wbtc = new TOKEN("TOKEN_WBTC")
+window.token_usdc = new TOKEN("TOKEN_USDC")
+window.token_usdt = new TOKEN("TOKEN_USDT")
+window.token_dai = new TOKEN("TOKEN_DAI")
+
+
+
+
+window.vault_weth = new VAULT_NEW(window.config.vault_weth_address, window.config.token_weth_address)
+window.vault_wbtc = new VAULT_NEW(window.config.vault_wbtc_address, window.config.token_wbtc_address)
+window.vault_usdt = new VAULT_NEW(window.config.vault_usdt_address, window.config.token_usdt_address)
+window.vault_usdc = new VAULT_NEW(window.config.vault_usdc_address, window.config.token_usdc_address)
+window.vault_dai = new VAULT_NEW(window.config.vault_dai_address, window.config.token_dai_address)
+
 window.farming_new_1 = new STAKING("FARMING_NEW_1");
 
 window.farming_new_2 = new STAKING("FARMING_NEW_2");
@@ -11364,6 +12853,9 @@ window.farming_new_4 = new STAKING("FARMING_NEW_4");
 window.farming_new_5 = new STAKING("FARMING_NEW_5");
 
 window.constant_staking_30 = new CONSTANT_STAKING_OLD("CONSTANT_STAKINGOLD_30");
+
+// window.token_idyp = new TOKEN(window.config.reward_token_idyp_address)
+
 
 window.isConnectedOneTime = false;
 window.oneTimeConnectionEvents = [];
@@ -11675,6 +13167,8 @@ Object.keys(window.config).filter(k => (k.startsWith('token_') ||
       ( k.startsWith('reward_token_idyp')) ? window.TOKEN_ABI :
       ( k.startsWith('reward_token_dyps')) ? window.TOKEN_ABI :
       ( k.startsWith('farmweth')) ? window.TOKEN_ABI :
+      // ( k.includes('vault')) ? window.VAULT_ABI :
+
 
 			(k.startsWith('constant_staking_')) ? window.CONSTANT_STAKING_ABI :
 				(k.startsWith('constant_stakingnew_')) ? window.CONSTANT_STAKINGNEW_ABI :

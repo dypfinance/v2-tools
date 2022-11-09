@@ -8,6 +8,7 @@ import initStakingNew from "../../FARMINNG/staking-new-front";
 import initBuybackStakingNew from "../../FARMINNG/buy-back-staking-new-front";
 import initConstantStakingNew from "../../FARMINNG/constant-staking-new-front";
 import initConstantStakingiDYP from "../../FARMINNG/constant-staking-idyp-new-front";
+import initVaultNew from "../../FARMINNG/vault-new";
 
 import { FadeLoader } from "react-spinners";
 
@@ -248,6 +249,7 @@ const EarnTopPicks = ({
     "15 August 2023",
   ];
 
+
   const lockarrayFarm = ["No Lock", 3, 30, 60, 90];
 
   const StakingNew1 = initStakingNew({
@@ -267,7 +269,9 @@ const EarnTopPicks = ({
     lockTime: lockarrayFarm[cardIndex],
   });
 
+
   const lockarrayBuyback = ["No Lock", 90];
+
 
   //Buyback New
   const BuybackStaking1 = initBuybackStakingNew({
@@ -282,9 +286,11 @@ const EarnTopPicks = ({
     lockTime: lockarrayBuyback[cardIndex],
   });
 
+
   const lockarray = ["No Lock", 90];
 
   const lockarrayiDyp = ["No Lock", 90, "No Lock", 90];
+
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
@@ -311,6 +317,38 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayiDyp[cardIndexiDyp],
+
+  });
+
+  const vaultArray = [
+    window.vault_weth,
+    window.vault_wbtc,
+    window.vault_usdt,
+    window.vault_usdc,
+    window.vault_dai,
+  ];
+  const tokenvaultArray = [
+    window.token_weth,
+    window.token_wbtc,
+    window.token_usdt,
+    window.vault_usdc,
+    window.token_usdc,
+  ];
+  const vaultplatformArray = [10, 10, 15, 15, 15];
+  const vaultdecimalsArray = [18, 8, 6, 6, 18];
+  const vaultsymbolArray = ["WETH", "WBTC", "USDT", "USDC", "DAI"];
+
+  const VaultCard = initVaultNew({
+    vault: vaultArray[cardIndex],
+    token: tokenvaultArray[cardIndex],
+    platformTokenApyPercent: vaultplatformArray[cardIndex],
+    UNDERLYING_DECIMALS: vaultdecimalsArray[cardIndex],
+    UNDERLYING_SYMBOL: vaultsymbolArray[cardIndex],
+    expiration_time: "04 March 2023",
+    coinbase: coinbase,
+    lockTime: "No Lock",
+    handleConnection: handleConnection,
+    chainId: chainId,
   });
 
   useEffect(() => {
@@ -423,9 +461,15 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
             />
-          ) : (
-            <></>
-          )}
+          ) : activeCard && topList === "Vault" ? (
+            <VaultCard
+            is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              chainId={chainId}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+            />
+          ) : <></>}
         </div>
       ) : (
         <div className="list-pools-container px-0">

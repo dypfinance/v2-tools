@@ -41,7 +41,6 @@ const EarnFaq = ({faqTypes}) => {
   const fetchFaq = async(category) => {
     await axios.get(`https://news-manage.dyp.finance/api/faqs/${category.id}`).then((res) => {
       setFaqItems(res.data)
-      console.log(res.data);
       setFaqTitle(category.title)
     }).catch((err) => console.error(err)) 
   }

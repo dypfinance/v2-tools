@@ -428,10 +428,6 @@ export default function initConstantStakingNew({
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
         .call()
-        .then(() => {
-          this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false });
-        })
         .catch(() => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
@@ -679,10 +675,6 @@ export default function initConstantStakingNew({
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
         .call()
-        .then(() => {
-          this.setState({ reInvestStatus: "success" });
-          this.setState({ reInvestLoading: false });
-        })
         .catch(() => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });

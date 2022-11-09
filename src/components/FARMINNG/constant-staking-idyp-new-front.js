@@ -251,7 +251,7 @@ export default function initStaking({
       staking.depositTOKEN(amount);
     };
 
-    handleApprove = async(e) => {
+    handleApprove = async (e) => {
       // e.preventDefault();
 
       if (other_info) {
@@ -261,14 +261,16 @@ export default function initStaking({
 
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
-      reward_token.approve(staking._address, amount).then(() => {
-        this.setState({ depositLoading: false, depositStatus: "deposit" });
-      })
-      .catch(() => {
-        this.setState({ depositLoading: false, depositStatus: "fail" });
-      });
+      reward_token
+        .approve(staking._address, amount)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
+        })
+        .catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
     };
-    handleStake = async(e) => {
+    handleStake = async (e) => {
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
         return;
@@ -285,26 +287,30 @@ export default function initStaking({
       if (!window.web3.utils.isAddress(referrer)) {
         referrer = window.config.ZERO_ADDRESS;
       }
-      staking.stake(amount, referrer).then(() => {
-        this.setState({ depositLoading: false, depositStatus: "success" });
-      })
-      .catch(() => {
-        this.setState({ depositLoading: false, depositStatus: "fail" });
-      });
+      staking
+        .stake(amount, referrer)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "success" });
+        })
+        .catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
     };
 
-    handleWithdraw = async(e) => {
+    handleWithdraw = async (e) => {
       // e.preventDefault();
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
-      staking.unstake(amount).then(() => {
-        this.setState({ withdrawStatus: "success" });
-        this.setState({ withdrawLoading: false });
-      })
-      .catch(() => {
-        this.setState({ withdrawStatus: "failed" });
-        this.setState({ withdrawLoading: false });
-      });
+      staking
+        .unstake(amount)
+        .then(() => {
+          this.setState({ withdrawStatus: "success" });
+          this.setState({ withdrawLoading: false });
+        })
+        .catch(() => {
+          this.setState({ withdrawStatus: "failed" });
+          this.setState({ withdrawLoading: false });
+        });
     };
 
     handleClaimDivs = (e) => {
@@ -347,6 +353,7 @@ export default function initStaking({
 
       try {
         let _bal = reward_token.balanceOf(coinbase);
+        // console.log(reward_token)
         let _pDivs = staking.getTotalPendingDivs(coinbase);
         let _tEarned = staking.totalEarnedTokens(coinbase);
         let _stakingTime = staking.stakingTime(coinbase);
@@ -537,104 +544,103 @@ export default function initStaking({
           <div className="allwrapper">
             <div className="leftside2 w-100">
               <div className="activewrapper">
-              <div className="d-flex align-items-center justify-content-between gap-5">
+                <div className="d-flex align-items-center justify-content-between gap-5">
+                  <h6 className="activetxt">
+                    <img
+                      src={ellipse}
+                      alt=""
+                      className="position-relative"
+                      style={{ top: 3 }}
+                    />
+                    Active status
+                  </h6>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Earn rewards in:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      iDYP
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Performance fee:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {fee_s}%
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "Performance fee is subtracted from the displayed APR."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
 
-                <h6 className="activetxt">
-                  <img
-                    src={ellipse}
-                    alt=""
-                    className="position-relative"
-                    style={{ top: 3 }}
-                  />
-                  Active status
-                </h6>
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Earn rewards in:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    iDYP
-                  </h6>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">APR:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {getFormattedNumber(apr - fee_s, 2)}%
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "APR reflects the interest rate of earnings on an account over the course of one year. "
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Lock time:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {lockTime}
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "The amount of time your deposited assets will be locked."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
                 </div>
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Performance fee:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {fee_s}%
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {
-                            "Performance fee is subtracted from the displayed APR."
-                          }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
-                </div>
-
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">APR:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {getFormattedNumber(apr - fee_s, 2)}%
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {
-                            "APR reflects the interest rate of earnings on an account over the course of one year. "
-                          }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
-                </div>
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Lock time:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {lockTime}
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {
-                            "The amount of time your deposited assets will be locked."
-                          }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
-                </div>
-</div>
-<div className="d-flex align-items-center justify-content-between gap-3">
-                <a
-                  href={
-                    chainId === 1
-                      ? "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
-                      : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                  }
-                  target={"_blank"}
-                  rel="noreferrer"
-                >
-                  <h6 className="bottomitems">
-                    <img src={arrowup} alt="" />
-                    Get iDYP
-                  </h6>
-                </a>
-                <div
-                  onClick={() => {
-                    this.showPopup();
-                  }}
-                >
-                  <h6 className="bottomitems">
-                    <img src={purplestats} alt="" />
-                    Stats
-                  </h6>
-                </div>
+                <div className="d-flex align-items-center justify-content-between gap-3">
+                  <a
+                    href={
+                      chainId === 1
+                        ? "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                    }
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <h6 className="bottomitems">
+                      <img src={arrowup} alt="" />
+                      Get iDYP
+                    </h6>
+                  </a>
+                  <div
+                    onClick={() => {
+                      this.showPopup();
+                    }}
+                  >
+                    <h6 className="bottomitems">
+                      <img src={purplestats} alt="" />
+                      Stats
+                    </h6>
+                  </div>
                 </div>
               </div>
             </div>
@@ -752,7 +758,7 @@ export default function initStaking({
                     >
                       Approve
                     </button> */}
-                     <button
+                    <button
                       disabled={
                         this.state.depositAmount === "" ||
                         this.state.depositLoading === true ||
@@ -1051,12 +1057,12 @@ export default function initStaking({
                         target="_blank"
                         rel="noopener noreferrer"
                         href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
-                        className='maxbtn'
-                        style={{color: '#7770e0'}}
+                        className="maxbtn"
+                        style={{ color: "#7770e0" }}
                       >
                         Etherscan
                         <img src={arrowup} alt="" />
-                         </a>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -1100,6 +1106,7 @@ export default function initStaking({
                             renderer={renderer} 
                             />
                             }
+
                           </h6>
                         </div>
                       </div>
@@ -1112,8 +1119,6 @@ export default function initStaking({
                           </h6>
                         </div>
                       </div>
-
-
 
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <div className="position-relative">
@@ -1138,8 +1143,6 @@ export default function initStaking({
                           Max
                         </button>
                       </div>
-
-
 
                       <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
                         {/* <button
@@ -1195,7 +1198,6 @@ export default function initStaking({
                             <>Withdraw</>
                           )}
                         </button>
-                       
 
                         {/* <div className="form-row">
                               <div className="col-6">
