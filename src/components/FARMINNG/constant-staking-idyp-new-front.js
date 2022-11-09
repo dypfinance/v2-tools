@@ -938,18 +938,19 @@ export default function initStaking({
                               <small>iDYP</small>
                             </div>
                           </td>
-                          <td className="text-right">
-                            <th>Referral Fee Earned </th>
-                            <div>
-                              <strong>{referralFeeEarned}</strong>{" "}
-                              <small>iDYP</small>
-                            </div>
-                          </td>
+                          
 
                           <td className="text-right">
                             <th>My iDYP Balance</th>
                             <div>
                               <strong>{token_balance}</strong>{" "}
+                              <small>iDYP</small>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <th>Referral Fee Earned </th>
+                            <div>
+                              <strong>{referralFeeEarned}</strong>{" "}
                               <small>iDYP</small>
                             </div>
                           </td>

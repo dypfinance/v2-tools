@@ -11,6 +11,7 @@ import check from "./assets/check.svg";
 import successMark from "../../assets/successMark.svg";
 import failMark from "../../assets/failMark.svg";
 import arrowup from "./assets/arrow-up.svg";
+import whiteArrowUp from './assets/whiteArrowUp.svg'
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
 import purplestats from "./assets/purpleStat.svg";
@@ -1583,17 +1584,7 @@ export default function initStaking({
                     </table>
 
                     <div className="d-flex align-items-center gap-2">
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
-                        className="maxbtn d-flex align-items-center"
-                        style={{ height: "25px" }}
-                      >
-                        Etherscan
-                        <img src={arrowup} alt="" />
-                      </a>
-
+                    
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
@@ -1603,6 +1594,16 @@ export default function initStaking({
                       >
                         Audit
                         <img src={arrowup} alt="" />
+                      </a>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
+                        className="text-white mb-0"
+                        style={{  fontSize: '9px', textDecoration: 'underline' }}
+                      >
+                        View on Etherscan
+                        <img src={whiteArrowUp} alt="" className="ms-1" />
                       </a>
                     </div>
                   </div>

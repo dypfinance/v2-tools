@@ -12,6 +12,7 @@ import check from "./assets/check.svg";
 import successMark from "../../assets/successMark.svg";
 import failMark from "../../assets/failMark.svg";
 import arrowup from "./assets/arrow-up.svg";
+import whiteArrowUp from './assets/whiteArrowUp.svg'
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
 import purplestats from "./assets/purpleStat.svg";
@@ -1691,12 +1692,19 @@ export default function initStakingNew({
                             </div>
                           </td>
                           <td className="text-right">
+                            <th>My DYP Stake</th>
+                            <div>
+                              <strong>{reward_token_balance}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+                          {/* <td className="text-right">
                             <th>Total DYP Deposited </th>
                             <div>
                               <strong>{tvlConstantDYP}</strong>{" "}
                               <small>DYP</small>
                             </div>
-                          </td>
+                          </td> */}
                         </tr>
 
                         <tr>
@@ -1796,17 +1804,7 @@ export default function initStakingNew({
                               gap: 5,
                             }}
                           >
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
-                              className="maxbtn d-flex align-items-center"
-                              style={{ height: "25px" }}
-                            >
-                              Etherscan
-                              <img src={arrowup} alt="" />
-                            </a>
-
+                         
                             <a
                               target="_blank"
                               rel="noopener noreferrer"
@@ -1817,6 +1815,17 @@ export default function initStakingNew({
                               Audit
                               <img src={arrowup} alt="" />
                             </a>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
+                              className="text-white mt-2"
+                              style={{ height: "25px", textDecoration: 'underline', fontSize: '9px', }}
+                            >
+                              View on Etherscan
+                              <img src={whiteArrowUp} alt="" className="ms-1" />
+                            </a>
+
                           </td>
                         </tr>
                       </tbody>

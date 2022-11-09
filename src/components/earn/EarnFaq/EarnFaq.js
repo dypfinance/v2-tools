@@ -63,7 +63,7 @@ const EarnFaq = ({faqTypes}) => {
   return (
     <div className="row w-100 my-5 py-3 px-1 m-3 faq-container">
       <div className="col-7">
-        <h3 className="mb-3" style={{color: '#c6c6d0'}}>{faqTitle} FAQs</h3>
+        <h3 className="mb-3" style={{color: '#f7f7fc'}}>{faqTitle} FAQs</h3>
         <div className="accordion" id="accordionExample">
          {faqItems.map((faqItem) => (
            <div className="accordion-item">
@@ -93,7 +93,7 @@ const EarnFaq = ({faqTypes}) => {
         </div>
       </div>
       <div className="col-5">
-      <h3 className="mb-3" style={{color: '#c6c6d0'}}>Video guide</h3>
+      <h3 className="mb-3" style={{color: '#f7f7fc'}}>Video guide</h3>
        <div className="video-container">
        <div className="video-item">
         <div className="video-wrapper position-relative">

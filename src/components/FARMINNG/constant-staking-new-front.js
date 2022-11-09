@@ -957,9 +957,26 @@ export default function initConstantStakingNew({
             </div> */}
               <div className="otherside-border">
                 <div className="d-flex justify-content-between align-items-center gap-2">
-                  <h6 className="deposit-txt">
+                 <div className="d-flex justify-content-center align-items-center gap-3">
+                 <h6 className="deposit-txt">
                     Deposit
-                    <Tooltip
+                  
+                  </h6>
+                  <div className="d-flex gap-2 align-items-center">
+                  <img
+                      src={require(`./assets/dyp.svg`).default}
+                      alt=""
+                      style={{ width: 15, height: 15 }}
+                    />
+                    <h6 className="text-white" style={{fontSize: '11px', fontWeight: '600'}}>DYP</h6>
+                  </div>
+                  <h6 className="mybalance-text">
+                    Balance:
+                    <b>{token_balance}</b>
+                    
+                  </h6>
+                 </div>
+                  <Tooltip
                       placement="top"
                       title={
                         <div style={{ whiteSpace: "pre-line" }}>
@@ -969,16 +986,6 @@ export default function initConstantStakingNew({
                     >
                       <img src={moreinfo} alt="" />
                     </Tooltip>
-                  </h6>
-                  <h6 className="mybalance-text">
-                    Balance:
-                    <b>{token_balance}</b>
-                    <img
-                      src={require(`./assets/dyp.svg`).default}
-                      alt=""
-                      style={{ width: 14, height: 14 }}
-                    />
-                  </h6>
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1269,18 +1276,19 @@ export default function initConstantStakingNew({
                             </div>
                           </td>
 
-                          <td className="text-right">
-                            <th>Referral Fee Earned</th>
-                            <div>
-                              <strong>{referralFeeEarned}</strong>{" "}
-                              <small>DYP</small>
-                            </div>
-                          </td>
+                         
 
                           <td className="text-right">
                             <th>My DYP Balance</th>
                             <div>
                               <strong>{token_balance}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <th>Referral Fee Earned</th>
+                            <div>
+                              <strong>{referralFeeEarned}</strong>{" "}
                               <small>DYP</small>
                             </div>
                           </td>
