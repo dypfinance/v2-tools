@@ -18,6 +18,9 @@ export default function initFarmAvax({
   rebase_factor,
   expiration_time,
   fee,
+  coinbase,
+  chainId,
+
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =
     window;
@@ -200,6 +203,11 @@ export default function initFarmAvax({
 
     componentDidMount() {
       this.refreshBalance();
+
+      if (coinbase !== null) {
+        this.setState({ coinbase: coinbase });
+      }
+
     //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
@@ -739,8 +747,11 @@ export default function initFarmAvax({
         this.setState({ tokensToBeSwapped });
       });
 
+   
+      // console.log(window.weth.balanceOf(coinbase))
       window.weth
         .balanceOf(coinbase)
+        .call()
         .then((wethBalance) => {
           this.setState({ wethBalance });
         })
@@ -824,7 +835,7 @@ export default function initFarmAvax({
       } = this.state;
 
       let { the_graph_result } = this.props;
-
+      
       let usd_per_token = the_graph_result.token_data
         ? the_graph_result.token_data[
             "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"

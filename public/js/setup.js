@@ -3,6 +3,7 @@ window.IS_CONNECTED = false;
 window.WALLET_TYPE = "";
 window.the_graph_result = {};
 const TOKEN_ADDRESS = "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17";
+const TOKEN_IDYP_ADDRESS = "0xbd100d061e120b2c67a24453cf6368e63f1be056"
 
 const TOKENS_DISBURSED_PER_YEAR = [
   360_000, 540_000, 900_000, 1_200_000,
@@ -44,13 +45,6 @@ const LP_IDs = {
     "0xabd9c284116b2e757e3d4f6e36c5050aead24e0c-0xbe528593781988974d83c2655cba4c45fc75c033",
   ],
 
-  wavax: [
-    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x035d65babf595758d7a439d5870badc44218d028",
-    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x6c325dfea0d18387d423c869e328ef005cba024f",
-    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x85c4f0cea0994de365dc47ba22dd0fd9899f93ab",
-    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x6f5dc6777b2b4667bf183d093111867239518af5",
-    "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x10e105676cac55b74cb6500a8fb5d2f84804393d",
-  ],
 
 };
 
@@ -248,6 +242,7 @@ class TOKEN {
 
   async balanceOf(address) {
     let contract = await getContract({ key: this.key });
+    
     return await contract.methods.balanceOf(address).call();
   }
 }
@@ -1231,6 +1226,8 @@ window.farmweth = new TOKEN("FARMWETH");
 window.token = new TOKEN();
 window.staking = new STAKING();
 window.reward_token = new TOKEN("REWARD_TOKEN");
+window.weth = new TOKEN("WETH")
+window.WETH_ABI = window.TOKEN_ABI
 
 window.token_dyp_30 = new TOKEN("TOKEN_DYP30");
 window.staking_dyp_30 = new STAKING("STAKING_DYP30", "TOKEN_DYP30");
@@ -13141,6 +13138,8 @@ window.buyback_tokens_farmingavax = {
 };
 
 
+
+
 const LP_IDs_V2 = {
   weth: [
     "0x7463286a379f6f128058bb92b355e3d6e8bdb219-0xa68bbe793ad52d0e62bbf34a67f02235ba69e737",
@@ -13156,6 +13155,32 @@ window.LP_IDs_V2 = LP_IDs_V2;
 const LP_ID_LIST_V2 = Object.keys(LP_IDs_V2)
   .map((key) => LP_IDs_V2[key])
   .flat();
+
+
+
+
+  const LP_IDs_V2Avax = {
+    wavax: [
+      "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x035d65babf595758d7a439d5870badc44218d028",
+      "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x6c325dfea0d18387d423c869e328ef005cba024f",
+      "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x85c4f0cea0994de365dc47ba22dd0fd9899f93ab",
+      "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x6f5dc6777b2b4667bf183d093111867239518af5",
+      "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a-0x10e105676cac55b74cb6500a8fb5d2f84804393d",
+    ],
+  };
+  
+  window.LP_IDs_V2Avax = LP_IDs_V2Avax;
+  
+  const LP_ID_LIST_V2Avax = Object.keys(LP_IDs_V2Avax)
+    .map((key) => LP_IDs_V2Avax[key])
+    .flat();
+    window.LP_ID_LIST_V2Avax = LP_ID_LIST_V2Avax;
+
+
+
+
+
+    
 
 window.LP_ID_LIST_V2 = LP_ID_LIST_V2;
 
@@ -13247,6 +13272,8 @@ Object.keys(window.config).filter(k => (k.startsWith('token_') ||
 	k.startsWith('reward_token_idyp')  ||
 	k.startsWith('reward_token_dyps')  ||
 	k.startsWith('farmweth')  ||
+	k.startsWith('weth')  ||
+
 
 
   k.startsWith('farming_new_')  ||
@@ -13259,7 +13286,7 @@ Object.keys(window.config).filter(k => (k.startsWith('token_') ||
       ( k.startsWith('reward_token_idyp')) ? window.TOKEN_ABI :
       ( k.startsWith('reward_token_dyps')) ? window.TOKEN_ABI :
       ( k.startsWith('farmweth')) ? window.TOKEN_ABI :
-      // ( k.includes('vault')) ? window.VAULT_ABI :
+      ( k.includes('weth')) ? window.VAULT_ABI :
 
 
 			(k.startsWith('constant_staking_')) ? window.CONSTANT_STAKING_ABI :
