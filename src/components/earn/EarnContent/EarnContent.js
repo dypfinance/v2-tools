@@ -12,6 +12,9 @@ import tableIconActive from "../../../assets/earnAssets/tableIconActive.svg";
 import listIconActive from "../../../assets/earnAssets/listIconActive.svg";
 import EarnTopPicks from "../EarnTopPicks/EarnTopPicks";
 import EarnFaq from "../EarnFaq/EarnFaq";
+import axios from "axios";
+import { useEffect } from "react";
+import getFormattedNumber from "../../../functions/getFormattedNumber2";
 
 const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, handleConnection }) => {
   const options = [
@@ -19,21 +22,25 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
       title: "Staking",
       content:
         "Staking ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo",
+        tvl: 244533.54234234
     },
     {
       title: "Buyback",
       content:
         "Buyback ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo",
+        tvl: 53312.422334
     },
     {
       title: "Vault",
       content:
         "Vault ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo",
+        tvl: 1122553.74424
     },
     {
       title: "Farming",
       content:
         "Farming ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo",
+        
     },
   ];
 
@@ -42,6 +49,60 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
   const [content, setContent] = useState(options[0].content);
   const [listStyle, setListStyle] = useState("table");
   const [myStakes, setMyStakes] = useState(false);
+  const [tvl, setTvl] = useState(options[0].tvl)
+  var tempTvl = 0;
+  var farming = []
+
+
+  const fetchEthTvl = async() => {
+    await axios.get(`https://api.dyp.finance/api/the_graph_eth_v2`).then((res) => {
+      let temparray = Object.entries(res.data.the_graph_eth_v2.lp_data);
+      temparray.map((item) => {
+        farming.push(item[1]);
+      });
+      farming.map((item) => {
+        tempTvl += item.tvl_usd
+      })
+      console.log(tempTvl);
+     setTvl(tempTvl)
+     tempTvl = 0;
+
+    }).catch((err) => console.error(err))
+  }
+ 
+  const fetchBscTvl = async() => {
+    await axios.get(`https://api.dyp.finance/api/the_graph_bsc_v2`).then((res) => {
+      let temparray = Object.entries(res.data.the_graph_bsc_v2.lp_data);
+      temparray.map((item) => {
+        farming.push(item[1]);
+      });
+      farming.map((item) => {
+        tempTvl += item.tvl_usd
+      })
+      console.log(tempTvl);
+     setTvl(tempTvl)
+     tempTvl = 0;
+
+    }).catch((err) => console.error(err))
+  }
+
+  const fetchAvaxTvl = async() => {
+    await axios.get(`https://api.dyp.finance/api/the_graph_avax_v2`).then((res) => {
+      let temparray = Object.entries(res.data.the_graph_avax_v2.lp_data);
+      temparray.map((item) => {
+        farming.push(item[1]);
+      });
+      farming.map((item) => {
+        tempTvl += item.tvl_usd
+      })
+      console.log(tempTvl);
+     setTvl(tempTvl)
+     tempTvl = 0;
+
+    }).catch((err) => console.error(err))
+  }
+  
+
 
   return (
     <>
@@ -56,12 +117,22 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
               onClick={() => {
                 setOption(item.title);
                 setContent(item.content);
+                item.tvl ? setTvl(item.tvl) : stake === 'eth' ? fetchEthTvl() : stake === 'bnb' ? fetchBscTvl() : fetchAvaxTvl()
               }}
             >
               {item.title}
             </div>
           ))}
         </div>
+        <hr />
+
+        <div className="row d-flex align-items-start justify-content-between">
+          <div className="col-3 px-0">
+            <div className="total-value-locked-container p-2 d-flex justify-content-between align-items-center">
+              <span style={{fontWeight: '300', fontSize: '13px'}}>Total value locked</span>
+              <h6 className="text-white" style={{fontWeight: '600', fontSize: '17px'}}>${getFormattedNumber(tvl)}</h6>
+            </div>
+          </div>
         <div className="col-6">
           <p
             className="text-center"
@@ -70,7 +141,8 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
             {content}
           </p>
         </div>
-        <hr />
+        <div className="col-3"></div>
+        </div>
         <div className="d-flex align-items-center justify-content-between  py-5 px-3">
           <div className="col-2 d-flex justify-content-start align-items-center gap-3">
             <div
@@ -103,7 +175,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
                     stake === "eth" ? "stake-item-active" : null
                   }`}
-                  onClick={() => setStake("eth")}
+                  onClick={() => {setStake("eth"); fetchEthTvl()}}
                 >
                   <img
                     src={stake === "eth" ? ethStakeActive : ethStake}
@@ -131,7 +203,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
                     stake === "bnb" ? "stake-item-active" : null
                   }`}
-                  onClick={() => setStake("bnb")}
+                  onClick={() => {setStake("bnb"); fetchBscTvl()}}
                 >
                   <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
                     <img
@@ -169,7 +241,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
                     stake === "avax" ? "stake-item-active" : null
                   }`}
-                  onClick={() => setStake("avax")}
+                  onClick={() => {setStake("avax"); fetchAvaxTvl()}}
                 >
                   <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
                     <img
