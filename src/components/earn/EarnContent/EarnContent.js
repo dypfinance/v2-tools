@@ -173,7 +173,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
               <>
                 <div
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
-                    stake === "eth" ? "stake-item-active" : null
+                    stake === "eth" ? "eth-item-active" : null
                   }`}
                   onClick={() => {setStake("eth"); fetchEthTvl()}}
                 >
@@ -201,7 +201,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
                 </div>
                 <div
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
-                    stake === "bnb" ? "stake-item-active" : null
+                    stake === "bnb" ? "bsc-item-active" : null
                   }`}
                   onClick={() => {setStake("bnb"); fetchBscTvl()}}
                 >
@@ -239,7 +239,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
                 </div>
                 <div
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
-                    stake === "avax" ? "stake-item-active" : null
+                    stake === "avax" ? "avax-item-active" : null
                   }`}
                   onClick={() => {setStake("avax"); fetchAvaxTvl()}}
                 >

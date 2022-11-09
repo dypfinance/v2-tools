@@ -65,7 +65,7 @@ hr{
 }
 
 .new-pools{
-    background: linear-gradient(90.74deg, rgba(117, 202, 194, 0) 0%, #57B6AB 100%);
+    background: linear-gradient(90.74deg, #26264F 0%, #57B6AB 100%);
 border-radius: 500px;
 padding: 5px;
 left: 0;
@@ -87,10 +87,17 @@ border: 2px solid #7770E0;
 }
 
 
-.stake-item-active{
+.eth-item-active{
     box-shadow: 0px 2px 12px rgba(78, 73, 197, 0.22);
-    border: 2px solid rgba(85, 79, 216, 1);
-
+    border: 2px solid #6C85E7;
+}
+.bsc-item-active{
+    box-shadow: 0px 2px 12px rgba(78, 73, 197, 0.22);
+    border: 2px solid #F6CC29;
+}
+.avax-item-active{
+    box-shadow: 0px 2px 12px rgba(78, 73, 197, 0.22);
+    border: 2px solid #F86667;
 }
 .stake-item img{
     width: 30px;
@@ -264,7 +271,7 @@ cursor: pointer;
     position: relative;
     padding: 5px;
     font-size: 14px;
-    background:  #C9C7F4;
+    background:  #26264F;
     color: #7770E0;
     width: fit-content;
     bottom: -5px;
@@ -304,6 +311,18 @@ cursor: pointer;
     color: #E84142;
 }
 
+
+.filled-btn {
+    background: linear-gradient(90.74deg, #7770e0 0%, #554fd8 100%);
+    border-radius: 8px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    color: #fff;
+    border: none;
+    padding: 6px 24px;
+  }
 
 @keyframes rotate {
     0%{

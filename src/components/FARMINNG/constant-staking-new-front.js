@@ -919,7 +919,8 @@ export default function initConstantStakingNew({
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="firstblockwrapper">
+              <div className="row w-100 justify-content-between">
+              <div className="firstblockwrapper col-2">
                 <div
                   className="d-flex flex-column justify-content-between gap-2"
                   style={{ height: "100%" }}
@@ -947,7 +948,7 @@ export default function initConstantStakingNew({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-              <div className="otherside-border">
+              <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
                  <div className="d-flex justify-content-center align-items-center gap-3">
                  <h6 className="deposit-txt">
@@ -1060,7 +1061,7 @@ export default function initConstantStakingNew({
                   </div>
                 </div>
               </div>
-              <div className="otherside-border">
+              <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between gap-2 ">
                   <h6 className="withdraw-txt">Rewards</h6>
                   <h6 className="withdraw-littletxt">
@@ -1079,7 +1080,7 @@ export default function initConstantStakingNew({
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                  <div className="form-row d-flex gap-2 align-items-end">
+                  <div className="form-row d-flex gap-2 align-items-center justify-content-between">
                     <div className="position-relative">
                       <input
                         disabled
@@ -1099,9 +1100,10 @@ export default function initConstantStakingNew({
                         className=" left-radius inputfarming styledinput2"
                         placeholder="0"
                         type="text"
-                        style={{ width: "120px", padding: 15, height: 35 }}
+                        style={{fontSize: '14px' }}
                       />
                     </div>
+                    <div className="d-flex align-items-center gap-2">
                     <button
                       disabled={
                         this.state.claimStatus === "claimed" ||
@@ -1189,11 +1191,12 @@ export default function initConstantStakingNew({
                         <>Reinvest</>
                       )}
                     </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="otherside-border">
+              <div className="otherside-border col-2">
                 <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                   WITHDRAW
                   <Tooltip
@@ -1222,6 +1225,7 @@ export default function initConstantStakingNew({
                 >
                   Withdraw
                 </button>
+              </div>
               </div>
             </div>
           </div>
@@ -1350,13 +1354,13 @@ export default function initConstantStakingNew({
                                 <ReactTooltip id={id} effect="solid" />
                               </h6>
                               <br />
-                              <a
+                              {/* <a
                                 className="text-muted small"
                                 href={this.getReferralLink()}
                               >
                                 {" "}
                                 {this.getReferralLink()}{" "}
-                              </a>
+                              </a> */}
                             </span>
                           </div>
 
@@ -1452,13 +1456,13 @@ export default function initConstantStakingNew({
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between gap-2">
-                        <div className="position-relative">
+                        <div className="position-relative w-100">
                           <h6 className="amount-txt">Withdraw Amount</h6>
                           <input
                             type={"text"}
                             className="styledinput"
                             placeholder="0.0"
-                            style={{ width: 200 }}
+                            style={{ width: '100%' }}
                             value={this.state.withdrawAmount}
                             onChange={(e) =>
                               this.setState({

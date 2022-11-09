@@ -54,9 +54,11 @@ const TopPoolsCard = ({
   return (
     <>
       <div
-        className={`poolscardwrapper ${top_pick === true ? "top-pick" : ""} ${
+        className={`poolscardwrapper cursor-pointer ${top_pick === true ? "top-pick" : ""} ${
           showDetails && "pools-card-open"
         }`}
+
+        onClick={() => handleDetails()}
       >
         <div
           className="purplediv"

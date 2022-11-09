@@ -1203,7 +1203,8 @@ export default function initStaking({
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="firstblockwrapper">
+             <div className="row w-100 justify-content-between">
+             <div className="firstblockwrapper col-2">
                 <div
                   className="d-flex flex-column justify-content-between gap-2"
                   style={{ height: "100%" }}
@@ -1231,7 +1232,7 @@ export default function initStaking({
                         TBD Claim reward 0.01 ETH
                       </button>
                     </div> */}
-              <div className="otherside-border">
+              <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
                   <h6 className="deposit-txt">
                     Deposit
@@ -1396,7 +1397,7 @@ export default function initStaking({
                   </div>
                 </div>
               </div>
-              <div className="otherside-border">
+              <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between gap-2 ">
                   <h6 className="withdraw-txt">Rewards</h6>
                   <h6 className="withdraw-littletxt">
@@ -1664,7 +1665,7 @@ export default function initStaking({
                 </div>
               </div>
 
-              <div className="otherside-border">
+              <div className="otherside-border col-2">
                 <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                   WITHDRAW
                   <Tooltip
@@ -1688,6 +1689,7 @@ export default function initStaking({
                   Withdraw
                 </button>
               </div>
+             </div>
             </div>
           </div>
           {this.state.popup && (

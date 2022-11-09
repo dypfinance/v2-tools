@@ -5,7 +5,7 @@
   position: relative;
   padding: 10px;
   /* width: 400px; */
-  border: 1px solid #7770df;
+  border: 1px solid #26264f;
 }
 
 .pools-card-open {
@@ -13,6 +13,8 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  border: 1px solid #7770df;
+
 }
 
 .purplediv {
@@ -569,6 +571,7 @@
   line-height: 18px;
   color: #fff;
   border: none;
+  padding: 6px 24px;
 }
 
 .withdraw-txt {
