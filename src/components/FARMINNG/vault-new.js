@@ -238,13 +238,20 @@ export default function initVault({
       // clearInterval(window._refreshBalInterval);
     }
 
-    handleApprove = (e) => {
-      e.preventDefault();
+    handleApprove = async(e) => {
+      // e.preventDefault();
+      this.setState({ depositLoading: true });
+
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount)
         .times(10 ** UNDERLYING_DECIMALS)
         .toFixed(0);
-      token.approve(vault._address, amount);
+        await   token.approve(vault._address, amount).then(() => {
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
+        })
+        .catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
     };
     handleStake = async (e) => {
       let amount = this.state.depositAmount;
@@ -252,6 +259,7 @@ export default function initVault({
         .times(10 ** UNDERLYING_DECIMALS)
         .toFixed(0);
       let value = await this.getMinEthFeeInWei();
+      this.setState({ depositLoading: true });
 
       let FEE_PERCENT_TO_BUYBACK_X_100 =
         await vault.FEE_PERCENT_TO_BUYBACK_X_100();
@@ -266,26 +274,34 @@ export default function initVault({
       let router = await window.getUniswapRouterContract();
 
       let WETH = await router.methods.WETH().call();
-      let platformTokenAddress = window.config.token_idyp_address;
+      let platformTokenAddress = window.config.reward_token_idyp_address;
 
       let path = [WETH, platformTokenAddress];
 
       let _amountOutMin_ethFeeBuyBack = await router.methods
         .getAmountsOut(feeAmountEth, path)
-        .call();
+        .call().catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
       _amountOutMin_ethFeeBuyBack =
         _amountOutMin_ethFeeBuyBack[_amountOutMin_ethFeeBuyBack.length - 1];
       _amountOutMin_ethFeeBuyBack = new BigNumber(_amountOutMin_ethFeeBuyBack)
         .times(100 - window.config.slippage_tolerance_percent)
         .div(100)
-        .toFixed(0);
+        .toFixed(0)
 
       //console.log({ _amountOutMin_ethFeeBuyBack, deadline, value })
-      vault.deposit([amount, _amountOutMin_ethFeeBuyBack, deadline], value);
+      vault.deposit([amount, _amountOutMin_ethFeeBuyBack, deadline], value).then(() => {
+        this.setState({ depositLoading: false, depositStatus: "success" });
+      }).catch(() => {
+        this.setState({ depositLoading: false, depositStatus: "fail" });
+      });
     };
 
     handleWithdraw = async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
+      this.setState({ withdrawLoading: true });
+
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount)
         .times(10 ** UNDERLYING_DECIMALS)
@@ -314,13 +330,16 @@ export default function initVault({
       let router = await window.getUniswapRouterContract();
 
       let WETH = await router.methods.WETH().call();
-      let platformTokenAddress = window.config.token_idyp_address;
+      let platformTokenAddress = window.config.reward_token_idyp_address;
 
       let path = [WETH, platformTokenAddress];
 
       let _amountOutMin_ethFeeBuyBack = await router.methods
         .getAmountsOut(buyBackFeeAmountEth, path)
-        .call();
+        .call().catch(()=>{
+          this.setState({ withdrawStatus: "failed" });
+          this.setState({ withdrawLoading: false });
+        })
       _amountOutMin_ethFeeBuyBack =
         _amountOutMin_ethFeeBuyBack[_amountOutMin_ethFeeBuyBack.length - 1];
       _amountOutMin_ethFeeBuyBack = new BigNumber(_amountOutMin_ethFeeBuyBack)
@@ -338,7 +357,10 @@ export default function initVault({
 
       let _amountOutMin_tokenFeeBuyBack = await router.methods
         .getAmountsOut(buyBackFeeAmountToken, tokenFeePath)
-        .call();
+        .call().catch(()=>{
+        this.setState({ withdrawStatus: "failed" });
+        this.setState({ withdrawLoading: false });
+      })
       _amountOutMin_tokenFeeBuyBack =
         _amountOutMin_tokenFeeBuyBack[_amountOutMin_tokenFeeBuyBack.length - 1];
       _amountOutMin_tokenFeeBuyBack = new BigNumber(
@@ -358,7 +380,13 @@ export default function initVault({
           deadline,
         ],
         value
-      );
+      ).then(()=>{
+        this.setState({ withdrawStatus: "success" });
+        this.setState({ withdrawLoading: false });
+    }).catch(()=>{
+      this.setState({ withdrawStatus: "failed" });
+      this.setState({ withdrawLoading: false });
+    })
     };
 
     getMinEthFeeInWei = async () => {
@@ -371,11 +399,14 @@ export default function initVault({
     };
 
     handleClaimDivs = async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
+         this.setState({ claimLoading: true });
       let router = await window.getUniswapRouterContract();
       let _amountOutMin_platformTokens = [0];
       let depositTokenAddress = token._address;
-      let platformToken = window.config.token_idyp_address;
+
+      let platformToken = window.config.reward_token_idyp_address;
+   
       let WETH = await router.methods.WETH().call();
 
       let path = [
@@ -390,7 +421,10 @@ export default function initVault({
           //alert(this.state.pendingDivsDyp)
           _amountOutMin_platformTokens = await router.methods
             .getAmountsOut(this.state.pendingDivsDyp, path)
-            .call();
+            .call().catch(()=>{
+            this.setState({ claimStatus: "failed" });
+            this.setState({ claimLoading: false });
+          })
         }
       } catch (e) {
         console.warn(e);
@@ -407,7 +441,13 @@ export default function initVault({
 
       //console.log({ _amountOutMin_platformTokens })
       //alert("reached here!")
-      vault.claim([_amountOutMin_platformTokens]);
+      vault.claim([_amountOutMin_platformTokens]).then(()=>{
+        this.setState({ claimStatus: "success" });
+        this.setState({ claimLoading: false });
+    }).catch(()=>{
+      this.setState({ claimStatus: "failed" });
+      this.setState({ claimLoading: false });
+    })
     };
 
     handleSetMaxDeposit = (e) => {
@@ -1022,7 +1062,7 @@ export default function initVault({
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                  <div className="form-row d-flex gap-2 align-items-end justify-content-between">
+                  <div className="form-row d-flex gap-2 align-items-center justify-content-between">
                     <div className="position-relative">
                       <span>{pendingDivsEth}</span>
                     </div>

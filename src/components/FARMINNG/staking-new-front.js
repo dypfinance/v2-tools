@@ -317,6 +317,7 @@ export default function initStakingNew({
     handleStake = async (e) => {
       let selectedBuybackToken = this.state.selectedBuybackToken;
       let amount = this.state.depositAmount;
+      this.setState({ depositLoading: true });
 
       amount = new BigNumber(amount)
         .times(10 ** this.state.selectedTokenDecimals)
@@ -367,7 +368,9 @@ export default function initStakingNew({
       ];
       let _amountOutMin_25Percent = await router.methods
         .getAmountsOut(_25Percent, path_25Percent)
-        .call();
+        .call().catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
       _amountOutMin_25Percent =
         _amountOutMin_25Percent[_amountOutMin_25Percent.length - 1];
       _amountOutMin_25Percent = new BigNumber(_amountOutMin_25Percent)
@@ -416,7 +419,11 @@ export default function initStakingNew({
 
       //console.log({selectedBuybackToken ,amount, minAmounts, deadline})
 
-      staking.deposit(selectedBuybackToken, amount, minAmounts, deadline)
+      staking.deposit(selectedBuybackToken, amount, minAmounts, deadline).then(() => {
+        this.setState({ depositLoading: false, depositStatus: "success" });
+      }).catch(() => {
+        this.setState({ depositLoading: false, depositStatus: "fail" });
+      });
     };
 
     handleWithdrawDyp = async () => {
@@ -572,10 +579,6 @@ export default function initStakingNew({
       let _amountOutMinConstant = await router.methods
         .getAmountsOut(amount, path)
         .call()
-        .then(() => {
-          this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false });
-        })
         .catch(() => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
@@ -1320,7 +1323,7 @@ export default function initStakingNew({
                       } d-flex justify-content-center align-items-center gap-2`}
                       onClick={() => {
                         this.state.depositStatus === "deposit"
-                          ? this.handleDeposit()
+                          ? this.handleStake()
                           : this.state.depositStatus === "initial"
                           ? this.handleApprove()
                           : console.log("");

@@ -12811,6 +12811,11 @@ window.VAULT_ABI = [
 
 window.FARMWETH_ABI = window.TOKEN_ABI;
 window.TOKEN_WETH = window.TOKEN_ABI;
+window.TOKEN_WBTC = window.TOKEN_ABI;
+window.TOKEN_USDT = window.TOKEN_ABI;
+window.TOKEN_USDC = window.TOKEN_ABI;
+window.TOKEN_DAI = window.TOKEN_ABI;
+
 
 window.REWARD_TOKEN_ABI = window.TOKEN_ABI;
 
@@ -12823,6 +12828,12 @@ window.token_new = new TOKEN("TOKEN_NEW");
 
 // window.token_weth = new TOKEN(window.config.token_weth_address)
 window.token_weth = new TOKEN("TOKEN_WETH")
+window.token_wbtc = new TOKEN("TOKEN_WBTC")
+window.token_usdc = new TOKEN("TOKEN_USDC")
+window.token_usdt = new TOKEN("TOKEN_USDT")
+window.token_dai = new TOKEN("TOKEN_DAI")
+
+
 
 
 window.vault_weth = new VAULT_NEW(window.config.vault_weth_address, window.config.token_weth_address)
