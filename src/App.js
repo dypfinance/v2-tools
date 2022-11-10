@@ -20,7 +20,7 @@ import { RedirectPathToHomeOnly } from "./functions/redirects";
 import Earn from "./components/earn/Earn";
 import Dashboard from "./components/dashboard/Dashboard";
 import Governance from "./components/governance/Governance";
-import initVaultNew from "./components/FARMINNG/vault-new";
+import initFarmAvax from "./components/FARMINNG/farmAvax";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -39,6 +39,10 @@ class App extends React.Component {
       the_graph_result_ETH_V2: JSON.parse(
         JSON.stringify(window.the_graph_result_eth_v2)
       ),
+      the_graph_result_AVAX_V2: JSON.parse(
+        JSON.stringify(window.the_graph_result_avax_v2)
+      ),
+
       subscribedPlatformTokenAmount: "...",
       isPremium: false,
       hotPairs: [],
@@ -189,11 +193,19 @@ class App extends React.Component {
   tvl = async () => {
     try {
       let the_graph_result_ETH_V2 = await window.get_the_graph_eth_v2();
+
+      let the_graph_result_AVAX_V2 = await window.get_the_graph_avax_v2();
+
       this.setState({
         the_graph_result_ETH_V2: JSON.parse(
           JSON.stringify(the_graph_result_ETH_V2)
-        ),
+        )
       });
+      this.setState({
+        the_graph_result_AVAX_V2: JSON.parse(
+          JSON.stringify(the_graph_result_AVAX_V2)
+        ),
+      })
     } catch (e) {
       // window.alertify.error("Cannot fetch TVL");
       console.error("TVL ETH V2 error: " + e);
@@ -201,8 +213,14 @@ class App extends React.Component {
 
     try {
       let the_graph_result = await window.refresh_the_graph_result();
+      let the_graph_resultavax = await window.refresh_the_graph_resultavax();
+      
       this.setState({
-        the_graph_result: JSON.parse(JSON.stringify(the_graph_result)),
+        the_graph_result: JSON.parse(JSON.stringify(the_graph_result))
+      });
+
+      this.setState({
+        the_graph_resultavax: JSON.parse(JSON.stringify(the_graph_resultavax)),
       });
     } catch (e) {
       // window.alertify.error("Cannot fetch TVL");
@@ -292,18 +310,11 @@ class App extends React.Component {
       LP_IDs_V2.weth[3],
       LP_IDs_V2.weth[4],
     ];
+    
+    
 
     document.addEventListener("touchstart", { passive: true });
 
-    // const VaultWETH = initVaultNew({
-    //   vault: window.vault_weth,
-    //   token: window.token_weth,
-    //   platformTokenApyPercent: 10,
-    //   UNDERLYING_DECIMALS: 18,
-    //   UNDERLYING_SYMBOL: "WETH",
-    //   expiration_time: "04 March 2023",
-    //   coinbase: this.state.coinbase
-    // });
     
     return (
       <div
@@ -312,11 +323,6 @@ class App extends React.Component {
         <Route component={GoogleAnalyticsReporter} />
 
         <div className="body_overlay"></div>
-        {/* <div className="minimize-wrap">
-          <div onClick={this.toggleMinimizeSidebar} className="minimize_btn">
-            <span className=""></span>
-          </div>
-        </div> */}
         <Header
           coinbase={this.state.coinbase}
           theme={this.state.theme}
@@ -360,6 +366,8 @@ class App extends React.Component {
                   />
                 )}
               />
+
+
               <Route
                 exact
                 path="/earn"
@@ -367,6 +375,7 @@ class App extends React.Component {
                   <Earn
                     coinbase={this.state.coinbase}
                     the_graph_result={this.state.the_graph_result_ETH_V2}
+                    the_graph_resultavax={this.state.the_graph_result_AVAX_V2}
                     lp_id={LP_ID_Array}
                     isConnected={this.state.isConnected}
                     network={this.state.networkId}
@@ -375,23 +384,6 @@ class App extends React.Component {
                 )}
               />
               <Route exact path="/governance" render={() => <Governance />} />
-             {/* <Route
-            exact
-            path="/vault-weth"
-            render={(props) => ( 
-              <VaultWETH
-                is_wallet_connected={this.state.isConnected}
-                handleConnection={this.handleConnection}
-                handleConnectionWalletConnect={
-                  this.handleConnection
-                }
-                the_graph_result={this.state.the_graph_result_ETH_V2}
-                {...props}
-                coinbase={this.state.coinbase}
-
-              />
-            )}
-          /> */}
 
               <Route
                 exact
@@ -483,6 +475,9 @@ class App extends React.Component {
                   />
                 )}
               />
+
+
+
               <Route
                 exact
                 path="/admin"

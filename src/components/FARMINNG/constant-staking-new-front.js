@@ -22,28 +22,28 @@ import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 
+import CountDownTimer from "../locker/Countdown";
 
-const renderer = ({days, hours, minutes, seconds}) => {
+const renderer = ({ days, hours, minutes, seconds }) => {
   return (
     <div className="d-flex gap-3 justify-content-center align-items-center">
       <div className="d-flex gap-1 align-items-baseline">
-      <span>{days < 10 ? "0" + days : days}</span>
-      <span style={{fontSize: '13px'}}>days</span>
+        <span>{days < 10 ? "0" + days : days}</span>
+        <span style={{ fontSize: "13px" }}>days</span>
       </div>
-     <div className="d-flex gap-1 align-items-baseline">
-     <span>{hours < 10 ? "0" + hours : hours}</span>
-      <span style={{fontSize: '13px'}}>hours</span>
-     </div>
       <div className="d-flex gap-1 align-items-baseline">
-      <span>{minutes < 10 ? "0" + minutes : minutes}</span>
-      <span style={{fontSize: '13px'}}>minutes</span>
+        <span>{hours < 10 ? "0" + hours : hours}</span>
+        <span style={{ fontSize: "13px" }}>hours</span>
+      </div>
+      <div className="d-flex gap-1 align-items-baseline">
+        <span>{minutes < 10 ? "0" + minutes : minutes}</span>
+        <span style={{ fontSize: "13px" }}>minutes</span>
       </div>
       <span className="d-none">{seconds < 10 ? "0" + seconds : seconds}</span>
       <span className="d-none">seconds</span>
     </div>
-  )
-}
-
+  );
+};
 
 export default function initConstantStakingNew({
   staking,
@@ -149,6 +149,7 @@ export default function initConstantStakingNew({
         withdrawLoading: false,
         withdrawStatus: "initial",
         usdPerToken: "",
+        unlockDate: new Date(Date.now() + 1 * 30 * 24 * 60 * 60 * 1000),
 
         contractDeployTime: "",
         disburseDuration: "",
@@ -397,13 +398,16 @@ export default function initConstantStakingNew({
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      staking.unstake(amount, 0, deadline).then(()=>{
-        this.setState({ withdrawStatus: "success" });
-        this.setState({ withdrawLoading: false });
-    }).catch(()=>{
-      this.setState({ withdrawStatus: "failed" });
-      this.setState({ withdrawLoading: false });
-    })
+      staking
+        .unstake(amount, 0, deadline)
+        .then(() => {
+          this.setState({ withdrawStatus: "success" });
+          this.setState({ withdrawLoading: false });
+        })
+        .catch(() => {
+          this.setState({ withdrawStatus: "failed" });
+          this.setState({ withdrawLoading: false });
+        });
     };
 
     handleClaimDivs = async (e) => {
@@ -655,6 +659,18 @@ export default function initConstantStakingNew({
       );
     };
 
+    convertTimestampToDate = (timestamp) => {
+      // const date2 = new Date(Date.now() + 90*30 * 24 * 60 * 60 * 1000)
+      // const date1 = new Date(Date.now)
+
+      const result = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(timestamp * 1000);
+      return result;
+    };
+
     handleReinvest = async (e) => {
       // e.preventDefault();
       this.setState({ reInvestStatus: "invest", reInvestLoading: true });
@@ -811,7 +827,7 @@ export default function initConstantStakingNew({
       //this.setState({apy})
 
       let is_connected = this.props.is_wallet_connected;
-
+      // console.log(this.convertTimestampToDate(1670596969))
       return (
         <div className="container-lg p-0">
           <div className="allwrapper">
@@ -950,35 +966,36 @@ export default function initConstantStakingNew({
             </div> */}
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
-                 <div className="d-flex justify-content-center align-items-center gap-3">
-                 <h6 className="deposit-txt">
-                    Deposit
-                  
-                  </h6>
-                  <div className="d-flex gap-2 align-items-center">
-                  <img
-                      src={require(`./assets/dyp.svg`).default}
-                      alt=""
-                      style={{ width: 15, height: 15 }}
-                    />
-                    <h6 className="text-white" style={{fontSize: '11px', fontWeight: '600'}}>DYP</h6>
+                  <div className="d-flex justify-content-center align-items-center gap-3">
+                    <h6 className="deposit-txt">Deposit</h6>
+                    <div className="d-flex gap-2 align-items-center">
+                      <img
+                        src={require(`./assets/dyp.svg`).default}
+                        alt=""
+                        style={{ width: 15, height: 15 }}
+                      />
+                      <h6
+                        className="text-white"
+                        style={{ fontSize: "11px", fontWeight: "600" }}
+                      >
+                        DYP
+                      </h6>
+                    </div>
+                    <h6 className="mybalance-text">
+                      Balance:
+                      <b>{token_balance}</b>
+                    </h6>
                   </div>
-                  <h6 className="mybalance-text">
-                    Balance:
-                    <b>{token_balance}</b>
-                    
-                  </h6>
-                 </div>
                   <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"lorem impsum deposit text"}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    placement="top"
+                    title={
+                      <div style={{ whiteSpace: "pre-line" }}>
+                        {"lorem impsum deposit text"}
+                      </div>
+                    }
+                  >
+                    <img src={moreinfo} alt="" />
+                  </Tooltip>
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1151,9 +1168,11 @@ export default function initConstantStakingNew({
                       className={`btn filledbtn ${
                         this.state.reInvestStatus === "invest"
                           ? "disabled-btn"
-                          :  this.state.reInvestStatus === "failed"
-                          ? "fail-button" : this.state.reInvestStatus === "success" ? "success-button"
-                          :null
+                          : this.state.reInvestStatus === "failed"
+                          ? "fail-button"
+                          : this.state.reInvestStatus === "success"
+                          ? "success-button"
+                          : null
                       } d-flex justify-content-center align-items-center gap-2`}
                       style={{ height: "fit-content" }}
                       onClick={
@@ -1213,12 +1232,12 @@ export default function initConstantStakingNew({
 
                 <button
                   // disabled={this.state.depositStatus === "success" ? false : true}
-                  className={ 
+                  className={
                     // this.state.depositStatus === "success" ?
-                     'filledbtn btn'
-                      // :
+                    "filledbtn btn"
+                    // :
                     //  "btn disabled-btn"
-                    }
+                  }
                   onClick={() => {
                     this.setState({ showWithdrawModal: true });
                   }}
@@ -1271,8 +1290,6 @@ export default function initConstantStakingNew({
                               <small>DYP</small>
                             </div>
                           </td>
-
-                         
 
                           <td className="text-right">
                             <th>My DYP Balance</th>
@@ -1437,11 +1454,16 @@ export default function initConstantStakingNew({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                          {lockTime === "No Lock" ? "No Lock" : 
-                            <Countdown date={Date.now() + lockTime*86400000}
-                            renderer={renderer} 
-                            />
-                            }
+                            {lockTime === "No Lock" ? (
+                              "No Lock"
+                            ) : (
+                              // <Countdown date={1670596969}
+                              // renderer={renderer}
+                              // />
+                              <CountDownTimer
+                                date={Date.now() + 90 * 24 * 60 * 60 * 1000}
+                              />
+                            )}
                           </h6>
                         </div>
                       </div>
@@ -1480,43 +1502,46 @@ export default function initConstantStakingNew({
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
-
-                      <button
-                      disabled={
-                        this.state.withdrawStatus === "failed" || this.state.withdrawStatus === "success" || this.state.withdrawAmount === ''
-                          ? true
-                          : false
-                      }
-                      className={` w-100 btn filledbtn ${
-                           this.state.withdrawStatus === "failed"
-                          ? "fail-button" : this.state.withdrawStatus === "success"
-                          ? "success-button" : this.state.withdrawAmount === ""
-                          ? 'disabled-btn'
-                          : null
-                      } d-flex justify-content-center align-items-center`}
-                      style={{ height: "fit-content" }}
-                      onClick={()=>{ this.handleWithdraw() }}
-                    >
-                      {this.state.withdrawLoading ? (
-                        <div
-                          class="spinner-border spinner-border-sm text-light"
-                          role="status"
+                        <button
+                          disabled={
+                            this.state.withdrawStatus === "failed" ||
+                            this.state.withdrawStatus === "success" ||
+                            this.state.withdrawAmount === ""
+                              ? true
+                              : false
+                          }
+                          className={` w-100 btn filledbtn ${
+                            this.state.withdrawStatus === "failed"
+                              ? "fail-button"
+                              : this.state.withdrawStatus === "success"
+                              ? "success-button"
+                              : this.state.withdrawAmount === ""
+                              ? "disabled-btn"
+                              : null
+                          } d-flex justify-content-center align-items-center`}
+                          style={{ height: "fit-content" }}
+                          onClick={() => {
+                            this.handleWithdraw();
+                          }}
                         >
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      ) : this.state.withdrawStatus === "failed" ? (
-                        <>
-                          <img src={failMark} alt="" />
-                          Failed
-                        </>
-                      ) : this.state.withdrawStatus === "success" ? (
-                        <>
-                          Success
-                        </>
-                      ) : (
-                        <>Withdraw</>
-                      )}
-                    </button>
+                          {this.state.withdrawLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.withdrawStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.withdrawStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Withdraw</>
+                          )}
+                        </button>
 
                         {/* <button
                           className="btn filledbtn w-100"
