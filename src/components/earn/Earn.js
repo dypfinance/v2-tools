@@ -5,6 +5,8 @@ import EarnFaq from "./EarnFaq/EarnFaq";
 import EarnHero from "./EarnHero/EarnHero";
 import calculatorIcon from "../../assets/earnAssets/calculator.svg";
 import Calculator from "../calculator/Calculator";
+import PoolsCalculator from "../pools-calculator/PoolsCalculator";
+
 const Earn = ({
   coinbase,
   the_graph_result,
@@ -15,7 +17,6 @@ const Earn = ({
   the_graph_resultavax,
 }) => {
   const [showCalculator, setShowCalculator] = useState(false);
-
   const html = document.querySelector("html");
 
   useEffect(() => {
@@ -45,12 +46,7 @@ const Earn = ({
         <img src={calculatorIcon} alt="" style={{ width: 30, height: 30 }} />{" "}
         Calculator
       </div>
-      {showCalculator && (
-        <Calculator
-          earnClass="earn-calculator"
-          onClose={() => setShowCalculator(false)}
-        />
-      )}
+      {showCalculator && <PoolsCalculator onClose={() => setShowCalculator(false)}/>}
     </div>
   );
 };

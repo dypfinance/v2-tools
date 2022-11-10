@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import dypLogo from './assets/dyplogo.svg'
 import greenArrow from './assets/greenarrow.svg'
 import orangeArrow from './assets/orangearrow.svg'
@@ -13,28 +13,55 @@ const TopPoolsListCard = ({
   apr,
   lockTime,
   tvl,
-  // onDetailsClick,
+  onShowDetailsClick,
+  onHideDetailsClick,
   top_pick,
-  cardType
+  cardType,
+  chain
 
   // showDetails,
 }) => {
 
-  const [showDetails, setShowDetails] = useState(false);
 
-  const coins = [
-    'ethereum',
-    'wbtc',
-    'usdc',
-    'usdt',
-    'dai'
-  ]
+  const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
+  const bscCoins = ["bsc", "btcb", "ethereum", "busd", "pancakeswap", "idypius" ]
+  const avaxCoins = ["avax", "ethereum", "wbtc", "usdt", "usdc", "dai", "idypius", "pangolin", "benqi", "xava", "link"]
+  
+
+  const [showDetails, setShowDetails] = useState(false);
+  const [coins, setCoins] = useState(ethCoins);
+
+
+  const handleDetails = () => {
+    if(showDetails === false) {
+      setShowDetails(true);
+      onShowDetailsClick()
+    }
+
+    else if(showDetails === true) {
+      setShowDetails(false);
+      onHideDetailsClick()
+    }
+  }
+
+
+  useEffect(() => {
+    if(chain === 'eth'){
+      setCoins(ethCoins)
+    }else if(chain === 'bnb'){
+      setCoins(bscCoins)
+    }else if(chain === 'avax'){
+      setCoins(avaxCoins)
+    }
+  }, [chain])
+  
+
 
   return (
-    <> <div className="col-12 d-flex flex-row align-items-center justify-content-between list-pool-card mx-0">
+    <> <div className="col-12 d-flex flex-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer" onClick={() => handleDetails()}>
     <div className={`d-flex align-items-center ${cardType === 'Farming' || cardType === 'Buyback' ? null : 'gap-2'}`} style={{width: '100px'}}>
       {cardType === 'Farming' || cardType === 'Buyback' ?
-      coins.length > 0 && coins.map((coin, index) => (
+      coins.length > 0 && coins.slice(0,5).map((coin, index) => (
         <img key={index} src={require(`./assets/${coin}.svg`).default} alt="" className="pool-coins" />
       ))
       :
@@ -75,7 +102,8 @@ const TopPoolsListCard = ({
         </h6>
     </div>
  </div>
- {showDetails && <TopPoolsDetails/>}</>
+ {/* {showDetails && <TopPoolsDetails/>} */}
+ </>
   )
 }
 

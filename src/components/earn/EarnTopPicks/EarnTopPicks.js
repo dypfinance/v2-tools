@@ -12,6 +12,7 @@ import initVaultNew from "../../FARMINNG/vault-new";
 import initFarmAvax from "../../FARMINNG/farmAvax";
 
 import { FadeLoader } from "react-spinners";
+import PoolsCalculator from "../../pools-calculator/PoolsCalculator";
 
 const EarnTopPicks = ({
   topList,
