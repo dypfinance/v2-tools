@@ -16,7 +16,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import getFormattedNumber from "../../../functions/getFormattedNumber2";
 
-const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, handleConnection }) => {
+const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, handleConnection, the_graph_resultavax }) => {
   const options = [
     {
       title: "Staking",
@@ -63,7 +63,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
       farming.map((item) => {
         tempTvl += item.tvl_usd
       })
-      console.log(tempTvl);
+      
      setTvl(tempTvl)
      tempTvl = 0;
 
@@ -79,7 +79,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
       farming.map((item) => {
         tempTvl += item.tvl_usd
       })
-      console.log(tempTvl);
+      
      setTvl(tempTvl)
      tempTvl = 0;
 
@@ -95,7 +95,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
       farming.map((item) => {
         tempTvl += item.tvl_usd
       })
-      console.log(tempTvl);
+      
      setTvl(tempTvl)
      tempTvl = 0;
 
@@ -299,6 +299,7 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
         isConnected={isConnected}
         chainId= {chainId}
         handleConnection={handleConnection}
+        the_graph_resultavax={the_graph_resultavax}
       />
       <EarnFaq faqTypes={option} />
     </>

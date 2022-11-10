@@ -199,11 +199,13 @@ class App extends React.Component {
       this.setState({
         the_graph_result_ETH_V2: JSON.parse(
           JSON.stringify(the_graph_result_ETH_V2)
-        ),
+        )
+      });
+      this.setState({
         the_graph_result_AVAX_V2: JSON.parse(
           JSON.stringify(the_graph_result_AVAX_V2)
         ),
-      });
+      })
     } catch (e) {
       // window.alertify.error("Cannot fetch TVL");
       console.error("TVL ETH V2 error: " + e);
@@ -212,8 +214,12 @@ class App extends React.Component {
     try {
       let the_graph_result = await window.refresh_the_graph_result();
       let the_graph_resultavax = await window.refresh_the_graph_resultavax();
+      
       this.setState({
-        the_graph_result: JSON.parse(JSON.stringify(the_graph_result)),
+        the_graph_result: JSON.parse(JSON.stringify(the_graph_result))
+      });
+
+      this.setState({
         the_graph_resultavax: JSON.parse(JSON.stringify(the_graph_resultavax)),
       });
     } catch (e) {
@@ -304,25 +310,11 @@ class App extends React.Component {
       LP_IDs_V2.weth[3],
       LP_IDs_V2.weth[4],
     ];
-    let { LP_IDs_V2Avax } = window;
-    const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
-    const { rebase_factorsavax } = window;
+    
+    
 
     document.addEventListener("touchstart", { passive: true });
 
-    const StakingNew1 = initFarmAvax({
-      token: window.token_newavax,
-      staking: window.farming_newavax_1,
-      constant: window.constant_staking_newavax5,
-      liquidity: wbnb_address,
-      lp_symbol: "USD",
-      reward: "30,000",
-      lock: "3 Days",
-      rebase_factor: rebase_factorsavax[0],
-      expiration_time: "6 December 2022",
-      fee: 0.3,
-      coinbase: this.state.coinbase,
-    });
     
     return (
       <div
@@ -374,6 +366,8 @@ class App extends React.Component {
                   />
                 )}
               />
+
+
               <Route
                 exact
                 path="/earn"
@@ -381,6 +375,7 @@ class App extends React.Component {
                   <Earn
                     coinbase={this.state.coinbase}
                     the_graph_result={this.state.the_graph_result_ETH_V2}
+                    the_graph_resultavax={this.state.the_graph_result_AVAX_V2}
                     lp_id={LP_ID_Array}
                     isConnected={this.state.isConnected}
                     network={this.state.networkId}
@@ -481,24 +476,7 @@ class App extends React.Component {
                 )}
               />
 
-              <Route
-                exact
-                path="/farming-new-1"
-                render={(props) => (
-                  <StakingNew1
-                    is_wallet_connected={this.state.isConnected}
-                    handleConnection={this.handleConnection}
-                    handleConnectionWalletConnect={
-                      this.handleConnection
-                    }
-                    the_graph_result={this.state.the_graph_result_AVAX_V2}
-                    lp_id={LP_IDs_V2Avax.wavax[0]}
-                    coinbase={this.state.coinbase}
-                    chainId={parseInt(this.state.networkId)}
-                    {...props}
-                  />
-                )}
-              />
+
 
               <Route
                 exact

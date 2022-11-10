@@ -1,11 +1,27 @@
 import React from "react";
 import moment from "moment";
 import getFormattedNumber from "../../functions/get-formatted-number";
-import Address from "./address";
-import Tooltip from "@material-ui/core/Tooltip";
-import { Button } from "@material-ui/core";
 import Modal from "../Modal/Modal";
-import { NavLink } from "react-router-dom";
+import Address from "./address";
+import WalletModal from "../WalletModal";
+import "./top-pools.css";
+import ellipse from "./assets/ellipse.svg";
+import empty from "./assets/empty.svg";
+import check from "./assets/check.svg";
+import successMark from "../../assets/successMark.svg";
+import failMark from "../../assets/failMark.svg";
+import Clipboard from "react-clipboard.js";
+import ReactTooltip from "react-tooltip";
+import arrowup from "./assets/arrow-up.svg";
+import moreinfo from "./assets/more-info.svg";
+import stats from "./assets/stats.svg";
+import purplestats from "./assets/purpleStat.svg";
+import referralimg from "./assets/referral.svg";
+import copy from "./assets/copy.svg";
+import wallet from "./assets/wallet.svg";
+import Tooltip from "@material-ui/core/Tooltip";
+import Countdown from "react-countdown";
+import whiteArrowUp from "./assets/whiteArrowUp.svg";
 
 export default function initFarmAvax({
   token,
@@ -20,7 +36,7 @@ export default function initFarmAvax({
   fee,
   coinbase,
   chainId,
-
+  lockTime,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =
     window;
@@ -102,7 +118,6 @@ export default function initFarmAvax({
 
         totalEarnedEth: "",
         pendingDivsEth: "",
-        wethBalance: "",
 
         usdPerToken: 0,
 
@@ -114,7 +129,17 @@ export default function initFarmAvax({
         stakingOwner: null,
         approxDeposit: 100 / LP_AMPLIFY_FACTOR,
         approxDays: 365,
-
+        selectedTokenLogo: "weth",
+        selectedRewardTokenLogo1: "weth",
+        selectedRewardTokenLogo2: "dyp",
+        showWithdrawModal: false,
+        selectedPool: "",
+        depositLoading: false,
+        depositStatus: "initial",
+        withdrawLoading: false,
+        withdrawStatus: "initial",
+        claimLoading: false,
+        claimStatus: "initial",
         lastSwapExecutionTime: "",
         swapAttemptPeriod: "",
 
@@ -208,13 +233,13 @@ export default function initFarmAvax({
         this.setState({ coinbase: coinbase });
       }
 
-    //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
     }
 
     componentWillUnmount() {
-    //   clearInterval(window._refreshBalInterval);
+      //   clearInterval(window._refreshBalInterval);
     }
 
     getPriceDYP = async () => {
@@ -223,27 +248,33 @@ export default function initFarmAvax({
     };
 
     handleDeposit = (e) => {
-    //   e.preventDefault();
+      //   e.preventDefault();
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
       staking.depositTOKEN(amount);
     };
 
     handleApprove = (e) => {
-    //   e.preventDefault();
+      //   e.preventDefault();
+      this.setState({ depositLoading: true });
+
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount)
         .times(10 ** this.state.selectedTokenDecimals)
         .toFixed(0);
-      window.approveToken(
-        this.state.selectedBuybackToken,
-        staking._address,
-        amount
-      );
+      window
+        .approveToken(this.state.selectedBuybackToken, staking._address, amount)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
+        })
+        .catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
     };
 
     handleSelectedTokenChange = async (tokenAddress) => {
-      let tokenDecimals = window.buyback_tokens_farmingavax[tokenAddress].decimals;
+      let tokenDecimals =
+        window.buyback_tokens_farmingavax[tokenAddress].decimals;
       let selectedTokenSymbol =
         window.buyback_tokens_farmingavax[tokenAddress].symbol;
       this.setState({
@@ -271,6 +302,7 @@ export default function initFarmAvax({
     handleStake = async (e) => {
       let selectedBuybackToken = this.state.selectedBuybackToken;
       let amount = this.state.depositAmount;
+      this.setState({ depositLoading: true });
 
       amount = new BigNumber(amount)
         .times(10 ** this.state.selectedTokenDecimals)
@@ -313,7 +345,10 @@ export default function initFarmAvax({
       ];
       let _amountOutMin_25Percent = await router.methods
         .getAmountsOut(_25Percent, path_25Percent)
-        .call();
+        .call()
+        .catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
       _amountOutMin_25Percent =
         _amountOutMin_25Percent[_amountOutMin_25Percent.length - 1];
       _amountOutMin_25Percent = new BigNumber(_amountOutMin_25Percent)
@@ -342,12 +377,20 @@ export default function initFarmAvax({
 
       console.log({ selectedBuybackToken, amount, minAmounts, deadline });
 
-      staking.deposit(selectedBuybackToken, amount, minAmounts, deadline);
+      staking
+        .deposit(selectedBuybackToken, amount, minAmounts, deadline)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "success" });
+        })
+        .catch(() => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+        });
     };
 
     handleWithdrawDyp = async () => {
       let amountConstant = await constant.depositedTokens(this.state.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
+      this.setState({ withdrawLoading: true });
 
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
@@ -356,7 +399,16 @@ export default function initFarmAvax({
       //console.log({withdrawAsToken, amountBuyback, deadline})
 
       try {
-        constant.unstake(amountConstant, 0, deadline);
+        constant
+          .unstake(amountConstant, 0, deadline)
+          .then(() => {
+            this.setState({ withdrawStatus: "success" });
+            this.setState({ withdrawLoading: false });
+          })
+          .catch(() => {
+            this.setState({ withdrawStatus: "failed" });
+            this.setState({ withdrawLoading: false });
+          });
       } catch (e) {
         console.error(e);
         return;
@@ -364,7 +416,8 @@ export default function initFarmAvax({
     };
 
     handleWithdraw = async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
+      this.setState({ withdrawLoading: true });
 
       let amountConstant = await constant.depositedTokens(this.state.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
@@ -412,7 +465,16 @@ export default function initFarmAvax({
       // }
 
       try {
-        staking.withdraw(withdrawAsToken, amountBuyback, minAmounts, deadline);
+        staking
+          .withdraw(withdrawAsToken, amountBuyback, minAmounts, deadline)
+          .then(() => {
+            this.setState({ withdrawStatus: "success" });
+            this.setState({ withdrawLoading: false });
+          })
+          .catch(() => {
+            this.setState({ withdrawStatus: "failed" });
+            this.setState({ withdrawLoading: false });
+          });
       } catch (e) {
         console.error(e);
         return;
@@ -420,7 +482,7 @@ export default function initFarmAvax({
     };
 
     handleClaimDivs = async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
 
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
@@ -450,23 +512,42 @@ export default function initFarmAvax({
       //     console.error(e)
       //     return;
       // }
+
+      this.setState({ claimLoading: true });
+
       if (selectedToken == 0) {
         try {
-          staking.claim(0, 0, deadline);
+          staking
+            .claim(0, 0, deadline)
+            .then(() => {
+              this.setState({ claimStatus: "success" });
+              this.setState({ claimLoading: false });
+            })
+            .catch(() => {
+              this.setState({ claimStatus: "failed" });
+              this.setState({ claimLoading: false });
+            });
         } catch (e) {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
           console.error(e);
           return;
         }
       } else {
         try {
-          staking.claimAs(
-            window.config.claim_as_ethavax_address,
-            0,
-            0,
-            0,
-            deadline
-          );
+          staking
+            .claimAs(window.config.claim_as_ethavax_address, 0, 0, 0, deadline)
+            .then(() => {
+              this.setState({ claimStatus: "success" });
+              this.setState({ claimLoading: false });
+            })
+            .catch(() => {
+              this.setState({ claimStatus: "failed" });
+              this.setState({ claimLoading: false });
+            });
         } catch (e) {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
           console.error(e);
           return;
         }
@@ -501,7 +582,13 @@ export default function initFarmAvax({
       // }
 
       try {
-        staking.claimAs(window.config.claim_as_ethavax_address, 0, 0, 0, deadline);
+        staking.claimAs(
+          window.config.claim_as_ethavax_address,
+          0,
+          0,
+          0,
+          deadline
+        );
       } catch (e) {
         console.error(e);
         return;
@@ -512,6 +599,7 @@ export default function initFarmAvax({
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
+      this.setState({ claimLoading: true });
 
       let address = this.state.coinbase;
 
@@ -529,7 +617,11 @@ export default function initFarmAvax({
       ];
       let _amountOutMinConstant = await router.methods
         .getAmountsOut(amount, path)
-        .call();
+        .call()
+        .catch(() => {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+        });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
       _amountOutMinConstant = new BigNumber(_amountOutMinConstant)
@@ -544,7 +636,16 @@ export default function initFarmAvax({
       referralFee = referralFee.toString();
 
       try {
-        constant.claim(referralFee, _amountOutMinConstant, deadline);
+        constant
+          .claim(referralFee, _amountOutMinConstant, deadline)
+          .then(() => {
+            this.setState({ claimStatus: "success" });
+            this.setState({ claimLoading: false });
+          })
+          .catch(() => {
+            this.setState({ claimStatus: "failed" });
+            this.setState({ claimLoading: false });
+          });
       } catch (e) {
         console.error(e);
         return;
@@ -607,32 +708,47 @@ export default function initFarmAvax({
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
         let _bal = token.balanceOf(coinbase);
+
         let _rBal = reward_token.balanceOf(coinbase);
+
         let _pDivs = staking.getPendingDivs(coinbase);
+
         let _pDivsEth = staking.getPendingDivsEth(coinbase);
+
         let _tEarned = staking.totalEarnedTokens(coinbase);
+
         let _tEarnedEth = staking.totalEarnedEth(coinbase);
+
         let _stakingTime = staking.depositTime(coinbase);
+
         let _dTokens = staking.depositedTokens(coinbase);
+
         let _lClaimTime = staking.lastClaimedTime(coinbase);
-        let _tvl = token.balanceOf(staking._address);
+
+        let _tvl = token.balanceOf(staking._address); //not zero
 
         //Take iDYP Balance on Staking & Farming
         let _tvlConstantiDYP = reward_token_idyp.balanceOf(
           constant._address
         ); /* TVL of iDYP on Staking */
+
         let _tvlConstantDYP = reward_token.balanceOf(
           constant._address
         ); /* TVL of iDYP on Staking */
+
+        //not zero
         let _tvliDYP = reward_token_idyp.balanceOf(
           staking._address
         ); /* TVL of iDYP on Farming */
 
         let _dTokensDYP = constant.depositedTokens(coinbase);
+
         let _pendingDivsStaking = constant.getTotalPendingDivs(coinbase);
 
         //Take DYPS Balance
-        let _tvlDYPS = token_dypsavax.balanceOf(staking._address); /* TVL of DYPS */
+        let _tvlDYPS = token_dypsavax.balanceOf(
+          staking._address
+        ); /* TVL of DYPS */
 
         let [
           token_balance,
@@ -747,16 +863,6 @@ export default function initFarmAvax({
         this.setState({ tokensToBeSwapped });
       });
 
-   
-      // console.log(window.weth.balanceOf(coinbase))
-      window.weth
-        .balanceOf(coinbase)
-        .call()
-        .then((wethBalance) => {
-          this.setState({ wethBalance });
-        })
-        .catch(console.error);
-
       staking.lastSwapExecutionTime().then((lastSwapExecutionTime) => {
         this.setState({ lastSwapExecutionTime });
       });
@@ -817,7 +923,6 @@ export default function initFarmAvax({
         lastSwapExecutionTime,
         tokensToBeDisbursedOrBurnt,
         tokensToBeSwapped,
-        wethBalance,
         pendingDivsEth,
         totalEarnedEth,
         token_balance,
@@ -835,7 +940,7 @@ export default function initFarmAvax({
       } = this.state;
 
       let { the_graph_result } = this.props;
-      
+
       let usd_per_token = the_graph_result.token_data
         ? the_graph_result.token_data[
             "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
@@ -854,9 +959,6 @@ export default function initFarmAvax({
         .div(1e18)
         .toString(10);
       token_balance = getFormattedNumber(token_balance, 2);
-
-      wethBalance = new BigNumber(wethBalance).div(1e18).toString(10);
-      wethBalance = getFormattedNumber(wethBalance, 6);
 
       tokensToBeSwapped = new BigNumber(tokensToBeSwapped)
         .div(1e18)
@@ -1001,610 +1103,1070 @@ export default function initFarmAvax({
       let tooltip2 = infoItems2.join("\n");
 
       return (
-        <div>
-          <div className="row">
-            <div className="col-12 header-image-farming-new">
-              <div className="container">
-                <Modal show={this.state.popup} handleClose={this.hidePopup}>
-                  <div className="earn-hero-content p4token-wrapper">
-                    <p className="h3">
-                      <b>Maximize your Yield Farming Rewards</b>
-                    </p>
-                    <p>
-                      Automatically adds liquidity to
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {tooltip1}
-                          </div>
-                        }
-                      >
-                        <Button
-                          style={{
-                            fontSize: "70%",
-                            textDecoration: "underline",
-                            color: "var(--color_white)",
-                          }}
-                        >
-                          Pangolin & deposit to Staking{" "}
-                        </Button>
-                      </Tooltip>
-                      contract using one asset. To start earning, all you need
-                      is to deposit one of the supported assets (WAVAX, USDC.e,
-                      USDT.e, WETH.e, PNG, QI, DAI.e, XAVA, WBTC.e, LINK.e, or
-                      iDYP) and earn
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {tooltip2}
-                          </div>
-                        }
-                      >
-                        <Button
-                          style={{
-                            fontSize: "70%",
-                            textDecoration: "underline",
-                            color: "var(--color_white)",
-                            padding: "4px 0px 2px 5px",
-                          }}
-                        >
-                          WAVAX/ETH/DYP as rewards.
-                        </Button>
-                      </Tooltip>
-                    </p>
-                    {/*{this.state.ApyStake}*/}
-                    <p>
-                      All pool rewards are automatically converted from iDYP to
-                      WAVAX by the smart contract, decreasing the risk of iDYP
-                      price volatility.
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {tooltip2}
-                          </div>
-                        }
-                      >
-                        <Button
-                          style={{
-                            fontSize: "70%",
-                            textDecoration: "underline",
-                            color: "var(--color_white)",
-                          }}
-                        >
-                          WAVAX/ETH + DYP{" "}
-                        </Button>
-                      </Tooltip>
-                      is a double reward to the liquidity providers. The users
-                      can choose between two different types of rewards: WAVAX
-                      or ETH. Maintaining token price stability — every 24
-                      hours, the smart contract will automatically try
-                      converting the iDYP rewards to WAVAX. If the iDYP price is
-                      affected by more than
-                      <img src="/img/icon/arrow.svg" alt="images not found" />
-                      2.5%, then the maximum iDYP amount not influencing the
-                      price will be swapped to WAVAX, with the remaining amount
-                      distributed in the next day’s rewards. After seven days,
-                      if we still have undistributed iDYP rewards, the DeFi
-                      Yield Protocol governance will vote on whether the
-                      remaining iDYP will be distributed to the token holders or
-                      burned (all burned tokens are out of circulation).
-                    </p>
-                    <p>
-                      You will receive the total amount in the initial deposit
-                      asset with withdrawal by burning LP tokens when you
-                      unstake.
-                    </p>
+        <div className="container-lg p-0">
+          <div className="allwrapper">
+            <div className="leftside2 w-100">
+              <div className="activewrapper">
+                <div className="d-flex align-items-center justify-content-between gap-5">
+                  <h6 className="activetxt">
+                    <img
+                      src={ellipse}
+                      alt=""
+                      className="position-relative"
+                      style={{ top: 3 }}
+                    />
+                    Active status
+                  </h6>
+                  <div className="d-flex align-items-center justify-content-between gap-3">
+                    <h6 className="earnrewards-text">Earn rewards in:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      WAVAX/ETH/DYP
+                    </h6>
                   </div>
-                </Modal>
-                <Modal
-                  show={this.state.show}
-                  handleConnection={this.props.handleConnection}
-                  handleConnectionWalletConnect={
-                    this.props.handleConnectionWalletConnect
-                  }
-                  handleClose={this.hideModal}
-                />
-                <div className="row">
-                  <div className="col-12">
-                    <p className="header-title-text">DYP Farming</p>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Performance fee:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {fee}%
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "Performance fee is subtracted from the displayed APR."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
                   </div>
-                  <div className="col-7 col-md-7 col-lg-6 col-xl-5">
-                    <div className="row">
-                      <div className="col-9 col-md-5 mb-4">
-                        <button
-                          onClick={this.showPopup}
-                          className="btn  btn-block btn-primary button"
-                          type="button"
-                          style={{ maxWidth: "100%", width: "100%" }}
-                        >
-                          <img
-                            src="img/icon/bulb.svg"
-                            style={{ float: "left" }}
-                            alt="wallet"
-                          />
-                          More info
-                        </button>
-                      </div>
-                      <div className="col-11 col-md-5 mb-4">
-                        <button
-                          onClick={() =>
-                            window.open(
-                              "https://www.youtube.com/watch?v=b-WHRSgFn-k&t=1s",
-                              "_blank"
-                            )
-                          }
-                          className="btn  btn-block btn-primary l-outline-btn button"
-                          type="submit"
-                          style={{ maxWidth: "100%", width: "100%" }}
-                        >
-                          <img
-                            src="img/icon/video.svg"
-                            style={{ float: "left" }}
-                            alt="wallet"
-                          />
-                          Video tutorial
-                        </button>
-                      </div>
-                    </div>
+
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">APR:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {apy}%
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "APR reflects the interest rate of earnings on an account over the course of one year. "
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Lock time:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {lockTime}
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "The amount of time your deposited assets will be locked."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center justify-content-between gap-3">
+                  <a
+                    href={
+                      chainId === 1
+                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                    }
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <h6 className="bottomitems">
+                      <img src={arrowup} alt="" />
+                      Get DYP
+                    </h6>
+                  </a>
+                  <div
+                    onClick={() => {
+                      this.showPopup();
+                    }}
+                  >
+                    <h6 className="bottomitems">
+                      <img src={purplestats} alt="" />
+                      Stats
+                    </h6>
                   </div>
                 </div>
               </div>
             </div>
+            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
+              <div className="row w-100 justify-content-between">
+                <div className="firstblockwrapper col-2">
+                  <div
+                    className="d-flex flex-column justify-content-between gap-2"
+                    style={{ height: "100%" }}
+                  >
+                    <h6 className="start-title">Start Farming</h6>
+                    <h6 className="start-desc">
+                      {this.props.coinbase === null
+                        ? "Connect wallet to view and interact with deposits and withdraws"
+                        : "Interact with deposits and withdraws"}
+                    </h6>
+                    {this.props.coinbase === null ? (
+                      <button
+                        className="connectbtn btn"
+                        onClick={this.showModal}
+                      >
+                        {" "}
+                        <img src={wallet} alt="" /> Connect wallet
+                      </button>
+                    ) : (
+                      <div className="addressbtn btn">
+                        <Address a={this.props.coinbase} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                {/* <div className="otherside">
+              <button className="btn green-btn">
+                TBD Claim reward 0.01 ETH
+              </button>
+            </div> */}
+                <div className="otherside-border col-4">
+                  <div className="d-flex justify-content-between align-items-center gap-2">
+                    <h6 className="deposit-txt">
+                      Deposit
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {"lorem impsum deposit text"}
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                    <h6 className="mybalance-text">
+                      Balance:
+                      <b>
+                        {getFormattedNumber(
+                          this.state.selectedTokenBalance /
+                            10 ** this.state.selectedTokenDecimals,
+                          6
+                        )}
+                      </b>
+                      <img
+                        src={
+                          require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                            .default
+                        }
+                        alt=""
+                        style={{ width: 14, height: 14 }}
+                      />
+                      {/* <div> */}
+                      <select
+                        disabled={!is_connected}
+                        value={this.state.selectedBuybackToken}
+                        onChange={(e) =>
+                          this.handleSelectedTokenChange(e.target.value)
+                        }
+                        className="inputfarming p-0"
+                        style={{ border: "none" }}
+                      >
+                        {Object.keys(window.buyback_tokens_farmingavax).map(
+                          (t) => (
+                            <option key={t} value={t}>
+                              {" "}
+                              {window.buyback_tokens_farmingavax[t].symbol}{" "}
+                            </option>
+                          )
+                        )}
+                      </select>
+                      {/* {this.state.selectedTokenSymbol} */}
+                      {/* </div> */}
+                    </h6>
+                  </div>
+                  <div className="d-flex flex-column gap-2 justify-content-between">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <div className="position-relative">
+                        <h6 className="amount-txt">Amount</h6>
+                        <input
+                          type={"number"}
+                          className="styledinput"
+                          placeholder="0.0"
+                          style={{ width: 200 }}
+                          value={
+                            Number(this.state.depositAmount) > 0
+                              ? this.state.depositAmount
+                              : this.state.depositAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              depositAmount: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <button
+                        className="btn maxbtn"
+                        onClick={this.handleSetMaxDeposit}
+                      >
+                        Max
+                      </button>
 
-            <div className="container">
-              <div className="token-staking mt-4">
-                <div className="row p-3 p-sm-0 p-md-0">
-                  <div className="col-12">
-                    <div className="row">
-                      <div className="col-lg-6">
-                        <div className="row token-staking-form">
-                          <div className="col-12">
-                            <div
-                              className="l-box"
-                              style={{ padding: "0.5rem" }}
-                            >
-                              {is_connected ? (
-                                <div className="row justify-content-center">
-                                  <div
-                                    className="col-9 col-sm-8 col-md-7 text-center text-md-left"
-                                    style={{ marginTop: "0px" }}
-                                  >
-                                    <img
-                                      src="img/connected.png"
-                                      style={{
-                                        marginRight: "10px",
-                                        marginTop: "3px",
-                                      }}
-                                      alt="wallet"
-                                    />
-                                    <span
-                                      htmlFor="deposit-amount"
-                                      style={{
-                                        margin: "0",
-                                        top: "3px",
-                                        position: "relative",
-                                      }}
-                                    >
-                                      Wallet has been connected
-                                    </span>
-                                  </div>
-                                  <div className="col-8 col-sm-6 col-md-5 text-center">
-                                    <div
-                                      style={{
-                                        marginTop: "5px",
-                                        paddingRight: "15px",
-                                      }}
-                                    >
-                                      <Address
-                                        style={{ fontFamily: "monospace" }}
-                                        a={coinbase}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className="row justify-content-center">
-                                  <div
-                                    className="col-11 col-sm-8 col-md-8 text-center text-md-left mb-3 mb-md-0"
-                                    style={{ marginTop: "0px" }}
-                                  >
-                                    <img
-                                      src="img/icon/wallet.svg"
-                                      style={{
-                                        marginRight: "10px",
-                                        marginTop: "3px",
-                                      }}
-                                      alt="wallet"
-                                    />
-                                    <label
-                                      htmlFor="deposit-amount"
-                                      style={{
-                                        margin: "0",
-                                        top: "3px",
-                                        position: "relative",
-                                      }}
-                                    >
-                                      Please connect wallet to use this dApp
-                                    </label>
-                                  </div>
-                                  <div className="col-10 col-md-4 mb-3 mb-md-0">
-                                    <button
-                                      type="submit"
-                                      onClick={this.showModal}
-                                      className="btn  btn-block btn-primary l-outline-btn"
-                                    >
-                                      Connect Wallet
-                                    </button>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
+                      {/* <button
+                  onClick={this.handleApprove}
+                  disabled={
+                    this.state.depositAmount === "" ||
+                    this.state.depositLoading === true
+                      ? true
+                      : false
+                  }
+                  className={`btn filledbtn ${
+                    this.state.depositAmount === "" && "disabled-btn"
+                  } ${
+                    this.state.depositStatus === "deposit"
+                      ? "success-button"
+                      : this.state.depositStatus === "success"
+                      ? "fail-button"
+                      : null
+                  } d-flex justify-content-center align-items-center gap-2`}
+
+                  >
+                  Approve
+                  </button> */}
+
+                      <button
+                        disabled={
+                          this.state.depositAmount === "" ||
+                          this.state.depositLoading === true ||
+                          this.state.depositStatus === "success"
+                            ? true
+                            : false
+                        }
+                        className={`btn filledbtn ${
+                          this.state.depositAmount === "" && "disabled-btn"
+                        } ${
+                          this.state.depositStatus === "deposit" ||
+                          this.state.depositStatus === "success"
+                            ? "success-button"
+                            : this.state.depositStatus === "fail"
+                            ? "fail-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        onClick={() => {
+                          this.state.depositStatus === "deposit"
+                            ? this.handleStake()
+                            : this.state.depositStatus === "initial"
+                            ? this.handleApprove()
+                            : console.log("");
+                        }}
+                      >
+                        {this.state.depositLoading ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
                           </div>
-                        </div>
-                      </div>
-                      <div className="col-lg-6 col-xs-12">
-                        <div className="row token-staking-form">
-                          <div className="col-12 padding-mobile">
-                            <div
-                              className=""
-                              style={{
-                                background:
-                                  "linear-gradient(257.76deg, #E84142 6.29%, #CB2627 93.71%)",
-                                boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.06)",
-                                borderRadius: "6px",
-                                paddingLeft: "5px",
-                                padding: "10px",
-                              }}
-                            >
-                              <div className="row">
-                                <div
-                                  style={{ marginTop: "0px", paddingLeft: "" }}
-                                  className="col-4 col-sm-4 col-md-3 mb-3 mb-md-0 pr-0"
-                                >
-                                  <img
-                                    src="img/icon/avax.svg"
-                                    style={{
-                                      marginRight: "4px",
-                                      marginTop: "5px",
-                                    }}
-                                    alt="wallet"
-                                  />
-                                  <label
-                                    htmlFor="deposit-amount"
-                                    style={{
-                                      margin: "0px",
-                                      top: "3px",
-                                      position: "relative",
-                                      color: "white",
-                                    }}
-                                  >
-                                    Avalanche
-                                  </label>
-                                </div>
-                                <div className="col-8 col-sm-6 col-md-5 mb-3 mb-md-0 pr-2">
-                                  <div className="test">
-                                    <div className="tvl_test">
-                                      TVL USD{" "}
-                                      <span className="testNumber">
-                                        $ {tvl_usd}{" "}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-6 col-sm-4 col-md-4 mb-1 mb-md-0">
-                                  <div className="test">
-                                    <div className="tvl_test">
-                                      APR{" "}
-                                      <span className="testNumber">
-                                        {" "}
-                                        <img src="img/icon/vector.svg" /> {apy}%{" "}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                        ) : this.state.depositStatus === "initial" ? (
+                          <>Approve</>
+                        ) : this.state.depositStatus === "deposit" ? (
+                          <>Deposit</>
+                        ) : this.state.depositStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        )}
+                      </button>
                     </div>
                   </div>
-
-                  <div className="col-lg-6">
-                    <div className="row token-staking-form">
-                      <div className="col-12">
-                        <div className="l-box">
-                          {showDeposit == true ? (
-                            <form onSubmit={(e) => e.preventDefault()}>
-                              <div className="form-group">
-                                <div className="row">
-                                  <label
-                                    htmlFor="deposit-amount"
-                                    className="col-7 d-block text-left"
-                                  >
-                                    DEPOSIT
-                                  </label>
-                                  {/*<div className='col-5 text-truncate'>*/}
-                                  {/*    <a target='_blank' rel='noopener noreferrer'*/}
-                                  {/*       href={`https://pancakeswap-v1.dyp.finance/#/add/0x961C8c0B1aaD0c0b10a51FeF6a867E3091BCef17/${liquidity}`}>*/}
-                                  {/*        <button*/}
-                                  {/*            className='btn btn-sm btn-block btn-primary l-outline-btn'*/}
-                                  {/*            type='button'>*/}
-                                  {/*            ADD LIQUIDITY*/}
-                                  {/*        </button>*/}
-                                  {/*    </a>*/}
-                                  {/*</div>*/}
-                                </div>
-                                {/*<div className='row'>*/}
-                                {/*    <div className='col-md-12 d-block text-muted small'*/}
-                                {/*         style={{fontSize: '15px'}}>*/}
-                                {/*        <b>NOTE:</b>*/}
-                                {/*    </div>*/}
-                                {/*    <div className='col-md-12 d-block text-muted small'*/}
-                                {/*         style={{fontSize: '15px'}}>*/}
-                                {/*        The farming dApp works ONLY with the PancakeSwap V1*/}
-                                {/*        (old) LP tokens!*/}
-                                {/*    </div>*/}
-                                {/*    <div className='col-md-12 d-block mb-3 text-muted small'*/}
-                                {/*         style={{fontSize: '15px'}}>*/}
-                                {/*        When you add your liquidity to PancakeSwap be sure that you add*/}
-                                {/*        it on the old version <a*/}
-                                {/*        href={'https://pancakeswap-v1.dyp.finance/#/pool'}*/}
-                                {/*        target={'_blank'}><u>https://pancakeswap-v1.dyp.finance/#/pool</u></a>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-                                <div>
-                                  <p>
-                                    Balance:{" "}
-                                    {getFormattedNumber(
-                                      this.state.selectedTokenBalance /
-                                        10 ** this.state.selectedTokenDecimals,
-                                      6
-                                    )}{" "}
-                                    {this.state.selectedTokenSymbol}
-                                  </p>
-                                  <select
-                                    disabled={!is_connected}
-                                    value={this.state.selectedBuybackToken}
-                                    onChange={(e) =>
-                                      this.handleSelectedTokenChange(
-                                        e.target.value
-                                      )
-                                    }
-                                    className="form-control"
-                                  >
-                                    {Object.keys(
-                                      window.buyback_tokens_farmingavax
-                                    ).map((t) => (
-                                      <option key={t} value={t}>
-                                        {" "}
-                                        {
-                                          window.buyback_tokens_farmingavax[t]
-                                            .symbol
-                                        }{" "}
-                                      </option>
-                                    ))}
-                                  </select>
-                                  <br />
-                                </div>
-                                <div className="input-group ">
-                                  <input
-                                    disabled={!is_connected}
-                                    value={
-                                      Number(this.state.depositAmount) > 0
-                                        ? this.state.depositAmount
-                                        : this.state.depositAmount
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        depositAmount: e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                  />
-                                  <div className="input-group-append">
-                                    <button
-                                      disabled={!is_connected}
-                                      className="btn  btn-primary right-radius btn-max l-light-btn"
-                                      style={{ cursor: "pointer" }}
-                                      onClick={this.handleSetMaxDeposit}
-                                    >
-                                      MAX
-                                    </button>
-                                  </div>
-                                </div>
-                                {/*<div className='input-group '>*/}
-                                {/*    <input*/}
-                                {/*        value={Number(this.state.depositAmount) > 0 ? this.state.depositAmount * LP_AMPLIFY_FACTOR : this.state.depositAmount}*/}
-                                {/*        onChange={e => this.setState({depositAmount: Number(e.target.value) > 0 ? e.target.value / LP_AMPLIFY_FACTOR : e.target.value})}*/}
-                                {/*        className='form-control left-radius' placeholder='0'*/}
-                                {/*        type='text'/>*/}
-                                {/*    <div className='input-group-append'>*/}
-                                {/*        <button*/}
-                                {/*            className='btn  btn-primary right-radius btn-max l-light-btn'*/}
-                                {/*            style={{cursor: 'pointer'}}*/}
-                                {/*            onClick={this.handleSetMaxDeposit}>*/}
-                                {/*            MAX*/}
-                                {/*        </button>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-                              </div>
-                              <div className="row">
-                                <div
-                                  style={{ paddingRight: "0.3rem" }}
-                                  className="col-6"
-                                >
-                                  <button
-                                    disabled={!is_connected}
-                                    onClick={this.handleApprove}
-                                    className="btn  btn-block btn-primary "
-                                    type="button"
-                                  >
-                                    APPROVE
-                                  </button>
-                                </div>
-                                <div
-                                  style={{ paddingLeft: "0.3rem" }}
-                                  className="col-6"
-                                >
-                                  <button
-                                    disabled={!is_connected}
-                                    onClick={this.handleStake}
-                                    className="btn  btn-block btn-primary l-outline-btn"
-                                    type="submit"
-                                  >
-                                    DEPOSIT
-                                  </button>
-                                </div>
-                              </div>
-                              <p
-                                style={{ fontSize: ".8rem" }}
-                                className="mt-1 text-center mb-0 text-muted mt-3"
-                              >
-                                {/* Some info text here.<br /> */}
-                                Please approve before deposit. PERFORMANCE FEE{" "}
-                                {fee}%<br />
-                                Performance fees are already subtracted from the
-                                displayed APR.
-                              </p>
-                            </form>
-                          ) : (
-                            <div className="row">
-                              <div
-                                className="col-md-12 d-block text-muted small"
-                                style={{ fontSize: "15px" }}
-                              >
-                                <b>NOTE:</b>
-                              </div>
-                              <div
-                                className="col-md-12 d-block text-muted small"
-                                style={{ fontSize: "15px" }}
-                              >
-                                Deposit not available because the contract
-                                expires faster than the pool lock time.
-                              </div>
-                              <div
-                                className="col-md-12 d-block mb-0 text-muted small"
-                                style={{ fontSize: "15px" }}
-                              >
-                                New contracts with improved strategies are
-                                coming soon, waiting for security audit results.
-                              </div>
-                            </div>
-                          )}
+                </div>
+                <div className="otherside-border col-4">
+                  <div className="d-flex justify-content-between gap-2 ">
+                    <h6 className="withdraw-txt">Rewards</h6>
+                    <h6 className="withdraw-littletxt">
+                      Reward updated each day 00:00 (UTC) <b>22:36</b>
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {"rewards text"}
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                  <div className="d-flex flex-column gap-2 justify-content-between">
+                    <div className="d-flex align-items-center justify-content-between gap-2"></div>
+                    <div className="form-row d-flex gap-2 align-items-end">
+                      <div
+                        className="gap-1 claimreward-wrapper"
+                        onClick={() => {
+                          this.setState({ selectedPool: "wavax" });
+                        }}
+                        style={{
+                          background:
+                            this.state.selectedPool === "wavax"
+                              ? "#141333"
+                              : "#26264F",
+                          border:
+                            this.state.selectedPool === "wavax"
+                              ? "1px solid #57B6AB"
+                              : "1px solid #8E97CD",
+                        }}
+                      >
+                        <img
+                          src={
+                            this.state.selectedPool === "wavax" ? check : empty
+                          }
+                          alt=""
+                          className="activestate"
+                        />
+                        <div className="position-relative">
+                          <input
+                            disabled
+                            value={
+                              Number(pendingDivsEth) > 0
+                                ? `${pendingDivsEth} WAVAX`
+                                : `${pendingDivsEth} WAVAX`
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                pendingDivsEth:
+                                  Number(e.target.value) > 0
+                                    ? e.target.value
+                                    : e.target.value,
+                              })
+                            }
+                            className=" left-radius inputfarming styledinput2"
+                            placeholder="0"
+                            type="text"
+                            style={{
+                              width: "120px",
+                              padding: "0px 15px 0px 15px",
+                              height: 35,
+                            }}
+                          />
+                        </div>
+                        <div
+                          className="d-flex align-items-center"
+                          style={{ paddingLeft: "10px" }}
+                        >
+                          <img
+                            src={
+                              require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                .default
+                            }
+                            alt=""
+                            style={{ width: 14, height: 14 }}
+                          />
+                          <select
+                            disabled={!is_connected}
+                            value={this.state.selectedClaimToken}
+                            onChange={(e) => {
+                              this.handleClaimToken(e.target.value);
+                              this.setState({
+                                selectedRewardTokenLogo1:
+                                  e.target.value === "1" ? "usdt" : "weth",
+                              });
+                            }}
+                            className=" inputfarming"
+                            style={{ border: "none" }}
+                          >
+                            <option value="0"> WAVAX </option>
+                            <option value="1"> WETH.e </option>
+                          </select>
                         </div>
                       </div>
-                      <div className="col-12">
-                        <div className="l-box">
-                          <form onSubmit={this.handleWithdraw}>
-                            <div className="form-group">
-                              <label
-                                htmlFor="deposit-amount"
-                                className="d-block text-left"
-                              >
-                                WITHDRAW
-                              </label>
-                              <div
-                                className="form-row "
-                                style={{ paddingBottom: "20px" }}
-                              >
-                                <div className="col-6">
-                                  <input
-                                    value={
-                                      Number(this.state.withdrawAmount) > 0
-                                        ? `${
-                                            this.state.withdrawAmount *
-                                            LP_AMPLIFY_FACTOR
-                                          } LP`
-                                        : `${this.state.withdrawAmount} LP`
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        withdrawAmount:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value / LP_AMPLIFY_FACTOR
-                                            : e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                    disabled
-                                  />
-                                  {/*<div className='input-group-append'>*/}
-                                  {/*    <button className='btn  btn-primary right-radius btn-max l-light-btn' style={{cursor: 'pointer'}} onClick={this.handleSetMaxWithdraw}>*/}
-                                  {/*        MAX*/}
-                                  {/*    </button>*/}
-                                  {/*</div>*/}
-                                </div>
-                                <div className="col-6">
-                                  <input
-                                    value={`${depositedTokensDYP} DYP`}
-                                    onChange={(e) =>
-                                      this.setState({
-                                        withdrawAmount:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value / LP_AMPLIFY_FACTOR
-                                            : e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                    disabled
-                                  />
-                                  {/*<div className='input-group-append'>*/}
-                                  {/*    <button className='btn  btn-primary right-radius btn-max l-light-btn' style={{cursor: 'pointer'}} onClick={this.handleSetMaxWithdraw}>*/}
-                                  {/*        MAX*/}
-                                  {/*    </button>*/}
-                                  {/*</div>*/}
-                                </div>
+                      <div
+                        className="gap-1 claimreward-wrapper"
+                        style={{
+                          background:
+                            this.state.selectedPool === "dyp"
+                              ? "#141333"
+                              : "#26264F",
+                          border:
+                            this.state.selectedPool === "dyp"
+                              ? "1px solid #57B6AB"
+                              : "1px solid #8E97CD",
+                        }}
+                        onClick={() => {
+                          this.setState({ selectedPool: "dyp" });
+                        }}
+                      >
+                        <img
+                          src={
+                            this.state.selectedPool === "dyp" ? check : empty
+                          }
+                          alt=""
+                          className="activestate"
+                        />
+
+                        <div className="position-relative">
+                          <input
+                            disabled
+                            value={
+                              Number(pendingDivs) > 0
+                                ? `${pendingDivs} DYP`
+                                : `${pendingDivs} DYP`
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                pendingDivs:
+                                  Number(e.target.value) > 0
+                                    ? e.target.value
+                                    : e.target.value,
+                              })
+                            }
+                            className=" left-radius inputfarming styledinput2"
+                            placeholder="0"
+                            type="text"
+                            style={{
+                              width: "120px",
+                              padding: "0px 15px 0px 15px",
+                              height: 35,
+                            }}
+                          />
+                        </div>
+
+                        <div
+                          className="d-flex align-items-center"
+                          style={{ paddingLeft: "10px" }}
+                        >
+                          <img
+                            src={
+                              require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                                .default
+                            }
+                            alt=""
+                            style={{ width: 14, height: 14 }}
+                          />
+                          <select
+                            disabled
+                            defaultValue="DYP"
+                            className="form-control inputfarming"
+                            style={{ border: "none", padding: "0 0 0 3px" }}
+                          >
+                            <option value="DYP"> DYP </option>
+                          </select>
+                        </div>
+                      </div>
+                      <button
+                        disabled={
+                          this.state.selectedPool === "" ||
+                          this.state.claimStatus === "claimed" ||
+                          this.state.claimStatus === "failed" ||
+                          this.state.claimStatus === "success"
+                            ? true
+                            : false
+                        }
+                        className={`btn filledbtn ${
+                          this.state.claimStatus === "claimed" ||
+                          this.state.selectedPool === ""
+                            ? "disabled-btn"
+                            : this.state.claimStatus === "failed"
+                            ? "fail-button"
+                            : this.state.claimStatus === "success"
+                            ? "success-button"
+                            : null
+                        } d-flex justify-content-center align-items-center`}
+                        style={{ height: "fit-content" }}
+                        onClick={() => {
+                          this.state.selectedPool === "wavax"
+                            ? this.handleClaimDivs()
+                            : this.handleClaimDyp();
+                        }}
+                      >
+                        {this.state.claimLoading ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.claimStatus === "failed" ? (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        ) : this.state.claimStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>Claim</>
+                        )}
+                      </button>
+                    </div>
+
+                    {/* <button
+                    title={claimTitle}
+                    disabled={!is_connected}
+                    className="btn  btn-primary btn-block l-outline-btn"
+                    type="submit"
+                    onClick={this.handleClaimDivs}
+                  >
+                    CLAIM
+                  </button> */}
+                    {/* <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.handleClaimDyp();
+                  }}
+                  title={claimTitle}
+                  disabled={!is_connected}
+                  className="btn  btn-primary btn-block l-outline-btn"
+                  type="submit"
+                >
+                  CLAIM
+                </button> */}
+                  </div>
+                </div>
+
+                <div className="otherside-border col-2">
+                  <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
+                    WITHDRAW
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"withdraw deposit text"}
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </h6>
+
+                  <button
+                    // disabled={this.state.depositStatus === "success" ? false : true}
+                    className={
+                      // this.state.depositStatus === "success" ?
+                      "filledbtn btn"
+                      // :
+                      //  "btn disabled-btn"
+                    }
+                    onClick={() => {
+                      this.setState({ showWithdrawModal: true });
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {this.state.popup && (
+            <Modal
+              visible={this.state.popup}
+              modalId="tymodal"
+              setIsVisible={() => {
+                this.setState({ popup: false });
+              }}
+            >
+              <div className="earn-hero-content p4token-wrapper">
+                <div className="l-box pl-3 pr-3">
+                  <div className="container">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                        <h6 className="d-flex gap-2 align-items-center statstext">
+                          <img src={stats} alt="" />
+                          My Stats
+                        </h6>
+                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                          My address
+                          <a
+                            href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
+                            target={"_blank"}
+                            rel="noreferrer"
+                          >
+                            <h6 className="addresstxt">
+                              {this.props.coinbase?.slice(0, 10) + "..."}
+                            </h6>
+                          </a>
+                          <img src={arrowup} alt="" />
+                        </h6>
+                      </div>
+                    </div>
+                    <table className="table-stats table table-sm table-borderless mt-2">
+                      <tbody>
+                        <tr>
+                          <td className="text-right">
+                            <th>MY LP Deposit</th>
+                            <div>
+                              <strong>{myDepositedLpTokens}</strong>{" "}
+                              <small>iDYP/WAVAX</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>Total LP Deposited</th>
+                            <div>
+                              <strong style={{ fontSize: 9 }}>{tvl}</strong>{" "}
+                              <small>iDYP/WAVAX</small>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <th>My DYP Stake</th>
+                            <div>
+                              <strong>{reward_token_balance}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+                          {/* <td className="text-right">
+                          <th>Total DYP Deposited </th>
+                          <div>
+                            <strong>{tvlConstantDYP}</strong>{" "}
+                            <small>DYP</small>
+                          </div>
+                        </td> */}
+                        </tr>
+
+                        <tr>
+                          <td className="text-right">
+                            <th>Total Earned DYP</th>
+                            <div>
+                              <strong>{totalEarnedTokens}</strong>{" "}
+                              <small>DYP</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>Total Earned WAVAX</th>
+                            <div>
+                              <strong>{totalEarnedEth}</strong>{" "}
+                              <small>WAVAX</small>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <th>My Share</th>
+                            <div>
+                              <strong>{myShare}</strong> <small>%</small>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr></tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="container">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                        <h6 className="d-flex gap-2 align-items-center statstext">
+                          <img src={stats} alt="" />
+                          Pool stats
+                        </h6>
+                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                          My address
+                          <a
+                            href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
+                            target={"_blank"}
+                            rel="noreferrer"
+                          >
+                            <h6 className="addresstxt">
+                              {this.props.coinbase?.slice(0, 10) + "..."}
+                            </h6>
+                          </a>
+                          <img src={arrowup} alt="" />
+                        </h6>
+                      </div>
+                    </div>
+                    <table className="table-stats table table-sm table-borderless mt-2">
+                      <tbody>
+                        <tr>
+                          <td className="text-right">
+                            <th>TVL USD</th>
+                            <div>
+                              <strong>${tvl_usd}</strong> <small>USD</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>Total LP deposited</th>
+                            <div>
+                              <strong style={{ fontSize: 11 }}>{tvl}</strong>{" "}
+                              <small>iDYP/WAVAX</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>To be swapped</th>
+                            <div>
+                              <strong>{tokensToBeSwapped}</strong>{" "}
+                              <small>iDYP</small>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td className="text-right">
+                            <th>To be burnt / disbursed</th>
+                            <div>
+                              <strong>{tokensToBeDisbursedOrBurnt}</strong>{" "}
+                              <small>iDYP</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>Contract Expiration</th>
+                            <small>{expiration_time}</small>
+                          </td>
+                          <td
+                            style={{
+                              background: "transparent",
+                              border: "none",
+                              gap: 5,
+                            }}
+                          >
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`https://github.com/dypfinance/Buyback-Farm-Stake-Governance-V2/tree/main/Audit`}
+                              className="maxbtn d-flex align-items-center"
+                              style={{ height: "25px" }}
+                            >
+                              Audit
+                              <img src={arrowup} alt="" />
+                            </a>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
+                              className="text-white mt-2"
+                              style={{
+                                height: "25px",
+                                textDecoration: "underline",
+                                fontSize: "9px",
+                              }}
+                            >
+                              View on Etherscan
+                              <img src={whiteArrowUp} alt="" className="ms-1" />
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+          )}
+
+          {this.state.showWithdrawModal && (
+            <Modal
+              visible={this.state.showWithdrawModal}
+              modalId="withdrawmodal"
+              setIsVisible={() => {
+                this.setState({ showWithdrawModal: false });
+              }}
+            >
+              <div className="earn-hero-content p4token-wrapper">
+                <div className="l-box pl-3 pr-3">
+                  <div className="container">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                        <h6 className="d-flex gap-2 align-items-center statstext">
+                          <img src={stats} alt="" />
+                          Withdraw deposit
+                        </h6>
+                      </div>
+                      <h6 className="withdrawdesc mt-2 p-0">No Lock</h6>
+                    </div>
+
+                    <div className="d-flex flex-column mt-2">
+                      <div className="d-flex  gap-2 justify-content-between align-items-center">
+                        <div className="d-flex flex-column gap-1">
+                          <h6 className="withsubtitle">Timer</h6>
+                          <h6 className="withtitle" style={{ fontWeight: 300 }}>
+                            {/* {lockTime === "No Lock" ? "No Lock" : 
+                          <Countdown date={Date.now() + lockTime*86400000} renderer={renderer} />
+                          
+                          } */}
+                          </h6>
+                        </div>
+                      </div>
+                      <div className="separator"></div>
+
+                      <div className="d-flex flex-column gap-1 mt-2">
+                        <h6 className="withsubtitle mb-2">Select assets</h6>
+                        <div className="d-flex align-items-center gap-1 flex-column">
+                          <div
+                            className="gap-1 claimreward-wrapper w-100"
+                            onClick={() => {
+                              this.setState({ selectedPool: "wavax" });
+                            }}
+                            style={{
+                              background:
+                                this.state.selectedPool === "wavax"
+                                  ? "#141333"
+                                  : "#26264F",
+                              border:
+                                this.state.selectedPool === "wavax"
+                                  ? "1px solid #57B6AB"
+                                  : "1px solid #8E97CD",
+                            }}
+                          >
+                            <img
+                              src={
+                                this.state.selectedPool === "wavax"
+                                  ? check
+                                  : empty
+                              }
+                              alt=""
+                              className="activestate"
+                            />
+                            <div className="d-flex align-items-center gap-2 justify-content-between w-100">
+                              <div className="position-relative">
+                                <h6
+                                  className="withsubtitle"
+                                  style={{ padding: "5px 0 0 15px" }}
+                                >
+                                  LP amount
+                                </h6>
+
+                                <input
+                                  disabled
+                                  value={
+                                    Number(this.state.withdrawAmount) > 0
+                                      ? `${
+                                          this.state.withdrawAmount *
+                                          LP_AMPLIFY_FACTOR
+                                        } LP`
+                                      : `${this.state.withdrawAmount} LP`
+                                  }
+                                  onChange={(e) =>
+                                    this.setState({
+                                      withdrawAmount:
+                                        Number(e.target.value) > 0
+                                          ? e.target.value / LP_AMPLIFY_FACTOR
+                                          : e.target.value,
+                                    })
+                                  }
+                                  className=" left-radius inputfarming styledinput2"
+                                  placeholder="0"
+                                  type="text"
+                                  style={{
+                                    width: "150px",
+                                    padding: "0px 15px 0px 15px",
+                                    height: 35,
+                                    fontSize: 20,
+                                    fontWeight: 300,
+                                  }}
+                                />
                               </div>
-                              <div className="form-row">
-                                <div className="col-6">
-                                  <select
-                                    disabled={!is_connected}
-                                    value={
-                                      this.state.selectedBuybackTokenWithdraw
-                                    }
-                                    onChange={(e) =>
-                                      this.handleSelectedTokenChangeWithdraw(
-                                        e.target.value
-                                      )
-                                    }
-                                    className="form-control"
-                                  >
-                                    {Object.keys(
-                                      window.buyback_tokens_farmingavax
-                                    ).map((t) => (
-                                      <option key={t} value={t}>
-                                        {" "}
-                                        {
-                                          window.buyback_tokens_farmingavax[t]
-                                            .symbol
-                                        }{" "}
-                                      </option>
-                                    ))}
-                                  </select>
-                                </div>
-                                <div className="col-6">
-                                  <select
-                                    disabled={!is_connected}
-                                    defaultValue="DYP"
-                                    className="form-control"
-                                  >
-                                    <option value="DYP"> DYP </option>
-                                  </select>
-                                </div>
+                              <div
+                                className="d-flex flex-column gap-1"
+                                style={{ paddingRight: "15px" }}
+                              >
+                                <h6 className="withsubtitle">Value</h6>
+                                <h6
+                                  className="withtitle"
+                                  style={{ color: "#C0CBF7" }}
+                                >
+                                  $200
+                                </h6>
                               </div>
                             </div>
-                            {/*<br />*/}
-                            <div className="form-row">
+                            <div
+                              className="d-flex align-items-center"
+                              style={{ padding: "10px 0 0 10px" }}
+                            >
+                              <img
+                                src={
+                                  require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                    .default
+                                }
+                                alt=""
+                                style={{ width: 14, height: 14 }}
+                              />
+                              <select
+                                disabled={!is_connected}
+                                value={this.state.selectedClaimToken}
+                                onChange={(e) => {
+                                  this.handleClaimToken(e.target.value);
+                                  this.setState({
+                                    selectedRewardTokenLogo1:
+                                      e.target.value === "1" ? "usdt" : "weth",
+                                  });
+                                }}
+                                className=" inputfarming"
+                                style={{ border: "none" }}
+                              >
+                                <option value="0"> WAVAX </option>
+                                <option value="1"> WETH.e </option>
+                              </select>
+                            </div>
+                          </div>
+                          <h6 className="withsubtitle d-flex justify-content-start w-100 mb-2">
+                            Total LP deposited{" "}
+                          </h6>
+
+                          <div
+                            className="gap-1 claimreward-wrapper w-100"
+                            style={{
+                              background:
+                                this.state.selectedPool === "dyp"
+                                  ? "#141333"
+                                  : "#26264F",
+                              border:
+                                this.state.selectedPool === "dyp"
+                                  ? "1px solid #57B6AB"
+                                  : "1px solid #8E97CD",
+                            }}
+                            onClick={() => {
+                              this.setState({ selectedPool: "dyp" });
+                            }}
+                          >
+                            <img
+                              src={
+                                this.state.selectedPool === "dyp"
+                                  ? check
+                                  : empty
+                              }
+                              alt=""
+                              className="activestate"
+                            />
+
+                            <div className="d-flex align-items-center gap-2 justify-content-between w-100 position-relative">
+                              <div className="position-relative">
+                                <input
+                                  disabled
+                                  value={`${depositedTokensDYP} DYP`}
+                                  onChange={(e) =>
+                                    this.setState({
+                                      withdrawAmount:
+                                        Number(e.target.value) > 0
+                                          ? e.target.value / LP_AMPLIFY_FACTOR
+                                          : e.target.value,
+                                    })
+                                  }
+                                  className=" left-radius inputfarming styledinput2"
+                                  placeholder="0"
+                                  type="text"
+                                  style={{
+                                    width: "150px",
+                                    padding: "0px 15px 0px 15px",
+                                    height: 35,
+                                    fontSize: 20,
+                                    fontWeight: 300,
+                                  }}
+                                />
+                              </div>
+                              <div
+                                className="d-flex flex-column gap-1 position-relative"
+                                style={{ paddingRight: "15px", top: "-8px" }}
+                              >
+                                <h6 className="withsubtitle">Value</h6>
+                                <h6
+                                  className="withtitle"
+                                  style={{ color: "#C0CBF7" }}
+                                >
+                                  $200
+                                </h6>
+                              </div>
+                            </div>
+                            <div
+                              className="d-flex align-items-center"
+                              style={{ padding: "10px 0 0 10px" }}
+                            >
+                              <img
+                                src={
+                                  require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                                    .default
+                                }
+                                alt=""
+                                style={{ width: 14, height: 14 }}
+                              />
+                              <select
+                                disabled
+                                defaultValue="DYP"
+                                className="form-control inputfarming"
+                                style={{ border: "none", padding: "0 0 0 3px" }}
+                              >
+                                <option value="DYP"> DYP </option>
+                              </select>
+                            </div>
+                          </div>
+                          <h6 className="withsubtitle d-flex justify-content-start w-100 ">
+                            Total DYP deposited{" "}
+                          </h6>
+                        </div>
+                      </div>
+
+                      <div className="separator"></div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        {/* <button
+                        className="btn filledbtn w-100"
+                        onClick={(e) => {
+                          this.handleWithdrawDyp();
+                        }}
+                        title={
+                          canWithdraw
+                            ? ""
+                            : `You recently staked, you can unstake ${cliffTimeInWords}`
+                        }
+                      >
+                        Withdraw
+                      </button> */}
+
+                        <button
+                          disabled={
+                            this.state.selectedPool === "" ||
+                            this.state.withdrawStatus === "failed" ||
+                            this.state.withdrawStatus === "success"
+                              ? true
+                              : false
+                          }
+                          className={` w-100 btn filledbtn ${
+                            this.state.selectedPool === ""
+                              ? "disabled-btn"
+                              : this.state.withdrawStatus === "failed"
+                              ? "fail-button"
+                              : this.state.withdrawStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center`}
+                          style={{ height: "fit-content" }}
+                          onClick={() => {
+                            this.state.selectedPool === "weth"
+                              ? this.handleWithdraw()
+                              : this.handleWithdrawDyp();
+                          }}
+                        >
+                          {this.state.withdrawLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.withdrawStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.withdrawStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Withdraw</>
+                          )}
+                        </button>
+
+                        {/* <div className="form-row">
                               <div className="col-6">
                                 <button
                                   title={
@@ -1637,459 +2199,991 @@ export default function initFarmAvax({
                                   WITHDRAW
                                 </button>
                               </div>
-                            </div>
-                            {/*<p style={{fontSize: '.8rem'}}*/}
-                            {/*   className='mt-1 text-center mb-0 text-muted mt-3'>*/}
-                            {/*    To <strong>WITHDRAW</strong> you will be asked to sign <strong>2 transactions</strong>*/}
-                            {/*</p>*/}
-                          </form>
-                        </div>
+                            </div> */}
                       </div>
-                      <div className="col-12">
-                        <div className="l-box">
-                          <form onSubmit={this.handleClaimDivs}>
-                            <div className="form-group">
-                              <label
-                                htmlFor="deposit-amount"
-                                className="text-left d-block"
-                              >
-                                REWARDS
-                              </label>
-                              <div className="form-row mb-3">
-                                <div className="col-6">
-                                  {/*<p className='form-control  text-center' style={{border: 'none', marginBottom: 0, paddingLeft: '1px', paddingRight: '10px',  background: 'transparent', color: 'var(--text-color)'}}><span style={{fontSize: '1.2rem', color: 'var(--text-color)'}}>{pendingDivsEth}</span> <small className='text-bold'>WAVAX</small></p>*/}
-                                  <input
-                                    value={
-                                      Number(pendingDivsEth) > 0
-                                        ? `${pendingDivsEth} WAVAX`
-                                        : `${pendingDivsEth} WAVAX`
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        pendingDivsEth:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value
-                                            : e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                    disabled
-                                  />
-                                </div>
-                                <div className="col-6">
-                                  {/*<p className='form-control  text-center' style={{border: 'none', marginBottom: 0, paddingLeft: '11px', paddingRight: 0,  background: 'transparent', color: 'var(--text-color)'}}><span style={{fontSize: '1.2rem', color: 'var(--text-color)'}}>{pendingDivs}</span> <small className='text-bold'>DYP</small></p>*/}
-                                  <input
-                                    value={
-                                      Number(pendingDivs) > 0
-                                        ? `${pendingDivs} DYP`
-                                        : `${pendingDivs} DYP`
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        pendingDivs:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value
-                                            : e.target.value,
-                                      })
-                                    }
-                                    className="form-control left-radius"
-                                    placeholder="0"
-                                    type="text"
-                                    disabled
-                                  />
-                                </div>
-                              </div>
-                              <div className="form-row">
-                                <div className="col-6">
-                                  <select
-                                    disabled={!is_connected}
-                                    value={this.state.selectedClaimToken}
-                                    onChange={(e) =>
-                                      this.handleClaimToken(e.target.value)
-                                    }
-                                    className="form-control"
-                                  >
-                                    <option value="0"> WAVAX </option>
-                                    <option value="1"> WETH.e </option>
-                                  </select>
-                                </div>
-                                <div className="col-6">
-                                  <select
-                                    disabled={!is_connected}
-                                    defaultValue="DYP"
-                                    className="form-control"
-                                  >
-                                    <option value="DYP"> DYP </option>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="form-row">
-                              <div className="col-6">
-                                <button
-                                  disabled={!is_connected}
-                                  title={claimTitle}
-                                  className="btn  btn-primary btn-block l-outline-btn"
-                                  type="submit"
-                                >
-                                  CLAIM
-                                </button>
-                              </div>
-                              <div className="col-6">
-                                <button
-                                  disabled={!is_connected}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    this.handleClaimDyp();
-                                  }}
-                                  title={claimTitle}
-                                  className="btn  btn-primary btn-block l-outline-btn"
-                                  type="submit"
-                                >
-                                  CLAIM
-                                </button>
-                              </div>
-                            </div>
-                            {/*<div className='row'>*/}
-                            {/*    <div className='col-12 col-sm-6'>*/}
-                            {/*        <button onClick={e => {*/}
-                            {/*            e.preventDefault()*/}
-                            {/*            this.handleClaimAsDivs(window.config.claim_as_ethavax_address)*/}
-                            {/*        }} className='btn  btn-primary btn-block l-outline-btn' type='button'>*/}
-                            {/*            CLAIM AS ETH*/}
-                            {/*        </button>*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
-
-                            {/*<button onClick={this.handleClaimAsDivs(window.config.claim_as_ethavax_address)} className='btn  btn-primary btn-block l-outline-btn' type='button'>*/}
-                            {/*    CLAIM AS ETH*/}
-                            {/*</button>*/}
-                            {/*<button onClick={e => {*/}
-                            {/*    e.preventDefault()*/}
-                            {/*    this.handleClaimAsDivs(window.config.reward_token_address)*/}
-                            {/*}} className='btn  btn-primary btn-block l-outline-btn' type='button'>*/}
-                            {/*    CLAIM AS DYP*/}
-                            {/*</button>*/}
-                            {/*<button onClick={this.handleClaimAsDivs(window.config.reward_token_address2)} className='btn  btn-primary btn-block l-outline-btn' type='button'>*/}
-                            {/*    CLAIM AS DYP*/}
-                            {/*</button>*/}
-                            {/*<p style={{fontSize: '.8rem'}}*/}
-                            {/*   className='mt-1 text-center mb-0 text-muted mt-3'>*/}
-                            {/*    To <strong>CLAIM</strong> you will be asked to sign <strong>2 transactions</strong>*/}
-                            {/*</p>*/}
-                          </form>
-                        </div>
-                      </div>
-                      <div className="col-12">
-                        <div className="l-box">
-                          <form onSubmit={(e) => e.preventDefault()}>
-                            <div className="form-group">
-                              <label
-                                htmlFor="deposit-amount"
-                                className="d-block text-left"
-                              >
-                                RETURN CALCULATOR
-                              </label>
-                              <div className="row">
-                                <div className="col">
-                                  <label
-                                    style={{
-                                      fontSize: "1rem",
-                                      fontWeight: "normal",
-                                    }}
-                                  >
-                                    USD to Deposit
-                                  </label>
-                                  <input
-                                    className="form-control "
-                                    value={
-                                      Number(this.state.approxDeposit) > 0
-                                        ? this.state.approxDeposit *
-                                          LP_AMPLIFY_FACTOR
-                                        : this.state.approxDeposit
-                                    }
-                                    onChange={(e) =>
-                                      this.setState({
-                                        approxDeposit:
-                                          Number(e.target.value) > 0
-                                            ? e.target.value / LP_AMPLIFY_FACTOR
-                                            : e.target.value,
-                                      })
-                                    }
-                                    placeholder="0"
-                                    type="text"
-                                  />
-                                </div>
-                                <div className="col">
-                                  <label
-                                    style={{
-                                      fontSize: "1rem",
-                                      fontWeight: "normal",
-                                    }}
-                                  >
-                                    Days
-                                  </label>
-                                  <input
-                                    className="form-control "
-                                    value={this.state.approxDays}
-                                    onChange={(e) =>
-                                      this.setState({
-                                        approxDays: e.target.value,
-                                      })
-                                    }
-                                    type="text"
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                            <p>
-                              Approx. $
-                              {getFormattedNumber(this.getApproxReturnUSD(), 2)}{" "}
-                              USD (
-                              {getFormattedNumber(
-                                this.getApproxReturnUSD() / this.getUsdPerETH(),
-                                6
-                              )}{" "}
-                              WAVAX)
-                            </p>
-                            {/*<p style={{fontSize: '.8rem'}} className='mt-1 text-center text-muted'>Approx. Value Not Considering Burns</p>*/}
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-6">
-                    <div className="l-box pl-3 pr-3">
-                      <div className="table-responsive container">
-                        <div className="row" style={{ marginLeft: "0px" }}>
-                          <label
-                            className="col-md-8 d-block text-left"
-                            style={{
-                              fontSize: "1.1rem",
-                              fontWeight: "600",
-                              padding: ".3rem",
-                            }}
-                          >
-                            MY STATS
-                          </label>
-                          <div className="col-4">
-                            <NavLink
-                              rel="noopener noreferrer"
-                              to={"/staking-stats"}
-                            >
-                              {is_connected && (
-                                <button
-                                  className="btn btn-sm btn-block btn-primary l-outline-btn"
-                                  type="button"
-                                >
-                                  VIEW ALL
-                                </button>
-                              )}
-                            </NavLink>
-                          </div>
-                        </div>
-                        <table className="table-stats table table-sm table-borderless">
-                          <tbody>
-                            {/*<tr>*/}
-                            {/*    <th>My Address</th>*/}
-                            {/*    <td className='text-right'>*/}
-                            {/*        <Address style={{fontFamily: 'monospace', fontSize: '16px'}} a={coinbase} />*/}
-                            {/*    </td>*/}
-                            {/*</tr>*/}
-                            {/*<tr>*/}
-                            {/*    <th>Contract Address</th>*/}
-                            {/*    <td className='text-right'>*/}
-                            {/*        <Address style={{fontFamily: 'monospace', fontSize: '16px'}} a={staking._address} />*/}
-                            {/*    </td>*/}
-                            {/*</tr>*/}
-                            <tr>
-                              <th>Contract Expiration</th>
-                              <td className="text-right">
-                                <strong>{expiration_time}</strong>
-                              </td>
-                            </tr>
-
-                            {/*<tr>*/}
-                            {/*    <th>My LP Balance</th>*/}
-                            {/*    <td className="text-right"><strong>{token_balance}</strong> <small>iDYP/WAVAX</small></td>*/}
-                            {/*</tr>*/}
-                            <tr>
-                              <th>My DYP Balance</th>
-                              <td className="text-right">
-                                <strong>{reward_token_balance}</strong>{" "}
-                                <small>DYP</small>
-                              </td>
-                            </tr>
-                            {/*<tr>*/}
-                            {/*    <th>My WETH Balance</th>*/}
-                            {/*    <td className="text-right"><strong>{wethBalance}</strong> <small>WETH</small></td>*/}
-                            {/*</tr>*/}
-                            <tr>
-                              <th>MY LP Deposit</th>
-                              <td className="text-right">
-                                <strong>{myDepositedLpTokens}</strong>{" "}
-                                <small>iDYP/WAVAX</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Total LP Deposited</th>
-                              <td className="text-right">
-                                <strong>{tvl}</strong> <small>iDYP/WAVAX</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>My DYP Deposit</th>
-                              <td className="text-right">
-                                <strong>{depositedTokensDYP}</strong>{" "}
-                                <small>DYP</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Total DYP Deposited</th>
-                              <td className="text-right">
-                                <strong>{tvlConstantDYP}</strong>{" "}
-                                <small>DYP</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>My Share</th>
-                              <td className="text-right">
-                                <strong>{myShare}</strong> <small>%</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Total Earned DYP</th>
-                              <td className="text-right">
-                                <strong>{totalEarnedTokens}</strong>{" "}
-                                <small>DYP</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>Total Earned WAVAX</th>
-                              <td className="text-right">
-                                <strong>{totalEarnedEth}</strong>{" "}
-                                <small>WAVAX</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>To be Swapped</th>
-                              <td className="text-right">
-                                <strong>{tokensToBeSwapped}</strong>{" "}
-                                <small>iDYP</small>
-                              </td>
-                            </tr>
-                            <tr>
-                              <th>To be burnt / disbursed</th>
-                              <td className="text-right">
-                                <strong>{tokensToBeDisbursedOrBurnt}</strong>{" "}
-                                <small>iDYP</small>
-                              </td>
-                            </tr>
-                            {/*<tr>*/}
-                            {/*    <th>APY (AT NO BURN)</th>*/}
-                            {/*    <td className="text-right"><strong>*/}
-                            {/*        {apy == 0 ? (*/}
-                            {/*            <Dots />*/}
-                            {/*        ) : (*/}
-                            {/*            apy*/}
-                            {/*        )*/}
-                            {/*        }*/}
-                            {/*    </strong> <small>%</small></td>*/}
-                            {/*</tr>*/}
-                            <tr>
-                              <th>TVL USD</th>
-                              <td className="text-right">
-                                <strong>${tvl_usd}</strong> <small>USD</small>
-                              </td>
-                            </tr>
-                            {isOwner && (
-                              <tr>
-                                <th>Total Stakers</th>
-                                <td className="text-right">
-                                  <strong>{total_stakers}</strong>{" "}
-                                  <small></small>
-                                </td>
-                              </tr>
-                            )}
-                            {/*<tr>*/}
-                            {/*    <th>Pending</th>*/}
-                            {/*    <td className="text-right"><strong>{pendingDivs}</strong> <small>DYP</small>*/}
-                            {/*    </td>*/}
-                            {/*</tr>*/}
-
-                            {is_connected && (
-                              <tr>
-                                <td
-                                  style={{
-                                    fontSize: "1rem",
-                                    paddingTop: "2rem",
-                                  }}
-                                  colSpan="2"
-                                  className="text-center"
-                                >
-                                  {/*<a target='_blank' rel='noopener noreferrer' href={`${window.config.etherscan_baseURL}/token/${token._address}?a=${coinbase}`}>View Transaction History on Bscscan</a> &nbsp; <i style={{fontSize: '.8rem'}} className='fas fa-external-link-alt'></i>*/}
-                                  <a
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href={`${window.config.etherscan_baseURL}/address/${staking._address}`}
-                                  >
-                                    View Transaction History on SnowTrace
-                                  </a>{" "}
-                                  &nbsp;{" "}
-                                  <i
-                                    style={{ fontSize: ".8rem" }}
-                                    className="fas fa-external-link-alt"
-                                  ></i>
-                                </td>
-                              </tr>
-                            )}
-
-                            {/* <tr>
-                                        <td style={{fontSize: '1rem'}} colSpan='2' className='text-center'>
-                                            <span className='lp-link'>
-                                                <a target='_blank' rel='noopener noreferrer' href='#'>Some External Link Here</a> &nbsp; <i style={{fontSize: '1rem'}} className='fas fa-external-link-alt'></i>
-                                            </span>
-                                        </td>
-                                    </tr> */}
-                            {isOwner && (
-                              <tr>
-                                <td
-                                  style={{ fontSize: "1rem" }}
-                                  colSpan="2"
-                                  className="text-center"
-                                >
-                                  <a
-                                    onClick={this.handleListDownload}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href="#"
-                                  >
-                                    <i
-                                      style={{ fontSize: ".8rem" }}
-                                      className="fas fa-download"
-                                    ></i>{" "}
-                                    Download Stakers List{" "}
-                                  </a>
-                                </td>
-                              </tr>
-                            )}
-                          </tbody>
-                        </table>
-                      </div>
+                      <h6 className="withsubtitle d-flex justify-content-start w-100 mt-1">
+                        *No withdrawal fee
+                      </h6>
                     </div>
                   </div>
                 </div>
-
-                {/* <div className='mt-3 text-center'>
-                    <p><small>Some info text here</small></p>
-                </div> */}
               </div>
-            </div>
-          </div>
+            </Modal>
+          )}
+
+          {this.state.show && (
+            <WalletModal
+              show={this.state.show}
+              handleClose={this.state.hideModal}
+              handleConnection={this.props.handleConnection}
+            />
+          )}
         </div>
+
+        // <div>
+        //   <div className="row">
+        //     <div className="col-12 header-image-farming-new">
+        //       <div className="container">
+        //         <Modal show={this.state.popup} handleClose={this.hidePopup}>
+        //           <div className="earn-hero-content p4token-wrapper">
+        //             <p className="h3">
+        //               <b>Maximize your Yield Farming Rewards</b>
+        //             </p>
+        //             <p>
+        //               Automatically adds liquidity to
+        //               <Tooltip
+        //                 placement="top"
+        //                 title={
+        //                   <div style={{ whiteSpace: "pre-line" }}>
+        //                     {tooltip1}
+        //                   </div>
+        //                 }
+        //               >
+        //                 <Button
+        //                   style={{
+        //                     fontSize: "70%",
+        //                     textDecoration: "underline",
+        //                     color: "var(--color_white)",
+        //                   }}
+        //                 >
+        //                   Pangolin & deposit to Staking{" "}
+        //                 </Button>
+        //               </Tooltip>
+        //               contract using one asset. To start earning, all you need
+        //               is to deposit one of the supported assets (WAVAX, USDC.e,
+        //               USDT.e, WETH.e, PNG, QI, DAI.e, XAVA, WBTC.e, LINK.e, or
+        //               iDYP) and earn
+        //               <Tooltip
+        //                 placement="top"
+        //                 title={
+        //                   <div style={{ whiteSpace: "pre-line" }}>
+        //                     {tooltip2}
+        //                   </div>
+        //                 }
+        //               >
+        //                 <Button
+        //                   style={{
+        //                     fontSize: "70%",
+        //                     textDecoration: "underline",
+        //                     color: "var(--color_white)",
+        //                     padding: "4px 0px 2px 5px",
+        //                   }}
+        //                 >
+        //                   WAVAX/ETH/DYP as rewards.
+        //                 </Button>
+        //               </Tooltip>
+        //             </p>
+        //             <p>
+        //               All pool rewards are automatically converted from iDYP to
+        //               WAVAX by the smart contract, decreasing the risk of iDYP
+        //               price volatility.
+        //               <Tooltip
+        //                 placement="top"
+        //                 title={
+        //                   <div style={{ whiteSpace: "pre-line" }}>
+        //                     {tooltip2}
+        //                   </div>
+        //                 }
+        //               >
+        //                 <Button
+        //                   style={{
+        //                     fontSize: "70%",
+        //                     textDecoration: "underline",
+        //                     color: "var(--color_white)",
+        //                   }}
+        //                 >
+        //                   WAVAX/ETH + DYP{" "}
+        //                 </Button>
+        //               </Tooltip>
+        //               is a double reward to the liquidity providers. The users
+        //               can choose between two different types of rewards: WAVAX
+        //               or ETH. Maintaining token price stability — every 24
+        //               hours, the smart contract will automatically try
+        //               converting the iDYP rewards to WAVAX. If the iDYP price is
+        //               affected by more than
+        //               <img src="/img/icon/arrow.svg" alt="images not found" />
+        //               2.5%, then the maximum iDYP amount not influencing the
+        //               price will be swapped to WAVAX, with the remaining amount
+        //               distributed in the next day’s rewards. After seven days,
+        //               if we still have undistributed iDYP rewards, the DeFi
+        //               Yield Protocol governance will vote on whether the
+        //               remaining iDYP will be distributed to the token holders or
+        //               burned (all burned tokens are out of circulation).
+        //             </p>
+        //             <p>
+        //               You will receive the total amount in the initial deposit
+        //               asset with withdrawal by burning LP tokens when you
+        //               unstake.
+        //             </p>
+        //           </div>
+        //         </Modal>
+        //         <Modal
+        //           show={this.state.show}
+        //           handleConnection={this.props.handleConnection}
+        //           handleConnectionWalletConnect={
+        //             this.props.handleConnectionWalletConnect
+        //           }
+        //           handleClose={this.hideModal}
+        //         />
+        //         <div className="row">
+        //           <div className="col-12">
+        //             <p className="header-title-text">DYP Farming</p>
+        //           </div>
+        //           <div className="col-7 col-md-7 col-lg-6 col-xl-5">
+        //             <div className="row">
+        //               <div className="col-9 col-md-5 mb-4">
+        //                 <button
+        //                   onClick={this.showPopup}
+        //                   className="btn  btn-block btn-primary button"
+        //                   type="button"
+        //                   style={{ maxWidth: "100%", width: "100%" }}
+        //                 >
+        //                   <img
+        //                     src="img/icon/bulb.svg"
+        //                     style={{ float: "left" }}
+        //                     alt="wallet"
+        //                   />
+        //                   More info
+        //                 </button>
+        //               </div>
+        //               <div className="col-11 col-md-5 mb-4">
+        //                 <button
+        //                   onClick={() =>
+        //                     window.open(
+        //                       "https://www.youtube.com/watch?v=b-WHRSgFn-k&t=1s",
+        //                       "_blank"
+        //                     )
+        //                   }
+        //                   className="btn  btn-block btn-primary l-outline-btn button"
+        //                   type="submit"
+        //                   style={{ maxWidth: "100%", width: "100%" }}
+        //                 >
+        //                   <img
+        //                     src="img/icon/video.svg"
+        //                     style={{ float: "left" }}
+        //                     alt="wallet"
+        //                   />
+        //                   Video tutorial
+        //                 </button>
+        //               </div>
+        //             </div>
+        //           </div>
+        //         </div>
+        //       </div>
+        //     </div>
+
+        //     <div className="container">
+        //       <div className="token-staking mt-4">
+        //         <div className="row p-3 p-sm-0 p-md-0">
+        //           <div className="col-12">
+        //             <div className="row">
+        //               <div className="col-lg-6">
+        //                 <div className="row token-staking-form">
+        //                   <div className="col-12">
+        //                     <div
+        //                       className="l-box"
+        //                       style={{ padding: "0.5rem" }}
+        //                     >
+        //                       {is_connected ? (
+        //                         <div className="row justify-content-center">
+        //                           <div
+        //                             className="col-9 col-sm-8 col-md-7 text-center text-md-left"
+        //                             style={{ marginTop: "0px" }}
+        //                           >
+        //                             <img
+        //                               src="img/connected.png"
+        //                               style={{
+        //                                 marginRight: "10px",
+        //                                 marginTop: "3px",
+        //                               }}
+        //                               alt="wallet"
+        //                             />
+        //                             <span
+        //                               htmlFor="deposit-amount"
+        //                               style={{
+        //                                 margin: "0",
+        //                                 top: "3px",
+        //                                 position: "relative",
+        //                               }}
+        //                             >
+        //                               Wallet has been connected
+        //                             </span>
+        //                           </div>
+        //                           <div className="col-8 col-sm-6 col-md-5 text-center">
+        //                             <div
+        //                               style={{
+        //                                 marginTop: "5px",
+        //                                 paddingRight: "15px",
+        //                               }}
+        //                             >
+        //                               <Address
+        //                                 style={{ fontFamily: "monospace" }}
+        //                                 a={coinbase}
+        //                               />
+        //                             </div>
+        //                           </div>
+        //                         </div>
+        //                       ) : (
+        //                         <div className="row justify-content-center">
+        //                           <div
+        //                             className="col-11 col-sm-8 col-md-8 text-center text-md-left mb-3 mb-md-0"
+        //                             style={{ marginTop: "0px" }}
+        //                           >
+        //                             <img
+        //                               src="img/icon/wallet.svg"
+        //                               style={{
+        //                                 marginRight: "10px",
+        //                                 marginTop: "3px",
+        //                               }}
+        //                               alt="wallet"
+        //                             />
+        //                             <label
+        //                               htmlFor="deposit-amount"
+        //                               style={{
+        //                                 margin: "0",
+        //                                 top: "3px",
+        //                                 position: "relative",
+        //                               }}
+        //                             >
+        //                               Please connect wallet to use this dApp
+        //                             </label>
+        //                           </div>
+        //                           <div className="col-10 col-md-4 mb-3 mb-md-0">
+        //                             <button
+        //                               type="submit"
+        //                               onClick={this.showModal}
+        //                               className="btn  btn-block btn-primary l-outline-btn"
+        //                             >
+        //                               Connect Wallet
+        //                             </button>
+        //                           </div>
+        //                         </div>
+        //                       )}
+        //                     </div>
+        //                   </div>
+        //                 </div>
+        //               </div>
+        //               <div className="col-lg-6 col-xs-12">
+        //                 <div className="row token-staking-form">
+        //                   <div className="col-12 padding-mobile">
+        //                     <div
+        //                       className=""
+        //                       style={{
+        //                         background:
+        //                           "linear-gradient(257.76deg, #E84142 6.29%, #CB2627 93.71%)",
+        //                         boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.06)",
+        //                         borderRadius: "6px",
+        //                         paddingLeft: "5px",
+        //                         padding: "10px",
+        //                       }}
+        //                     >
+        //                       <div className="row">
+        //                         <div
+        //                           style={{ marginTop: "0px", paddingLeft: "" }}
+        //                           className="col-4 col-sm-4 col-md-3 mb-3 mb-md-0 pr-0"
+        //                         >
+        //                           <img
+        //                             src="img/icon/avax.svg"
+        //                             style={{
+        //                               marginRight: "4px",
+        //                               marginTop: "5px",
+        //                             }}
+        //                             alt="wallet"
+        //                           />
+        //                           <label
+        //                             htmlFor="deposit-amount"
+        //                             style={{
+        //                               margin: "0px",
+        //                               top: "3px",
+        //                               position: "relative",
+        //                               color: "white",
+        //                             }}
+        //                           >
+        //                             Avalanche
+        //                           </label>
+        //                         </div>
+        //                         <div className="col-8 col-sm-6 col-md-5 mb-3 mb-md-0 pr-2">
+        //                           <div className="test">
+        //                             <div className="tvl_test">
+        //                               TVL USD{" "}
+        //                               <span className="testNumber">
+        //                                 $ {tvl_usd}{" "}
+        //                               </span>
+        //                             </div>
+        //                           </div>
+        //                         </div>
+        //                         <div className="col-6 col-sm-4 col-md-4 mb-1 mb-md-0">
+        //                           <div className="test">
+        //                             <div className="tvl_test">
+        //                               APR{" "}
+        //                               <span className="testNumber">
+        //                                 {" "}
+        //                                 <img src="img/icon/vector.svg" /> {apy}%{" "}
+        //                               </span>
+        //                             </div>
+        //                           </div>
+        //                         </div>
+        //                       </div>
+        //                     </div>
+        //                   </div>
+        //                 </div>
+        //               </div>
+        //             </div>
+        //           </div>
+
+        //           <div className="col-lg-6">
+        //             <div className="row token-staking-form">
+        //               <div className="col-12">
+        //                 <div className="l-box">
+        //                   {showDeposit == true ? (
+        //                     <form onSubmit={(e) => e.preventDefault()}>
+        //                       <div className="form-group">
+        //                         <div className="row">
+        //                           <label
+        //                             htmlFor="deposit-amount"
+        //                             className="col-7 d-block text-left"
+        //                           >
+        //                             DEPOSIT
+        //                           </label>
+
+        //                         </div>
+
+        //                         <div>
+        //                           <p>
+        //                             Balance:{" "}
+        //                             {getFormattedNumber(
+        //                               this.state.selectedTokenBalance /
+        //                                 10 ** this.state.selectedTokenDecimals,
+        //                               6
+        //                             )}{" "}
+        //                             {this.state.selectedTokenSymbol}
+        //                           </p>
+        //                           <select
+        //                             disabled={!is_connected}
+        //                             value={this.state.selectedBuybackToken}
+        //                             onChange={(e) =>
+        //                               this.handleSelectedTokenChange(
+        //                                 e.target.value
+        //                               )
+        //                             }
+        //                             className="form-control"
+        //                           >
+        //                             {Object.keys(
+        //                               window.buyback_tokens_farmingavax
+        //                             ).map((t) => (
+        //                               <option key={t} value={t}>
+        //                                 {" "}
+        //                                 {
+        //                                   window.buyback_tokens_farmingavax[t]
+        //                                     .symbol
+        //                                 }{" "}
+        //                               </option>
+        //                             ))}
+        //                           </select>
+        //                           <br />
+        //                         </div>
+        //                         <div className="input-group ">
+        //                           <input
+        //                             disabled={!is_connected}
+        //                             value={
+        //                               Number(this.state.depositAmount) > 0
+        //                                 ? this.state.depositAmount
+        //                                 : this.state.depositAmount
+        //                             }
+        //                             onChange={(e) =>
+        //                               this.setState({
+        //                                 depositAmount: e.target.value,
+        //                               })
+        //                             }
+        //                             className="form-control left-radius"
+        //                             placeholder="0"
+        //                             type="text"
+        //                           />
+        //                           <div className="input-group-append">
+        //                             <button
+        //                               disabled={!is_connected}
+        //                               className="btn  btn-primary right-radius btn-max l-light-btn"
+        //                               style={{ cursor: "pointer" }}
+        //                               onClick={this.handleSetMaxDeposit}
+        //                             >
+        //                               MAX
+        //                             </button>
+        //                           </div>
+        //                         </div>
+
+        //                       </div>
+        //                       <div className="row">
+        //                         <div
+        //                           style={{ paddingRight: "0.3rem" }}
+        //                           className="col-6"
+        //                         >
+        //                           <button
+        //                             disabled={!is_connected}
+        //                             onClick={this.handleApprove}
+        //                             className="btn  btn-block btn-primary "
+        //                             type="button"
+        //                           >
+        //                             APPROVE
+        //                           </button>
+        //                         </div>
+        //                         <div
+        //                           style={{ paddingLeft: "0.3rem" }}
+        //                           className="col-6"
+        //                         >
+        //                           <button
+        //                             disabled={!is_connected}
+        //                             onClick={this.handleStake}
+        //                             className="btn  btn-block btn-primary l-outline-btn"
+        //                             type="submit"
+        //                           >
+        //                             DEPOSIT
+        //                           </button>
+        //                         </div>
+        //                       </div>
+        //                       <p
+        //                         style={{ fontSize: ".8rem" }}
+        //                         className="mt-1 text-center mb-0 text-muted mt-3"
+        //                       >
+
+        //                         Please approve before deposit. PERFORMANCE FEE{" "}
+        //                         {fee}%<br />
+        //                         Performance fees are already subtracted from the
+        //                         displayed APR.
+        //                       </p>
+        //                     </form>
+        //                   ) : (
+        //                     <div className="row">
+        //                       <div
+        //                         className="col-md-12 d-block text-muted small"
+        //                         style={{ fontSize: "15px" }}
+        //                       >
+        //                         <b>NOTE:</b>
+        //                       </div>
+        //                       <div
+        //                         className="col-md-12 d-block text-muted small"
+        //                         style={{ fontSize: "15px" }}
+        //                       >
+        //                         Deposit not available because the contract
+        //                         expires faster than the pool lock time.
+        //                       </div>
+        //                       <div
+        //                         className="col-md-12 d-block mb-0 text-muted small"
+        //                         style={{ fontSize: "15px" }}
+        //                       >
+        //                         New contracts with improved strategies are
+        //                         coming soon, waiting for security audit results.
+        //                       </div>
+        //                     </div>
+        //                   )}
+        //                 </div>
+        //               </div>
+        //               <div className="col-12">
+        //                 <div className="l-box">
+        //                   <form onSubmit={this.handleWithdraw}>
+        //                     <div className="form-group">
+        //                       <label
+        //                         htmlFor="deposit-amount"
+        //                         className="d-block text-left"
+        //                       >
+        //                         WITHDRAW
+        //                       </label>
+        //                       <div
+        //                         className="form-row "
+        //                         style={{ paddingBottom: "20px" }}
+        //                       >
+        //                         <div className="col-6">
+        //                           <input
+        //                             value={
+        //                               Number(this.state.withdrawAmount) > 0
+        //                                 ? `${
+        //                                     this.state.withdrawAmount *
+        //                                     LP_AMPLIFY_FACTOR
+        //                                   } LP`
+        //                                 : `${this.state.withdrawAmount} LP`
+        //                             }
+        //                             onChange={(e) =>
+        //                               this.setState({
+        //                                 withdrawAmount:
+        //                                   Number(e.target.value) > 0
+        //                                     ? e.target.value / LP_AMPLIFY_FACTOR
+        //                                     : e.target.value,
+        //                               })
+        //                             }
+        //                             className="form-control left-radius"
+        //                             placeholder="0"
+        //                             type="text"
+        //                             disabled
+        //                           />
+
+        //                         </div>
+        //                         <div className="col-6">
+        //                           <input
+        //                             value={`${depositedTokensDYP} DYP`}
+        //                             onChange={(e) =>
+        //                               this.setState({
+        //                                 withdrawAmount:
+        //                                   Number(e.target.value) > 0
+        //                                     ? e.target.value / LP_AMPLIFY_FACTOR
+        //                                     : e.target.value,
+        //                               })
+        //                             }
+        //                             className="form-control left-radius"
+        //                             placeholder="0"
+        //                             type="text"
+        //                             disabled
+        //                           />
+
+        //                         </div>
+        //                       </div>
+        //                       <div className="form-row">
+        //                         <div className="col-6">
+        //                           <select
+        //                             disabled={!is_connected}
+        //                             value={
+        //                               this.state.selectedBuybackTokenWithdraw
+        //                             }
+        //                             onChange={(e) =>
+        //                               this.handleSelectedTokenChangeWithdraw(
+        //                                 e.target.value
+        //                               )
+        //                             }
+        //                             className="form-control"
+        //                           >
+        //                             {Object.keys(
+        //                               window.buyback_tokens_farmingavax
+        //                             ).map((t) => (
+        //                               <option key={t} value={t}>
+        //                                 {" "}
+        //                                 {
+        //                                   window.buyback_tokens_farmingavax[t]
+        //                                     .symbol
+        //                                 }{" "}
+        //                               </option>
+        //                             ))}
+        //                           </select>
+        //                         </div>
+        //                         <div className="col-6">
+        //                           <select
+        //                             disabled={!is_connected}
+        //                             defaultValue="DYP"
+        //                             className="form-control"
+        //                           >
+        //                             <option value="DYP"> DYP </option>
+        //                           </select>
+        //                         </div>
+        //                       </div>
+        //                     </div>
+        //                     {/*<br />*/}
+        //                     <div className="form-row">
+        //                       <div className="col-6">
+        //                         <button
+        //                           title={
+        //                             canWithdraw
+        //                               ? ""
+        //                               : `You recently staked, you can unstake ${cliffTimeInWords}`
+        //                           }
+        //                           disabled={!canWithdraw || !is_connected}
+        //                           className="btn  btn-primary btn-block l-outline-btn"
+        //                           type="submit"
+        //                         >
+        //                           WITHDRAW
+        //                         </button>
+        //                       </div>
+        //                       <div className="col-6">
+        //                         <button
+        //                           onClick={(e) => {
+        //                             e.preventDefault();
+        //                             this.handleWithdrawDyp();
+        //                           }}
+        //                           title={
+        //                             canWithdraw
+        //                               ? ""
+        //                               : `You recently staked, you can unstake ${cliffTimeInWords}`
+        //                           }
+        //                           disabled={!canWithdraw || !is_connected}
+        //                           className="btn  btn-primary btn-block l-outline-btn"
+        //                           type="submit"
+        //                         >
+        //                           WITHDRAW
+        //                         </button>
+        //                       </div>
+        //                     </div>
+
+        //                   </form>
+        //                 </div>
+        //               </div>
+        //               <div className="col-12">
+        //                 <div className="l-box">
+        //                   <form onSubmit={this.handleClaimDivs}>
+        //                     <div className="form-group">
+        //                       <label
+        //                         htmlFor="deposit-amount"
+        //                         className="text-left d-block"
+        //                       >
+        //                         REWARDS
+        //                       </label>
+        //                       <div className="form-row mb-3">
+        //                         <div className="col-6">
+        //                           <input
+        //                             value={
+        //                               Number(pendingDivsEth) > 0
+        //                                 ? `${pendingDivsEth} WAVAX`
+        //                                 : `${pendingDivsEth} WAVAX`
+        //                             }
+        //                             onChange={(e) =>
+        //                               this.setState({
+        //                                 pendingDivsEth:
+        //                                   Number(e.target.value) > 0
+        //                                     ? e.target.value
+        //                                     : e.target.value,
+        //                               })
+        //                             }
+        //                             className="form-control left-radius"
+        //                             placeholder="0"
+        //                             type="text"
+        //                             disabled
+        //                           />
+        //                         </div>
+        //                         <div className="col-6">
+        //                           <input
+        //                             value={
+        //                               Number(pendingDivs) > 0
+        //                                 ? `${pendingDivs} DYP`
+        //                                 : `${pendingDivs} DYP`
+        //                             }
+        //                             onChange={(e) =>
+        //                               this.setState({
+        //                                 pendingDivs:
+        //                                   Number(e.target.value) > 0
+        //                                     ? e.target.value
+        //                                     : e.target.value,
+        //                               })
+        //                             }
+        //                             className="form-control left-radius"
+        //                             placeholder="0"
+        //                             type="text"
+        //                             disabled
+        //                           />
+        //                         </div>
+        //                       </div>
+        //                       <div className="form-row">
+        //                         <div className="col-6">
+        //                           <select
+        //                             disabled={!is_connected}
+        //                             value={this.state.selectedClaimToken}
+        //                             onChange={(e) =>
+        //                               this.handleClaimToken(e.target.value)
+        //                             }
+        //                             className="form-control"
+        //                           >
+        //                             <option value="0"> WAVAX </option>
+        //                             <option value="1"> WETH.e </option>
+        //                           </select>
+        //                         </div>
+        //                         <div className="col-6">
+        //                           <select
+        //                             disabled={!is_connected}
+        //                             defaultValue="DYP"
+        //                             className="form-control"
+        //                           >
+        //                             <option value="DYP"> DYP </option>
+        //                           </select>
+        //                         </div>
+        //                       </div>
+        //                     </div>
+
+        //                     <div className="form-row">
+        //                       <div className="col-6">
+        //                         <button
+        //                           disabled={!is_connected}
+        //                           title={claimTitle}
+        //                           className="btn  btn-primary btn-block l-outline-btn"
+        //                           type="submit"
+        //                         >
+        //                           CLAIM
+        //                         </button>
+        //                       </div>
+        //                       <div className="col-6">
+        //                         <button
+        //                           disabled={!is_connected}
+        //                           onClick={(e) => {
+        //                             e.preventDefault();
+        //                             this.handleClaimDyp();
+        //                           }}
+        //                           title={claimTitle}
+        //                           className="btn  btn-primary btn-block l-outline-btn"
+        //                           type="submit"
+        //                         >
+        //                           CLAIM
+        //                         </button>
+        //                       </div>
+        //                     </div>
+
+        //                   </form>
+        //                 </div>
+        //               </div>
+        //               <div className="col-12">
+        //                 <div className="l-box">
+        //                   <form onSubmit={(e) => e.preventDefault()}>
+        //                     <div className="form-group">
+        //                       <label
+        //                         htmlFor="deposit-amount"
+        //                         className="d-block text-left"
+        //                       >
+        //                         RETURN CALCULATOR
+        //                       </label>
+        //                       <div className="row">
+        //                         <div className="col">
+        //                           <label
+        //                             style={{
+        //                               fontSize: "1rem",
+        //                               fontWeight: "normal",
+        //                             }}
+        //                           >
+        //                             USD to Deposit
+        //                           </label>
+        //                           <input
+        //                             className="form-control "
+        //                             value={
+        //                               Number(this.state.approxDeposit) > 0
+        //                                 ? this.state.approxDeposit *
+        //                                   LP_AMPLIFY_FACTOR
+        //                                 : this.state.approxDeposit
+        //                             }
+        //                             onChange={(e) =>
+        //                               this.setState({
+        //                                 approxDeposit:
+        //                                   Number(e.target.value) > 0
+        //                                     ? e.target.value / LP_AMPLIFY_FACTOR
+        //                                     : e.target.value,
+        //                               })
+        //                             }
+        //                             placeholder="0"
+        //                             type="text"
+        //                           />
+        //                         </div>
+        //                         <div className="col">
+        //                           <label
+        //                             style={{
+        //                               fontSize: "1rem",
+        //                               fontWeight: "normal",
+        //                             }}
+        //                           >
+        //                             Days
+        //                           </label>
+        //                           <input
+        //                             className="form-control "
+        //                             value={this.state.approxDays}
+        //                             onChange={(e) =>
+        //                               this.setState({
+        //                                 approxDays: e.target.value,
+        //                               })
+        //                             }
+        //                             type="text"
+        //                           />
+        //                         </div>
+        //                       </div>
+        //                     </div>
+        //                     <p>
+        //                       Approx. $
+        //                       {getFormattedNumber(this.getApproxReturnUSD(), 2)}{" "}
+        //                       USD (
+        //                       {getFormattedNumber(
+        //                         this.getApproxReturnUSD() / this.getUsdPerETH(),
+        //                         6
+        //                       )}{" "}
+        //                       WAVAX)
+        //                     </p>
+        //                   </form>
+        //                 </div>
+        //               </div>
+        //             </div>
+        //           </div>
+        //           <div className="col-lg-6">
+        //             <div className="l-box pl-3 pr-3">
+        //               <div className="table-responsive container">
+        //                 <div className="row" style={{ marginLeft: "0px" }}>
+        //                   <label
+        //                     className="col-md-8 d-block text-left"
+        //                     style={{
+        //                       fontSize: "1.1rem",
+        //                       fontWeight: "600",
+        //                       padding: ".3rem",
+        //                     }}
+        //                   >
+        //                     MY STATS
+        //                   </label>
+        //                   <div className="col-4">
+        //                     <NavLink
+        //                       rel="noopener noreferrer"
+        //                       to={"/staking-stats"}
+        //                     >
+        //                       {is_connected && (
+        //                         <button
+        //                           className="btn btn-sm btn-block btn-primary l-outline-btn"
+        //                           type="button"
+        //                         >
+        //                           VIEW ALL
+        //                         </button>
+        //                       )}
+        //                     </NavLink>
+        //                   </div>
+        //                 </div>
+        //                 <table className="table-stats table table-sm table-borderless">
+        //                   <tbody>
+
+        //                     <tr>
+        //                       <th>Contract Expiration</th>
+        //                       <td className="text-right">
+        //                         <strong>{expiration_time}</strong>
+        //                       </td>
+        //                     </tr>
+
+        //                     <tr>
+        //                       <th>My DYP Balance</th>
+        //                       <td className="text-right">
+        //                         <strong>{reward_token_balance}</strong>{" "}
+        //                         <small>DYP</small>
+        //                       </td>
+        //                     </tr>
+
+        //                     <tr>
+        //                       <th>MY LP Deposit</th>
+        //                       <td className="text-right">
+        //                         <strong>{myDepositedLpTokens}</strong>{" "}
+        //                         <small>iDYP/WAVAX</small>
+        //                       </td>
+        //                     </tr>
+        //                     <tr>
+        //                       <th>Total LP Deposited</th>
+        //                       <td className="text-right">
+        //                         <strong>{tvl}</strong> <small>iDYP/WAVAX</small>
+        //                       </td>
+        //                     </tr>
+        //                     <tr>
+        //                       <th>My DYP Deposit</th>
+        //                       <td className="text-right">
+        //                         <strong>{depositedTokensDYP}</strong>{" "}
+        //                         <small>DYP</small>
+        //                       </td>
+        //                     </tr>
+        //                     <tr>
+        //                       <th>Total DYP Deposited</th>
+        //                       <td className="text-right">
+        //                         <strong>{tvlConstantDYP}</strong>{" "}
+        //                         <small>DYP</small>
+        //                       </td>
+        //                     </tr>
+        //                     <tr>
+        //                       <th>My Share</th>
+        //                       <td className="text-right">
+        //                         <strong>{myShare}</strong> <small>%</small>
+        //                       </td>
+        //                     </tr>
+        //                     <tr>
+        //                       <th>Total Earned DYP</th>
+        //                       <td className="text-right">
+        //                         <strong>{totalEarnedTokens}</strong>{" "}
+        //                         <small>DYP</small>
+        //                       </td>
+        //                     </tr>
+        //                     <tr>
+        //                       <th>Total Earned WAVAX</th>
+        //                       <td className="text-right">
+        //                         <strong>{totalEarnedEth}</strong>{" "}
+        //                         <small>WAVAX</small>
+        //                       </td>
+        //                     </tr>
+        //                     <tr>
+        //                       <th>To be Swapped</th>
+        //                       <td className="text-right">
+        //                         <strong>{tokensToBeSwapped}</strong>{" "}
+        //                         <small>iDYP</small>
+        //                       </td>
+        //                     </tr>
+        //                     <tr>
+        //                       <th>To be burnt / disbursed</th>
+        //                       <td className="text-right">
+        //                         <strong>{tokensToBeDisbursedOrBurnt}</strong>{" "}
+        //                         <small>iDYP</small>
+        //                       </td>
+        //                     </tr>
+
+        //                     <tr>
+        //                       <th>TVL USD</th>
+        //                       <td className="text-right">
+        //                         <strong>${tvl_usd}</strong> <small>USD</small>
+        //                       </td>
+        //                     </tr>
+        //                     {isOwner && (
+        //                       <tr>
+        //                         <th>Total Stakers</th>
+        //                         <td className="text-right">
+        //                           <strong>{total_stakers}</strong>{" "}
+        //                           <small></small>
+        //                         </td>
+        //                       </tr>
+        //                     )}
+
+        //                     {is_connected && (
+        //                       <tr>
+        //                         <td
+        //                           style={{
+        //                             fontSize: "1rem",
+        //                             paddingTop: "2rem",
+        //                           }}
+        //                           colSpan="2"
+        //                           className="text-center"
+        //                         >
+        //                            <a
+        //                             target="_blank"
+        //                             rel="noopener noreferrer"
+        //                             href={`${window.config.etherscan_baseURL}/address/${staking._address}`}
+        //                           >
+        //                             View Transaction History on SnowTrace
+        //                           </a>{" "}
+        //                           &nbsp;{" "}
+        //                           <i
+        //                             style={{ fontSize: ".8rem" }}
+        //                             className="fas fa-external-link-alt"
+        //                           ></i>
+        //                         </td>
+        //                       </tr>
+        //                     )}
+
+        //                     {isOwner && (
+        //                       <tr>
+        //                         <td
+        //                           style={{ fontSize: "1rem" }}
+        //                           colSpan="2"
+        //                           className="text-center"
+        //                         >
+        //                           <a
+        //                             onClick={this.handleListDownload}
+        //                             target="_blank"
+        //                             rel="noopener noreferrer"
+        //                             href="#"
+        //                           >
+        //                             <i
+        //                               style={{ fontSize: ".8rem" }}
+        //                               className="fas fa-download"
+        //                             ></i>{" "}
+        //                             Download Stakers List{" "}
+        //                           </a>
+        //                         </td>
+        //                       </tr>
+        //                     )}
+        //                   </tbody>
+        //                 </table>
+        //               </div>
+        //             </div>
+        //           </div>
+        //         </div>
+
+        //       </div>
+        //     </div>
+        //   </div>
+        // </div>
       );
     }
   }
