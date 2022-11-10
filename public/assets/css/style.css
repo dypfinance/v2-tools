@@ -4174,9 +4174,13 @@ flex-direction: column;
 gap: 10px;
 width: 403px;
 /* min-height: 396px; */
-height: auto;
+height: fit-content;
 margin: auto;
-
+position: absolute;
+top: 0;
+bottom: 0;
+right: 0;
+left: 0;
 }
 
 .theme-dark .modal-footer {

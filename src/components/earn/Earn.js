@@ -5,6 +5,7 @@ import EarnFaq from "./EarnFaq/EarnFaq";
 import EarnHero from "./EarnHero/EarnHero";
 import calculatorIcon from '../../assets/earnAssets/calculator.svg'
 import Calculator from "../calculator/Calculator";
+import PoolsCalculator from "../pools-calculator/PoolsCalculator";
 const Earn = ({coinbase, the_graph_result, lp_id, isConnected, network, handleConnection}) => {
 
   const [showCalculator, setShowCalculator] = useState(false)
@@ -29,7 +30,7 @@ const Earn = ({coinbase, the_graph_result, lp_id, isConnected, network, handleCo
       <div className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white" onClick={() => setShowCalculator(true)}>
         <img src={calculatorIcon} alt="" style={{width: 30, height: 30}} /> Calculator
       </div>
-      {showCalculator && <Calculator earnClass='earn-calculator' onClose={() => setShowCalculator(false)} />}
+      {showCalculator && <PoolsCalculator onClose={() => setShowCalculator(false)}/>}
     </div>
   );
 };

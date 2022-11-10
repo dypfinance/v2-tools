@@ -15,7 +15,7 @@ export default function Address(props) {
           props.token ? "token" : "address"
         }/${props.a}`}
       >
-        {props.a.slice(0, 7) + "..." + props.a.slice(props.a.length - 5)}
+        {props.a?.slice(0, 7) + "..." + props.a.slice(props.a.length - 5)}
       </a>
       <Clipboard
         component="span"

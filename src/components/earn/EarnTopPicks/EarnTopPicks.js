@@ -11,6 +11,7 @@ import initConstantStakingiDYP from "../../FARMINNG/constant-staking-idyp-new-fr
 import initVaultNew from "../../FARMINNG/vault-new";
 
 import { FadeLoader } from "react-spinners";
+import PoolsCalculator from "../../pools-calculator/PoolsCalculator";
 
 const EarnTopPicks = ({
   topList,
@@ -425,7 +426,33 @@ const EarnTopPicks = ({
             ))}
           </div>
 
-          {activeCard && topList === "Farming" ? (
+         
+        </div>
+      ) : (
+        <div className="list-pools-container px-0">
+          {topPools.map((pool, index) => (
+            <TopPoolsListCard
+              key={index}
+              chain={chain}
+              top_pick={pool.top_pick}
+              tokenName={pool.tokenName}
+              apr={pool.apy + "%"}
+              tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+              lockTime={pool.lockTime ? pool.lockTime : "No Lock"}
+              cardType={topList}
+              tokenLogo={pool.icon}
+              onShowDetailsClick={() => {
+                setActiveCard(topPools[index]);
+                handleCardIndexStake(index);
+              }}
+              onHideDetailsClick={() => {
+                setActiveCard(null);
+              }}
+            />
+          ))}
+        </div>
+      )}
+       {activeCard && topList === "Farming" ? (
             <StakingNew1
               is_wallet_connected={isConnected}
               coinbase={coinbase}
@@ -470,28 +497,6 @@ const EarnTopPicks = ({
               the_graph_result={the_graph_result}
             />
           ) : <></>}
-        </div>
-      ) : (
-        <div className="list-pools-container px-0">
-          {topPools.map((pool, index) => (
-            <TopPoolsListCard
-              key={index}
-              chain={chain}
-              top_pick={pool.top_pick}
-              tokenName={pool.tokenName}
-              apr={pool.apy + "%"}
-              tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-              lockTime={pool.lockTime ? pool.lockTime : "No Lock"}
-              cardType={topList}
-              tokenLogo={pool.icon}
-              onDetailsClick={() => {
-                setShowDetails(!showDetails);
-              }}
-              showDetails={showDetails}
-            />
-          ))}
-        </div>
-      )}
     </div>
   ) : (
     // <>
