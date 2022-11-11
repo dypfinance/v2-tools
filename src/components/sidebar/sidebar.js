@@ -21,6 +21,7 @@ import toolsLogoActive from "../../assets/sidebarIcons/toolsLogoActive.svg";
 import accordionIndicator from "../../assets/sidebarIcons/accordionIndicator.svg";
 import sidebarDypius from '../../assets/sidebarDypius.svg'
 import './sidebar.css'
+import navRadius from '../../assets/navRadius.svg'
 
 const activateLasers = () => {
   window.$.alert("Coming Soon!");
@@ -154,6 +155,148 @@ const Sidebar = (props) => {
   // sidebar?.addEventListener("mouseleave", closeSidebar);
 
   return (
+
+
+    <div
+      id="sidebar"
+      className={`testbar ${
+        activeSidebar ? "testbar-open" : null
+      } d-flex flex-column justify-content-start align-items-start py-5`}
+    >
+      {/* <img src={navRadius} className="nav-radius" alt="" /> */}
+      <div className="d-flex w-100 justify-content-center align-items-center pb-5">
+        <NavLink to='/'>
+        <img
+          src={activeSidebar ? toolsLogoActive : toolsLogo}
+          alt=""
+          style={{ height: "40px" }}
+        /></NavLink>
+      </div>
+      <div
+        className={`sidebar-container w-100 justify-content-center ${
+          activeSidebar ? "align-items-start" : "align-items-center"
+        } d-flex flex-column gap-4`}
+        style={{ gap: 35 }}
+      >
+        {sidebarItems.map((sideItem, index) =>
+          sideItem.children?.length > 0 ? (
+            <div className="accordion" id="accordionExample" 
+            key={index}
+            >
+              <div
+                data-bs-toggle="collapse"
+                data-bs-target={`#collapse${sideItem.label}`}
+                aria-expanded="true"
+                aria-controls={`collapse${sideItem.label}`}
+                id={`heading${sideItem.label}`}
+                className={`sidebar-item p-2 d-flex ${
+                  activeSidebar
+                    ? "active-width justify-content-start ms-4"
+                    : "justify-content-center"
+                } align-items-center ${
+                  activeLink === sideItem.label ? "active-side-link" : null
+                }`}
+                onClick={() => setActiveLink(sideItem.label)}
+                onMouseEnter={() => setHover(sideItem.label)}
+                onMouseLeave={() => setHover(null)}
+              >
+                <img
+                  src={
+                    require(`../../assets/sidebarIcons/${
+                      activeLink === sideItem.label || hover === sideItem.label
+                        ? sideItem.icon + "Active.svg"
+                        : sideItem.icon + ".svg"
+                    }`).default
+                  }
+                  alt=""
+                  style={{ width: 32, height: 32 }}
+                />
+                {activeSidebar && (
+                  <div className="d-flex w-100 flex-row align-items-center justify-content-between">
+                    <h3
+                      className={
+                        activeLink === sideItem.label ||
+                        hover === sideItem.label
+                          ? "active-text"
+                          : "sideitem-text"
+                      }
+                    >
+                      {sideItem.label}
+                    </h3>
+                    <img src={accordionIndicator} alt="indicator" id="indicator"  />
+                  </div>
+                )}
+              </div>
+              <div
+                id={`collapse${sideItem.label}`}
+                className="accordion-collapse collapse"
+                aria-labelledby={`heading${sideItem.label}`}
+                data-bs-parent="#accordionExample"
+              >
+                {activeSidebar ? (
+                  <div className="accordion-container d-flex flex-column ms-5 py-3">
+                    {sideItem.children.map((child, index) => (
+                     <NavLink key={index} to={child.link}  className={isActive => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
+                      {child.title}
+                     </NavLink>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          ) : (
+           sideItem.link?.length > 0 &&
+           <NavLink to={sideItem.link}>
+            <div
+           key={index}
+           id={sideItem.label}
+           className={`sidebar-item p-2 d-flex ${
+             activeSidebar
+               ? "active-width justify-content-start ms-4"
+               : "justify-content-center"
+           } align-items-center ${
+             activeLink === sideItem.label ? "active-side-link" : null
+           }`}
+           onClick={() => setActiveLink(sideItem.label)}
+           onMouseEnter={() => setHover(sideItem.label)}
+           onMouseLeave={() => setHover(null)}
+         >
+           <img
+             src={
+               require(`../../assets/sidebarIcons/${
+                 activeLink === sideItem.label || hover === sideItem.label
+                   ? sideItem.icon + "Active.svg"
+                   : sideItem.icon + ".svg"
+               }`).default
+             }
+             alt=""
+             style={{ width: 32, height: 32 }}
+           />
+           {activeSidebar && (
+             <h3
+               className={
+                 activeLink === sideItem.label || hover === sideItem.label
+                   ? "active-text"
+                   : "sideitem-text"
+               }
+             >
+               {sideItem.label}
+             </h3>
+           )}
+         </div>
+           </NavLink>
+          )
+        )}
+      </div>
+      <div className="dypius-link d-flex w-100 justify-content-center align-items-center mt-5">
+        <a href="https://lorenadev.dyp.finance/" target="_blank" rel="noreferrer" className="dypius-button d-flex justify-content-center align-items-center gap-2">
+        <img src={sidebarDypius} alt="" />
+        {activeSidebar &&
+          <span style={{color: '#8E97CD', fontWeight: '500', fontSize: '17px'}}>Dypius.com</span>
+        }
+        </a>
+      </div>
+    </div>
     // <div
     //   onClick={props.toggleMobileSidebar}
     //   className={`sidebar ${props.isOpenInMobile ? "open" : ""}`}
@@ -624,145 +767,7 @@ const Sidebar = (props) => {
     //     )}
     //   </div>
     // </div>
-    <div
-      id="sidebar"
-      className={`testbar ${
-        activeSidebar ? "testbar-open" : null
-      } d-flex flex-column justify-content-start align-items-start py-5`}
-    >
-      <div className="d-flex w-100 justify-content-center align-items-center pb-5">
-        <NavLink to='/'>
-        <img
-          src={activeSidebar ? toolsLogoActive : toolsLogo}
-          alt=""
-          style={{ height: "40px" }}
-        /></NavLink>
-      </div>
-      <div
-        className={`sidebar-container w-100 justify-content-center ${
-          activeSidebar ? "align-items-start" : "align-items-center"
-        } d-flex flex-column gap-4`}
-        style={{ gap: 35 }}
-      >
-        {sidebarItems.map((sideItem, index) =>
-          sideItem.children?.length > 0 ? (
-            <div className="accordion" id="accordionExample" 
-            key={index}
-            >
-              <div
-                data-bs-toggle="collapse"
-                data-bs-target={`#collapse${sideItem.label}`}
-                aria-expanded="true"
-                aria-controls={`collapse${sideItem.label}`}
-                id={`heading${sideItem.label}`}
-                className={`sidebar-item p-2 d-flex ${
-                  activeSidebar
-                    ? "active-width justify-content-start ms-4"
-                    : "justify-content-center"
-                } align-items-center ${
-                  activeLink === sideItem.label ? "active-side-link" : null
-                }`}
-                onClick={() => setActiveLink(sideItem.label)}
-                onMouseEnter={() => setHover(sideItem.label)}
-                onMouseLeave={() => setHover(null)}
-              >
-                <img
-                  src={
-                    require(`../../assets/sidebarIcons/${
-                      activeLink === sideItem.label || hover === sideItem.label
-                        ? sideItem.icon + "Active.svg"
-                        : sideItem.icon + ".svg"
-                    }`).default
-                  }
-                  alt=""
-                  style={{ width: 32, height: 32 }}
-                />
-                {activeSidebar && (
-                  <div className="d-flex w-100 flex-row align-items-center justify-content-between">
-                    <h3
-                      className={
-                        activeLink === sideItem.label ||
-                        hover === sideItem.label
-                          ? "active-text"
-                          : "sideitem-text"
-                      }
-                    >
-                      {sideItem.label}
-                    </h3>
-                    <img src={accordionIndicator} alt="indicator" id="indicator"  />
-                  </div>
-                )}
-              </div>
-              <div
-                id={`collapse${sideItem.label}`}
-                className="accordion-collapse collapse"
-                aria-labelledby={`heading${sideItem.label}`}
-                data-bs-parent="#accordionExample"
-              >
-                {activeSidebar ? (
-                  <div className="accordion-container d-flex flex-column ms-5 py-3">
-                    {sideItem.children.map((child, index) => (
-                     <NavLink key={index} to={child.link}  className={isActive => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
-                      {child.title}
-                     </NavLink>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          ) : (
-           sideItem.link?.length > 0 &&
-           <NavLink to={sideItem.link}>
-            <div
-           key={index}
-           id={sideItem.label}
-           className={`sidebar-item p-2 d-flex ${
-             activeSidebar
-               ? "active-width justify-content-start ms-4"
-               : "justify-content-center"
-           } align-items-center ${
-             activeLink === sideItem.label ? "active-side-link" : null
-           }`}
-           onClick={() => setActiveLink(sideItem.label)}
-           onMouseEnter={() => setHover(sideItem.label)}
-           onMouseLeave={() => setHover(null)}
-         >
-           <img
-             src={
-               require(`../../assets/sidebarIcons/${
-                 activeLink === sideItem.label || hover === sideItem.label
-                   ? sideItem.icon + "Active.svg"
-                   : sideItem.icon + ".svg"
-               }`).default
-             }
-             alt=""
-             style={{ width: 32, height: 32 }}
-           />
-           {activeSidebar && (
-             <h3
-               className={
-                 activeLink === sideItem.label || hover === sideItem.label
-                   ? "active-text"
-                   : "sideitem-text"
-               }
-             >
-               {sideItem.label}
-             </h3>
-           )}
-         </div>
-           </NavLink>
-          )
-        )}
-      </div>
-      <div className="dypius-link d-flex w-100 justify-content-center align-items-center mt-5">
-        <a href="https://lorenadev.dyp.finance/" target="_blank" rel="noreferrer" className="dypius-button d-flex justify-content-center align-items-center gap-2">
-        <img src={sidebarDypius} alt="" />
-        {activeSidebar &&
-          <span style={{color: '#8E97CD', fontWeight: '500', fontSize: '17px'}}>Dypius.com</span>
-        }
-        </a>
-      </div>
-    </div>
+    
   );
 };
 

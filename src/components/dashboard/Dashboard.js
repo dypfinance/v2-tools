@@ -78,7 +78,7 @@ import { NavLink } from "react-router-dom";
   return (
     <div className="container-lg dashboardwrapper px-0">
       <div className="d-flex m-0 justify-content-between gap-3">
-        <div className="d-flex flex-column gap-3 justify-content-between main-dashboard-container p-4">
+        <div className="d-flex flex-column gap-3 justify-content-between">
           <div className="d-flex m-0 gap-3 justify-content-between">
             <Calculator />
             <div
@@ -93,9 +93,9 @@ import { NavLink } from "react-router-dom";
             </div>
           </div>
           <div>
-            <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-4">
+            <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-2">
               <h6 className="top-pools-title">Top Pools</h6>
-              <h6 className="view-more-title">
+              <h6 className="view-more-title  d-flex justify-content-center align-items-center gap-1">
                 View all <img src={rightarrow} alt="" />{" "}
 
               </h6>
@@ -139,9 +139,9 @@ import { NavLink } from "react-router-dom";
 
             </div>
           </div>
-          <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-4 pt-4">
+          <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pt-2">
             <h6 className="top-pools-title">News</h6>
-            <NavLink className="view-more-title" to='/news' style={{color: '#7770e0'}}>
+            <NavLink className="view-more-title d-flex justify-content-center align-items-center gap-1" to='/news'>
             View all <img src={rightarrow} alt="" /> 
           </NavLink>
           </div>
@@ -164,11 +164,11 @@ import { NavLink } from "react-router-dom";
           </div>
         </div>
         <div className="d-flex flex-column gap-3">
-          <ChainlinkCard />
           <div className="d-flex flex-column gap-2">
             <h6 className="header">Launchpad</h6>
             <LaunchpadCard />
           </div>
+          <ChainlinkCard />
           <div className="d-flex flex-column gap-2">
             <h6 className="header">FAQs</h6>
             <FaqCard />

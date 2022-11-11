@@ -1,6 +1,6 @@
 .chainlink-wrapper {
-  background-color: #26264f;
-  background-image: url('./assets/chainlinkbg.png');
+  background-color: #312F69;
+  /* background-image: url('./assets/chainlinkbg.png'); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -30,7 +30,7 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 22px;
 }
 
 .totalpaidtxt {

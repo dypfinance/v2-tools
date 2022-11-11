@@ -13,6 +13,7 @@ import { shortAddress } from "../../functions/shortAddress";
 import ellipse from "./assets/ellipse.svg";
 import user from "./assets/user.svg";
 import logoutimg from "./assets/logout.svg";
+import walletIcon from './assets/walletIcon.svg'
 import WalletModal from "../WalletModal";
 
 const Header = ({
@@ -177,11 +178,11 @@ const Header = ({
 
   return (
     <>
-      <header className="header-wrap " style={{ zIndex: 5 }}>
-        <div className="container-lg d-flex m-0 justify-content-between gap-3 align-items-center w-100">
+      <header className="header-wrap" style={{ zIndex: 5 }}>
+        <div className="container-lg d-flex justify-content-between gap-3 align-items-center w-100" style={{marginLeft: '240px'}}>
           <div className="d-flex flex-column gap-2 text-start">
-            <h4 className="text-white">Good morning, Dwight</h4>
-            <span className="text-white headerdesc">Good morning, Stewie</span>
+            <h4 className="text-white" style={{fontSize: '23px', fontWeight: '600'}}>Good morning, Dwight</h4>
+            <span className="text-white headerdesc">Discover the latest trends, breaking news and immersive dApps</span>
           </div>
           <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
             <a
@@ -193,7 +194,7 @@ const Header = ({
               }
               target={'_blank'} rel="noreferrer"
             >
-              <img src={coin} alt="" /> Buy
+              <img src={coin} alt="" /> Buy DYP
             </a>
             <div className="d-flex justify-content-between gap-3 align-items-center">
               <DropdownButton
@@ -207,10 +208,10 @@ const Header = ({
                       alt=""
                     />
                     {ethState === true
-                      ? "ETH"
+                      ? "Ethereum"
                       : bnbState === true
-                      ? "BNB"
-                      : "AVAX"}
+                      ? "BNB Chain"
+                      : "Avalanche"}
                     <img src={dropdown} alt="" />
                   </span>
                 }
@@ -248,14 +249,14 @@ const Header = ({
                     {checklogout === "false" ? (
                       shortAddress(coinbase)
                     ) : (
-                      <span className="d-flex align-items-center connecttitle">
-                        Connect
+                      <span className="d-flex align-items-center gap-2 connecttitle position-relative" style={{bottom: '5px'}}>
                         <img
-                          src={ellipse}
+                          src={walletIcon}
                           alt=""
                           className="position-relative"
-                          style={{ top: 4 }}
+                          // style={{ top: 4 }}
                         />
+                        Connect Wallet
                       </span>
                     )}
                     {checklogout === "false" && <img src={dropdown} alt="" />}

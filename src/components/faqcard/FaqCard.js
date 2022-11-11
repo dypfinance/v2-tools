@@ -1,5 +1,5 @@
 import React from "react";
-import faqlogo from './assets/faqlogo.svg'
+import faqlogo from './assets/faqLogo.svg'
 import rightlogo from './assets/rightlogo.svg'
 import './faqcard.css'
 

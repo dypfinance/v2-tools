@@ -1,10 +1,11 @@
 .headerdesc {
   font-style: normal;
   font-weight: 400;
-  font-size: 10px;
+  font-size: 15px;
   line-height: 15px;
   letter-spacing: -0.018em;
-  opacity: 0.4;
+  /* opacity: 0.4; */
+  color: #D6D8E7 !important;
 }
 
 .buydyp-btn {
@@ -15,14 +16,14 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;
-  color: #8e97cd;
+  color: #2A2859;
   box-shadow: 0 0 6px 0 rgba(157, 96, 212, 0.5);
   border: solid 3px transparent;
   background-image: linear-gradient(
       rgba(255, 255, 255, 0),
       rgba(255, 255, 255, 0)
     ),
-    linear-gradient(272.84deg, #514bca 0%, rgba(119, 112, 224, 0.2) 100%);
+    linear-gradient(90.74deg, #70B8E0 0%, #4F75D8 100%);
   background-origin: border-box;
   background-clip: content-box, border-box;
   box-shadow: 2px 1000px 1px #554fd800 inset;
@@ -37,7 +38,7 @@
   border-radius: 8px;
   height: 34px;
   padding: 8px;
-  width: 84px;
+  /* width: 84px; */
   height: 34px;
   border: 1px solid #7770e0 !important;
 }
@@ -88,7 +89,7 @@
 }
 
 #dropdown-basic-button2 {
-  background: rgba(117, 202, 194, 0.2) !important;
+  background: #2A2859 !important;
   border-radius: 8px;
   border-color: #57b6ab !important;
   width: fit-content;

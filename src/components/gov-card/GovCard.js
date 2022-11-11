@@ -20,8 +20,8 @@ const GovCard = () => {
           </h6>
         </div>
         <div className="">
-          <h6 className="govcard-btntext d-flex justify-content-between gap-2 align-items-center">
-            Go now <img src={filledArrow} alt="" />
+          <h6 className="govcard-btntext d-flex justify-content-end gap-2 align-items-center">
+            <img src={filledArrow} alt="" />
           </h6>
         </div>
       </div>
