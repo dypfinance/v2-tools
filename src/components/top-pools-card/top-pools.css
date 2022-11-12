@@ -149,7 +149,7 @@
 
 .otherside-border {
   background: transparent;
-  border: 1px solid #3b3c68;
+  /* border: 1px solid #3b3c68; */
   border-radius: 8px;
   display: flex;
   flex-direction: column;
