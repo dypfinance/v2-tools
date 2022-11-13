@@ -55,6 +55,7 @@ export default function initConstantStakingNew({
   chainId,
   handleConnection,
   lockTime,
+  coinbase
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -415,7 +416,7 @@ export default function initConstantStakingNew({
       this.setState({ claimLoading: true });
       this.setState({ claimStatus: "claim" });
 
-      let address = this.state.coinbase;
+      let address = this.props.coinbase;
       let amount = await staking.getTotalPendingDivs(address);
 
       let router = await window.getUniswapRouterContract();
@@ -488,7 +489,7 @@ export default function initConstantStakingNew({
     };
 
     refreshBalance = async () => {
-      let coinbase = this.state.coinbase;
+      let coinbase = this.props.coinbase;
 
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
@@ -543,14 +544,14 @@ export default function initConstantStakingNew({
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
-        let _bal = reward_token.balanceOf(coinbase);
-        let _pDivs = staking.getTotalPendingDivs(coinbase);
-        let _tEarned = staking.totalEarnedTokens(coinbase);
-        let _stakingTime = staking.stakingTime(coinbase);
-        let _dTokens = staking.depositedTokens(coinbase);
-        let _lClaimTime = staking.lastClaimedTime(coinbase);
+        let _bal = reward_token.balanceOf(this.props.coinbase);
+        let _pDivs = staking.getTotalPendingDivs(this.props.coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
+        let _stakingTime = staking.stakingTime(this.props.coinbase);
+        let _dTokens = staking.depositedTokens(this.props.coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
         let _tvl = reward_token.balanceOf(staking._address);
-        let _rFeeEarned = staking.totalReferralFeeEarned(coinbase);
+        let _rFeeEarned = staking.totalReferralFeeEarned(this.props.coinbase);
         let tStakers = staking.getNumberOfHolders();
 
         //Take iDYP Balance on Staking
@@ -655,7 +656,7 @@ export default function initConstantStakingNew({
         window.location.origin +
         window.location.pathname +
         "?r=" +
-        this.state.coinbase
+        this.props.coinbase
       );
     };
 
@@ -1177,19 +1178,9 @@ export default function initConstantStakingNew({
                       style={{ height: "fit-content" }}
                       onClick={
                         this.handleReinvest
-                        // this.clickreInvest
                       }
                     >
-                      {/* {this.state.reInvestLoading && this.state.claimStatus === 'invest' ? (
-                        <div
-                          class="spinner-border spinner-border-sm text-light"
-                          role="status"
-                        >
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      ) : (
-                        <>Reinvest</>
-                      )} */}
+                     
 
                       {this.state.reInvestLoading &&
                       this.state.reInvestStatus === "invest" ? (

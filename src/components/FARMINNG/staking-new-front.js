@@ -53,6 +53,7 @@ export default function initStakingNew({
   chainId,
   handleConnection,
   lockTime,
+  coinbase
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -325,7 +326,7 @@ export default function initStakingNew({
 
       let selectedTokenBalance = await window.getTokenHolderBalance(
         tokenAddress,
-        this.state.coinbase
+        this.props.coinbase
       );
       this.setState({ selectedTokenBalance });
     };
@@ -451,7 +452,7 @@ export default function initStakingNew({
     };
 
     handleWithdrawDyp = async () => {
-      let amountConstant = await constant.depositedTokens(this.state.coinbase);
+      let amountConstant = await constant.depositedTokens(this.props.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
       this.setState({ withdrawLoading: true });
 
@@ -480,12 +481,12 @@ export default function initStakingNew({
       // e.preventDefault();
       this.setState({ withdrawLoading: true });
 
-      let amountConstant = await constant.depositedTokens(this.state.coinbase);
+      let amountConstant = await constant.depositedTokens(this.props.coinbase);
       amountConstant = new BigNumber(amountConstant).toFixed(0);
 
       let withdrawAsToken = this.state.selectedBuybackTokenWithdraw;
 
-      let amountBuyback = await staking.depositedTokens(this.state.coinbase);
+      let amountBuyback = await staking.depositedTokens(this.props.coinbase);
 
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
@@ -585,7 +586,7 @@ export default function initStakingNew({
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      let address = this.state.coinbase;
+      let address = this.props.coinbase;
       this.setState({ claimLoading: true });
 
       let amount = await constant.getTotalPendingDivs(address);
@@ -658,12 +659,12 @@ export default function initStakingNew({
     };
 
     refreshBalance = async () => {
-      //       let coinbase = this.props.coinbase;
+            let coinbase = this.props.coinbase;
 
-      //       if (window.coinbase_address) {
-      //         coinbase = window.coinbase_address;
-      //         this.setState({ coinbase });
-      //       }
+            if (window.coinbase_address) {
+              coinbase = window.coinbase_address;
+              this.setState({ coinbase });
+            }
       // console.log(window.coinbase_address)
       let lp_data = this.props.the_graph_result.lp_data;
       let usd_per_dyps = 0.000001;
@@ -687,22 +688,22 @@ export default function initStakingNew({
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
-        let _bal = token.balanceOf(this.state.coinbase);
+        let _bal = token.balanceOf(this.props.coinbase);
 
-        let _rBal = reward_token.balanceOf(this.state.coinbase);
-        let _pDivs = staking.getPendingDivs(this.state.coinbase);
+        let _rBal = reward_token.balanceOf(this.props.coinbase);
+        let _pDivs = staking.getPendingDivs(this.props.coinbase);
 
-        let _pDivsEth = staking.getPendingDivsEth(this.state.coinbase);
+        let _pDivsEth = staking.getPendingDivsEth(this.props.coinbase);
 
-        let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
 
-        let _tEarnedEth = staking.totalEarnedEth(this.state.coinbase);
+        let _tEarnedEth = staking.totalEarnedEth(this.props.coinbase);
 
-        let _stakingTime = staking.depositTime(this.state.coinbase);
+        let _stakingTime = staking.depositTime(this.props.coinbase);
 
-        let _dTokens = staking.depositedTokens(this.state.coinbase);
+        let _dTokens = staking.depositedTokens(this.props.coinbase);
 
-        let _lClaimTime = staking.lastClaimedTime(this.state.coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
 
         let _tvl = token.balanceOf(staking._address); //not 0
 
@@ -721,10 +722,10 @@ export default function initStakingNew({
           staking._address
         ); /* TVL of iDYP on Farming */
 
-        let _dTokensDYP = constant.depositedTokens(this.state.coinbase);
+        let _dTokensDYP = constant.depositedTokens(this.props.coinbase);
 
         let _pendingDivsStaking = constant.getTotalPendingDivs(
-          this.state.coinbase
+          this.props.coinbase
         );
 
         //not 0
@@ -877,7 +878,7 @@ export default function initStakingNew({
       try {
         let selectedTokenBalance = await window.getTokenHolderBalance(
           this.state.selectedBuybackToken,
-          this.state.coinbase
+          this.props.coinbase
         );
         this.setState({ selectedTokenBalance });
       } catch (e) {

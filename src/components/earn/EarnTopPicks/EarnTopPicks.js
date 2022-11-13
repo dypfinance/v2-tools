@@ -10,6 +10,12 @@ import initConstantStakingNew from "../../FARMINNG/constant-staking-new-front";
 import initConstantStakingiDYP from "../../FARMINNG/constant-staking-idyp-new-front";
 import initVaultNew from "../../FARMINNG/vault-new";
 import initFarmAvax from "../../FARMINNG/farmAvax";
+import stakeAvax from "../../FARMINNG/stakeAvax";
+import avaxBuyback from "../../FARMINNG/avaxBuyback";
+
+import stakeAvax30 from "../../FARMINNG/stakeAvax30";
+import stakeAvax3 from "../../FARMINNG/stakeAvax3";
+import stakeAvaxiDyp from "../../FARMINNG/stakeAvaxiDyp";
 
 import { FadeLoader } from "react-spinners";
 import PoolsCalculator from "../../pools-calculator/PoolsCalculator";
@@ -25,6 +31,7 @@ const EarnTopPicks = ({
   chainId,
   handleConnection,
   the_graph_resultavax,
+  referrer,
 }) => {
   const stake = [
     {
@@ -74,6 +81,30 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 days",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
     },
   ];
 
@@ -195,9 +226,12 @@ const EarnTopPicks = ({
   const [activeCard, setActiveCard] = useState();
   const [cardIndex, setcardIndex] = useState();
   const [cardIndexiDyp, setcardIndexiDyp] = useState();
+  const [cardIndexavax30, setcardIndexavax30] = useState();
+  const [cardIndexavaxiDyp, setcardIndexavaxiDyp] = useState();
 
   const eth_address = "ETH";
   const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
+  const avax_address = "AVAX";
 
   const { rebase_factors, rebase_factorsavax } = window;
 
@@ -226,8 +260,8 @@ const EarnTopPicks = ({
   ];
 
   const stakeArrayStakeNew = [
-    window.constant_staking_new1,
-    window.constant_staking_new2,
+    window.constant_staking_neweth1,
+    window.constant_staking_neweth2,
   ];
 
   const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
@@ -294,7 +328,6 @@ const EarnTopPicks = ({
 
   const { LP_IDs_V2Avax } = window;
 
-
   const LP_IDAVAX_Array = [
     LP_IDs_V2Avax.wavax[0],
     LP_IDs_V2Avax.wavax[1],
@@ -302,7 +335,6 @@ const EarnTopPicks = ({
     LP_IDs_V2Avax.wavax[3],
     LP_IDs_V2Avax.wavax[4],
   ];
-
 
   const FarmAvax = initFarmAvax({
     token: window.token_newavax,
@@ -331,6 +363,103 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayBuyback[cardIndex],
+  });
+
+  const stakeArrayBuyBackAvax = [
+    window.buyback_stakingavax1_1,
+    window.buyback_stakingavax1_2,
+  ];
+  const constantArrayBuybackAvax = [
+    window.constant_stakingavax_new5,
+    window.constant_stakingavax_new6,
+  ];
+
+  const aprArrayBuyBackAvax = [30, 100];
+
+  const AvaxBuyback = avaxBuyback({
+    staking: stakeArrayBuyBackAvax[cardIndex],
+    constant: constantArrayBuybackAvax[cardIndex],
+    apr: aprArrayBuyBackAvax[cardIndex],
+    expiration_time: "6 December 2022",
+    fee: feeArrayBuyback[cardIndex],
+    coinbase: coinbase,
+    handleConnection: handleConnection,
+    chainId: chainId,
+    lockTime: lockarrayBuyback[cardIndex],
+  });
+
+  const aprarrayStakeAvax = [30, 10];
+  const feearrayStakeAvax = [3.5, 1];
+
+  const stakingarrayStakeAvax = [
+    window.constant_staking_new10,
+    window.constant_staking_new11,
+  ];
+
+  const aprarrayStakeAvax30 = [25, 50];
+  const feearrayStakeAvax30 = [0.25, 0.5];
+  const stakingarrayStakeAvax30 = [
+    window.constant_staking_newavax1,
+    window.constant_staking_newavax2,
+  ];
+
+  const StakeAvax = stakeAvax({
+    staking: stakingarrayStakeAvax[cardIndex],
+    apr: aprarrayStakeAvax[cardIndex],
+    liquidity: avax_address,
+    expiration_time: "6 December 2022",
+    fee: feearrayStakeAvax[cardIndex],
+    coinbase: coinbase,
+    chainId: chainId,
+    referrer: referrer,
+  });
+
+  const StakeAvax30 = stakeAvax30({
+    staking: stakingarrayStakeAvax30[cardIndexavax30],
+    apr: aprarrayStakeAvax30[cardIndexavax30],
+    liquidity: avax_address,
+    expiration_time: "6 December 2022",
+    fee: feearrayStakeAvax30[cardIndexavax30],
+    coinbase: coinbase,
+    chainId: chainId,
+  });
+
+  const StakeAvax3 = stakeAvax3({
+    staking: window.constant_stakingdaiavax,
+    apr: 25,
+    liquidity: avax_address,
+    expiration_time: "Expired",
+    coinbase: coinbase,
+    chainId: chainId,
+  });
+
+  const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
+  const feeSarrayStakeAvaxiDyp = [0, 0, 1, 3.5];
+  const feeUarrayStakeAvaxiDyp = [0.25, 0.25, 0, 0];
+  const otherinfoarrayStakeAvaxiDyp = [true, true, false, false];
+
+  const expirearrayStakeAvaxiDyp = [
+    "28 February 2023",
+    "28 February 2023",
+    "15 August 2023",
+    "15 August 2023",
+  ];
+
+  const stakingarrayStakeAvaxiDyp = [
+    window.constant_staking_idypavax_1,
+    window.constant_staking_idypavax_2,
+    window.constant_staking_idypavax_5,
+    window.constant_staking_idypavax_6,
+  ];
+
+  const StakeAvaxiDyp = stakeAvaxiDyp({
+    staking: stakingarrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    apr: aprarrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    liquidity: avax_address,
+    expiration_time: expirearrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    other_info: otherinfoarrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
   });
 
   const lockarray = ["No Lock", 90];
@@ -441,13 +570,36 @@ const EarnTopPicks = ({
       } else setcardIndex(index);
     } else setcardIndex(index);
   };
-  
+
+  const handleCardIndexStake30 = (index) => {
+    // console.log(index)
+
+    if (topList === "Staking" && chain === "avax") {
+      if (index >= 2) {
+        const newIndex = index - 2;
+        setcardIndexavax30(newIndex);
+        setcardIndex(index);
+      } else setcardIndex(index);
+    } else setcardIndex(index);
+  };
+
+  const handleCardIndexStakeiDyp = (index) => {
+    if (topList === "Staking" && chain === "avax") {
+      if (index >= 5) {
+        const newIndex = index - 5;
+        setcardIndexavaxiDyp(newIndex);
+        setcardIndex(index);
+      } else setcardIndex(index);
+    } else setcardIndex(index);
+  };
+
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (
         <div>
           <div className="top-picks-container">
             {topPools.map((pool, index) => (
+              
               <TopPoolsCard
                 key={index}
                 chain={chain}
@@ -460,6 +612,8 @@ const EarnTopPicks = ({
                 onShowDetailsClick={() => {
                   setActiveCard(topPools[index]);
                   handleCardIndexStake(index);
+                  handleCardIndexStake30(index);
+                  handleCardIndexStakeiDyp(index);
                 }}
                 onHideDetailsClick={() => {
                   setActiveCard(null);
@@ -491,16 +645,31 @@ const EarnTopPicks = ({
                 coinbase={coinbase}
               />
             )
-          ) : activeCard && topList === "Buyback" ? (
-            <BuybackStaking1
-              is_wallet_connected={isConnected}
-              coinbase={coinbase}
-              the_graph_result={the_graph_result}
-              lp_id={lp_id[cardIndex]}
-              chainId={chainId}
-              handleConnection={handleConnection}
-            />
-          ) : activeCard && topList === "Staking" && cardIndex < 2 ? (
+          ) : activeCard && topList === "Buyback" && chain === "eth" ? (
+             
+              <BuybackStaking1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) :  activeCard && topList === "Buyback" && chain === "avax" ? (
+              <AvaxBuyback
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                lp_id={LP_IDAVAX_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) :  activeCard && topList === "Buyback" && chain === "bnb" ? (
+              <></>
+            ) : activeCard &&
+            topList === "Staking" &&
+            cardIndex < 2 &&
+            chain === "eth" ? (
             <ConstantStaking1
               is_wallet_connected={isConnected}
               coinbase={coinbase}
@@ -509,7 +678,10 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
             />
-          ) : activeCard && cardIndex >= 2 && topList === "Staking" ? (
+          ) : activeCard &&
+            cardIndex >= 2 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
             <ConstantStakingiDYP1
               is_wallet_connected={isConnected}
               coinbase={coinbase}
@@ -517,6 +689,59 @@ const EarnTopPicks = ({
               lp_id={lp_id[cardIndex]}
               chainId={chainId}
               handleConnection={handleConnection}
+            />
+          ) : activeCard &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex < 2 ? (
+            <StakeAvax
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              handleConnection={handleConnection}
+              referrer={referrer}
+            />
+          ) : activeCard &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex >= 2 &&
+            cardIndex < 4 ? (
+            <StakeAvax30
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              handleConnection={handleConnection}
+              referrer={referrer}
+            />
+          ) : activeCard &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex === 4 ? (
+            <StakeAvax3
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              handleConnection={handleConnection}
+              referrer={referrer}
+            />
+          ) : activeCard &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex >= 5 ? (
+            <StakeAvaxiDyp
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              handleConnection={handleConnection}
+              referrer={referrer}
             />
           ) : activeCard && topList === "Vault" ? (
             <VaultCard
@@ -553,29 +778,6 @@ const EarnTopPicks = ({
       )}
     </div>
   ) : (
-    // <>
-    //   <div className="no-pools-container d-flex flex-column justify-content-center align-items-center  w-100 p-4">
-    //     <div className="col-6 d-flex flex-column justify-content-center align-items-center gap-2">
-    //       <img src={noPoolsIcon} alt="" />
-    //       <p
-    //         className="text-center"
-    //         style={{ color: "#F7F7FC", fontSize: "11px", fontWeight: "400" }}
-    //       >
-    //         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas id
-    //         massa ipsum. Donec quis neque pellentesque, fermentum elit ut,
-    //         ornare nulla. In s
-    //       </p>
-    //     </div>
-    //   </div>
-    //   <div className="no-pools-container d-flex flex-column justify-content-center align-items-center  w-100 p-4">
-    //     <div className="col-6 d-flex flex-column justify-content-center align-items-center gap-2">
-    //       <div className="list-pools-container d-flex flex-column gap-3 p-4">
-    //         <h5 className="text-white">Start Staking</h5>
-    //         <button className="btn filledbtn w-100">Connect Wallet</button>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </>
     <div
       className="w-100 d-flex justify-content-center align-items-center mt-5"
       style={{ minHeight: "240px" }}

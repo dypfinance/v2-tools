@@ -48,6 +48,7 @@ class App extends React.Component {
       hotPairs: [],
       networkId: 1,
       show: false,
+      referrer: ''
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -153,9 +154,22 @@ class App extends React.Component {
 
   handleConnection = async () => {
     let isConnected = this.state.isConnected;
+    let referrer = window.param("r");
+
     try {
       localStorage.setItem("logout", "false");
       isConnected = await window.connectWallet();
+      if (isConnected) {
+        if (referrer) {
+          referrer = String(referrer).trim().toLowerCase();
+        }
+        if (!window.web3.utils.isAddress(referrer)) {
+          referrer = window.config.ZERO_ADDRESS;
+        }
+      }
+      this.setState({
+        referrer
+      });
 
       let the_graph_result_ETH_V2 = await window.get_the_graph_eth_v2();
       this.setState({
@@ -380,6 +394,7 @@ class App extends React.Component {
                     isConnected={this.state.isConnected}
                     network={this.state.networkId}
                     handleConnection={this.handleConnection}
+                    referrer={this.state.referrer}
                   />
                 )}
               />
