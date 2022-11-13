@@ -16,31 +16,39 @@ import axios from "axios";
 import { useEffect } from "react";
 import getFormattedNumber from "../../../functions/getFormattedNumber2";
 
-const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, handleConnection, the_graph_resultavax }) => {
+const EarnContent = ({
+  coinbase,
+  the_graph_result,
+  lp_id,
+  isConnected,
+  chainId,
+  handleConnection,
+  the_graph_resultavax,
+  referrer
+}) => {
   const options = [
     {
       title: "Staking",
       content:
         "Staking ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo",
-        tvl: 244533.54234234
+      tvl: 244533.54234234,
     },
     {
       title: "Buyback",
       content:
         "Buyback ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo",
-        tvl: 53312.422334
+      tvl: 53312.422334,
     },
     {
       title: "Vault",
       content:
         "Vault ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo",
-        tvl: 1122553.74424
+      tvl: 1122553.74424,
     },
     {
       title: "Farming",
       content:
         "Farming ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ut ipsum quis ligula commodo sollicitudin ut dictum augue. Curabitur massa justo",
-        
     },
   ];
 
@@ -49,60 +57,63 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
   const [content, setContent] = useState(options[0].content);
   const [listStyle, setListStyle] = useState("table");
   const [myStakes, setMyStakes] = useState(false);
-  const [tvl, setTvl] = useState(options[0].tvl)
+  const [tvl, setTvl] = useState(options[0].tvl);
   var tempTvl = 0;
-  var farming = []
+  var farming = [];
 
+  const fetchEthTvl = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/the_graph_eth_v2`)
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_eth_v2.lp_data);
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+        farming.map((item) => {
+          tempTvl += item.tvl_usd;
+        });
 
-  const fetchEthTvl = async() => {
-    await axios.get(`https://api.dyp.finance/api/the_graph_eth_v2`).then((res) => {
-      let temparray = Object.entries(res.data.the_graph_eth_v2.lp_data);
-      temparray.map((item) => {
-        farming.push(item[1]);
-      });
-      farming.map((item) => {
-        tempTvl += item.tvl_usd
+        setTvl(tempTvl);
+        tempTvl = 0;
       })
-      
-     setTvl(tempTvl)
-     tempTvl = 0;
+      .catch((err) => console.error(err));
+  };
 
-    }).catch((err) => console.error(err))
-  }
- 
-  const fetchBscTvl = async() => {
-    await axios.get(`https://api.dyp.finance/api/the_graph_bsc_v2`).then((res) => {
-      let temparray = Object.entries(res.data.the_graph_bsc_v2.lp_data);
-      temparray.map((item) => {
-        farming.push(item[1]);
-      });
-      farming.map((item) => {
-        tempTvl += item.tvl_usd
+  const fetchBscTvl = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/the_graph_bsc_v2`)
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_bsc_v2.lp_data);
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+        farming.map((item) => {
+          tempTvl += item.tvl_usd;
+        });
+
+        setTvl(tempTvl);
+        tempTvl = 0;
       })
-      
-     setTvl(tempTvl)
-     tempTvl = 0;
+      .catch((err) => console.error(err));
+  };
 
-    }).catch((err) => console.error(err))
-  }
+  const fetchAvaxTvl = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/the_graph_avax_v2`)
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_avax_v2.lp_data);
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+        farming.map((item) => {
+          tempTvl += item.tvl_usd;
+        });
 
-  const fetchAvaxTvl = async() => {
-    await axios.get(`https://api.dyp.finance/api/the_graph_avax_v2`).then((res) => {
-      let temparray = Object.entries(res.data.the_graph_avax_v2.lp_data);
-      temparray.map((item) => {
-        farming.push(item[1]);
-      });
-      farming.map((item) => {
-        tempTvl += item.tvl_usd
+        setTvl(tempTvl);
+        tempTvl = 0;
       })
-      
-     setTvl(tempTvl)
-     tempTvl = 0;
-
-    }).catch((err) => console.error(err))
-  }
-  
-
+      .catch((err) => console.error(err));
+  };
 
   return (
     <>
@@ -176,7 +187,10 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
                     stake === "eth" ? "eth-item-active" : null
                   }`}
-                  onClick={() => {setStake("eth"); fetchEthTvl()}}
+                  onClick={() => {
+                    setStake("eth");
+                    fetchEthTvl();
+                  }}
                 >
                   <img
                     src={stake === "eth" ? ethStakeActive : ethStake}
@@ -204,7 +218,10 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
                     stake === "bnb" ? "bsc-item-active" : null
                   }`}
-                  onClick={() => {setStake("bnb"); fetchBscTvl()}}
+                  onClick={() => {
+                    setStake("bnb");
+                    fetchBscTvl();
+                  }}
                 >
                   <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
                     <img
@@ -242,7 +259,10 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
                     stake === "avax" ? "avax-item-active" : null
                   }`}
-                  onClick={() => {setStake("avax"); fetchAvaxTvl()}}
+                  onClick={() => {
+                    setStake("avax");
+                    fetchAvaxTvl();
+                  }}
                 >
                   <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
                     <img
@@ -295,9 +315,10 @@ const EarnContent = ({ coinbase, the_graph_result, lp_id, isConnected, chainId, 
         the_graph_result={the_graph_result}
         lp_id={lp_id}
         isConnected={isConnected}
-        chainId= {chainId}
+        chainId={chainId}
         handleConnection={handleConnection}
         the_graph_resultavax={the_graph_resultavax}
+        referrer = {referrer}
       />
       <EarnFaq faqTypes={option} />
     </>

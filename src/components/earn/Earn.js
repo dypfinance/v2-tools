@@ -15,6 +15,7 @@ const Earn = ({
   network,
   handleConnection,
   the_graph_resultavax,
+  referrer
 }) => {
   const [showCalculator, setShowCalculator] = useState(false);
   const html = document.querySelector("html");
@@ -38,6 +39,7 @@ const Earn = ({
         chainId={network}
         handleConnection={handleConnection}
         the_graph_resultavax={the_graph_resultavax}
+        referrer={referrer}
       />
       <div
         className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"

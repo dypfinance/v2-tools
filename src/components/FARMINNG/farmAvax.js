@@ -129,8 +129,8 @@ export default function initFarmAvax({
         stakingOwner: null,
         approxDeposit: 100 / LP_AMPLIFY_FACTOR,
         approxDays: 365,
-        selectedTokenLogo: "weth",
-        selectedRewardTokenLogo1: "weth",
+        selectedTokenLogo: "wavax",
+        selectedRewardTokenLogo1: "wavax",
         selectedRewardTokenLogo2: "dyp",
         showWithdrawModal: false,
         selectedPool: "",
@@ -229,8 +229,8 @@ export default function initFarmAvax({
     componentDidMount() {
       this.refreshBalance();
 
-      if (coinbase !== null) {
-        this.setState({ coinbase: coinbase });
+      if (this.props.coinbase !== null) {
+        this.setState({ coinbase: this.props.coinbase });
       }
 
       //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
@@ -284,6 +284,9 @@ export default function initFarmAvax({
         selectedTokenSymbol,
       });
 
+      this.setState({
+        selectedTokenLogo: window.buyback_tokens_farmingavax[tokenAddress].symbol,
+      });
       let selectedTokenBalance = await window.getTokenHolderBalance(
         tokenAddress,
         this.state.coinbase
@@ -707,26 +710,26 @@ export default function initFarmAvax({
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
-        let _bal = token.balanceOf(coinbase);
+        let _bal = token.balanceOf(this.props.coinbase);
 
-        let _rBal = reward_token.balanceOf(coinbase);
+        let _rBal = reward_token.balanceOf(this.props.coinbase);
 
-        let _pDivs = staking.getPendingDivs(coinbase);
+        let _pDivs = staking.getPendingDivs(this.props.coinbase);
 
-        let _pDivsEth = staking.getPendingDivsEth(coinbase);
+        let _pDivsEth = staking.getPendingDivsEth(this.props.coinbase);
 
-        let _tEarned = staking.totalEarnedTokens(coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
 
-        let _tEarnedEth = staking.totalEarnedEth(coinbase);
+        let _tEarnedEth = staking.totalEarnedEth(this.props.coinbase);
 
-        let _stakingTime = staking.depositTime(coinbase);
+        let _stakingTime = staking.depositTime(this.props.coinbase);
 
-        let _dTokens = staking.depositedTokens(coinbase);
+        let _dTokens = staking.depositedTokens(this.props.coinbase);
 
-        let _lClaimTime = staking.lastClaimedTime(coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
 
         let _tvl = token.balanceOf(staking._address); //not zero
-
+        
         //Take iDYP Balance on Staking & Farming
         let _tvlConstantiDYP = reward_token_idyp.balanceOf(
           constant._address
@@ -741,9 +744,9 @@ export default function initFarmAvax({
           staking._address
         ); /* TVL of iDYP on Farming */
 
-        let _dTokensDYP = constant.depositedTokens(coinbase);
+        let _dTokensDYP = constant.depositedTokens(this.props.coinbase);
 
-        let _pendingDivsStaking = constant.getTotalPendingDivs(coinbase);
+        let _pendingDivsStaking = constant.getTotalPendingDivs(this.props.coinbase);
 
         //Take DYPS Balance
         let _tvlDYPS = token_dypsavax.balanceOf(
@@ -892,7 +895,7 @@ export default function initFarmAvax({
       try {
         let selectedTokenBalance = await window.getTokenHolderBalance(
           this.state.selectedBuybackToken,
-          this.state.coinbase
+          this.props.coinbase
         );
         this.setState({ selectedTokenBalance });
       } catch (e) {
@@ -1266,7 +1269,7 @@ export default function initFarmAvax({
                       </b>
                       <img
                         src={
-                          require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                          require(`./assets/avax/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
                             .default
                         }
                         alt=""
@@ -1469,7 +1472,7 @@ export default function initFarmAvax({
                         >
                           <img
                             src={
-                              require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                              require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
                                 .default
                             }
                             alt=""
@@ -1550,7 +1553,7 @@ export default function initFarmAvax({
                         >
                           <img
                             src={
-                              require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                              require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
                                 .default
                             }
                             alt=""
@@ -1987,7 +1990,7 @@ export default function initFarmAvax({
                             >
                               <img
                                 src={
-                                  require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                  require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
                                     .default
                                 }
                                 alt=""
@@ -2000,7 +2003,7 @@ export default function initFarmAvax({
                                   this.handleClaimToken(e.target.value);
                                   this.setState({
                                     selectedRewardTokenLogo1:
-                                      e.target.value === "1" ? "usdt" : "weth",
+                                      e.target.value === "0" ? "wavax" : "weth.e",
                                   });
                                 }}
                                 className=" inputfarming"
@@ -2085,7 +2088,7 @@ export default function initFarmAvax({
                             >
                               <img
                                 src={
-                                  require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                                  require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
                                     .default
                                 }
                                 alt=""
