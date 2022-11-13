@@ -21,6 +21,7 @@ import Earn from "./components/earn/Earn";
 import Dashboard from "./components/dashboard/Dashboard";
 import Governance from "./components/governance/Governance";
 import initFarmAvax from "./components/FARMINNG/farmAvax";
+import navRadius from './assets/navRadius.svg'
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -334,6 +335,8 @@ class App extends React.Component {
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
       >
+      <img src={navRadius} className="nav-radius" alt="" />
+        
         <Route component={GoogleAnalyticsReporter} />
 
         <div className="body_overlay"></div>
@@ -351,7 +354,7 @@ class App extends React.Component {
           show={this.state.show}
           isConnected={this.state.isConnected}
         />
-        <div className="content-wrapper container-lg m-auto">
+        <div className="content-wrapper container-lg">
           <Sidebar
             appState={this.state}
             theme={this.state.theme}

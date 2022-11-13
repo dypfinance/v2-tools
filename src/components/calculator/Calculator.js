@@ -390,8 +390,8 @@ const Calculator = ({earnClass, onClose, ref  }) => {
   const timepillRef = useRef([]);
 
   return (
-    <div id="calculator" className={`calculator-wrapper ${earnClass}`}>
-      <div className="purple-div"></div>
+    <div id="calculator" className={`calculator-wrapper position-relative ${earnClass}`}>
+      <div className="purplediv" style={{background: '#8E97CD'}}></div>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-column gap-2 justify-content-between">
           <div className="d-flex justify-content-between gap-2 align-items-center pb-4">
@@ -453,54 +453,57 @@ const Calculator = ({earnClass, onClose, ref  }) => {
             <img src={xMark} width={25} height={25} onClick={onClose} style={{cursor: 'pointer'}} />
             }
           </div>
-          <div className="pills-container row m-0">
+          <div className="pills-container justify-content-center row m-0 w-100">
             {pillsNames &&
               pillsNames.length > 0 &&
               pillsNames.map((item, id) => (
-                <p
-                  key={id}
-                  onClick={() => {
-                    setActivePill(item);
-                    getActivePill(item);
-                  }}
-                  className={`pill-item ${activePill == item ? "active-color" : ""
-                    }`}
-                  ref={(el) => (pillRef.current[id] = el)}
-                  style={{
-                    background:
-                      activePill == item
-                        ? "rgba(248, 132, 91, 0.2)"
-                        : "rgba(20, 20, 42, 0.2)",
-                    color: activePill == item ? "#f8845b" : "#7770e0",
-                    border:
-                      activePill == item
-                        ? "1px solid #f8845b"
-                        : "1px solid #7770e0",
-                  }}
-                >
-                  {item}
-                </p>
+               <p
+               key={id}
+               onClick={() => {
+                 setActivePill(item);
+                 getActivePill(item);
+               }}
+               className={`pill-item d-flex align-items-center gap-2 ${activePill == item ? "active-color" : ""
+                 }`}
+               ref={(el) => (pillRef.current[id] = el)}
+               style={{
+                 background:
+                   activePill == item
+                     ? "#1E1C40"
+                     : "#312F69",
+                 color: activePill == item ? "#F7F7FC" : "#8E97CD",
+                 border:
+                   activePill == item
+                     ? "1px solid #565891"
+                     : "1px solid #312F69",
+               }}
+             >
+                <img src={require(`./assets/${item.toLowerCase()}Icon.svg`).default} alt="" />
+               {item}
+             </p>
               ))}
           </div>
           <div className="separator"></div>
           <div className="row justify-content-between align-items-center gap-2 m-0">
             <div
-              className="inputwrapper position-relative"
+              className="inputwrapper position-relative w-25 px-0"
               style={{ width: "fit-content", paddingLeft: 0 }}
             >
               <h6 className="inputlabel position-absolute">
                 Days<h6 className="requiredstar">*</h6>
               </h6>
               <input
-                type="text"
-                className="form-control calcinput"
+                type="number"
+                min={1}
+                max={365}
+                className="form-control calcinput w-100"
                 id="days"
                 name="days"
                 value={days}
                 onChange={(e) => handleInputDays(e.target.value)}
               />
             </div>
-            <div className="time-pills-container row m-0">
+            {/* <div className="time-pills-container row m-0">
               {timePillsArray.length > 0 &&
                 timePillsArray.map((item, id) => (
                   <p
@@ -523,15 +526,14 @@ const Calculator = ({earnClass, onClose, ref  }) => {
                     {item}
                   </p>
                 ))}
-            </div>
-          </div>
-          <div className="d-flex justify-content-between gap-2 align-items-center mt-2">
-            <div className="inputwrapper position-relative">
+            </div> */}
+             <div className="inputwrapper position-relative w-50 px-0">
               <h6 className="inputlabel position-absolute">
                 USD to deposit<h6 className="requiredstar">*</h6>
               </h6>
               <input
-                type="text"
+                type="number"
+                min={1}
                 className="form-control calcinput w-100"
                 id="usd_to_deposit"
                 name="usd_to_deposit"
@@ -539,24 +541,9 @@ const Calculator = ({earnClass, onClose, ref  }) => {
                 onChange={(e) => handleInputUSD(e.target.value)}
               />
             </div>
-            <h6 className="output-txt">
-              ${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}
-              <h6 className="cryptotext">
-                Approx. (
-                {calculateApproxCrypto != "∞.undefined" &&
-                  calculateApproxCrypto != "..."
-                  ? calculateApproxCrypto
-                  : "0.0"}
-                {activeChain.text === "BSC"
-                  ? "WBNB"
-                  : activeChain.text === "AVAX"
-                    ? "WAVAX"
-                    : "WETH"}
-                )
-              </h6>
-            </h6>
           </div>
-          <div className="d-flex justify-content-between gap-2 align-items-center mt-3">
+         
+          <div className="d-flex justify-content-between gap-2 align-items-end mt-3">
             <button
               className="earnbtn btn"
               onClick={() => {
@@ -565,11 +552,31 @@ const Calculator = ({earnClass, onClose, ref  }) => {
             >
               Earn now <img src={rightarrow} alt="" />{" "}
             </button>
-            <h6 className="calc-footer">
+          
+             <div className="d-flex justify-content-end gap-2 align-items-center mt-2">
+           
+           <h6 className="output-txt">
+             ${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}
+             <h6 className="cryptotext">
+               Approx. (
+               {calculateApproxCrypto != "∞.undefined" &&
+                 calculateApproxCrypto != "..."
+                 ? calculateApproxCrypto
+                 : "0.0"}
+               {activeChain.text === "BSC"
+                 ? "WBNB"
+                 : activeChain.text === "AVAX"
+                   ? "WAVAX"
+                   : "WETH"}
+               )
+             </h6>
+           </h6>
+         </div>
+          </div>
+            <h6 className="calc-footer mt-3">
               *This calculator is for informational purposes only. Calculated
               yields assume that prices of the deposited assets don't change.
             </h6>
-          </div>
         </div>
       </form>
     </div>

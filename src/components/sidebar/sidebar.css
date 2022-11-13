@@ -2,12 +2,12 @@
     position: fixed;
     left: 0;
     height: 100vh;
-    background: #26264F;
+    background: #2A2859;
     width: 100px;
     z-index: 11;
     transition: all .25s ease-in-out;
     overflow: hidden;
-    background-image: url('../../assets/sidebarBackground.webp');
+    /* background-image: url('../../assets/sidebarBackground.webp'); */
     background-size: cover;
 }
 
@@ -39,43 +39,54 @@
 
 
 .sidebar-item:hover{
-    border: 2px solid rgba(119, 112, 224, 1);
+    border: 2px solid #565891;
+    background: #1E1C40;
+
     
 }
 
 
 .active-side-link{
-    background: linear-gradient(272.84deg, rgba(85, 79, 216, 0.3) 0%, rgba(119, 112, 224, 0.3) 100%);
-    border: 2px solid rgba(119, 112, 224, 1);
-
+    background: #1E1C40;
+    border: 2px solid #565891;
+}
+.active-side-link-dropdown{
+    background: #1E1C40;
+    border: 2px solid #565891;
 }
 
 .accordion-child{
     font-family: 'Poppins', sans-serif;
-    color: #7770E0 !important;
-    border: 1px solid #26264F;
+    color: #8E97CD !important;
+    border: 1px solid #2A2859;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 500;
     padding: 15px;
     cursor: pointer;
     transition: all .25s;
 }
 
+.accordion-child:hover{
+    background: #1E1C40;
+}
+
 .accordion-child-active{
-    color: rgba(240, 97, 59, 1) !important;
-border: 1px solid rgba(240, 97, 59, 1);
-width: fit-content;
+    background: #1E1C40;
+    color: #F7F7FC !important;
+/* border: 1px solid rgba(240, 97, 59, 1); */
+/* width: fit-content; */
 
 }
 
 .sideitem-text{
-    color: #8E97CD !important;
+    color: #C0C9FF !important;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
 }
 
 .active-text{
-    color: #7770E0 !important;
+    color: #F7F7FC !important;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
 }

@@ -1082,7 +1082,7 @@ export default function initConstantStakingNew({
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between gap-2 ">
                   <h6 className="withdraw-txt">Rewards</h6>
-                  <h6 className="withdraw-littletxt">
+                  <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
                     Reward updated each day 00:00 (UTC) <b>22:36</b>
                     <Tooltip
                       placement="top"

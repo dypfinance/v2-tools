@@ -596,7 +596,7 @@ const EarnTopPicks = ({
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (
-        <div>
+        <div className="px-0">
           <div className="top-picks-container">
             {topPools.map((pool, index) => (
               

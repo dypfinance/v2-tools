@@ -117,58 +117,9 @@ const EarnContent = ({
 
   return (
     <>
-      <div className="row justify-content-center">
-        <div className="d-flex gap-3 justify-content-center p-5">
-          {options.map((item, index) => (
-            <div
-              className={`earn-option ${
-                option === item.title ? "earn-option-active" : null
-              }`}
-              key={index}
-              onClick={() => {
-                setOption(item.title);
-                setContent(item.content);
-                item.tvl
-                  ? setTvl(item.tvl)
-                  : stake === "eth"
-                  ? fetchEthTvl()
-                  : stake === "bnb"
-                  ? fetchBscTvl()
-                  : fetchAvaxTvl();
-              }}
-            >
-              {item.title}
-            </div>
-          ))}
-        </div>
-        <hr />
-
-        <div className="row d-flex align-items-start justify-content-between">
-          <div className="col-3 px-0">
-            <div className="total-value-locked-container p-2 d-flex justify-content-between align-items-center">
-              <span style={{ fontWeight: "300", fontSize: "13px" }}>
-                Total value locked
-              </span>
-              <h6
-                className="text-white"
-                style={{ fontWeight: "600", fontSize: "17px" }}
-              >
-                ${getFormattedNumber(tvl)}
-              </h6>
-            </div>
-          </div>
-          <div className="col-6">
-            <p
-              className="text-center"
-              style={{ color: "#7A81B4", fontSize: "13px", fontWeight: "400" }}
-            >
-              {content}
-            </p>
-          </div>
-          <div className="col-3"></div>
-        </div>
-        <div className="d-flex align-items-center justify-content-between  py-5 px-3">
-          <div className="col-2 d-flex justify-content-start align-items-center gap-3">
+      <div className="row justify-content-center w-100">
+       <div className="row justify-content-between align-items-center p-3 options-container my-5">
+        <div className="col-2 d-flex justify-content-start align-items-center gap-3">
             <div
               className={`list-style ${
                 listStyle === "table" && "list-style-active"
@@ -192,7 +143,44 @@ const EarnContent = ({
               />
             </div>
           </div>
-          <div className="col-8 d-flex gap-3 justify-content-center">
+       <div className="col-8 d-flex gap-3 justify-content-center p-2">
+          {options.map((item, index) => (
+            <div
+              className={`earn-option ${
+                option === item.title ? "earn-option-active" : null
+              }`}
+              key={index}
+              onClick={() => {
+                setOption(item.title);
+                setContent(item.content);
+                item.tvl ? setTvl(item.tvl) : stake === 'eth' ? fetchEthTvl() : stake === 'bnb' ? fetchBscTvl() : fetchAvaxTvl()
+              }}
+            >
+              <img src={require(`../../calculator/assets/${item.title.toLowerCase()}Icon.svg`).default} alt="" />
+              {item.title}
+            </div>
+          ))}
+        </div>
+        <div className="col-2 d-flex justify-content-end align-items-center gap-3">
+            <div
+              className={`pill-box ${myStakes && "pill-box-active"}`}
+              onClick={() => setMyStakes(!myStakes)}
+            >
+              <div className="pill"></div>
+            </div>
+            <h5 className="text-white">My Stakes</h5>
+          </div>
+       </div>
+        {/* <hr /> */}
+
+        <div className="row align-items-center justify-content-between px-0">
+          <div className="col-3 px-0">
+            <div className="total-value-locked-container p-2 d-flex justify-content-between align-items-center">
+              <span style={{fontWeight: '300', fontSize: '13px'}}>Total value locked</span>
+              <h6 className="text-white" style={{fontWeight: '600', fontSize: '17px'}}>${getFormattedNumber(tvl)}</h6>
+            </div>
+          </div>
+          <div className="col-6 d-flex gap-3 justify-content-center">
             {option !== "Vault" && (
               <>
                 <div
@@ -311,15 +299,12 @@ const EarnContent = ({
               </>
             )}
           </div>
-          <div className="col-2 d-flex justify-content-end align-items-center gap-3">
-            <div
-              className={`pill-box ${myStakes && "pill-box-active"}`}
-              onClick={() => setMyStakes(!myStakes)}
-            >
-              <div className="pill"></div>
-            </div>
-            <h5 className="text-white">My Stakes</h5>
-          </div>
+        <div className="col-3"></div>
+        </div>
+        <div className="d-flex align-items-center justify-content-center  py-5 px-3">
+          
+          
+        
         </div>
       </div>
       <EarnTopPicks

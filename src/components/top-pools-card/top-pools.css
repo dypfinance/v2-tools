@@ -1,11 +1,11 @@
 .poolscardwrapper {
-  background: #26264f;
+  background: #312F69;
   box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
   border-radius: 12px;
   position: relative;
   padding: 10px;
   /* width: 400px; */
-  border: 1px solid #7770df;
+  border: 1px solid #312F69;
 }
 
 .pools-card-open{
@@ -149,7 +149,7 @@
 
 .otherside-border {
   background: transparent;
-  border: 1px solid #3b3c68;
+  /* border: 1px solid #3b3c68; */
   border-radius: 8px;
   display: flex;
   flex-direction: column;

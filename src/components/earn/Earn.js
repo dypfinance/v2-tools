@@ -29,7 +29,7 @@ const Earn = ({
   }, [showCalculator]);
 
   return (
-    <div className="container-lg earn-wrapper d-flex flex-column justify-content-center align-items-center py-3 position-relative">
+    <div className="container-lg earn-wrapper d-flex flex-column justify-content-center align-items-center p-0 position-relative">
       <EarnHero />
       <EarnContent
         coinbase={coinbase}

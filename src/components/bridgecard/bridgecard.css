@@ -1,8 +1,8 @@
 .bridgecard-wrapper {
     padding: 20px;
-    background-color: #26264f;
+    background-color: #312F69;
     border-radius: 12px;
-    background-image: url("./assets/bridgebg.png");
+    /* background-image: url("./assets/bridgebg.png"); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -17,22 +17,23 @@
     position: absolute;
     border-radius: 0px 100px 100px 0px;
     left: 0px;
-    background: #F0603A;
+    background: #8890C4;
   }
   
   .bridgecard-title {
     font-style: normal;
     font-weight: 500;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 27px;
     color: #f7f7fc;
   }
   .bridgecard-desc {
     font-style: normal;
     font-weight: 400;
-    font-size: 10px;
-    line-height: 14px;
-    color: rgba(142, 151, 205, 0.8);
+    font-size: 12px;
+    line-height: 17px;
+    color: #D6D8E7;
+    width: 80%;
   }
   
   .bridgecard-btntext {

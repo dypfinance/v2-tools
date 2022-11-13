@@ -62,7 +62,7 @@ const TopPoolsCard = ({
       >
         <div
           className="purplediv"
-          style={{ background: top_pick === true ? "#F0603A" : "#7770e0" }}
+          style={{ background: "#7770e0" }}
         ></div>
         <div className="d-flex flex-column gap-0">
           <div
@@ -102,7 +102,7 @@ const TopPoolsCard = ({
             <div className="d-flex flex-column">
               <h6 className="tvl-text">Lock Time</h6>
 
-              <h6 className="tvl-amount">{lockTime}</h6>
+              <h6 className="locktime-amount">{lockTime}</h6>
             </div>
           </div>
           <div
@@ -114,7 +114,7 @@ const TopPoolsCard = ({
           >
             <h6
               className="details-text gap-1 d-flex align-items-center"
-              style={{ color: showDetails === false ? "#75CAC2" : "#F8845B" }}
+              style={{ color: showDetails === false ? "#75CAC2" : "#C0C9FF" }}
             >
               {showDetails === false ? "Details" : "Close"}
               <img src={showDetails === false ? greenArrow : orangeArrow} />

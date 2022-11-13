@@ -60,9 +60,10 @@ const EarnFaq = ({faqTypes}) => {
 
 
   return (
-    <div className="row w-100 my-5 py-3 px-1 m-3 faq-container">
-      <div className="col-7">
+    <div className="row w-100 my-5 p-0 faq-container justify-content-between">
+      <div className="col-7 ps-0">
         <h3 className="mb-3" style={{color: '#f7f7fc'}}>{faqTitle} FAQs</h3>
+        <div className="faq-items-container p-3">
         <div className="accordion" id="accordionExample">
          {faqItems.map((faqItem) => (
            <div className="accordion-item">
@@ -90,10 +91,11 @@ const EarnFaq = ({faqTypes}) => {
          </div>
          ))}
         </div>
+        </div>
       </div>
-      <div className="col-5">
+      <div className="col-5 pe-0">
       <h3 className="mb-3" style={{color: '#f7f7fc'}}>Video guide</h3>
-       <div className="video-container">
+       <div className="video-container p-3">
        <div className="video-item">
         <div className="video-wrapper position-relative">
             <img src={metamaskVideo} alt="" className="video" />
