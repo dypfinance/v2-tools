@@ -700,7 +700,6 @@ const EarnTopPicks = ({
               the_graph_result={the_graph_resultavax}
               chainId={chainId}
               coinbase={coinbase}
-              handleConnection={handleConnection}
               referrer={referrer}
             />
           ) : activeCard &&
@@ -714,7 +713,6 @@ const EarnTopPicks = ({
               the_graph_result={the_graph_resultavax}
               chainId={chainId}
               coinbase={coinbase}
-              handleConnection={handleConnection}
               referrer={referrer}
             />
           ) : activeCard &&
@@ -727,7 +725,6 @@ const EarnTopPicks = ({
               the_graph_result={the_graph_resultavax}
               chainId={chainId}
               coinbase={coinbase}
-              handleConnection={handleConnection}
               referrer={referrer}
             />
           ) : activeCard &&
@@ -740,7 +737,6 @@ const EarnTopPicks = ({
               the_graph_result={the_graph_resultavax}
               chainId={chainId}
               coinbase={coinbase}
-              handleConnection={handleConnection}
               referrer={referrer}
             />
           ) : activeCard && topList === "Vault" ? (
