@@ -1116,7 +1116,7 @@ export default function avaxBuybac({
 
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper">
+          <div className="allwrapper my-4">
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -1313,7 +1313,7 @@ export default function avaxBuybac({
                           type={"number"}
                           className="styledinput"
                           placeholder="0.0"
-                          style={{ width: 200 }}
+                          style={{ width: '100%' }}
                           value={
                             Number(this.state.depositAmount) > 0
                               ? this.state.depositAmount
@@ -1421,7 +1421,7 @@ export default function avaxBuybac({
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
-                    <h6 className="withdraw-littletxt">
+                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
                       Reward updated each day 00:00 (UTC) <b>22:36</b>
                       <Tooltip
                         placement="top"

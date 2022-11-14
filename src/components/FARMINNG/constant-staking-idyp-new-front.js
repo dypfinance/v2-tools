@@ -541,7 +541,7 @@ export default function initStaking({
 
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper">
+          <div className="allwrapper my-4">
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -676,18 +676,20 @@ export default function initStaking({
             </div> */}
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
+                  <div className="d-flex align-items-center gap-3">
                   <h6 className="deposit-txt">
-                    Deposit
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"lorem impsum deposit text"}
-                        </div>
+                    Deposit                
+                  </h6>
+                  <h6 className="deposit-txt d-flex align-items-center gap-2">
+                  <img
+                      src={
+                        require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                          .default
                       }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                      alt=""
+                      style={{ width: 14, height: 14 }}
+                    />
+                      {token_symbol}
                   </h6>
                   <h6 className="mybalance-text">
                     Balance:
@@ -697,16 +699,9 @@ export default function initStaking({
                         10 ** this.state.selectedTokenDecimals,
                       6
                     )} */}
-                      {token_balance} {token_symbol}
+                      {token_balance} 
                     </b>
-                    <img
-                      src={
-                        require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
-                          .default
-                      }
-                      alt=""
-                      style={{ width: 14, height: 14 }}
-                    />
+                   
                     {/* <select
                     disabled={!is_connected}
                     value={this.state.selectedBuybackToken}
@@ -724,6 +719,18 @@ export default function initStaking({
                     ))}
                   </select> */}
                   </h6>
+               
+                  </div>
+                  <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"lorem impsum deposit text"}
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -733,7 +740,7 @@ export default function initStaking({
                         type={"text"}
                         className="styledinput"
                         placeholder="0.0"
-                        style={{ width: 200 }}
+                        style={{ width: '100%' }}
                         value={
                           Number(this.state.depositAmount) > 0
                             ? this.state.depositAmount
@@ -815,9 +822,9 @@ export default function initStaking({
                 </div>
               </div>
               <div className="otherside-border col-4">
-                <div className="d-flex justify-content-between gap-2 ">
+                <div className="d-flex justify-content-between gap-2">
                   <h6 className="withdraw-txt">Rewards</h6>
-                  <h6 className="withdraw-littletxt">
+                  <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
                     Reward updated each day 00:00 (UTC) <b>22:36</b>
                     <Tooltip
                       placement="top"

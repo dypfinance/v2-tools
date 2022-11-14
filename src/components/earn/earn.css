@@ -83,6 +83,7 @@ hr{
     border-radius: 8px;
     background: #312F69;
     padding: 5px 30px 5px 10px;
+    width: 160px;
     cursor: pointer;
     transition: all .25s;
 }

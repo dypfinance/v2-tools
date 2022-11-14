@@ -173,7 +173,7 @@ const EarnContent = ({
        </div>
         {/* <hr /> */}
 
-        <div className="row align-items-center justify-content-between px-0">
+        <div className="row align-items-center justify-content-between px-0" style={{minHeight: '52px'}}>
           <div className="col-3 px-0">
             <div className="total-value-locked-container p-2 d-flex justify-content-between align-items-center">
               <span style={{fontWeight: '300', fontSize: '13px'}}>Total value locked</span>
@@ -201,7 +201,7 @@ const EarnContent = ({
                       className="text-white"
                       style={{ fontSize: "11px", fontWeight: "300" }}
                     >
-                      ETH Stake
+                      ETH {option}
                     </p>
                     <p
                       style={{
@@ -242,7 +242,7 @@ const EarnContent = ({
                       className="text-white"
                       style={{ fontSize: "11px", fontWeight: "300" }}
                     >
-                      BSC Stake
+                      BSC {option}
                     </p>
                     <p
                       style={{
@@ -283,7 +283,7 @@ const EarnContent = ({
                       className="text-white"
                       style={{ fontSize: "11px", fontWeight: "300" }}
                     >
-                      AVAX Stake
+                      AVAX {option}
                     </p>
                     <p
                       style={{

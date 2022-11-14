@@ -831,7 +831,7 @@ export default function initConstantStakingNew({
       // console.log(this.convertTimestampToDate(1670596969))
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper">
+          <div className="allwrapper my-4">
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -1006,7 +1006,7 @@ export default function initConstantStakingNew({
                         type={"number"}
                         className="styledinput"
                         placeholder="0.0"
-                        style={{ width: 200 }}
+                        style={{ width: '100%' }}
                         value={
                           Number(this.state.depositAmount) > 0
                             ? this.state.depositAmount
