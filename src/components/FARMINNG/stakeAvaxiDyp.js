@@ -30,7 +30,7 @@ export default function stakeAvaxiDyp({
   fee_u,
   chainId,
   coinbase,
-
+  lockTime
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;
   let token_symbol = "iDYP";
@@ -104,6 +104,7 @@ export default function stakeAvaxiDyp({
         stakingTime: "",
         depositedTokens: "",
         lastClaimedTime: "",
+        errorMsg: "",
 
         depositAmount: "",
         withdrawAmount: "",
@@ -589,7 +590,7 @@ export default function stakeAvaxiDyp({
                 <div className="d-flex align-items-center justify-content-between gap-2">
                   <h6 className="earnrewards-text">Lock time:</h6>
                   <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {/* {lockTime} */}
+                  {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
                     <Tooltip
                       placement="top"
                       title={

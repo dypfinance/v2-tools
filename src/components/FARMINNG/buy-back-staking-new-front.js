@@ -145,6 +145,7 @@ export default function initStaking({
         selectedRewardTokenLogo2: "dyp",
         usdPerToken: 0,
         showWithdrawModal: false,
+        errorMsg: "",
 
         selectedBuybackToken: Object.keys(window.buyback_tokens)[0],
         selectedTokenDecimals:
@@ -1219,7 +1220,7 @@ export default function initStaking({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime}
+                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
                       <Tooltip
                         placement="top"
                         title={

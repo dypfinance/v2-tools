@@ -51,7 +51,7 @@ const EarnTopPicks = ({
       lockTime: "90 Days",
     },
     {
-      icon: "dyplogo.svg",
+      icon: "idypius.svg",
       top_pick: false,
       tokenName: "iDYP",
       apy: "1.08",
@@ -59,7 +59,7 @@ const EarnTopPicks = ({
       lockTime: "No lock",
     },
     {
-      icon: "dyplogo.svg",
+      icon: "idypius.svg",
       top_pick: false,
       tokenName: "iDYP",
       apy: "1.08",
@@ -67,7 +67,7 @@ const EarnTopPicks = ({
       lockTime: "90 days",
     },
     {
-      icon: "dyplogo.svg",
+      icon: "idypius.svg",
       top_pick: false,
       tokenName: "iDYP",
       apy: "1.08",
@@ -75,7 +75,7 @@ const EarnTopPicks = ({
       lockTime: "No lock",
     },
     {
-      icon: "dyplogo.svg",
+      icon: "idypius.svg",
       top_pick: false,
       tokenName: "iDYP",
       apy: "1.08",
@@ -93,7 +93,7 @@ const EarnTopPicks = ({
       tokenName: "DYP",
       apy: "1.08",
       tvl_usd: "48543.20",
-      lockTime: "No lock",
+      lockTime: "180 Days",
     },
     {
       icon: "dyplogo.svg",
@@ -101,39 +101,7 @@ const EarnTopPicks = ({
       tokenName: "DYP",
       apy: "1.08",
       tvl_usd: "48543.20",
-      lockTime: "90 Days",
-    },
-    {
-      icon: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "iDYP",
-      apy: "1.08",
-      tvl_usd: "48543.20",
-      lockTime: "No lock",
-    },
-    {
-      icon: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "iDYP",
-      apy: "1.08",
-      tvl_usd: "48543.20",
-      lockTime: "90 days",
-    },
-    {
-      icon: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "iDYP",
-      apy: "1.08",
-      tvl_usd: "48543.20",
-      lockTime: "No lock",
-    },
-    {
-      icon: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "iDYP",
-      apy: "1.08",
-      tvl_usd: "48543.20",
-      lockTime: "90 days",
+      lockTime: "30 Days",
     },
     {
       icon: "dyplogo.svg",
@@ -154,10 +122,42 @@ const EarnTopPicks = ({
     {
       icon: "dyplogo.svg",
       top_pick: false,
+      tokenName: "DYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
+    },
+    {
+      icon: "idypius.svg",
+      top_pick: false,
       tokenName: "iDYP",
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
+    },
+    {
+      icon: "idypius.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
+    },
+    {
+      icon: "idypius.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
+    },
+    {
+      icon: "idypius.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
     },
   ];
 
@@ -314,8 +314,8 @@ const EarnTopPicks = ({
   ];
 
   const stakeArrayStakeNew = [
-    window.constant_staking_neweth1,
-    window.constant_staking_neweth2,
+    window.constant_staking_new1,
+    window.constant_staking_new2,
   ];
 
   const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
@@ -346,7 +346,6 @@ const EarnTopPicks = ({
 
   const StakingNew1 = initStakingNew({
     token: window.token_new,
-    // staking: window.farming_new_1,
     staking: stakeArray[cardIndex],
     chainId: chainId,
     constant: constantArray[cardIndex],
@@ -451,6 +450,8 @@ const EarnTopPicks = ({
   ];
 
   const aprarrayStakeAvax30 = [25, 50];
+  const lockarrayStakeAvax = [180, 30, "No Lock", 90, 90, "No Lock", 90, "No Lock", 90];
+
   const feearrayStakeAvax30 = [0.25, 0.5];
   const stakingarrayStakeAvax30 = [
     window.constant_staking_newavax1,
@@ -466,6 +467,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     chainId: chainId,
     referrer: referrer,
+    lockTime: lockarrayStakeAvax[cardIndex]
   });
 
   const StakeAvax30 = stakeAvax30({
@@ -476,6 +478,8 @@ const EarnTopPicks = ({
     fee: feearrayStakeAvax30[cardIndexavax30],
     coinbase: coinbase,
     chainId: chainId,
+    lockTime: lockarrayStakeAvax[cardIndex]
+
   });
 
   const StakeAvax3 = stakeAvax3({
@@ -485,6 +489,8 @@ const EarnTopPicks = ({
     expiration_time: "Expired",
     coinbase: coinbase,
     chainId: chainId,
+    lockTime: lockarrayStakeAvax[cardIndex]
+
   });
 
   const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
@@ -592,12 +598,28 @@ const EarnTopPicks = ({
         setTopPools(stake);
       }, 500);
       }
+
+      if(chain === 'bnb') {
+        setTimeout(() => {
+          setTopPools([]);
+      }, 500);
+      }
       
     } else if (topList === "Buyback") {
       setTopPools([]);
-      setTimeout(() => {
-        setTopPools(buyback);
+      if(chain === 'bnb') {
+        setTimeout(() => {
+          setTopPools([]);
       }, 500);
+      }
+
+      if(chain !== 'bnb') {
+        setTimeout(() => {
+          setTopPools(buyback);
+        }, 500);
+      }
+
+      
     } else if (topList === "Vault") {
       setTopPools([]);
       setTimeout(() => {
@@ -623,8 +645,6 @@ const EarnTopPicks = ({
   }, [topList, listType, chain]);
 
   const handleCardIndexStake = (index) => {
-    // console.log(index)
-
     if (topList === "Staking") {
       if (index >= 2) {
         const newIndex = index - 2;
@@ -635,8 +655,6 @@ const EarnTopPicks = ({
   };
 
   const handleCardIndexStake30 = (index) => {
-    // console.log(index)
-
     if (topList === "Staking" && chain === "avax") {
       if (index >= 2) {
         const newIndex = index - 2;

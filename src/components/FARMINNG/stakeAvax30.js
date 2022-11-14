@@ -28,6 +28,7 @@ export default function stakeAvax30({
   fee,
   chainId,
   coinbase,
+  lockTime
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =
     window;
@@ -843,7 +844,7 @@ export default function stakeAvax30({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {/* {lockTime} */}
+                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
                       <Tooltip
                         placement="top"
                         title={

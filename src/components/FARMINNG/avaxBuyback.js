@@ -120,6 +120,7 @@ export default function avaxBuybac({
         selectedRewardTokenLogo1: "wavax",
         selectedRewardTokenLogo2: "dyp",
         showWithdrawModal: false,
+        errorMsg: "",
 
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
@@ -1204,7 +1205,7 @@ export default function avaxBuybac({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime}
+                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
                       <Tooltip
                         placement="top"
                         title={

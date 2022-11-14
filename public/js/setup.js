@@ -343,6 +343,7 @@ class TOKENAVAX {
   }
 }
 
+
 class CONSTANT_STAKING_NEW {
   constructor(ticker = "CONSTANT_STAKING_30", token = "REWARD_TOKEN") {
     this.ticker = ticker;
@@ -1344,9 +1345,9 @@ window.config = {
   uniswap_router_address: "0x7a250d5630b4cf539739df2c5dacb4c659f2488d",
 
   //constant staking New
-  constant_stakingnew_neweth1_address:
+  constant_stakingnew_new1_address:
     "0xa4da28B8e42680916b557459D338aF6e2D8d458f",
-  constant_stakingnew_neweth2_address:
+  constant_stakingnew_new2_address:
     "0x8A30Be7B2780b503ff27dBeaCdecC4Fe2587Af5d",
 
   //Buyback new
@@ -1722,11 +1723,11 @@ window.constant_stakingdaiavax = new CONSTANT_STAKING_NEWAVAX("CONSTANT_STAKINGD
 
 window.CONSTANT_STAKINGDAIAVAX_ABI = window.CONSTANT_STAKING_IDYP_ABI
 
-window.constant_staking_neweth1 = new CONSTANT_STAKING_NEW(
-  "CONSTANT_STAKINGNEW_NEWETH1"
+window.constant_staking_new1 = new CONSTANT_STAKING_NEW(
+  "CONSTANT_STAKINGNEW_NEW1"
 );
-window.constant_staking_neweth2 = new CONSTANT_STAKING_NEW(
-  "CONSTANT_STAKINGNEW_NEWETH2"
+window.constant_staking_new2 = new CONSTANT_STAKING_NEW(
+  "CONSTANT_STAKINGNEW_NEW2"
 );
 
 window.constant_staking_new10 = new CONSTANT_STAKING_NEWAVAX("CONSTANT_STAKINGIDYPAVAX_3")
@@ -1735,8 +1736,8 @@ window.constant_staking_new11 = new CONSTANT_STAKING_NEWAVAX("CONSTANT_STAKINGID
 window.CONSTANT_STAKINGIDYPAVAX_3_ABI = window.CONSTANT_STAKING_IDYP_ABI
 window.CONSTANT_STAKINGIDYPAVAX_4_ABI = window.CONSTANT_STAKING_IDYP_ABI
 
-window.CONSTANT_STAKINGNEW_NEWETH1 = window.CONSTANT_STAKINGNEW_ABI
-window.CONSTANT_STAKINGNEW_NEWETH2 = window.CONSTANT_STAKINGNEW_ABI
+window.CONSTANT_STAKINGNEW_NEW1_ABI = window.CONSTANT_STAKINGNEW_ABI
+window.CONSTANT_STAKINGNEW_NEW2_ABI = window.CONSTANT_STAKINGNEW_ABI
 
 window.CONSTANT_STAKINGNEW_NEWAVAX1_ABI = window.CONSTANT_STAKINGNEW_ABI
 window.CONSTANT_STAKINGNEW_NEWAVAX2_ABI = window.CONSTANT_STAKINGNEW_ABI
@@ -18058,8 +18059,8 @@ Object.keys(window.config)
       k.startsWith("farming_newavax_3") ||
       k.startsWith("farming_newavax_4") ||
       k.startsWith("farming_newavax_5") ||
-      k.startsWith("constant_stakingnew_neweth1") ||
-      k.startsWith("constant_stakingnew_neweth2") ||
+      k.startsWith("constant_stakingnew_new1") ||
+      k.startsWith("constant_stakingnew_new2") ||
       k.startsWith("constant_stakingidypavax_3") ||
       k.startsWith("constant_stakingidypavax_4") ||
       k.startsWith("constant_stakingnew_newavax1") ||
@@ -18142,9 +18143,9 @@ Object.keys(window.config)
       ? window.BUYBACK_STAKING1_2_ABI
       : k.startsWith("constant_stakingidypavax_3")
       ? window.CONSTANT_STAKING_IDYP_ABI
-      : k.startsWith("constant_stakingnew_neweth1")
+      : k.startsWith("constant_stakingnew_new1")
       ? window.CONSTANT_STAKINGNEW_ABI
-      : k.startsWith("constant_stakingnew_neweth2")
+      : k.startsWith("constant_stakingnew_new2")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingidypavax_4")
       ? window.CONSTANT_STAKING_IDYP_ABI

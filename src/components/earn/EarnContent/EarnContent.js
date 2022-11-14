@@ -24,7 +24,7 @@ const EarnContent = ({
   chainId,
   handleConnection,
   the_graph_resultavax,
-  referrer
+  referrer,
 }) => {
   const options = [
     {
@@ -118,8 +118,8 @@ const EarnContent = ({
   return (
     <>
       <div className="row justify-content-center w-100">
-       <div className="row justify-content-between align-items-center p-3 options-container my-5">
-        <div className="col-2 d-flex justify-content-start align-items-center gap-3">
+        <div className="row justify-content-between align-items-center p-3 options-container my-5">
+          <div className="col-2 d-flex justify-content-start align-items-center gap-3">
             <div
               className={`list-style ${
                 listStyle === "table" && "list-style-active"
@@ -143,25 +143,37 @@ const EarnContent = ({
               />
             </div>
           </div>
-       <div className="col-8 d-flex gap-3 justify-content-center p-2">
-          {options.map((item, index) => (
-            <div
-              className={`earn-option ${
-                option === item.title ? "earn-option-active" : null
-              }`}
-              key={index}
-              onClick={() => {
-                setOption(item.title);
-                setContent(item.content);
-                item.tvl ? setTvl(item.tvl) : stake === 'eth' ? fetchEthTvl() : stake === 'bnb' ? fetchBscTvl() : fetchAvaxTvl()
-              }}
-            >
-              <img src={require(`../../calculator/assets/${item.title.toLowerCase()}Icon.svg`).default} alt="" />
-              {item.title}
-            </div>
-          ))}
-        </div>
-        <div className="col-2 d-flex justify-content-end align-items-center gap-3">
+          <div className="col-8 d-flex gap-3 justify-content-center p-2">
+            {options.map((item, index) => (
+              <div
+                className={`earn-option ${
+                  option === item.title ? "earn-option-active" : null
+                }`}
+                key={index}
+                onClick={() => {
+                  setOption(item.title);
+                  setContent(item.content);
+                  item.tvl
+                    ? setTvl(item.tvl)
+                    : stake === "eth"
+                    ? fetchEthTvl()
+                    : stake === "bnb"
+                    ? fetchBscTvl()
+                    : fetchAvaxTvl();
+                }}
+              >
+                <img
+                  src={
+                    require(`../../calculator/assets/${item.title.toLowerCase()}Icon.svg`)
+                      .default
+                  }
+                  alt=""
+                />
+                {item.title}
+              </div>
+            ))}
+          </div>
+          <div className="col-2 d-flex justify-content-end align-items-center gap-3">
             <div
               className={`pill-box ${myStakes && "pill-box-active"}`}
               onClick={() => setMyStakes(!myStakes)}
@@ -170,14 +182,21 @@ const EarnContent = ({
             </div>
             <h5 className="text-white">My Stakes</h5>
           </div>
-       </div>
+        </div>
         {/* <hr /> */}
 
         <div className="row align-items-center justify-content-between px-0">
           <div className="col-3 px-0">
             <div className="total-value-locked-container p-2 d-flex justify-content-between align-items-center">
-              <span style={{fontWeight: '300', fontSize: '13px'}}>Total value locked</span>
-              <h6 className="text-white" style={{fontWeight: '600', fontSize: '17px'}}>${getFormattedNumber(tvl)}</h6>
+              <span style={{ fontWeight: "300", fontSize: "13px" }}>
+                Total value locked
+              </span>
+              <h6
+                className="text-white"
+                style={{ fontWeight: "600", fontSize: "17px" }}
+              >
+                ${getFormattedNumber(tvl)}
+              </h6>
             </div>
           </div>
           <div className="col-6 d-flex gap-3 justify-content-center">
@@ -299,13 +318,9 @@ const EarnContent = ({
               </>
             )}
           </div>
-        <div className="col-3"></div>
+          <div className="col-3"></div>
         </div>
-        <div className="d-flex align-items-center justify-content-center  py-5 px-3">
-          
-          
-        
-        </div>
+        <div className="d-flex align-items-center justify-content-center  py-5 px-3"></div>
       </div>
       <EarnTopPicks
         topList={option}
@@ -318,7 +333,7 @@ const EarnContent = ({
         chainId={chainId}
         handleConnection={handleConnection}
         the_graph_resultavax={the_graph_resultavax}
-        referrer = {referrer}
+        referrer={referrer}
       />
       <EarnFaq faqTypes={option} />
     </>
