@@ -82,6 +82,59 @@ const EarnTopPicks = ({
       tvl_usd: "48543.20",
       lockTime: "90 days",
     },
+
+    
+  ];
+
+  const stakeavax = [
+    {
+      icon: "dyplogo.svg",
+      top_pick: true,
+      tokenName: "DYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 days",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 days",
+    },
     {
       icon: "dyplogo.svg",
       top_pick: false,
@@ -124,6 +177,7 @@ const EarnTopPicks = ({
       lockTime: "90 Days",
     },
   ];
+
 
   const vault = [
     {
@@ -370,8 +424,8 @@ const EarnTopPicks = ({
     window.buyback_stakingavax1_2,
   ];
   const constantArrayBuybackAvax = [
-    window.constant_stakingavax_new5,
-    window.constant_stakingavax_new6,
+    window.constant_staking_newavax3,
+    window.constant_staking_newavax4,
   ];
 
   const aprArrayBuyBackAvax = [30, 100];
@@ -526,10 +580,19 @@ const EarnTopPicks = ({
 
   useEffect(() => {
     if (topList === "Staking") {
+
       setTopPools([]);
-      setTimeout(() => {
+      if(chain === 'avax') {
+        setTimeout(() => {
+          setTopPools(stakeavax);
+        }, 500);
+      }
+      if(chain === 'eth') {
+        setTimeout(() => {
         setTopPools(stake);
       }, 500);
+      }
+      
     } else if (topList === "Buyback") {
       setTopPools([]);
       setTimeout(() => {

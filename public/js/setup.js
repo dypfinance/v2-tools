@@ -1361,6 +1361,12 @@ window.config = {
   buyback_stakingavax1_1_address: "0xC905D5DD9A4f26eD059F76929D11476B2844A7c3",
   buyback_stakingavax1_2_address: "0x267434f01ac323C6A5BCf41Fa111701eE0165a37",
 
+    //constant staking for Buyback New avax
+    constant_stakingnew_new3avax_address: "0xe6B307CD185f2A541a661eA312E3e7939Ea9d218",
+  constant_stakingnew_newavax4_address:  "0x934819D227B7095595eC9cA6604eF2Dd0C3a9EA2",
+
+
+
   //Farming new
   token_new_address: "0x7463286a379f6f128058bb92b355e3d6e8bdb219",
   token_newavax_address: "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a",
@@ -1758,6 +1764,16 @@ window.constant_staking_new3 = new CONSTANT_STAKING_NEW(
 window.constant_staking_new4 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW4"
 );
+
+window.constant_staking_newavax3 = new CONSTANT_STAKING_NEWAVAX(
+  "CONSTANT_STAKINGNEW_NEWAVAX3"
+);
+window.constant_staking_newavax4 = new CONSTANT_STAKING_NEWAVAX(
+  "CONSTANT_STAKINGNEW_NEWAVAX4"
+);
+
+window.CONSTANT_STAKINGNEW_NEWAVAX3_ABI = window.CONSTANT_STAKINGAVAX_ABI
+window.CONSTANT_STAKINGNEW_NEWAVAX4_ABI = window.CONSTANT_STAKINGAVAX_ABI
 
 /* Farming New */
 window.token_new = new TOKEN("TOKEN_NEW");
@@ -18070,6 +18086,10 @@ Object.keys(window.config)
       k.startsWith("constant_stakingidypavax_5") ||
       k.startsWith("constant_stakingidypavax_6") ||
 
+      k.startsWith("constant_stakingnew_newavax3") ||
+      k.startsWith("constant_stakingnew_newavax4") ||
+
+
       (k.startsWith("constant_stakingold_") && k.endsWith("_address"))
   )
   .forEach((k) => {
@@ -18113,6 +18133,11 @@ Object.keys(window.config)
       ? window.BUYBACK_STAKINGAVAX1_1_ABI
       : k.startsWith("buyback_stakingavax1_2_")
       ? window.BUYBACK_STAKINGAVAX1_2_ABI
+      : k.startsWith("constant_stakingnew_newavax3")
+      ? window.CONSTANT_STAKINGAVAX_ABI
+      : k.startsWith("constant_stakingnew_newavax4")
+      ? window.CONSTANT_STAKINGAVAX_ABI
+
       : k.startsWith("buyback_staking1_2_")
       ? window.BUYBACK_STAKING1_2_ABI
       : k.startsWith("constant_stakingidypavax_3")

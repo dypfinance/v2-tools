@@ -1677,7 +1677,6 @@ export default function initStaking({
 
                     <button
                       disabled={
-                        // this.state.claimStatus === "invest" ? true :
                         false
                       }
                       className={`btn filledbtn ${
@@ -1690,10 +1689,11 @@ export default function initStaking({
                           : null
                       } d-flex justify-content-center align-items-center gap-2`}
                       style={{ height: "fit-content" }}
-                      onClick={
-                        this.state.selectedPool === 'dyp'
-                       ?  this.handleReinvestConst() : this.handleReinvestStake()
-                      }
+                      onClick={() => {
+                        this.state.selectedPool === "dyp"
+                          ? this.handleReinvestConst()
+                          : this.handleReinvestStake();
+                      }}
                     >
                      
 
