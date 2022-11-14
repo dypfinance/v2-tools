@@ -21,6 +21,7 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
+import PoolsCalculator from "../pools-calculator/PoolsCalculator";
 
 import CountDownTimer from "../locker/Countdown";
 
@@ -152,7 +153,7 @@ export default function initConstantStakingNew({
         usdPerToken: "",
         unlockDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         errorMsg: "",
-
+        showCalculator: false,
         contractDeployTime: "",
         disburseDuration: "",
 
@@ -450,7 +451,6 @@ export default function initConstantStakingNew({
         .call()
         .catch((e) => {
           this.setState({errorMsg: e})
-
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
         });
@@ -750,6 +750,16 @@ export default function initConstantStakingNew({
         });
     };
 
+
+    convertTimestampToDate = (timestamp) => {
+      const result = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(timestamp * 1000);
+      return result;
+    };
+
     render() {
       let {
         disburseDuration,
@@ -805,6 +815,7 @@ export default function initConstantStakingNew({
       cliffTime = cliffTime * 1e3;
 
       let showDeposit = true;
+      let lockDate;
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -815,6 +826,8 @@ export default function initConstantStakingNew({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
+        lockDate = lockTimeExpire
+
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1223,6 +1236,7 @@ export default function initConstantStakingNew({
                       </div>
                     </div>
                   </div>
+                  {/* <h6 className="withdraw-littletxt" style={{color: '#F0613B'}}>{this.state.errorMsg}</h6> */}
                 </div>
 
                 <div className="otherside-border col-2">
@@ -1464,12 +1478,11 @@ export default function initConstantStakingNew({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                            {lockTime === "No Lock" ? (
+                             {lockTime === "No Lock" ? (
                               "No Lock"
                             ) : (
-                              <Countdown date={cliffTime - (Date.now() - stakingTime)}
-                              renderer={renderer}
-                              />
+                              
+                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
                             )}
                           </h6>
                         </div>
@@ -1614,6 +1627,8 @@ export default function initConstantStakingNew({
               handleConnection={this.props.handleConnection}
             />
           )}
+      {/* {this.state.showCalculator && <PoolsCalculator onClose={() => this.setState({ showCalculator : false})}/>} */}
+
         </div>
 
         // <div>

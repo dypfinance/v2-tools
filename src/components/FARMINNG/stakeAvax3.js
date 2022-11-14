@@ -19,6 +19,29 @@ import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 
+
+
+const renderer = ({ days, hours, minutes, seconds }) => {
+  return (
+    <div className="d-flex gap-3 justify-content-center align-items-center">
+      <div className="d-flex gap-1 align-items-baseline">
+        <span>{days < 10 ? "0" + days : days}</span>
+        <span style={{ fontSize: "13px" }}>days</span>
+      </div>
+      <div className="d-flex gap-1 align-items-baseline">
+        <span>{hours < 10 ? "0" + hours : hours}</span>
+        <span style={{ fontSize: "13px" }}>hours</span>
+      </div>
+      <div className="d-flex gap-1 align-items-baseline">
+        <span>{minutes < 10 ? "0" + minutes : minutes}</span>
+        <span style={{ fontSize: "13px" }}>minutes</span>
+      </div>
+      <span className="d-none">{seconds < 10 ? "0" + seconds : seconds}</span>
+      <span className="d-none">seconds</span>
+    </div>
+  );
+};
+
 export default function stakeAva3({
   staking,
   apr,
@@ -120,9 +143,9 @@ export default function stakeAva3({
         withdrawStatus: "initial",
         showWithdrawModal: false,
         lastClaimedTime: "",
-
         depositAmount: "",
         withdrawAmount: "",
+        errorMsg: "",
 
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
@@ -240,8 +263,10 @@ export default function stakeAva3({
       reward_token.approve(staking._address, amount).then(() => {
         this.setState({ depositLoading: false, depositStatus: "deposit" });
       })
-      .catch(() => {
+      .catch((e) => {
         this.setState({ depositLoading: false, depositStatus: "fail" });
+        this.setState({errorMsg: e?.message})
+
       });
     };
     // handleStake = (e) => {
@@ -282,8 +307,10 @@ export default function stakeAva3({
       staking.stake(amount, referrer, 0, deadline).then(() => {
         this.setState({ depositLoading: false, depositStatus: "success" });
       })
-      .catch(() => {
+      .catch((e) => {
         this.setState({ depositLoading: false, depositStatus: "fail" });
+        this.setState({errorMsg: e?.message})
+
       });
     };
 
@@ -304,6 +331,8 @@ export default function stakeAva3({
       .catch((e) => {
         this.setState({ withdrawStatus: "failed" });
         this.setState({ withdrawLoading: false });
+        this.setState({errorMsg: e?.message})
+
         
       });
     };
@@ -337,9 +366,11 @@ export default function stakeAva3({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call().catch(() => {
+        .call().catch((e) => {
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
+          this.setState({errorMsg: e })
+
           });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -357,9 +388,11 @@ export default function stakeAva3({
         this.setState({ claimStatus: "success" });
         this.setState({ claimLoading: false });
       })
-      .catch(() => {
+      .catch((e) => {
         this.setState({ claimStatus: "failed" });
         this.setState({ claimLoading: false });
+        this.setState({errorMsg: e })
+
       });
     };
 
@@ -588,6 +621,8 @@ export default function stakeAva3({
         .call().catch((e) => {
             this.setState({ reInvestStatus: "failed" });
             this.setState({ reInvestLoading: false });
+          this.setState({errorMsg: e })
+
           });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -608,8 +643,21 @@ export default function stakeAva3({
       .catch((e) => {
         this.setState({ reInvestStatus: "failed" });
         this.setState({ reInvestLoading: false });
+        this.setState({errorMsg: e })
+
       });
     };
+
+
+    convertTimestampToDate = (timestamp) => {
+      const result = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(timestamp * 1000);
+      return result;
+    };
+
 
     render() {
       let {
@@ -658,6 +706,7 @@ export default function stakeAva3({
       cliffTime = cliffTime * 1e3;
 
       let showDeposit = true;
+      let lockDate;
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -668,6 +717,8 @@ export default function stakeAva3({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
+        lockDate = lockTimeExpire
+
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1293,10 +1344,10 @@ export default function stakeAva3({
                         </h6>
                       </div>
                       <h6 className="withdrawdesc mt-2 p-0">
-                        {/* {lockTime === "No Lock"
+                        {lockTime === "No Lock"
                       ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
                       : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
-                    withdraw or you can continue to earn rewards everyday`} */}
+                    withdraw or you can continue to earn rewards everyday`}
                       </h6>
                     </div>
 
@@ -1304,10 +1355,14 @@ export default function stakeAva3({
                       <div className="d-flex  gap-2 justify-content-between align-items-center">
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
-                          <h6
-                            className="withtitle"
-                            style={{ fontWeight: 300 }}
-                          ></h6>
+                          <h6 className="withtitle" style={{ fontWeight: 300 }}>
+                            {lockTime === "No Lock" ? (
+                              "No Lock"
+                            ) : (
+                              
+                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
+                            )}
+                          </h6>
                         </div>
                       </div>
                       <div className="separator"></div>

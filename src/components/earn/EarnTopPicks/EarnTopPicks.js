@@ -401,6 +401,7 @@ const EarnTopPicks = ({
     expiration_time: "6 December 2022",
     fee: feearrayFarmAvax[cardIndex],
     coinbase: coinbase,
+    lockTime: lockarrayFarm[cardIndex]
   });
 
   const lockarrayBuyback = ["No Lock", 90];
@@ -570,6 +571,8 @@ const EarnTopPicks = ({
   const vaultplatformArray = [10, 10, 15, 15, 15];
   const vaultdecimalsArray = [18, 8, 6, 6, 18];
   const vaultsymbolArray = ["WETH", "WBTC", "USDT", "USDC", "DAI"];
+  const locktimeFarm = ["No Lock", '3 Days', '30 Days', '60 Days', '90 Days'];
+
 
   const VaultCard = initVaultNew({
     vault: vaultArray[cardIndex],
@@ -688,7 +691,7 @@ const EarnTopPicks = ({
                 tokenName={pool.tokenName}
                 apr={pool.apy + "%"}
                 tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                lockTime={pool.lockTime ? pool.lockTime : "No Lock"}
+                lockTime={pool.lockTime ? pool.lockTime : locktimeFarm[index]}
                 tokenLogo={pool.icon}
                 onShowDetailsClick={() => {
                   setActiveCard(topPools[index]);

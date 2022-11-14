@@ -132,10 +132,7 @@ export default function stakeAvax({
         stakingTime: "",
         depositedTokens: "",
         lastClaimedTime: "",
-
         depositAmount: "",
-        
-
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
         referralFeeEarned: "",
@@ -161,6 +158,7 @@ export default function stakeAvax({
         unlockDate: 0,
         contractDeployTime: "",
         disburseDuration: "",
+        errorMsg: "",
 
         apy: 0,
       };
@@ -270,6 +268,8 @@ export default function stakeAvax({
         })
         .catch(() => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({errorMsg: e?.message})
+
         });
     };
     // handleStake = (e) => {
@@ -309,6 +309,8 @@ export default function stakeAvax({
       })
       .catch(() => {
         this.setState({ depositLoading: false, depositStatus: "fail" });
+        this.setState({errorMsg: e?.message})
+
       });
     };
 
@@ -326,6 +328,7 @@ export default function stakeAvax({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
+          this.setState({errorMsg: e?.message})
           
         });
     };
@@ -342,6 +345,8 @@ export default function stakeAvax({
         .catch(() => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
+          this.setState({errorMsg: e})
+
         });
     };
 
@@ -527,6 +532,8 @@ export default function stakeAvax({
       .catch((e) => {
         this.setState({ reInvestStatus: "failed" });
         this.setState({ reInvestLoading: false });
+        this.setState({errorMsg: e})
+
       });
     };
     convertTimestampToDate = (timestamp) => {
@@ -649,7 +656,7 @@ export default function stakeAvax({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Earn rewards in:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      DYP {lockDate}
+                      DYP
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-2">
