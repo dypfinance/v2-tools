@@ -1219,15 +1219,15 @@ export default function initFarmAvax({
               <div className="row w-100 justify-content-between">
                 <div className="firstblockwrapper col-2">
                   <div
-                    className="d-flex flex-column justify-content-between gap-2"
+                    className="d-flex flex-column justify-content-between gap-4"
                     style={{ height: "100%" }}
                   >
                     <h6 className="start-title">Start Farming</h6>
-                    <h6 className="start-desc">
+                    {/* <h6 className="start-desc">
                       {this.props.coinbase === null
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
-                    </h6>
+                    </h6> */}
                     {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn"
@@ -1457,6 +1457,7 @@ export default function initFarmAvax({
                           this.setState({ selectedPool: "wavax" });
                         }}
                         style={{
+                          padding: '3px',
                           background:
                             this.state.selectedPool === "wavax"
                               ? "#141333"
@@ -1597,6 +1598,7 @@ export default function initFarmAvax({
                       <div
                         className="gap-1 claimreward-wrapper"
                         style={{
+                          padding: '3px',
                           background:
                             this.state.selectedPool === "dyp"
                               ? "#141333"
@@ -1993,7 +1995,7 @@ export default function initFarmAvax({
                     <div className="d-flex flex-column mt-2">
                       <div className="d-flex  gap-2 justify-content-between align-items-center">
                         <div className="d-flex flex-column gap-1">
-                          <h6 className="withsubtitle">Timer</h6>
+                          <h6 className="withsubtitle mt-3">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
                             {lockTime === "No Lock" ? (
                               "No Lock"

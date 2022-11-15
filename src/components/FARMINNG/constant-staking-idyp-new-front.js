@@ -5,6 +5,7 @@ import Modal from "../Modal/Modal";
 import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
+import { shortAddress } from "../../functions/shortAddress";
 import ellipse from "./assets/ellipse.svg";
 import Clipboard from "react-clipboard.js";
 import successMark from "../../assets/successMark.svg";
@@ -19,6 +20,8 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
+import statsLinkIcon from "./assets/statsLinkIcon.svg";
+
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 
@@ -692,15 +695,15 @@ export default function initConstantStakingiDYP({
               <div className="row w-100 justify-content-between">
                 <div className="firstblockwrapper col-2">
                   <div
-                    className="d-flex flex-column justify-content-between gap-2"
+                    className="d-flex flex-column justify-content-between gap-4"
                     style={{ height: "100%" }}
                   >
                     <h6 className="start-title">Start Staking</h6>
-                    <h6 className="start-desc">
+                    {/* <h6 className="start-desc">
                       {this.props.coinbase === null
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
-                    </h6>
+                    </h6> */}
                     {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn"
@@ -1023,15 +1026,17 @@ export default function initConstantStakingiDYP({
             <Modal
               visible={this.state.popup}
               modalId="tymodal"
+              icon="stats"
+              title="stats"
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
-                  <div className="container">
+                  <div className="container px-0">
                     <div className="row" style={{ marginLeft: "0px" }}>
-                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                      {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
                         <h6 className="d-flex gap-2 align-items-center statstext">
                           <img src={stats} alt="" />
                           Stats
@@ -1039,7 +1044,7 @@ export default function initConstantStakingiDYP({
                         <h6 className="d-flex gap-2 align-items-center myaddrtext">
                           My address
                           <a
-                            href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
+                            href={`${window.config._etherscanbaseURL}/address/${this.props.coinbase}`}
                             target={"_blank"}
                             rel="noreferrer"
                           >
@@ -1049,9 +1054,9 @@ export default function initConstantStakingiDYP({
                           </a>
                           <img src={arrowup} alt="" />
                         </h6>
-                      </div>
+                      </div> */}
                     </div>
-                    <table className="table-stats table table-sm table-borderless mt-2">
+                    {/* <table className="table-stats table table-sm table-borderless mt-2">
                       <tbody>
                         <tr>
                           <td className="text-right">
@@ -1098,77 +1103,163 @@ export default function initConstantStakingiDYP({
                           </td>
                         </tr>
                       </tbody>
-                    </table>
-                    <div className="referralwrapper">
-                      <div className="d-flex gap-2 align-items-start">
-                        <img src={referralimg} alt="" />
-                        <div
-                          className="d-flex gap-2 flex-column"
-                          style={{ width: "60%" }}
-                        >
-                          <div>
-                            <span style={{ fontSize: ".8rem" }}>
-                              <h6
-                                className="referraltitle"
-                                style={{ cursor: "pointer" }}
-                              >
-                                <Clipboard
-                                  component="h6"
-                                  onSuccess={(e) => {
-                                    setTimeout(() => ReactTooltip.hide(), 2000);
-                                  }}
-                                  data-event="click"
-                                  data-for={id}
-                                  data-tip="Copied To Clipboard!"
-                                  data-clipboard-text={this.getReferralLink()}
+                    </table> */}
+                    <div className="stats-container my-4">
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          My iDYP Deposit
+                        </span>
+                        <h6 className="stats-card-content">
+                          {depositedTokens} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          My iDYP Balance
+                        </span>
+                        <h6 className="stats-card-content">
+                          {token_balance} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Referral Fee Earned
+                        </span>
+                        <h6 className="stats-card-content">
+                          {referralFeeEarned} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Total iDYP Locked
+                        </span>
+                        <h6 className="stats-card-content">{tvl} iDYP</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">TVL USD</span>
+                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Contract Expiration
+                        </span>
+                        <h6 className="stats-card-content">
+                          {expiration_time} iDYP
+                        </h6>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="referralwrapper col-8">
+                        <div className="d-flex gap-2 align-items-start justify-content-between">
+                          <img src={referralimg} alt="" />
+                          <div
+                            className="d-flex gap-2 flex-column"
+                            style={{ width: "60%" }}
+                          >
+                            <div>
+                              <span style={{ fontSize: ".8rem" }}>
+                                <h6
                                   className="referraltitle"
+                                  style={{ cursor: "pointer" }}
                                 >
-                                  Referral Link:
-                                  <span
-                                    title="Copy link to clipboard"
-                                    style={{
-                                      cursor: "pointer",
+                                  <Clipboard
+                                    component="h6"
+                                    onSuccess={(e) => {
+                                      setTimeout(
+                                        () => ReactTooltip.hide(),
+                                        2000
+                                      );
                                     }}
-                                  ></span>
-                                </Clipboard>
-                                <ReactTooltip id={id} effect="solid" />
-                              </h6>
-                              <br />
-                              {/* <a
+                                    data-event="click"
+                                    data-for={id}
+                                    data-tip="Copied To Clipboard!"
+                                    data-clipboard-text={this.getReferralLink()}
+                                    className="referraltitle"
+                                  >
+                                    Referral Link:
+                                    <span
+                                      title="Copy link to clipboard"
+                                      style={{
+                                        cursor: "pointer",
+                                      }}
+                                    ></span>
+                                  </Clipboard>
+                                  <ReactTooltip id={id} effect="solid" />
+                                </h6>
+                                <br />
+                                {/* <a
                                 className="text-muted small"
                                 href={this.getReferralLink()}
                               >
                                 {" "}
                                 {this.getReferralLink()}{" "}
                               </a> */}
-                            </span>
-                          </div>
+                              </span>
+                            </div>
 
-                          <h6 className="referraldesc">
-                            Refferal link gives you 5% for each invite friend
-                            you bring to buy DYP example
-                          </h6>
+                            <h6 className="referraldesc">
+                              Refferal link gives you 5% for each invite friend
+                              you bring to buy DYP example
+                            </h6>
+                          </div>
+                          <Clipboard
+                            component="div"
+                            onSuccess={(e) => {
+                              setTimeout(() => ReactTooltip.hide(), 2000);
+                            }}
+                            data-event="click"
+                            data-for={id}
+                            data-tip="Copied To Clipboard!"
+                            data-clipboard-text={this.getReferralLink()}
+                            className=""
+                          >
+                            <button className="copybtn btn">
+                              <img src={copy} alt="" /> Copy{" "}
+                            </button>{" "}
+                          </Clipboard>
+                          <ReactTooltip id={id} effect="solid" />
+                          &nbsp;{" "}
                         </div>
-                        <Clipboard
-                          component="div"
-                          onSuccess={(e) => {
-                            setTimeout(() => ReactTooltip.hide(), 2000);
+                      </div>
+                      <div className="col-3 d-flex flex-column gap-1">
+                        <span
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
                           }}
-                          data-event="click"
-                          data-for={id}
-                          data-tip="Copied To Clipboard!"
-                          data-clipboard-text={this.getReferralLink()}
-                          className=""
                         >
-                          <button className="copybtn btn">
-                            <img src={copy} alt="" /> Copy{" "}
-                          </button>{" "}
-                        </Clipboard>
-                        <ReactTooltip id={id} effect="solid" />
-                        &nbsp;{" "}
+                          My address
+                        </span>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                          className="stats-link"
+                        >
+                          {shortAddress(coinbase)}{" "}
+                          <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`https://github.com/dypfinance/staking-governance-security-audits`}
+                          className="stats-link"
+                        >
+                          Audit <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                          className="stats-link"
+                        >
+                          View on Etherscan <img src={statsLinkIcon} alt="" />
+                        </a>
                       </div>
                     </div>
-                    <div className="mt-4">
+                    {/* <div className="mt-4">
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
@@ -1179,7 +1270,7 @@ export default function initConstantStakingiDYP({
                         Etherscan
                         <img src={arrowup} alt="" />
                       </a>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -1190,20 +1281,21 @@ export default function initConstantStakingiDYP({
             <Modal
               visible={this.state.showWithdrawModal}
               modalId="withdrawmodal"
+              title="withdraw"
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
-                  <div className="container">
+                  <div className="container px-0">
                     <div className="row" style={{ marginLeft: "0px" }}>
-                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                      {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
                         <h6 className="d-flex gap-2 align-items-center statstext">
                           <img src={stats} alt="" />
                           Withdraw
                         </h6>
-                      </div>
+                      </div> */}
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
@@ -1215,7 +1307,7 @@ export default function initConstantStakingiDYP({
                     <div className="d-flex flex-column mt-2">
                       <div className="d-flex  gap-2 justify-content-between align-items-center mt-2">
                         <div className="d-flex flex-column gap-1">
-                          <h6 className="withsubtitle">Timer</h6>
+                          <h6 className="withsubtitle mt-3">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
                             {lockTime === "No Lock" ? (
                               "No Lock"
@@ -1264,7 +1356,7 @@ export default function initConstantStakingiDYP({
                         </button>
                       </div>
 
-                      <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
+                      <div className="d-flex flex-column align-items-start justify-content-between gap-2 mt-4">
                         {/* <button
                         disabled={this.state.withdrawAmount === "" ? true : false}
                           className={`btn filledbtn ${this.state.withdrawAmount === "" && 'disabled-btn'} w-100`}
@@ -1318,7 +1410,9 @@ export default function initConstantStakingiDYP({
                             <>Withdraw</>
                           )}
                         </button>
-
+                          <span className="mt-2" style={{fontWeight: '400', fontSize: '12px', lineHeight: '18px', color: "#C0C9FF" }}>
+                            *No withdrawal fee
+                          </span>
                         {/* <div className="form-row">
                               <div className="col-6">
                                 <button

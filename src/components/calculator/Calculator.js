@@ -17,6 +17,8 @@ import xMark from './assets/xMark.svg'
 import "./calculator.css";
 
 
+
+
 const Calculator = ({earnClass, onClose, ref  }) => {
 
   const chainButtonsArray = [
@@ -453,7 +455,7 @@ const Calculator = ({earnClass, onClose, ref  }) => {
             <img src={xMark} width={25} height={25} onClick={onClose} style={{cursor: 'pointer'}} />
             }
           </div>
-          <div className="pills-container justify-content-center row m-0 w-100">
+          <div className="pills-container d-flex justify-content-center row m-0 w-100">
             {pillsNames &&
               pillsNames.length > 0 &&
               pillsNames.map((item, id) => (
@@ -463,7 +465,7 @@ const Calculator = ({earnClass, onClose, ref  }) => {
                  setActivePill(item);
                  getActivePill(item);
                }}
-               className={`pill-item d-flex align-items-center gap-2 ${activePill == item ? "active-color" : ""
+               className={`col-3 pill-item d-flex align-items-center gap-2 ${activePill == item ? "active-color" : ""
                  }`}
                ref={(el) => (pillRef.current[id] = el)}
                style={{

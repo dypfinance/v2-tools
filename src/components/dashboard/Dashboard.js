@@ -14,6 +14,7 @@ import rightarrow from "./assets/right-arrow.svg";
 import TopPoolsDetails from "../top-pools-card/TopPoolsDetails";
 import initStakingNew from "../FARMINNG/staking-new-front";
 import { NavLink } from "react-router-dom";
+import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
 
  const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network, handleConnection  }) => {
   const cards = [
@@ -74,6 +75,29 @@ import { NavLink } from "react-router-dom";
     fee: feeArray[cardIndex],
     handleConnection: handleConnection
   });
+
+  const stakeArrayStakeNew = [
+    window.constant_staking_new1,
+    window.constant_staking_new2,
+  ];
+
+  const aprArrayStake = [25, 50];
+  const lockarray = ["No Lock", 90];
+  const feeArrayStake = [0.25, 0.5];
+
+  const ConstantStaking1 = initConstantStakingNew({
+    staking: stakeArrayStakeNew[cardIndex],
+    apr: aprArrayStake[cardIndex],
+    liquidity: eth_address,
+    expiration_time: "14 December 2022",
+    other_info: false,
+    fee: feeArrayStake[cardIndex],
+    coinbase: coinbase,
+    handleConnection: handleConnection,
+    chainId: network,
+    lockTime: lockarray[cardIndex],
+    renderedPage: "dashboard"
+  });
   
   return (
     <div className="container-lg dashboardwrapper px-0">
@@ -126,7 +150,7 @@ import { NavLink } from "react-router-dom";
                   })}
               </div>
               {activeCard && (
-                <StakingNew1
+                <ConstantStaking1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
