@@ -6,9 +6,6 @@ import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
 import ellipse from "./assets/ellipse.svg";
-import empty from "./assets/empty.svg";
-import check from "./assets/check.svg";
-import successMark from "../../assets/successMark.svg";
 import failMark from "../../assets/failMark.svg";
 import Clipboard from "react-clipboard.js";
 import ReactTooltip from "react-tooltip";
@@ -21,10 +18,13 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
-import PoolsCalculator from "../pools-calculator/PoolsCalculator";
+
 import statsLinkIcon from './assets/statsLinkIcon.svg'
 import CountDownTimer from "../locker/Countdown";
 import { shortAddress } from "../../functions/shortAddress";
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
+
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -155,6 +155,8 @@ export default function initConstantStakingNew({
         usdPerToken: "",
         unlockDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
         errorMsg: "",
+        errorMsg2: "",
+        errorMsg3: "",
         showCalculator: false,
         contractDeployTime: "",
         disburseDuration: "",
@@ -331,7 +333,7 @@ export default function initConstantStakingNew({
         })
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
+          this.setState({ errorMsg: e?.message });
         });
     };
 
@@ -401,7 +403,7 @@ export default function initConstantStakingNew({
         })
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
+          this.setState({ errorMsg: e?.message });
         });
     };
 
@@ -424,8 +426,7 @@ export default function initConstantStakingNew({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg3: e?.message });
         });
     };
 
@@ -452,7 +453,7 @@ export default function initConstantStakingNew({
         .getAmountsOut(amount, path)
         .call()
         .catch((e) => {
-          this.setState({errorMsg: e})
+          this.setState({ errorMsg2: e });
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
         });
@@ -483,8 +484,7 @@ export default function initConstantStakingNew({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg2: e?.message });
         });
     };
 
@@ -649,7 +649,6 @@ export default function initConstantStakingNew({
       staking
         .LOCKUP_TIME()
         .then((cliffTime) => {
-          
           this.setState({ cliffTime: Number(cliffTime) });
         })
         .catch(console.error);
@@ -715,9 +714,10 @@ export default function initConstantStakingNew({
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg2: e });
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -746,12 +746,12 @@ export default function initConstantStakingNew({
           this.setState({ reInvestStatus: "success" });
           this.setState({ reInvestLoading: false });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg2: e?.message });
         });
     };
-
 
     convertTimestampToDate = (timestamp) => {
       const result = new Intl.DateTimeFormat("en-US", {
@@ -828,8 +828,7 @@ export default function initConstantStakingNew({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire
-
+        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1045,7 +1044,7 @@ export default function initConstantStakingNew({
                           type={"number"}
                           className="styledinput"
                           placeholder="0.0"
-                          style={{ width: '100%' }}
+                          style={{ width: "100%" }}
                           value={
                             Number(this.state.depositAmount) > 0
                               ? this.state.depositAmount
@@ -1116,6 +1115,9 @@ export default function initConstantStakingNew({
                         )}
                       </button>
                     </div>
+                    {this.state.errorMsg && (
+                      <h6 className="errormsg">{this.state.errorMsg}</h6>
+                    )}
                   </div>
                 </div>
                 <div className="otherside-border col-4">
@@ -1238,8 +1240,10 @@ export default function initConstantStakingNew({
                         </button>
                       </div>
                     </div>
+                    {this.state.errorMsg2 && (
+                      <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                    )}
                   </div>
-                  {/* <h6 className="withdraw-littletxt" style={{color: '#F0613B'}}>{this.state.errorMsg}</h6> */}
                 </div>
 
                 <div className="otherside-border col-2">
@@ -1563,11 +1567,15 @@ export default function initConstantStakingNew({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle mt-3">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                             {lockTime === "No Lock" ? (
+                            {lockTime === "No Lock" ? (
                               "No Lock"
                             ) : (
-                              
-                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
+                              <Countdown
+                                date={this.convertTimestampToDate(
+                                  Number(lockDate)
+                                )}
+                                renderer={renderer}
+                              />
                             )}
                           </h6>
                         </div>
@@ -1698,6 +1706,9 @@ export default function initConstantStakingNew({
                               </div>
                             </div> */}
                       </div>
+                      {this.state.errorMsg3 && (
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1712,8 +1723,111 @@ export default function initConstantStakingNew({
               handleConnection={this.props.handleConnection}
             />
           )}
-      {/* {this.state.showCalculator && <PoolsCalculator onClose={() => this.setState({ showCalculator : false})}/>} */}
+          <div
+            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+            onClick={() => this.setState({ showCalculator: true })}
+          >
+            <img
+              src={calculatorIcon}
+              alt=""
+              style={{ width: 30, height: 30 }}
+            />{" "}
+            Calculator
+          </div>
 
+          {this.state.showCalculator && (
+            <div className="pools-calculator p-3">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={calculatorIcon} alt="" />
+                  <h5
+                    style={{
+                      fontSize: "23px",
+                      fontWeight: "500",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Calculator
+                  </h5>
+                </div>
+                <img
+                  src={xMark}
+                  alt=""
+                  onClick={() => {
+                    this.setState({ showCalculator: false });
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <hr />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Days to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="Days*"
+                    value={this.state.approxDays}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDays: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Amount to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="USD to deposit*"
+                    value={this.state.approxDeposit}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDeposit: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-2 mt-4">
+                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>tbd</h3>
+                <h6
+                  style={{
+                    fontWeight: "300",
+                    fontSize: "15px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  Approx {getFormattedNumber(this.getApproxReturn(), 6)}
+                  DYP
+                </h6>
+              </div>
+              <div className="mt-4">
+                <p
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  *This calculator is for informational purposes only.
+                  Calculated yields assume that prices of the deposited assets
+                  don't change.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
 
         // <div>

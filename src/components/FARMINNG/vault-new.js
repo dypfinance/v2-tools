@@ -16,15 +16,15 @@ import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
 import purplestats from "./assets/purpleStat.svg";
-import referralimg from "./assets/referral.svg";
-import copy from "./assets/copy.svg";
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import poolStatsIcon from './assets/poolStatsIcon.svg'
 
-export default function initVault({
+export default function initVaultNew({
   vault,
   platformTokenApyPercent,
   apr = 72,
@@ -144,6 +144,7 @@ export default function initVault({
         withdrawLoading: false,
         withdrawStatus: "initial",
         showWithdrawModal: false,
+        showCalculator: false,
 
         contractDeployTime: "",
         disburseDuration: "",

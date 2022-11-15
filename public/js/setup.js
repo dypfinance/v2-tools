@@ -1365,7 +1365,7 @@ window.config = {
   buyback_stakingavax1_2_address: "0x267434f01ac323C6A5BCf41Fa111701eE0165a37",
 
     //constant staking for Buyback New avax
-    constant_stakingnew_new3avax_address: "0xe6B307CD185f2A541a661eA312E3e7939Ea9d218",
+    constant_stakingnew_newavax3_address: "0xe6B307CD185f2A541a661eA312E3e7939Ea9d218",
   constant_stakingnew_newavax4_address:  "0x934819D227B7095595eC9cA6604eF2Dd0C3a9EA2",
 
 
@@ -17763,6 +17763,8 @@ function getCoinbase() {
     return window.web3.eth?.getCoinbase();
   }
 }
+
+ 
 
 async function getContract({ key, address = null, ABI = null }) {
   ABI = ABI || window[key + "_ABI"];

@@ -20,9 +20,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 import { shortAddress } from "../../functions/shortAddress";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
-
-
-
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -45,7 +44,6 @@ const renderer = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-
 export default function stakeAvaxiDyp({
   staking,
   apr,
@@ -57,7 +55,7 @@ export default function stakeAvaxiDyp({
   fee_u,
   chainId,
   coinbase,
-  lockTime
+  lockTime,
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;
   let token_symbol = "iDYP";
@@ -132,6 +130,9 @@ export default function stakeAvaxiDyp({
         depositedTokens: "",
         lastClaimedTime: "",
         errorMsg: "",
+        errorMsg2: "",
+        errorMsg3: "",
+        showCalculator: false,
 
         depositAmount: "",
         withdrawAmount: "",
@@ -143,7 +144,7 @@ export default function stakeAvaxiDyp({
         reInvestStatus: "initial",
         selectedTokenLogo: "wavax",
         selectedRewardTokenLogo1: "wavax",
-        selectedRewardTokenLogo2: "dyp",
+        selectedRewardTokenLogo2: "idyp",
         withdrawLoading: false,
         withdrawStatus: "initial",
         showWithdrawModal: false,
@@ -229,9 +230,9 @@ export default function stakeAvaxiDyp({
 
     componentDidMount() {
       this.refreshBalance();
-    //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
-    if (this.props.coinbase !== null) {
+      if (this.props.coinbase !== null) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
@@ -247,8 +248,7 @@ export default function stakeAvaxiDyp({
     };
 
     componentWillUnmount() {
-        
-    //   clearInterval(window._refreshBalInterval);
+      //   clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -258,9 +258,9 @@ export default function stakeAvaxiDyp({
       staking.depositTOKEN(amount);
     };
 
-    handleApprove = async(e) => {
-    //   e.preventDefault();
-    this.setState({ depositLoading: true });
+    handleApprove = async (e) => {
+      //   e.preventDefault();
+      this.setState({ depositLoading: true });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
@@ -269,19 +269,19 @@ export default function stakeAvaxiDyp({
 
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
-     await reward_token.approve(staking._address, amount).then(() => {
-        this.setState({ depositLoading: false, depositStatus: "deposit" });
-      })
-      .catch((e) => {
-        this.setState({ depositLoading: false, depositStatus: "fail" });
-        this.setState({errorMsg: e?.message})
-
-      });
+      await reward_token
+        .approve(staking._address, amount)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
+        })
+        .catch((e) => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+        });
     };
 
-
-    handleStake = async(e) => {
-    this.setState({ depositLoading: true });
+    handleStake = async (e) => {
+      this.setState({ depositLoading: true });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
@@ -300,47 +300,49 @@ export default function stakeAvaxiDyp({
       if (!window.web3.utils.isAddress(referrer)) {
         referrer = window.config.ZERO_ADDRESS;
       }
-     await staking.stake(amount, referrer).then(() => {
-        this.setState({ depositLoading: false, depositStatus: "success" });
-      })
-      .catch((e) => {
-        this.setState({ depositLoading: false, depositStatus: "fail" });
-        this.setState({errorMsg: e?.message})
-
-      });
+      await staking
+        .stake(amount, referrer)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "success" });
+        })
+        .catch((e) => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+        });
     };
 
     handleWithdraw = (e) => {
-    //   e.preventDefault();
-    this.setState({ withdrawLoading: true });
+      //   e.preventDefault();
+      this.setState({ withdrawLoading: true });
 
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
-      staking.unstake(amount).then(() => {
-        this.setState({ withdrawStatus: "success" });
-        this.setState({ withdrawLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ withdrawStatus: "failed" });
-        this.setState({ withdrawLoading: false });
-        this.setState({errorMsg: e?.message})
-
-        
-      });
+      staking
+        .unstake(amount)
+        .then(() => {
+          this.setState({ withdrawStatus: "success" });
+          this.setState({ withdrawLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ withdrawStatus: "failed" });
+          this.setState({ withdrawLoading: false });
+          this.setState({ errorMsg3: e?.message });
+        });
     };
 
     handleClaimDivs = (e) => {
-    //   e.preventDefault();
-      staking.claim().then(() => {
-        this.setState({ claimStatus: "success" });
-        this.setState({ claimLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ claimStatus: "failed" });
-        this.setState({ claimLoading: false });
-        this.setState({errorMsg: e?.message})
-
-      });
+      //   e.preventDefault();
+      staking
+        .claim()
+        .then(() => {
+          this.setState({ claimStatus: "success" });
+          this.setState({ claimLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+          this.setState({ errorMsg2: e?.message });
+        });
     };
 
     handleSetMaxDeposit = (e) => {
@@ -365,8 +367,7 @@ export default function stakeAvaxiDyp({
     };
 
     refreshBalance = async () => {
-    let coinbase = this.props.coinbase
-    
+      let coinbase = this.props.coinbase;
 
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
@@ -388,7 +389,9 @@ export default function stakeAvaxiDyp({
         let tStakers = staking.getNumberOfHolders();
 
         //Take DYPS Balance
-        let _tvlDYPS = token_dypsavax.balanceOf(staking._address); /* TVL of DYPS */
+        let _tvlDYPS = token_dypsavax.balanceOf(
+          staking._address
+        ); /* TVL of DYPS */
 
         let [
           token_balance,
@@ -475,22 +478,21 @@ export default function stakeAvaxiDyp({
     };
 
     handleReinvest = (e) => {
-    //   e.preventDefault();
-    this.setState({ reInvestStatus: "invest", reInvestLoading: true });
+      //   e.preventDefault();
+      this.setState({ reInvestStatus: "invest", reInvestLoading: true });
 
-      staking.reInvest().then(() => {
-        this.setState({ reInvestStatus: "success" });
-        this.setState({ reInvestLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ reInvestStatus: "failed" });
-        this.setState({ reInvestLoading: false });
-        this.setState({errorMsg: e?.message})
-
-      });
+      staking
+        .reInvest()
+        .then(() => {
+          this.setState({ reInvestStatus: "success" });
+          this.setState({ reInvestLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg2: e?.message });
+        });
     };
-
-    
 
     convertTimestampToDate = (timestamp) => {
       const result = new Intl.DateTimeFormat("en-US", {
@@ -543,7 +545,6 @@ export default function stakeAvaxiDyp({
       let showDeposit = true;
       let lockDate;
 
-
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
         let lockTimeExpire = parseInt(Date.now()) + parseInt(cliffTime);
@@ -553,8 +554,7 @@ export default function stakeAvaxiDyp({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire
-
+        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -599,90 +599,89 @@ export default function stakeAvaxiDyp({
 
       return (
         <div className="container-lg p-0">
-        <div className="allwrapper my-4">
-          <div className="leftside2 w-100">
-            <div className="activewrapper">
-              <div className="d-flex align-items-center justify-content-between gap-5">
-                <h6 className="activetxt">
-                  <img
-                    src={ellipse}
-                    alt=""
-                    className="position-relative"
-                    style={{ top: 3 }}
-                  />
-                  Active status
-                </h6>
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Earn rewards in:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    iDYP
+          <div className="allwrapper my-4">
+            <div className="leftside2 w-100">
+              <div className="activewrapper">
+                <div className="d-flex align-items-center justify-content-between gap-5">
+                  <h6 className="activetxt">
+                    <img
+                      src={ellipse}
+                      alt=""
+                      className="position-relative"
+                      style={{ top: 3 }}
+                    />
+                    Active status
                   </h6>
-                </div>
-                
-                
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Earn rewards in:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      iDYP
+                    </h6>
+                  </div>
 
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">APR:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                  {apr == 0 ? '...' : getFormattedNumber(apr - fee_s, 0)} %
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {
-                            "APR reflects the interest rate of earnings on an account over the course of one year. "
-                          }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">APR:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {apr == 0 ? "..." : getFormattedNumber(apr - fee_s, 0)} %
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "APR reflects the interest rate of earnings on an account over the course of one year. "
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Lock time:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {
+                              "The amount of time your deposited assets will be locked."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
                 </div>
-                <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Lock time:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                  {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {
-                            "The amount of time your deposited assets will be locked."
-                          }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
-                </div>
-              </div>
 
-              <div className="d-flex align-items-center justify-content-between gap-3">
-                <a
-                  href={
-                    chainId === 1
-                      ? "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
-                      : "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
-                  }
-                  target={"_blank"}
-                  rel="noreferrer"
-                >
-                  <h6 className="bottomitems">
-                    <img src={arrowup} alt="" />
-                    Get iDYP
-                  </h6>
-                </a>
-                <div
-                  onClick={() => {
-                    this.showPopup();
-                  }}
-                >
-                  <h6 className="bottomitems">
-                    <img src={purplestats} alt="" />
-                    Stats
-                  </h6>
+                <div className="d-flex align-items-center justify-content-between gap-3">
+                  <a
+                    href={
+                      chainId === 1
+                        ? "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                        : "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                    }
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <h6 className="bottomitems">
+                      <img src={arrowup} alt="" />
+                      Get iDYP
+                    </h6>
+                  </a>
+                  <div
+                    onClick={() => {
+                      this.showPopup();
+                    }}
+                  >
+                    <h6 className="bottomitems">
+                      <img src={purplestats} alt="" />
+                      Stats
+                    </h6>
+                  </div>
                 </div>
               </div>
             </div>
@@ -714,282 +713,288 @@ export default function stakeAvaxiDyp({
                     </div>
                   )}
                 </div>
-              </div>
-              {/* <div className="otherside">
+                {/* <div className="otherside">
         <button className="btn green-btn">
           TBD Claim reward 0.01 ETH
         </button>
       </div> */}
-              <div className="otherside-border col-4">
-                <div className="d-flex justify-content-between align-items-center gap-2">
-                  <div className="d-flex justify-content-center align-items-center gap-3">
-                    <h6 className="deposit-txt">Deposit</h6>
-                    <div className="d-flex gap-2 align-items-center">
-                      <img
-                        src={require(`./assets/dyp.svg`).default}
-                        alt=""
-                        style={{ width: 15, height: 15 }}
-                      />
-                      <h6
-                        className="text-white"
-                        style={{ fontSize: "11px", fontWeight: "600" }}
-                      >
-                        iDYP
+                <div className="otherside-border col-4">
+                  <div className="d-flex justify-content-between align-items-center gap-2">
+                    <div className="d-flex justify-content-center align-items-center gap-3">
+                      <h6 className="deposit-txt">Deposit</h6>
+                      <div className="d-flex gap-2 align-items-center">
+                        <img
+                          src={require(`./assets/dyp.svg`).default}
+                          alt=""
+                          style={{ width: 15, height: 15 }}
+                        />
+                        <h6
+                          className="text-white"
+                          style={{ fontSize: "11px", fontWeight: "600" }}
+                        >
+                          iDYP
+                        </h6>
+                      </div>
+                      <h6 className="mybalance-text">
+                        Balance:
+                        <b>{token_balance}</b>
                       </h6>
                     </div>
-                    <h6 className="mybalance-text">
-                      Balance:
-                      <b>{token_balance}</b>
-                    </h6>
-                  </div>
-                  <Tooltip
-                    placement="top"
-                    title={
-                      <div style={{ whiteSpace: "pre-line" }}>
-                        {"lorem impsum deposit text"}
-                      </div>
-                    }
-                  >
-                    <img src={moreinfo} alt="" />
-                  </Tooltip>
-                </div>
-                <div className="d-flex flex-column gap-2 justify-content-between">
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <div className="position-relative">
-                      <h6 className="amount-txt">Amount</h6>
-                      <input
-                        type={"number"}
-                        className="styledinput"
-                        placeholder="0.0"
-                        style={{ width: '100%' }}
-                        value={
-                          Number(this.state.depositAmount) > 0
-                            ? this.state.depositAmount
-                            : this.state.depositAmount
-                        }
-                        onChange={(e) =>
-                          this.setState({
-                            depositAmount: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                    <button
-                      className="btn maxbtn"
-                      onClick={this.handleSetMaxDeposit}
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"lorem impsum deposit text"}
+                        </div>
+                      }
                     >
-                      Max
-                    </button>
-                    {/* <button
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </div>
+                  <div className="d-flex flex-column gap-2 justify-content-between">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <div className="position-relative">
+                        <h6 className="amount-txt">Amount</h6>
+                        <input
+                          type={"number"}
+                          className="styledinput"
+                          placeholder="0.0"
+                          style={{ width: "100%" }}
+                          value={
+                            Number(this.state.depositAmount) > 0
+                              ? this.state.depositAmount
+                              : this.state.depositAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              depositAmount: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <button
+                        className="btn maxbtn"
+                        onClick={this.handleSetMaxDeposit}
+                      >
+                        Max
+                      </button>
+                      {/* <button
                 className="btn filledbtn"
                 onClick={this.handleApprove}
               >
                 Approve
               </button> */}
-                    <button
-                      disabled={
-                        this.state.depositAmount === "" ||
-                        this.state.depositLoading === true
-                          ? true
-                          : false
-                      }
-                      className={`btn filledbtn ${
-                        this.state.depositAmount === "" && "disabled-btn"
-                      } ${
-                        this.state.depositStatus === "deposit" ||
-                        this.state.depositStatus === "success"
-                          ? "success-button"
-                          : this.state.depositStatus === "fail"
-                          ? "fail-button"
-                          : null
-                      } d-flex justify-content-center align-items-center gap-2`}
-                      onClick={() => {
-                        this.state.depositStatus === "deposit"
-                          ? this.handleStake()
-                          : this.state.depositStatus === "initial"
-                          ? this.handleApprove()
-                          : console.log("");
-                      }}
-                    >
-                      {this.state.depositLoading ? (
-                        <div
-                          class="spinner-border spinner-border-sm text-light"
-                          role="status"
-                        >
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      ) : this.state.depositStatus === "initial" ? (
-                        <>Approve</>
-                      ) : this.state.depositStatus === "deposit" ? (
-                        <>Deposit</>
-                      ) : this.state.depositStatus === "success" ? (
-                        <>Success</>
-                      ) : (
-                        <>
-                          <img src={failMark} alt="" />
-                          Failed
-                        </>
-                      )}
-                    </button>
+                      <button
+                        disabled={
+                          this.state.depositAmount === "" ||
+                          this.state.depositLoading === true
+                            ? true
+                            : false
+                        }
+                        className={`btn filledbtn ${
+                          this.state.depositAmount === "" && "disabled-btn"
+                        } ${
+                          this.state.depositStatus === "deposit" ||
+                          this.state.depositStatus === "success"
+                            ? "success-button"
+                            : this.state.depositStatus === "fail"
+                            ? "fail-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        onClick={() => {
+                          this.state.depositStatus === "deposit"
+                            ? this.handleStake()
+                            : this.state.depositStatus === "initial"
+                            ? this.handleApprove()
+                            : console.log("");
+                        }}
+                      >
+                        {this.state.depositLoading ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.depositStatus === "initial" ? (
+                          <>Approve</>
+                        ) : this.state.depositStatus === "deposit" ? (
+                          <>Deposit</>
+                        ) : this.state.depositStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
+                  {this.state.errorMsg && (
+                    <h6 className="errormsg">{this.state.errorMsg}</h6>
+                  )}
                 </div>
-              </div>
-              <div className="otherside-border col-4">
-                <div className="d-flex justify-content-between gap-2 ">
-                  <h6 className="withdraw-txt">Rewards</h6>
-                  <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                    Reward updated each day 00:00 (UTC) <b>22:36</b>
+                <div className="otherside-border col-4">
+                  <div className="d-flex justify-content-between gap-2 ">
+                    <h6 className="withdraw-txt">Rewards</h6>
+                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
+                      Reward updated each day 00:00 (UTC) <b>22:36</b>
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {"rewards text"}
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
+                  </div>
+                  <div className="d-flex flex-column gap-2 justify-content-between">
+                    <div className="d-flex align-items-center justify-content-between gap-2"></div>
+                    <div className="form-row d-flex gap-2 align-items-center justify-content-between">
+                      <div className="position-relative">
+                        <input
+                          disabled
+                          value={
+                            Number(pendingDivs) > 0
+                              ? `${pendingDivs} DYP`
+                              : `${pendingDivs} DYP`
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              pendingDivs:
+                                Number(e.target.value) > 0
+                                  ? e.target.value
+                                  : e.target.value,
+                            })
+                          }
+                          className=" left-radius inputfarming styledinput2"
+                          placeholder="0"
+                          type="text"
+                          style={{ fontSize: "14px", width: 140 }}
+                        />
+                      </div>
+                      <div className="d-flex align-items-center gap-2">
+                        <button
+                          disabled={
+                            this.state.claimStatus === "claimed" ||
+                            this.state.claimStatus === "success"
+                              ? true
+                              : false
+                          }
+                          className={`btn filledbtn ${
+                            this.state.claimStatus === "claimed"
+                              ? "disabled-btn"
+                              : this.state.claimStatus === "failed"
+                              ? "fail-button"
+                              : this.state.claimStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleClaimDivs}
+                        >
+                          {this.state.claimLoading &&
+                          this.state.claimStatus === "initial" ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.claimStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.claimStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Claim</>
+                          )}
+                        </button>
+
+                        <button
+                          disabled={
+                            // this.state.claimStatus === "invest" ? true :
+                            false
+                          }
+                          className={`btn filledbtn ${
+                            this.state.reInvestStatus === "invest"
+                              ? "disabled-btn"
+                              : this.state.reInvestStatus === "failed"
+                              ? "fail-button"
+                              : this.state.reInvestStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleReinvest}
+                        >
+                          {this.state.reInvestLoading &&
+                          this.state.reInvestStatus === "invest" ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.reInvestStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.reInvestStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Reinvest</>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  {this.state.errorMsg2 && (
+                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                  )}
+                </div>
+
+                <div className="otherside-border col-2">
+                  <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
+                    WITHDRAW
                     <Tooltip
                       placement="top"
                       title={
                         <div style={{ whiteSpace: "pre-line" }}>
-                          {"rewards text"}
+                          {"withdraw deposit text"}
                         </div>
                       }
                     >
                       <img src={moreinfo} alt="" />
                     </Tooltip>
                   </h6>
-                </div>
-                <div className="d-flex flex-column gap-2 justify-content-between">
-                  <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                  <div className="form-row d-flex gap-2 align-items-center justify-content-between">
-                    <div className="position-relative">
-                      <input
-                        disabled
-                        value={
-                          Number(pendingDivs) > 0
-                            ? `${pendingDivs} DYP`
-                            : `${pendingDivs} DYP`
-                        }
-                        onChange={(e) =>
-                          this.setState({
-                            pendingDivs:
-                              Number(e.target.value) > 0
-                                ? e.target.value
-                                : e.target.value,
-                          })
-                        }
-                        className=" left-radius inputfarming styledinput2"
-                        placeholder="0"
-                        type="text"
-                        style={{ fontSize: "14px", width: 140 }}
-                      />
-                    </div>
-                    <div className="d-flex align-items-center gap-2">
-                      <button
-                        disabled={
-                          this.state.claimStatus === "claimed" ||
-                          this.state.claimStatus === "success"
-                            ? true
-                            : false
-                        }
-                        className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed"
-                            ? "disabled-btn"
-                            : this.state.claimStatus === "failed"
-                            ? "fail-button"
-                            : this.state.claimStatus === "success"
-                            ? "success-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
-                        style={{ height: "fit-content" }}
-                        onClick={this.handleClaimDivs}
-                      >
-                        {this.state.claimLoading &&
-                        this.state.claimStatus === "initial" ? (
-                          <div
-                            class="spinner-border spinner-border-sm text-light"
-                            role="status"
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : this.state.claimStatus === "failed" ? (
-                          <>
-                            <img src={failMark} alt="" />
-                            Failed
-                          </>
-                        ) : this.state.claimStatus === "success" ? (
-                          <>Success</>
-                        ) : (
-                          <>Claim</>
-                        )}
-                      </button>
 
-                      <button
-                        disabled={
-                          // this.state.claimStatus === "invest" ? true :
-                          false
-                        }
-                        className={`btn filledbtn ${
-                          this.state.reInvestStatus === "invest"
-                            ? "disabled-btn"
-                            : this.state.reInvestStatus === "failed"
-                            ? "fail-button"
-                            : this.state.reInvestStatus === "success"
-                            ? "success-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
-                        style={{ height: "fit-content" }}
-                        onClick={this.handleReinvest}
-                      >
-                        {this.state.reInvestLoading &&
-                        this.state.reInvestStatus === "invest" ? (
-                          <div
-                            class="spinner-border spinner-border-sm text-light"
-                            role="status"
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : this.state.reInvestStatus === "failed" ? (
-                          <>
-                            <img src={failMark} alt="" />
-                            Failed
-                          </>
-                        ) : this.state.reInvestStatus === "success" ? (
-                          <>Success</>
-                        ) : (
-                          <>Reinvest</>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="otherside-border col-2">
-                <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
-                  WITHDRAW
-                  <Tooltip
-                    placement="top"
-                    title={
-                      <div style={{ whiteSpace: "pre-line" }}>
-                        {"withdraw deposit text"}
-                      </div>
+                  <button
+                    // disabled={this.state.depositStatus === "success" ? false : true}
+                    className={
+                      // this.state.depositStatus === "success" ?
+                      "filledbtn btn"
+                      // :
+                      //  "btn disabled-btn"
                     }
+                    onClick={() => {
+                      this.setState({ showWithdrawModal: true });
+                    }}
                   >
-                    <img src={moreinfo} alt="" />
-                  </Tooltip>
-                </h6>
-
-                <button
-                  // disabled={this.state.depositStatus === "success" ? false : true}
-                  className={
-                    // this.state.depositStatus === "success" ?
-                    "filledbtn btn"
-                    // :
-                    //  "btn disabled-btn"
-                  }
-                  onClick={() => {
-                    this.setState({ showWithdrawModal: true });
-                  }}
-                >
-                  Withdraw
-                </button>
+                    Withdraw
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        {/* </div> */}
         {this.state.popup && (
           <Modal
             visible={this.state.popup}
@@ -1244,90 +1249,93 @@ export default function stakeAvaxiDyp({
                            {lockTime === "No Lock" ? (
                               "No Lock"
                             ) : (
-                              
-                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
+                              <Countdown
+                                date={this.convertTimestampToDate(
+                                  Number(lockDate)
+                                )}
+                                renderer={renderer}
+                              />
                             )}
-                            
-                        </h6>
+                          </h6>
+                        </div>
                       </div>
-                    </div>
-                    <div className="separator"></div>
-                    <div className="d-flex  gap-2 justify-content-between align-items-center mb-4">
-                      <div className="d-flex flex-column gap-1">
-                        <h6 className="withsubtitle">Balance</h6>
-                        <h6 className="withtitle">
-                          {token_balance} {token_symbol}
-                        </h6>
+                      <div className="separator"></div>
+                      <div className="d-flex  gap-2 justify-content-between align-items-center mb-4">
+                        <div className="d-flex flex-column gap-1">
+                          <h6 className="withsubtitle">Balance</h6>
+                          <h6 className="withtitle">
+                            {token_balance} {token_symbol}
+                          </h6>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="position-relative w-100">
-                        <h6 className="amount-txt">Withdraw Amount</h6>
-                        <input
-                          type={"text"}
-                          className="styledinput"
-                          placeholder="0.0"
-                          style={{ width: "100%" }}
-                          value={this.state.withdrawAmount}
-                          onChange={(e) =>
-                            this.setState({
-                              withdrawAmount: e.target.value,
-                            })
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <div className="position-relative w-100">
+                          <h6 className="amount-txt">Withdraw Amount</h6>
+                          <input
+                            type={"text"}
+                            className="styledinput"
+                            placeholder="0.0"
+                            style={{ width: "100%" }}
+                            value={this.state.withdrawAmount}
+                            onChange={(e) =>
+                              this.setState({
+                                withdrawAmount: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        <button
+                          className="btn maxbtn"
+                          onClick={this.handleSetMaxWithdraw}
+                        >
+                          Max
+                        </button>
+                      </div>
+
+                      <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
+                        <button
+                          disabled={
+                            this.state.withdrawStatus === "failed" ||
+                            this.state.withdrawStatus === "success" ||
+                            this.state.withdrawAmount === ""
+                              ? true
+                              : false
                           }
-                        />
-                      </div>
-                      <button
-                        className="btn maxbtn"
-                        onClick={this.handleSetMaxWithdraw}
-                      >
-                        Max
-                      </button>
-                    </div>
+                          className={` w-100 btn filledbtn ${
+                            this.state.withdrawStatus === "failed"
+                              ? "fail-button"
+                              : this.state.withdrawStatus === "success"
+                              ? "success-button"
+                              : this.state.withdrawAmount === ""
+                              ? "disabled-btn"
+                              : null
+                          } d-flex justify-content-center align-items-center`}
+                          style={{ height: "fit-content" }}
+                          onClick={() => {
+                            this.handleWithdraw();
+                          }}
+                        >
+                          {this.state.withdrawLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.withdrawStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.withdrawStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Withdraw</>
+                          )}
+                        </button>
 
-                    <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
-                      <button
-                        disabled={
-                          this.state.withdrawStatus === "failed" ||
-                          this.state.withdrawStatus === "success" ||
-                          this.state.withdrawAmount === ""
-                            ? true
-                            : false
-                        }
-                        className={` w-100 btn filledbtn ${
-                          this.state.withdrawStatus === "failed"
-                            ? "fail-button"
-                            : this.state.withdrawStatus === "success"
-                            ? "success-button"
-                            : this.state.withdrawAmount === ""
-                            ? "disabled-btn"
-                            : null
-                        } d-flex justify-content-center align-items-center`}
-                        style={{ height: "fit-content" }}
-                        onClick={() => {
-                          this.handleWithdraw();
-                        }}
-                      >
-                        {this.state.withdrawLoading ? (
-                          <div
-                            class="spinner-border spinner-border-sm text-light"
-                            role="status"
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : this.state.withdrawStatus === "failed" ? (
-                          <>
-                            <img src={failMark} alt="" />
-                            Failed
-                          </>
-                        ) : this.state.withdrawStatus === "success" ? (
-                          <>Success</>
-                        ) : (
-                          <>Withdraw</>
-                        )}
-                      </button>
-
-                      {/* <button
+                        {/* <button
                     className="btn filledbtn w-100"
                     onClick={(e) => {
                       // e.preventDefault();
@@ -1342,7 +1350,7 @@ export default function stakeAvaxiDyp({
                     Withdraw
                   </button> */}
 
-                      {/* <div className="form-row">
+                        {/* <div className="form-row">
                         <div className="col-6">
                           <button
                             title={
@@ -1376,22 +1384,132 @@ export default function stakeAvaxiDyp({
                           </button>
                         </div>
                       </div> */}
+                      </div>
+                      {this.state.errorMsg3 && (
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Modal>
-        )}
+            </Modal>
+          )}
 
-        {this.state.show && (
-          <WalletModal
-            show={this.state.show}
-            handleClose={this.state.hideModal}
-            handleConnection={this.props.handleConnection}
-          />
-        )}
-      </div>
+          {this.state.show && (
+            <WalletModal
+              show={this.state.show}
+              handleClose={this.state.hideModal}
+              handleConnection={this.props.handleConnection}
+            />
+          )}
+
+          <div
+            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+            onClick={() => this.setState({ showCalculator: true })}
+          >
+            <img
+              src={calculatorIcon}
+              alt=""
+              style={{ width: 30, height: 30 }}
+            />
+            Calculator
+          </div>
+
+          {this.state.showCalculator && (
+            <div className="pools-calculator p-3">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={calculatorIcon} alt="" />
+                  <h5
+                    style={{
+                      fontSize: "23px",
+                      fontWeight: "500",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Calculator
+                  </h5>
+                </div>
+                <img
+                  src={xMark}
+                  alt=""
+                  onClick={() => {
+                    this.setState({ showCalculator: false });
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <hr />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Days to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="Days*"
+                    value={this.state.approxDays}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDays: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    iDYP to Deposit
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="USD to deposit*"
+                    value={this.state.approxDeposit}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDeposit: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-2 mt-4">
+                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                  $tbd USD
+                </h3>
+                <h6
+                  style={{
+                    fontWeight: "300",
+                    fontSize: "15px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  {getFormattedNumber(this.getApproxReturn(), 6)} iDYP
+                </h6>
+              </div>
+              <div className="mt-4">
+                <p
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  *This calculator is for informational purposes only.
+                  Calculated yields assume that prices of the deposited assets
+                  don't change.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
 
         // <div>
         //   <div className="row">

@@ -21,7 +21,6 @@ import Countdown from "react-countdown";
 import statsLinkIcon from './assets/statsLinkIcon.svg'
 import { shortAddress } from "../../functions/shortAddress";
 
-
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
     <div className="d-flex gap-3 justify-content-center align-items-center">
@@ -43,7 +42,7 @@ const renderer = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-export default function avaxBuybac({
+export default function avaxBuyback({
   staking,
   constant,
   apr,
@@ -145,6 +144,8 @@ export default function avaxBuybac({
         selectedRewardTokenLogo2: "dyp",
         showWithdrawModal: false,
         errorMsg: "",
+        errorMsg2: "",
+        errorMsg3: "",
 
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
@@ -333,8 +334,7 @@ export default function avaxBuybac({
         })
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg: e?.message });
         });
     };
 
@@ -372,8 +372,7 @@ export default function avaxBuybac({
         .call()
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e})
-
+          this.setState({ errorMsg: e });
         });
       _amountOutMin_75Percent =
         _amountOutMin_75Percent[_amountOutMin_75Percent.length - 1];
@@ -394,8 +393,7 @@ export default function avaxBuybac({
         .call()
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg: e });
         });
       _amountOutMin_25Percent =
         _amountOutMin_25Percent[_amountOutMin_25Percent.length - 1];
@@ -429,8 +427,7 @@ export default function avaxBuybac({
         })
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg: e?.message });
         });
     };
 
@@ -460,8 +457,7 @@ export default function avaxBuybac({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg3: e });
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -485,11 +481,10 @@ export default function avaxBuybac({
           .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e?.message})
-
+            this.setState({ errorMsg3: e?.message });
           });
       } catch (e) {
-        this.setState({errorMsg: e })
+        this.setState({ errorMsg3: e });
 
         console.error(e);
         return;
@@ -522,8 +517,7 @@ export default function avaxBuybac({
         .catch(() => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg3: e });
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -547,12 +541,11 @@ export default function avaxBuybac({
           .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e?.message})
-
+            this.setState({ errorMsg3: e?.message });
           });
       } catch (e) {
         console.error(e);
-        this.setState({errorMsg: e })
+        this.setState({ errorMsg3: e });
 
         return;
       }
@@ -582,8 +575,7 @@ export default function avaxBuybac({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg2: e });
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -603,8 +595,7 @@ export default function avaxBuybac({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg2: e });
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -629,13 +620,12 @@ export default function avaxBuybac({
           .catch((e) => {
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
-          this.setState({errorMsg: e?.message})
-
+            this.setState({ errorMsg2: e?.message });
           });
       } catch (e) {
         this.setState({ claimStatus: "failed" });
         this.setState({ claimLoading: false });
-        this.setState({errorMsg: e })
+        this.setState({ errorMsg2: e });
 
         console.error(e);
         return;
@@ -666,8 +656,7 @@ export default function avaxBuybac({
         .catch((e) => {
           this.setState({ claimidypStatus: "failed" });
           this.setState({ claimidypLoading: false });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg2: e });
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -687,8 +676,7 @@ export default function avaxBuybac({
         .catch((e) => {
           this.setState({ claimidypStatus: "failed" });
           this.setState({ claimidypLoading: false });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg2: e });
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -713,13 +701,12 @@ export default function avaxBuybac({
           .catch((e) => {
             this.setState({ claimidypStatus: "failed" });
             this.setState({ claimidypLoading: false });
-          this.setState({errorMsg: e?.message})
-
+            this.setState({ errorMsg2: e?.message });
           });
       } catch (e) {
         this.setState({ claimidypStatus: "failed" });
         this.setState({ claimidypLoading: false });
-        this.setState({errorMsg: e })
+        this.setState({ errorMsg2: e });
 
         console.error(e);
         return;
@@ -751,8 +738,7 @@ export default function avaxBuybac({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e})
-
+          this.setState({ errorMsg2: e });
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -776,12 +762,11 @@ export default function avaxBuybac({
           .catch((e) => {
             this.setState({ reInvestStatus: "failed" });
             this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e?.message})
-
+            this.setState({ errorMsg2: e?.message });
           });
       } catch (e) {
         console.error(e);
-        this.setState({errorMsg: e })
+        this.setState({ errorMsg2: e });
 
         return;
       }
@@ -812,8 +797,7 @@ export default function avaxBuybac({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg2: e });
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -839,11 +823,10 @@ export default function avaxBuybac({
           .catch((e) => {
             this.setState({ reInvestStatus: "failed" });
             this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e?.message})
-
+            this.setState({ errorMsg2: e?.message });
           });
       } catch (e) {
-        this.setState({errorMsg: e })
+        this.setState({ errorMsg2: e });
 
         console.error(e);
         return;
@@ -906,7 +889,7 @@ export default function avaxBuybac({
 
         //buyback
         let _bal = reward_token.balanceOf(coinbase);
-       
+
         let _pDivs = staking.getTotalPendingDivs(coinbase);
 
         let _tEarned = staking.totalEarnedTokens(coinbase);
@@ -914,7 +897,6 @@ export default function avaxBuybac({
         let _stakingTime = staking.stakingTime(coinbase);
 
         let _dTokens = staking.depositedTokens(coinbase);
-
         let _dTokensBuyback = staking.depositedTokens(coinbase);
 
         let _lClaimTime = staking.lastClaimedTime(coinbase);
@@ -922,12 +904,12 @@ export default function avaxBuybac({
         let _tvl = reward_token_idyp.balanceOf(staking._address);
 
         let tStakers = staking.getNumberOfHolders();
+
         //constant Staking
         let _balConstant =
           constant.depositedTokens(
             coinbase
           ); /* Balance of DYP on Constant Staking */
-  //  console.log('_balConstant', _balConstant)
 
         let _pDivsConstant =
           constant.getTotalPendingDivs(coinbase); /* Pending Divs is iDYP */
@@ -1095,7 +1077,6 @@ export default function avaxBuybac({
       return result;
     };
 
-
     render() {
       let {
         disburseDuration,
@@ -1149,7 +1130,6 @@ export default function avaxBuybac({
       let showDeposit = true;
       let lockDate;
 
-
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
         let lockTimeExpire = parseInt(Date.now()) + parseInt(cliffTime);
@@ -1159,8 +1139,7 @@ export default function avaxBuybac({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire
-
+        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1291,7 +1270,7 @@ export default function avaxBuybac({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
+                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
                       <Tooltip
                         placement="top"
                         title={
@@ -1477,7 +1456,7 @@ export default function avaxBuybac({
                           type={"number"}
                           className="styledinput"
                           placeholder="0.0"
-                          style={{ width: '100%' }}
+                          style={{ width: "100%" }}
                           value={
                             Number(this.state.depositAmount) > 0
                               ? this.state.depositAmount
@@ -1580,6 +1559,9 @@ export default function avaxBuybac({
                         )}
                       </button>
                     </div>
+                    {this.state.errorMsg && (
+                      <h6 className="errormsg">{this.state.errorMsg}</h6>
+                    )}
                   </div>
                 </div>
                 <div className="otherside-border col-4">
@@ -1847,7 +1829,9 @@ export default function avaxBuybac({
                         )}
                       </button>
                     </div>
-
+                    {this.state.errorMsg2 && (
+                      <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                    )}
                     {/* <button
                             title={claimTitle}
                             disabled={!is_connected}

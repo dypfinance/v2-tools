@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import "./header.css";
 import getFormattedNumber from "../../functions/get-formatted-number";
 import React, { useEffect, useState } from "react";
@@ -153,7 +152,25 @@ const Header = ({
     return response;
   };
 
+  const [currencyAmount, setCurrencyAmount] = useState(0);
   const checklogout = localStorage.getItem("logout");
+
+  const getEthBalance = async () => {
+
+    if(checklogout === 'false') {
+    const balance = await ethereum.request({
+      method: "eth_getBalance",
+      params: [coinbase, "latest"],
+  });
+  const amount = window.web3.utils.fromWei(window.web3.utils.hexToNumberString(balance) , 'ether')
+  setCurrencyAmount(amount.slice(0, 7))
+}
+  };
+
+  useEffect(() => {
+    getEthBalance();
+  }, []); 
+
 
   useEffect(() => {
     fetchData().then();
@@ -291,7 +308,7 @@ const Header = ({
               {checklogout === "false" ? (
                 <>
                   <div className="account-info d-flex align-items-center justify-content-center gap-3">
-                    <span className="account-balance">0.55534 ETH</span>
+                    <span className="account-balance">{currencyAmount} {chainId === 1 ? 'ETH' : chainId === 56 ? 'BNB' : 'AVAX'}</span>
                     <span className="account-address">
                       {shortAddress(coinbase)}
                     </span>
@@ -310,34 +327,37 @@ const Header = ({
                     alt=""
                   />}
                   >
-                  <Dropdown.Item
-                  onClick={() => window.location.assign("/account")}
-                >
-                  <img src={user} alt="" />
-                  Your account
-                </Dropdown.Item>
-                  <Dropdown.Item onClick={() => logout()}>
-                    <img src={logoutimg} alt="" />
-                    Disconnect wallet
-                  </Dropdown.Item>  
+                    <Dropdown.Item
+                      onClick={() => window.location.assign("/account")}
+                    >
+                      <img src={user} alt="" />
+                      Your account
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => logout()}>
+                      <img src={logoutimg} alt="" />
+                      Disconnect wallet
+                    </Dropdown.Item>
                   </DropdownButton>
                 </>
               ) : (
-                <DropdownButton 
+                <DropdownButton
                   onClick={checklogout === "true" && showModal}
                   id="dropdown-basic-button2"
-                  title={<span className="d-flex align-items-center gap-2 connecttitle position-relative" style={{bottom: '5px', fontSize: '12px'}}>
-                  <img
-                    src={walletIcon}
-                    alt=""
-                    className="position-relative"
-                    // style={{ top: 4 }}
-                  />
-                  Connect Wallet
-                </span>}
-                >
-                   
-                </DropdownButton>
+                  title={
+                    <span
+                      className="d-flex align-items-center gap-2 connecttitle position-relative"
+                      style={{ bottom: "5px", fontSize: "12px" }}
+                    >
+                      <img
+                        src={walletIcon}
+                        alt=""
+                        className="position-relative"
+                        // style={{ top: 4 }}
+                      />
+                      Connect Wallet
+                    </span>
+                  }
+                ></DropdownButton>
               )}
             </div>
           </div>

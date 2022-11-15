@@ -1,7 +1,6 @@
 import React from "react";
 import moment from "moment";
 import getFormattedNumber from "../../functions/get-formatted-number";
-
 import Modal from "../Modal/Modal";
 import Address from "./address";
 import WalletModal from "../WalletModal";
@@ -22,6 +21,11 @@ import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
+
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
+
+
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -44,7 +48,7 @@ const renderer = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-export default function initStaking({
+export default function initConstantStakingiDYP({
   staking,
   apr,
   liquidity = "ETH",
@@ -145,12 +149,15 @@ export default function initStaking({
         stakingOwner: null,
         approxDeposit: 100,
         approxDays: 365,
-        selectedTokenLogo: "weth",
+        selectedTokenLogo: "idyp",
         selectedRewardTokenLogo1: "weth",
-        selectedRewardTokenLogo2: "dyp",
+        selectedRewardTokenLogo2: "idyp",
+        showCalculator: false,
 
         usdPerToken: "",
         errorMsg: "",
+        errorMsg2: "",
+        errorMsg3: "",
 
         contractDeployTime: "",
         disburseDuration: "",
@@ -313,7 +320,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({ errorMsg: e?.message });
+          this.setState({ errorMsg3: e?.message });
         });
     };
 
@@ -331,7 +338,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg: e?.message });
+          this.setState({ errorMsg2: e?.message });
         });
     };
 
@@ -480,7 +487,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({ errorMsg: e?.message });
+          this.setState({ errorMsg2: e?.message });
         });
     };
 
@@ -858,6 +865,9 @@ export default function initStaking({
                       Deposit
                     </button> */}
                     </div>
+                    {this.state.errorMsg && (
+                      <h6 className="errormsg">{this.state.errorMsg}</h6>
+                    )}
                   </div>
                 </div>
                 <div className="otherside-border col-4">
@@ -959,8 +969,11 @@ export default function initStaking({
                         )}
                       </button>
                     </div>
+                  
                   </div>
-
+  {this.state.errorMsg2 && (
+                        <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                      )}
                   {/* <button
                     title={claimTitle}
                     disabled={!is_connected}
@@ -1053,7 +1066,6 @@ export default function initStaking({
                               <small>iDYP</small>
                             </div>
                           </td>
-                          
 
                           <td className="text-right">
                             <th>My iDYP Balance</th>
@@ -1436,6 +1448,9 @@ export default function initStaking({
                               </div>
                             </div> */}
                       </div>
+                      {this.state.errorMsg3 && (
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1450,6 +1465,116 @@ export default function initStaking({
               handleConnection={this.props.handleConnection}
             />
           )}
+
+
+
+<div
+            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+            onClick={() => this.setState({ showCalculator: true })}
+          >
+            <img
+              src={calculatorIcon}
+              alt=""
+              style={{ width: 30, height: 30 }}
+            />
+            Calculator
+          </div>
+
+          {this.state.showCalculator && (
+            <div className="pools-calculator p-3">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={calculatorIcon} alt="" />
+                  <h5
+                    style={{
+                      fontSize: "23px",
+                      fontWeight: "500",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Calculator
+                  </h5>
+                </div>
+                <img
+                  src={xMark}
+                  alt=""
+                  onClick={() => {
+                    this.setState({ showCalculator: false });
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <hr />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Days to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="Days*"
+                    value={this.state.approxDays}
+                                     onChange={(e) =>
+                                      this.setState({
+                                         approxDays: e.target.value,
+                                       })
+                                     }
+                  />
+                </div>
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    iDYP to Deposit
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="USD to deposit*"
+                    value={this.state.approxDeposit}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDeposit: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-2 mt-4">
+                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                  $tbd USD
+                </h3>
+                <h6
+                  style={{
+                    fontWeight: "300",
+                    fontSize: "15px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  {getFormattedNumber(this.getApproxReturn(), 6)}{" "} iDYP
+                </h6>
+              </div>
+              <div className="mt-4">
+                <p
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  *This calculator is for informational purposes only.
+                  Calculated yields assume that prices of the deposited assets
+                  don't change.
+                </p>
+              </div>
+            </div>
+          )}
+
         </div>
 
         // <div>

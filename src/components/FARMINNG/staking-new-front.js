@@ -9,23 +9,25 @@ import Countdown from "react-countdown";
 import ellipse from "./assets/ellipse.svg";
 import empty from "./assets/empty.svg";
 import check from "./assets/check.svg";
-import successMark from "../../assets/successMark.svg";
 import failMark from "../../assets/failMark.svg";
 import arrowup from "./assets/arrow-up.svg";
 import whiteArrowUp from "./assets/whiteArrowUp.svg";
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
 import purplestats from "./assets/purpleStat.svg";
-import referralimg from "./assets/referral.svg";
-import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import dropdownVector from "./assets/dropdownVector.svg";
+ 
 import { DropdownButton } from "react-bootstrap";
 import axios from "axios";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import poolStatsIcon from "./assets/poolStatsIcon.svg";
+
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
+
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -165,6 +167,8 @@ export default function initStakingNew({
         swapAttemptPeriod: "",
         contractDeployTime: "",
         errorMsg: "",
+        errorMsg2: "",
+        errorMsg3: "",
         disburseDuration: "",
         selectedBuybackToken: Object.keys(window.buyback_tokens_farming)[0],
         selectedTokenDecimals:
@@ -186,6 +190,7 @@ export default function initStakingNew({
         selectedClaimToken: 0,
         show: false,
         showWithdrawModal: false,
+        showCalculator: false,
 
         popup: false,
         is_wallet_connected: false,
@@ -496,10 +501,10 @@ export default function initStakingNew({
           .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
-            this.setState({ errorMsg: e?.message });
+            this.setState({ errorMsg3: e?.message });
           });
       } catch (e) {
-        this.setState({ errorMsg: e });
+        this.setState({ errorMsg3: e });
 
         console.error(e);
         return;
@@ -535,7 +540,7 @@ export default function initStakingNew({
           .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
-            this.setState({ errorMsg: e?.message });
+            this.setState({ errorMsg3: e?.message });
           });
       } catch (e) {
         console.error(e);
@@ -564,11 +569,13 @@ export default function initStakingNew({
             .catch((e) => {
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
-              this.setState({ errorMsg: e?.message });
+              this.setState({ errorMsg2: e?.message });
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
+          this.setState({ errorMsg2: e });
+
           console.error(e);
           return;
         }
@@ -581,7 +588,7 @@ export default function initStakingNew({
               this.setState({ claimLoading: false });
             })
             .catch((e) => {
-              this.setState({ errorMsg: e?.message });
+              this.setState({ errorMsg2: e?.message });
 
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
@@ -589,6 +596,8 @@ export default function initStakingNew({
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
+          this.setState({ errorMsg2: e });
+
           console.error(e);
           return;
         }
@@ -634,7 +643,7 @@ export default function initStakingNew({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg: e });
+          this.setState({ errorMsg2: e });
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -659,9 +668,11 @@ export default function initStakingNew({
           .catch((e) => {
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
-            this.setState({ errorMsg: e });
+            this.setState({ errorMsg2: e });
           });
       } catch (e) {
+        this.setState({ errorMsg2: e });
+
         console.error(e);
         return;
       }
@@ -1339,6 +1350,7 @@ export default function initStakingNew({
                             6
                           )}
                         </b>
+                        {this.state.selectedTokenSymbol}
                       </h6>
                     </div>
                     <Tooltip
@@ -1451,6 +1463,9 @@ export default function initStakingNew({
                       </button>
                     </div>
                   </div>
+                  {this.state.errorMsg && (
+                    <h6 className="errormsg">{this.state.errorMsg}</h6>
+                  )}
                 </div>
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between gap-2 ">
@@ -1471,9 +1486,7 @@ export default function initStakingNew({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-3 align-items-end">
-                      {/*<p className='form-control  text-center' style={{border: 'none', marginBottom: 0, paddingLeft: '1px', paddingRight: '10px',  background: 'transparent', color: 'var(--text-color)'}}><span style={{fontSize: '1.2rem', color: 'var(--text-color)'}}>{pendingDivsEth}</span> <small className='text-bold'>WAVAX</small></p>*/}
-
+                    <div className="form-row d-flex gap-2 align-items-end">
                       <div
                         className="gap-1 claimreward-wrapper"
                         onClick={() => {
@@ -1756,6 +1769,9 @@ export default function initStakingNew({
                     CLAIM
                   </button> */}
                   </div>
+                  {this.state.errorMsg2 && (
+                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                  )}
                 </div>
 
                 <div className="otherside-border col-2">
@@ -2531,6 +2547,9 @@ export default function initStakingNew({
                       <h6 className="withsubtitle d-flex justify-content-start w-100 mt-1">
                         *No withdrawal fee
                       </h6>
+                      {this.state.errorMsg3 && (
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -2545,8 +2564,128 @@ export default function initStakingNew({
               handleConnection={this.props.handleConnection}
             />
           )}
+
+          <div
+            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+            onClick={() => this.setState({ showCalculator: true })}
+          >
+            <img
+              src={calculatorIcon}
+              alt=""
+              style={{ width: 30, height: 30 }}
+            />{" "}
+            Calculator
+          </div>
+
+          {this.state.showCalculator && (
+            <div className="pools-calculator p-3">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={calculatorIcon} alt="" />
+                  <h5
+                    style={{
+                      fontSize: "23px",
+                      fontWeight: "500",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Calculator
+                  </h5>
+                </div>
+                <img
+                  src={xMark}
+                  alt=""
+                  onClick={() => {
+                    this.setState({ showCalculator: false });
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <hr />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Days to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="Days*"
+                    value={this.state.approxDays}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDays: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Amount to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="USD to deposit*"
+                    value={
+                      Number(this.state.approxDeposit) > 0
+                        ? this.state.approxDeposit * LP_AMPLIFY_FACTOR
+                        : this.state.approxDeposit
+                    }
+                    onChange={(e) =>
+                      this.setState({
+                        approxDeposit:
+                          Number(e.target.value) > 0
+                            ? e.target.value / LP_AMPLIFY_FACTOR
+                            : e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-2 mt-4">
+                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                  ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
+                </h3>
+                <h6
+                  style={{
+                    fontWeight: "300",
+                    fontSize: "15px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  Approx{" "}
+                  {getFormattedNumber(
+                    this.getApproxReturnUSD() / this.getUsdPerETH(),
+                    6
+                  )}
+                  WETH
+                </h6>
+              </div>
+              <div className="mt-4">
+                <p
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  *This calculator is for informational purposes only.
+                  Calculated yields assume that prices of the deposited assets
+                  don't change.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       );
+
       {
         /* <div className="container">
                 <div className="token-staking mt-4">
