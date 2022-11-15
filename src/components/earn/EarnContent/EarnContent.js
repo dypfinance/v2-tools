@@ -118,7 +118,7 @@ const EarnContent = ({
   return (
     <>
       <div className="row justify-content-center w-100">
-        <div className="row justify-content-between align-items-center p-3 options-container my-5">
+        <div className="row justify-content-between align-items-center p-2 options-container my-5">
           <div className="col-2 d-flex justify-content-start align-items-center gap-3">
             <div
               className={`list-style ${
@@ -143,10 +143,10 @@ const EarnContent = ({
               />
             </div>
           </div>
-          <div className="col-8 d-flex gap-3 justify-content-center p-2">
+          <div className="col-8 row d-flex gap-3 justify-content-center p-2">
             {options.map((item, index) => (
               <div
-                className={`earn-option ${
+                className={`earn-option col-2 d-flex align-items-center justify-content-center ${
                   option === item.title ? "earn-option-active" : null
                 }`}
                 key={index}

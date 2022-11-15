@@ -112,16 +112,16 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
-  color: #75cac2;
+  color: #4ED5D2;
 }
 
 .referraldesc {
   font-style: normal;
   font-weight: 400;
-  font-size: 10px;
-  line-height: 14px;
+  font-size: 12px;
+  line-height: 18px;
   letter-spacing: -0.018em;
-  color: #66b0a9;
+  color: #4ED5D2;
 }
 
 .tvl-text {
@@ -310,8 +310,8 @@ filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-start;
-  border-radius: 6px;
-  padding: 3px;
+  border-radius: 8px;
+  /* padding: 3px; */
   cursor: pointer;
   position: relative;
   transition: all .25s;
@@ -443,8 +443,8 @@ border-radius: 6px !important;
 
 .withdrawdesc {
   font-weight: 400;
-  font-size: 11px;
-  line-height: 12px;
+  font-size: 12px;
+  line-height: 18px;
   letter-spacing: -0.018em;
   color: #c0cbf7;
 }
@@ -455,13 +455,13 @@ border-radius: 6px !important;
   font-size: 12px;
   line-height: 14px;
   letter-spacing: -0.018em;
-  color: #7a81b4;
+  color: #C0C9FF;
 }
 
 .withtitle {
-  font-weight: 300;
-  font-size: 20px;
-  line-height: 24px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
   letter-spacing: -0.018em;
   color: #f7f7fc;
 }
@@ -532,7 +532,7 @@ border-radius: 6px !important;
 }
 
 .styledinput {
-  background: #26264f !important;
+  background: #312F69 !important;
   border: 1px solid #8e97cd !important;
   border-radius: 8px !important;
   padding: 20px;
@@ -566,7 +566,7 @@ border-radius: 6px !important;
   letter-spacing: 0.4px;
   color: #8e97cd;
   position: absolute;
-  background: #26264f;
+  background: #312F69;
   padding: 0 3px;
   top: -8px;
   left: 15px;
@@ -592,7 +592,9 @@ border-radius: 6px !important;
 }
 
 .filledbtn {
-  background: linear-gradient(90.74deg, #7770e0 0%, #554fd8 100%);
+  background: linear-gradient(to left, #7770E0, #3E3AA5, #554FD8, #7770E0);
+  background-size: 300%;
+  background-position: 0 0;
   border-radius: 8px;
   font-style: normal;
   font-weight: 500;
@@ -601,6 +603,8 @@ border-radius: 6px !important;
   color: #fff;
   border: none;
   padding: 6px 24px;
+  transition: all ease 0.4s;
+  -webkit-transition: all ease 0.4s;
 }
 
 .withdraw-txt {
@@ -616,7 +620,9 @@ border-radius: 6px !important;
 .filledbtn:hover,
 .filledbtn:focus {
   color: white !important;
+  background-position: 100% 0 !important;
   box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.09) !important;
+
 }
 
 .pool-coins {
@@ -651,3 +657,5 @@ border-radius: 6px !important;
   transform: translateX(-40px);
   /* z-index: 2; */
 }
+
+

@@ -4,7 +4,8 @@ import getFormattedNumber from "../../functions/get-formatted-number";
 import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
-
+import statsLinkIcon from './assets/statsLinkIcon.svg'
+import { shortAddress } from "../../functions/shortAddress";
 import ellipse from "./assets/ellipse.svg";
 import empty from "./assets/empty.svg";
 import check from "./assets/check.svg";
@@ -18,6 +19,7 @@ import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Modal from "../Modal/Modal";
 import Countdown from "react-countdown";
+import dropdownVector from './assets/dropdownVector.svg'
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -1331,15 +1333,15 @@ export default function initStaking({
              <div className="row w-100 justify-content-between">
              <div className="firstblockwrapper col-2">
                 <div
-                  className="d-flex flex-column justify-content-between gap-2"
+                  className="d-flex flex-column justify-content-between gap-4"
                   style={{ height: "100%" }}
                 >
                   <h6 className="start-title">Start Buyback</h6>
-                  <h6 className="start-desc">
+                  {/* <h6 className="start-desc">
                     {this.props.coinbase === null
                       ? "Connect wallet to view and interact with deposits and withdraws"
                       : "Interact with deposits and withdraws"}
-                  </h6>
+                  </h6> */}
                   {this.props.coinbase === null ? (
                     <button className="connectbtn btn" onClick={this.showModal}>
                       {" "}
@@ -1359,29 +1361,13 @@ export default function initStaking({
                     </div> */}
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
-                  <h6 className="deposit-txt">
+               <div className="d-flex align-items-center gap-3">
+               <h6 className="deposit-txt">
                     Deposit
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"lorem impsum deposit text"}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                   
                   </h6>
-                  <h6 className="mybalance-text">
-                    Balance:
-                    <b>
-                      {getFormattedNumber(
-                        this.state.selectedTokenBalance /
-                          10 ** this.state.selectedTokenDecimals,
-                        6
-                      )}
-                    </b>
-                    <img
+                  <div className="d-flex align-items-center gap-2">
+                 {/* <img
                       src={
                         require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
                           .default
@@ -1389,7 +1375,6 @@ export default function initStaking({
                       alt=""
                       style={{ width: 14, height: 14 }}
                     />
-                    {/* <div> */}
                     <select
                       disabled={!is_connected}
                       value={this.state.selectedBuybackToken}
@@ -1404,10 +1389,75 @@ export default function initStaking({
                           {window.buyback_tokens[t].symbol}
                         </option>
                       ))}
-                    </select>
-                    {/* {this.state.selectedTokenSymbol} */}
-                    {/* </div> */}
-                  </h6>
+                    </select> */}
+                    <div className="dropdown">
+                      <button
+                            class="btn farming-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <img
+                              src={
+                                require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                                  .default
+                              }
+                              alt=""
+                              style={{ width: 14, height: 14 }}
+                            />
+                            {this.state.selectedTokenLogo.toUpperCase()}
+                            <img
+                              src={dropdownVector}
+                              alt=""
+                              style={{ width: 10, height: 10 }}
+                            />
+                          </button>
+                          <ul className="dropdown-menu" style={{minWidth: "100%"}}>
+                          {Object.keys(window.buyback_tokens).map(
+                          (t) => (
+                            <span
+                            className="d-flex align-items-center justify-content-start ps-2 gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                            onClick={() =>
+                              this.handleSelectedTokenChange(t)
+                            }
+                          >
+                            <img
+                              src={
+                                require(`./assets/${window.buyback_tokens[
+                                  t
+                                ].symbol.toLowerCase()}.svg`).default
+                              }
+                              alt=""
+                              style={{ width: 14, height: 14 }}
+                            />
+                            {window.buyback_tokens[t].symbol}
+                          </span>
+                          )
+                        )}
+                          </ul>
+                      </div>
+                 </div>
+                  <h6 className="mybalance-text">
+                    Balance:
+                    <b>
+                      {getFormattedNumber(
+                        this.state.selectedTokenBalance /
+                          10 ** this.state.selectedTokenDecimals,
+                        6
+                      )}
+                    </b>
+                    </h6>                
+               </div>
+                   <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"lorem impsum deposit text"}
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1835,34 +1885,14 @@ export default function initStaking({
             <Modal
               visible={this.state.popup}
               modalId="tymodal"
+              title="stats"
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
-                  <div className="table-responsive container">
-                    <div className="row" style={{ marginLeft: "0px" }}>
-                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext">
-                          <img src={stats} alt="" />
-                          Stats
-                        </h6>
-                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
-                          My address
-                          <a
-                            href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
-                            target={"_blank"}
-                            rel="noreferrer"
-                          >
-                            <h6 className="addresstxt">
-                              {this.props.coinbase?.slice(0, 10) + "..."}
-                            </h6>
-                          </a>
-                          <img src={arrowup} alt="" />
-                        </h6>
-                      </div>
-                    </div>
+                  {/* <div className="table-responsive container">
                     <table className="table-stats table table-sm table-borderless mt-2">
                       <tbody>
                         <tr>
@@ -1944,7 +1974,80 @@ export default function initStaking({
                         <img src={whiteArrowUp} alt="" className="ms-1" />
                       </a>
                     </div>
-                  </div>
+                  </div> */}
+                  <div className="stats-container my-4">
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          My DYP Balance
+                        </span>
+                        <h6 className="stats-card-content">
+                          {token_balance} DYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          My Deposit Value
+                        </span>
+                        <h6 className="stats-card-content">
+                          {depositedTokens} USD
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Total Earned
+                        </span>
+                        <h6 className="stats-card-content">{totalEarnedTokens} USD</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">TVL USD</span>
+                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Contract Expiration
+                        </span>
+                        <h6 className="stats-card-content">
+                          {expiration_time} DYP
+                        </h6>
+                      </div>
+                      <div className="d-flex flex-column gap-1">
+                        <span
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
+                          }}
+                        >
+                          My address
+                        </span>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                          className="stats-link"
+                        >
+                          {shortAddress(coinbase)}{" "}
+                          <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`https://github.com/dypfinance/staking-governance-security-audits`}
+                          className="stats-link"
+                        >
+                          Audit <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                          className="stats-link"
+                        >
+                          View on Etherscan <img src={statsLinkIcon} alt="" />
+                        </a>
+                      </div>
+                    </div>
                 </div>
               </div>
             </Modal>
@@ -1954,20 +2057,15 @@ export default function initStaking({
             <Modal
               visible={this.state.showWithdrawModal}
               modalId="withdrawmodal"
+              title="withdraw"
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
-                  <div className="container">
+                  <div className="container px-0">
                     <div className="row" style={{ marginLeft: "0px" }}>
-                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext">
-                          <img src={stats} alt="" />
-                          Withdraw deposit
-                        </h6>
-                      </div>
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
@@ -2008,7 +2106,7 @@ export default function initStaking({
                       </div> */}
                       <div className="d-flex  gap-2 justify-content-between align-items-center">
                         <div className="d-flex flex-column gap-1">
-                          <h6 className="withsubtitle">Timer</h6>
+                          <h6 className="withsubtitle mt-3">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
                           {lockTime === "No Lock" ? (
                               "No Lock"
@@ -2021,8 +2119,8 @@ export default function initStaking({
                       </div>
 
                       <div className="separator"></div>
-                      <div className="d-flex gap-2 justify-content-between align-items-center">
-                        <div>
+                      <div className="row d-grid gap-2 justify-content-between align-items-center" style={{gridTemplateColumns: 'repeat(2, 1fr)'}}>
+                        <div className="w-100">
                           <div
                             className="gap-1 claimreward-wrapper w-100"
                             style={{
@@ -2058,7 +2156,7 @@ export default function initStaking({
                               <div className="position-relative">
                                 <input
                                   disabled
-                                  value={`$${this.state.withdrawAmount}`}
+                                  value={`${this.state.withdrawAmount}`}
                                   onChange={(e) =>
                                     this.setState({
                                       withdrawAmount: e.target.value,
@@ -2076,7 +2174,7 @@ export default function initStaking({
                                   }}
                                 />
                               </div>
-                              <div
+                              {/* <div
                                 className="d-flex flex-column gap-1 position-relative"
                                 style={{ paddingRight: "15px", top: "-8px" }}
                               >
@@ -2087,11 +2185,10 @@ export default function initStaking({
                                 >
                                   $200
                                 </h6>
-                              </div>
+                              </div> */}
                             </div>
                             <div
-                              className="d-flex align-items-center"
-                              style={{ padding: "10px 0 0 10px" }}
+                              className="d-flex align-items-center w-100 justify-content-start gap-1 p-1 buyback-coin"
                             >
                               <img
                                 src={
@@ -2099,23 +2196,16 @@ export default function initStaking({
                                     .default
                                 }
                                 alt=""
-                                style={{ width: 14, height: 14 }}
+                                style={{ width: 16, height: 16 }}
                               />
-                              <select
-                                disabled
-                                defaultValue="DYP"
-                                className="form-control inputfarming"
-                                style={{ border: "none", padding: "0 0 0 3px" }}
-                              >
-                                <option value="DYP"> DYP </option>
-                              </select>
+                              <span style={{fontSize: '12px', fontWeight: '500', lineHeight: '18px', color: '#F7F7FC'}}>DYP</span>
                             </div>
                           </div>
                           <h6 className="withsubtitle d-flex justify-content-start w-100 mt-3">
-                            DYP amount (DYP Stake){" "}
+                            *Total DYP Deposited
                           </h6>
                         </div>
-                        <div className="">
+                        <div className="w-100">
                           <div
                             className="gap-1 claimreward-wrapper w-100"
                             style={{
@@ -2151,7 +2241,7 @@ export default function initStaking({
                               <div className="position-relative">
                                 <input
                                   disabled
-                                  value={`$${this.state.withdrawAmount}`}
+                                  value={`${this.state.withdrawAmount}`}
                                   onChange={(e) =>
                                     this.setState({
                                       withdrawAmount: e.target.value,
@@ -2169,43 +2259,23 @@ export default function initStaking({
                                   }}
                                 />
                               </div>
-                              <div
-                                className="d-flex flex-column gap-1 position-relative"
-                                style={{ paddingRight: "15px", top: "-8px" }}
-                              >
-                                <h6 className="withsubtitle">Value</h6>
-                                <h6
-                                  className="withtitle"
-                                  style={{ color: "#C0CBF7" }}
-                                >
-                                  $200
-                                </h6>
-                              </div>
                             </div>
                             <div
-                              className="d-flex align-items-center"
-                              style={{ padding: "10px 0 0 10px" }}
+                              className="d-flex align-items-center w-100 justify-content-start gap-1 p-1 buyback-coin"
                             >
                               <img
                                 src={
-                                  require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                                  require(`./assets/avax/idyp.svg`)
                                     .default
                                 }
                                 alt=""
-                                style={{ width: 14, height: 14 }}
+                                style={{ width: 16, height: 16 }}
                               />
-                              <select
-                                disabled
-                                defaultValue="DYP"
-                                className="form-control inputfarming"
-                                style={{ border: "none", padding: "0 0 0 3px" }}
-                              >
-                                <option value="DYP"> iDYP </option>
-                              </select>
+                              <span style={{fontSize: '12px', fontWeight: '500', lineHeight: '18px', color: '#F7F7FC'}}>iDYP</span>
                             </div>
                           </div>
                           <h6 className="withsubtitle d-flex justify-content-start w-100 mt-3">
-                            iDYP amount (iDYP Stake){" "}
+                            *Total iDYP staked
                           </h6>
                         </div>
                       </div>

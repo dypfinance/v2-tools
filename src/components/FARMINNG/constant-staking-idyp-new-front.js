@@ -6,7 +6,7 @@ import Modal from "../Modal/Modal";
 import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
-
+import { shortAddress } from "../../functions/shortAddress";
 import ellipse from "./assets/ellipse.svg";
 import Clipboard from "react-clipboard.js";
 import successMark from "../../assets/successMark.svg";
@@ -21,29 +21,28 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
+import statsLinkIcon from "./assets/statsLinkIcon.svg";
 
-
-const renderer = ({days, hours, minutes, seconds}) => {
+const renderer = ({ days, hours, minutes, seconds }) => {
   return (
     <div className="d-flex gap-3 justify-content-center align-items-center">
       <div className="d-flex gap-1 align-items-baseline">
-      <span>{days < 10 ? "0" + days : days}</span>
-      <span style={{fontSize: '13px'}}>days</span>
+        <span>{days < 10 ? "0" + days : days}</span>
+        <span style={{ fontSize: "13px" }}>days</span>
       </div>
-     <div className="d-flex gap-1 align-items-baseline">
-     <span>{hours < 10 ? "0" + hours : hours}</span>
-      <span style={{fontSize: '13px'}}>hours</span>
-     </div>
       <div className="d-flex gap-1 align-items-baseline">
-      <span>{minutes < 10 ? "0" + minutes : minutes}</span>
-      <span style={{fontSize: '13px'}}>minutes</span>
+        <span>{hours < 10 ? "0" + hours : hours}</span>
+        <span style={{ fontSize: "13px" }}>hours</span>
+      </div>
+      <div className="d-flex gap-1 align-items-baseline">
+        <span>{minutes < 10 ? "0" + minutes : minutes}</span>
+        <span style={{ fontSize: "13px" }}>minutes</span>
       </div>
       <span className="d-none">{seconds < 10 ? "0" + seconds : seconds}</span>
       <span className="d-none">seconds</span>
     </div>
-  )
-}
-
+  );
+};
 
 export default function initStaking({
   staking,
@@ -270,8 +269,7 @@ export default function initStaking({
         })
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg: e?.message });
         });
     };
     handleStake = async (e) => {
@@ -298,8 +296,7 @@ export default function initStaking({
         })
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg: e?.message });
         });
     };
 
@@ -316,26 +313,26 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg: e?.message });
         });
     };
 
     handleClaimDivs = (e) => {
       this.setState({ claimLoading: true });
-      this.setState({ claimStatus: "claim" })
+      this.setState({ claimStatus: "claim" });
 
       // e.preventDefault();
-      staking.claim().then(() => {
-        this.setState({ claimStatus: "success" });
-        this.setState({ claimLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ claimStatus: "failed" });
-        this.setState({ claimLoading: false });
-        this.setState({errorMsg: e?.message})
-
-      });
+      staking
+        .claim()
+        .then(() => {
+          this.setState({ claimStatus: "success" });
+          this.setState({ claimLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+          this.setState({ errorMsg: e?.message });
+        });
     };
 
     handleSetMaxDeposit = (e) => {
@@ -474,18 +471,18 @@ export default function initStaking({
       // e.preventDefault();
       this.setState({ reInvestStatus: "invest", reInvestLoading: true });
 
-      staking.reInvest().then(() => {
-        this.setState({ reInvestStatus: "success" });
-        this.setState({ reInvestLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ reInvestStatus: "failed" });
-        this.setState({ reInvestLoading: false });
-        this.setState({errorMsg: e?.message})
-
-      });
+      staking
+        .reInvest()
+        .then(() => {
+          this.setState({ reInvestStatus: "success" });
+          this.setState({ reInvestLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg: e?.message });
+        });
     };
-
 
     convertTimestampToDate = (timestamp) => {
       const result = new Intl.DateTimeFormat("en-US", {
@@ -538,7 +535,6 @@ export default function initStaking({
       let showDeposit = true;
       let lockDate;
 
-
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
         let lockTimeExpire = parseInt(Date.now()) + parseInt(cliffTime);
@@ -548,8 +544,7 @@ export default function initStaking({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire
-
+        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -645,7 +640,7 @@ export default function initStaking({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
+                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
                       <Tooltip
                         placement="top"
                         title={
@@ -690,64 +685,64 @@ export default function initStaking({
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-                    <div className="row w-100 justify-content-between">
-                    <div className="firstblockwrapper col-2">
-                <div
-                  className="d-flex flex-column justify-content-between gap-2"
-                  style={{ height: "100%" }}
-                >
-                  <h6 className="start-title">Start Staking</h6>
-                  <h6 className="start-desc">
-                    {this.props.coinbase === null
-                      ? "Connect wallet to view and interact with deposits and withdraws"
-                      : "Interact with deposits and withdraws"}
-                  </h6>
-                  {this.props.coinbase === null ? (
-                    <button className="connectbtn btn" onClick={this.showModal}>
-                      {" "}
-                      <img src={wallet} alt="" /> Connect wallet
-                    </button>
-                  ) : (
-                    <div className="addressbtn btn">
-                      <Address a={this.props.coinbase} />
-                    </div>
-                  )}
+              <div className="row w-100 justify-content-between">
+                <div className="firstblockwrapper col-2">
+                  <div
+                    className="d-flex flex-column justify-content-between gap-4"
+                    style={{ height: "100%" }}
+                  >
+                    <h6 className="start-title">Start Staking</h6>
+                    {/* <h6 className="start-desc">
+                      {this.props.coinbase === null
+                        ? "Connect wallet to view and interact with deposits and withdraws"
+                        : "Interact with deposits and withdraws"}
+                    </h6> */}
+                    {this.props.coinbase === null ? (
+                      <button
+                        className="connectbtn btn"
+                        onClick={this.showModal}
+                      >
+                        {" "}
+                        <img src={wallet} alt="" /> Connect wallet
+                      </button>
+                    ) : (
+                      <div className="addressbtn btn">
+                        <Address a={this.props.coinbase} />
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-              {/* <div className="otherside">
+                {/* <div className="otherside">
               <button className="btn green-btn">
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-              <div className="otherside-border col-4">
-                <div className="d-flex justify-content-between align-items-center gap-2">
-                  <div className="d-flex align-items-center gap-3">
-                  <h6 className="deposit-txt">
-                    Deposit                
-                  </h6>
-                  <h6 className="deposit-txt d-flex align-items-center gap-2">
-                  <img
-                      src={
-                        require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
-                          .default
-                      }
-                      alt=""
-                      style={{ width: 14, height: 14 }}
-                    />
-                      {token_symbol}
-                  </h6>
-                  <h6 className="mybalance-text">
-                    Balance:
-                    <b>
-                      {/* {getFormattedNumber(
+                <div className="otherside-border col-4">
+                  <div className="d-flex justify-content-between align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-3">
+                      <h6 className="deposit-txt">Deposit</h6>
+                      <h6 className="deposit-txt d-flex align-items-center gap-2">
+                        <img
+                          src={
+                            require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                              .default
+                          }
+                          alt=""
+                          style={{ width: 14, height: 14 }}
+                        />
+                        {token_symbol}
+                      </h6>
+                      <h6 className="mybalance-text">
+                        Balance:
+                        <b>
+                          {/* {getFormattedNumber(
                       this.state.selectedTokenBalance /
                         10 ** this.state.selectedTokenDecimals,
                       6
                     )} */}
-                      {token_balance} 
-                    </b>
-                   
-                    {/* <select
+                          {token_balance}
+                        </b>
+                        {/* <select
                     disabled={!is_connected}
                     value={this.state.selectedBuybackToken}
                     onChange={(e) =>
@@ -763,10 +758,9 @@ export default function initStaking({
                       </option>
                     ))}
                   </select> */}
-                  </h6>
-               
-                  </div>
-                  <Tooltip
+                      </h6>
+                    </div>
+                    <Tooltip
                       placement="top"
                       title={
                         <div style={{ whiteSpace: "pre-line" }}>
@@ -776,198 +770,198 @@ export default function initStaking({
                     >
                       <img src={moreinfo} alt="" />
                     </Tooltip>
-                </div>
-                <div className="d-flex flex-column gap-2 justify-content-between">
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <div className="position-relative">
-                      <h6 className="amount-txt">Amount</h6>
-                      <input
-                        type={"text"}
-                        className="styledinput"
-                        placeholder="0.0"
-                        style={{ width: '100%' }}
-                        value={
-                          Number(this.state.depositAmount) > 0
-                            ? this.state.depositAmount
-                            : this.state.depositAmount
-                        }
-                        onChange={(e) =>
-                          this.setState({
-                            depositAmount: e.target.value,
-                          })
-                        }
-                        // onChange={(e) => setDepositValue(e.target.value)}
-                      />
-                    </div>
-                    <button
-                      className="btn maxbtn"
-                      onClick={this.handleSetMaxDeposit}
-                    >
-                      Max
-                    </button>
-                    {/* <button
+                  </div>
+                  <div className="d-flex flex-column gap-2 justify-content-between">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <div className="position-relative">
+                        <h6 className="amount-txt">Amount</h6>
+                        <input
+                          type={"text"}
+                          className="styledinput"
+                          placeholder="0.0"
+                          style={{ width: "100%" }}
+                          value={
+                            Number(this.state.depositAmount) > 0
+                              ? this.state.depositAmount
+                              : this.state.depositAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              depositAmount: e.target.value,
+                            })
+                          }
+                          // onChange={(e) => setDepositValue(e.target.value)}
+                        />
+                      </div>
+                      <button
+                        className="btn maxbtn"
+                        onClick={this.handleSetMaxDeposit}
+                      >
+                        Max
+                      </button>
+                      {/* <button
                       className="btn filledbtn"
                       onClick={this.handleApprove}
                     >
                       Approve
                     </button> */}
-                    <button
-                      disabled={
-                        this.state.depositAmount === "" ||
-                        this.state.depositLoading === true ||
-                        this.state.depositStatus === "success"
-                          ? true
-                          : false
-                      }
-                      className={`btn filledbtn ${
-                        this.state.depositAmount === "" && "disabled-btn"
-                      } ${
-                        this.state.depositStatus === "deposit" ||
-                        this.state.depositStatus === "success"
-                          ? "success-button"
-                          : this.state.depositStatus === "fail"
-                          ? "fail-button"
-                          : null
-                      } d-flex justify-content-center align-items-center gap-2`}
-                      onClick={() => {
-                        this.state.depositStatus === "deposit"
-                          ? this.handleStake()
-                          : this.state.depositStatus === "initial"
-                          ? this.handleApprove()
-                          : console.log("");
-                      }}
-                    >
-                      {this.state.depositLoading ? (
-                        <div
-                          class="spinner-border spinner-border-sm text-light"
-                          role="status"
-                        >
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      ) : this.state.depositStatus === "initial" ? (
-                        <>Approve</>
-                      ) : this.state.depositStatus === "deposit" ? (
-                        <>Deposit</>
-                      ) : this.state.depositStatus === "success" ? (
-                        <>Success</>
-                      ) : (
-                        <>
-                          <img src={failMark} alt="" />
-                          Failed
-                        </>
-                      )}
-                    </button>
-                    {/* <button
+                      <button
+                        disabled={
+                          this.state.depositAmount === "" ||
+                          this.state.depositLoading === true ||
+                          this.state.depositStatus === "success"
+                            ? true
+                            : false
+                        }
+                        className={`btn filledbtn ${
+                          this.state.depositAmount === "" && "disabled-btn"
+                        } ${
+                          this.state.depositStatus === "deposit" ||
+                          this.state.depositStatus === "success"
+                            ? "success-button"
+                            : this.state.depositStatus === "fail"
+                            ? "fail-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        onClick={() => {
+                          this.state.depositStatus === "deposit"
+                            ? this.handleStake()
+                            : this.state.depositStatus === "initial"
+                            ? this.handleApprove()
+                            : console.log("");
+                        }}
+                      >
+                        {this.state.depositLoading ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.depositStatus === "initial" ? (
+                          <>Approve</>
+                        ) : this.state.depositStatus === "deposit" ? (
+                          <>Deposit</>
+                        ) : this.state.depositStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        )}
+                      </button>
+                      {/* <button
                       className="btn filledbtn"
                       onClick={this.handleStake}
                     >
                       Deposit
                     </button> */}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="otherside-border col-4">
-                <div className="d-flex justify-content-between gap-2">
-                  <h6 className="withdraw-txt">Rewards</h6>
-                  <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                    Reward updated each day 00:00 (UTC) <b>22:36</b>
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"rewards text"}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
-                </div>
-
-                <div className="form-row d-flex gap-2 align-items-center justify-content-between">
-                  <div>
-                    <span>{pendingDivs} iDYP</span>
+                <div className="otherside-border col-4">
+                  <div className="d-flex justify-content-between gap-2">
+                    <h6 className="withdraw-txt">Rewards</h6>
+                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
+                      Reward updated each day 00:00 (UTC) <b>22:36</b>
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {"rewards text"}
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </h6>
                   </div>
-                 <div className="d-flex align-items-center gap-2">
-                 <button
-                          disabled={
-                            this.state.claimStatus === "claimed" ||
-                            this.state.claimStatus === "success"
-                              ? true
-                              : false
-                          }
-                          className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed"
-                              ? "disabled-btn"
-                              : this.state.claimStatus === "failed"
-                              ? "fail-button"
-                              : this.state.claimStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content" }}
-                          onClick={this.handleClaimDivs}
-                        >
-                          {this.state.claimLoading &&
-                          this.state.claimStatus === "initial" ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.claimStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.claimStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Claim</>
-                          )}
-                        </button>
-                  
-                  <button
-                          disabled={
-                            // this.state.claimStatus === "invest" ? true :
-                            false
-                          }
-                          className={`btn filledbtn ${
-                            this.state.reInvestStatus === "invest"
-                              ? "disabled-btn"
-                              : this.state.reInvestStatus === "failed"
-                              ? "fail-button"
-                              : this.state.reInvestStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content" }}
-                          onClick={this.handleReinvest}
-                        >
-                          {this.state.reInvestLoading &&
-                          this.state.reInvestStatus === "invest" ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.reInvestStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.reInvestStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Reinvest</>
-                          )}
-                        </button>
-                 </div>
-                </div>
 
-                {/* <button
+                  <div className="form-row d-flex gap-2 align-items-center justify-content-between">
+                    <div>
+                      <span>{pendingDivs} iDYP</span>
+                    </div>
+                    <div className="d-flex align-items-center gap-2">
+                      <button
+                        disabled={
+                          this.state.claimStatus === "claimed" ||
+                          this.state.claimStatus === "success"
+                            ? true
+                            : false
+                        }
+                        className={`btn filledbtn ${
+                          this.state.claimStatus === "claimed"
+                            ? "disabled-btn"
+                            : this.state.claimStatus === "failed"
+                            ? "fail-button"
+                            : this.state.claimStatus === "success"
+                            ? "success-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        style={{ height: "fit-content" }}
+                        onClick={this.handleClaimDivs}
+                      >
+                        {this.state.claimLoading &&
+                        this.state.claimStatus === "initial" ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.claimStatus === "failed" ? (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        ) : this.state.claimStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>Claim</>
+                        )}
+                      </button>
+
+                      <button
+                        disabled={
+                          // this.state.claimStatus === "invest" ? true :
+                          false
+                        }
+                        className={`btn filledbtn ${
+                          this.state.reInvestStatus === "invest"
+                            ? "disabled-btn"
+                            : this.state.reInvestStatus === "failed"
+                            ? "fail-button"
+                            : this.state.reInvestStatus === "success"
+                            ? "success-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        style={{ height: "fit-content" }}
+                        onClick={this.handleReinvest}
+                      >
+                        {this.state.reInvestLoading &&
+                        this.state.reInvestStatus === "invest" ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.reInvestStatus === "failed" ? (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        ) : this.state.reInvestStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>Reinvest</>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* <button
                     title={claimTitle}
                     disabled={!is_connected}
                     className="btn  btn-primary btn-block l-outline-btn"
@@ -975,7 +969,7 @@ export default function initStaking({
                   >
                     CLAIM
                   </button> */}
-                {/* <button
+                  {/* <button
                   onClick={(e) => {
                     e.preventDefault();
                     this.handleClaimDyp();
@@ -987,47 +981,49 @@ export default function initStaking({
                 >
                   CLAIM
                 </button> */}
-              </div>
-              <div className="otherside-border col-2">
-                <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
-                  WITHDRAW
-                  <Tooltip
-                    placement="top"
-                    title={
-                      <div style={{ whiteSpace: "pre-line" }}>
-                        {"withdraw deposit text"}
-                      </div>
-                    }
-                  >
-                    <img src={moreinfo} alt="" />
-                  </Tooltip>
-                </h6>
+                </div>
+                <div className="otherside-border col-2">
+                  <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
+                    WITHDRAW
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"withdraw deposit text"}
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
+                  </h6>
 
-                <button
-                  className="btn filledbtn"
-                  onClick={() => {
-                    this.setState({ showWithdrawModal: true });
-                  }}
-                >
-                  Withdraw
-                </button>
+                  <button
+                    className="btn filledbtn"
+                    onClick={() => {
+                      this.setState({ showWithdrawModal: true });
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                </div>
               </div>
-                    </div>
             </div>
           </div>
           {this.state.popup && (
             <Modal
               visible={this.state.popup}
               modalId="tymodal"
+              icon="stats"
+              title="stats"
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
-                  <div className="container">
+                  <div className="container px-0">
                     <div className="row" style={{ marginLeft: "0px" }}>
-                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                      {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
                         <h6 className="d-flex gap-2 align-items-center statstext">
                           <img src={stats} alt="" />
                           Stats
@@ -1035,7 +1031,7 @@ export default function initStaking({
                         <h6 className="d-flex gap-2 align-items-center myaddrtext">
                           My address
                           <a
-                            href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
+                            href={`${window.config._etherscanbaseURL}/address/${this.props.coinbase}`}
                             target={"_blank"}
                             rel="noreferrer"
                           >
@@ -1045,9 +1041,9 @@ export default function initStaking({
                           </a>
                           <img src={arrowup} alt="" />
                         </h6>
-                      </div>
+                      </div> */}
                     </div>
-                    <table className="table-stats table table-sm table-borderless mt-2">
+                    {/* <table className="table-stats table table-sm table-borderless mt-2">
                       <tbody>
                         <tr>
                           <td className="text-right">
@@ -1095,77 +1091,163 @@ export default function initStaking({
                           </td>
                         </tr>
                       </tbody>
-                    </table>
-                    <div className="referralwrapper">
-                      <div className="d-flex gap-2 align-items-start">
-                        <img src={referralimg} alt="" />
-                        <div
-                          className="d-flex gap-2 flex-column"
-                          style={{ width: "60%" }}
-                        >
-                          <div>
-                            <span style={{ fontSize: ".8rem" }}>
-                              <h6
-                                className="referraltitle"
-                                style={{ cursor: "pointer" }}
-                              >
-                                <Clipboard
-                                  component="h6"
-                                  onSuccess={(e) => {
-                                    setTimeout(() => ReactTooltip.hide(), 2000);
-                                  }}
-                                  data-event="click"
-                                  data-for={id}
-                                  data-tip="Copied To Clipboard!"
-                                  data-clipboard-text={this.getReferralLink()}
+                    </table> */}
+                    <div className="stats-container my-4">
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          My iDYP Deposit
+                        </span>
+                        <h6 className="stats-card-content">
+                          {depositedTokens} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          My iDYP Balance
+                        </span>
+                        <h6 className="stats-card-content">
+                          {token_balance} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Referral Fee Earned
+                        </span>
+                        <h6 className="stats-card-content">
+                          {referralFeeEarned} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Total iDYP Locked
+                        </span>
+                        <h6 className="stats-card-content">{tvl} iDYP</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">TVL USD</span>
+                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Contract Expiration
+                        </span>
+                        <h6 className="stats-card-content">
+                          {expiration_time} iDYP
+                        </h6>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="referralwrapper col-8">
+                        <div className="d-flex gap-2 align-items-start justify-content-between">
+                          <img src={referralimg} alt="" />
+                          <div
+                            className="d-flex gap-2 flex-column"
+                            style={{ width: "60%" }}
+                          >
+                            <div>
+                              <span style={{ fontSize: ".8rem" }}>
+                                <h6
                                   className="referraltitle"
+                                  style={{ cursor: "pointer" }}
                                 >
-                                  Referral Link:
-                                  <span
-                                    title="Copy link to clipboard"
-                                    style={{
-                                      cursor: "pointer",
+                                  <Clipboard
+                                    component="h6"
+                                    onSuccess={(e) => {
+                                      setTimeout(
+                                        () => ReactTooltip.hide(),
+                                        2000
+                                      );
                                     }}
-                                  ></span>
-                                </Clipboard>
-                                <ReactTooltip id={id} effect="solid" />
-                              </h6>
-                              <br />
-                              {/* <a
+                                    data-event="click"
+                                    data-for={id}
+                                    data-tip="Copied To Clipboard!"
+                                    data-clipboard-text={this.getReferralLink()}
+                                    className="referraltitle"
+                                  >
+                                    Referral Link:
+                                    <span
+                                      title="Copy link to clipboard"
+                                      style={{
+                                        cursor: "pointer",
+                                      }}
+                                    ></span>
+                                  </Clipboard>
+                                  <ReactTooltip id={id} effect="solid" />
+                                </h6>
+                                <br />
+                                {/* <a
                                 className="text-muted small"
                                 href={this.getReferralLink()}
                               >
                                 {" "}
                                 {this.getReferralLink()}{" "}
                               </a> */}
-                            </span>
-                          </div>
+                              </span>
+                            </div>
 
-                          <h6 className="referraldesc">
-                            Refferal link gives you 5% for each invite friend
-                            you bring to buy DYP example
-                          </h6>
+                            <h6 className="referraldesc">
+                              Refferal link gives you 5% for each invite friend
+                              you bring to buy DYP example
+                            </h6>
+                          </div>
+                          <Clipboard
+                            component="div"
+                            onSuccess={(e) => {
+                              setTimeout(() => ReactTooltip.hide(), 2000);
+                            }}
+                            data-event="click"
+                            data-for={id}
+                            data-tip="Copied To Clipboard!"
+                            data-clipboard-text={this.getReferralLink()}
+                            className=""
+                          >
+                            <button className="copybtn btn">
+                              <img src={copy} alt="" /> Copy{" "}
+                            </button>{" "}
+                          </Clipboard>
+                          <ReactTooltip id={id} effect="solid" />
+                          &nbsp;{" "}
                         </div>
-                        <Clipboard
-                          component="div"
-                          onSuccess={(e) => {
-                            setTimeout(() => ReactTooltip.hide(), 2000);
+                      </div>
+                      <div className="col-3 d-flex flex-column gap-1">
+                        <span
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
                           }}
-                          data-event="click"
-                          data-for={id}
-                          data-tip="Copied To Clipboard!"
-                          data-clipboard-text={this.getReferralLink()}
-                          className=""
                         >
-                          <button className="copybtn btn">
-                            <img src={copy} alt="" /> Copy{" "}
-                          </button>{" "}
-                        </Clipboard>
-                        <ReactTooltip id={id} effect="solid" />
-                        &nbsp;{" "}
+                          My address
+                        </span>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                          className="stats-link"
+                        >
+                          {shortAddress(coinbase)}{" "}
+                          <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`https://github.com/dypfinance/staking-governance-security-audits`}
+                          className="stats-link"
+                        >
+                          Audit <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                          className="stats-link"
+                        >
+                          View on Etherscan <img src={statsLinkIcon} alt="" />
+                        </a>
                       </div>
                     </div>
-                    <div className="mt-4">
+                    {/* <div className="mt-4">
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
@@ -1176,7 +1258,7 @@ export default function initStaking({
                         Etherscan
                         <img src={arrowup} alt="" />
                       </a>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -1187,20 +1269,21 @@ export default function initStaking({
             <Modal
               visible={this.state.showWithdrawModal}
               modalId="withdrawmodal"
+              title="withdraw"
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
-                  <div className="container">
+                  <div className="container px-0">
                     <div className="row" style={{ marginLeft: "0px" }}>
-                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                      {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
                         <h6 className="d-flex gap-2 align-items-center statstext">
                           <img src={stats} alt="" />
                           Withdraw
                         </h6>
-                      </div>
+                      </div> */}
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
@@ -1212,15 +1295,18 @@ export default function initStaking({
                     <div className="d-flex flex-column mt-2">
                       <div className="d-flex  gap-2 justify-content-between align-items-center mt-2">
                         <div className="d-flex flex-column gap-1">
-                          <h6 className="withsubtitle">Timer</h6>
-                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                           {lockTime === "No Lock" ? (
+                          <h6 className="withsubtitle mt-3">Timer</h6>
+                          <h6 className="withtitle" style={{ fontWeight: 300 }}>
+                            {lockTime === "No Lock" ? (
                               "No Lock"
                             ) : (
-                              
-                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
+                              <Countdown
+                                date={this.convertTimestampToDate(
+                                  Number(lockDate)
+                                )}
+                                renderer={renderer}
+                              />
                             )}
-
                           </h6>
                         </div>
                       </div>
@@ -1241,7 +1327,7 @@ export default function initStaking({
                             type={"text"}
                             className="styledinput"
                             placeholder="0.0"
-                            style={{ width: '100%' }}
+                            style={{ width: "100%" }}
                             value={this.state.withdrawAmount}
                             onChange={(e) =>
                               this.setState({
@@ -1258,7 +1344,7 @@ export default function initStaking({
                         </button>
                       </div>
 
-                      <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
+                      <div className="d-flex flex-column align-items-start justify-content-between gap-2 mt-4">
                         {/* <button
                         disabled={this.state.withdrawAmount === "" ? true : false}
                           className={`btn filledbtn ${this.state.withdrawAmount === "" && 'disabled-btn'} w-100`}
@@ -1312,7 +1398,9 @@ export default function initStaking({
                             <>Withdraw</>
                           )}
                         </button>
-
+                          <span className="mt-2" style={{fontWeight: '400', fontSize: '12px', lineHeight: '18px', color: "#C0C9FF" }}>
+                            *No withdrawal fee
+                          </span>
                         {/* <div className="form-row">
                               <div className="col-6">
                                 <button

@@ -189,7 +189,7 @@ const Header = ({
               className="text-white"
               style={{ fontSize: "23px", fontWeight: "600" }}
             >
-              Good morning, Dwight
+              Good morning, James
             </h4>
             <span className="text-white headerdesc">
               Discover the latest trends, breaking news and immersive dApps
@@ -305,6 +305,7 @@ const Header = ({
                       width: 40,
                       borderRadius: "50%",
                       border: "2px solid #4ED5D2",
+                      margin: 'auto'
                     }}
                     alt=""
                   />}

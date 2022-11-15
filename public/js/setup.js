@@ -1321,6 +1321,8 @@ window.config = {
 
   weth_address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   etherscan_baseURL: "https://etherscan.io",
+  snowtrace_baseURL: "https://snowtrace.io",
+
   max_proposals_per_call: 4,
   // default_gasprice_gwei: 60,
   default_gas_amount: 1200000,

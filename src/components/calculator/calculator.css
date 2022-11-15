@@ -41,13 +41,13 @@
 
 .pills-container {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* display: grid; */
+  /* grid-template-columns: repeat(4, 1fr); */
   align-items: center;
   transition: 0.3s;
   margin-bottom: 21px;
   margin-top: 21px;
-  gap: 20px;
+  /* gap: 20px; */
   position: relative;
   justify-content: space-between;
 }
@@ -102,7 +102,7 @@
   letter-spacing: 0.4px;
   color: #8e97cd;
   display: flex;
-  background: #26264f !important;
+  background: #312F69 !important;
   padding: 0 0px 0 5px;
   top: -11px;
   left: 25px;
@@ -115,7 +115,7 @@
 }
 
 .calcinput {
-  background: #26264f !important;
+  background: #312F69 !important;
   border: 1px solid #8e97cd !important;
   border-radius: 8px;
   font-weight: 500;
