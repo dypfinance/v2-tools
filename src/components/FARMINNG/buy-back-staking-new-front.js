@@ -145,6 +145,7 @@ export default function initStaking({
         selectedRewardTokenLogo2: "dyp",
         usdPerToken: 0,
         showWithdrawModal: false,
+        errorMsg: "",
 
         selectedBuybackToken: Object.keys(window.buyback_tokens)[0],
         selectedTokenDecimals:
@@ -343,8 +344,10 @@ export default function initStaking({
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "deposit" });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({errorMsg: e?.message})
+
         });
     };
 
@@ -378,8 +381,10 @@ export default function initStaking({
       ];
       let _amountOutMin_75Percent = await router.methods
         .getAmountsOut(_75Percent, path)
-        .call().catch(() => {
+        .call().catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({errorMsg: e })
+
         });
       _amountOutMin_75Percent =
         _amountOutMin_75Percent[_amountOutMin_75Percent.length - 1];
@@ -397,8 +402,10 @@ export default function initStaking({
       ];
       let _amountOutMin_25Percent = await router.methods
         .getAmountsOut(_25Percent, path_25Percent)
-        .call().catch(() => {
+        .call().catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({errorMsg: e })
+
         });
       _amountOutMin_25Percent =
         _amountOutMin_25Percent[_amountOutMin_25Percent.length - 1];
@@ -430,8 +437,10 @@ export default function initStaking({
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "success" });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({errorMsg: e?.message})
+
         });
     };
 
@@ -458,9 +467,11 @@ export default function initStaking({
       let _amountOutMin = await router.methods
         .getAmountsOut(amountBuyback, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
+          this.setState({errorMsg: e })
+
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -482,11 +493,15 @@ export default function initStaking({
             this.setState({ withdrawStatus: "success" });
             this.setState({ withdrawLoading: false });
           })
-          .catch(() => {
+          .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
+          this.setState({errorMsg: e?.message})
+
           });
       } catch (e) {
+        this.setState({errorMsg: e})
+
         console.error(e);
         return;
       }
@@ -513,9 +528,11 @@ export default function initStaking({
       let _amountOutMin = await router.methods
         .getAmountsOut(amountBuyback, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
+          this.setState({errorMsg: e })
+
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -534,11 +551,15 @@ export default function initStaking({
             this.setState({ withdrawStatus: "success" });
             this.setState({ withdrawLoading: false });
           })
-          .catch(() => {
+          .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
+          this.setState({errorMsg: e?.message})
+
           });
       } catch (e) {
+        this.setState({errorMsg: e})
+
         console.error(e);
         return;
       }
@@ -563,9 +584,11 @@ export default function initStaking({
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
+          this.setState({errorMsg: e })
+
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -582,9 +605,11 @@ export default function initStaking({
       let _amountOutMinConstant = await router.methods
         .getAmountsOut(amount, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
+          this.setState({errorMsg: e })
+
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -610,13 +635,17 @@ export default function initStaking({
             this.setState({ claimStatus: "success" });
             this.setState({ claimLoading: false });
           })
-          .catch(() => {
+          .catch((e) => {
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
+          this.setState({errorMsg: e?.message})
+
           });
       } catch (e) {
         this.setState({ claimStatus: "failed" });
         this.setState({ claimLoading: false });
+        this.setState({errorMsg: e})
+
         console.error(e);
         return;
       }
@@ -641,9 +670,11 @@ export default function initStaking({
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ claimidypStatus: "failed" });
           this.setState({ claimidypLoading: false });
+          this.setState({errorMsg: e})
+
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -660,9 +691,11 @@ export default function initStaking({
       let _amountOutMinConstant = await router.methods
         .getAmountsOut(amount, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ claimidypStatus: "failed" });
           this.setState({ claimidypLoading: false });
+          this.setState({errorMsg: e })
+
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -684,13 +717,17 @@ export default function initStaking({
             this.setState({ claimidypStatus: "success" });
             this.setState({ claimidypLoading: false });
           })
-          .catch(() => {
+          .catch((e) => {
             this.setState({ claimidypStatus: "failed" });
             this.setState({ claimidypLoading: false });
+          this.setState({errorMsg: e?.message})
+
           });
       } catch (e) {
         this.setState({ claimidypStatus: "failed" });
         this.setState({ claimidypLoading: false });
+        this.setState({errorMsg: e})
+
         console.error(e);
         return;
       }
@@ -717,9 +754,11 @@ export default function initStaking({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call() .catch(() => {
+        .call() .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
+          this.setState({errorMsg: e })
+
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -737,11 +776,15 @@ export default function initStaking({
           this.setState({ reInvestStatus: "success" });
           this.setState({ reInvestLoading: false });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
+          this.setState({errorMsg: e?.message})
+
         });
       } catch (e) {
+        this.setState({errorMsg: e })
+
         console.error(e);
         return;
       }
@@ -770,9 +813,11 @@ export default function initStaking({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call() .catch(() => {
+        .call(e) .catch(() => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
+          this.setState({errorMsg: e?.message})
+
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -802,8 +847,12 @@ export default function initStaking({
         .catch(() => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
+          this.setState({errorMsg: e?.message})
+
         });
       } catch (e) {
+        this.setState({errorMsg: e })
+
         console.error(e);
         return;
       }
@@ -1040,6 +1089,16 @@ export default function initStaking({
     //     return window.location.origin + window.location.pathname + '?r=' + this.state.coinbase
     // }
 
+
+    convertTimestampToDate = (timestamp) => {
+      const result = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(timestamp * 1000);
+      return result;
+    };
+
     render() {
       let {
         disburseDuration,
@@ -1091,6 +1150,8 @@ export default function initStaking({
       cliffTime = cliffTime * 1e3;
 
       let showDeposit = true;
+      let lockDate;
+
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -1101,6 +1162,8 @@ export default function initStaking({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
+        lockDate = lockTimeExpire
+
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1219,7 +1282,7 @@ export default function initStaking({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime}
+                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
                       <Tooltip
                         placement="top"
                         title={
@@ -1677,7 +1740,6 @@ export default function initStaking({
 
                     <button
                       disabled={
-                        // this.state.claimStatus === "invest" ? true :
                         false
                       }
                       className={`btn filledbtn ${
@@ -1690,10 +1752,11 @@ export default function initStaking({
                           : null
                       } d-flex justify-content-center align-items-center gap-2`}
                       style={{ height: "fit-content" }}
-                      onClick={
-                        this.state.selectedPool === 'dyp'
-                       ?  this.handleReinvestConst() : this.handleReinvestStake()
-                      }
+                      onClick={() => {
+                        this.state.selectedPool === "dyp"
+                          ? this.handleReinvestConst()
+                          : this.handleReinvestStake();
+                      }}
                     >
                      
 
@@ -1947,13 +2010,11 @@ export default function initStaking({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                            {lockTime === "No Lock" ? (
+                          {lockTime === "No Lock" ? (
                               "No Lock"
                             ) : (
-                              <Countdown
-                                date={Date.now() + lockTime * 86400000}
-                                renderer={renderer}
-                              />
+                              
+                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
                             )}
                           </h6>
                         </div>

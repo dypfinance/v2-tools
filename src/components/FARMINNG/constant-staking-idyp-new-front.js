@@ -131,6 +131,7 @@ export default function initStaking({
         depositedTokens: "",
         lastClaimedTime: "",
         reInvestLoading: false,
+        reInvestStatus: "initial",
         depositAmount: "",
         withdrawAmount: "",
         depositLoading: false,
@@ -150,6 +151,7 @@ export default function initStaking({
         selectedRewardTokenLogo2: "dyp",
 
         usdPerToken: "",
+        errorMsg: "",
 
         contractDeployTime: "",
         disburseDuration: "",
@@ -266,8 +268,10 @@ export default function initStaking({
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "deposit" });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({errorMsg: e?.message})
+
         });
     };
     handleStake = async (e) => {
@@ -292,8 +296,10 @@ export default function initStaking({
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "success" });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({errorMsg: e?.message})
+
         });
     };
 
@@ -307,15 +313,29 @@ export default function initStaking({
           this.setState({ withdrawStatus: "success" });
           this.setState({ withdrawLoading: false });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
+          this.setState({errorMsg: e?.message})
+
         });
     };
 
     handleClaimDivs = (e) => {
-      e.preventDefault();
-      staking.claim();
+      this.setState({ claimLoading: true });
+      this.setState({ claimStatus: "claim" })
+
+      // e.preventDefault();
+      staking.claim().then(() => {
+        this.setState({ claimStatus: "success" });
+        this.setState({ claimLoading: false });
+      })
+      .catch((e) => {
+        this.setState({ claimStatus: "failed" });
+        this.setState({ claimLoading: false });
+        this.setState({errorMsg: e?.message})
+
+      });
     };
 
     handleSetMaxDeposit = (e) => {
@@ -451,8 +471,29 @@ export default function initStaking({
     };
 
     handleReinvest = (e) => {
-      e.preventDefault();
-      staking.reInvest();
+      // e.preventDefault();
+      this.setState({ reInvestStatus: "invest", reInvestLoading: true });
+
+      staking.reInvest().then(() => {
+        this.setState({ reInvestStatus: "success" });
+        this.setState({ reInvestLoading: false });
+      })
+      .catch((e) => {
+        this.setState({ reInvestStatus: "failed" });
+        this.setState({ reInvestLoading: false });
+        this.setState({errorMsg: e?.message})
+
+      });
+    };
+
+
+    convertTimestampToDate = (timestamp) => {
+      const result = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(timestamp * 1000);
+      return result;
     };
 
     render() {
@@ -495,6 +536,8 @@ export default function initStaking({
       cliffTime = cliffTime * 1e3;
 
       let showDeposit = true;
+      let lockDate;
+
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -505,6 +548,8 @@ export default function initStaking({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
+        lockDate = lockTimeExpire
+
       }
 
       let cliffTimeInWords = "lockup period";
@@ -600,7 +645,7 @@ export default function initStaking({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime}
+                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
                       <Tooltip
                         placement="top"
                         title={
@@ -845,22 +890,80 @@ export default function initStaking({
                   </div>
                  <div className="d-flex align-items-center gap-2">
                  <button
-                    className="btn filledbtn"
-                    style={{ height: "fit-content" }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.handleClaimDyp();
-                    }}
-                  >
-                    Claim
-                  </button>
+                          disabled={
+                            this.state.claimStatus === "claimed" ||
+                            this.state.claimStatus === "success"
+                              ? true
+                              : false
+                          }
+                          className={`btn filledbtn ${
+                            this.state.claimStatus === "claimed"
+                              ? "disabled-btn"
+                              : this.state.claimStatus === "failed"
+                              ? "fail-button"
+                              : this.state.claimStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleClaimDivs}
+                        >
+                          {this.state.claimLoading &&
+                          this.state.claimStatus === "initial" ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.claimStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.claimStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Claim</>
+                          )}
+                        </button>
+                  
                   <button
-                    className="btn filledbtn"
-                    style={{ height: "fit-content" }}
-                    onClick={this.handleReinvest}
-                  >
-                    Reinvest
-                  </button>
+                          disabled={
+                            // this.state.claimStatus === "invest" ? true :
+                            false
+                          }
+                          className={`btn filledbtn ${
+                            this.state.reInvestStatus === "invest"
+                              ? "disabled-btn"
+                              : this.state.reInvestStatus === "failed"
+                              ? "fail-button"
+                              : this.state.reInvestStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleReinvest}
+                        >
+                          {this.state.reInvestLoading &&
+                          this.state.reInvestStatus === "invest" ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.reInvestStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.reInvestStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Reinvest</>
+                          )}
+                        </button>
                  </div>
                 </div>
 
@@ -1111,11 +1214,12 @@ export default function initStaking({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
                            <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                           {lockTime === "No Lock" ? "No Lock" : 
-                            <Countdown date={Date.now() + lockTime*86400000}
-                            renderer={renderer} 
-                            />
-                            }
+                           {lockTime === "No Lock" ? (
+                              "No Lock"
+                            ) : (
+                              
+                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
+                            )}
 
                           </h6>
                         </div>
