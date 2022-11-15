@@ -334,6 +334,10 @@ export default function initConstantStakingNew({
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 2000);
         });
     };
 
@@ -383,7 +387,14 @@ export default function initConstantStakingNew({
       ];
       let _amountOutMin_referralFee = await router.methods
         .getAmountsOut(referralFee, path)
-        .call();
+        .call().catch((e) => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
+        });
       //console.log({_amountOutMin_referralFee})
       _amountOutMin_referralFee =
         _amountOutMin_referralFee[_amountOutMin_referralFee.length - 1];
@@ -404,6 +415,10 @@ export default function initConstantStakingNew({
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
     };
 
@@ -1077,7 +1092,7 @@ export default function initConstantStakingNew({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.depositAmount === "" && "disabled-btn"
+                          this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
                         } ${
                           this.state.depositStatus === "deposit" ||
                           this.state.depositStatus === "success"
@@ -1089,7 +1104,7 @@ export default function initConstantStakingNew({
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
-                            : this.state.depositStatus === "initial"
+                            : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
                             ? this.handleApprove()
                             : console.log("");
                         }}

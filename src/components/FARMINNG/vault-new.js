@@ -124,7 +124,9 @@ export default function initVaultNew({
         depositAmount: "",
         withdrawAmount: "",
         rdepositAmount: "",
-
+        errorMsg: "",
+        errorMsg2: "",
+        errorMsg3: "",
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl_usd: "...",
         apy_percent: "...",
@@ -255,8 +257,14 @@ export default function initVaultNew({
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "deposit" });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 2000);
+
         });
     };
     handleStake = async (e) => {
@@ -287,8 +295,13 @@ export default function initVaultNew({
       let _amountOutMin_ethFeeBuyBack = await router.methods
         .getAmountsOut(feeAmountEth, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
       _amountOutMin_ethFeeBuyBack =
         _amountOutMin_ethFeeBuyBack[_amountOutMin_ethFeeBuyBack.length - 1];
@@ -303,8 +316,13 @@ export default function initVaultNew({
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "success" });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
     };
 
@@ -347,9 +365,11 @@ export default function initVaultNew({
       let _amountOutMin_ethFeeBuyBack = await router.methods
         .getAmountsOut(buyBackFeeAmountEth, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
+          this.setState({ errorMsg3: e  });
+
         });
       _amountOutMin_ethFeeBuyBack =
         _amountOutMin_ethFeeBuyBack[_amountOutMin_ethFeeBuyBack.length - 1];
@@ -369,9 +389,11 @@ export default function initVaultNew({
       let _amountOutMin_tokenFeeBuyBack = await router.methods
         .getAmountsOut(buyBackFeeAmountToken, tokenFeePath)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
+          this.setState({ errorMsg3: e });
+
         });
       _amountOutMin_tokenFeeBuyBack =
         _amountOutMin_tokenFeeBuyBack[_amountOutMin_tokenFeeBuyBack.length - 1];
@@ -398,9 +420,11 @@ export default function initVaultNew({
           this.setState({ withdrawStatus: "success" });
           this.setState({ withdrawLoading: false });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
+          this.setState({ errorMsg3: e?.message });
+
         });
     };
 
@@ -437,12 +461,16 @@ export default function initVaultNew({
           _amountOutMin_platformTokens = await router.methods
             .getAmountsOut(this.state.pendingDivsDyp, path)
             .call()
-            .catch(() => {
+            .catch((e) => {
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
+          this.setState({ errorMsg2: e?.message });
+
             });
         }
       } catch (e) {
+        this.setState({ errorMsg2: e  });
+
         console.warn(e);
       }
 
@@ -463,9 +491,11 @@ export default function initVaultNew({
           this.setState({ claimStatus: "success" });
           this.setState({ claimLoading: false });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
+          this.setState({ errorMsg2: e?.message });
+
         });
     };
 
@@ -998,7 +1028,7 @@ export default function initVaultNew({
                           : false
                       }
                       className={`btn filledbtn ${
-                        this.state.depositAmount === "" && "disabled-btn"
+                        this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
                       } ${
                         this.state.depositStatus === "deposit" ||
                         this.state.depositStatus === "success"
@@ -1010,7 +1040,7 @@ export default function initVaultNew({
                       onClick={() => {
                         this.state.depositStatus === "deposit"
                           ? this.handleStake()
-                          : this.state.depositStatus === "initial"
+                          : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
                           ? this.handleApprove()
                           : console.log("");
                       }}
@@ -1036,6 +1066,9 @@ export default function initVaultNew({
                       )}
                     </button>
                   </div>
+                  {this.state.errorMsg && (
+                    <h6 className="errormsg">{this.state.errorMsg}</h6>
+                  )}
                 </div>
               </div>
               <div className="otherside-border col-4">
@@ -1125,6 +1158,9 @@ export default function initVaultNew({
                     </button>
                   </div>
                 </div>
+                {this.state.errorMsg2 && (
+                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                  )}
               </div>
 
               <div className="otherside-border col-2">
@@ -1564,6 +1600,9 @@ export default function initVaultNew({
                               </div>
                             </div> */}
                       </div>
+                      {this.state.errorMsg3 && (
+                    <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                  )}
                     </div>
                   </div>
                 </div>

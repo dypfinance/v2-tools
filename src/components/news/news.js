@@ -170,7 +170,7 @@ const News = ({ theme, isPremium, coinbase }) => {
 
   useEffect(() => {
     fetchVotingdata().then();
-    // checkSingleVotes().then();
+    // checkSingleVotes() 
   }, [showModal, newsItemId, activeNews]);
 
   const { news_id } = useParams();

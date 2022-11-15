@@ -48,6 +48,10 @@ body.theme-dark,
 body.theme-dark .dropdown.open ul,
 body.theme-dark .form-control {
   background-color: var(--solid-dark-blue);
+  background-image: url('../img/toolsbg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 body.theme-dark .header-wrap,
