@@ -31,8 +31,12 @@
 }
 
 #dropdown-basic-button3 {
-  padding: revert !important;
-  width: auto !important;
+  padding-top: revert !important;
+  padding-bottom: revert !important;
+  /* padding-left: 15px !important;
+  padding-right: 15px !important; */
+  width: 100px !important;
+  /* width: auto !important; */
 }
 
 .pills-container {

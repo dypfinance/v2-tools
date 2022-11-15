@@ -3,6 +3,9 @@ import "./top-pools.css";
 import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
 import TopPoolsDetails from "./TopPoolsDetails";
+import newPool from './assets/newPool.png'
+import staked from './assets/staked.svg'
+import topPick from './assets/toppick.svg'
 
 const TopPoolsCard = ({
   tokenLogo,
@@ -26,7 +29,11 @@ const TopPoolsCard = ({
   const [showDetails, setShowDetails] = useState(false);
   const [coins, setCoins] = useState(ethCoins)
 
+
+  const isNewPool = false
+  const isStaked = false
   
+
   const handleDetails = () => {
     if(showDetails === false) {
       setShowDetails(true);
@@ -54,20 +61,24 @@ const TopPoolsCard = ({
   return (
     <>
       <div
-        className={`poolscardwrapper cursor-pointer ${top_pick === true ? "top-pick" : ""} ${
+        className={`poolscardwrapper cursor-pointer position-relative ${
           showDetails && "pools-card-open"
         }`}
 
         onClick={() => handleDetails()}
       >
+        {isStaked && <img src={staked} className="staked" alt="staked" />}
+        {top_pick === true && <img src={topPick} className="toppick" alt="top pick" />}
+        {isNewPool && <img src={newPool} className='new-pool' alt="new pool" />}
+
         <div
           className="purplediv"
-          style={{ background: "#7770e0" }}
+          style={{ background: "#7770e0", top: '12px' }}
         ></div>
         <div className="d-flex flex-column gap-0">
           <div
             className="d-flex m-0 justify-content between gap-2 align-items-center justify-content-between"
-            style={{ padding: "0px 10px" }}
+            style={{ padding: "0px 16px" }}
           >
             <div className="d-flex align-items-center">
               {cardType === "Farming" || cardType === "Buyback" ? (
@@ -99,7 +110,7 @@ const TopPoolsCard = ({
                 <h6 className="tvl-amount">{tvl}</h6>
               </div>
             )}
-            <div className="d-flex flex-column">
+            <div className={`d-flex flex-column ${cardType !== "Vault" && "align-items-end"}`}>
               <h6 className="tvl-text">Lock Time</h6>
 
               <h6 className="locktime-amount">{lockTime}</h6>

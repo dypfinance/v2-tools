@@ -22,6 +22,7 @@ import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 import whiteArrowUp from "./assets/whiteArrowUp.svg";
+import dropdownVector from './assets/dropdownVector.svg'
 
 
 const renderer = ({ days, hours, minutes, seconds }) => {
@@ -1163,7 +1164,7 @@ export default function initFarmAvax({
 
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper">
+          <div className="allwrapper my-4">
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -1301,19 +1302,59 @@ export default function initFarmAvax({
             </div> */}
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
-                    <h6 className="deposit-txt">
+                   <div className="d-flex align-items-center gap-3">
+                   <h6 className="deposit-txt">
                       Deposit
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {"lorem impsum deposit text"}
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                     
                     </h6>
+                    <div className="d-flex justify-content-center align-items-center">
+                      <div className="dropdown">
+                      <button
+                            class="btn farming-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <img
+                              src={
+                                require(`./assets/avax/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                                  .default
+                              }
+                              alt=""
+                              style={{ width: 14, height: 14 }}
+                            />
+                            {this.state.selectedTokenLogo.toUpperCase()}
+                            <img
+                              src={dropdownVector}
+                              alt=""
+                              style={{ width: 10, height: 10 }}
+                            />
+                          </button>
+                          <ul className="dropdown-menu" style={{minWidth: "100%"}}>
+                          {Object.keys(window.buyback_tokens_farmingavax).map(
+                          (t) => (
+                            <span
+                            className="d-flex align-items-center justify-content-start ps-2 gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                            onClick={() =>
+                              this.handleSelectedTokenChange(t)
+                            }
+                          >
+                            <img
+                              src={
+                                require(`./assets/avax/${window.buyback_tokens_farmingavax[
+                                  t
+                                ].symbol.toLowerCase()}.svg`).default
+                              }
+                              alt=""
+                              style={{ width: 14, height: 14 }}
+                            />
+                            {window.buyback_tokens_farmingavax[t].symbol}
+                          </span>
+                          )
+                        )}
+                          </ul>
+                      </div>
+                    </div>
                     <h6 className="mybalance-text">
                       Balance:
                       <b>
@@ -1323,7 +1364,7 @@ export default function initFarmAvax({
                           6
                         )}
                       </b>
-                      <img
+                      {/* <img
                         src={
                           require(`./assets/avax/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
                             .default
@@ -1331,7 +1372,6 @@ export default function initFarmAvax({
                         alt=""
                         style={{ width: 14, height: 14 }}
                       />
-                      {/* <div> */}
                       <select
                         disabled={!is_connected}
                         value={this.state.selectedBuybackToken}
@@ -1349,10 +1389,19 @@ export default function initFarmAvax({
                             </option>
                           )
                         )}
-                      </select>
-                      {/* {this.state.selectedTokenSymbol} */}
-                      {/* </div> */}
+                      </select> */}
                     </h6>
+                   </div>
+                       <Tooltip
+                        placement="top"
+                        title={
+                          <div style={{ whiteSpace: "pre-line" }}>
+                            {"lorem impsum deposit text"}
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1362,7 +1411,7 @@ export default function initFarmAvax({
                           type={"number"}
                           className="styledinput"
                           placeholder="0.0"
-                          style={{ width: 200 }}
+                          style={{ width: '100%' }}
                           value={
                             Number(this.state.depositAmount) > 0
                               ? this.state.depositAmount
@@ -1381,28 +1430,6 @@ export default function initFarmAvax({
                       >
                         Max
                       </button>
-
-                      {/* <button
-                  onClick={this.handleApprove}
-                  disabled={
-                    this.state.depositAmount === "" ||
-                    this.state.depositLoading === true
-                      ? true
-                      : false
-                  }
-                  className={`btn filledbtn ${
-                    this.state.depositAmount === "" && "disabled-btn"
-                  } ${
-                    this.state.depositStatus === "deposit"
-                      ? "success-button"
-                      : this.state.depositStatus === "success"
-                      ? "fail-button"
-                      : null
-                  } d-flex justify-content-center align-items-center gap-2`}
-
-                  >
-                  Approve
-                  </button> */}
 
                       <button
                         disabled={
@@ -1456,7 +1483,7 @@ export default function initFarmAvax({
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
-                    <h6 className="withdraw-littletxt">
+                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
                       Reward updated each day 00:00 (UTC) <b>22:36</b>
                       <Tooltip
                         placement="top"
@@ -1472,7 +1499,7 @@ export default function initFarmAvax({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-2 align-items-end">
+                    <div className="form-row d-flex gap-3 align-items-end">
                       <div
                         className="gap-1 claimreward-wrapper"
                         onClick={() => {
@@ -1526,7 +1553,7 @@ export default function initFarmAvax({
                           className="d-flex align-items-center"
                           style={{ paddingLeft: "10px" }}
                         >
-                          <img
+                          {/* <img
                             src={
                               require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
                                 .default
@@ -1549,7 +1576,63 @@ export default function initFarmAvax({
                           >
                             <option value="0"> WAVAX </option>
                             <option value="1"> WETH.e </option>
-                          </select>
+                          </select> */}
+                          <div class="dropdown">
+                          <button
+                            class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            <img
+                              src={
+                                require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                  .default
+                              }
+                              alt=""
+                              style={{ width: 14, height: 14 }}
+                            />
+                            {this.state.selectedRewardTokenLogo1.toUpperCase()}
+                            <img
+                              src={dropdownVector}
+                              alt=""
+                              style={{ width: 10, height: 10 }}
+                            />
+                          </button>
+                          <ul
+                            class="dropdown-menu"
+                            style={{ minWidth: "100%" }}
+                          >
+                            <span
+                                  className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                  onClick={() => {this.handleClaimToken("1"); this.setState({ selectedRewardTokenLogo1 : "wavax" })}
+                                  }
+                                >
+                                  <img
+                                    src={
+                                      require(`./assets/avax/wavax.svg`).default
+                                    }
+                                    alt=""
+                                    style={{ width: 14, height: 14 }}
+                                  />
+                                  WAVAX
+                                </span>
+                            <span
+                                  className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                  onClick={() => {this.handleClaimToken("2"); this.setState({ selectedRewardTokenLogo1 : "weth.e" })}
+                                  }
+                                >
+                                  <img
+                                    src={
+                                      require(`./assets/avax/weth.e.svg`).default
+                                    }
+                                    alt=""
+                                    style={{ width: 14, height: 14 }}
+                                  />
+                                  WETH.e
+                                </span>
+                          </ul>
+                        </div>
                         </div>
                       </div>
                       <div

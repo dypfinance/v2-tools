@@ -165,7 +165,9 @@ const Sidebar = (props) => {
     >
       {/* <img src={navRadius} className="nav-radius" alt="" /> */}
       <div className="d-flex w-100 justify-content-center align-items-center pb-5">
-        <NavLink to='/'>
+        <NavLink to='/'
+        onClick={() => setActiveLink("")}
+        >
         <img
           src={activeSidebar ? toolsLogoActive : toolsLogo}
           alt=""

@@ -13,7 +13,7 @@ import { shortAddress } from "../../functions/shortAddress";
 import ellipse from "./assets/ellipse.svg";
 import user from "./assets/user.svg";
 import logoutimg from "./assets/logout.svg";
-import walletIcon from './assets/walletIcon.svg'
+import walletIcon from "./assets/walletIcon.svg";
 import WalletModal from "../WalletModal";
 
 const Header = ({
@@ -58,8 +58,7 @@ const Header = ({
   const [avatar, setAvatar] = useState("../../assets/img/person.svg");
 
   const handleEthPool = () => {
-
-    handleSwitchNetwork(1)
+    handleSwitchNetwork(1);
   };
 
   const handleBnbPool = () => {
@@ -69,7 +68,7 @@ const Header = ({
   };
 
   const handleAvaxPool = () => {
-    handleSwitchNetwork(43114)
+    handleSwitchNetwork(43114);
   };
 
   const fetchData = async () => {
@@ -163,12 +162,14 @@ const Header = ({
     ethereum?.on("chainChanged", handleChainChanged);
     ethereum?.on("accountChanged", handleChainChanged);
 
-    if(chainId === 1) {
-      setAvaxState(false); setBnbState(false); setEthState(true)
-    }
-
-    else if(chainId === 43114) {
-      setAvaxState(true); setBnbState(false); setEthState(false)
+    if (chainId === 1) {
+      setAvaxState(false);
+      setBnbState(false);
+      setEthState(true);
+    } else if (chainId === 43114) {
+      setAvaxState(true);
+      setBnbState(false);
+      setEthState(false);
     }
   }, [chainId]);
 
@@ -179,10 +180,20 @@ const Header = ({
   return (
     <>
       <header className="header-wrap" style={{ zIndex: 5 }}>
-        <div className="container-lg d-flex justify-content-between gap-3 align-items-center w-100" style={{marginLeft: '240px'}}>
+        <div
+          className="container-lg d-flex justify-content-between gap-3 align-items-center w-100"
+          style={{ marginLeft: "240px" }}
+        >
           <div className="d-flex flex-column gap-2 text-start">
-            <h4 className="text-white" style={{fontSize: '23px', fontWeight: '600'}}>Good morning, Dwight</h4>
-            <span className="text-white headerdesc">Discover the latest trends, breaking news and immersive dApps</span>
+            <h4
+              className="text-white"
+              style={{ fontSize: "23px", fontWeight: "600" }}
+            >
+              Good morning, Dwight
+            </h4>
+            <span className="text-white headerdesc">
+              Discover the latest trends, breaking news and immersive dApps
+            </span>
           </div>
           <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
             <a
@@ -192,7 +203,8 @@ const Header = ({
                   ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                   : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
               }
-              target={'_blank'} rel="noreferrer"
+              target={"_blank"}
+              rel="noreferrer"
             >
               <img src={coin} alt="" /> Buy DYP
             </a>
@@ -230,7 +242,7 @@ const Header = ({
                 </Dropdown.Item>
               </DropdownButton>
 
-              <DropdownButton
+              {/* <DropdownButton
                 id="dropdown-basic-button2"
                 onClick={checklogout === "true" && showModal}
                 title={
@@ -275,7 +287,57 @@ const Header = ({
                     Disconnect wallet
                   </Dropdown.Item>
                 )}
-              </DropdownButton>
+              </DropdownButton> */}
+              {checklogout === "false" ? (
+                <>
+                  <div className="account-info d-flex align-items-center justify-content-center gap-3">
+                    <span className="account-balance">0.55534 ETH</span>
+                    <span className="account-address">
+                      {shortAddress(coinbase)}
+                    </span>
+                  </div>
+                  <DropdownButton
+                  id="dropdown-basic-button4"
+                  title={  <img
+                    src={avatar}
+                    style={{
+                      height: 40,
+                      width: 40,
+                      borderRadius: "50%",
+                      border: "2px solid #4ED5D2",
+                    }}
+                    alt=""
+                  />}
+                  >
+                  <Dropdown.Item
+                  onClick={() => window.location.assign("/account")}
+                >
+                  <img src={user} alt="" />
+                  Your account
+                </Dropdown.Item>
+                  <Dropdown.Item onClick={() => logout()}>
+                    <img src={logoutimg} alt="" />
+                    Disconnect wallet
+                  </Dropdown.Item>  
+                  </DropdownButton>
+                </>
+              ) : (
+                <DropdownButton 
+                  onClick={checklogout === "true" && showModal}
+                  id="dropdown-basic-button2"
+                  title={<span className="d-flex align-items-center gap-2 connecttitle position-relative" style={{bottom: '5px', fontSize: '12px'}}>
+                  <img
+                    src={walletIcon}
+                    alt=""
+                    className="position-relative"
+                    // style={{ top: 4 }}
+                  />
+                  Connect Wallet
+                </span>}
+                >
+                   
+                </DropdownButton>
+              )}
             </div>
           </div>
         </div>

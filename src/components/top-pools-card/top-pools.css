@@ -17,7 +17,7 @@
 
 .purplediv {
   width: 4px;
-  height: 45px;
+  height: 40px;
   position: absolute;
   border-radius: 0px 100px 100px 0px;
   left: 0px;
@@ -85,23 +85,39 @@
   padding-top: 3px;
 }
 
-.top-pick {
-  border: 2px solid #f0603a;
-  position: relative;
+.toppick {
+  /* border: 2px solid #f0603a; */
+  position: absolute;
+  right: 55px;
+  top: -16px;
 }
 
-.top-pick::after {
+
+.staked{
+  position: absolute;
+  right: 130px;
+  top: -16px;
+}
+
+.new-pool{
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 65px;
+}
+
+/* .top-pick::after {
   content: "";
   position: absolute;
   width: 91px;
   height: 33px;
   top: -18px;
-  right: -2px;
+  right: 8px;
   background-image: url(./assets/toppick.svg);
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 6px 0px;
-}
+} */
 
 .details-text {
   font-style: normal;
@@ -119,7 +135,7 @@
 
 .pools-details-wrapper {
   background: #26264f;
-  border-radius: 8px 8px 0px 0px;
+  border-radius: 12px;
   border: 1px solid #7770df;
   padding: 10px;
   gap: 5px;

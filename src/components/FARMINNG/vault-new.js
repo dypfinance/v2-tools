@@ -780,7 +780,7 @@ export default function initVault({
 
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper">
+          <div className="allwrapper my-4">
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -885,7 +885,7 @@ export default function initVault({
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="firstblockwrapper">
+              <div className="firstblockwrapper col-2">
                 <div
                   className="d-flex flex-column justify-content-between gap-2"
                   style={{ height: "100%" }}
@@ -913,7 +913,7 @@ export default function initVault({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-              <div className="otherside-border">
+              <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
                   <h6 className="deposit-txt">
                     Deposit
@@ -946,7 +946,7 @@ export default function initVault({
                         type={"number"}
                         className="styledinput"
                         placeholder="0.0"
-                        style={{ width: 200 }}
+                        style={{ width: '100%' }}
                         value={
                           Number(this.state.depositAmount) > 0
                             ? this.state.depositAmount
@@ -1019,7 +1019,7 @@ export default function initVault({
                   </div>
                 </div>
               </div>
-              <div className="otherside-border">
+              <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between gap-2 ">
                   <h6 className="withdraw-txt">Rewards</h6>
                   <h6 className="withdraw-littletxt">
@@ -1108,7 +1108,7 @@ export default function initVault({
                 </div>
               </div>
 
-              <div className="otherside-border">
+              <div className="otherside-border col-2">
                 <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                   WITHDRAW
                   <Tooltip
@@ -1375,7 +1375,7 @@ export default function initVault({
                             type={"text"}
                             className="styledinput"
                             placeholder="0.0"
-                            style={{ width: 200 }}
+                            style={{ width: '100%' }}
                             value={this.state.withdrawAmount}
                             onChange={(e) =>
                               this.setState({
