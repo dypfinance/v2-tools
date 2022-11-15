@@ -65,8 +65,8 @@ const EarnFaq = ({faqTypes}) => {
         <h3 className="mb-3" style={{color: '#f7f7fc'}}>{faqTitle} FAQs</h3>
         <div className="faq-items-container p-3">
         <div className="accordion" id="accordionExample">
-         {faqItems.map((faqItem) => (
-           <div className="accordion-item">
+         {faqItems.map((faqItem, index) => (
+           <div className="accordion-item" key={index}>
            <h2 className="accordion-header" id="headingOne">
              <button
                className="accordion-button collapsed"

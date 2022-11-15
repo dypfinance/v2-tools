@@ -8,22 +8,18 @@ import "./top-pools.css";
 import ellipse from "./assets/ellipse.svg";
 import empty from "./assets/empty.svg";
 import check from "./assets/check.svg";
-import successMark from "../../assets/successMark.svg";
 import failMark from "../../assets/failMark.svg";
-import Clipboard from "react-clipboard.js";
-import ReactTooltip from "react-tooltip";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
 import stats from "./assets/stats.svg";
 import purplestats from "./assets/purpleStat.svg";
-import referralimg from "./assets/referral.svg";
-import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 import whiteArrowUp from "./assets/whiteArrowUp.svg";
-import dropdownVector from './assets/dropdownVector.svg'
-
+import dropdownVector from "./assets/dropdownVector.svg";
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -135,15 +131,13 @@ export default function initFarmAvax({
         stakingTime: "",
         depositedTokens: "",
         lastClaimedTime: "",
-
         depositAmount: "",
         withdrawAmount: 0,
-
         totalEarnedEth: "",
         pendingDivsEth: "",
+        showCalculator: false,
 
         usdPerToken: 0,
-
         tokensToBeSwapped: "",
         tokensToBeDisbursedOrBurnt: "",
 
@@ -166,10 +160,10 @@ export default function initFarmAvax({
         lastSwapExecutionTime: "",
         swapAttemptPeriod: "",
         errorMsg: "",
-
+        errorMsg2: "",
+        errorMsg3: "",
         contractDeployTime: "",
         disburseDuration: "",
-
         selectedBuybackToken: Object.keys(window.buyback_tokens_farmingavax)[0],
         selectedTokenDecimals:
           window.buyback_tokens_farmingavax[
@@ -293,8 +287,7 @@ export default function initFarmAvax({
         })
         .catch(() => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg: e?.message });
         });
     };
 
@@ -311,7 +304,8 @@ export default function initFarmAvax({
       });
 
       this.setState({
-        selectedTokenLogo: window.buyback_tokens_farmingavax[tokenAddress].symbol,
+        selectedTokenLogo:
+          window.buyback_tokens_farmingavax[tokenAddress].symbol,
       });
       let selectedTokenBalance = await window.getTokenHolderBalance(
         tokenAddress,
@@ -377,8 +371,7 @@ export default function initFarmAvax({
         .call()
         .catch(() => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg: e?.message });
         });
       _amountOutMin_25Percent =
         _amountOutMin_25Percent[_amountOutMin_25Percent.length - 1];
@@ -415,8 +408,7 @@ export default function initFarmAvax({
         })
         .catch(() => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
-
+          this.setState({ errorMsg: e?.message });
         });
     };
 
@@ -441,11 +433,12 @@ export default function initFarmAvax({
           .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e?.message})
-            
+            this.setState({ errorMsg3: e?.message });
           });
       } catch (e) {
         console.error(e);
+        this.setState({ errorMsg3: e });
+
         return;
       }
     };
@@ -509,11 +502,12 @@ export default function initFarmAvax({
           .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e?.message})
-
+            this.setState({ errorMsg3: e?.message });
           });
       } catch (e) {
         console.error(e);
+        this.setState({ errorMsg3: e });
+
         return;
       }
     };
@@ -528,28 +522,6 @@ export default function initFarmAvax({
       // console.log(this.state.selectedClaimToken)
       let selectedToken = this.state.selectedClaimToken;
 
-      // let address = this.state.coinbase
-      //
-      // let amount = await constant.getTotalPendingDivs(address)
-      // let router = await window.getPancakeswapRouterContract()
-      // let WETH = await router.methods.WETH().call()
-      // let platformTokenAddress = window.config.reward_token_address
-      // let rewardTokenAddress = window.config.reward_token_address2
-      // let path = [...new Set([rewardTokenAddress, WETH, platformTokenAddress].map(a => a.toLowerCase()))]
-      // let _amountOutMinConstant = await router.methods.getAmountsOut(amount, path).call()
-      // _amountOutMinConstant = _amountOutMinConstant[_amountOutMinConstant.length - 1]
-      // _amountOutMinConstant = new BigNumber(_amountOutMinConstant).times(100 - window.config.slippage_tolerance_percent).div(100).toFixed(0)
-      //
-      // let referralFee = new BigNumber(_amountOutMinConstant).times(500).div(1e4).toFixed(0)
-      // referralFee = referralFee.toString()
-
-      // try {
-      //     setTimeout(() => constant.claim(referralFee, _amountOutMinConstant, deadline), 10e3)
-      // }  catch(e) {
-      //     console.error(e)
-      //     return;
-      // }
-
       this.setState({ claimLoading: true });
 
       if (selectedToken == 0) {
@@ -563,12 +535,13 @@ export default function initFarmAvax({
             .catch((e) => {
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
-          this.setState({errorMsg: e?.message})
-
+              this.setState({ errorMsg2: e?.message });
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
+          this.setState({ errorMsg2: e });
+
           console.error(e);
           return;
         }
@@ -583,13 +556,12 @@ export default function initFarmAvax({
             .catch((e) => {
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
-          this.setState({errorMsg: e?.message})
-
+              this.setState({ errorMsg2: e?.message });
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({errorMsg: e})
+          this.setState({ errorMsg2: e });
 
           console.error(e);
           return;
@@ -601,28 +573,6 @@ export default function initFarmAvax({
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
-
-      // let address = this.state.coinbase
-      //
-      // let amount = await constant.getTotalPendingDivs(address)
-      // let router = await window.getPancakeswapRouterContract()
-      // let WETH = await router.methods.WETH().call()
-      // let platformTokenAddress = window.config.reward_token_address
-      // let rewardTokenAddress = window.config.reward_token_address2
-      // let path = [...new Set([rewardTokenAddress, WETH, platformTokenAddress].map(a => a.toLowerCase()))]
-      // let _amountOutMinConstant = await router.methods.getAmountsOut(amount, path).call()
-      // _amountOutMinConstant = _amountOutMinConstant[_amountOutMinConstant.length - 1]
-      // _amountOutMinConstant = new BigNumber(_amountOutMinConstant).times(100 - window.config.slippage_tolerance_percent).div(100).toFixed(0)
-      //
-      // let referralFee = new BigNumber(_amountOutMinConstant).times(500).div(1e4).toFixed(0)
-      // referralFee = referralFee.toString()
-
-      // try {
-      //     setTimeout(() => constant.claim(referralFee, _amountOutMinConstant, deadline), 10e3)
-      // }  catch(e) {
-      //     console.error(e)
-      //     return;
-      // }
 
       try {
         staking.claimAs(
@@ -664,8 +614,7 @@ export default function initFarmAvax({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({errorMsg: e })
-
+          this.setState({ errorMsg2: e });
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -690,8 +639,7 @@ export default function initFarmAvax({
           .catch((e) => {
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
-          this.setState({errorMsg: e})
-
+            this.setState({ errorMsg2: e?.message });
           });
       } catch (e) {
         console.error(e);
@@ -773,7 +721,7 @@ export default function initFarmAvax({
         let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
 
         let _tvl = token.balanceOf(staking._address); //not zero
-        
+
         //Take iDYP Balance on Staking & Farming
         let _tvlConstantiDYP = reward_token_idyp.balanceOf(
           constant._address
@@ -790,7 +738,9 @@ export default function initFarmAvax({
 
         let _dTokensDYP = constant.depositedTokens(this.props.coinbase);
 
-        let _pendingDivsStaking = constant.getTotalPendingDivs(this.props.coinbase);
+        let _pendingDivsStaking = constant.getTotalPendingDivs(
+          this.props.coinbase
+        );
 
         //Take DYPS Balance
         let _tvlDYPS = token_dypsavax.balanceOf(
@@ -961,7 +911,6 @@ export default function initFarmAvax({
       return ((approxDeposit * APY) / 100 / 365) * approxDays;
     };
 
-
     convertTimestampToDate = (timestamp) => {
       const result = new Intl.DateTimeFormat("en-US", {
         year: "numeric",
@@ -1097,8 +1046,7 @@ export default function initFarmAvax({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire
-
+        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1223,7 +1171,7 @@ export default function initFarmAvax({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
+                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
                       <Tooltip
                         placement="top"
                         title={
@@ -1302,14 +1250,11 @@ export default function initFarmAvax({
             </div> */}
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
-                   <div className="d-flex align-items-center gap-3">
-                   <h6 className="deposit-txt">
-                      Deposit
-                     
-                    </h6>
-                    <div className="d-flex justify-content-center align-items-center">
-                      <div className="dropdown">
-                      <button
+                    <div className="d-flex align-items-center gap-3">
+                      <h6 className="deposit-txt">Deposit</h6>
+                      <div className="d-flex justify-content-center align-items-center">
+                        <div className="dropdown">
+                          <button
                             class="btn farming-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
                             type="button"
                             data-bs-toggle="dropdown"
@@ -1330,41 +1275,44 @@ export default function initFarmAvax({
                               style={{ width: 10, height: 10 }}
                             />
                           </button>
-                          <ul className="dropdown-menu" style={{minWidth: "100%"}}>
-                          {Object.keys(window.buyback_tokens_farmingavax).map(
-                          (t) => (
-                            <span
-                            className="d-flex align-items-center justify-content-start ps-2 gap-1 inputfarming farming-dropdown-item py-1 w-100"
-                            onClick={() =>
-                              this.handleSelectedTokenChange(t)
-                            }
+                          <ul
+                            className="dropdown-menu"
+                            style={{ minWidth: "100%" }}
                           >
-                            <img
-                              src={
-                                require(`./assets/avax/${window.buyback_tokens_farmingavax[
-                                  t
-                                ].symbol.toLowerCase()}.svg`).default
-                              }
-                              alt=""
-                              style={{ width: 14, height: 14 }}
-                            />
-                            {window.buyback_tokens_farmingavax[t].symbol}
-                          </span>
-                          )
-                        )}
+                            {Object.keys(window.buyback_tokens_farmingavax).map(
+                              (t) => (
+                                <span
+                                  className="d-flex align-items-center justify-content-start ps-2 gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                  onClick={() =>
+                                    this.handleSelectedTokenChange(t)
+                                  }
+                                >
+                                  <img
+                                    src={
+                                      require(`./assets/avax/${window.buyback_tokens_farmingavax[
+                                        t
+                                      ].symbol.toLowerCase()}.svg`).default
+                                    }
+                                    alt=""
+                                    style={{ width: 14, height: 14 }}
+                                  />
+                                  {window.buyback_tokens_farmingavax[t].symbol}
+                                </span>
+                              )
+                            )}
                           </ul>
+                        </div>
                       </div>
-                    </div>
-                    <h6 className="mybalance-text">
-                      Balance:
-                      <b>
-                        {getFormattedNumber(
-                          this.state.selectedTokenBalance /
-                            10 ** this.state.selectedTokenDecimals,
-                          6
-                        )}
-                      </b>
-                      {/* <img
+                      <h6 className="mybalance-text">
+                        Balance:
+                        <b>
+                          {getFormattedNumber(
+                            this.state.selectedTokenBalance /
+                              10 ** this.state.selectedTokenDecimals,
+                            6
+                          )}
+                        </b>
+                        {/* <img
                         src={
                           require(`./assets/avax/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
                             .default
@@ -1390,18 +1338,18 @@ export default function initFarmAvax({
                           )
                         )}
                       </select> */}
-                    </h6>
-                   </div>
-                       <Tooltip
-                        placement="top"
-                        title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {"lorem impsum deposit text"}
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      </h6>
+                    </div>
+                    <Tooltip
+                      placement="top"
+                      title={
+                        <div style={{ whiteSpace: "pre-line" }}>
+                          {"lorem impsum deposit text"}
+                        </div>
+                      }
+                    >
+                      <img src={moreinfo} alt="" />
+                    </Tooltip>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1411,7 +1359,7 @@ export default function initFarmAvax({
                           type={"number"}
                           className="styledinput"
                           placeholder="0.0"
-                          style={{ width: '100%' }}
+                          style={{ width: "100%" }}
                           value={
                             Number(this.state.depositAmount) > 0
                               ? this.state.depositAmount
@@ -1478,6 +1426,9 @@ export default function initFarmAvax({
                         )}
                       </button>
                     </div>
+                    {this.state.errorMsg && (
+                      <h6 className="errormsg">{this.state.errorMsg}</h6>
+                    )}
                   </div>
                 </div>
                 <div className="otherside-border col-4">
@@ -1499,7 +1450,7 @@ export default function initFarmAvax({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-3 align-items-end">
+                    <div className="form-row d-flex gap-2 align-items-end">
                       <div
                         className="gap-1 claimreward-wrapper"
                         onClick={() => {
@@ -1578,61 +1529,69 @@ export default function initFarmAvax({
                             <option value="1"> WETH.e </option>
                           </select> */}
                           <div class="dropdown">
-                          <button
-                            class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                          >
-                            <img
-                              src={
-                                require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
-                                  .default
-                              }
-                              alt=""
-                              style={{ width: 14, height: 14 }}
-                            />
-                            {this.state.selectedRewardTokenLogo1.toUpperCase()}
-                            <img
-                              src={dropdownVector}
-                              alt=""
-                              style={{ width: 10, height: 10 }}
-                            />
-                          </button>
-                          <ul
-                            class="dropdown-menu"
-                            style={{ minWidth: "100%" }}
-                          >
-                            <span
-                                  className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
-                                  onClick={() => {this.handleClaimToken("1"); this.setState({ selectedRewardTokenLogo1 : "wavax" })}
+                            <button
+                              class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <img
+                                src={
+                                  require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                    .default
+                                }
+                                alt=""
+                                style={{ width: 14, height: 14 }}
+                              />
+                              {this.state.selectedRewardTokenLogo1.toUpperCase()}
+                              <img
+                                src={dropdownVector}
+                                alt=""
+                                style={{ width: 10, height: 10 }}
+                              />
+                            </button>
+                            <ul
+                              class="dropdown-menu"
+                              style={{ minWidth: "100%" }}
+                            >
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("1");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "wavax",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={
+                                    require(`./assets/avax/wavax.svg`).default
                                   }
-                                >
-                                  <img
-                                    src={
-                                      require(`./assets/avax/wavax.svg`).default
-                                    }
-                                    alt=""
-                                    style={{ width: 14, height: 14 }}
-                                  />
-                                  WAVAX
-                                </span>
-                            <span
-                                  className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
-                                  onClick={() => {this.handleClaimToken("2"); this.setState({ selectedRewardTokenLogo1 : "weth.e" })}
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                WAVAX
+                              </span>
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("2");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "weth.e",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={
+                                    require(`./assets/avax/weth.e.svg`).default
                                   }
-                                >
-                                  <img
-                                    src={
-                                      require(`./assets/avax/weth.e.svg`).default
-                                    }
-                                    alt=""
-                                    style={{ width: 14, height: 14 }}
-                                  />
-                                  WETH.e
-                                </span>
-                          </ul>
-                        </div>
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                WETH.e
+                              </span>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                       <div
@@ -1753,7 +1712,9 @@ export default function initFarmAvax({
                         )}
                       </button>
                     </div>
-
+                    {this.state.errorMsg2 && (
+                      <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                    )}
                     {/* <button
                     title={claimTitle}
                     disabled={!is_connected}
@@ -2034,11 +1995,15 @@ export default function initFarmAvax({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
-                          {lockTime === "No Lock" ? (
+                            {lockTime === "No Lock" ? (
                               "No Lock"
                             ) : (
-                              
-                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
+                              <Countdown
+                                date={this.convertTimestampToDate(
+                                  Number(lockDate)
+                                )}
+                                renderer={renderer}
+                              />
                             )}
                           </h6>
                         </div>
@@ -2144,7 +2109,9 @@ export default function initFarmAvax({
                                   this.handleClaimToken(e.target.value);
                                   this.setState({
                                     selectedRewardTokenLogo1:
-                                      e.target.value === "0" ? "wavax" : "weth.e",
+                                      e.target.value === "0"
+                                        ? "wavax"
+                                        : "weth.e",
                                   });
                                 }}
                                 className=" inputfarming"
@@ -2348,6 +2315,9 @@ export default function initFarmAvax({
                       <h6 className="withsubtitle d-flex justify-content-start w-100 mt-1">
                         *No withdrawal fee
                       </h6>
+                      {this.state.errorMsg3 && (
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -2361,6 +2331,124 @@ export default function initFarmAvax({
               handleClose={this.state.hideModal}
               handleConnection={this.props.handleConnection}
             />
+          )}
+
+          <div
+            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+            onClick={() => this.setState({ showCalculator: true })}
+          >
+            <img
+              src={calculatorIcon}
+              alt=""
+              style={{ width: 30, height: 30 }}
+            />
+            Calculator
+          </div>
+
+          {this.state.showCalculator && (
+            <div className="pools-calculator p-3">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={calculatorIcon} alt="" />
+                  <h5
+                    style={{
+                      fontSize: "23px",
+                      fontWeight: "500",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Calculator
+                  </h5>
+                </div>
+                <img
+                  src={xMark}
+                  alt=""
+                  onClick={() => {
+                    this.setState({ showCalculator: false });
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <hr />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Days to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="Days*"
+                    value={this.state.approxDays}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDays: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Amount to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="USD to deposit*"
+                    value={
+                      Number(this.state.approxDeposit) > 0
+                        ? this.state.approxDeposit * LP_AMPLIFY_FACTOR
+                        : this.state.approxDeposit
+                    }
+                    onChange={(e) =>
+                      this.setState({
+                        approxDeposit:
+                          Number(e.target.value) > 0
+                            ? e.target.value / LP_AMPLIFY_FACTOR
+                            : e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-2 mt-4">
+                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                  ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
+                </h3>
+                <h6
+                  style={{
+                    fontWeight: "300",
+                    fontSize: "15px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  {getFormattedNumber(
+                    this.getApproxReturnUSD() / this.getUsdPerETH(),
+                    6
+                  )}{" "}
+                  WAVAX
+                </h6>
+              </div>
+              <div className="mt-4">
+                <p
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  *This calculator is for informational purposes only.
+                  Calculated yields assume that prices of the deposited assets
+                  don't change.
+                </p>
+              </div>
+            </div>
           )}
         </div>
 

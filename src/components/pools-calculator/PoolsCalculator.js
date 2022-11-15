@@ -3,7 +3,7 @@ import "./poolscalculator.css";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 
-const PoolsCalculator = ({ onClose }) => {
+const PoolsCalculator = ({ onClose, handleInputChangeAmount, handleInputChangeDays }) => {
   return (
     <div className="pools-calculator p-3">
       <div className="d-flex align-items-center justify-content-between">
@@ -28,6 +28,7 @@ const PoolsCalculator = ({ onClose }) => {
             id="days"
             name="days"
             placeholder="Days*"
+            onChange={handleInputChangeDays}
           />
         </div>
         <div className="d-flex flex-column gap-3 w-50 me-5">
@@ -41,6 +42,8 @@ const PoolsCalculator = ({ onClose }) => {
             id="days"
             name="days"
             placeholder="USD to deposit*"
+            onChange={handleInputChangeAmount}
+
           />
         </div>
       </div>

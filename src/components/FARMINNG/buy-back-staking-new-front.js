@@ -40,7 +40,7 @@ const renderer = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-export default function initStaking({
+export default function initBuybackStakingNew({
   staking,
   constant,
   apr,
@@ -146,6 +146,8 @@ export default function initStaking({
         usdPerToken: 0,
         showWithdrawModal: false,
         errorMsg: "",
+        errorMsg2: "",
+        errorMsg3: "",
 
         selectedBuybackToken: Object.keys(window.buyback_tokens)[0],
         selectedTokenDecimals:
@@ -470,7 +472,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e })
+          this.setState({errorMsg3: e })
 
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
@@ -496,11 +498,11 @@ export default function initStaking({
           .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e?.message})
+          this.setState({errorMsg3: e?.message})
 
           });
       } catch (e) {
-        this.setState({errorMsg: e})
+        this.setState({errorMsg3: e})
 
         console.error(e);
         return;
@@ -531,7 +533,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e })
+          this.setState({errorMsg3: e })
 
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
@@ -554,11 +556,11 @@ export default function initStaking({
           .catch((e) => {
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
-          this.setState({errorMsg: e?.message})
+          this.setState({errorMsg3: e?.message})
 
           });
       } catch (e) {
-        this.setState({errorMsg: e})
+        this.setState({errorMsg3: e})
 
         console.error(e);
         return;
@@ -587,7 +589,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({errorMsg: e })
+          this.setState({errorMsg2: e })
 
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
@@ -608,7 +610,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({errorMsg: e })
+          this.setState({errorMsg2: e })
 
         });
       _amountOutMinConstant =
@@ -638,13 +640,13 @@ export default function initStaking({
           .catch((e) => {
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
-          this.setState({errorMsg: e?.message})
+          this.setState({errorMsg2: e?.message})
 
           });
       } catch (e) {
         this.setState({ claimStatus: "failed" });
         this.setState({ claimLoading: false });
-        this.setState({errorMsg: e})
+        this.setState({errorMsg2: e})
 
         console.error(e);
         return;
@@ -673,7 +675,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ claimidypStatus: "failed" });
           this.setState({ claimidypLoading: false });
-          this.setState({errorMsg: e})
+          this.setState({errorMsg2: e})
 
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
@@ -694,7 +696,7 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ claimidypStatus: "failed" });
           this.setState({ claimidypLoading: false });
-          this.setState({errorMsg: e })
+          this.setState({errorMsg2: e })
 
         });
       _amountOutMinConstant =
@@ -720,13 +722,13 @@ export default function initStaking({
           .catch((e) => {
             this.setState({ claimidypStatus: "failed" });
             this.setState({ claimidypLoading: false });
-          this.setState({errorMsg: e?.message})
+          this.setState({errorMsg2: e?.message})
 
           });
       } catch (e) {
         this.setState({ claimidypStatus: "failed" });
         this.setState({ claimidypLoading: false });
-        this.setState({errorMsg: e})
+        this.setState({errorMsg2: e})
 
         console.error(e);
         return;
@@ -754,10 +756,10 @@ export default function initStaking({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call() .catch((e) => {
+        .call().catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e })
+          this.setState({errorMsg2: e })
 
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
@@ -779,11 +781,11 @@ export default function initStaking({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e?.message})
+          this.setState({errorMsg2: e?.message})
 
         });
       } catch (e) {
-        this.setState({errorMsg: e })
+        this.setState({errorMsg2: e })
 
         console.error(e);
         return;
@@ -813,10 +815,10 @@ export default function initStaking({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call(e) .catch(() => {
+        .call(e).catch(() => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e?.message})
+          this.setState({errorMsg2: e })
 
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
@@ -847,11 +849,11 @@ export default function initStaking({
         .catch(() => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e?.message})
+          this.setState({errorMsg2: e?.message})
 
         });
       } catch (e) {
-        this.setState({errorMsg: e })
+        this.setState({errorMsg2: e })
 
         console.error(e);
         return;
@@ -1520,6 +1522,9 @@ export default function initStaking({
                       )}
                     </button>
                   </div>
+                  {this.state.errorMsg && (
+                        <h6 className="errormsg">{this.state.errorMsg}</h6>
+                      )}
                 </div>
               </div>
               <div className="otherside-border col-4">
@@ -1780,7 +1785,9 @@ export default function initStaking({
                       )}
                     </button>
                   </div>
-
+                  {this.state.errorMsg2 && (
+                        <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                      )}
                   {/* <button
                             title={claimTitle}
                             disabled={!is_connected}
@@ -2271,6 +2278,9 @@ export default function initStaking({
                           )}
                         </button>
                       </div>
+                      {this.state.errorMsg3 && (
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
                     </div>
                   </div>
                 </div>

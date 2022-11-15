@@ -18,8 +18,8 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
-
-
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -50,7 +50,7 @@ export default function stakeAva3({
   expiration_time,
   other_info,
   chainId,
-  lockTime
+  lockTime,
 }) {
   let {
     reward_token,
@@ -146,7 +146,9 @@ export default function stakeAva3({
         depositAmount: "",
         withdrawAmount: "",
         errorMsg: "",
-
+        errorMsg2: "",
+        errorMsg3: "",
+        showCalculator: false,
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
         referralFeeEarned: "",
@@ -224,9 +226,9 @@ export default function stakeAva3({
 
     componentDidMount() {
       this.refreshBalance();
-    //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
-    if (this.props.coinbase !== null) {
+      if (this.props.coinbase !== null) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
@@ -239,7 +241,7 @@ export default function stakeAva3({
     };
 
     componentWillUnmount() {
-    //   clearInterval(window._refreshBalInterval);
+      //   clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -249,9 +251,9 @@ export default function stakeAva3({
       staking.depositTOKEN(amount);
     };
 
-    handleApprove = async(e) => {
-    //   e.preventDefault();
-    this.setState({ depositLoading: true });
+    handleApprove = async (e) => {
+      //   e.preventDefault();
+      this.setState({ depositLoading: true });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
@@ -260,14 +262,15 @@ export default function stakeAva3({
 
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
-      reward_token.approve(staking._address, amount).then(() => {
-        this.setState({ depositLoading: false, depositStatus: "deposit" });
-      })
-      .catch((e) => {
-        this.setState({ depositLoading: false, depositStatus: "fail" });
-        this.setState({errorMsg: e?.message})
-
-      });
+      reward_token
+        .approve(staking._address, amount)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
+        })
+        .catch((e) => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+        });
     };
     // handleStake = (e) => {
     //     let amount = this.state.depositAmount
@@ -285,9 +288,8 @@ export default function stakeAva3({
     // }
 
     handleStake = async (e) => {
-    //   e.preventDefault();
-    this.setState({ depositLoading: true });
-
+      //   e.preventDefault();
+      this.setState({ depositLoading: true });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
@@ -304,18 +306,19 @@ export default function stakeAva3({
 
       // console.log({amount, referrer, deadline})
 
-      staking.stake(amount, referrer, 0, deadline).then(() => {
-        this.setState({ depositLoading: false, depositStatus: "success" });
-      })
-      .catch((e) => {
-        this.setState({ depositLoading: false, depositStatus: "fail" });
-        this.setState({errorMsg: e?.message})
-
-      });
+      staking
+        .stake(amount, referrer, 0, deadline)
+        .then(() => {
+          this.setState({ depositLoading: false, depositStatus: "success" });
+        })
+        .catch((e) => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+        });
     };
 
     handleWithdraw = async (e) => {
-    //   e.preventDefault();
+      //   e.preventDefault();
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
       this.setState({ withdrawLoading: true });
@@ -324,24 +327,23 @@ export default function stakeAva3({
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      staking.unstake(amount, 0, deadline).then(() => {
-        this.setState({ withdrawStatus: "success" });
-        this.setState({ withdrawLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ withdrawStatus: "failed" });
-        this.setState({ withdrawLoading: false });
-        this.setState({errorMsg: e?.message})
-
-        
-      });
+      staking
+        .unstake(amount, 0, deadline)
+        .then(() => {
+          this.setState({ withdrawStatus: "success" });
+          this.setState({ withdrawLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ withdrawStatus: "failed" });
+          this.setState({ withdrawLoading: false });
+          this.setState({ errorMsg3: e?.message });
+        });
     };
 
     handleClaimDivs = async (e) => {
-    //   e.preventDefault();
-    this.setState({ claimLoading: true });
-    this.setState({ claimStatus: "claim" });
-
+      //   e.preventDefault();
+      this.setState({ claimLoading: true });
+      this.setState({ claimStatus: "claim" });
 
       if (
         this.state.stakingTime != 0 &&
@@ -366,12 +368,12 @@ export default function stakeAva3({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call().catch((e) => {
-            this.setState({ claimStatus: "failed" });
-            this.setState({ claimLoading: false });
-          this.setState({errorMsg: e })
-
-          });
+        .call()
+        .catch((e) => {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+          this.setState({ errorMsg2: e });
+        });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
         .times(100 - window.config.slippage_tolerance_percent)
@@ -384,16 +386,17 @@ export default function stakeAva3({
 
       console.log({ _amountOutMin, deadline });
 
-      staking.claim(0, _amountOutMin, deadline).then(() => {
-        this.setState({ claimStatus: "success" });
-        this.setState({ claimLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ claimStatus: "failed" });
-        this.setState({ claimLoading: false });
-        this.setState({errorMsg: e })
-
-      });
+      staking
+        .claim(0, _amountOutMin, deadline)
+        .then(() => {
+          this.setState({ claimStatus: "success" });
+          this.setState({ claimLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+          this.setState({ errorMsg2: e });
+        });
     };
 
     handleSetMaxDeposit = (e) => {
@@ -458,9 +461,9 @@ export default function stakeAva3({
           .call();
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
-        
+
         let _bal = reward_token.balanceOf(coinbase);
-        
+
         let _pDivs = staking.getTotalPendingDivs(coinbase);
         let _tEarned = staking.totalEarnedTokens(coinbase);
         let _stakingTime = staking.stakingTime(coinbase);
@@ -476,7 +479,9 @@ export default function stakeAva3({
         ); /* TVL of DAI on Staking */
 
         //Take DYPS Balance
-        let _tvlDYPS = token_dypsavax.balanceOf(staking._address); /* TVL of DYPS */
+        let _tvlDYPS = token_dypsavax.balanceOf(
+          staking._address
+        ); /* TVL of DYPS */
 
         let [
           token_balance,
@@ -589,8 +594,8 @@ export default function stakeAva3({
     };
 
     handleReinvest = async (e) => {
-    //   e.preventDefault();
-    this.setState({ reInvestStatus: "invest", reInvestLoading: true });
+      //   e.preventDefault();
+      this.setState({ reInvestStatus: "invest", reInvestLoading: true });
 
       if (
         this.state.stakingTime != 0 &&
@@ -618,12 +623,12 @@ export default function stakeAva3({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call().catch((e) => {
-            this.setState({ reInvestStatus: "failed" });
-            this.setState({ reInvestLoading: false });
-          this.setState({errorMsg: e })
-
-          });
+        .call()
+        .catch((e) => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg2: e });
+        });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
         .times(100 - window.config.slippage_tolerance_percent)
@@ -636,18 +641,18 @@ export default function stakeAva3({
 
       console.log({ _amountOutMin, deadline });
 
-      staking.reInvest(0, 0, deadline).then(() => {
-        this.setState({ reInvestStatus: "success" });
-        this.setState({ reInvestLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ reInvestStatus: "failed" });
-        this.setState({ reInvestLoading: false });
-        this.setState({errorMsg: e })
-
-      });
+      staking
+        .reInvest(0, 0, deadline)
+        .then(() => {
+          this.setState({ reInvestStatus: "success" });
+          this.setState({ reInvestLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg2: e });
+        });
     };
-
 
     convertTimestampToDate = (timestamp) => {
       const result = new Intl.DateTimeFormat("en-US", {
@@ -657,7 +662,6 @@ export default function stakeAva3({
       }).format(timestamp * 1000);
       return result;
     };
-
 
     render() {
       let {
@@ -717,8 +721,7 @@ export default function stakeAva3({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire
-
+        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -757,7 +760,6 @@ export default function stakeAva3({
       let is_connected = this.props.is_wallet_connected;
 
       return (
-
         <div className="container-lg p-0">
           <div className="allwrapper my-4">
             <div className="leftside2 w-100">
@@ -778,8 +780,6 @@ export default function stakeAva3({
                       DYP
                     </h6>
                   </div>
-                  
-                  
 
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">APR:</h6>
@@ -802,7 +802,7 @@ export default function stakeAva3({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {lockTime} {lockTime !== "No Lock" ? 'Days' :''}
+                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
                       <Tooltip
                         placement="top"
                         title={
@@ -921,7 +921,7 @@ export default function stakeAva3({
                           type={"number"}
                           className="styledinput"
                           placeholder="0.0"
-                          style={{ width: '100%' }}
+                          style={{ width: "100%" }}
                           value={
                             Number(this.state.depositAmount) > 0
                               ? this.state.depositAmount
@@ -993,6 +993,9 @@ export default function stakeAva3({
                       </button>
                     </div>
                   </div>
+                  {this.state.errorMsg && (
+                    <h6 className="errormsg">{this.state.errorMsg}</h6>
+                  )}
                 </div>
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between gap-2 ">
@@ -1114,6 +1117,9 @@ export default function stakeAva3({
                         </button>
                       </div>
                     </div>
+                    {this.state.errorMsg2 && (
+                      <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                    )}
                   </div>
                 </div>
 
@@ -1345,12 +1351,10 @@ export default function stakeAva3({
                       </div>
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
-                      ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                      : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
-                    withdraw or you can continue to earn rewards everyday`}
+                          ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
+                          : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can withdraw or you can continue to earn rewards everyday`}
                       </h6>
                     </div>
-
                     <div className="d-flex flex-column mt-2">
                       <div className="d-flex  gap-2 justify-content-between align-items-center">
                         <div className="d-flex flex-column gap-1">
@@ -1359,8 +1363,12 @@ export default function stakeAva3({
                             {lockTime === "No Lock" ? (
                               "No Lock"
                             ) : (
-                              
-                              <Countdown date={this.convertTimestampToDate(Number(lockDate))} renderer={renderer} />
+                              <Countdown
+                                date={this.convertTimestampToDate(
+                                  Number(lockDate)
+                                )}
+                                renderer={renderer}
+                              />
                             )}
                           </h6>
                         </div>
@@ -1491,6 +1499,9 @@ export default function stakeAva3({
                           </div>
                         </div> */}
                       </div>
+                      {this.state.errorMsg3 && (
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1504,6 +1515,113 @@ export default function stakeAva3({
               handleClose={this.state.hideModal}
               handleConnection={this.props.handleConnection}
             />
+          )}
+
+          <div
+            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+            onClick={() => this.setState({ showCalculator: true })}
+          >
+            <img
+              src={calculatorIcon}
+              alt=""
+              style={{ width: 30, height: 30 }}
+            />
+            Calculator
+          </div>
+
+          {this.state.showCalculator && (
+            <div className="pools-calculator p-3">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={calculatorIcon} alt="" />
+                  <h5
+                    style={{
+                      fontSize: "23px",
+                      fontWeight: "500",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Calculator
+                  </h5>
+                </div>
+                <img
+                  src={xMark}
+                  alt=""
+                  onClick={() => {
+                    this.setState({ showCalculator: false });
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <hr />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Days to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="Days*"
+                    value={this.state.approxDays}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDays: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Amount to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="USD to deposit*"
+                    value={this.state.approxDeposit}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDeposit: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-2 mt-4">
+                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                  $tbd USD
+                </h3>
+                <h6
+                  style={{
+                    fontWeight: "300",
+                    fontSize: "15px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  {getFormattedNumber(this.getApproxReturn(), 6)} WAVAX
+                </h6>
+              </div>
+              <div className="mt-4">
+                <p
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  *This calculator is for informational purposes only.
+                  Calculated yields assume that prices of the deposited assets
+                  don't change.
+                </p>
+              </div>
+            </div>
           )}
         </div>
 

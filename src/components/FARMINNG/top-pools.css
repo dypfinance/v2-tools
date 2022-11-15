@@ -1,11 +1,11 @@
 .poolscardwrapper {
-  background: #312F69;
+  background: #312f69;
   box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
   border-radius: 12px;
   position: relative;
   padding: 16px 8px 8px 8px;
   /* width: 400px; */
-  border: 1px solid #312F69;
+  border: 1px solid #312f69;
 }
 
 .pools-card-open {
@@ -14,7 +14,6 @@
   background-repeat: no-repeat;
   background-size: cover;
   border: 1px solid #7770df;
-
 }
 
 .purplediv {
@@ -130,7 +129,7 @@
   font-size: 12px;
   line-height: 18px;
   letter-spacing: -0.018em;
-  color: #C0C9FF !important;
+  color: #c0c9ff !important;
 }
 
 .copybtn {
@@ -190,7 +189,7 @@
 }
 
 .details-wrapper {
-  background: #312F69;
+  background: #312f69;
   border-radius: 5px 5px 0px 0px;
   cursor: pointer;
   display: flex;
@@ -232,11 +231,11 @@
 }
 
 .bottomwrapper {
-  background: linear-gradient(0deg, #14142A 0%, rgba(20, 20, 42, 0) 100%);
-/* opacity: 0.6; */
-/* Large Drop Shadow */
+  background: linear-gradient(0deg, #14142a 0%, rgba(20, 20, 42, 0) 100%);
+  /* opacity: 0.6; */
+  /* Large Drop Shadow */
 
-filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
+  filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
   border-radius: 8px;
   padding: 14px 16px 8px 16px;
 }
@@ -281,7 +280,7 @@ filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
   font-size: 16px;
   line-height: 20px;
   letter-spacing: -0.018em;
-  color: #4ED5D2;
+  color: #4ed5d2;
 }
 
 .start-desc {
@@ -289,20 +288,20 @@ filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
   font-size: 8px;
   line-height: 14px;
   letter-spacing: -0.018em;
-  color: #4ED5D2;
+  color: #4ed5d2;
 }
 
 .connectbtn,
 .connectbtn:hover,
 .connectbtn:focus {
-  background: #14142A;
+  background: #14142a;
   border-radius: 8px;
   border: 1px solid #57b6ab;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  color: #4ED5D2;
+  color: #4ed5d2;
   width: 145px;
 }
 
@@ -314,21 +313,30 @@ filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
   padding: 3px;
   cursor: pointer;
   position: relative;
-  transition: all .25s;
+  transition: all 0.25s;
 }
 
-.claimreward-wrapper:hover{
+.claimreward-wrapper:hover {
   background: rgb(20, 19, 51) !important;
-    border: 1px solid rgb(87, 182, 171) !important;
+  border: 1px solid rgb(87, 182, 171) !important;
 }
 
+.errormsg {
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 12px;
+  letter-spacing: -0.018em;
+  color: #f0613b;
+  display: flex;
+  justify-content: center;
+}
 
 .mybalance-text {
   font-weight: 400;
   font-size: 10px;
   line-height: 18px;
   letter-spacing: -0.018em;
-  color: #4CD0CD;
+  color: #4cd0cd;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -345,30 +353,29 @@ filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
   cursor: pointer;
 }
 
-.farming-dropdown{
-  background: #3A377A !important;
+.farming-dropdown {
+  background: #3a377a !important;
   border: 1px solid #565891 !important;
-border-radius: 6px !important;
+  border-radius: 6px !important;
 }
 
-.reward-dropdown{
+.reward-dropdown {
   padding: 0px !important;
   background: none !important;
   border: none !important;
 }
 
-.farming-dropdown-item:hover{
-      background: #1E1C40 !important;
-      color: #F7F7FC !important;
+.farming-dropdown-item:hover {
+  background: #1e1c40 !important;
+  color: #f7f7fc !important;
 }
-
 
 .withdraw-littletxt {
   font-weight: 400;
   font-size: 10px;
   line-height: 18px;
   letter-spacing: 0.4px;
-  color: #C0C9FF;
+  color: #c0c9ff;
 }
 
 .addressbtn {
@@ -380,7 +387,7 @@ border-radius: 6px !important;
 }
 
 .otherside-border {
-  background: #312F69 !important;
+  background: #312f69 !important;
   /* border: 1px solid #3b3c68; */
   border-radius: 8px;
   display: flex;
@@ -398,7 +405,7 @@ border-radius: 6px !important;
 }
 
 .activewrapper {
-  background: #211F45;
+  background: #211f45;
   border-radius: 8px;
   padding: 10px;
   display: flex;
@@ -412,7 +419,7 @@ border-radius: 6px !important;
   font-size: 12px;
   line-height: 18px;
   letter-spacing: -0.018em;
-  color: #4ED5D2;
+  color: #4ed5d2;
   text-shadow: 0px 0px 2px rgba(117, 202, 194, 0.6);
 }
 
@@ -422,7 +429,7 @@ border-radius: 6px !important;
   font-size: 12px;
   line-height: 18px;
   letter-spacing: -0.018em;
-  color: #C0C9FF;
+  color: #c0c9ff;
 }
 
 .earnrewards-token {
@@ -432,7 +439,7 @@ border-radius: 6px !important;
   line-height: 20px;
   text-align: right;
   letter-spacing: -0.018em;
-  color: #F7F7FC;
+  color: #f7f7fc;
 }
 
 .activestate {
@@ -528,7 +535,7 @@ border-radius: 6px !important;
   line-height: 18px;
   letter-spacing: -0.018em;
   text-transform: uppercase;
-  color: #F7F7FC;
+  color: #f7f7fc;
 }
 
 .styledinput {
@@ -610,7 +617,7 @@ border-radius: 6px !important;
   line-height: 18px;
   letter-spacing: -0.018em;
   text-transform: uppercase;
-  color: #F7F7FC;
+  color: #f7f7fc;
 }
 
 .filledbtn:hover,

@@ -1,11 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./earn.css";
 import EarnContent from "./EarnContent/EarnContent";
-import EarnFaq from "./EarnFaq/EarnFaq";
 import EarnHero from "./EarnHero/EarnHero";
-import calculatorIcon from "../../assets/earnAssets/calculator.svg";
-import Calculator from "../calculator/Calculator";
-import PoolsCalculator from "../pools-calculator/PoolsCalculator";
 
 const Earn = ({
   coinbase,
@@ -41,14 +37,6 @@ const Earn = ({
         the_graph_resultavax={the_graph_resultavax}
         referrer={referrer}
       />
-      <div
-        className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
-        onClick={() => setShowCalculator(true)}
-      >
-        <img src={calculatorIcon} alt="" style={{ width: 30, height: 30 }} />{" "}
-        Calculator
-      </div>
-      {showCalculator && <PoolsCalculator onClose={() => setShowCalculator(false)}/>}
     </div>
   );
 };

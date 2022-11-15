@@ -82,8 +82,6 @@ const EarnTopPicks = ({
       tvl_usd: "48543.20",
       lockTime: "90 days",
     },
-
-    
   ];
 
   const stakeavax = [
@@ -177,7 +175,6 @@ const EarnTopPicks = ({
       lockTime: "90 Days",
     },
   ];
-
 
   const vault = [
     {
@@ -401,7 +398,7 @@ const EarnTopPicks = ({
     expiration_time: "6 December 2022",
     fee: feearrayFarmAvax[cardIndex],
     coinbase: coinbase,
-    lockTime: lockarrayFarm[cardIndex]
+    lockTime: lockarrayFarm[cardIndex],
   });
 
   const lockarrayBuyback = ["No Lock", 90];
@@ -451,7 +448,17 @@ const EarnTopPicks = ({
   ];
 
   const aprarrayStakeAvax30 = [25, 50];
-  const lockarrayStakeAvax = [180, 30, "No Lock", 90, 90, "No Lock", 90, "No Lock", 90];
+  const lockarrayStakeAvax = [
+    180,
+    30,
+    "No Lock",
+    90,
+    90,
+    "No Lock",
+    90,
+    "No Lock",
+    90,
+  ];
 
   const feearrayStakeAvax30 = [0.25, 0.5];
   const stakingarrayStakeAvax30 = [
@@ -468,7 +475,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     chainId: chainId,
     referrer: referrer,
-    lockTime: lockarrayStakeAvax[cardIndex]
+    lockTime: lockarrayStakeAvax[cardIndex],
   });
 
   const StakeAvax30 = stakeAvax30({
@@ -479,8 +486,7 @@ const EarnTopPicks = ({
     fee: feearrayStakeAvax30[cardIndexavax30],
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex]
-
+    lockTime: lockarrayStakeAvax[cardIndex],
   });
 
   const StakeAvax3 = stakeAvax3({
@@ -490,8 +496,7 @@ const EarnTopPicks = ({
     expiration_time: "Expired",
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex]
-
+    lockTime: lockarrayStakeAvax[cardIndex],
   });
 
   const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
@@ -571,8 +576,7 @@ const EarnTopPicks = ({
   const vaultplatformArray = [10, 10, 15, 15, 15];
   const vaultdecimalsArray = [18, 8, 6, 6, 18];
   const vaultsymbolArray = ["WETH", "WBTC", "USDT", "USDC", "DAI"];
-  const locktimeFarm = ["No Lock", '3 Days', '30 Days', '60 Days', '90 Days'];
-
+  const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
 
   const VaultCard = initVaultNew({
     vault: vaultArray[cardIndex],
@@ -589,40 +593,36 @@ const EarnTopPicks = ({
 
   useEffect(() => {
     if (topList === "Staking") {
-
       setTopPools([]);
-      if(chain === 'avax') {
+      if (chain === "avax") {
         setTimeout(() => {
           setTopPools(stakeavax);
         }, 500);
       }
-      if(chain === 'eth') {
+      if (chain === "eth") {
         setTimeout(() => {
-        setTopPools(stake);
-      }, 500);
+          setTopPools(stake);
+        }, 500);
       }
 
-      if(chain === 'bnb') {
+      if (chain === "bnb") {
         setTimeout(() => {
           setTopPools([]);
-      }, 500);
+        }, 500);
       }
-      
     } else if (topList === "Buyback") {
       setTopPools([]);
-      if(chain === 'bnb') {
+      if (chain === "bnb") {
         setTimeout(() => {
           setTopPools([]);
-      }, 500);
+        }, 500);
       }
 
-      if(chain !== 'bnb') {
+      if (chain !== "bnb") {
         setTimeout(() => {
           setTopPools(buyback);
         }, 500);
       }
-
-      
     } else if (topList === "Vault") {
       setTopPools([]);
       setTimeout(() => {
@@ -683,7 +683,6 @@ const EarnTopPicks = ({
         <div className="px-0">
           <div className="top-picks-container">
             {topPools.map((pool, index) => (
-              
               <TopPoolsCard
                 key={index}
                 chain={chain}
@@ -730,27 +729,26 @@ const EarnTopPicks = ({
               />
             )
           ) : activeCard && topList === "Buyback" && chain === "eth" ? (
-             
-              <BuybackStaking1
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) :  activeCard && topList === "Buyback" && chain === "avax" ? (
-              <AvaxBuyback
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultavax}
-                lp_id={LP_IDAVAX_Array[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) :  activeCard && topList === "Buyback" && chain === "bnb" ? (
-              <></>
-            ) : activeCard &&
+            <BuybackStaking1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+            />
+          ) : activeCard && topList === "Buyback" && chain === "avax" ? (
+            <AvaxBuyback
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultavax}
+              lp_id={LP_IDAVAX_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+            />
+          ) : activeCard && topList === "Buyback" && chain === "bnb" ? (
+            <></>
+          ) : activeCard &&
             topList === "Staking" &&
             cardIndex < 2 &&
             chain === "eth" ? (
@@ -852,6 +850,16 @@ const EarnTopPicks = ({
                 setShowDetails(!showDetails);
               }}
               showDetails={showDetails}
+              topList={topList}
+              cardIndex={cardIndex}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              coinbase={coinbase}
+              referrer={referrer}
+              lp_id={lp_id[cardIndex]}
+              the_graph_result={the_graph_result}
+              isConnected={isConnected}
+              the_graph_resultavax={the_graph_resultavax}
             />
           ))}
         </div>

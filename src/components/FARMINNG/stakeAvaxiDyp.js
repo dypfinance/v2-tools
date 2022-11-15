@@ -129,6 +129,8 @@ export default function stakeAvaxiDyp({
         depositedTokens: "",
         lastClaimedTime: "",
         errorMsg: "",
+        errorMsg2: "",
+        errorMsg3: "",
 
         depositAmount: "",
         withdrawAmount: "",
@@ -140,7 +142,7 @@ export default function stakeAvaxiDyp({
         reInvestStatus: "initial",
         selectedTokenLogo: "wavax",
         selectedRewardTokenLogo1: "wavax",
-        selectedRewardTokenLogo2: "dyp",
+        selectedRewardTokenLogo2: "idyp",
         withdrawLoading: false,
         withdrawStatus: "initial",
         showWithdrawModal: false,
@@ -320,7 +322,7 @@ export default function stakeAvaxiDyp({
       .catch((e) => {
         this.setState({ withdrawStatus: "failed" });
         this.setState({ withdrawLoading: false });
-        this.setState({errorMsg: e?.message})
+        this.setState({errorMsg3: e?.message})
 
         
       });
@@ -335,7 +337,7 @@ export default function stakeAvaxiDyp({
       .catch((e) => {
         this.setState({ claimStatus: "failed" });
         this.setState({ claimLoading: false });
-        this.setState({errorMsg: e?.message})
+        this.setState({errorMsg2: e?.message})
 
       });
     };
@@ -482,7 +484,7 @@ export default function stakeAvaxiDyp({
       .catch((e) => {
         this.setState({ reInvestStatus: "failed" });
         this.setState({ reInvestLoading: false });
-        this.setState({errorMsg: e?.message})
+        this.setState({errorMsg2: e?.message})
 
       });
     };
@@ -830,6 +832,7 @@ export default function stakeAvaxiDyp({
                     </button>
                   </div>
                 </div>
+                {this.state.errorMsg &&<h6 className="errormsg">{this.state.errorMsg}</h6>}
               </div>
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between gap-2 ">
@@ -952,6 +955,8 @@ export default function stakeAvaxiDyp({
                     </div>
                   </div>
                 </div>
+                {this.state.errorMsg2 &&<h6 className="errormsg">{this.state.errorMsg2}</h6>}
+
               </div>
 
               <div className="otherside-border col-2">
@@ -1332,6 +1337,8 @@ export default function stakeAvaxiDyp({
                         </div>
                       </div> */}
                     </div>
+                {this.state.errorMsg3 &&<h6 className="errormsg">{this.state.errorMsg3}</h6>}
+
                   </div>
                 </div>
               </div>
