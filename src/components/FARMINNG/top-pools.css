@@ -323,12 +323,13 @@
 
 .errormsg {
   font-weight: 400;
-  font-size: 8px;
+  font-size: 9px;
   line-height: 12px;
   letter-spacing: -0.018em;
   color: #f0613b;
   display: flex;
   justify-content: center;
+  margin-top: 10px;
 }
 
 .mybalance-text {

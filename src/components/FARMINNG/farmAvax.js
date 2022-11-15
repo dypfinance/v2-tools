@@ -288,6 +288,10 @@ export default function initFarmAvax({
         .catch(() => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 2000);
         });
     };
 
@@ -351,7 +355,14 @@ export default function initFarmAvax({
       ];
       let _amountOutMin_75Percent = await router.methods
         .getAmountsOut(_75Percent, path)
-        .call();
+        .call().catch((e) => {
+          this.setState({ depositLoading: false, depositStatus: "fail" });
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
+        });
       _amountOutMin_75Percent =
         _amountOutMin_75Percent[_amountOutMin_75Percent.length - 1];
       _amountOutMin_75Percent = new BigNumber(_amountOutMin_75Percent)
@@ -369,9 +380,13 @@ export default function initFarmAvax({
       let _amountOutMin_25Percent = await router.methods
         .getAmountsOut(_25Percent, path_25Percent)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+           setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
       _amountOutMin_25Percent =
         _amountOutMin_25Percent[_amountOutMin_25Percent.length - 1];
@@ -406,9 +421,13 @@ export default function initFarmAvax({
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "success" });
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
     };
 
@@ -1388,7 +1407,7 @@ export default function initFarmAvax({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.depositAmount === "" && "disabled-btn"
+                          this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
                         } ${
                           this.state.depositStatus === "deposit" ||
                           this.state.depositStatus === "success"
@@ -1400,7 +1419,7 @@ export default function initFarmAvax({
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
-                            : this.state.depositStatus === "initial"
+                            : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
                             ? this.handleApprove()
                             : console.log("");
                         }}

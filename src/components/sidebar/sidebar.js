@@ -159,9 +159,10 @@ const Sidebar = (props) => {
 
     <div
       id="sidebar"
+      style={{padding: '2.5rem 0'}}
       className={`testbar ${
         activeSidebar ? "testbar-open" : null
-      } d-flex flex-column justify-content-start align-items-start py-5`}
+      } d-flex flex-column justify-content-start align-items-start`}
     >
       {/* <img src={navRadius} className="nav-radius" alt="" /> */}
       <div className="d-flex w-100 justify-content-center align-items-center pb-5">

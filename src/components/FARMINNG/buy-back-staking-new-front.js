@@ -351,6 +351,10 @@ export default function initBuybackStakingNew({
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({errorMsg: e?.message})
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 2000);
 
         });
     };
@@ -387,7 +391,11 @@ export default function initBuybackStakingNew({
         .getAmountsOut(_75Percent, path)
         .call().catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e })
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
 
         });
       _amountOutMin_75Percent =
@@ -408,7 +416,11 @@ export default function initBuybackStakingNew({
         .getAmountsOut(_25Percent, path_25Percent)
         .call().catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e })
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
 
         });
       _amountOutMin_25Percent =
@@ -443,7 +455,11 @@ export default function initBuybackStakingNew({
         })
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({errorMsg: e?.message})
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
 
         });
     };
@@ -1534,7 +1550,7 @@ export default function initBuybackStakingNew({
                           : false
                       }
                       className={`btn filledbtn ${
-                        this.state.depositAmount === "" && "disabled-btn"
+                        this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
                       } ${
                         this.state.depositStatus === "deposit" ||
                         this.state.depositStatus === "success"
@@ -1545,8 +1561,8 @@ export default function initBuybackStakingNew({
                       } d-flex justify-content-center align-items-center gap-2`}
                       onClick={() => {
                         this.state.depositStatus === "deposit"
-                          ? this.handleDeposit()
-                          : this.state.depositStatus === "initial"
+                          ? this.handleStake()
+                          : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
                           ? this.handleApprove()
                           : console.log("");
                       }}

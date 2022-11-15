@@ -335,6 +335,10 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 2000);
         });
     };
 
@@ -372,7 +376,11 @@ export default function avaxBuyback({
         .call()
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({ errorMsg: e });
+          this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
       _amountOutMin_75Percent =
         _amountOutMin_75Percent[_amountOutMin_75Percent.length - 1];
@@ -393,7 +401,11 @@ export default function avaxBuyback({
         .call()
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({ errorMsg: e });
+          this.setState({ errorMsg: e?.message  });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
       _amountOutMin_25Percent =
         _amountOutMin_25Percent[_amountOutMin_25Percent.length - 1];
@@ -428,6 +440,10 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
     };
 
@@ -457,14 +473,18 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({ errorMsg3: e });
+          this.setState({ errorMsg3: e?.message  });
+          setTimeout(() => {
+            this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
         .times(100 - window.config.slippage_tolerance_percent)
         .div(100)
         .toFixed(0);
-
+        
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
@@ -482,9 +502,13 @@ export default function avaxBuyback({
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
             this.setState({ errorMsg3: e?.message });
+            setTimeout(() => {
+              this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+  
+            }, 10000);
           });
       } catch (e) {
-        this.setState({ errorMsg3: e });
+        this.setState({ errorMsg3: e?.message  });
 
         console.error(e);
         return;
@@ -514,10 +538,14 @@ export default function avaxBuyback({
       let _amountOutMin = await router.methods
         .getAmountsOut(amountBuyback, path)
         .call()
-        .catch(() => {
+        .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({ errorMsg3: e });
+          this.setState({ errorMsg3: e?.message });
+          setTimeout(() => {
+            this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -542,10 +570,18 @@ export default function avaxBuyback({
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
             this.setState({ errorMsg3: e?.message });
+            setTimeout(() => {
+              this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+  
+            }, 10000);
           });
       } catch (e) {
         console.error(e);
-        this.setState({ errorMsg3: e });
+        this.setState({ errorMsg3: e?.message });
+        setTimeout(() => {
+          this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+
+        }, 10000);
 
         return;
       }
@@ -1521,19 +1557,19 @@ export default function avaxBuyback({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.depositAmount === "" && "disabled-btn"
+                          this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
                         } ${
                           this.state.depositStatus === "deposit" ||
                           this.state.depositStatus === "success"
                             ? "success-button"
-                            : this.state.depositStatus === "fail"
+                            : this.state.depositStatus === "fail"  
                             ? "fail-button"
                             : null
                         } d-flex justify-content-center align-items-center gap-2`}
                         onClick={() => {
                           this.state.depositStatus === "deposit"
-                            ? this.handleDeposit()
-                            : this.state.depositStatus === "initial"
+                            ? this.handleStake()
+                            : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
                             ? this.handleApprove()
                             : console.log("");
                         }}
@@ -2652,7 +2688,7 @@ export default function avaxBuyback({
                             : false
                         }
                         className={` w-100 btn filledbtn ${
-                          this.state.selectedPool === ""
+                          this.state.selectedPool === "" && this.state.withdrawStatus === "initial"
                             ? "disabled-btn"
                             : this.state.withdrawStatus === "failed"
                             ? "fail-button"
@@ -2688,6 +2724,9 @@ export default function avaxBuyback({
                         )}
                       </button>
                     </div>
+                    {this.state.errorMsg3 && (
+                      <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                    )}
                   </div>
                 </div>
               </div>

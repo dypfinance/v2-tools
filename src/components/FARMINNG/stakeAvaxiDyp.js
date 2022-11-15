@@ -277,6 +277,10 @@ export default function stakeAvaxiDyp({
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 2000);
         });
     };
 
@@ -308,6 +312,10 @@ export default function stakeAvaxiDyp({
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
+          setTimeout(() => {
+            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+
+          }, 10000);
         });
     };
 
@@ -792,7 +800,7 @@ export default function stakeAvaxiDyp({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.depositAmount === "" && "disabled-btn"
+                          this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
                         } ${
                           this.state.depositStatus === "deposit" ||
                           this.state.depositStatus === "success"
@@ -804,7 +812,7 @@ export default function stakeAvaxiDyp({
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
-                            : this.state.depositStatus === "initial"
+                            : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
                             ? this.handleApprove()
                             : console.log("");
                         }}

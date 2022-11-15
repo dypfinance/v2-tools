@@ -156,21 +156,23 @@ const Header = ({
   const checklogout = localStorage.getItem("logout");
 
   const getEthBalance = async () => {
-
-    if(checklogout === 'false') {
-    const balance = await ethereum.request({
-      method: "eth_getBalance",
-      params: [coinbase, "latest"],
-  });
-  const amount = window.web3.utils.fromWei(window.web3.utils.hexToNumberString(balance) , 'ether')
-  setCurrencyAmount(amount.slice(0, 7))
-}
+    if (checklogout === "false" && coinbase) {
+      const balance = await ethereum.request({
+        method: "eth_getBalance",
+        params: [coinbase, "latest"],
+      });
+      const amount = window.web3.utils.fromWei(
+        window.web3.utils.hexToNumberString(balance),
+        "ether"
+      );
+      // console.log(amount)
+      setCurrencyAmount(amount.slice(0, 7));
+    }
   };
 
   useEffect(() => {
     getEthBalance();
-  }, []); 
-
+  });
 
   useEffect(() => {
     fetchData().then();
@@ -308,24 +310,29 @@ const Header = ({
               {checklogout === "false" ? (
                 <>
                   <div className="account-info d-flex align-items-center justify-content-center gap-3">
-                    <span className="account-balance">{currencyAmount} {chainId === 1 ? 'ETH' : chainId === 56 ? 'BNB' : 'AVAX'}</span>
+                    <span className="account-balance">
+                      {currencyAmount}{" "}
+                      {chainId === 1 ? "ETH" : chainId === 56 ? "BNB" : "AVAX"}
+                    </span>
                     <span className="account-address">
                       {shortAddress(coinbase)}
                     </span>
                   </div>
                   <DropdownButton
-                  id="dropdown-basic-button4"
-                  title={  <img
-                    src={avatar}
-                    style={{
-                      height: 40,
-                      width: 40,
-                      borderRadius: "50%",
-                      border: "2px solid #4ED5D2",
-                      margin: 'auto'
-                    }}
-                    alt=""
-                  />}
+                    id="dropdown-basic-button4"
+                    title={
+                      <img
+                        src={avatar}
+                        style={{
+                          height: 40,
+                          width: 40,
+                          borderRadius: "50%",
+                          border: "2px solid #4ED5D2",
+                          margin: "auto",
+                        }}
+                        alt=""
+                      />
+                    }
                   >
                     <Dropdown.Item
                       onClick={() => window.location.assign("/account")}
