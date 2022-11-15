@@ -18,6 +18,8 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -142,6 +144,7 @@ export default function stakeAvax30({
         withdrawLoading: false,
         withdrawStatus: "initial",
         showWithdrawModal: false,
+        showCalculator: false,
 
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
@@ -1081,8 +1084,9 @@ export default function stakeAvax30({
                       </button>
                     </div>
                   </div>
-                {this.state.errorMsg &&<h6 className="errormsg">{this.state.errorMsg}</h6>}
-
+                  {this.state.errorMsg && (
+                    <h6 className="errormsg">{this.state.errorMsg}</h6>
+                  )}
                 </div>
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between gap-2 ">
@@ -1603,6 +1607,113 @@ export default function stakeAvax30({
               handleClose={this.state.hideModal}
               handleConnection={this.props.handleConnection}
             />
+          )}
+
+          <div
+            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+            onClick={() => this.setState({ showCalculator: true })}
+          >
+            <img
+              src={calculatorIcon}
+              alt=""
+              style={{ width: 30, height: 30 }}
+            />
+            Calculator
+          </div>
+
+          {this.state.showCalculator && (
+            <div className="pools-calculator p-3">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={calculatorIcon} alt="" />
+                  <h5
+                    style={{
+                      fontSize: "23px",
+                      fontWeight: "500",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Calculator
+                  </h5>
+                </div>
+                <img
+                  src={xMark}
+                  alt=""
+                  onClick={() => {
+                    this.setState({ showCalculator: false });
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <hr />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Days to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="Days*"
+                    value={this.state.approxDays}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDays: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Amount to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="USD to deposit*"
+                    value={this.state.approxDeposit}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDeposit: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-2 mt-4">
+                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                  $tbd USD
+                </h3>
+                <h6
+                  style={{
+                    fontWeight: "300",
+                    fontSize: "15px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  {getFormattedNumber(this.getApproxReturn(), 6)} DYP
+                </h6>
+              </div>
+              <div className="mt-4">
+                <p
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  *This calculator is for informational purposes only.
+                  Calculated yields assume that prices of the deposited assets
+                  don't change.
+                </p>
+              </div>
+            </div>
           )}
         </div>
 

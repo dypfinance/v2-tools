@@ -1,12 +1,10 @@
 import React from "react";
 import moment from "moment";
 import getFormattedNumber from "../../functions/get-formatted-number";
-
 import Modal from "../Modal/Modal";
 import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
-
 import ellipse from "./assets/ellipse.svg";
 import Clipboard from "react-clipboard.js";
 import successMark from "../../assets/successMark.svg";
@@ -21,6 +19,10 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
+import calculatorIcon from "../calculator/assets/calculator.svg";
+import xMark from "../calculator/assets/xMark.svg";
+
+
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -147,6 +149,7 @@ export default function initConstantStakingiDYP({
         selectedTokenLogo: "idyp",
         selectedRewardTokenLogo1: "weth",
         selectedRewardTokenLogo2: "idyp",
+        showCalculator: false,
 
         usdPerToken: "",
         errorMsg: "",
@@ -1368,6 +1371,116 @@ export default function initConstantStakingiDYP({
               handleConnection={this.props.handleConnection}
             />
           )}
+
+
+
+<div
+            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+            onClick={() => this.setState({ showCalculator: true })}
+          >
+            <img
+              src={calculatorIcon}
+              alt=""
+              style={{ width: 30, height: 30 }}
+            />
+            Calculator
+          </div>
+
+          {this.state.showCalculator && (
+            <div className="pools-calculator p-3">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <img src={calculatorIcon} alt="" />
+                  <h5
+                    style={{
+                      fontSize: "23px",
+                      fontWeight: "500",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Calculator
+                  </h5>
+                </div>
+                <img
+                  src={xMark}
+                  alt=""
+                  onClick={() => {
+                    this.setState({ showCalculator: false });
+                  }}
+                  className="cursor-pointer"
+                />
+              </div>
+              <hr />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    Days to stake
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="Days*"
+                    value={this.state.approxDays}
+                                     onChange={(e) =>
+                                      this.setState({
+                                         approxDays: e.target.value,
+                                       })
+                                     }
+                  />
+                </div>
+                <div className="d-flex flex-column gap-3 w-50 me-5">
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                    iDYP to Deposit
+                  </span>
+                  <input
+                    style={{ height: "40px" }}
+                    type="number"
+                    className="form-control calcinput w-100"
+                    id="days"
+                    name="days"
+                    placeholder="USD to deposit*"
+                    value={this.state.approxDeposit}
+                    onChange={(e) =>
+                      this.setState({
+                        approxDeposit: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-2 mt-4">
+                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                  $tbd USD
+                </h3>
+                <h6
+                  style={{
+                    fontWeight: "300",
+                    fontSize: "15px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  {getFormattedNumber(this.getApproxReturn(), 6)}{" "} iDYP
+                </h6>
+              </div>
+              <div className="mt-4">
+                <p
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "13px",
+                    color: "#f7f7fc",
+                  }}
+                >
+                  *This calculator is for informational purposes only.
+                  Calculated yields assume that prices of the deposited assets
+                  don't change.
+                </p>
+              </div>
+            </div>
+          )}
+
         </div>
 
         // <div>
