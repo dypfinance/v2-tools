@@ -22,7 +22,7 @@ import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
-import poolStatsIcon from './assets/poolStatsIcon.svg'
+import poolStatsIcon from "./assets/poolStatsIcon.svg";
 
 export default function initVaultNew({
   vault,
@@ -261,10 +261,12 @@ export default function initVaultNew({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 2000);
-
         });
     };
     handleStake = async (e) => {
@@ -299,8 +301,11 @@ export default function initVaultNew({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
       _amountOutMin_ethFeeBuyBack =
@@ -320,8 +325,11 @@ export default function initVaultNew({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
     };
@@ -368,8 +376,7 @@ export default function initVaultNew({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({ errorMsg3: e  });
-
+          this.setState({ errorMsg3: e });
         });
       _amountOutMin_ethFeeBuyBack =
         _amountOutMin_ethFeeBuyBack[_amountOutMin_ethFeeBuyBack.length - 1];
@@ -393,7 +400,6 @@ export default function initVaultNew({
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
           this.setState({ errorMsg3: e });
-
         });
       _amountOutMin_tokenFeeBuyBack =
         _amountOutMin_tokenFeeBuyBack[_amountOutMin_tokenFeeBuyBack.length - 1];
@@ -424,7 +430,6 @@ export default function initVaultNew({
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
           this.setState({ errorMsg3: e?.message });
-
         });
     };
 
@@ -464,12 +469,18 @@ export default function initVaultNew({
             .catch((e) => {
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e?.message });
+              this.setState({ errorMsg2: e?.message });
 
+              setTimeout(() => {
+                this.setState({
+                  claimStatus: "initial",
+                  errorMsg2: "",
+                });
+              }, 10000);
             });
         }
       } catch (e) {
-        this.setState({ errorMsg2: e  });
+        this.setState({ errorMsg2: e });
 
         console.warn(e);
       }
@@ -495,7 +506,12 @@ export default function initVaultNew({
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
           this.setState({ errorMsg2: e?.message });
-
+          setTimeout(() => {
+            this.setState({
+              claimStatus: "initial",
+              errorMsg2: "",
+            });
+          }, 10000);
         });
     };
 
@@ -1028,7 +1044,9 @@ export default function initVaultNew({
                           : false
                       }
                       className={`btn filledbtn ${
-                        this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
+                        this.state.depositAmount === "" &&
+                        this.state.depositStatus === "initial" &&
+                        "disabled-btn"
                       } ${
                         this.state.depositStatus === "deposit" ||
                         this.state.depositStatus === "success"
@@ -1040,7 +1058,8 @@ export default function initVaultNew({
                       onClick={() => {
                         this.state.depositStatus === "deposit"
                           ? this.handleStake()
-                          : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
+                          : this.state.depositStatus === "initial" &&
+                            this.state.depositAmount !== ""
                           ? this.handleApprove()
                           : console.log("");
                       }}
@@ -1159,8 +1178,8 @@ export default function initVaultNew({
                   </div>
                 </div>
                 {this.state.errorMsg2 && (
-                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
-                  )}
+                  <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                )}
               </div>
 
               <div className="otherside-border col-2">
@@ -1264,67 +1283,85 @@ export default function initVaultNew({
                     </table> */}
                   <div className="stats-container my-4">
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                      <span className="stats-card-title">MY {token_symbol} Deposit</span>
+                      <span className="stats-card-title">
+                        MY {token_symbol} Deposit
+                      </span>
                       <h6 className="stats-card-content">
                         {depositedTokens} {token_symbol}
                       </h6>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                      <span className="stats-card-title">Total Earned iDYP</span>
+                      <span className="stats-card-title">
+                        Total Earned iDYP
+                      </span>
                       <h6 className="stats-card-content">
                         {totalEarnedDyp} iDYP
                       </h6>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">
-                      Total Earned {token_symbol} (Fees)
+                        Total Earned {token_symbol} (Fees)
                       </span>
                       <h6 className="stats-card-content">
                         {totalEarnedToken} {token_symbol}
                       </h6>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                      <span className="stats-card-title">Total Earned {token_symbol} (Compound)</span>
-                      <h6 className="stats-card-content">{totalEarnedComp} {token_symbol}</h6>
+                      <span className="stats-card-title">
+                        Total Earned {token_symbol} (Compound)
+                      </span>
+                      <h6 className="stats-card-content">
+                        {totalEarnedComp} {token_symbol}
+                      </h6>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">My share</span>
-                      <h6 className="stats-card-content">{getFormattedNumber(
-                                  !this.state.totalDepositedTokens
-                                    ? "..."
-                                    : (this.state.depositedTokens /
-                                        this.state.totalDepositedTokens) *
-                                        100,
-                                  2
-                                )}</h6>
+                      <h6 className="stats-card-content">
+                        {getFormattedNumber(
+                          !this.state.totalDepositedTokens
+                            ? "..."
+                            : (this.state.depositedTokens /
+                                this.state.totalDepositedTokens) *
+                                100,
+                          2
+                        )}
+                      </h6>
                     </div>
                   </div>
                   <div className="d-flex justify-content-end align-items-center gap-2">
-                  <span
-                          style={{
-                            fontWeight: "400",
-                            fontSize: "12px",
-                            lineHeight: "18px",
-                            color: "#C0C9FF",
-                          }}
-                        >
-                          My address
-                        </span>
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
-                          className="stats-link"
-                        >
-                          {shortAddress(coinbase)}{" "}
-                          <img src={statsLinkIcon} alt="" />
-                        </a>
+                    <span
+                      style={{
+                        fontWeight: "400",
+                        fontSize: "12px",
+                        lineHeight: "18px",
+                        color: "#C0C9FF",
+                      }}
+                    >
+                      My address
+                    </span>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                      className="stats-link"
+                    >
+                      {shortAddress(coinbase)}{" "}
+                      <img src={statsLinkIcon} alt="" />
+                    </a>
                   </div>
                   <hr />
                   <div className="container px-0">
                     <div className="row" style={{ marginLeft: "0px" }}>
                       <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext" style={{fontWeight: '500', fontSize: '20px', lineHeight: '28px', color: '#f7f7fc'}}>
+                        <h6
+                          className="d-flex gap-2 align-items-center statstext"
+                          style={{
+                            fontWeight: "500",
+                            fontSize: "20px",
+                            lineHeight: "28px",
+                            color: "#f7f7fc",
+                          }}
+                        >
                           <img src={poolStatsIcon} alt="" />
                           Pool stats
                         </h6>
@@ -1394,50 +1431,51 @@ export default function initVaultNew({
                         </tr>
                       </tbody>
                     </table> */}
-                     <div className="stats-container my-4">
-                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                      <span className="stats-card-title">TVL USD</span>
-                      <h6 className="stats-card-content">
-                        ${tvl_usd} USD
-                      </h6>
+                    <div className="stats-container my-4">
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">TVL USD</span>
+                        <h6 className="stats-card-content">${tvl_usd} USD</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Total {token_symbol} deposited
+                        </span>
+                        <h6 className="stats-card-content">
+                          {getFormattedNumber(
+                            this.state.totalDepositedTokens /
+                              10 ** TOKEN_DECIMALS,
+                            6
+                          )}{" "}
+                          {token_symbol}
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Contract expiration
+                        </span>
+                        <h6 className="stats-card-content">
+                          {expiration_time}
+                        </h6>
+                      </div>
                     </div>
-                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                      <span className="stats-card-title">Total {token_symbol} deposited</span>
-                      <h6 className="stats-card-content">
-                      {getFormattedNumber(
-                                  this.state.totalDepositedTokens /
-                                    10 ** TOKEN_DECIMALS,
-                                  6
-                                )} {token_symbol}
-                      </h6>
+                    <div className="d-flex align-items-center justify-content-end gap-4">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`https://github.com/dypfinance/staking-governance-security-audits`}
+                        className="stats-link"
+                      >
+                        Audit <img src={statsLinkIcon} alt="" />
+                      </a>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`${window.config.etherscan_baseURL}/token/${token._address}?a=${coinbase}`}
+                        className="stats-link"
+                      >
+                        View on Etherscan <img src={statsLinkIcon} alt="" />
+                      </a>
                     </div>
-                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                      <span className="stats-card-title">
-                        Contract expiration
-                      </span>
-                      <h6 className="stats-card-content">
-                        {expiration_time}
-                      </h6>
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-end gap-4">
-                  <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href={`https://github.com/dypfinance/staking-governance-security-audits`}
-                          className="stats-link"
-                        >
-                          Audit <img src={statsLinkIcon} alt="" />
-                        </a>
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href={`${window.config.etherscan_baseURL}/token/${token._address}?a=${coinbase}`}
-                          className="stats-link"
-                        >
-                          View on Etherscan <img src={statsLinkIcon} alt="" />
-                        </a>
-                  </div>
                   </div>
                 </div>
               </div>
@@ -1601,8 +1639,8 @@ export default function initVaultNew({
                             </div> */}
                       </div>
                       {this.state.errorMsg3 && (
-                    <h6 className="errormsg">{this.state.errorMsg3}</h6>
-                  )}
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
                     </div>
                   </div>
                 </div>

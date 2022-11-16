@@ -610,12 +610,25 @@ export default function initStakingNew({
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
               this.setState({ errorMsg2: e?.message });
+              setTimeout(() => {
+                this.setState({
+                  claimStatus: "initial",
+                  selectedPool: "",
+                  errorMsg2: "",
+                });
+              }, 10000);
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
-
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({
+              claimStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
+          }, 10000);
           console.error(e);
           return;
         }
@@ -632,11 +645,18 @@ export default function initStakingNew({
 
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
+              setTimeout(() => {
+                this.setState({
+                  claimStatus: "initial",
+                  selectedPool: "",
+                  errorMsg2: "",
+                });
+              }, 10000);
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
 
           console.error(e);
           return;
@@ -683,7 +703,14 @@ export default function initStakingNew({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({
+              claimStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
+          }, 10000);
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -708,7 +735,14 @@ export default function initStakingNew({
           .catch((e) => {
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
-            this.setState({ errorMsg2: e });
+            this.setState({ errorMsg2: e?.message });
+            setTimeout(() => {
+              this.setState({
+                claimStatus: "initial",
+                selectedPool: "",
+                errorMsg2: "",
+              });
+            }, 10000);
           });
       } catch (e) {
         this.setState({ errorMsg2: e });
@@ -1751,8 +1785,7 @@ export default function initStakingNew({
                             ? true
                             : false
                         }
-                        className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed" ||
+                        className={`btn filledbtn ${ 
                           this.state.selectedPool === ""
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
@@ -1782,9 +1815,10 @@ export default function initStakingNew({
                           </>
                         ) : this.state.claimStatus === "success" ? (
                           <>Success</>
-                        ) : (
-                          <>Claim</>
-                        )}
+                          ) : this.state.claimStatus === "initial" ||
+                          this.state.claimidypStatus === "initial" ?  (
+                            <>Claim</>
+                          ) :<></>}
                       </button>
                     </div>
 

@@ -1012,7 +1012,7 @@ export default function initBuybackStakingNew({
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
         .call(e)
-        .catch(() => {
+        .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
@@ -1051,7 +1051,7 @@ export default function initBuybackStakingNew({
             this.setState({ reInvestStatus: "success" });
             this.setState({ reInvestLoading: false });
           })
-          .catch(() => {
+          .catch((e) => {
             this.setState({ reInvestStatus: "failed" });
             this.setState({ reInvestLoading: false });
             this.setState({ errorMsg2: e?.message });

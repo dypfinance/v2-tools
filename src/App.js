@@ -257,6 +257,8 @@ class App extends React.Component {
     // this.subscriptionInterval = setInterval(this.refreshSubscription, 5e3);
   }
 
+  
+
   checkConnection() {
     const logout = localStorage.getItem("logout");
     if (logout !== "true") {

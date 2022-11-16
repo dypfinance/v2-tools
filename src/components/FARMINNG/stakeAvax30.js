@@ -424,7 +424,7 @@ export default function stakeAvax30({
     handleClaimDivs = async (e) => {
       // e.preventDefault();
       this.setState({ claimLoading: true });
-      this.setState({ claimStatus: "claim" });
+      // this.setState({ claimStatus: "claim" });
 
       let address = this.props.coinbase;
       let amount = await staking.getTotalPendingDivs(address);
@@ -446,7 +446,11 @@ export default function stakeAvax30({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial",  errorMsg2: '' });
+
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -475,7 +479,11 @@ export default function stakeAvax30({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial",  errorMsg2: '' });
+
+          }, 10000);
         });
     };
 
@@ -704,7 +712,11 @@ export default function stakeAvax30({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  reInvestStatus: "initial",  errorMsg2: '' });
+
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -737,6 +749,10 @@ export default function stakeAvax30({
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  reInvestStatus: "initial",  errorMsg2: '' });
+
+          }, 10000);
         });
     };
 
