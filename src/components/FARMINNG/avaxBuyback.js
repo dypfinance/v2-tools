@@ -146,7 +146,10 @@ export default function avaxBuyback({
         errorMsg: "",
         errorMsg2: "",
         errorMsg3: "",
-
+        dypstake: 0,
+        dypConst: 0,
+        dypstakeWithdraw: 0,
+        dypConstWithdraw: 0,
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
         stakingOwner: null,
@@ -263,13 +266,11 @@ export default function avaxBuyback({
 
     componentDidMount() {
       this.refreshBalance();
-      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
-
-      if (this.props.coinbase !== null) {
-        this.setState({ coinbase: this.props.coinbase });
-      }
-
+      this.getDypbalanceConst();
+      this.getDypbalanceStake();
       this.getPriceDYP();
+      this.getDypbalanceStakeWithdraw();
+      this.getDypbalanceConstWithdraw();
     }
 
     getTotalTvl = async () => {
@@ -447,6 +448,21 @@ export default function avaxBuyback({
         });
     };
 
+
+    getDypbalanceConstWithdraw = async()=>{
+      let amountConstant = await constant.depositedTokens(this.state.coinbase);
+      amountConstant = new BigNumber(amountConstant).toFixed(0);
+       this.setState({dypConstWithdraw: getFormattedNumber(amountConstant, 6)})
+    }
+
+    
+    getDypbalanceStakeWithdraw = async()=>{
+      let amountBuyback = await staking.depositedTokens(this.state.coinbase);
+      this.setState({dypstakeWithdraw: getFormattedNumber(amountBuyback, 6)})
+    }
+
+    
+
     handleWithdrawConst = async (e) => {
       //   e.preventDefault();
       this.setState({ withdrawLoading: true });
@@ -587,6 +603,75 @@ export default function avaxBuyback({
       }
     };
 
+
+
+    getDypbalanceConst = async()=>{
+      let address = this.props.coinbase;
+      let router = await window.getPangolinRouterContract();
+      let amount = await staking.getTotalPendingDivs(address);
+      let WETH = await router.methods.WAVAX().call();
+      let platformTokenAddress = window.config.reward_token_address;
+      let rewardTokenAddress = window.config.reward_token_idyp_address;
+
+      let path = [
+        ...new Set(
+          [rewardTokenAddress, WETH, platformTokenAddress].map((a) =>
+            a.toLowerCase()
+          )
+        ),
+      ];
+
+      let _amountOutMinConstant = await router.methods
+      .getAmountsOut(amount, path)
+      .call()
+      .catch((e) => { 
+       this.setState({dypConst: getFormattedNumber(0, 6)})
+      });
+    _amountOutMinConstant =
+      _amountOutMinConstant[_amountOutMinConstant.length - 1];
+    _amountOutMinConstant = new BigNumber(_amountOutMinConstant)
+      .times(100 - window.config.slippage_tolerance_percent)
+      .div(100)
+      .toFixed(0);
+      this.setState({dypConst: getFormattedNumber(_amountOutMinConstant, 6)})
+
+    }
+
+
+    
+    getDypbalanceStake = async()=>{
+      let address = this.state.coinbase;
+      let amount = await staking.getTotalPendingDivs(address);
+
+      let router = await window.getPangolinRouterContract();
+      let WETH = await router.methods.WAVAX().call();
+      let platformTokenAddress = window.config.reward_token_address;
+      let rewardTokenAddress = window.config.reward_token_idyp_address;
+      let path = [
+        ...new Set(
+          [rewardTokenAddress, WETH, platformTokenAddress].map((a) =>
+            a.toLowerCase()
+          )
+        ),
+      ];
+      let _amountOutMin = await router.methods
+        .getAmountsOut(amount, path)
+        .call()
+        .catch((e) => {
+          this.setState({dypstake: getFormattedNumber(0, 6)})
+        });
+
+
+      _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
+      _amountOutMin = new BigNumber(_amountOutMin)
+        .times(100 - window.config.slippage_tolerance_percent)
+        .div(100)
+        .toFixed(0);
+      this.setState({dypstake: getFormattedNumber(_amountOutMin, 6)})
+
+    }
+
+
     handleClaimDivsConst = async (e) => {
       //   e.preventDefault();
       this.setState({ claimLoading: true });
@@ -611,7 +696,10 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -631,7 +719,10 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -657,11 +748,17 @@ export default function avaxBuyback({
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
             this.setState({ errorMsg2: e?.message });
+            setTimeout(() => {
+              this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+            }, 10000);
           });
       } catch (e) {
         this.setState({ claimStatus: "failed" });
         this.setState({ claimLoading: false });
-        this.setState({ errorMsg2: e });
+        this.setState({ errorMsg2: e?.message });
+        setTimeout(() => {
+          this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+        }, 10000);
 
         console.error(e);
         return;
@@ -692,7 +789,10 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ claimidypStatus: "failed" });
           this.setState({ claimidypLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -712,7 +812,10 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ claimidypStatus: "failed" });
           this.setState({ claimidypLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimidypStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -738,12 +841,17 @@ export default function avaxBuyback({
             this.setState({ claimidypStatus: "failed" });
             this.setState({ claimidypLoading: false });
             this.setState({ errorMsg2: e?.message });
+            setTimeout(() => {
+              this.setState({  claimidypStatus: "initial", selectedPool: '', errorMsg2: '' });
+            }, 10000);
           });
       } catch (e) {
         this.setState({ claimidypStatus: "failed" });
         this.setState({ claimidypLoading: false });
-        this.setState({ errorMsg2: e });
-
+        this.setState({ errorMsg2: e?.message });
+        setTimeout(() => {
+          this.setState({  claimidypStatus: "initial", selectedPool: '', errorMsg2: '' });
+        }, 10000);
         console.error(e);
         return;
       }
@@ -774,7 +882,11 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
+
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -799,11 +911,16 @@ export default function avaxBuyback({
             this.setState({ reInvestStatus: "failed" });
             this.setState({ reInvestLoading: false });
             this.setState({ errorMsg2: e?.message });
+            setTimeout(() => {
+              this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
+            }, 10000);
           });
       } catch (e) {
         console.error(e);
-        this.setState({ errorMsg2: e });
-
+        this.setState({ errorMsg2: e?.message });
+        setTimeout(() => {
+          this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
+        }, 10000);
         return;
       }
     };
@@ -833,7 +950,10 @@ export default function avaxBuyback({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -860,10 +980,15 @@ export default function avaxBuyback({
             this.setState({ reInvestStatus: "failed" });
             this.setState({ reInvestLoading: false });
             this.setState({ errorMsg2: e?.message });
+            setTimeout(() => {
+              this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
+            }, 10000);
           });
       } catch (e) {
-        this.setState({ errorMsg2: e });
-
+        this.setState({ errorMsg2: e?.message });
+        setTimeout(() => {
+          this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
+        }, 10000);
         console.error(e);
         return;
       }
@@ -891,15 +1016,19 @@ export default function avaxBuyback({
     };
 
     refreshBalance = async () => {
-      let coinbase = this.props.coinbase;
+      let coinbase = this.state.coinbase;
 
-      if (window.coinbase_address) {
-        coinbase = window.coinbase_address;
-        this.setState({ coinbase });
+      // if (window.coinbase_address) {
+      //   coinbase = window.coinbase_address;
+      //   this.setState({ coinbase });
+      // }
+
+      if (this.props.coinbase !== null) {
+        this.setState({ coinbase: this.props.coinbase });
       }
 
       this.getTotalTvl();
-
+// console.log(this.state.coinbase)
       let usd_per_dyps = this.props.the_graph_result.price_DYPS
         ? this.props.the_graph_result.price_DYPS
         : 1;
@@ -1243,8 +1372,7 @@ export default function avaxBuyback({
       let tooltip1 = infoItems.join("\n");
 
       let infoItems2 = ["75% WBNB/ETH rewards", "25% DYP rewards"];
-      let tooltip2 = infoItems2.join("\n");
-
+      let tooltip2 = infoItems2.join("\n"); 
       return (
         <div className="container-lg p-0">
           <div className="allwrapper my-4">
@@ -1654,13 +1782,13 @@ export default function avaxBuyback({
                             <input
                               disabled
                               value={
-                                Number(pendingDivs) > 0
-                                  ? `${pendingDivs} DYP`
-                                  : `${pendingDivs} DYP`
+                                Number(this.state.dypConst) > 0
+                                  ? `${this.state.dypConst} DYP`
+                                  : `${this.state.dypConst} DYP`
                               }
                               onChange={(e) =>
                                 this.setState({
-                                  pendingDivs:
+                                  dypConst:
                                     Number(e.target.value) > 0
                                       ? e.target.value
                                       : e.target.value,
@@ -1729,13 +1857,13 @@ export default function avaxBuyback({
                             <input
                               disabled
                               value={
-                                Number(pendingDivs) > 0
-                                  ? `${pendingDivs} iDYP`
-                                  : `${pendingDivs} iDYP`
+                                Number(this.state.dypstake) > 0
+                                  ? `${this.state.dypstake} iDYP`
+                                  : `${this.state.dypstake} iDYP`
                               }
                               onChange={(e) =>
                                 this.setState({
-                                  pendingDivs:
+                                  dypstake:
                                     Number(e.target.value) > 0
                                       ? e.target.value
                                       : e.target.value,
@@ -1782,8 +1910,7 @@ export default function avaxBuyback({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed" ||
-                          this.state.selectedPool === ""
+                          this.state.claimStatus === "initial"   && this.state.selectedPool === "" 
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed" ||
                               this.state.claimidypStatus === "failed"
@@ -1819,9 +1946,10 @@ export default function avaxBuyback({
                         ) : this.state.claimStatus === "success" ||
                           this.state.claimidypStatus === "success" ? (
                           <>Success</>
-                        ) : (
+                        ) : this.state.claimStatus === "initial" ||
+                        this.state.claimidypStatus === "initial" ?  (
                           <>Claim</>
-                        )}
+                        ) :<></>}
                       </button>
 
                       <button
@@ -1830,7 +1958,7 @@ export default function avaxBuyback({
                           false
                         }
                         className={`btn filledbtn ${
-                          this.state.reInvestStatus === "invest"
+                          this.state.reInvestStatus === "invest" && this.state.selectedPool === ""
                             ? "disabled-btn"
                             : this.state.reInvestStatus === "failed"
                             ? "fail-button"
@@ -1860,9 +1988,9 @@ export default function avaxBuyback({
                           </>
                         ) : this.state.reInvestStatus === "success" ? (
                           <>Success</>
-                        ) : (
+                        ) : this.state.reInvestStatus === "initial" ? (
                           <>Reinvest</>
-                        )}
+                        ) : <></>}
                       </button>
                     </div>
                     {this.state.errorMsg2 && (
@@ -2539,10 +2667,10 @@ export default function avaxBuyback({
                             <div className="position-relative">
                               <input
                                 disabled
-                                value={`${this.state.withdrawAmount}`}
+                                value={`${this.state.dypConstWithdraw}`}
                                 onChange={(e) =>
                                   this.setState({
-                                    withdrawAmount: e.target.value,
+                                    dypConstWithdraw: e.target.value,
                                   })
                                 }
                                 className=" left-radius inputfarming styledinput2"
@@ -2624,10 +2752,10 @@ export default function avaxBuyback({
                             <div className="position-relative">
                               <input
                                 disabled
-                                value={`${this.state.withdrawAmount}`}
+                                value={`${this.state.dypstakeWithdraw}`}
                                 onChange={(e) =>
                                   this.setState({
-                                    withdrawAmount: e.target.value,
+                                    dypstakeWithdraw: e.target.value,
                                   })
                                 }
                                 className=" left-radius inputfarming styledinput2"
@@ -2665,20 +2793,7 @@ export default function avaxBuyback({
                     <div className="separator"></div>
 
                     <div className="d-flex align-items-center justify-content-between gap-2">
-                      {/* <button
-                        className="btn filledbtn w-100"
-                        onClick={(e) => {
-                          // e.preventDefault();
-                          this.handleWithdraw();
-                        }}
-                        title={
-                          canWithdraw
-                            ? ""
-                            : `You recently staked, you can unstake ${cliffTimeInWords}`
-                        }
-                      >
-                        Withdraw
-                      </button> */}
+
                       <button
                         disabled={
                           this.state.selectedPool === "" ||
@@ -2702,7 +2817,7 @@ export default function avaxBuyback({
                             ? this.handleWithdrawStake()
                             : this.state.selectedPool === "dyp2"
                             ? this.handleWithdrawConst()
-                            : console.log("test")
+                            : console.log("")
                         }
                       >
                         {this.state.withdrawLoading ? (
