@@ -315,8 +315,13 @@
   position: relative;
   transition: all 0.25s;
 }
+.claimreward-header{
+  border: 1px solid #565891;
+  border-radius: 8px;
+}
 
-.claimreward-wrapper:hover {
+.claimreward-wrapper:hover,
+.claimreward-header:hover {
   background: rgb(20, 19, 51) !important;
   border: 1px solid rgb(87, 182, 171) !important;
 }

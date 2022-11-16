@@ -20,6 +20,12 @@ import whiteArrowUp from "./assets/whiteArrowUp.svg";
 import dropdownVector from "./assets/dropdownVector.svg";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
+import statsLinkIcon from "./assets/statsLinkIcon.svg";
+import { shortAddress } from "../../functions/shortAddress";
+import axios from "axios";
+import poolStatsIcon from './assets/poolStatsIcon.svg'
+                        
+
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -136,7 +142,8 @@ export default function initFarmAvax({
         totalEarnedEth: "",
         pendingDivsEth: "",
         showCalculator: false,
-
+        iDypUSD: 0,
+        dypUSD: 0,
         usdPerToken: 0,
         tokensToBeSwapped: "",
         tokensToBeDisbursedOrBurnt: "",
@@ -254,11 +261,29 @@ export default function initFarmAvax({
       //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
+      this.getTokenData();
     }
 
     componentWillUnmount() {
       //   clearInterval(window._refreshBalInterval);
     }
+
+
+    getTokenData = async () => {
+      await axios
+        .get("https://api.dyp.finance/api/the_graph_eth_v2")
+        .then((data) => {
+          const propertyDyp = Object.entries(
+            data.data.the_graph_eth_v2.token_data
+          );
+          this.setState({dypUSD: propertyDyp[0][1].token_price_usd})
+  
+          const propertyIDyp = Object.entries(
+            data.data.the_graph_eth_v2.token_data
+          );
+          this.setState({iDypUSD: propertyIDyp[1][1].token_price_usd})
+        });
+    };
 
     getPriceDYP = async () => {
       let usdPerToken = await window.getPrice("defi-yield-protocol");
@@ -1476,7 +1501,7 @@ export default function initFarmAvax({
                           this.setState({ selectedPool: "wavax" });
                         }}
                         style={{
-                          padding: '3px',
+                          // padding: '3px',
                           background:
                             this.state.selectedPool === "wavax"
                               ? "#141333"
@@ -1521,8 +1546,8 @@ export default function initFarmAvax({
                           />
                         </div>
                         <div
-                          className="d-flex align-items-center"
-                          style={{ paddingLeft: "10px" }}
+                          className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                          // style={{ paddingLeft: "10px" }}
                         >
                           {/* <img
                             src={
@@ -1617,7 +1642,7 @@ export default function initFarmAvax({
                       <div
                         className="gap-1 claimreward-wrapper"
                         style={{
-                          padding: '3px',
+                          // padding: '3px',
                           background:
                             this.state.selectedPool === "dyp"
                               ? "#141333"
@@ -1667,10 +1692,10 @@ export default function initFarmAvax({
                         </div>
 
                         <div
-                          className="d-flex align-items-center"
-                          style={{ paddingLeft: "10px" }}
+                          className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                          // style={{ paddingLeft: "10px" }}
                         >
-                          <img
+                          {/* <img
                             src={
                               require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
                                 .default
@@ -1685,7 +1710,71 @@ export default function initFarmAvax({
                             style={{ border: "none", padding: "0 0 0 3px" }}
                           >
                             <option value="DYP"> DYP </option>
-                          </select>
+                          </select> */}
+                          <div class="dropdown">
+                            <button
+                              class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <img
+                                src={
+                                  require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                    .default
+                                }
+                                alt=""
+                                style={{ width: 14, height: 14 }}
+                              />
+                              {this.state.selectedRewardTokenLogo1.toUpperCase()}
+                              <img
+                                src={dropdownVector}
+                                alt=""
+                                style={{ width: 10, height: 10 }}
+                              />
+                            </button>
+                            <ul
+                              class="dropdown-menu"
+                              style={{ minWidth: "100%" }}
+                            >
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("1");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "wavax",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={
+                                    require(`./assets/avax/wavax.svg`).default
+                                  }
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                WAVAX
+                              </span>
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("2");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "weth.e",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={
+                                    require(`./assets/avax/weth.e.svg`).default
+                                  }
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                WETH.e
+                              </span>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                       <button
@@ -1797,13 +1886,14 @@ export default function initFarmAvax({
             <Modal
               visible={this.state.popup}
               modalId="tymodal"
+              title="stats"
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
-                  <div className="container">
+                  {/* <div className="container">
                     <div className="row" style={{ marginLeft: "0px" }}>
                       <div className="d-flex justify-content-between gap-2 align-items-center p-0">
                         <h6 className="d-flex gap-2 align-items-center statstext">
@@ -1850,13 +1940,7 @@ export default function initFarmAvax({
                               <small>DYP</small>
                             </div>
                           </td>
-                          {/* <td className="text-right">
-                          <th>Total DYP Deposited </th>
-                          <div>
-                            <strong>{tvlConstantDYP}</strong>{" "}
-                            <small>DYP</small>
-                          </div>
-                        </td> */}
+                          
                         </tr>
 
                         <tr>
@@ -1885,16 +1969,85 @@ export default function initFarmAvax({
                         <tr></tr>
                       </tbody>
                     </table>
+                  </div> */}
+                   <div className="stats-container my-4">
+                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                      <span className="stats-card-title">My LP Deposit</span>
+                      <h6 className="stats-card-content">
+                        {myDepositedLpTokens} iDYP/WAVAX
+                      </h6>
+                      <span className="stats-usd-value">${getFormattedNumber(myDepositedLpTokens * this.state.iDypUSD)}</span>
+                    </div>
+                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                      <span className="stats-card-title">
+                        Total LP Deposited
+                      </span>
+                      <h6 className="stats-card-content">{tvl} iDYP/WAVAX</h6>
+                      <span className="stats-usd-value">${getFormattedNumber(tvl * this.state.iDypUSD)}</span>
+                    </div>
+                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                      <span className="stats-card-title">My DYP Stake</span>
+                      <h6 className="stats-card-content">
+                        {reward_token_balance} DYP
+                      </h6>
+                      <span className="stats-usd-value">${getFormattedNumber(reward_token_balance * this.state.dypUSD)}</span>
+                    </div>
+                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                      <span className="stats-card-title">Total Earned DYP</span>
+                      <h6 className="stats-card-content">
+                        {totalEarnedTokens} DYP
+                      </h6>
+                      <span className="stats-usd-value">${getFormattedNumber(totalEarnedTokens * this.state.dypUSD)}</span>
+                    </div>
+                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                      <span className="stats-card-title">
+                        Total Earned WAVAX
+                      </span>
+                      <h6 className="stats-card-content">
+                        {totalEarnedEth} WAVAX
+                      </h6>
+                      <span className="stats-usd-value">$23,674,64</span>
+                    </div>
+                    <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                      <span className="stats-card-title">My Share</span>
+                      <h6 className="stats-card-content">{myShare}%</h6>
+                    </div>
                   </div>
-
+                  <div className="d-flex justify-content-end align-items-center gap-2">
+                    <span
+                      style={{
+                        fontWeight: "400",
+                        fontSize: "12px",
+                        lineHeight: "18px",
+                        color: "#C0C9FF",
+                      }}
+                    >
+                      My address
+                    </span>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`${window.config.snowtrace_baseURL}/address/${coinbase}`}
+                      className="stats-link"
+                    >
+                      {shortAddress(coinbase)}{" "}
+                      <img src={statsLinkIcon} alt="" />
+                    </a>
+                  </div>
+                  <hr />
                   <div className="container">
                     <div className="row" style={{ marginLeft: "0px" }}>
                       <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext">
-                          <img src={stats} alt="" />
+                        <h6 className="d-flex gap-2 align-items-center statstext"  style={{
+                            fontWeight: "500",
+                            fontSize: "20px",
+                            lineHeight: "28px",
+                            color: "#f7f7fc",
+                          }}>
+                          <img src={poolStatsIcon} alt="" />
                           Pool stats
                         </h6>
-                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                        {/* <h6 className="d-flex gap-2 align-items-center myaddrtext">
                           My address
                           <a
                             href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
@@ -1906,10 +2059,10 @@ export default function initFarmAvax({
                             </h6>
                           </a>
                           <img src={arrowup} alt="" />
-                        </h6>
+                        </h6> */}
                       </div>
                     </div>
-                    <table className="table-stats table table-sm table-borderless mt-2">
+                    {/* <table className="table-stats table table-sm table-borderless mt-2">
                       <tbody>
                         <tr>
                           <td className="text-right">
@@ -1983,7 +2136,57 @@ export default function initFarmAvax({
                           </td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table> */}
+                     <div className="stats-container my-4">
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">TVL USD</span>
+                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Total LP Deposited
+                        </span>
+                        <h6 className="stats-card-content">{tvl} iDYP/WAVAX</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">To be swapped</span>
+                        <h6 className="stats-card-content">
+                          {tokensToBeSwapped} DYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">To be burnt</span>
+                        <h6 className="stats-card-content">
+                          {tokensToBeDisbursedOrBurnt} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Contract Expiration
+                        </span>
+                        <h6 className="stats-card-content">
+                          {expiration_time}
+                        </h6>
+                      </div>
+                      <div className="d-flex flex-column align-items-start justify-content-center gap-2">
+                  <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`https://github.com/dypfinance/staking-governance-security-audits`}
+                          className="stats-link"
+                        >
+                          Audit <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.snowtrace_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                          className="stats-link"
+                        >
+                          View on SnowTrace <img src={statsLinkIcon} alt="" />
+                        </a>
+                  </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1994,6 +2197,7 @@ export default function initFarmAvax({
             <Modal
               visible={this.state.showWithdrawModal}
               modalId="withdrawmodal"
+              title="withdraw"
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
@@ -2001,7 +2205,7 @@ export default function initFarmAvax({
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
                   <div className="container">
-                    <div className="row" style={{ marginLeft: "0px" }}>
+                    {/* <div className="row" style={{ marginLeft: "0px" }}>
                       <div className="d-flex justify-content-between gap-2 align-items-center p-0">
                         <h6 className="d-flex gap-2 align-items-center statstext">
                           <img src={stats} alt="" />
@@ -2009,7 +2213,7 @@ export default function initFarmAvax({
                         </h6>
                       </div>
                       <h6 className="withdrawdesc mt-2 p-0">No Lock</h6>
-                    </div>
+                    </div> */}
 
                     <div className="d-flex flex-column mt-2">
                       <div className="d-flex  gap-2 justify-content-between align-items-center">
@@ -2032,10 +2236,10 @@ export default function initFarmAvax({
                       <div className="separator"></div>
 
                       <div className="d-flex flex-column gap-1 mt-2">
-                        <h6 className="withsubtitle mb-2">Select assets</h6>
-                        <div className="d-flex align-items-center gap-1 flex-column">
-                          <div
-                            className="gap-1 claimreward-wrapper w-100"
+                        <h6 className="withsubtitle mb-2" style={{color: '#4ED5D2'}}>Select assets</h6>
+                        <div className="row d-flex align-items-start justify-content-between gap-1 ">
+                         <div className="col-5 d-flex flex-column gap-1">
+                         <div className="gap-1 claimreward-wrapper w-100"
                             onClick={() => {
                               this.setState({ selectedPool: "wavax" });
                             }}
@@ -2057,15 +2261,15 @@ export default function initFarmAvax({
                                   : empty
                               }
                               alt=""
-                              className="activestate"
+                              className="activestate" style={{top: '65px'}}
                             />
-                            <div className="d-flex align-items-center gap-2 justify-content-between w-100">
+                            <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100">
                               <div className="position-relative">
                                 <h6
                                   className="withsubtitle"
                                   style={{ padding: "5px 0 0 15px" }}
                                 >
-                                  LP amount
+                                  Value
                                 </h6>
 
                                 <input
@@ -2098,22 +2302,63 @@ export default function initFarmAvax({
                                   }}
                                 />
                               </div>
-                              <div
+                              {/* <div
                                 className="d-flex flex-column gap-1"
                                 style={{ paddingRight: "15px" }}
                               >
-                                <h6 className="withsubtitle">Value</h6>
+                                <h6 className="withsubtitle"></h6>
                                 <h6
                                   className="withtitle"
                                   style={{ color: "#C0CBF7" }}
                                 >
                                   $200
                                 </h6>
+                              </div> */}
+                              <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100">
+                              <div className="position-relative">
+                                <h6
+                                  className="withsubtitle"
+                                  style={{ padding: "5px 0 0 15px" }}
+                                >
+                                  LP balance
+                                </h6>
+
+                                <input
+                                  disabled
+                                  value={
+                                    Number(this.state.withdrawAmount) > 0
+                                      ? `${
+                                          this.state.withdrawAmount *
+                                          LP_AMPLIFY_FACTOR
+                                        } LP`
+                                      : `${this.state.withdrawAmount} LP`
+                                  }
+                                  onChange={(e) =>
+                                    this.setState({
+                                      withdrawAmount:
+                                        Number(e.target.value) > 0
+                                          ? e.target.value / LP_AMPLIFY_FACTOR
+                                          : e.target.value,
+                                    })
+                                  }
+                                  className=" left-radius inputfarming styledinput2"
+                                  placeholder="0"
+                                  type="text"
+                                  style={{
+                                    width: "150px",
+                                    padding: "0px 15px 0px 15px",
+                                    height: 35,
+                                    fontSize: 20,
+                                    fontWeight: 300,
+                                  }}
+                                />
                               </div>
+                            
+                            </div>
                             </div>
                             <div
-                              className="d-flex align-items-center"
-                              style={{ padding: "10px 0 0 10px" }}
+                              className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                              // style={{ padding: "10px 0 0 10px" }}
                             >
                               <img
                                 src={
@@ -2146,8 +2391,9 @@ export default function initFarmAvax({
                           <h6 className="withsubtitle d-flex justify-content-start w-100 mb-2">
                             Total LP deposited{" "}
                           </h6>
-
-                          <div
+                         </div>
+                         <div className="col-5 d-flex flex-column gap-1">
+                         <div
                             className="gap-1 claimreward-wrapper w-100"
                             style={{
                               background:
@@ -2173,8 +2419,10 @@ export default function initFarmAvax({
                               className="activestate"
                             />
 
-                            <div className="d-flex align-items-center gap-2 justify-content-between w-100 position-relative">
+                            <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100 position-relative">
                               <div className="position-relative">
+                              <h6 className="withsubtitle" style={{padding: "0px 15px 0px 15px"}}>LP Balance</h6>
+
                                 <input
                                   disabled
                                   value={`${depositedTokensDYP} DYP`}
@@ -2198,22 +2446,48 @@ export default function initFarmAvax({
                                   }}
                                 />
                               </div>
-                              <div
+                              <div className="position-relative">
+                              <h6 className="withsubtitle" style={{padding: "0px 15px 0px 15px"}}>Value</h6>
+
+                                <input
+                                  disabled
+                                  value={`${depositedTokensDYP} DYP`}
+                                  onChange={(e) =>
+                                    this.setState({
+                                      withdrawAmount:
+                                        Number(e.target.value) > 0
+                                          ? e.target.value / LP_AMPLIFY_FACTOR
+                                          : e.target.value,
+                                    })
+                                  }
+                                  className=" left-radius inputfarming styledinput2"
+                                  placeholder="0"
+                                  type="text"
+                                  style={{
+                                    width: "150px",
+                                    padding: "0px 15px 0px 15px",
+                                    height: 35,
+                                    fontSize: 20,
+                                    fontWeight: 300,
+                                  }}
+                                />
+                              </div>
+                              {/* <div
                                 className="d-flex flex-column gap-1 position-relative"
                                 style={{ paddingRight: "15px", top: "-8px" }}
                               >
-                                <h6 className="withsubtitle">Value</h6>
+                                <h6 className="withsubtitle" >Value</h6>
                                 <h6
                                   className="withtitle"
                                   style={{ color: "#C0CBF7" }}
                                 >
                                   $200
                                 </h6>
-                              </div>
+                              </div> */}
                             </div>
                             <div
-                              className="d-flex align-items-center"
-                              style={{ padding: "10px 0 0 10px" }}
+                              className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                              // style={{ padding: "10px 0 0 10px" }}
                             >
                               <img
                                 src={
@@ -2236,6 +2510,9 @@ export default function initFarmAvax({
                           <h6 className="withsubtitle d-flex justify-content-start w-100 ">
                             Total DYP deposited{" "}
                           </h6>
+                         </div>
+
+                        
                         </div>
                       </div>
 

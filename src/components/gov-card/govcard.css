@@ -2,12 +2,20 @@
   padding: 20px;
   background-color: #312F69;
   border-radius: 12px;
+  border: 1px solid #312F69;
   /* background-image: url("./assets/govbg.png"); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
   width: 50%;
+  transition: all .25s;
+}
+
+.govcard-wrapper:focus,
+.govcard-wrapper:hover,
+.govcard-wrapper:active{
+  border: 1px solid rgb(142, 151, 205);
 }
 
 .greendiv {
