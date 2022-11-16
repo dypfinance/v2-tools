@@ -7,13 +7,14 @@ const BridgeCard = () => {
   return (
     <div className="bridgecard-wrapper">
       <div className="orangediv"></div>
-      <div className="d-flex flex-column gap-2 justify-content-between">
+      <div className="d-flex flex-column gap-3 justify-content-between">
         <div className="">
           <h6 className="bridgecard-title d-flex justify-content-between gap-2 align-items-center">
           Bridge <img src={bridgeLogo} alt="" />
           </h6>
         </div>
-        <div>
+       <div>
+       <div>
           <h6 className="bridgecard-desc">
           Bridge between tokens... Instant and secure transactions
           </h6>
@@ -23,6 +24,7 @@ const BridgeCard = () => {
             <img src={filledArrow} alt="" />
           </h6>
         </div>
+       </div>
       </div>
     </div>
   );

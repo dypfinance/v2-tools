@@ -127,7 +127,7 @@ const TopPoolsCard = ({
               className="details-text gap-1 d-flex align-items-center"
               style={{ color: showDetails === false ? "#75CAC2" : "#C0C9FF" }}
             >
-              {showDetails === false ? "Details" : "Close"}
+              {showDetails === false ? "Deposit" : "Close"}
               <img src={showDetails === false ? greenArrow : orangeArrow} />
             </h6>
           </div>

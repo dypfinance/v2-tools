@@ -278,8 +278,11 @@ export default function stakeAvaxiDyp({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 2000);
         });
     };
@@ -313,8 +316,11 @@ export default function stakeAvaxiDyp({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
     };
@@ -634,7 +640,7 @@ export default function stakeAvaxiDyp({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "APR reflects the interest rate of earnings on an account over the course of one year. "
                             }
@@ -652,7 +658,7 @@ export default function stakeAvaxiDyp({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "The amount of time your deposited assets will be locked."
                             }
@@ -693,40 +699,40 @@ export default function stakeAvaxiDyp({
                 </div>
               </div>
             </div>
-          </div>
-          <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-            <div className="row w-100 justify-content-between">
-              <div className="firstblockwrapper col-2">
-                <div
-                  className="d-flex flex-column justify-content-between gap-4"
-                  style={{ height: "100%" }}
-                >
-                  <h6 className="start-title">Start Staking</h6>
-                  {/* <h6 className="start-desc">
+              <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
+                <div className="row w-100 justify-content-between">
+                  <div className="firstblockwrapper col-2">
+                    <div
+                      className="d-flex flex-column justify-content-between gap-4"
+                      style={{ height: "100%" }}
+                    >
+                      <h6 className="start-title">Start Staking</h6>
+                      {/* <h6 className="start-desc">
                     {this.props.coinbase === null
                       ? "Connect wallet to view and interact with deposits and withdraws"
                       : "Interact with deposits and withdraws"}
                   </h6> */}
-                  {this.props.coinbase === null ? (
-                    <button
-                      className="connectbtn btn"
-                      onClick={this.showModal}
-                    >
-                      {" "}
-                      <img src={wallet} alt="" /> Connect wallet
-                    </button>
-                  ) : (
-                    <div className="addressbtn btn">
-                      <Address a={this.props.coinbase} />
+                      {this.props.coinbase === null ? (
+                        <button
+                          className="connectbtn btn"
+                          onClick={this.showModal}
+                        >
+                          {" "}
+                          <img src={wallet} alt="" /> Connect wallet
+                        </button>
+                      ) : (
+                        <div className="addressbtn btn">
+                          <Address a={this.props.coinbase} />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                {/* <div className="otherside">
+                    {/* <div className="otherside">
         <button className="btn green-btn">
           TBD Claim reward 0.01 ETH
         </button>
       </div> */}
-                <div className="otherside-border col-4">
+                  </div>
+                  <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -751,8 +757,8 @@ export default function stakeAvaxiDyp({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"lorem impsum deposit text"}
+                        <div className="tooltip-text">
+                          {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
                         </div>
                       }
                     >
@@ -851,8 +857,8 @@ export default function stakeAvaxiDyp({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {"rewards text"}
+                          <div className="tooltip-text">
+                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
                           </div>
                         }
                       >
@@ -863,13 +869,15 @@ export default function stakeAvaxiDyp({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
                     <div className="form-row d-flex gap-2 align-items-center justify-content-between">
-                      <div className="position-relative">
+                      <div className="position-relative d-flex flex-column">
+                      <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>iDYP</span>
+
                         <input
                           disabled
                           value={
                             Number(pendingDivs) > 0
-                              ? `${pendingDivs} DYP`
-                              : `${pendingDivs} DYP`
+                              ? `${pendingDivs}`
+                              : `${pendingDivs}`
                           }
                           onChange={(e) =>
                             this.setState({
@@ -975,8 +983,8 @@ export default function stakeAvaxiDyp({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"withdraw deposit text"}
+                        <div className="tooltip-text">
+                          {"Withdraw your deposited assets from the staking smart contract."}
                         </div>
                       }
                     >
@@ -999,23 +1007,24 @@ export default function stakeAvaxiDyp({
                     Withdraw
                   </button>
                 </div>
+                </div>
               </div>
-            </div>
           </div>
-        {/* </div> */}
-        {this.state.popup && (
-          <Modal
-            visible={this.state.popup}
-            modalId="tymodal"
-            title="stats"
-            setIsVisible={() => {
-              this.setState({ popup: false });
-            }}
-          >
-            <div className="earn-hero-content p4token-wrapper">
-              <div className="l-box pl-3 pr-3">
-                <div className="container px-0">
-                  {/* <table className="table-stats table table-sm table-borderless mt-2">
+
+          {/* </div> */}
+          {this.state.popup && (
+            <Modal
+              visible={this.state.popup}
+              modalId="tymodal"
+              title="stats"
+              setIsVisible={() => {
+                this.setState({ popup: false });
+              }}
+            >
+              <div className="earn-hero-content p4token-wrapper">
+                <div className="l-box pl-3 pr-3">
+                  <div className="container px-0">
+                    {/* <table className="table-stats table table-sm table-borderless mt-2">
                     <tbody>
                       <tr>
                         <td className="text-right">
@@ -1063,7 +1072,7 @@ export default function stakeAvaxiDyp({
                       </tr>
                     </tbody>
                   </table> */}
-                   <div className="stats-container my-4">
+                    <div className="stats-container my-4">
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">
                           My iDYP Deposit
@@ -1218,43 +1227,39 @@ export default function stakeAvaxiDyp({
                         </a>
                       </div>
                     </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Modal>
-        )}
+            </Modal>
+          )}
 
-        {this.state.showWithdrawModal && (
-          <Modal
-            visible={this.state.showWithdrawModal}
-            modalId="withdrawmodal"
-            title="withdraw"
-            setIsVisible={() => {
-              this.setState({ showWithdrawModal: false });
-            }}
-          >
-            <div className="earn-hero-content p4token-wrapper">
-              <div className="l-box pl-3 pr-3">
-                <div className="container px-0">
-                  <div className="row" style={{ marginLeft: "0px" }}>
-                   
-                    <h6 className="withdrawdesc mt-2 p-0">
-                      {lockTime === "No Lock"
-                    ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                    : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
+          {this.state.showWithdrawModal && (
+            <Modal
+              visible={this.state.showWithdrawModal}
+              modalId="withdrawmodal"
+              title="withdraw"
+              setIsVisible={() => {
+                this.setState({ showWithdrawModal: false });
+              }}
+            >
+              <div className="earn-hero-content p4token-wrapper">
+                <div className="l-box pl-3 pr-3">
+                  <div className="container px-0">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      <h6 className="withdrawdesc mt-2 p-0">
+                        {lockTime === "No Lock"
+                          ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
+                          : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
                   withdraw or you can continue to earn rewards everyday`}
-                    </h6>
-                  </div>
+                      </h6>
+                    </div>
 
-                  <div className="d-flex flex-column mt-2">
-                    <div className="d-flex  gap-2 justify-content-between align-items-center">
-                      <div className="d-flex flex-column gap-1">
-                        <h6 className="withsubtitle mt-3">Timer</h6>
-                        <h6
-                          className="withtitle"
-                          style={{ fontWeight: 300 }}
-                        >
-                           {lockTime === "No Lock" ? (
+                    <div className="d-flex flex-column mt-2">
+                      <div className="d-flex  gap-2 justify-content-between align-items-center">
+                        <div className="d-flex flex-column gap-1">
+                          <h6 className="withsubtitle mt-3">Timer</h6>
+                          <h6 className="withtitle" style={{ fontWeight: 300 }}>
+                            {lockTime === "No Lock" ? (
                               "No Lock"
                             ) : (
                               <Countdown

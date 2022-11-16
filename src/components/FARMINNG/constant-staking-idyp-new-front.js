@@ -622,7 +622,7 @@ export default function initConstantStakingiDYP({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "Performance fee is subtracted from the displayed APR."
                             }
@@ -641,7 +641,7 @@ export default function initConstantStakingiDYP({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "APR reflects the interest rate of earnings on an account over the course of one year. "
                             }
@@ -659,7 +659,7 @@ export default function initConstantStakingiDYP({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "The amount of time your deposited assets will be locked."
                             }
@@ -778,8 +778,8 @@ export default function initConstantStakingiDYP({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"lorem impsum deposit text"}
+                        <div className="tooltip-text">
+                          {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
                         </div>
                       }
                     >
@@ -886,8 +886,8 @@ export default function initConstantStakingiDYP({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {"rewards text"}
+                          <div className="tooltip-text">
+                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
                           </div>
                         }
                       >
@@ -897,8 +897,9 @@ export default function initConstantStakingiDYP({
                   </div>
 
                   <div className="form-row d-flex gap-2 align-items-center justify-content-between">
-                    <div>
-                      <span>{pendingDivs} iDYP</span>
+                    <div className="d-flex flex-column">
+                      <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>iDYP</span>
+                      <span>{pendingDivs}</span>
                     </div>
                     <div className="d-flex align-items-center gap-2">
                       <button
@@ -1009,8 +1010,8 @@ export default function initConstantStakingiDYP({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"withdraw deposit text"}
+                        <div className="tooltip-text">
+                          {"Withdraw your deposited assets from the staking smart contract."}
                         </div>
                       }
                     >

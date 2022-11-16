@@ -32,7 +32,7 @@
 .calc-title {
   font-style: normal;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 36px;
   color: #f7f7fc;
 }
@@ -131,6 +131,7 @@
   letter-spacing: -0.018em;
   color: #f7f7fc !important;
   width: 94px;
+  padding: 9px 12px;
 }
 
 .output-txt {
