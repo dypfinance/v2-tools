@@ -535,9 +535,12 @@ export default function initStakingNew({
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
             this.setState({ errorMsg3: e?.message });
+            setTimeout(() => {
+              this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+            }, 10000);
           });
       } catch (e) {
-        this.setState({ errorMsg3: e });
+        this.setState({ errorMsg3: e?.message });
 
         console.error(e);
         return;
@@ -574,9 +577,13 @@ export default function initStakingNew({
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
             this.setState({ errorMsg3: e?.message });
+            setTimeout(() => {
+              this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+            }, 10000);
           });
       } catch (e) {
         console.error(e);
+        this.setState({ errorMsg3: e?.message });
         return;
       }
     };
@@ -1258,9 +1265,10 @@ export default function initStakingNew({
                 <div className="d-flex align-items-center justify-content-between gap-3">
                   <a
                     href={
-                      chainId === 1
-                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      // chainId === 1
+                        // ? 
+                        "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
                     rel="noreferrer"
@@ -2565,7 +2573,7 @@ export default function initStakingNew({
                               : false
                           }
                           className={` w-100 btn filledbtn ${
-                            this.state.selectedPool === ""
+                            this.state.selectedPool === "" && this.state.withdrawStatus === "initial"
                               ? "disabled-btn"
                               : this.state.withdrawStatus === "failed"
                               ? "fail-button"

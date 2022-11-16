@@ -25,8 +25,6 @@ import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 
-
-
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
     <div className="d-flex gap-3 justify-content-center align-items-center">
@@ -278,8 +276,11 @@ export default function initConstantStakingiDYP({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 2000);
         });
     };
@@ -309,14 +310,19 @@ export default function initConstantStakingiDYP({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
     };
 
     handleWithdraw = async (e) => {
       // e.preventDefault();
+      this.setState({ withdrawLoading: true });
+
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
       staking
@@ -329,12 +335,19 @@ export default function initConstantStakingiDYP({
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
           this.setState({ errorMsg3: e?.message });
+          setTimeout(() => {
+            this.setState({
+              withdrawStatus: "initial",
+              withdrawAmount: "",
+              errorMsg3: "",
+            });
+          }, 10000);
         });
     };
 
     handleClaimDivs = (e) => {
       this.setState({ claimLoading: true });
-      this.setState({ claimStatus: "claim" });
+      // this.setState({ claimStatus: "claim" });
 
       // e.preventDefault();
       staking
@@ -347,6 +360,9 @@ export default function initConstantStakingiDYP({
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
           this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({ claimStatus: "initial", errorMsg2: "" });
+          }, 2000);
         });
     };
 
@@ -496,6 +512,9 @@ export default function initConstantStakingiDYP({
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({ reInvestStatus: "initial", errorMsg2: "" });
+          }, 2000);
         });
     };
 
@@ -674,9 +693,10 @@ export default function initConstantStakingiDYP({
                 <div className="d-flex align-items-center justify-content-between gap-3">
                   <a
                     href={
-                      chainId === 1
-                        ? "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
-                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      // chainId === 1
+                      // ?
+                      "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                      // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
                     rel="noreferrer"
@@ -829,7 +849,9 @@ export default function initConstantStakingiDYP({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
+                          this.state.depositAmount === "" &&
+                          this.state.depositStatus === "initial" &&
+                          "disabled-btn"
                         } ${
                           this.state.depositStatus === "deposit" ||
                           this.state.depositStatus === "success"
@@ -841,7 +863,8 @@ export default function initConstantStakingiDYP({
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
-                            : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
+                            : this.state.depositStatus === "initial" &&
+                              this.state.depositAmount !== ""
                             ? this.handleApprove()
                             : console.log("");
                         }}
@@ -910,8 +933,9 @@ export default function initConstantStakingiDYP({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed"
-                            ? "disabled-btn"
+                          this.state.claimStatus === "claimed" &&
+                            this.state.claimStatus === "initial"
+                            ? "disabled-btn" 
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
                             : this.state.claimStatus === "success"
@@ -921,8 +945,7 @@ export default function initConstantStakingiDYP({
                         style={{ height: "fit-content" }}
                         onClick={this.handleClaimDivs}
                       >
-                        {this.state.claimLoading &&
-                        this.state.claimStatus === "initial" ? (
+                        {this.state.claimLoading  ? (
                           <div
                             class="spinner-border spinner-border-sm text-light"
                             role="status"
@@ -943,7 +966,7 @@ export default function initConstantStakingiDYP({
 
                       <button
                         disabled={
-                          // this.state.claimStatus === "invest" ? true :
+                          // this.state.reInvestStatus === "initial" ? true :
                           false
                         }
                         className={`btn filledbtn ${
@@ -958,8 +981,7 @@ export default function initConstantStakingiDYP({
                         style={{ height: "fit-content" }}
                         onClick={this.handleReinvest}
                       >
-                        {this.state.reInvestLoading &&
-                        this.state.reInvestStatus === "invest" ? (
+                        {this.state.reInvestLoading   ? (
                           <div
                             class="spinner-border spinner-border-sm text-light"
                             role="status"
@@ -978,11 +1000,10 @@ export default function initConstantStakingiDYP({
                         )}
                       </button>
                     </div>
-                  
                   </div>
-  {this.state.errorMsg2 && (
-                        <h6 className="errormsg">{this.state.errorMsg2}</h6>
-                      )}
+                  {this.state.errorMsg2 && (
+                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                  )}
                   {/* <button
                     title={claimTitle}
                     disabled={!is_connected}
@@ -1390,7 +1411,8 @@ export default function initConstantStakingiDYP({
                               : false
                           }
                           className={` w-100 btn filledbtn ${
-                            this.state.withdrawAmount === ""
+                            this.state.withdrawAmount === "" &&
+                            this.state.withdrawStatus === "initial"
                               ? "disabled-btn"
                               : this.state.withdrawStatus === "failed"
                               ? "fail-button"
@@ -1419,9 +1441,17 @@ export default function initConstantStakingiDYP({
                             <>Withdraw</>
                           )}
                         </button>
-                          <span className="mt-2" style={{fontWeight: '400', fontSize: '12px', lineHeight: '18px', color: "#C0C9FF" }}>
-                            *No withdrawal fee
-                          </span>
+                        <span
+                          className="mt-2"
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
+                          }}
+                        >
+                          *No withdrawal fee
+                        </span>
                         {/* <div className="form-row">
                               <div className="col-6">
                                 <button
@@ -1475,9 +1505,7 @@ export default function initConstantStakingiDYP({
             />
           )}
 
-
-
-<div
+          <div
             className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
             onClick={() => this.setState({ showCalculator: true })}
           >
@@ -1527,11 +1555,11 @@ export default function initConstantStakingiDYP({
                     name="days"
                     placeholder="Days*"
                     value={this.state.approxDays}
-                                     onChange={(e) =>
-                                      this.setState({
-                                         approxDays: e.target.value,
-                                       })
-                                     }
+                    onChange={(e) =>
+                      this.setState({
+                        approxDays: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="d-flex flex-column gap-3 w-50 me-5">
@@ -1565,7 +1593,7 @@ export default function initConstantStakingiDYP({
                     color: "#f7f7fc",
                   }}
                 >
-                  {getFormattedNumber(this.getApproxReturn(), 6)}{" "} iDYP
+                  {getFormattedNumber(this.getApproxReturn(), 6)} iDYP
                 </h6>
               </div>
               <div className="mt-4">
@@ -1583,7 +1611,6 @@ export default function initConstantStakingiDYP({
               </div>
             </div>
           )}
-
         </div>
 
         // <div>

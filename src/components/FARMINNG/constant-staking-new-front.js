@@ -19,12 +19,11 @@ import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 
-import statsLinkIcon from './assets/statsLinkIcon.svg'
+import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import CountDownTimer from "../locker/Countdown";
 import { shortAddress } from "../../functions/shortAddress";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
-
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -58,7 +57,7 @@ export default function initConstantStakingNew({
   handleConnection,
   lockTime,
   coinbase,
-  renderedPage
+  renderedPage,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -335,8 +334,11 @@ export default function initConstantStakingNew({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 2000);
         });
     };
@@ -387,12 +389,16 @@ export default function initConstantStakingNew({
       ];
       let _amountOutMin_referralFee = await router.methods
         .getAmountsOut(referralFee, path)
-        .call().catch((e) => {
+        .call()
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
       //console.log({_amountOutMin_referralFee})
@@ -416,8 +422,11 @@ export default function initConstantStakingNew({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
     };
@@ -442,13 +451,20 @@ export default function initConstantStakingNew({
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
           this.setState({ errorMsg3: e?.message });
+          setTimeout(() => {
+            this.setState({
+              withdrawStatus: "initial",
+              withdrawAmount: "",
+              errorMsg3: "",
+            });
+          }, 10000);
         });
     };
 
     handleClaimDivs = async (e) => {
       // e.preventDefault();
       this.setState({ claimLoading: true });
-      this.setState({ claimStatus: "claim" });
+      // this.setState({ claimStatus: "claim" });
 
       let address = this.props.coinbase;
       let amount = await staking.getTotalPendingDivs(address);
@@ -468,9 +484,12 @@ export default function initConstantStakingNew({
         .getAmountsOut(amount, path)
         .call()
         .catch((e) => {
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
+          setTimeout(() => {
+            this.setState({ claimStatus: "initial", errorMsg2: "" });
+          }, 2000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -500,6 +519,9 @@ export default function initConstantStakingNew({
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
           this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({ claimStatus: "initial", errorMsg2: "" });
+          }, 2000);
         });
     };
 
@@ -732,7 +754,10 @@ export default function initConstantStakingNew({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({ reInvestStatus: "initial", errorMsg2: "" });
+          }, 2000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -765,6 +790,9 @@ export default function initConstantStakingNew({
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({ reInvestStatus: "initial", errorMsg2: "" });
+          }, 2000);
         });
     };
 
@@ -959,9 +987,10 @@ export default function initConstantStakingNew({
                 <div className="d-flex align-items-center justify-content-between gap-3">
                   <a
                     href={
-                      chainId === 1
-                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      // chainId === 1
+                      // ?
+                      "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
                     rel="noreferrer"
@@ -1001,7 +1030,10 @@ export default function initConstantStakingNew({
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
-                        style={{width: renderedPage === "dashboard" && '100%', fontSize: renderedPage === "dashboard" && "9px"}}
+                        style={{
+                          width: renderedPage === "dashboard" && "100%",
+                          fontSize: renderedPage === "dashboard" && "9px",
+                        }}
                       >
                         {" "}
                         <img src={wallet} alt="" /> Connect wallet
@@ -1092,7 +1124,9 @@ export default function initConstantStakingNew({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
+                          this.state.depositAmount === "" &&
+                          this.state.depositStatus === "initial" &&
+                          "disabled-btn"
                         } ${
                           this.state.depositStatus === "deposit" ||
                           this.state.depositStatus === "success"
@@ -1104,7 +1138,8 @@ export default function initConstantStakingNew({
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
-                            : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
+                            : this.state.depositStatus === "initial" &&
+                              this.state.depositAmount !== ""
                             ? this.handleApprove()
                             : console.log("");
                         }}
@@ -1138,7 +1173,12 @@ export default function initConstantStakingNew({
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
-                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2" style={{fontSize: renderedPage === "dashboard" && '9px'}}>
+                    <h6
+                      className="withdraw-littletxt d-flex align-items-center gap-2"
+                      style={{
+                        fontSize: renderedPage === "dashboard" && "9px",
+                      }}
+                    >
                       Reward updated each day 00:00 (UTC) <b>22:36</b>
                       <Tooltip
                         placement="top"
@@ -1187,7 +1227,8 @@ export default function initConstantStakingNew({
                               : false
                           }
                           className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed"
+                            this.state.claimStatus === "claimed"  &&
+                            this.state.claimStatus === "initial"
                               ? "disabled-btn"
                               : this.state.claimStatus === "failed"
                               ? "fail-button"
@@ -1195,11 +1236,12 @@ export default function initConstantStakingNew({
                               ? "success-button"
                               : null
                           } d-flex justify-content-center align-items-center gap-2`}
+
                           style={{ height: "fit-content"}}
+
                           onClick={this.handleClaimDivs}
                         >
-                          {this.state.claimLoading &&
-                          this.state.claimStatus === "initial" ? (
+                          {this.state.claimLoading ? (
                             <div
                               class="spinner-border spinner-border-sm text-light"
                               role="status"
@@ -1233,10 +1275,10 @@ export default function initConstantStakingNew({
                               : null
                           } d-flex justify-content-center align-items-center gap-2`}
                           style={{ height: "fit-content"}}
+
                           onClick={this.handleReinvest}
                         >
-                          {this.state.reInvestLoading &&
-                          this.state.reInvestStatus === "invest" ? (
+                          {this.state.reInvestLoading   ? (
                             <div
                               class="spinner-border spinner-border-sm text-light"
                               role="status"
@@ -1378,19 +1420,15 @@ export default function initConstantStakingNew({
                         </tr>
                       </tbody>
                     </table> */}
-                      <div className="stats-container my-4">
+                    <div className="stats-container my-4">
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                        <span className="stats-card-title">
-                          My DYP Deposit
-                        </span>
+                        <span className="stats-card-title">My DYP Deposit</span>
                         <h6 className="stats-card-content">
                           {depositedTokens} DYP
                         </h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                        <span className="stats-card-title">
-                          My DYP Balance
-                        </span>
+                        <span className="stats-card-title">My DYP Balance</span>
                         <h6 className="stats-card-content">
                           {token_balance} DYP
                         </h6>
@@ -1644,7 +1682,8 @@ export default function initConstantStakingNew({
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
                               ? "success-button"
-                              : this.state.withdrawAmount === ""
+                              : this.state.withdrawAmount === "" &&
+                                this.state.withdrawStatus === "initial"
                               ? "disabled-btn"
                               : null
                           } d-flex justify-content-center align-items-center`}

@@ -150,7 +150,7 @@ export default function stakeAvax({
         claimLoading: false,
         claimStatus: "initial",
         reInvestLoading: false,
-        reInvestStatus: "initial",
+        reInvestStatus: "stake",
         selectedTokenLogo: "wavax",
         selectedRewardTokenLogo1: "wavax",
         selectedRewardTokenLogo2: "dyp",
@@ -346,6 +346,9 @@ export default function stakeAvax({
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
           this.setState({ errorMsg3: e?.message });
+          setTimeout(() => {
+            this.setState({  withdrawStatus: "initial", withdrawAmount: '', errorMsg3: '' });
+          }, 10000);
         });
     };
 
@@ -359,11 +362,13 @@ export default function stakeAvax({
         .then(() => {
           this.setState({ claimStatus: "success" });
           this.setState({ claimLoading: false });
-        })
-        .catch(() => {
+        }).catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message }); 
+          setTimeout(() => {
+            this.setState({ claimStatus: "initial", errorMsg2: "" });
+          }, 10000);
         });
     };
 
@@ -540,7 +545,7 @@ export default function stakeAvax({
 
     handleReinvest = async (e) => {
       //   e.preventDefault();
-      this.setState({ reInvestStatus: "invest", reInvestLoading: true });
+      this.setState({ reInvestLoading: true });
 
       staking
         .reInvest()
@@ -551,7 +556,11 @@ export default function stakeAvax({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          this.setState({ claimLoading: false });
+          setTimeout(() => {
+            this.setState({ reInvestStatus: "stake", errorMsg2: "" });
+          }, 2000);
         });
     };
     convertTimestampToDate = (timestamp) => {
@@ -735,9 +744,10 @@ export default function stakeAvax({
                 <div className="d-flex align-items-center justify-content-between gap-3">
                   <a
                     href={
-                      chainId === 1
-                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      // chainId === 1
+                        // ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        // : 
+                        "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
                     rel="noreferrer"
@@ -959,10 +969,12 @@ export default function stakeAvax({
                             this.state.claimStatus === "claimed" ||
                             this.state.claimStatus === "success"
                               ? true
-                              : false
+                              : 
+                              false
                           }
-                          className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed"
+                          className={`btn filledbtn ${ 
+                            this.state.claimStatus === "claimed"  &&
+                            this.state.claimStatus === "initial"
                               ? "disabled-btn"
                               : this.state.claimStatus === "failed"
                               ? "fail-button"
@@ -973,8 +985,7 @@ export default function stakeAvax({
                           style={{ height: "fit-content" }}
                           onClick={this.handleClaimDivs}
                         >
-                          {this.state.claimLoading &&
-                          this.state.claimStatus === "initial" ? (
+                          {this.state.claimLoading  ? (
                             <div
                               class="spinner-border spinner-border-sm text-light"
                               role="status"
@@ -998,8 +1009,8 @@ export default function stakeAvax({
                             // this.state.claimStatus === "invest" ? true :
                             false
                           }
-                          className={`btn filledbtn ${
-                            this.state.reInvestStatus === "invest"
+                          className={`btn filledbtn ${ 
+                            this.state.reInvestStatus === "initial"
                               ? "disabled-btn"
                               : this.state.reInvestStatus === "failed"
                               ? "fail-button"
@@ -1010,8 +1021,7 @@ export default function stakeAvax({
                           style={{ height: "fit-content" }}
                           onClick={this.handleReinvest}
                         >
-                          {this.state.reInvestLoading &&
-                          this.state.reInvestStatus === "invest" ? (
+                          {this.state.reInvestLoading ? (
                             <div
                               class="spinner-border spinner-border-sm text-light"
                               role="status"
@@ -1378,7 +1388,7 @@ export default function stakeAvax({
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
                               ? "success-button"
-                              : this.state.withdrawAmount === ""
+                              : this.state.withdrawAmount === "" && this.state.withdrawStatus === "initial"
                               ? "disabled-btn"
                               : null
                           } d-flex justify-content-center align-items-center`}
