@@ -2,6 +2,7 @@
   padding: 20px;
   background-color: #312F69;
   border-radius: 12px;
+  border: 1px solid #312F69;
   /* background-image: url("./assets/explorerbg.png"); */
   background-position: center;
   background-repeat: no-repeat;
@@ -9,6 +10,13 @@
   position: relative;
   min-height: 195px;
   /* width: 27%; */
+  transition: all .25s;
+}
+
+.explorercard-wrapper:focus,
+.explorercard-wrapper:hover,
+.explorercard-wrapper:active{
+  border: 1px solid rgb(142, 151, 205);
 }
 
 .purplediv {
@@ -16,14 +24,14 @@
   height: 40px;
   position: absolute;
   border-radius: 0px 100px 100px 0px;
-  left: 0px;
+  left: -1px;
   background: #554fd8;
 }
 
 .explorercard-title {
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 27px;
   color: #f7f7fc;
 }

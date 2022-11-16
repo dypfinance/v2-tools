@@ -5,7 +5,7 @@
   position: relative;
   padding: 16px 8px 8px 8px;
   /* width: 400px; */
-  border: 1px solid #312f69;
+  border: 2px solid #312f69;
 }
 
 .pools-card-open {
@@ -13,7 +13,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  border: 1px solid #7770df;
+  border: 2px solid #7770df;
 }
 
 .purplediv {
@@ -244,9 +244,9 @@
   background: #14142a !important;
   border-radius: 12px;
   /* border: 1px solid #7770df; */
-  padding: 10px;
+  padding: 0 12px 12px 12px;
   gap: 5px;
-  justify-content: space-between;
+  justify-content: center; 
 }
 
 .leftside2 {
@@ -255,7 +255,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 10px;
+  padding: 12px;
 }
 
 .otherside {
@@ -271,7 +271,7 @@
 
 .firstblockwrapper {
   background: transparent;
-  padding: 10px;
+  padding: 10px 10px 10px 0;
   width: 140px;
 }
 
@@ -315,8 +315,13 @@
   position: relative;
   transition: all 0.25s;
 }
+.claimreward-header{
+  border: 1px solid #565891;
+  border-radius: 8px;
+}
 
-.claimreward-wrapper:hover {
+.claimreward-wrapper:hover,
+.claimreward-header:hover {
   background: rgb(20, 19, 51) !important;
   border: 1px solid rgb(87, 182, 171) !important;
 }
@@ -402,7 +407,7 @@
   background: #14142a;
   box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
   border-radius: 12px;
-  border: 1px solid #7770df;
+  border: 2px solid #7770df;
 }
 
 .activewrapper {
@@ -543,7 +548,7 @@
   background: #312F69 !important;
   border: 1px solid #8e97cd !important;
   border-radius: 8px !important;
-  padding: 20px;
+  padding: 9px 12px;
   height: 38px;
   /* width: 120px; */
   font-style: normal;
@@ -588,7 +593,7 @@
   width: fit-content;
   font-style: normal;
   font-weight: 500;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 18px;
   color: #7770e0;
 }
@@ -610,7 +615,7 @@
   line-height: 18px;
   color: #fff;
   border: none;
-  padding: 6px 24px;
+  padding: 9px 24px;
   transition: all ease 0.4s;
   -webkit-transition: all ease 0.4s;
 }

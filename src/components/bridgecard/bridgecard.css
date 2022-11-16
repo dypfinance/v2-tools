@@ -2,14 +2,21 @@
     padding: 20px;
     background-color: #312F69;
     border-radius: 12px;
+  border: 1px solid #312F69;
     /* background-image: url("./assets/bridgebg.png"); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
     width: 50%;
-
+    transition: all .25s;
   }
+
+  .bridgecard-wrapper:focus,
+.bridgecard-wrapper:hover,
+.bridgecard-wrapper:active{
+  border: 1px solid rgb(142, 151, 205);
+}
   
   .orangediv {
     width: 4px;
