@@ -6,7 +6,18 @@
   background-size: cover;
   border-radius: 12px;
   padding: 10px;
+  /* border: 1px solid #312F69; */
+  transition: all .25s;
+
+
   /* width: 188px; */
+}
+.chainlink-wrapper:focus,
+.chainlink-wrapper:hover,
+.chainlink-wrapper:active{
+  /* border: 1px solid rgb(142, 151, 205); */
+  background: #1E1C40;
+
 }
 
 .chainlinktitle a {

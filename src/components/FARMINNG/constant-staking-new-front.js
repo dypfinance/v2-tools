@@ -909,7 +909,7 @@ export default function initConstantStakingNew({
       // console.log(this.convertTimestampToDate(1670596969))
       return (
         <div className="container-lg p-0">
-          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType === 'list' && 'none', borderRadius: listType === 'list' && '0px' }}>
+          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -1029,11 +1029,11 @@ export default function initConstantStakingNew({
                     </h6> */}
                     {this.props.coinbase === null ? (
                       <button
-                        className="connectbtn btn"
+                        className="connectbtn btn d-flex align-items-center gap-2"
                         onClick={this.showModal}
                         style={{
                           width: renderedPage === "dashboard" && "100%",
-                          fontSize: renderedPage === "dashboard" && "9px",
+                          fontSize: renderedPage === "dashboard" && "10px",
                         }}
                       >
                         {" "}
@@ -1195,7 +1195,7 @@ export default function initConstantStakingNew({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-2 align-items-center justify-content-between">
+                    <div className="form-row d-flex  align-items-center justify-content-between">
                       <div className="position-relative d-flex flex-column">
                         <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>DYP</span>
                         <input

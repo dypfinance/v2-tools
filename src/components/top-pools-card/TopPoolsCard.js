@@ -18,7 +18,8 @@ const TopPoolsCard = ({
   onHideDetailsClick,
   top_pick,
   cardType,
-  chain
+  chain,
+  renderedPage
   // showDetails,
 }) => {
   
@@ -63,7 +64,7 @@ const TopPoolsCard = ({
       <div
         className={`poolscardwrapper cursor-pointer position-relative ${
           showDetails && "pools-card-open"
-        }`}
+        }  ${renderedPage === "dashboard" && !showDetails ? 'pools-card-hover' : ''}`}
 
         onClick={() => handleDetails()}
       >

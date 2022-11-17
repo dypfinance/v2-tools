@@ -52,6 +52,7 @@ export default function avaxBuyback({
   coinbase,
   chainId,
   lockTime,
+  listType
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =
     window;
@@ -1375,7 +1376,7 @@ export default function avaxBuyback({
       let tooltip2 = infoItems2.join("\n"); 
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper my-4">
+          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">

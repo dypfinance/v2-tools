@@ -56,6 +56,7 @@ export default function stakeAvaxiDyp({
   chainId,
   coinbase,
   lockTime,
+  listType
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;
   let token_symbol = "iDYP";
@@ -630,7 +631,7 @@ export default function stakeAvaxiDyp({
 
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper my-4">
+          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -744,11 +745,7 @@ export default function stakeAvaxiDyp({
                         </div>
                       )}
                     </div>
-                    {/* <div className="otherside">
-        <button className="btn green-btn">
-          TBD Claim reward 0.01 ETH
-        </button>
-      </div> */}
+                    
                   </div>
                   <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
@@ -812,12 +809,7 @@ export default function stakeAvaxiDyp({
                       >
                         Max
                       </button>
-                      {/* <button
-              className="btn filledbtn"
-              onClick={this.handleApprove}
-            >
-              Approve
-            </button> */}
+              
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
@@ -872,7 +864,6 @@ export default function stakeAvaxiDyp({
                     <h6 className="errormsg">{this.state.errorMsg}</h6>
                   )}
                 </div>
-              </div>
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between gap-2 ">
                   <h6 className="withdraw-txt">Rewards</h6>
@@ -960,145 +951,7 @@ export default function stakeAvaxiDyp({
                     <h6 className="errormsg">{this.state.errorMsg}</h6>
                   )}
                 </div>
-                <div className="otherside-border col-4">
-                  <div className="d-flex justify-content-between gap-2 ">
-                    <h6 className="withdraw-txt">Rewards</h6>
-                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                      Reward updated each day 00:00 (UTC) <b>22:36</b>
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
-                          </div>
-                        }
-                        className={`btn filledbtn ${
-                          this.state.reInvestStatus === "invest"
-                            ? "disabled-btn"
-                            : this.state.reInvestStatus === "failed"
-                            ? "fail-button"
-                            : this.state.reInvestStatus === "success"
-                            ? "success-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
-                        style={{ height: "fit-content" }}
-                        onClick={this.handleReinvest}
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
-                    </h6>
-                  </div>
-                  <div className="d-flex flex-column gap-2 justify-content-between">
-                    <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-2 align-items-center justify-content-between">
-                      <div className="position-relative d-flex flex-column">
-                      <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>iDYP</span>
-
-                        <input
-                          disabled
-                          value={
-                            Number(pendingDivs) > 0
-                              ? `${pendingDivs}`
-                              : `${pendingDivs}`
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              pendingDivs:
-                                Number(e.target.value) > 0
-                                  ? e.target.value
-                                  : e.target.value,
-                            })
-                          }
-                          className=" left-radius inputfarming styledinput2"
-                          placeholder="0"
-                          type="text"
-                          style={{ fontSize: "14px", width: 140 }}
-                        />
-                      </div>
-                      <div className="d-flex align-items-center gap-2">
-                        <button
-                          disabled={
-                            this.state.claimStatus === "claimed" ||
-                            this.state.claimStatus === "success"
-                              ? true
-                              : false
-                          }
-                          className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed"
-                              ? "disabled-btn"
-                              : this.state.claimStatus === "failed"
-                              ? "fail-button"
-                              : this.state.claimStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content" }}
-                          onClick={this.handleClaimDivs}
-                        >
-                          {this.state.claimLoading &&
-                          this.state.claimStatus === "initial" ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.claimStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.claimStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Claim</>
-                          )}
-                        </button>
-
-                        <button
-                          disabled={
-                            // this.state.claimStatus === "invest" ? true :
-                            false
-                          }
-                          className={`btn filledbtn ${
-                            this.state.reInvestStatus === "stake"
-                              ? "disabled-btn"
-                              : this.state.reInvestStatus === "failed"
-                              ? "fail-button"
-                              : this.state.reInvestStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content" }}
-                          onClick={this.handleReinvest}
-                        >
-                          {this.state.reInvestLoading &&
-                          this.state.reInvestStatus === "invest" ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.reInvestStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.reInvestStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Reinvest</>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  {this.state.errorMsg2 && (
-                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
-                  )}
-                </div>
-
+              </div>
                 <div className="otherside-border col-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW

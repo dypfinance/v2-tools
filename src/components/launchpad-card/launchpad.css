@@ -4,6 +4,17 @@
   border-radius:  16px 16px 12px 12px;
   /* padding: 10px; */
   /* width: fit-content; */
+  transition: all .25s;
+  /* border: 1px solid #312F69; */
+  cursor: pointer;
+}
+
+.launchpad-wrapper:focus,
+.launchpad-wrapper:hover,
+.launchpad-wrapper:active{
+  /* border: 1px solid rgb(142, 151, 205);
+   */
+   background: #1E1C40;
 }
 
 .launchpadbg {
