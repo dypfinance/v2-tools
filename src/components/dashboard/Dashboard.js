@@ -96,7 +96,8 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
     handleConnection: handleConnection,
     chainId: network,
     lockTime: lockarray[cardIndex],
-    renderedPage: "dashboard"
+    renderedPage: "dashboard",
+    listType: "table"
   });
   
   return (
@@ -130,6 +131,7 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
                   cards.map((item, index) => {
                     return (
                       <TopPoolsCard
+                      renderedPage="dashboard"
                         cardId={item.tokenName}
                         key={index}
                         top_pick={item.top_pick}

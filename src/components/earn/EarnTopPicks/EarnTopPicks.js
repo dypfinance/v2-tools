@@ -356,6 +356,7 @@ const EarnTopPicks = ({
     fee: feeArray[cardIndex],
     handleConnection: handleConnection,
     lockTime: lockarrayFarm[cardIndex],
+    listType: listType
   });
 
   const lockarrayFarmAvax = ["No Lock", 3, 30, 60, 90];
@@ -400,6 +401,7 @@ const EarnTopPicks = ({
     fee: feearrayFarmAvax[cardIndex],
     coinbase: coinbase,
     lockTime: lockarrayFarm[cardIndex],
+    listType: listType
   });
 
   const lockarrayBuyback = ["No Lock", 90];
@@ -415,6 +417,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayBuyback[cardIndex],
+    listType: listType
   });
 
   const stakeArrayBuyBackAvax = [
@@ -438,6 +441,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayBuyback[cardIndex],
+    listType: listType
   });
 
   const aprarrayStakeAvax = [30, 10];
@@ -477,6 +481,7 @@ const EarnTopPicks = ({
     chainId: chainId,
     referrer: referrer,
     lockTime: lockarrayStakeAvax[cardIndex],
+    listType: listType
   });
 
   const StakeAvax30 = stakeAvax30({
@@ -488,6 +493,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
+    listType: listType
   });
 
   const StakeAvax3 = stakeAvax3({
@@ -498,6 +504,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
+    listType: listType
   });
 
   const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
@@ -527,6 +534,7 @@ const EarnTopPicks = ({
     other_info: otherinfoarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    listType: listType
   });
 
   const lockarray = ["No Lock", 90];
@@ -559,6 +567,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayiDyp[cardIndexiDyp],
+    listType: listType
   });
 
   const vaultArray = [
@@ -591,6 +600,7 @@ const EarnTopPicks = ({
     lockTime: "No Lock",
     handleConnection: handleConnection,
     chainId: chainId,
+    listType: listType
   });
 
   useEffect(() => {
@@ -848,8 +858,16 @@ const EarnTopPicks = ({
               lockTime={pool.lockTime ? pool.lockTime : "No Lock"}
               cardType={topList}
               tokenLogo={pool.icon}
+              listType={listType}
               onShowDetailsClick={() => {
                 setShowDetails(!showDetails);
+                setActiveCard(topPools[index]);
+                handleCardIndexStake(index);
+                handleCardIndexStake30(index);
+                handleCardIndexStakeiDyp(index);
+              }}
+              onHideDetailsClick={() => {
+                setActiveCard(null);
               }}
               showDetails={showDetails}
               topList={topList}

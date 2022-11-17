@@ -37,6 +37,8 @@ const TopPoolsListCard = ({
   the_graph_result,
   lp_id,
   the_graph_resultavax,
+  listType
+
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
   const bscCoins = [
@@ -142,6 +144,7 @@ const TopPoolsListCard = ({
     fee: feeArray[cardIndex],
     handleConnection: handleConnection,
     lockTime: lockarrayFarm[cardIndex],
+    listType: listType
   });
 
   const lockarrayFarmAvax = ["No Lock", 3, 30, 60, 90];
@@ -186,6 +189,7 @@ const TopPoolsListCard = ({
     fee: feearrayFarmAvax[cardIndex],
     coinbase: coinbase,
     lockTime: lockarrayFarm[cardIndex],
+    listType: listType
   });
 
   const lockarrayBuyback = ["No Lock", 90];
@@ -201,6 +205,7 @@ const TopPoolsListCard = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayBuyback[cardIndex],
+    listType: listType
   });
 
   const stakeArrayBuyBackAvax = [
@@ -224,6 +229,7 @@ const TopPoolsListCard = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayBuyback[cardIndex],
+    listType: listType
   });
 
   const aprarrayStakeAvax = [30, 10];
@@ -263,6 +269,7 @@ const TopPoolsListCard = ({
     chainId: chainId,
     referrer: referrer,
     lockTime: lockarrayStakeAvax[cardIndex],
+    listType: listType
   });
 
   const StakeAvax30 = stakeAvax30({
@@ -274,6 +281,7 @@ const TopPoolsListCard = ({
     coinbase: coinbase,
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
+    listType: listType
   });
 
   const StakeAvax3 = stakeAvax3({
@@ -284,6 +292,7 @@ const TopPoolsListCard = ({
     coinbase: coinbase,
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
+    listType: listType
   });
 
   const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
@@ -313,6 +322,7 @@ const TopPoolsListCard = ({
     other_info: otherinfoarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    listType: listType
   });
 
   const lockarray = ["No Lock", 90];
@@ -329,6 +339,7 @@ const TopPoolsListCard = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarray[cardIndex],
+    listType: listType
   });
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
@@ -343,6 +354,7 @@ const TopPoolsListCard = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayiDyp[cardIndexiDyp],
+    listType: listType
   });
 
   const vaultArray = [
@@ -375,6 +387,7 @@ const TopPoolsListCard = ({
     lockTime: "No Lock",
     handleConnection: handleConnection,
     chainId: chainId,
+    listType: listType
   });
 
   const handleDetails = () => {
@@ -425,6 +438,7 @@ const TopPoolsListCard = ({
         className="row w-100 d-flex flex-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer"
         onClick={() => handleDetails()}
       >
+        <div className="purplediv"></div>
         <div
           className={`col-2 d-flex align-items-center ${
             cardType === "Farming" || cardType === "Buyback" ? null : "gap-2"

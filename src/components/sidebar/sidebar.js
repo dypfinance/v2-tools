@@ -165,7 +165,7 @@ const Sidebar = (props) => {
       } d-flex flex-column justify-content-between align-items-start`}
     >
       {/* <img src={navRadius} className="nav-radius" alt="" /> */}
-     <div>
+     <div className="w-100">
      <div className="d-flex w-100 justify-content-center align-items-center pb-5">
         <NavLink to='/'
         onClick={() => setActiveLink("")}

@@ -5,8 +5,29 @@
   /* border: 1px solid #8e97cd00; */
   padding: 10px;
   width: 24%;
+  transition: all .25s;
+  cursor: pointer;
 }
 
+.newscard-wrapper:focus,
+.newscard-wrapper:hover,
+.newscard-wrapper:active{
+  background: #1E1C40;
+}
+
+
+.news-shadow{
+  position: absolute;
+  width: 100%;
+  object-fit: none;
+  top: 63%;
+}
+
+.news-date{
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}
 .newsimg {
   border-radius: 12px 12px 0px 0px;
   height: 100px;

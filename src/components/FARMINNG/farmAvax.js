@@ -62,6 +62,7 @@ export default function initFarmAvax({
   coinbase,
   chainId,
   lockTime,
+  listType
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =
     window;
@@ -1184,7 +1185,7 @@ export default function initFarmAvax({
 
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper my-4">
+          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -1724,7 +1725,7 @@ export default function initFarmAvax({
                           className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
                           // style={{ paddingLeft: "10px" }}
                         >
-                          {/* <img
+                          <img
                             src={
                               require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
                                 .default
@@ -1739,8 +1740,8 @@ export default function initFarmAvax({
                             style={{ border: "none", padding: "0 0 0 3px" }}
                           >
                             <option value="DYP"> DYP </option>
-                          </select> */}
-                          <div class="dropdown">
+                          </select>
+                          {/* <div class="dropdown">
                             <button
                               class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
                               type="button"
@@ -1785,7 +1786,7 @@ export default function initFarmAvax({
                                 DYP
                               </span>
                             </ul>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <button

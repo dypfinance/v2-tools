@@ -2,7 +2,7 @@
   padding: 20px;
   background-color: #312F69;
   border-radius: 12px;
-  border: 1px solid #312F69;
+  border: 2px solid #312F69;
   /* background-image: url("./assets/explorerbg.png"); */
   background-position: center;
   background-repeat: no-repeat;
@@ -11,12 +11,13 @@
   min-height: 195px;
   /* width: 27%; */
   transition: all .25s;
+  cursor: pointer;
 }
 
 .explorercard-wrapper:focus,
 .explorercard-wrapper:hover,
 .explorercard-wrapper:active{
-  border: 1px solid rgb(142, 151, 205);
+  border: 2px solid rgb(142, 151, 205);
 }
 
 .purplediv {

@@ -36,6 +36,7 @@ export default function initVaultNew({
   coinbase,
   chainId,
   lockTime,
+  listType
 }) {
   let { BigNumber, alertify, token_dyps } = window;
   let token_symbol = UNDERLYING_SYMBOL;
@@ -864,7 +865,7 @@ export default function initVaultNew({
 
       return (
         <div className="container-lg p-0">
-          <div className="allwrapper my-4">
+          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
