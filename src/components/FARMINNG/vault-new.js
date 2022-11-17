@@ -376,7 +376,13 @@ export default function initVaultNew({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({ errorMsg3: e });
+          this.setState({ errorMsg3: e?.message });
+          setTimeout(() => {
+            this.setState({
+              withdrawStatus: "initial", 
+              errorMsg3: "",
+            });
+          }, 10000);
         });
       _amountOutMin_ethFeeBuyBack =
         _amountOutMin_ethFeeBuyBack[_amountOutMin_ethFeeBuyBack.length - 1];
@@ -399,7 +405,13 @@ export default function initVaultNew({
         .catch((e) => {
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
-          this.setState({ errorMsg3: e });
+          this.setState({ errorMsg3: e?.message });
+          setTimeout(() => {
+            this.setState({
+              withdrawStatus: "initial", 
+              errorMsg3: "",
+            });
+          }, 10000);
         });
       _amountOutMin_tokenFeeBuyBack =
         _amountOutMin_tokenFeeBuyBack[_amountOutMin_tokenFeeBuyBack.length - 1];
@@ -430,6 +442,13 @@ export default function initVaultNew({
           this.setState({ withdrawStatus: "failed" });
           this.setState({ withdrawLoading: false });
           this.setState({ errorMsg3: e?.message });
+          setTimeout(() => {
+            this.setState({
+              withdrawStatus: "initial", 
+              errorMsg3: "",
+              withdrawAmount: ''
+            });
+          }, 10000);
         });
     };
 
