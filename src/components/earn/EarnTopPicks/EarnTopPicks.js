@@ -543,6 +543,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarray[cardIndex],
+    listType: listType
   });
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
@@ -846,7 +847,7 @@ const EarnTopPicks = ({
               lockTime={pool.lockTime ? pool.lockTime : "No Lock"}
               cardType={topList}
               tokenLogo={pool.icon}
-              onDetailsClick={() => {
+              onShowDetailsClick={() => {
                 setShowDetails(!showDetails);
               }}
               showDetails={showDetails}

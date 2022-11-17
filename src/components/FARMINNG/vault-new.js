@@ -861,7 +861,7 @@ export default function initVaultNew({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Earn rewards in:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      WETH
+                      {token_symbol}
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -980,28 +980,44 @@ export default function initVaultNew({
             </div> */}
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
-                  <h6 className="deposit-txt">
+                <div className="d-flex align-items-center gap-2">
+                <h6 className="deposit-txt">
                     Deposit
-                    <Tooltip
+                   
+                  </h6>
+                  <div className="d-flex gap-2 align-items-center">
+                        <img
+                          src={require(`./assets/dyp.svg`).default}
+                          alt=""
+                          style={{ width: 15, height: 15 }}
+                        />
+                        <h6
+                          className="text-white"
+                          style={{ fontSize: "11px", fontWeight: "600" }}
+                        >
+                          DYP
+                        </h6>
+                      </div>
+                  <h6 className="mybalance-text">
+                    Balance:
+                    <b>{token_balance}</b>
+                    {/* <img
+                      src={require(`./assets/dyp.svg`).default}
+                      alt=""
+                      style={{ width: 14, height: 14 }}
+                    /> */}
+                  </h6>
+                </div>
+                 <Tooltip
                       placement="top"
                       title={
                         <div className="tooltip-text">
-                          {"lorem impsum deposit text"}
+                          {"Deposit your assets to the vault smart contract."}
                         </div>
                       }
                     >
                       <img src={moreinfo} alt="" />
                     </Tooltip>
-                  </h6>
-                  <h6 className="mybalance-text">
-                    Balance:
-                    <b>{token_balance}</b>
-                    <img
-                      src={require(`./assets/dyp.svg`).default}
-                      alt=""
-                      style={{ width: 14, height: 14 }}
-                    />
-                  </h6>
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1093,8 +1109,8 @@ export default function initVaultNew({
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between gap-2 ">
                   <h6 className="withdraw-txt">Rewards</h6>
-                  <h6 className="withdraw-littletxt">
-                    You have 3 differents reward categories <b></b>
+                  <h6 className="withdraw-littletxt d-flex align-items-center gap-1">
+                    You have 3 differents reward categories 
                     <Tooltip
                       placement="top"
                       title={
@@ -1103,13 +1119,13 @@ export default function initVaultNew({
                             Earn Rewards in:{" "}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
                               {" "}
-                              {pendingDivsDyp}iDYP
+                              {pendingDivsDyp} iDYP
                             </h6>
                           </h6>
                           <h6 className="tvl-text">
                             Earn Rewards in:{" "}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
-                              {pendingDivsEth}ETH
+                              {pendingDivsEth} ETH
                             </h6>
                           </h6>
                           <h6 className="tvl-text">
@@ -1189,7 +1205,7 @@ export default function initVaultNew({
                     placement="top"
                     title={
                       <div className="tooltip-text">
-                        {"withdraw deposit text"}
+                        {"Withdraw your deposited assets from the vault smart contract."}
                       </div>
                     }
                   >

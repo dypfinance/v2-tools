@@ -1182,7 +1182,7 @@ export default function initFarmAvax({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "Performance fee is subtracted from the displayed APR."
                             }
@@ -1201,7 +1201,7 @@ export default function initFarmAvax({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "APR reflects the interest rate of earnings on an account over the course of one year. "
                             }
@@ -1219,7 +1219,7 @@ export default function initFarmAvax({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "The amount of time your deposited assets will be locked."
                             }
@@ -1388,8 +1388,8 @@ export default function initFarmAvax({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"lorem impsum deposit text"}
+                        <div className="tooltip-text">
+                          {"Deposit your assets to the farming smart contract. 75% of your assets goes for creation of LP tokens and 25% goes for buying DYP and depositing to staking smart contract to generate rewards."}
                         </div>
                       }
                     >
@@ -1484,8 +1484,8 @@ export default function initFarmAvax({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {"rewards text"}
+                          <div className="tooltip-text">
+                            {"Rewards earned by your deposit to the farming smart contract are distributed automatically and can be claimed every day. You need to select assets individually and claim them to your wallet."}
                           </div>
                         }
                       >
@@ -1856,8 +1856,8 @@ export default function initFarmAvax({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"withdraw deposit text"}
+                        <div className="tooltip-text">
+                          {"Withdraw your deposited assets from the farming smart contract."}
                         </div>
                       }
                     >
@@ -2765,7 +2765,7 @@ export default function initFarmAvax({
         //               <Tooltip
         //                 placement="top"
         //                 title={
-        //                   <div style={{ whiteSpace: "pre-line" }}>
+        //                   <div className="tooltip-text">
         //                     {tooltip1}
         //                   </div>
         //                 }
@@ -2787,7 +2787,7 @@ export default function initFarmAvax({
         //               <Tooltip
         //                 placement="top"
         //                 title={
-        //                   <div style={{ whiteSpace: "pre-line" }}>
+        //                   <div className="tooltip-text">
         //                     {tooltip2}
         //                   </div>
         //                 }
@@ -2811,7 +2811,7 @@ export default function initFarmAvax({
         //               <Tooltip
         //                 placement="top"
         //                 title={
-        //                   <div style={{ whiteSpace: "pre-line" }}>
+        //                   <div className="tooltip-text">
         //                     {tooltip2}
         //                   </div>
         //                 }
