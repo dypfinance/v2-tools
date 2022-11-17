@@ -463,13 +463,13 @@ useEffect(()=>{
         <div className="col-2 d-flex align-items-baseline gap-2">
           <h5
             className="text-white"
-            style={{ fontSize: "25px", fontWeight: "600" }}
+            style={{ fontSize: "26px", fontWeight: "600", lineHeight: '30px' }}
           >
             {apr}
           </h5>
           <p
             className="text-white"
-            style={{ fontSize: "17px", fontWeight: "600" }}
+            style={{ fontSize: "18px", fontWeight: "600", lineHeight: '26px' }}
           >
             APR
           </p>
@@ -477,12 +477,12 @@ useEffect(()=>{
         {cardType !== "Vault" && (
           <div className="col-2 d-flex flex-column gap-2">
             <span
-              style={{ fontSize: "10px", fontWeight: "400", color: "#7a81b4" }}
+              style={{ fontSize: "12px", fontWeight: "400", color: "#C0C9FF" }}
             >
               Total Value Locked
             </span>
             <h5
-              style={{ fontSize: "19px", fontWeight: "500", color: "#C0CBF7" }}
+              style={{ fontSize: "20px", fontWeight: "500", color: "#F7F7FC" }}
             >
               {tvl}
             </h5>
@@ -490,28 +490,28 @@ useEffect(()=>{
         )}
         <div className="col-2 d-flex flex-column gap-2">
           <span
-            style={{ fontSize: "10px", fontWeight: "400", color: "#7a81b4" }}
+            style={{ fontSize: "12px", fontWeight: "400", color: "#C0C9FF" }}
           >
             Lock Time
           </span>
-          <h5 style={{ fontSize: "17px", fontWeight: "300", color: "#C0CBF7" }}>
+          <h5 style={{ fontSize: "18px", fontWeight: "300", color: "#F7F7FC" }}>
             {lockTime}
           </h5>
         </div>
         <div
-          className="col-2 d-flex justify-content-end"
+          className="col-2 d-flex justify-content-end gap-5"
           style={{ width: "170px" }}
         >
           {top_pick && <img src={topPick} alt="" />}
           <h6
             className="details-text gap-1 d-flex align-items-center cursor-pointer justify-content-end"
             style={{
-              color: showDetails === false ? "#75CAC2" : "#F8845B",
+              color: showDetails === false ? "#75CAC2" : "#C0C9FF",
               width: "100px",
             }}
             onClick={() => setShowDetails(!showDetails)}
           >
-            {showDetails === false ? "Details" : "Close"}
+            {showDetails === false ? "Deposit" : "Close"}
             <img src={showDetails === false ? greenArrow : orangeArrow} />
           </h6>
         </div>
