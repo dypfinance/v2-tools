@@ -235,7 +235,7 @@ export default function stakeAvax({
       this.refreshBalance();
       //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
-      if (this.props.coinbase !== null) {
+      if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
@@ -395,7 +395,7 @@ export default function stakeAvax({
     };
 
     refreshBalance = async () => {
-      let coinbase = this.props.coinbase;
+      let coinbase = this.state.coinbase;
 
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
@@ -421,20 +421,20 @@ export default function stakeAvax({
         : 1;
 
       try {
-        let _bal = reward_token.balanceOf(coinbase);
-        let _pDivs = staking.getTotalPendingDivs(coinbase);
+        let _bal = reward_token.balanceOf(this.state.coinbase);
+        let _pDivs = staking.getTotalPendingDivs(this.state.coinbase);
 
-        let _tEarned = staking.totalEarnedTokens(coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
 
-        let _stakingTime = staking.stakingTime(coinbase);
+        let _stakingTime = staking.stakingTime(this.state.coinbase);
 
-        let _dTokens = staking.depositedTokens(coinbase);
+        let _dTokens = staking.depositedTokens(this.state.coinbase);
 
-        let _lClaimTime = staking.lastClaimedTime(coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.state.coinbase);
 
         let _tvl = reward_token.balanceOf(staking._address);
 
-        let _rFeeEarned = staking.totalReferralFeeEarned(coinbase);
+        let _rFeeEarned = staking.totalReferralFeeEarned(this.state.coinbase);
 
         let tStakers = staking.getNumberOfHolders();
 

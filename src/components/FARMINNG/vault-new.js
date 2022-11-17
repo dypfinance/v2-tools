@@ -218,8 +218,8 @@ export default function initVaultNew({
     };
 
     componentDidMount() {
-      if (coinbase !== null) {
-        this.setState({ coinbase: coinbase });
+      if (this.props.coinbase !== this.state.coinbase) {
+        this.setState({ coinbase: this.props.coinbase });
       }
 
       this.refreshBalance();
@@ -581,13 +581,13 @@ export default function initVaultNew({
         : 1;
 
       try {
-        let _bal = token.balanceOf(coinbase);
+        let _bal = token.balanceOf(this.state.coinbase);
 
-        let _stakingTime = vault.depositTime(coinbase);
+        let _stakingTime = vault.depositTime(this.state.coinbase);
 
-        let _dTokens = vault.depositTokenBalance(coinbase);
+        let _dTokens = vault.depositTokenBalance(this.state.coinbase);
 
-        let _lClaimTime = vault.lastClaimedTime(coinbase);
+        let _lClaimTime = vault.lastClaimedTime(this.state.coinbase);
 
         let tStakers = vault.getNumberOfHolders();
 
@@ -627,19 +627,19 @@ export default function initVaultNew({
         let owner = await vault.owner();
         this.setState({ owner });
 
-        let _pDivsToken = vault.tokenDivsOwing(coinbase);
+        let _pDivsToken = vault.tokenDivsOwing(this.state.coinbase);
 
-        let _pDivsComp = vault.getEstimatedCompoundDivsOwing(coinbase);
+        let _pDivsComp = vault.getEstimatedCompoundDivsOwing(this.state.coinbase);
 
-        let _pDivsDyp = vault.platformTokenDivsOwing(coinbase);
+        let _pDivsDyp = vault.platformTokenDivsOwing(this.state.coinbase);
 
-        let _pDivsEth = vault.ethDivsOwing(coinbase);
+        let _pDivsEth = vault.ethDivsOwing(this.state.coinbase);
 
-        let _pBalToken = vault.tokenDivsBalance(coinbase);
+        let _pBalToken = vault.tokenDivsBalance(this.state.coinbase);
 
-        let _pBalEth = vault.ethDivsBalance(coinbase);
+        let _pBalEth = vault.ethDivsBalance(this.state.coinbase);
 
-        let _pBalDyp = vault.platformTokenDivsBalance(coinbase);
+        let _pBalDyp = vault.platformTokenDivsBalance(this.state.coinbase);
         let [
           pendingDivsEth,
           pendingDivsComp,
@@ -681,7 +681,7 @@ export default function initVaultNew({
       }
 
       window.reward_token_idyp
-        .balanceOf(coinbase)
+        .balanceOf(this.state.coinbase)
         .then((platform_token_balance) =>
           this.setState({ platform_token_balance })
         );
@@ -695,19 +695,19 @@ export default function initVaultNew({
         .catch(console.log);
 
       vault
-        .totalEarnedCompoundDivs(coinbase)
+        .totalEarnedCompoundDivs(this.state.coinbase)
         .then((totalEarnedComp) => this.setState({ totalEarnedComp }))
         .catch(console.log);
       vault
-        .totalEarnedEthDivs(coinbase)
+        .totalEarnedEthDivs(this.state.coinbase)
         .then((totalEarnedEth) => this.setState({ totalEarnedEth }))
         .catch(console.log);
       vault
-        .totalEarnedTokenDivs(coinbase)
+        .totalEarnedTokenDivs(this.state.coinbase)
         .then((totalEarnedToken) => this.setState({ totalEarnedToken }))
         .catch(console.log);
       vault
-        .totalEarnedPlatformTokenDivs(coinbase)
+        .totalEarnedPlatformTokenDivs(this.state.coinbase)
         .then((totalEarnedDyp) => this.setState({ totalEarnedDyp }))
         .catch(console.log);
 

@@ -232,7 +232,7 @@ export default function initConstantStakingiDYP({
       this.refreshBalance();
       //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
-      if (this.props.coinbase !== null) {
+      if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
@@ -389,7 +389,7 @@ export default function initConstantStakingiDYP({
     };
 
     refreshBalance = async () => {
-      let coinbase = this.props.coinbase;
+      let coinbase = this.state.coinbase;
 
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
@@ -401,15 +401,15 @@ export default function initConstantStakingiDYP({
       let usd_per_dyps = 0;
 
       try {
-        let _bal = reward_token.balanceOf(this.props.coinbase);
+        let _bal = reward_token.balanceOf(this.state.coinbase);
         // console.log(reward_token)
-        let _pDivs = staking.getTotalPendingDivs(this.props.coinbase);
-        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
-        let _stakingTime = staking.stakingTime(this.props.coinbase);
-        let _dTokens = staking.depositedTokens(this.props.coinbase);
-        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
+        let _pDivs = staking.getTotalPendingDivs(this.state.coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
+        let _stakingTime = staking.stakingTime(this.state.coinbase);
+        let _dTokens = staking.depositedTokens(this.state.coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.state.coinbase);
         let _tvl = reward_token.balanceOf(staking._address);
-        let _rFeeEarned = staking.totalReferralFeeEarned(this.props.coinbase);
+        let _rFeeEarned = staking.totalReferralFeeEarned(this.state.coinbase);
         let tStakers = staking.getNumberOfHolders();
 
         //Take DYPS Balance
@@ -495,7 +495,7 @@ export default function initConstantStakingiDYP({
         window.location.origin +
         window.location.pathname +
         "?r=" +
-        this.props.coinbase
+        this.state.coinbase
       );
     };
 

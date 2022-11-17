@@ -288,7 +288,7 @@ export default function initBuybackStakingNew({
       this.getDypbalanceStakeWithdraw();
       this.getDypbalanceConstWithdraw();
 
-      if (this.props.coinbase !== null) {
+      if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
     }
@@ -1102,7 +1102,7 @@ export default function initBuybackStakingNew({
     };
 
     refreshBalance = async () => {
-      let coinbase = this.props.coinbase;
+      let coinbase = this.state.coinbase;
 
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
@@ -1136,29 +1136,29 @@ export default function initBuybackStakingNew({
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
         //buyback
-        let _bal = reward_token.balanceOf(coinbase);
-        let _pDivs = staking.getTotalPendingDivs(coinbase);
-        let _tEarned = staking.totalEarnedTokens(coinbase);
-        let _stakingTime = staking.stakingTime(coinbase);
-        let _dTokens = staking.depositedTokens(coinbase);
-        let _dTokensBuyback = staking.depositedTokens(coinbase);
-        let _lClaimTime = staking.lastClaimedTime(coinbase);
+        let _bal = reward_token.balanceOf(this.state.coinbase);
+        let _pDivs = staking.getTotalPendingDivs(this.state.coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
+        let _stakingTime = staking.stakingTime(this.state.coinbase);
+        let _dTokens = staking.depositedTokens(this.state.coinbase);
+        let _dTokensBuyback = staking.depositedTokens(this.state.coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.state.coinbase);
         let _tvl = reward_token_idyp.balanceOf(staking._address);
         let tStakers = staking.getNumberOfHolders();
         //constant Staking
         let _balConstant =
           constant.depositedTokens(
-            coinbase
+            this.state.coinbase
           ); /* Balance of DYP on Constant Staking */
         let _pDivsConstant =
-          constant.getTotalPendingDivs(coinbase); /* Pending Divs is iDYP */
+          constant.getTotalPendingDivs(this.state.coinbase); /* Pending Divs is iDYP */
         let _tvlConstant = reward_token.balanceOf(
           constant._address
         ); /* TVL of DYP on Constant Staking */
         let _tvlConstantiDYP = reward_token_idyp.balanceOf(
           constant._address
         ); /* TVL of iDYP on Constant Staking */
-        let _tEarnedConstant = constant.totalEarnedTokens(coinbase);
+        let _tEarnedConstant = constant.totalEarnedTokens(this.state.coinbase);
 
         //Take DYPS Balance
         let _tvlDYPS = token_dyps.balanceOf(staking._address); /* TVL of DYPS */
