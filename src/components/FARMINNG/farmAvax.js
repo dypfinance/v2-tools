@@ -1749,13 +1749,13 @@ export default function initFarmAvax({
                             >
                               <img
                                 src={
-                                  require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                  require(`./assets/avax/dyp.svg`)
                                     .default
                                 }
                                 alt=""
                                 style={{ width: 14, height: 14 }}
                               />
-                              {this.state.selectedRewardTokenLogo1.toUpperCase()}
+                             DYP
                               <img
                                 src={dropdownVector}
                                 alt=""
@@ -1769,38 +1769,20 @@ export default function initFarmAvax({
                               <span
                                 className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
                                 onClick={() => {
-                                  this.handleClaimToken("1");
+                                  this.handleClaimToken("0");
                                   this.setState({
-                                    selectedRewardTokenLogo1: "wavax",
+                                    selectedRewardTokenLogo1: "dyp",
                                   });
                                 }}
                               >
                                 <img
                                   src={
-                                    require(`./assets/avax/wavax.svg`).default
+                                    require(`./assets/avax/dyp.svg`).default
                                   }
                                   alt=""
                                   style={{ width: 14, height: 14 }}
                                 />
-                                WAVAX
-                              </span>
-                              <span
-                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
-                                onClick={() => {
-                                  this.handleClaimToken("2");
-                                  this.setState({
-                                    selectedRewardTokenLogo1: "weth.e",
-                                  });
-                                }}
-                              >
-                                <img
-                                  src={
-                                    require(`./assets/avax/weth.e.svg`).default
-                                  }
-                                  alt=""
-                                  style={{ width: 14, height: 14 }}
-                                />
-                                WETH.e
+                                DYP
                               </span>
                             </ul>
                           </div>

@@ -33,6 +33,7 @@ const EarnTopPicks = ({
   the_graph_resultavax,
   referrer,
 }) => {
+  
   const stake = [
     {
       icon: "dyplogo.svg",
