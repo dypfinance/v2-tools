@@ -1,4 +1,5 @@
 import "./header.css";
+import Web3 from "web3";
 import getFormattedNumber from "../../functions/get-formatted-number";
 import React, { useEffect, useState } from "react";
 import coin from "./assets/coins.svg";
@@ -14,6 +15,7 @@ import user from "./assets/user.svg";
 import logoutimg from "./assets/logout.svg";
 import walletIcon from "./assets/walletIcon.svg";
 import WalletModal from "../WalletModal";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 const Header = ({
   toggleMobileSidebar,
@@ -57,17 +59,21 @@ const Header = ({
   const [avatar, setAvatar] = useState("../../assets/img/person.svg");
 
   const handleEthPool = () => {
-    handleSwitchNetwork(1);
+    handleSwitchNetworkhook("0x1")
   };
 
   const handleBnbPool = () => {
     setAvaxState(false);
     setBnbState(true);
     setEthState(false);
+
+    // handleSwitchNetworkhook("0x38").then(() => {
+    //   handleSwitchNetwork(56);
+    // });
   };
 
   const handleAvaxPool = () => {
-    handleSwitchNetwork(43114);
+    handleSwitchNetworkhook("0xa86a")
   };
 
   const fetchData = async () => {
@@ -121,7 +127,7 @@ const Header = ({
 
   function handleChainChanged() {
     // We recommend reloading the page, unless you must do otherwise
-    // window.location.reload()
+    window.location.reload();
     if (window.location.href.includes("pair-explorer")) {
       if (chainId === 1) {
         window.location.assign(
@@ -161,18 +167,35 @@ const Header = ({
         method: "eth_getBalance",
         params: [coinbase, "latest"],
       });
-      const amount = window.web3.utils.fromWei(
-        window.web3.utils.hexToNumberString(balance),
-        "ether"
-      );
-      // console.log(amount)
-      setCurrencyAmount(amount.slice(0, 7));
+      if (balance) {
+        const infuraWeb3 = new Web3(window.config.infura_endpoint);
+        const bscWeb3 = new Web3(window.config.bsc_endpoint);
+        const avaxWeb3 = new Web3(window.config.avax_endpoint);
+
+        if(chainId === 1) {
+          const stringBalance = infuraWeb3.utils.hexToNumberString(balance);
+          const amount = infuraWeb3.utils.fromWei(stringBalance, "ether");
+          setCurrencyAmount(amount.slice(0, 7));
+        }
+
+        if(chainId === 43114) {
+          const stringBalance = avaxWeb3.utils.hexToNumberString(balance);
+          const amount = avaxWeb3.utils.fromWei(stringBalance, "ether");
+          setCurrencyAmount(amount.slice(0, 7));
+        }
+
+        if(chainId === 56) {
+          const stringBalance = bscWeb3.utils.hexToNumberString(balance);
+          const amount = bscWeb3.utils.fromWei(stringBalance, "ether");
+          setCurrencyAmount(amount.slice(0, 7));
+        }
+      }
     }
   };
 
   useEffect(() => {
     getEthBalance();
-  });
+  },[chainId]);
 
   useEffect(() => {
     fetchData().then();

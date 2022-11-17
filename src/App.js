@@ -63,23 +63,23 @@ class App extends React.Component {
     this.setState({ show: false });
   };
 
-  // checkNetworkId() {
-  //     if (window.ethereum) {
-  //         window.ethereum
-  //             .request({ method: "net_version" })
-  //             .then((data) => {
-  //                 this.setState({
-  //                     networkId: data,
-  //                 });
-  //                 this.refreshSubscription().then();
-  //             })
-  //             .catch(console.error);
-  //     } else {
-  //         this.setState({
-  //             networkId: "1",
-  //         });
-  //     }
-  // }
+  checkNetworkId() {
+      if (window.ethereum) {
+          window.ethereum
+              .request({ method: "net_version" })
+              .then((data) => {
+                  this.setState({
+                      networkId: data,
+                  });
+                  this.refreshSubscription().then();
+              })
+              .catch(console.error);
+      } else {
+          this.setState({
+              networkId: "1",
+          });
+      }
+  }
 
   handleSwitchNetwork = (chainId) => {
     this.setState({ networkId: chainId });
@@ -247,7 +247,7 @@ class App extends React.Component {
     this.tvl().then();
 
     this.checkConnection();
-    // this.checkNetworkId();
+    this.checkNetworkId();
     this.refreshHotPairs();
     let toBeAdded = {
       "theme-dark": "theme-dark",

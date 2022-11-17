@@ -261,12 +261,13 @@ export default function initConstantStakingNew({
     };
 
     componentDidMount() {
-      this.refreshBalance();
-      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
-
-      if (this.props.coinbase !== null) {
+     
+      if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
+
+ this.refreshBalance();
+      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
     }
@@ -467,7 +468,7 @@ export default function initConstantStakingNew({
       this.setState({ claimLoading: true });
       // this.setState({ claimStatus: "claim" });
 
-      let address = this.props.coinbase;
+      let address = this.state.coinbase; 
       let amount = await staking.getTotalPendingDivs(address);
 
       let router = await window.getUniswapRouterContract();
@@ -548,8 +549,8 @@ export default function initConstantStakingNew({
     };
 
     refreshBalance = async () => {
-      let coinbase = this.props.coinbase;
-
+      let coinbase = this.state.coinbase;
+   
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
         this.setState({ coinbase });
@@ -558,8 +559,7 @@ export default function initConstantStakingNew({
       this.getTotalTvl();
 
       let lp_data = this.props.the_graph_result.token_data;
-      //console.log({lp_data})
-
+      //console.log({lp_data}) 
       //Calculate APY
       let { the_graph_result } = this.props;
       let usd_per_token = the_graph_result.token_data
@@ -603,15 +603,15 @@ export default function initConstantStakingNew({
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
-        let _bal = reward_token.balanceOf(this.props.coinbase);
-        let _pDivs = staking.getTotalPendingDivs(this.props.coinbase);
+        let _bal = reward_token.balanceOf(this.state.coinbase);
+        let _pDivs = staking.getTotalPendingDivs(this.state.coinbase);
 
-        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
-        let _stakingTime = staking.stakingTime(this.props.coinbase);
-        let _dTokens = staking.depositedTokens(this.props.coinbase);
-        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
+        let _stakingTime = staking.stakingTime(this.state.coinbase);
+        let _dTokens = staking.depositedTokens(this.state.coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.state.coinbase);
         let _tvl = reward_token.balanceOf(staking._address);
-        let _rFeeEarned = staking.totalReferralFeeEarned(this.props.coinbase);
+        let _rFeeEarned = staking.totalReferralFeeEarned(this.state.coinbase);
         let tStakers = staking.getNumberOfHolders();
 
         //Take iDYP Balance on Staking
@@ -716,7 +716,7 @@ export default function initConstantStakingNew({
         window.location.origin +
         window.location.pathname +
         "?r=" +
-        this.props.coinbase
+        this.state.coinbase
       );
     };
 

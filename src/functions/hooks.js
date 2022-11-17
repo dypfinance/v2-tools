@@ -115,7 +115,7 @@ export function useInactiveListener(suppress = false) {
 }
 
 
-export const handleSwitchNetwork = async (chainID) => {
+export const handleSwitchNetworkhook = async (chainID) => {
     const {ethereum} = window;
     let error;
 
@@ -143,6 +143,18 @@ export const handleSwitchNetwork = async (chainID) => {
         blockExplorerUrls: ["https://snowtrace.io/"],
     };
 
+    const BNBPARAMS = {
+        chainId: "0x38", // A 0x-prefixed hexadecimal string
+        chainName: "Smart Chain",
+        nativeCurrency: {
+            name: "Smart Chain",
+            symbol: "BNB", // 2-6 characters long
+            decimals: 18,
+        },
+        rpcUrls: ["https://bsc-dataseed.binance.org/"],
+        blockExplorerUrls: ["https://bscscan.com"],
+    };
+
     try {
         await ethereum.request({
             method: "wallet_switchEthereumChain",
@@ -160,7 +172,8 @@ export const handleSwitchNetwork = async (chainID) => {
                             ? [ETHPARAMS]
                             : chainID === "0xa86a"
                             ? [AVAXPARAMS]
-                            : "",
+                            :  chainID === "0x38"
+                            ? [BNBPARAMS] :"",
                 });
             } catch (addError) {
                 console.log(addError);

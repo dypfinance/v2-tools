@@ -254,7 +254,7 @@ export default function initFarmAvax({
     componentDidMount() {
       this.refreshBalance();
 
-      if (this.props.coinbase !== null) {
+      if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
@@ -774,23 +774,23 @@ export default function initFarmAvax({
         _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
-        let _bal = token.balanceOf(this.props.coinbase);
+        let _bal = token.balanceOf(this.state.coinbase);
 
-        let _rBal = reward_token.balanceOf(this.props.coinbase);
+        let _rBal = reward_token.balanceOf(this.state.coinbase);
 
-        let _pDivs = staking.getPendingDivs(this.props.coinbase);
+        let _pDivs = staking.getPendingDivs(this.state.coinbase);
 
-        let _pDivsEth = staking.getPendingDivsEth(this.props.coinbase);
+        let _pDivsEth = staking.getPendingDivsEth(this.state.coinbase);
 
-        let _tEarned = staking.totalEarnedTokens(this.props.coinbase);
+        let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
 
-        let _tEarnedEth = staking.totalEarnedEth(this.props.coinbase);
+        let _tEarnedEth = staking.totalEarnedEth(this.state.coinbase);
 
-        let _stakingTime = staking.depositTime(this.props.coinbase);
+        let _stakingTime = staking.depositTime(this.state.coinbase);
 
-        let _dTokens = staking.depositedTokens(this.props.coinbase);
+        let _dTokens = staking.depositedTokens(this.state.coinbase);
 
-        let _lClaimTime = staking.lastClaimedTime(this.props.coinbase);
+        let _lClaimTime = staking.lastClaimedTime(this.state.coinbase);
 
         let _tvl = token.balanceOf(staking._address); //not zero
 
@@ -808,10 +808,10 @@ export default function initFarmAvax({
           staking._address
         ); /* TVL of iDYP on Farming */
 
-        let _dTokensDYP = constant.depositedTokens(this.props.coinbase);
+        let _dTokensDYP = constant.depositedTokens(this.state.coinbase);
 
         let _pendingDivsStaking = constant.getTotalPendingDivs(
-          this.props.coinbase
+          this.state.coinbase
         );
 
         //Take DYPS Balance
@@ -961,7 +961,7 @@ export default function initFarmAvax({
       try {
         let selectedTokenBalance = await window.getTokenHolderBalance(
           this.state.selectedBuybackToken,
-          this.props.coinbase
+          this.state.coinbase
         );
         this.setState({ selectedTokenBalance });
       } catch (e) {
