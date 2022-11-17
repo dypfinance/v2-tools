@@ -357,7 +357,7 @@ export default function stakeAva3({
     handleClaimDivs = async (e) => {
       //   e.preventDefault();
       this.setState({ claimLoading: true });
-      this.setState({ claimStatus: "claim" });
+      // this.setState({ claimStatus: "claim" });
 
       if (
         this.state.stakingTime != 0 &&
@@ -386,7 +386,11 @@ export default function stakeAva3({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial",  errorMsg2: '' });
+
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -409,7 +413,11 @@ export default function stakeAva3({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial",  errorMsg2: '' });
+
+          }, 10000);
         });
     };
 
@@ -641,7 +649,11 @@ export default function stakeAva3({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  reInvestStatus: "initial",  errorMsg2: '' });
+
+          }, 10000);
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -664,7 +676,10 @@ export default function stakeAva3({
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  reInvestStatus: "initial",  errorMsg2: '' });
+          }, 10000);
         });
     };
 
@@ -802,7 +817,7 @@ export default function stakeAva3({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "APR reflects the interest rate of earnings on an account over the course of one year. "
                             }
@@ -820,7 +835,7 @@ export default function stakeAva3({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "The amount of time your deposited assets will be locked."
                             }
@@ -920,8 +935,8 @@ export default function stakeAva3({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"lorem impsum deposit text"}
+                        <div className="tooltip-text">
+                          {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
                         </div>
                       }
                     >
@@ -1020,8 +1035,8 @@ export default function stakeAva3({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
-                            {"rewards text"}
+                          <div className="tooltip-text">
+                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
                           </div>
                         }
                       >
@@ -1032,13 +1047,14 @@ export default function stakeAva3({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
                     <div className="form-row d-flex gap-2 align-items-center justify-content-between">
-                      <div className="position-relative">
+                      <div className="position-relative d-flex flex-column">
+                      <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>DYP</span>
                         <input
                           disabled
                           value={
                             Number(pendingDivs) > 0
-                              ? `${pendingDivs} DYP`
-                              : `${pendingDivs} DYP`
+                              ? `${pendingDivs}`
+                              : `${pendingDivs}`
                           }
                           onChange={(e) =>
                             this.setState({
@@ -1100,7 +1116,7 @@ export default function stakeAva3({
                             false
                           }
                           className={`btn filledbtn ${
-                            this.state.reInvestStatus === "invest"
+                            this.state.reInvestStatus === "stake"
                               ? "disabled-btn"
                               : this.state.reInvestStatus === "failed"
                               ? "fail-button"
@@ -1144,8 +1160,8 @@ export default function stakeAva3({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
-                          {"withdraw deposit text"}
+                        <div className="tooltip-text">
+                          {"Withdraw your deposited assets from the staking smart contract."}
                         </div>
                       }
                     >

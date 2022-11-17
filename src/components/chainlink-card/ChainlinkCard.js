@@ -36,6 +36,7 @@ const ChainlinkCard = () => {
           </h6>
         </div>
         <div className="chbottomwrapper">
+          <span style={{fontSize: '10px', fontWeight: '400', lineHeight: '14px', color: '#857DFA'}}>Earned by users</span>
           <div>
             <h6 className="d-flex align-items-center gap-2 totalpaidtxt text-white">
               <img src={eth} alt="" />

@@ -18,7 +18,6 @@ import purplestats from "./assets/purpleStat.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import dropdownVector from "./assets/dropdownVector.svg";
- 
 import { DropdownButton } from "react-bootstrap";
 import axios from "axios";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
@@ -191,10 +190,8 @@ export default function initStakingNew({
         show: false,
         showWithdrawModal: false,
         showCalculator: false,
-        dypConst: 0,
-        dypStake: 0,
-        dypConstWithdraw: 0,
-        dypStakeWithdraw: 0,
+        iDypUSD: 0,
+        dypUSD: 0,
         popup: false,
         is_wallet_connected: false,
       };
@@ -288,12 +285,29 @@ export default function initStakingNew({
         this.setState({ coinbase: this.props.coinbase });
       }
       this.getPriceDYP();
-      // fetchDypPrice();
+      this.getTokenData();
     }
 
     componentWillUnmount() {
       // clearInterval(window._refreshBalInterval);
     }
+
+
+    getTokenData = async () => {
+      await axios
+        .get("https://api.dyp.finance/api/the_graph_eth_v2")
+        .then((data) => {
+          const propertyDyp = Object.entries(
+            data.data.the_graph_eth_v2.token_data
+          );
+          this.setState({dypUSD: propertyDyp[0][1].token_price_usd})
+  
+          const propertyIDyp = Object.entries(
+            data.data.the_graph_eth_v2.token_data
+          );
+          this.setState({iDypUSD: propertyIDyp[1][1].token_price_usd})
+        });
+    };
 
     getPriceDYP = async () => {
       let usdPerToken = await window.getPrice("defi-yield-protocol");
@@ -682,6 +696,13 @@ export default function initStakingNew({
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
           this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({
+              claimStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
+          }, 10000);
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -707,6 +728,13 @@ export default function initStakingNew({
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
             this.setState({ errorMsg2: e?.message });
+            setTimeout(() => {
+              this.setState({
+                claimStatus: "initial",
+                selectedPool: "",
+                errorMsg2: "",
+              });
+            }, 10000);
           });
       } catch (e) {
         this.setState({ errorMsg2: e?.message });
@@ -1532,7 +1560,7 @@ export default function initStakingNew({
                           this.setState({ selectedPool: "weth" });
                         }}
                         style={{
-                          padding: "3px",
+                          // padding: "3px",
                           background:
                             this.state.selectedPool === "weth"
                               ? "#141333"
@@ -1577,8 +1605,8 @@ export default function initStakingNew({
                           />
                         </div>
                         <div
-                          className="d-flex align-items-center"
-                          style={{ paddingLeft: "10px" }}
+                          className="d-flex align-items-center justify-content-center claimreward-header  py-1 w-100"
+                          // style={{ padding: "3px" }}
                         >
                           {/* <img
                             src={
@@ -1669,7 +1697,7 @@ export default function initStakingNew({
                       <div
                         className="gap-1 claimreward-wrapper"
                         style={{
-                          padding: "3px",
+                          // padding: "3px",
                           background:
                             this.state.selectedPool === "dyp"
                               ? "#141333"
@@ -1719,8 +1747,8 @@ export default function initStakingNew({
                         </div>
 
                         <div
-                          className="d-flex align-items-center"
-                          style={{ paddingLeft: "10px" }}
+                          className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                          // style={{ paddingLeft: "10px" }}
                         >
                           <img
                             src={
@@ -1782,9 +1810,10 @@ export default function initStakingNew({
                           </>
                         ) : this.state.claimStatus === "success" ? (
                           <>Success</>
-                        ) : (
-                          <>Claim</>
-                        )}
+                          ) : this.state.claimStatus === "initial" ||
+                          this.state.claimidypStatus === "initial" ?  (
+                            <>Claim</>
+                          ) :<></>}
                       </button>
                     </div>
 
@@ -1920,28 +1949,28 @@ export default function initStakingNew({
                       <h6 className="stats-card-content">
                         {myDepositedLpTokens} iDYP/WETH
                       </h6>
-                      <span className="stats-usd-value">$23,674,64</span>
+                      <span className="stats-usd-value">${getFormattedNumber(myDepositedLpTokens * this.state.iDypUSD)}</span>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">
                         Total LP Deposited
                       </span>
                       <h6 className="stats-card-content">{tvl} iDYP/WETH</h6>
-                      <span className="stats-usd-value">$23,674,64</span>
+                      <span className="stats-usd-value">${getFormattedNumber(tvl * this.state.iDypUSD)}</span>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">My DYP Stake</span>
                       <h6 className="stats-card-content">
                         {reward_token_balance} DYP
                       </h6>
-                      <span className="stats-usd-value">$23,674,64</span>
+                      <span className="stats-usd-value">${getFormattedNumber(reward_token_balance * this.state.dypUSD)}</span>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">Total Earned DYP</span>
                       <h6 className="stats-card-content">
                         {totalEarnedTokens} DYP
                       </h6>
-                      <span className="stats-usd-value">$23,674,64</span>
+                      <span className="stats-usd-value">${getFormattedNumber(totalEarnedTokens * this.state.dypUSD)}</span>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">
@@ -1955,7 +1984,6 @@ export default function initStakingNew({
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">My Share</span>
                       <h6 className="stats-card-content">{myShare}%</h6>
-                      <span className="stats-usd-value">$23,674,64</span>
                     </div>
                   </div>
                   <div className="d-flex justify-content-end align-items-center gap-2">
@@ -2186,8 +2214,7 @@ export default function initStakingNew({
                         <h6 className="withsubtitle mb-2" style={{color: '#4ED5D2'}}>Select assets</h6>
                         <div className="row d-flex align-items-start justify-content-between gap-1">
                           <div className="col-5 d-flex flex-column gap-1">
-                          <div
-                            className="gap-1 claimreward-wrapper w-100"
+                          <div  className="gap-1 claimreward-wrapper w-100"
                             onClick={() => {
                               this.setState({ selectedPool: "weth2" });
                             }}
@@ -2294,10 +2321,10 @@ export default function initStakingNew({
                             
                             </div>
                             <div
-                              className="d-flex align-items-center"
-                              style={{ padding: "10px 0 0 10px" }}
+                              className="d-flex w-100 align-items-center justify-content-center py-2 claimreward-header"
+                              // style={{ padding: "10px 0 0 10px" }}
                             >
-                              <img
+                              {/* <img
                                 src={
                                   require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
                                     .default
@@ -2320,7 +2347,67 @@ export default function initStakingNew({
                               >
                                 <option value="0"> WETH </option>
                                 <option value="1"> USDT </option>
-                              </select>
+                              </select> */}
+                               <div class="dropdown">
+                            <button
+                              class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <img
+                                src={
+                                  require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                    .default
+                                }
+                                alt=""
+                                style={{ width: 14, height: 14 }}
+                              />
+                              {this.state.selectedRewardTokenLogo1.toUpperCase()}
+                              <img
+                                src={dropdownVector}
+                                alt=""
+                                style={{ width: 10, height: 10 }}
+                              />
+                            </button>
+                            <ul
+                              class="dropdown-menu"
+                              style={{ minWidth: "100%" }}
+                            >
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("1");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "weth",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={require(`./assets/weth.svg`).default}
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                WETH
+                              </span>
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("2");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "usdt",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={require(`./assets/usdt.svg`).default}
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                USDT
+                              </span>
+                            </ul>
+                          </div>
                             </div>
                           </div>
                           <h6 className="withsubtitle d-flex justify-content-start w-100 mb-2">
@@ -2328,8 +2415,7 @@ export default function initStakingNew({
                           </h6>
                           </div>
                           <div className="col-5 d-flex flex-column gap-1">
-                          <div
-                            className="gap-1 claimreward-wrapper w-100"
+                          <div className="gap-1 claimreward-wrapper w-100"
                             style={{
                               background:
                                 this.state.selectedPool === "dyp2"
@@ -2353,7 +2439,7 @@ export default function initStakingNew({
                               alt=""
                               className="activestate" style={{top: '65px'}}
                             />
-  <div className="d-flex align-items-center gap-2 justify-content-between w-100">
+                            <div className="d-flex align-items-center gap-2 justify-content-between w-100">
                               <div className="position-relative">
                                 <h6
                                   className="withsubtitle"
@@ -2463,8 +2549,8 @@ export default function initStakingNew({
                               
                             </div> */}
                             <div
-                              className="d-flex align-items-center"
-                              style={{ padding: "10px 0 0 10px" }}
+                              className="d-flex w-100 align-items-center justify-content-center py-2 claimreward-header"
+                              // style={{ padding: "10px 0 0 10px" }}
                             >
                               <img
                                 src={

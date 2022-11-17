@@ -162,10 +162,11 @@ const Sidebar = (props) => {
       style={{padding: '2.5rem 0'}}
       className={`testbar ${
         activeSidebar ? "testbar-open" : null
-      } d-flex flex-column justify-content-start align-items-start`}
+      } d-flex flex-column justify-content-between align-items-start`}
     >
       {/* <img src={navRadius} className="nav-radius" alt="" /> */}
-      <div className="d-flex w-100 justify-content-center align-items-center pb-5">
+     <div>
+     <div className="d-flex w-100 justify-content-center align-items-center pb-5">
         <NavLink to='/'
         onClick={() => setActiveLink("")}
         >
@@ -192,7 +193,7 @@ const Sidebar = (props) => {
                 aria-expanded="true"
                 aria-controls={`collapse${sideItem.label}`}
                 id={`heading${sideItem.label}`}
-                className={`sidebar-item p-2 d-flex ${
+                className={`sidebar-item gap-3 p-2 d-flex ${
                   activeSidebar
                     ? "active-width justify-content-start ms-4"
                     : "justify-content-center"
@@ -253,7 +254,7 @@ const Sidebar = (props) => {
             <div
            key={index}
            id={sideItem.label}
-           className={`sidebar-item p-2 d-flex ${
+           className={`sidebar-item gap-3 p-2 d-flex ${
              activeSidebar
                ? "active-width justify-content-start ms-4"
                : "justify-content-center"
@@ -291,6 +292,7 @@ const Sidebar = (props) => {
           )
         )}
       </div>
+     </div>
       <div className="dypius-link d-flex w-100 justify-content-center align-items-center mt-5">
         <a href="https://lorenadev.dyp.finance/" target="_blank" rel="noreferrer" className="dypius-button d-flex justify-content-center align-items-center gap-2">
         <img src={sidebarDypius} alt="" />

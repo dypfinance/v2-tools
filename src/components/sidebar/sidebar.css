@@ -83,12 +83,14 @@
     color: #C0C9FF !important;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
+    font-weight: 500;
 }
 
 .active-text{
     color: #F7F7FC !important;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
+    font-weight: 500;
 }
 
 .dypius-button{

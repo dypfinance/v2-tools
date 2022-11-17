@@ -27,15 +27,15 @@
     rgba(21, 19, 41, 0.4) 81.69%
   );
   border-radius: 6px;
-  padding: 10px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 9.5px;
 }
 
 .totalpaidtxt {
   font-weight: 300;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 22px;
   letter-spacing: 0.05em;
   color: #7770e0;

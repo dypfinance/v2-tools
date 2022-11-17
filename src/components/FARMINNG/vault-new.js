@@ -489,9 +489,10 @@ export default function initVaultNew({
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
               this.setState({ errorMsg2: e?.message });
+
               setTimeout(() => {
                 this.setState({
-                  claimStatus: "initial", 
+                  claimStatus: "initial",
                   errorMsg2: "",
                 });
               }, 10000);
@@ -526,7 +527,7 @@ export default function initVaultNew({
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
             this.setState({
-              claimStatus: "initial", 
+              claimStatus: "initial",
               errorMsg2: "",
             });
           }, 10000);
@@ -889,7 +890,7 @@ export default function initVaultNew({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "Performance fee is subtracted from the displayed APR."
                             }
@@ -908,7 +909,7 @@ export default function initVaultNew({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "APR reflects the interest rate of earnings on an account over the course of one year. "
                             }
@@ -926,7 +927,7 @@ export default function initVaultNew({
                       <Tooltip
                         placement="top"
                         title={
-                          <div style={{ whiteSpace: "pre-line" }}>
+                          <div className="tooltip-text">
                             {
                               "The amount of time your deposited assets will be locked."
                             }
@@ -967,7 +968,7 @@ export default function initVaultNew({
                 </div>
               </div>
             </div>
-            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
+            <div className="pools-details-wrapper justify-content-between d-flex m-0 container-lg border-0">
               <div className="firstblockwrapper col-2">
                 <div
                   className="d-flex flex-column justify-content-between gap-4"
@@ -1003,7 +1004,7 @@ export default function initVaultNew({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
+                        <div className="tooltip-text">
                           {"lorem impsum deposit text"}
                         </div>
                       }
@@ -1116,7 +1117,7 @@ export default function initVaultNew({
                     <Tooltip
                       placement="top"
                       title={
-                        <div style={{ whiteSpace: "pre-line" }}>
+                        <div className="tooltip-text">
                           <h6 className="tvl-text">
                             Earn Rewards in:{" "}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
@@ -1206,7 +1207,7 @@ export default function initVaultNew({
                   <Tooltip
                     placement="top"
                     title={
-                      <div style={{ whiteSpace: "pre-line" }}>
+                      <div className="tooltip-text">
                         {"withdraw deposit text"}
                       </div>
                     }

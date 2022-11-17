@@ -19,7 +19,7 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
  const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network, handleConnection  }) => {
   const cards = [
     {
-      top_pick: true,
+      top_pick: false,
       tokenName: "DYP",
       apr: "1.09%",
       tvl: "$48,382.30",
@@ -101,12 +101,12 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
   
   return (
     <div className="container-lg dashboardwrapper px-0">
-      <div className="d-flex m-0 justify-content-between gap-3">
-        <div className="d-flex flex-column gap-3 justify-content-between">
+      <div className="d-flex m-0 justify-content-between gap-4">
+        <div className="d-flex flex-column gap-4 justify-content-between">
           <div className="d-flex m-0 gap-3 justify-content-between">
             <Calculator />
             <div
-              className="d-flex flex-column gap-3 justify-content-between"
+              className="d-flex flex-column gap-4 justify-content-between"
               style={{ width: "49%" }}
             >
               <ExplorerCard />
@@ -119,13 +119,13 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
           <div>
             <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-2">
               <h6 className="top-pools-title">Top Pools</h6>
-              <h6 className="view-more-title  d-flex justify-content-center align-items-center gap-1">
+              <h6 className="view-more-title d-flex justify-content-center align-items-center gap-1">
                 View all <img src={rightarrow} alt="" />{" "}
 
               </h6>
             </div>
             <div>
-              <div className="row m-0 gap-2 toppool-allwrapper">
+              <div className="row m-0 gap-4 toppool-allwrapper">
                 {cards.length > 0 &&
                   cards.map((item, index) => {
                     return (
@@ -163,13 +163,12 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
 
             </div>
           </div>
-          <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pt-2">
+          <div className="row m-0 align-items-center justify-content-between gap-2 w-100">
             <h6 className="top-pools-title">News</h6>
             <NavLink className="view-more-title d-flex justify-content-center align-items-center gap-1" to='/news'>
             View all <img src={rightarrow} alt="" /> 
           </NavLink>
-          </div>
-          <div className="d-flex gap-3 justify-content-between">
+          <div className="d-flex gap-3 justify-content-between px-0">
             <TrendingNews
               image={"news1.png"}
               title={
@@ -186,15 +185,19 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
               title={"Check out the new and improved #DYP TOOLS!"}
             />
           </div>
+          </div>
         </div>
-        <div className="d-flex flex-column gap-3">
+        <div className="d-flex flex-column gap-4">
           <div className="d-flex flex-column gap-2">
             <h6 className="header">Launchpad</h6>
             <LaunchpadCard />
           </div>
           <ChainlinkCard />
-          <div className="d-flex flex-column gap-2">
+          <div className="d-flex flex-column" style={{gap: '11px'}}>
             <h6 className="header">FAQs</h6>
+            <FaqCard />
+            <FaqCard />
+            <FaqCard />
             <FaqCard />
             <FaqCard />
             <FaqCard />

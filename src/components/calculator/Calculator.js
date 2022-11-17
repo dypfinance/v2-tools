@@ -529,7 +529,7 @@ const Calculator = ({earnClass, onClose, ref  }) => {
                   </p>
                 ))}
             </div> */}
-             <div className="inputwrapper position-relative w-50 px-0">
+             <div className="inputwrapper position-relative px-0" style={{width: '43%'}}>
               <h6 className="inputlabel position-absolute">
                 USD to deposit<h6 className="requiredstar">*</h6>
               </h6>
@@ -557,7 +557,7 @@ const Calculator = ({earnClass, onClose, ref  }) => {
           
              <div className="d-flex justify-content-end gap-2 align-items-center mt-2">
            
-           <h6 className="output-txt">
+           <h6 className="output-txt d-flex flex-column align-items-center gap-1">
              ${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}
              <h6 className="cryptotext">
                Approx. (
