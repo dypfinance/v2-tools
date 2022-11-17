@@ -569,13 +569,13 @@ const EarnTopPicks = ({
   const tokenvaultArray = [
     window.token_weth,
     window.token_wbtc,
-    window.token_usdt,
-    window.vault_usdc,
     window.token_usdc,
+    window.token_usdt,
+    window. token_dai,
   ];
   const vaultplatformArray = [10, 10, 15, 15, 15];
   const vaultdecimalsArray = [18, 8, 6, 6, 18];
-  const vaultsymbolArray = ["WETH", "WBTC", "USDT", "USDC", "DAI"];
+  const vaultsymbolArray = ["WETH", "WBTC", "USDC", "USDT",  "DAI"];
   const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
 
   const VaultCard = initVaultNew({

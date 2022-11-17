@@ -453,11 +453,16 @@ export default function initFarmAvax({
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
             this.setState({ errorMsg3: e?.message });
+            setTimeout(() => {
+              this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+            }, 10000);
           });
       } catch (e) {
         console.error(e);
         this.setState({ errorMsg3: e });
-
+        setTimeout(() => {
+          this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+        }, 10000);
         return;
       }
     };
@@ -522,11 +527,16 @@ export default function initFarmAvax({
             this.setState({ withdrawStatus: "failed" });
             this.setState({ withdrawLoading: false });
             this.setState({ errorMsg3: e?.message });
+            setTimeout(() => {
+              this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+            }, 10000);
           });
       } catch (e) {
         console.error(e);
-        this.setState({ errorMsg3: e });
-
+        this.setState({ errorMsg3: e?.message });
+        setTimeout(() => {
+          this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+        }, 10000);
         return;
       }
     };
@@ -555,11 +565,17 @@ export default function initFarmAvax({
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
               this.setState({ errorMsg2: e?.message });
+              setTimeout(() => {
+                this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+              }, 10000);
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
 
           console.error(e);
           return;
@@ -576,11 +592,17 @@ export default function initFarmAvax({
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
               this.setState({ errorMsg2: e?.message });
+              setTimeout(() => {
+                this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+              }, 10000);
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
 
           console.error(e);
           return;
@@ -633,7 +655,10 @@ export default function initFarmAvax({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -659,6 +684,9 @@ export default function initFarmAvax({
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
             this.setState({ errorMsg2: e?.message });
+            setTimeout(() => {
+              this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+            }, 10000);
           });
       } catch (e) {
         console.error(e);
@@ -1700,7 +1728,9 @@ export default function initFarmAvax({
                         }
                         className={`btn filledbtn ${
                           this.state.claimStatus === "claimed" ||
-                          this.state.selectedPool === ""
+                          this.state.selectedPool === "" ||
+                          this.state.selectedPool === "wavax2" ||
+                          this.state.selectedPool === "dyp2"
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
@@ -2038,22 +2068,22 @@ export default function initFarmAvax({
                           <div
                             className="gap-1 claimreward-wrapper w-100"
                             onClick={() => {
-                              this.setState({ selectedPool: "wavax" });
+                              this.setState({ selectedPool: "wavax2" });
                             }}
                             style={{
                               background:
-                                this.state.selectedPool === "wavax"
+                                this.state.selectedPool === "wavax2"
                                   ? "#141333"
                                   : "#26264F",
                               border:
-                                this.state.selectedPool === "wavax"
+                                this.state.selectedPool === "wavax2"
                                   ? "1px solid #57B6AB"
                                   : "1px solid #8E97CD",
                             }}
                           >
                             <img
                               src={
-                                this.state.selectedPool === "wavax"
+                                this.state.selectedPool === "wavax2"
                                   ? check
                                   : empty
                               }
@@ -2152,21 +2182,21 @@ export default function initFarmAvax({
                             className="gap-1 claimreward-wrapper w-100"
                             style={{
                               background:
-                                this.state.selectedPool === "dyp"
+                                this.state.selectedPool === "dyp2"
                                   ? "#141333"
                                   : "#26264F",
                               border:
-                                this.state.selectedPool === "dyp"
+                                this.state.selectedPool === "dyp2"
                                   ? "1px solid #57B6AB"
                                   : "1px solid #8E97CD",
                             }}
                             onClick={() => {
-                              this.setState({ selectedPool: "dyp" });
+                              this.setState({ selectedPool: "dyp2" });
                             }}
                           >
                             <img
                               src={
-                                this.state.selectedPool === "dyp"
+                                this.state.selectedPool === "dyp2"
                                   ? check
                                   : empty
                               }
@@ -2275,7 +2305,7 @@ export default function initFarmAvax({
                           } d-flex justify-content-center align-items-center`}
                           style={{ height: "fit-content" }}
                           onClick={() => {
-                            this.state.selectedPool === "weth"
+                            this.state.selectedPool === "wavax2"
                               ? this.handleWithdraw()
                               : this.handleWithdrawDyp();
                           }}

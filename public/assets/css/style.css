@@ -4169,7 +4169,7 @@ background-size: cover; */
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: fit-content;
+  /* width: fit-content; */
   /* min-height: 396px; */
   height: fit-content;
   margin: auto;

@@ -191,7 +191,10 @@ export default function initStakingNew({
         show: false,
         showWithdrawModal: false,
         showCalculator: false,
-
+        dypConst: 0,
+        dypStake: 0,
+        dypConstWithdraw: 0,
+        dypStakeWithdraw: 0,
         popup: false,
         is_wallet_connected: false,
       };
@@ -593,12 +596,17 @@ export default function initStakingNew({
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
               this.setState({ errorMsg2: e?.message });
+              setTimeout(() => {
+                this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+              }, 10000);
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
-
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
           console.error(e);
           return;
         }
@@ -612,20 +620,27 @@ export default function initStakingNew({
             })
             .catch((e) => {
               this.setState({ errorMsg2: e?.message });
-
               this.setState({ claimStatus: "failed" });
               this.setState({ claimLoading: false });
+              setTimeout(() => {
+                this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+              }, 10000);
             });
         } catch (e) {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+          }, 10000);
 
           console.error(e);
           return;
         }
       }
     };
+
+
 
     handleClaimAsDivs = async (token) => {
       let deadline = Math.floor(
@@ -666,7 +681,7 @@ export default function initStakingNew({
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
           this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e });
+          this.setState({ errorMsg2: e?.message });
         });
       _amountOutMinConstant =
         _amountOutMinConstant[_amountOutMinConstant.length - 1];
@@ -691,10 +706,10 @@ export default function initStakingNew({
           .catch((e) => {
             this.setState({ claimStatus: "failed" });
             this.setState({ claimLoading: false });
-            this.setState({ errorMsg2: e });
+            this.setState({ errorMsg2: e?.message });
           });
       } catch (e) {
-        this.setState({ errorMsg2: e });
+        this.setState({ errorMsg2: e?.message });
 
         console.error(e);
         return;
@@ -1736,7 +1751,9 @@ export default function initStakingNew({
                         }
                         className={`btn filledbtn ${
                           this.state.claimStatus === "claimed" ||
-                          this.state.selectedPool === ""
+                          this.state.selectedPool === "" ||
+                          this.state.selectedPool === "weth2" ||
+                          this.state.selectedPool === "dyp2"
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
@@ -2172,22 +2189,22 @@ export default function initStakingNew({
                           <div
                             className="gap-1 claimreward-wrapper w-100"
                             onClick={() => {
-                              this.setState({ selectedPool: "weth" });
+                              this.setState({ selectedPool: "weth2" });
                             }}
                             style={{
                               background:
-                                this.state.selectedPool === "weth"
+                                this.state.selectedPool === "weth2"
                                   ? "#141333"
                                   : "#26264F",
                               border:
-                                this.state.selectedPool === "weth"
+                                this.state.selectedPool === "weth2"
                                   ? "1px solid #57B6AB"
                                   : "1px solid #8E97CD",
                             }}
                           >
                             <img
                               src={
-                                this.state.selectedPool === "weth"
+                                this.state.selectedPool === "weth2"
                                   ? check
                                   : empty
                               }
@@ -2315,21 +2332,21 @@ export default function initStakingNew({
                             className="gap-1 claimreward-wrapper w-100"
                             style={{
                               background:
-                                this.state.selectedPool === "dyp"
+                                this.state.selectedPool === "dyp2"
                                   ? "#141333"
                                   : "#26264F",
                               border:
-                                this.state.selectedPool === "dyp"
+                                this.state.selectedPool === "dyp2"
                                   ? "1px solid #57B6AB"
                                   : "1px solid #8E97CD",
                             }}
                             onClick={() => {
-                              this.setState({ selectedPool: "dyp" });
+                              this.setState({ selectedPool: "dyp2" });
                             }}
                           >
                             <img
                               src={
-                                this.state.selectedPool === "dyp"
+                                this.state.selectedPool === "dyp2"
                                   ? check
                                   : empty
                               }
@@ -2509,7 +2526,7 @@ export default function initStakingNew({
                           } d-flex justify-content-center align-items-center`}
                           style={{ height: "fit-content" }}
                           onClick={() => {
-                            this.state.selectedPool === "weth"
+                            this.state.selectedPool === "weth2"
                               ? this.handleWithdraw()
                               : this.handleWithdrawDyp();
                           }}
