@@ -1,11 +1,12 @@
 import React from "react";
 import filledArrow from "./assets/filledarrow.svg";
 import govLogo from "./assets/gov-logo.svg";
+import { NavLink } from "react-router-dom";
 import './govcard.css'
 
 const GovCard = () => {
   return (
-    <div className="govcard-wrapper">
+    <NavLink to="/governance" className="govcard-wrapper">
       <div className="greendiv"></div>
       <div className="d-flex flex-column gap-3 justify-content-between">
         <div className="">
@@ -27,7 +28,7 @@ const GovCard = () => {
         </div>
       </div>
       </div>
-    </div>
+    </NavLink>
   );
 };
 

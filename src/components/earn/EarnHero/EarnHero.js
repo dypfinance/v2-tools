@@ -25,10 +25,9 @@ const EarnHero = () => {
   return (
     <div className="row w-100 earn-hero p-4 justify-content-between">
       <div className="col-5 d-flex flex-column justify-content-center gap-3">
-        <h3 className="text-white">DYP Earn</h3>
+        <h3 className="text-white">Dypius Earn</h3>
         <p className="text-white">
-          Make the most of your assets with Dypius Earn products. Start earning
-          today!
+        Make the most of your assets with Dypius Earn products. Dypius offers four ways to productively use your assets. Participate in Staking, Farming, Vault and Buyback. Start earning today!
         </p>
       </div>
       <div className="col-6 d-flex gap-5">

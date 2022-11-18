@@ -80,19 +80,20 @@ hr{
 
 .stake-item{
     border: 2px solid #312F69;
-    border-radius: 8px;
+    border-radius: 12px;
     background: #312F69;
-    padding: 5px 30px 5px 10px;
-    width: 160px;
+    padding: 8px 30px 8px 12px;
+    /* width: 160px; */
     cursor: pointer;
+    height: 56px;
     transition: all .25s;
 }
 
 .new-pools{
     background: linear-gradient(90.74deg, #26264F 0%, #57B6AB 100%);
 border-radius: 500px;
-padding: 5px;
-left: 0;
+padding: 5px 10px;
+left: 12px;
 top: -19px;
 }
 
@@ -127,15 +128,15 @@ box-shadow: 0px 2px 12px rgba(78, 73, 197, 0.22);
     box-shadow: 0px 2px 12px rgba(234, 69, 70, 0.22);
 }
 .stake-item img{
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
 }
 
 .pill-box{
     background: #8E97CD;
 border-radius: 100px;
-padding: 3px;
-width: 50px;
+padding: 2px;
+width: 36px;
 display: flex;
 justify-content: start;
 cursor: pointer;
@@ -144,14 +145,14 @@ transition: all .25s;
 
 .pill{
     background: #FFFFFF;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
 
 }
 
 .pill-box-active{
-    background: #7770E0;
+    background: #4CD0CD;
     justify-content: end;
 }
 

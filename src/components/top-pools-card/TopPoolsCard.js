@@ -19,7 +19,8 @@ const TopPoolsCard = ({
   top_pick,
   cardType,
   chain,
-  renderedPage
+  renderedPage,
+  details
   // showDetails,
 }) => {
   
@@ -36,12 +37,12 @@ const TopPoolsCard = ({
   
 
   const handleDetails = () => {
-    if(showDetails === false) {
+    if(details === false) {
       setShowDetails(true);
       onShowDetailsClick()
     }
 
-    else if(showDetails === true) {
+    else if(details === true) {
       setShowDetails(false);
       onHideDetailsClick()
     }
@@ -63,8 +64,8 @@ const TopPoolsCard = ({
     <>
       <div
         className={`poolscardwrapper cursor-pointer position-relative ${
-          showDetails && "pools-card-open"
-        }  ${renderedPage === "dashboard" && !showDetails ? 'pools-card-hover' : ''}`}
+          details && "pools-card-open"
+        }  ${renderedPage === "dashboard" && !details ? 'pools-card-hover' : ''}`}
 
         onClick={() => handleDetails()}
       >
@@ -74,7 +75,7 @@ const TopPoolsCard = ({
 
         <div
           className="purplediv"
-          style={{ background: "#7770e0", top: '12px' }}
+          style={{ background: details ? "#7770e0" : "#8890C4", top: '12px' }}
         ></div>
         <div className="d-flex flex-column gap-0">
           <div
@@ -126,10 +127,10 @@ const TopPoolsCard = ({
           >
             <h6
               className="details-text gap-1 d-flex align-items-center"
-              style={{ color: showDetails === false ? "#75CAC2" : "#C0C9FF" }}
+              style={{ color: details === false ? "#75CAC2" : "#C0C9FF" }}
             >
-              {showDetails === false ? "Deposit" : "Close"}
-              <img src={showDetails === false ? greenArrow : orangeArrow} />
+              {details === false ? "Deposit" : "Close"}
+              <img src={details === false ? greenArrow : orangeArrow} />
             </h6>
           </div>
         </div>
