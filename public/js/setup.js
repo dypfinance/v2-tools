@@ -343,7 +343,6 @@ class TOKENAVAX {
   }
 }
 
-
 class CONSTANT_STAKING_NEW {
   constructor(ticker = "CONSTANT_STAKING_30", token = "REWARD_TOKEN") {
     this.ticker = ticker;
@@ -627,7 +626,7 @@ class CONSTANT_STAKINGAVAX {
       "ADMIN_CAN_CLAIM_AFTER",
     ].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         return await contract.methods[fn_name](...args).call();
       };
     });
@@ -635,7 +634,7 @@ class CONSTANT_STAKINGAVAX {
     ["stake", "unstake", "claim", "reInvest", "stakeExternal"].forEach(
       (fn_name) => {
         this[fn_name] = async function (...args) {
-          let contract = await getContract({key: this.ticker});
+          let contract = await getContract({ key: this.ticker });
           let value = 0;
           console.log(value);
           let gas = window.config.default_gas_amount;
@@ -662,8 +661,8 @@ class CONSTANT_STAKINGAVAX {
   }
 
   async depositTOKEN(amount, referrer) {
-    let token_contract = await getContract({key: this.token});
-    let staking_contract = await getContract({key: this.ticker});
+    let token_contract = await getContract({ key: this.token });
+    let staking_contract = await getContract({ key: this.ticker });
     let batch = new window.web3.eth.BatchRequest();
     batch.add(
       token_contract.methods
@@ -713,7 +712,7 @@ class CONSTANT_STAKING_NEWAVAX {
       "ADMIN_CAN_CLAIM_AFTER",
     ].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         return await contract.methods[fn_name](...args).call();
       };
     });
@@ -721,9 +720,9 @@ class CONSTANT_STAKING_NEWAVAX {
     ["stake", "unstake", "claim", "reInvest", "stakeExternal"].forEach(
       (fn_name) => {
         this[fn_name] = async function (...args) {
-          let contract = await getContract({key: this.ticker});
+          let contract = await getContract({ key: this.ticker });
           let value = 0;
-          
+
           let gas = window.config.default_gas_amount;
           return await contract.methods[fn_name](...args).send({
             value,
@@ -737,8 +736,8 @@ class CONSTANT_STAKING_NEWAVAX {
   }
 
   async depositTOKEN(amount, referrer) {
-    let token_contract = await getContract({key: this.token});
-    let staking_contract = await getContract({key: this.ticker});
+    let token_contract = await getContract({ key: this.token });
+    let staking_contract = await getContract({ key: this.ticker });
     let batch = new window.web3.eth.BatchRequest();
     batch.add(
       token_contract.methods
@@ -750,18 +749,15 @@ class CONSTANT_STAKING_NEWAVAX {
         })
     );
     batch.add(
-      staking_contract.methods
-        .deposit(amount, referrer)
-        .send.request({
-          gas: window.config.default_gas_amount,
-          from: await getCoinbase(),
-          gasPrice: window.config.default_gasprice_gwei * 1e9,
-        })
+      staking_contract.methods.deposit(amount, referrer).send.request({
+        gas: window.config.default_gas_amount,
+        from: await getCoinbase(),
+        gasPrice: window.config.default_gasprice_gwei * 1e9,
+      })
     );
     return batch.execute();
   }
 }
-
 
 class BUYBACK_STAKING {
   constructor(ticker = "BUYBACK_STAKING", token = "REWARD_TOKEN") {
@@ -840,14 +836,14 @@ class BUYBACK_STAKINGAVAX {
       "REWARD_INTERVAL",
     ].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         return await contract.methods[fn_name](...args).call();
       };
     });
 
     ["stake", "unstake", "reInvest", "claim"].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         let value = 0;
         console.log(value);
         return await contract.methods[fn_name](...args).send({
@@ -860,7 +856,6 @@ class BUYBACK_STAKINGAVAX {
     });
   }
 }
-
 
 class VAULT {
   constructor(vaultAddress, tokenAddress) {
@@ -1225,7 +1220,8 @@ window.config = {
     "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48": "dai",
     "0xbd100d061e120b2c67a24453cf6368e63f1be056": "idefiyieldprotocol",
   },
-
+  admin_address: "0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F",
+  vote_duration_in_seconds: 259200, // 5 minutes for test
   weth_address: "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7", // LOWERCASE! avax
   weth2_address: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2", // ethereum
 
@@ -1360,15 +1356,15 @@ window.config = {
   constant_stakingnew_new4_address:
     "0x7b7132E7BF4e754855191a978F3979e1E3c8617b",
 
-     //Buyback new avax
+  //Buyback new avax
   buyback_stakingavax1_1_address: "0xC905D5DD9A4f26eD059F76929D11476B2844A7c3",
   buyback_stakingavax1_2_address: "0x267434f01ac323C6A5BCf41Fa111701eE0165a37",
 
-    //constant staking for Buyback New avax
-    constant_stakingnew_newavax3_address: "0xe6B307CD185f2A541a661eA312E3e7939Ea9d218",
-  constant_stakingnew_newavax4_address:  "0x934819D227B7095595eC9cA6604eF2Dd0C3a9EA2",
-
-
+  //constant staking for Buyback New avax
+  constant_stakingnew_newavax3_address:
+    "0xe6B307CD185f2A541a661eA312E3e7939Ea9d218",
+  constant_stakingnew_newavax4_address:
+    "0x934819D227B7095595eC9cA6604eF2Dd0C3a9EA2",
 
   //Farming new
   token_new_address: "0x7463286a379f6f128058bb92b355e3d6e8bdb219",
@@ -1386,15 +1382,12 @@ window.config = {
 
   constant_stakingdaiavax_address: "0x16429e51A64B7f88D4C018fbf66266A693df64b3",
 
-
   farming_new_1_address: "0xa68BBe793ad52d0E62bBf34A67F02235bA69E737",
   farming_newavax_1_address: "0x035d65babF595758D7A439D5870BAdc44218D028",
   farming_newavax_2_address: "0x6c325DfEA0d18387D423C869E328Ef005cBA024F",
   farming_newavax_3_address: "0x85C4f0CEA0994dE365dC47ba22dD0FD9899F93Ab",
   farming_newavax_4_address: "0x6f5dC6777b2B4667Bf183D093111867239518af5",
   farming_newavax_5_address: "0x10E105676CAC55b74cb6500a8Fb5d2f84804393D",
-
-
 
   constant_stakingnew_new5_address:
     "0x0b92E7f074e7Ade0181A29647ea8474522e6A7C2",
@@ -1439,7 +1432,6 @@ window.config = {
   reward_token_dai_address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
   reward_token_daiavax_address: "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70",
 
-
   token_wbtc_address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
   token_usdt_address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
   token_usdc_address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
@@ -1480,27 +1472,28 @@ window.config = {
   metamask_message: "I want to login, let me in!",
   metamask_message2: "I want to login to DYP TOOLS, let me in!",
   metamask_admin_account: "0x471ad9812b2537ffc66eba4d474cc55c32dec4f8",
-	constant_stakingidypavax_3_address: '0xF035ec2562fbc4963e8c1c63f5c473D9696c59E3',
-	constant_stakingavax_30_address: '0xF035ec2562fbc4963e8c1c63f5c473D9696c59E3',
+  constant_stakingidypavax_3_address:
+    "0xF035ec2562fbc4963e8c1c63f5c473D9696c59E3",
+  constant_stakingavax_30_address: "0xF035ec2562fbc4963e8c1c63f5c473D9696c59E3",
 
-	constant_stakingidypavax_4_address: '0xb1875eeBbcF4456188968f439896053809698a8B',
-  
+  constant_stakingidypavax_4_address:
+    "0xb1875eeBbcF4456188968f439896053809698a8B",
+
   constant_stakingnew_newavax1_address:
-  "0x1A4fd0E9046aeD92B6344F17B0a53969F4d5309B",
-constant_stakingnew_newavax2_address:
-  "0x5566B51a1B7D5E6CAC57a68182C63Cb615cAf3f9",
+    "0x1A4fd0E9046aeD92B6344F17B0a53969F4d5309B",
+  constant_stakingnew_newavax2_address:
+    "0x5566B51a1B7D5E6CAC57a68182C63Cb615cAf3f9",
 
+  //Constant Staking iDYP AVAX
+  constant_stakingidypavax_1_address:
+    "0x8f28110325a727f70b64bffebf2b9dc94b932452",
+  constant_stakingidypavax_2_address:
+    "0x5536e02336771cfa0317d4b6a042f3c38749535e",
+  constant_stakingidypavax_5_address:
+    "0xaf411bf994da1435a3150b874395b86376c5f2d5",
+  constant_stakingidypavax_6_address:
+    "0xd13bdc0c9a9931cf959739631b1290b6bee0c018",
 
-
-
-    //Constant Staking iDYP AVAX
-    constant_stakingidypavax_1_address: "0x8f28110325a727f70b64bffebf2b9dc94b932452",
-    constant_stakingidypavax_2_address: "0x5536e02336771cfa0317d4b6a042f3c38749535e",
-    constant_stakingidypavax_5_address: "0xaf411bf994da1435a3150b874395b86376c5f2d5",
-    constant_stakingidypavax_6_address: "0xd13bdc0c9a9931cf959739631b1290b6bee0c018",
-   
-
-  
   submission_form_link: "https://forms.gle/SFX1DyUh8TcNeysz6",
 
   // lowercase base tokens on uniswap
@@ -1600,6 +1593,12 @@ constant_stakingnew_newavax2_address:
       tx_no: "Transactions",
     },
   },
+
+  //governance eth
+  new_governance_address: "0x1766d076ae227443B98AA836Bd43895ADd6B0AB4",
+
+  //governance avax
+  new_governanceavax_address: "0x4d3deb73df067d6466facad196b22411422909ab",
 };
 
 window.infuraWeb3 = new Web3(window.config.infura_endpoint);
@@ -1611,7 +1610,6 @@ window.REWARD_TOKENAVAX_ABI = window.TOKENAVAX_ABI;
 window.reward_token = new TOKEN("REWARD_TOKEN");
 window.reward_tokenavax = new TOKENAVAX("REWARD_TOKENAVAX");
 window.constant_stakingavax_30 = new TOKENAVAX("REWARD_TOKENAVAX");
-
 
 window.farming_newavax_1 = new STAKINGAVAX("FARMING_NEWAVAX_1");
 window.FARMING_NEWAVAX_1_ABI = window.FARMING_NEW_ABI;
@@ -1700,8 +1698,6 @@ window.constant_staking_120 = new CONSTANT_STAKING_OLD(
   "CONSTANT_STAKINGOLD_120"
 );
 
-
-
 /*buyback*/
 window.buyback_staking = new BUYBACK_STAKING("BUYBACK_STAKING");
 
@@ -1721,9 +1717,11 @@ window.constant_staking_newavax1 = new CONSTANT_STAKING_NEWAVAX(
 window.constant_staking_newavax2 = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGNEW_NEWAVAX2"
 );
-window.constant_stakingdaiavax = new CONSTANT_STAKING_NEWAVAX("CONSTANT_STAKINGDAIAVAX");
+window.constant_stakingdaiavax = new CONSTANT_STAKING_NEWAVAX(
+  "CONSTANT_STAKINGDAIAVAX"
+);
 
-window.CONSTANT_STAKINGDAIAVAX_ABI = window.CONSTANT_STAKING_IDYP_ABI
+window.CONSTANT_STAKINGDAIAVAX_ABI = window.CONSTANT_STAKING_IDYP_ABI;
 
 window.constant_staking_new1 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW1"
@@ -1732,22 +1730,25 @@ window.constant_staking_new2 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW2"
 );
 
-window.constant_staking_new10 = new CONSTANT_STAKING_NEWAVAX("CONSTANT_STAKINGIDYPAVAX_3")
-window.constant_staking_new11 = new CONSTANT_STAKING_NEWAVAX("CONSTANT_STAKINGIDYPAVAX_4")
+window.constant_staking_new10 = new CONSTANT_STAKING_NEWAVAX(
+  "CONSTANT_STAKINGIDYPAVAX_3"
+);
+window.constant_staking_new11 = new CONSTANT_STAKING_NEWAVAX(
+  "CONSTANT_STAKINGIDYPAVAX_4"
+);
 
-window.CONSTANT_STAKINGIDYPAVAX_3_ABI = window.CONSTANT_STAKING_IDYP_ABI
-window.CONSTANT_STAKINGIDYPAVAX_4_ABI = window.CONSTANT_STAKING_IDYP_ABI
+window.CONSTANT_STAKINGIDYPAVAX_3_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+window.CONSTANT_STAKINGIDYPAVAX_4_ABI = window.CONSTANT_STAKING_IDYP_ABI;
 
-window.CONSTANT_STAKINGNEW_NEW1_ABI = window.CONSTANT_STAKINGNEW_ABI
-window.CONSTANT_STAKINGNEW_NEW2_ABI = window.CONSTANT_STAKINGNEW_ABI
+window.CONSTANT_STAKINGNEW_NEW1_ABI = window.CONSTANT_STAKINGNEW_ABI;
+window.CONSTANT_STAKINGNEW_NEW2_ABI = window.CONSTANT_STAKINGNEW_ABI;
 
-window.CONSTANT_STAKINGNEW_NEWAVAX1_ABI = window.CONSTANT_STAKINGNEW_ABI
-window.CONSTANT_STAKINGNEW_NEWAVAX2_ABI = window.CONSTANT_STAKINGNEW_ABI
+window.CONSTANT_STAKINGNEW_NEWAVAX1_ABI = window.CONSTANT_STAKINGNEW_ABI;
+window.CONSTANT_STAKINGNEW_NEWAVAX2_ABI = window.CONSTANT_STAKINGNEW_ABI;
 
 //Constant staking DYP -> DAI
 window.REWARD_TOKEN_DAI_ABI = window.TOKEN_ABI;
 window.reward_token_dai = new TOKEN("REWARD_TOKEN_DAI");
-
 
 window.reward_token_daiavax = new TOKENAVAX("REWARD_TOKEN_DAIAVAX");
 window.REWARD_TOKEN_DAIAVAX_ABI = window.TOKENAVAX_ABI;
@@ -1758,8 +1759,12 @@ window.constant_stakingdai = new CONSTANT_STAKING_NEW("CONSTANT_STAKINGDAI");
 window.buyback_staking1_1 = new BUYBACK_STAKING("BUYBACK_STAKING1_1");
 window.buyback_staking1_2 = new BUYBACK_STAKING("BUYBACK_STAKING1_2");
 
-window.buyback_stakingavax1_1 = new BUYBACK_STAKINGAVAX("BUYBACK_STAKINGAVAX1_1");
-window.buyback_stakingavax1_2 = new BUYBACK_STAKINGAVAX("BUYBACK_STAKINGAVAX1_2");
+window.buyback_stakingavax1_1 = new BUYBACK_STAKINGAVAX(
+  "BUYBACK_STAKINGAVAX1_1"
+);
+window.buyback_stakingavax1_2 = new BUYBACK_STAKINGAVAX(
+  "BUYBACK_STAKINGAVAX1_2"
+);
 
 window.constant_staking_new3 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW3"
@@ -1775,8 +1780,8 @@ window.constant_staking_newavax4 = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGNEW_NEWAVAX4"
 );
 
-window.CONSTANT_STAKINGNEW_NEWAVAX3_ABI = window.CONSTANT_STAKINGAVAX_ABI
-window.CONSTANT_STAKINGNEW_NEWAVAX4_ABI = window.CONSTANT_STAKINGAVAX_ABI
+window.CONSTANT_STAKINGNEW_NEWAVAX3_ABI = window.CONSTANT_STAKINGAVAX_ABI;
+window.CONSTANT_STAKINGNEW_NEWAVAX4_ABI = window.CONSTANT_STAKINGAVAX_ABI;
 
 /* Farming New */
 window.token_new = new TOKEN("TOKEN_NEW");
@@ -1845,7 +1850,6 @@ window.constant_staking_idyp_4 = new CONSTANT_STAKING_OLD(
   "CONSTANT_STAKINGOLD_160"
 );
 
-
 /* Constant Staking iDYP AVAX */
 window.constant_staking_idypavax_1 = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGIDYPAVAX_1"
@@ -1859,10 +1863,217 @@ window.constant_staking_idypavax_5 = new CONSTANT_STAKING_NEWAVAX(
 window.constant_staking_idypavax_6 = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGIDYPAVAX_6"
 );
-window.CONSTANT_STAKINGIDYPAVAX_1_ABI = window.CONSTANT_STAKING_IDYP_ABI
-window.CONSTANT_STAKINGIDYPAVAX_2_ABI = window.CONSTANT_STAKING_IDYP_ABI
-window.CONSTANT_STAKINGIDYPAVAX_5_ABI = window.CONSTANT_STAKING_IDYP_ABI
-window.CONSTANT_STAKINGIDYPAVAX_6_ABI = window.CONSTANT_STAKING_IDYP_ABI
+
+//governance eth
+
+class NEW_GOVERNANCE {
+  constructor(ticker = "NEW_GOVERNANCE", token = "REWARD_TOKEN") {
+    this.ticker = ticker;
+    this.token = token;
+    let address = window.config[ticker.toLowerCase() + "_address"];
+    this._address = address;
+    [
+      "QUORUM",
+      "MIN_BALANCE_TO_INIT_PROPOSAL",
+      "VOTE_DURATION",
+      "RESULT_EXECUTION_ALLOWANCE_PERIOD",
+      "actions",
+      "optionOneVotes",
+      "optionTwoVotes",
+      "stakingPools",
+      "newGovernances",
+      "proposalStartTime",
+      "isProposalExecuted",
+      "totalDepositedTokens",
+      "votesForProposalByAddress",
+      "votedForOption",
+      "lastVotedProposalStartTime",
+      "lastIndex",
+      "getProposal",
+      "isProposalOpen",
+      "isProposalExecutible",
+    ].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({ key: this.ticker });
+        return await contract.methods[fn_name](...args).call();
+      };
+    });
+
+    [
+      "proposeDisburseOrBurn",
+      "proposeNewQuorum",
+      "proposeNewMinBalanceToInitProposal",
+      "proposeText",
+      "proposeUpgradeGovernance",
+      "addVotes",
+      "removeVotes",
+      "withdrawAllTokens",
+      "executeProposal",
+    ].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({ key: this.ticker });
+        let value = 0;
+        console.log(value);
+        let gas = window.config.default_gas_amount;
+        try {
+          let estimatedGas = await contract.methods[fn_name](
+            ...args
+          ).estimateGas({ gas });
+          if (estimatedGas) {
+            gas = Math.min(estimatedGas, gas);
+            //console.log('estimatedgas'+gas)
+          }
+        } catch (e) {
+          console.warn(e);
+        }
+        if (fn_name == "proposeText") {
+          gas = undefined;
+        }
+        return await contract.methods[fn_name](...args).send({
+          value,
+          gas,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        });
+      };
+    });
+  }
+
+  async addVotesOneClick(proposalId, option, amount) {
+    let token_contract = await getContract({ key: this.token });
+    let governance_contract = await getContract({ key: this.ticker });
+    let batch = new window.web3.eth.BatchRequest();
+    batch.add(
+      token_contract.methods
+        .approve(governance_contract._address, amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    batch.add(
+      governance_contract.methods
+        .addVotes(proposalId, option, amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    return batch.execute();
+  }
+}
+
+window.new_governance = new NEW_GOVERNANCE();
+
+//governance avax
+
+class NEW_GOVERNANCEAVAX {
+  constructor(ticker = "NEW_GOVERNANCEAVAX", token = "REWARD_TOKEN") {
+    this.ticker = ticker;
+    this.token = token;
+    let address = window.config[ticker.toLowerCase() + "_address"];
+    this._address = address;
+    [
+      "QUORUM",
+      "MIN_BALANCE_TO_INIT_PROPOSAL",
+      "VOTE_DURATION",
+      "RESULT_EXECUTION_ALLOWANCE_PERIOD",
+      "actions",
+      "optionOneVotes",
+      "optionTwoVotes",
+      "stakingPools",
+      "newGovernances",
+      "proposalStartTime",
+      "isProposalExecuted",
+      "totalDepositedTokens",
+      "votesForProposalByAddress",
+      "votedForOption",
+      "lastVotedProposalStartTime",
+      "lastIndex",
+      "getProposal",
+      "isProposalOpen",
+      "isProposalExecutible",
+    ].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({ key: this.ticker });
+        return await contract.methods[fn_name](...args).call();
+      };
+    });
+
+    [
+      "proposeDisburseOrBurn",
+      "proposeNewQuorum",
+      "proposeNewMinBalanceToInitProposal",
+      "proposeText",
+      "proposeUpgradeGovernance",
+      "addVotes",
+      "removeVotes",
+      "withdrawAllTokens",
+      "executeProposal",
+    ].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({ key: this.ticker });
+        let value = 0;
+        console.log(value);
+        let gas = window.config.default_gas_amount;
+        try {
+          let estimatedGas = await contract.methods[fn_name](
+            ...args
+          ).estimateGas({ gas });
+          if (estimatedGas) {
+            gas = Math.min(estimatedGas, gas);
+            //console.log('estimatedgas'+gas)
+          }
+        } catch (e) {
+          console.warn(e);
+        }
+        if (fn_name == "proposeText") {
+          gas = undefined;
+        }
+        return await contract.methods[fn_name](...args).send({
+          value,
+          gas,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        });
+      };
+    });
+  }
+
+  async addVotesOneClick(proposalId, option, amount) {
+    let token_contract = await getContract({ key: this.token });
+    let governance_contract = await getContract({ key: this.ticker });
+    let batch = new window.web3.eth.BatchRequest();
+    batch.add(
+      token_contract.methods
+        .approve(governance_contract._address, amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    batch.add(
+      governance_contract.methods
+        .addVotes(proposalId, option, amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    return batch.execute();
+  }
+}
+
+window.new_governanceavax = new NEW_GOVERNANCEAVAX();
+
+window.CONSTANT_STAKINGIDYPAVAX_1_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+window.CONSTANT_STAKINGIDYPAVAX_2_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+window.CONSTANT_STAKINGIDYPAVAX_5_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+window.CONSTANT_STAKINGIDYPAVAX_6_ABI = window.CONSTANT_STAKING_IDYP_ABI;
 
 // window.config_eth = {
 // 	weth_address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2', // LOWERCASE!
@@ -1952,6 +2163,1856 @@ window.tokenCG = {
 
 //window.UNISWAP_PAIR_ABI = [{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0In","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1In","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount0Out","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1Out","type":"uint256"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"Swap","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint112","name":"reserve0","type":"uint112"},{"indexed":false,"internalType":"uint112","name":"reserve1","type":"uint112"}],"name":"Sync","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"constant":true,"inputs":[],"name":"DOMAIN_SEPARATOR","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"MINIMUM_LIQUIDITY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"PERMIT_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"burn","outputs":[{"internalType":"uint256","name":"amount0","type":"uint256"},{"internalType":"uint256","name":"amount1","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"factory","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"getReserves","outputs":[{"internalType":"uint112","name":"_reserve0","type":"uint112"},{"internalType":"uint112","name":"_reserve1","type":"uint112"},{"internalType":"uint32","name":"_blockTimestampLast","type":"uint32"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"_token0","type":"address"},{"internalType":"address","name":"_token1","type":"address"}],"name":"initialize","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"kLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"mint","outputs":[{"internalType":"uint256","name":"liquidity","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"nonces","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"permit","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"price0CumulativeLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"price1CumulativeLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"skim","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"amount0Out","type":"uint256"},{"internalType":"uint256","name":"amount1Out","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"swap","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"sync","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"}]
 //window.LOCKER_ABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":true,"internalType":"address","name":"token","type":"address"},{"indexed":true,"internalType":"address","name":"recipient","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"unlockTimestamp","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"platformTokensLocked","type":"uint256"},{"indexed":false,"internalType":"bool","name":"claimed","type":"bool"}],"name":"Locked","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":true,"internalType":"address","name":"token","type":"address"},{"indexed":true,"internalType":"address","name":"recipient","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"unlockTimestamp","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"platformTokensLocked","type":"uint256"},{"indexed":false,"internalType":"bool","name":"claimed","type":"bool"}],"name":"Unlocked","type":"event"},{"inputs":[],"name":"MAX_LOCK_DURATION","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MINIMUM_BASETOKEN_PERCENT_ETH_X_100","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"ONE_HUNDRED_X_100","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"PLATFORM_TOKEN","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"SLIPPAGE_TOLERANCE_X_100","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"baseToken","type":"address"}],"name":"addBaseToken","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"claimEther","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"claimExtraTokens","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"lockId","type":"uint256"}],"name":"claimUnlocked","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"pair","type":"address"},{"internalType":"address","name":"baseToken","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"uint256","name":"unlockTimestamp","type":"uint256"}],"name":"createLock","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[{"internalType":"uint256","name":"startIndex","type":"uint256"},{"internalType":"uint256","name":"endIndex","type":"uint256"}],"name":"getActiveLockIds","outputs":[{"internalType":"uint256[]","name":"result","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"startIndex","type":"uint256"},{"internalType":"uint256","name":"endIndex","type":"uint256"}],"name":"getActiveLockIdsByRecipient","outputs":[{"internalType":"uint256[]","name":"result","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"startIndex","type":"uint256"},{"internalType":"uint256","name":"endIndex","type":"uint256"}],"name":"getActiveLockIdsByToken","outputs":[{"internalType":"uint256[]","name":"result","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getActiveLockIdsLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"}],"name":"getActiveLockIdsLengthByRecipient","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"getActiveLockIdsLengthByToken","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"startIndex","type":"uint256"},{"internalType":"uint256","name":"endIndex","type":"uint256"}],"name":"getBaseTokens","outputs":[{"internalType":"address[]","name":"result","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getBaseTokensLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"startIndex","type":"uint256"},{"internalType":"uint256","name":"endIndex","type":"uint256"}],"name":"getInactiveLockIds","outputs":[{"internalType":"uint256[]","name":"result","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"},{"internalType":"uint256","name":"startIndex","type":"uint256"},{"internalType":"uint256","name":"endIndex","type":"uint256"}],"name":"getInactiveLockIdsByRecipient","outputs":[{"internalType":"uint256[]","name":"result","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"startIndex","type":"uint256"},{"internalType":"uint256","name":"endIndex","type":"uint256"}],"name":"getInactiveLockIdsByToken","outputs":[{"internalType":"uint256[]","name":"result","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getInactiveLockIdsLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"recipient","type":"address"}],"name":"getInactiveLockIdsLengthByRecipient","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"token","type":"address"}],"name":"getInactiveLockIdsLengthByToken","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"id","type":"uint256"}],"name":"getLockById","outputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"unlockTimestamp","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bool","name":"claimed","type":"bool"},{"internalType":"uint256","name":"platformTokensLocked","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"startIndex","type":"uint256"},{"internalType":"uint256","name":"endIndex","type":"uint256"}],"name":"getLockedTokens","outputs":[{"internalType":"address[]","name":"tokens","type":"address[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getLockedTokensLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256[]","name":"ids","type":"uint256[]"}],"name":"getLocksByIds","outputs":[{"internalType":"uint256[]","name":"_ids","type":"uint256[]"},{"internalType":"address[]","name":"tokens","type":"address[]"},{"internalType":"uint256[]","name":"unlockTimestamps","type":"uint256[]"},{"internalType":"uint256[]","name":"amounts","type":"uint256[]"},{"internalType":"address[]","name":"recipients","type":"address[]"},{"internalType":"bool[]","name":"claimeds","type":"bool[]"},{"internalType":"uint256[]","name":"platformTokensLockeds","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"pair","type":"address"},{"internalType":"address","name":"baseToken","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"getMinLockCreationFeeInWei","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address[]","name":"tokens","type":"address[]"}],"name":"getTokensBalances","outputs":[{"internalType":"uint256[]","name":"balances","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"locks","outputs":[{"internalType":"address","name":"token","type":"address"},{"internalType":"uint256","name":"unlockTimestamp","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"},{"internalType":"address","name":"recipient","type":"address"},{"internalType":"bool","name":"claimed","type":"bool"},{"internalType":"uint256","name":"platformTokensLocked","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"locksLength","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"baseToken","type":"address"}],"name":"removeBaseToken","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"tokenBalances","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"uniswapRouterV2","outputs":[{"internalType":"contract IUniswapV2Router02","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"stateMutability":"payable","type":"receive"}]
+
+window.NEW_GOVERNANCE_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Governance.Option",
+        name: "option",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "addVotes",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMinBalanceToInitProposal",
+        type: "uint256",
+      },
+    ],
+    name: "changeMinBalanceToInitProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newQuorum",
+        type: "uint256",
+      },
+    ],
+    name: "changeQuorum",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "claimOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "executeProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    name: "PoolCallReverted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    name: "PoolCallReverted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "PoolCallSucceeded",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "poolGroupName",
+        type: "uint8",
+      },
+    ],
+    name: "proposeDisburseOrBurn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMinBalance",
+        type: "uint256",
+      },
+    ],
+    name: "proposeNewMinBalanceToInitProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newQuorum",
+        type: "uint256",
+      },
+    ],
+    name: "proposeNewQuorum",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "text",
+        type: "string",
+      },
+    ],
+    name: "proposeText",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "poolGroupName",
+        type: "uint8",
+      },
+      {
+        internalType: "address",
+        name: "newGovernance",
+        type: "address",
+      },
+    ],
+    name: "proposeUpgradeGovernance",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "removeVotes",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyERC20Token",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pool",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyERC20TokenFromPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyLegacyERC20Token",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pool",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyLegacyERC20TokenFromPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdrawAllTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "actions",
+    outputs: [
+      {
+        internalType: "enum Governance.Action",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ADMIN_CAN_CLAIM_AFTER",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ADMIN_FEATURES_EXPIRE_AFTER",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "getProposal",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Governance.Action",
+        name: "_proposalAction",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "_optionOneVotes",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_optionTwoVotes",
+        type: "uint256",
+      },
+      {
+        internalType: "contract StakingPool[]",
+        name: "_stakingPool",
+        type: "address[]",
+      },
+      {
+        internalType: "address",
+        name: "_newGovernance",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_proposalStartTime",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "_isProposalExecuted",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "_newQuorum",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_proposalText",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "_newMinBalance",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "hardcodedStakingPools",
+    outputs: [
+      {
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isOwner",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalExecuted",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalExecutible",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalOpen",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastIndex",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "lastVotedProposalStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "MIN_BALANCE_TO_INIT_PROPOSAL",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newGovernances",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newMinBalances",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newQuorums",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "optionOneVotes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "optionTwoVotes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pendingOwner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "proposalStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "proposalTexts",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "QUORUM",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "RESULT_EXECUTION_ALLOWANCE_PERIOD",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "stakingPools",
+    outputs: [
+      {
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "totalDepositedTokens",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRUSTED_TOKEN_ADDRESS",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "VOTE_DURATION",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "votedForOption",
+    outputs: [
+      {
+        internalType: "enum Governance.Option",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "votesForProposalByAddress",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+window.NEW_GOVERNANCEAVAX_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Governance.Option",
+        name: "option",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "addVotes",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMinBalanceToInitProposal",
+        type: "uint256",
+      },
+    ],
+    name: "changeMinBalanceToInitProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newQuorum",
+        type: "uint256",
+      },
+    ],
+    name: "changeQuorum",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "claimOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "executeProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    name: "PoolCallReverted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    name: "PoolCallReverted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "PoolCallSucceeded",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "poolGroupName",
+        type: "uint8",
+      },
+    ],
+    name: "proposeDisburseOrBurn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMinBalance",
+        type: "uint256",
+      },
+    ],
+    name: "proposeNewMinBalanceToInitProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newQuorum",
+        type: "uint256",
+      },
+    ],
+    name: "proposeNewQuorum",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "text",
+        type: "string",
+      },
+    ],
+    name: "proposeText",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "poolGroupName",
+        type: "uint8",
+      },
+      {
+        internalType: "address",
+        name: "newGovernance",
+        type: "address",
+      },
+    ],
+    name: "proposeUpgradeGovernance",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "removeVotes",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyERC20Token",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pool",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyERC20TokenFromPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyLegacyERC20Token",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pool",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyLegacyERC20TokenFromPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdrawAllTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "actions",
+    outputs: [
+      {
+        internalType: "enum Governance.Action",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ADMIN_CAN_CLAIM_AFTER",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ADMIN_FEATURES_EXPIRE_AFTER",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "getProposal",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Governance.Action",
+        name: "_proposalAction",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "_optionOneVotes",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_optionTwoVotes",
+        type: "uint256",
+      },
+      {
+        internalType: "contract StakingPool[]",
+        name: "_stakingPool",
+        type: "address[]",
+      },
+      {
+        internalType: "address",
+        name: "_newGovernance",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_proposalStartTime",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "_isProposalExecuted",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "_newQuorum",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_proposalText",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "_newMinBalance",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "hardcodedStakingPools",
+    outputs: [
+      {
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isOwner",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalExecuted",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalExecutible",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalOpen",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastIndex",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "lastVotedProposalStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "MIN_BALANCE_TO_INIT_PROPOSAL",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newGovernances",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newMinBalances",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newQuorums",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "optionOneVotes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "optionTwoVotes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pendingOwner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "proposalStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "proposalTexts",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "QUORUM",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "RESULT_EXECUTION_ALLOWANCE_PERIOD",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "stakingPools",
+    outputs: [
+      {
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "totalDepositedTokens",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRUSTED_TOKEN_ADDRESS",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "VOTE_DURATION",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "votedForOption",
+    outputs: [
+      {
+        internalType: "enum Governance.Option",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "votesForProposalByAddress",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 window.ERC20_ABI = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -11582,7 +13643,6 @@ window.CONSTANT_STAKING_OLD_ABI = [
   },
 ];
 
-
 window.VAULT_ABI = [
   {
     inputs: [],
@@ -16239,7 +18299,6 @@ window.BUYBACK_STAKINGAVAX1_2_ABI = [
   },
 ];
 
-
 window.CONSTANT_STAKINGAVAX_ABI = [
   {
     inputs: [],
@@ -18436,7 +20495,6 @@ window.CONSTANT_STAKING_DAI_ABI = [
   },
 ];
 
-
 window.FARMWETH_ABI = window.TOKEN_ABI;
 window.TOKEN_WETH = window.TOKEN_ABI;
 window.TOKEN_WBTC = window.TOKEN_ABI;
@@ -18568,7 +20626,7 @@ function param(name) {
   if (f) return decodeURIComponent(f[1].replace(/\+/g, " "));
 }
 
-window.param = param
+window.param = param;
 
 window.cached_contracts = Object.create(null);
 
@@ -18579,8 +20637,6 @@ function getCoinbase() {
     return window.web3.eth?.getCoinbase();
   }
 }
-
- 
 
 async function getContract({ key, address = null, ABI = null }) {
   ABI = ABI || window[key + "_ABI"];
@@ -18901,16 +20957,14 @@ Object.keys(window.config)
       k.startsWith("wethavax") ||
       k.startsWith("farming_new_") ||
       k.startsWith("constant_stakingdai_") ||
-
       k.startsWith("constant_stakingidypavax_1") ||
       k.startsWith("constant_stakingidypavax_2") ||
       k.startsWith("constant_stakingidypavax_5") ||
       k.startsWith("constant_stakingidypavax_6") ||
-
       k.startsWith("constant_stakingnew_newavax3") ||
       k.startsWith("constant_stakingnew_newavax4") ||
-
-
+      k.startsWith("new_governance") ||
+      k.startsWith("new_governanceavax") ||
       (k.startsWith("constant_stakingold_") && k.endsWith("_address"))
   )
   .forEach((k) => {
@@ -18958,7 +21012,6 @@ Object.keys(window.config)
       ? window.CONSTANT_STAKINGAVAX_ABI
       : k.startsWith("constant_stakingnew_newavax4")
       ? window.CONSTANT_STAKINGAVAX_ABI
-
       : k.startsWith("buyback_staking1_2_")
       ? window.BUYBACK_STAKING1_2_ABI
       : k.startsWith("constant_stakingidypavax_3")
@@ -18989,6 +21042,10 @@ Object.keys(window.config)
       ? window.CONSTANT_STAKING_DAI_ABI
       : k.startsWith("constant_stakingold_")
       ? window.CONSTANT_STAKING_OLD_ABI
+      : k.startsWith("new_governance")
+      ? window.NEW_GOVERNANCE_ABI
+      : k.startsWith("new_governanceavax")
+      ? window.NEW_GOVERNANCEAVAX_ABI
       : window.STAKING_ABI;
   });
 

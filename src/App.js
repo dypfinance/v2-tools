@@ -21,7 +21,8 @@ import Earn from "./components/earn/Earn";
 import Dashboard from "./components/dashboard/Dashboard";
 import Governance from "./components/governance/Governance";
 import initFarmAvax from "./components/FARMINNG/farmAvax";
-import navRadius from './assets/navRadius.svg'
+import navRadius from "./assets/navRadius.svg";
+import Governancedev from "./components/governance/dev/governance-new";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -49,7 +50,7 @@ class App extends React.Component {
       hotPairs: [],
       networkId: 1,
       show: false,
-      referrer: ''
+      referrer: "",
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -64,21 +65,21 @@ class App extends React.Component {
   };
 
   checkNetworkId() {
-      if (window.ethereum) {
-          window.ethereum
-              .request({ method: "net_version" })
-              .then((data) => {
-                  this.setState({
-                      networkId: data,
-                  });
-                  this.refreshSubscription().then();
-              })
-              .catch(console.error);
-      } else {
+    if (window.ethereum) {
+      window.ethereum
+        .request({ method: "net_version" })
+        .then((data) => {
           this.setState({
-              networkId: "1",
+            networkId: data,
           });
-      }
+          this.refreshSubscription().then();
+        })
+        .catch(console.error);
+    } else {
+      this.setState({
+        networkId: "1",
+      });
+    }
   }
 
   handleSwitchNetwork = (chainId) => {
@@ -169,7 +170,7 @@ class App extends React.Component {
         }
       }
       this.setState({
-        referrer
+        referrer,
       });
 
       let the_graph_result_ETH_V2 = await window.get_the_graph_eth_v2();
@@ -214,13 +215,13 @@ class App extends React.Component {
       this.setState({
         the_graph_result_ETH_V2: JSON.parse(
           JSON.stringify(the_graph_result_ETH_V2)
-        )
+        ),
       });
       this.setState({
         the_graph_result_AVAX_V2: JSON.parse(
           JSON.stringify(the_graph_result_AVAX_V2)
         ),
-      })
+      });
     } catch (e) {
       // window.alertify.error("Cannot fetch TVL");
       console.error("TVL ETH V2 error: " + e);
@@ -229,9 +230,9 @@ class App extends React.Component {
     try {
       let the_graph_result = await window.refresh_the_graph_result();
       let the_graph_resultavax = await window.refresh_the_graph_resultavax();
-      
+
       this.setState({
-        the_graph_result: JSON.parse(JSON.stringify(the_graph_result))
+        the_graph_result: JSON.parse(JSON.stringify(the_graph_result)),
       });
 
       this.setState({
@@ -256,8 +257,6 @@ class App extends React.Component {
     document.body.classList.add(toBeAdded[theme]);
     // this.subscriptionInterval = setInterval(this.refreshSubscription, 5e3);
   }
-
-  
 
   checkConnection() {
     const logout = localStorage.getItem("logout");
@@ -327,18 +326,15 @@ class App extends React.Component {
       LP_IDs_V2.weth[3],
       LP_IDs_V2.weth[4],
     ];
-    
-    
 
     document.addEventListener("touchstart", { passive: true });
 
-    
     return (
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
       >
-      <img src={navRadius} className="nav-radius" alt="" />
-        
+        <img src={navRadius} className="nav-radius" alt="" />
+
         <Route component={GoogleAnalyticsReporter} />
 
         <div className="body_overlay"></div>
@@ -386,7 +382,6 @@ class App extends React.Component {
                 )}
               />
 
-
               <Route
                 exact
                 path="/earn"
@@ -404,6 +399,17 @@ class App extends React.Component {
                 )}
               />
               <Route exact path="/governance" render={() => <Governance />} />
+              <Route
+                exact
+                path="/governancedev"
+                render={() => (
+                  <Governancedev
+                    coinbase={this.state.coinbase}
+                    connected={this.state.isConnected}
+                    handleConnection={this.handleConnection}
+                  />
+                )}
+              />
 
               <Route
                 exact
@@ -495,8 +501,6 @@ class App extends React.Component {
                   />
                 )}
               />
-
-
 
               <Route
                 exact

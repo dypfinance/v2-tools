@@ -1,0 +1,117 @@
+.proposalscard {
+  background: #312f69;
+  box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  padding: 10px;
+  position: relative;
+}
+
+.purplediv {
+  width: 4px;
+  height: 40px;
+  position: absolute;
+  border-radius: 0px 100px 100px 0px;
+  left: 0px;
+}
+
+.vault-container {
+  background: linear-gradient(
+    0deg,
+    rgba(20, 20, 42, 0.6) 0%,
+    rgba(20, 20, 42, 0) 100%
+  );
+  /* opacity: 0.6; */
+  filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
+  border-radius: 8px;
+}
+
+.actionwrapper {
+  background: #503851;
+  border-radius: 6px;
+  width: fit-content;
+  padding: 5px;
+  height: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionText {
+  font-style: normal;
+  font-weight: 400 !important;
+  font-size: 10px !important;
+  line-height: 10px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #f8845b !important;
+}
+
+.duration-txt {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.expiretxt {
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+  line-height: 18px !important;
+  letter-spacing: -0.018em !important;
+  color: #c0c9ff !important;
+}
+
+.card-bottom-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.cardlogo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.vault-name {
+  font-weight: 500 !important;
+  font-size: 22px !important;
+  line-height: 26px !important;
+  letter-spacing: -0.018em !important;
+  color: #f7f7fc !important;
+}
+
+.governanceWrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.ethchain {
+  background: linear-gradient(
+    275.63deg,
+    #5b75da 2.68%,
+    rgba(91, 117, 218, 0) 105.72%
+  );
+  border-radius: 6px 0px 0px 6px;
+  position: relative;
+}
+
+
+.bnbchain {
+    background: linear-gradient(275.63deg, #F1C623 2.68%, rgba(242, 198, 35, 0) 105.72%);
+    border-radius: 6px 0px 0px 6px;
+    position: relative;
+  }
+
+
+
+  .avaxchain {
+    background: linear-gradient(275.63deg, #EA4647 2.68%, rgba(235, 71, 72, 0) 105.72%);
+    border-radius: 6px 0px 0px 6px;
+    position: relative;
+  }
+
