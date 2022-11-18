@@ -1735,7 +1735,7 @@ export default function avaxBuyback({
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                      Reward updated each day 00:00 (UTC) <b>22:36</b>
+                    Rewards are displayed in real-time
                       <Tooltip
                         placement="top"
                         title={
@@ -1960,7 +1960,7 @@ export default function avaxBuyback({
                           // this.state.claimStatus === "invest" ? true :
                           false
                         }
-                        className={`btn filledbtn ${
+                        className={`btn outline-btn ${
                           this.state.reInvestStatus === "invest" && this.state.selectedPool === ""
                             ? "disabled-btn"
                             : this.state.reInvestStatus === "failed"
@@ -2038,7 +2038,7 @@ export default function avaxBuyback({
                   </h6>
 
                   <button
-                    className="btn filledbtn"
+                    className="btn outline-btn"
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
                     }}
@@ -2583,8 +2583,7 @@ export default function avaxBuyback({
                     <h6 className="withdrawdesc mt-2 p-0">
                       {lockTime === "No Lock"
                         ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                        : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
-                      withdraw or you can continue to earn rewards everyday`}
+                        : `The pool has a lock time. You can withdraw your deposited assets after the lock time expires.`}
                     </h6>
                   </div>
 
@@ -2795,7 +2794,7 @@ export default function avaxBuyback({
                     </div>
                     <div className="separator"></div>
 
-                    <div className="d-flex align-items-center justify-content-between gap-2">
+                    <div className="d-flex flex-column align-items-startar justify-content-between gap-2">
 
                       <button
                         disabled={
@@ -2841,6 +2840,17 @@ export default function avaxBuyback({
                           <>Withdraw</>
                         )}
                       </button>
+                      <span
+                          className="mt-2"
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
+                          }}
+                        >
+                          *No withdrawal fee
+                        </span>
                     </div>
                     {this.state.errorMsg3 && (
                       <h6 className="errormsg">{this.state.errorMsg3}</h6>

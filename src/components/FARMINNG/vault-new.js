@@ -1131,7 +1131,7 @@ export default function initVaultNew({
                   <h6 className="withdraw-txt">Rewards</h6>
                   <h6 className="withdraw-littletxt d-flex align-items-center gap-1">
                     You have 3 differents reward categories 
-                    <Tooltip
+                    <Tooltip 
                       placement="top"
                       title={
                         <div className="tooltip-text">
@@ -1171,7 +1171,7 @@ export default function initVaultNew({
                   <div className="d-flex align-items-center justify-content-between gap-2"></div>
                   <div className="form-row d-flex gap-2 align-items-center justify-content-between">
                     <div className="position-relative">
-                      <span>{pendingDivsEth}</span>
+                      <span>{pendingDivsEth > 0 ? pendingDivsEth : getFormattedNumber(0, 18)} {token_symbol}</span>
                     </div>
                     <button
                       disabled={
@@ -1237,7 +1237,7 @@ export default function initVaultNew({
                   // disabled={this.state.depositStatus === "success" ? false : true}
                   className={
                     // this.state.depositStatus === "success" ?
-                    "filledbtn btn"
+                    "outline-btn btn"
                     // :
                     //  "btn disabled-btn"
                   }
@@ -1534,8 +1534,7 @@ export default function initVaultNew({
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                          : `Your deposit is locked for ${lockTime.toLowerCase()}. After ${lockTime.toLowerCase()} you can
-                        withdraw or you can continue to earn rewards everyday`}
+                          : `The pool has a lock time. You can withdraw your deposited assets after the lock time expires.`}
                       </h6>
                     </div>
 
@@ -1582,7 +1581,7 @@ export default function initVaultNew({
                         </button>
                       </div>
 
-                      <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
+                      <div className="d-flex flex-column align-items-start justify-content-between gap-2 mt-4">
                         <button
                           disabled={
                             this.state.withdrawStatus === "failed" ||
@@ -1623,7 +1622,17 @@ export default function initVaultNew({
                             <>Withdraw</>
                           )}
                         </button>
-
+                        <span
+                          className="mt-2"
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
+                          }}
+                        >
+                          *No withdrawal fee
+                        </span>
                         {/* <button
                           className="btn filledbtn w-100"
                           onClick={(e) => {

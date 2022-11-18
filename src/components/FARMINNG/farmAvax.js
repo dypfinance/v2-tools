@@ -1201,7 +1201,7 @@ export default function initFarmAvax({
                   <div className="d-flex align-items-center justify-content-between gap-3">
                     <h6 className="earnrewards-text">Earn rewards in:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      WAVAX/ETH/DYP
+                      WAVAX & DYP
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1323,8 +1323,8 @@ export default function initFarmAvax({
               </button>
             </div> */}
                 <div className="otherside-border col-4">
-                  <div className="d-flex justify-content-between align-items-center gap-2">
-                    <div className="d-flex align-items-center gap-3">
+                  <div className="d-flex justify-content-between align-items-start gap-2">
+                    <div className="d-flex align-items-start gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
                       <div className="d-flex justify-content-center align-items-center">
                         <div className="dropdown">
@@ -1333,6 +1333,7 @@ export default function initFarmAvax({
                             type="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
+                            style={{position: 'relative', bottom: '4px'}}
                           >
                             <img
                               src={
@@ -1386,32 +1387,7 @@ export default function initFarmAvax({
                             6
                           )}
                         </b>
-                        {/* <img
-                        src={
-                          require(`./assets/avax/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
-                            .default
-                        }
-                        alt=""
-                        style={{ width: 14, height: 14 }}
-                      />
-                      <select
-                        disabled={!is_connected}
-                        value={this.state.selectedBuybackToken}
-                        onChange={(e) =>
-                          this.handleSelectedTokenChange(e.target.value)
-                        }
-                        className="inputfarming p-0"
-                        style={{ border: "none" }}
-                      >
-                        {Object.keys(window.buyback_tokens_farmingavax).map(
-                          (t) => (
-                            <option key={t} value={t}>
-                              {" "}
-                              {window.buyback_tokens_farmingavax[t].symbol}{" "}
-                            </option>
-                          )
-                        )}
-                      </select> */}
+                        {this.state.selectedTokenSymbol}
                       </h6>
                     </div>
                     <Tooltip
@@ -1509,7 +1485,7 @@ export default function initFarmAvax({
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                      Reward updated each day 00:00 (UTC) <b>22:36</b>
+                        Rewards are displayed in real-time
                       <Tooltip
                         placement="top"
                         title={
@@ -1524,8 +1500,9 @@ export default function initFarmAvax({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-2 align-items-end">
-                      <div
+                    <div className="form-row d-flex gap-2 align-items-end justify-content-between">
+                        <div className="d-flex align-items-center gap-4">
+                        <div
                         className="gap-1 claimreward-wrapper"
                         onClick={() => {
                           this.setState({ selectedPool: "wavax" });
@@ -1555,7 +1532,7 @@ export default function initFarmAvax({
                             value={
                               Number(pendingDivsEth) > 0
                                 ? `${pendingDivsEth} WAVAX`
-                                : `${pendingDivsEth} WAVAX`
+                                : `${getFormattedNumber(0,2)} WAVAX`
                             }
                             onChange={(e) =>
                               this.setState({
@@ -1576,7 +1553,7 @@ export default function initFarmAvax({
                           />
                         </div>
                         <div
-                          className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                          className="d-flex align-items-center justify-content-center w-100 claimreward-header"
                           // style={{ paddingLeft: "10px" }}
                         >
                           {/* <img
@@ -1700,7 +1677,7 @@ export default function initFarmAvax({
                             value={
                               Number(pendingDivs) > 0
                                 ? `${pendingDivs} DYP`
-                                : `${pendingDivs} DYP`
+                                : `${getFormattedNumber(0,2)} DYP`
                             }
                             onChange={(e) =>
                               this.setState({
@@ -1722,7 +1699,7 @@ export default function initFarmAvax({
                         </div>
 
                         <div
-                          className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                          className="d-flex align-items-center justify-content-center w-100 claimreward-header "
                           // style={{ paddingLeft: "10px" }}
                         >
                           <img
@@ -1789,6 +1766,7 @@ export default function initFarmAvax({
                           </div> */}
                         </div>
                       </div>
+                        </div>
                       <button
                         disabled={
                           this.state.selectedPool === "" ||
@@ -1882,7 +1860,7 @@ export default function initFarmAvax({
                     // disabled={this.state.depositStatus === "success" ? false : true}
                     className={
                       // this.state.depositStatus === "success" ?
-                      "filledbtn btn"
+                      "outline-btn btn"
                       // :
                       //  "btn disabled-btn"
                     }
@@ -2219,16 +2197,13 @@ export default function initFarmAvax({
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
                   <div className="container">
-                    {/* <div className="row" style={{ marginLeft: "0px" }}>
-                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext">
-                          <img src={stats} alt="" />
-                          Withdraw deposit
-                        </h6>
-                      </div>
-                      <h6 className="withdrawdesc mt-2 p-0">No Lock</h6>
-                    </div> */}
-
+                  <div className="row" style={{ marginLeft: "0px" }}>
+                      <h6 className="withdrawdesc mt-2 p-0">
+                        {lockTime === "No Lock"
+                          ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
+                          : `The pool has a lock time. You can withdraw your deposited assets after the lock time expires.`}
+                      </h6>
+                    </div>
                     <div className="d-flex flex-column mt-2">
                       <div className="d-flex  gap-2 justify-content-between align-items-center">
                         <div className="d-flex flex-column gap-1">
@@ -2371,7 +2346,7 @@ export default function initFarmAvax({
                             </div>
                             </div>
                             <div
-                              className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                              className="d-flex align-items-center justify-content-center w-100 claimreward-header"
                               // style={{ padding: "10px 0 0 10px" }}
                             >
                               <img
@@ -2500,7 +2475,7 @@ export default function initFarmAvax({
                               </div> */}
                             </div>
                             <div
-                              className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                              className="d-flex align-items-center justify-content-center w-100 claimreward-header"
                               // style={{ padding: "10px 0 0 10px" }}
                             >
                               <img

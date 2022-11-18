@@ -39,6 +39,7 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
 
   const [activeCard, setActiveCard] = useState();
   const [cardIndex, setcardIndex] = useState();
+  const [details, setDetails] = useState()
 
   const eth_address = "ETH";
   const { rebase_factors } = window;
@@ -120,10 +121,10 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
           <div>
             <div className="row m-0 align-items-center justify-content-between gap-2 w-100 pb-2">
               <h6 className="top-pools-title">Top Pools</h6>
-              <h6 className="view-more-title d-flex justify-content-center align-items-center gap-1">
+              <NavLink to="/earn" className="view-more-title d-flex justify-content-center align-items-center gap-1">
                 View all <img src={rightarrow} alt="" />{" "}
 
-              </h6>
+              </NavLink>
             </div>
             <div>
               <div className="row m-0 gap-4 toppool-allwrapper">
@@ -143,10 +144,13 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
                         onShowDetailsClick={() => {
                           setActiveCard(cards[index]);
                           setcardIndex(index);
+                          setDetails(index)
                         }}
                         onHideDetailsClick={() => {
                           setActiveCard(null);
+                          setDetails()
                         }}
+                        details={details === index ? true : false}
                       />
                     );
                   })}

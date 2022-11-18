@@ -906,7 +906,7 @@ export default function initConstantStakingiDYP({
                   <div className="d-flex justify-content-between gap-2">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                      Reward updated each day 00:00 (UTC) <b>22:36</b>
+                    Rewards are displayed in real-time
                       <Tooltip
                         placement="top"
                         title={
@@ -970,7 +970,7 @@ export default function initConstantStakingiDYP({
                           // this.state.reInvestStatus === "initial" ? true :
                           false
                         }
-                        className={`btn filledbtn ${
+                        className={`btn outline-btn ${
                           this.state.reInvestStatus === "invest"
                             ? "disabled-btn"
                             : this.state.reInvestStatus === "failed"
@@ -1042,7 +1042,7 @@ export default function initConstantStakingiDYP({
                   </h6>
 
                   <button
-                    className="btn filledbtn"
+                    className="btn outline-btn"
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
                     }}
@@ -1330,8 +1330,7 @@ export default function initConstantStakingiDYP({
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                          : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
-                        withdraw or you can continue to earn rewards everyday`}
+                          : `The pool has a lock time. You can withdraw your deposited assets after the lock time expires.`}
                       </h6>
                     </div>
 

@@ -438,7 +438,6 @@ const TopPoolsListCard = ({
         className="row w-100 d-flex flex-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer"
         onClick={() => handleDetails()}
       >
-        <div className="purplediv"></div>
         <div
           className={`col-2 d-flex align-items-center ${
             cardType === "Farming" || cardType === "Buyback" ? null : "gap-2"
@@ -516,7 +515,8 @@ const TopPoolsListCard = ({
             className="details-text gap-1 d-flex align-items-center cursor-pointer justify-content-end"
             style={{
               color: showDetails === false ? "#75CAC2" : "#C0C9FF",
-              width: "100px",
+              minWidth: "100px",
+              maxWidth: "100px",
             }}
             onClick={() => setShowDetails(!showDetails)}
           >

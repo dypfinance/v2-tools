@@ -1029,7 +1029,7 @@ export default function stakeAvax30({
                       </div>
                       <h6 className="mybalance-text">
                         Balance:
-                        <b>{token_balance}</b>
+                        <b>{token_balance > 0 ? token_balance : getFormattedNumber(0, 6)}</b>
                       </h6>
                     </div>
                     <Tooltip
@@ -1131,7 +1131,7 @@ export default function stakeAvax30({
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                      Reward updated each day 00:00 (UTC) <b>22:36</b>
+                    Rewards are displayed in real-time
                       <Tooltip
                         placement="top"
                         title={
@@ -1149,26 +1149,11 @@ export default function stakeAvax30({
                     <div className="form-row d-flex gap-2 align-items-center justify-content-between">
                       <div className="position-relative d-flex flex-column">
                       <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>DYP</span>
-                        <input
-                          disabled
-                          value={
-                            Number(pendingDivs) > 0
-                              ? `${pendingDivs}`
-                              : `${pendingDivs}`
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              pendingDivs:
-                                Number(e.target.value) > 0
-                                  ? e.target.value
-                                  : e.target.value,
-                            })
-                          }
-                          className=" left-radius inputfarming styledinput2"
-                          placeholder="0"
-                          type="text"
-                          style={{ fontSize: "14px", width: 140 }}
-                        />
+                      <span>{pendingDivs > 0 ?
+                              pendingDivs 
+                              : 
+                              getFormattedNumber(0, 6)
+                            }</span>
                       </div>
                       <div className="d-flex align-items-center gap-2">
                         <button
@@ -1215,7 +1200,7 @@ export default function stakeAvax30({
                             // this.state.claimStatus === "invest" ? true :
                             false
                           }
-                          className={`btn filledbtn ${
+                          className={`btn outline-btn ${
                             this.state.reInvestStatus === "invest"
                               ? "disabled-btn"
                               : this.state.reInvestStatus === "failed"
@@ -1273,7 +1258,7 @@ export default function stakeAvax30({
                     // disabled={this.state.depositStatus === "success" ? false : true}
                     className={
                       // this.state.depositStatus === "success" ?
-                      "filledbtn btn"
+                      "outline-btn btn"
                       // :
                       //  "btn disabled-btn"
                     }
@@ -1542,7 +1527,7 @@ export default function stakeAvax30({
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                          : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can withdraw or you can continue to earn rewards everyday`}
+                          : `The pool has a lock time. You can withdraw your deposited assets after the lock time expires.`}
                       </h6>
                     </div>
 
@@ -1574,7 +1559,7 @@ export default function stakeAvax30({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                            {token_balance} {token_symbol}
+                            {token_balance > 0 ? token_balance : getFormattedNumber(0, 6)} {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1603,7 +1588,7 @@ export default function stakeAvax30({
                         </button>
                       </div>
 
-                      <div className="d-flex align-items-center justify-content-between gap-2 mt-4">
+                      <div className="d-flex flex-column align-items-start justify-content-between gap-2 mt-4">
                         <button
                           disabled={
                             this.state.withdrawStatus === "failed" ||
@@ -1644,7 +1629,17 @@ export default function stakeAvax30({
                             <>Withdraw</>
                           )}
                         </button>
-
+                        <span
+                          className="mt-2"
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
+                          }}
+                        >
+                          *No withdrawal fee
+                        </span>
                         {/* <button
                       className="btn filledbtn w-100"
                       onClick={(e) => {

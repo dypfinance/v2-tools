@@ -118,7 +118,7 @@ const EarnContent = ({
   return (
     <>
       <div className="row justify-content-center w-100">
-        <div className="row justify-content-between align-items-center p-2 options-container my-5">
+        <div className="row justify-content-between align-items-center p-2 options-container" style={{marginTop: '30px', marginBottom: '40px'}}>
           <div className="col-2 d-flex justify-content-start align-items-center gap-3">
             <div
               className={`list-style ${
@@ -180,7 +180,7 @@ const EarnContent = ({
             >
               <div className="pill"></div>
             </div>
-            <h5 className="text-white">My Stakes</h5>
+            <h5 className="text-white" style={{fontSize: '16px' }}>My Stakes</h5>
           </div>
         </div>
         {/* <hr /> */}
@@ -218,15 +218,15 @@ const EarnContent = ({
                   <div className="d-flex flex-column">
                     <p
                       className="text-white"
-                      style={{ fontSize: "11px", fontWeight: "300" }}
+                      style={{ fontSize: "12px", fontWeight: "300" }}
                     >
                       ETH {option}
                     </p>
                     <p
                       style={{
-                        fontSize: "11px",
+                        fontSize: "12px",
                         fontWeight: "500",
-                        color: "#C0CBF7",
+                        color: "#f7f7fc",
                       }}
                     >
                       25% APR
@@ -259,15 +259,15 @@ const EarnContent = ({
                   <div className="d-flex flex-column">
                     <p
                       className="text-white"
-                      style={{ fontSize: "11px", fontWeight: "300" }}
+                      style={{ fontSize: "12px", fontWeight: "300" }}
                     >
-                      BSC {option}
+                      BNB {option}
                     </p>
                     <p
                       style={{
-                        fontSize: "11px",
+                        fontSize: "12px",
                         fontWeight: "500",
-                        color: "#C0CBF7",
+                        color: "#f7f7fc",
                       }}
                     >
                       25% APR
@@ -300,15 +300,15 @@ const EarnContent = ({
                   <div className="d-flex flex-column">
                     <p
                       className="text-white"
-                      style={{ fontSize: "11px", fontWeight: "300" }}
+                      style={{ fontSize: "12px", fontWeight: "300" }}
                     >
                       AVAX {option}
                     </p>
                     <p
                       style={{
-                        fontSize: "11px",
+                        fontSize: "12px",
                         fontWeight: "500",
-                        color: "#C0CBF7",
+                        color: "#f7f7fc",
                       }}
                     >
                       25% APR
@@ -320,7 +320,7 @@ const EarnContent = ({
           </div>
           <div className="col-3"></div>
         </div>
-        <div className="d-flex align-items-center justify-content-center  py-5 px-3"></div>
+        <div className="d-flex align-items-center justify-content-center  py-4 px-3"></div>
       </div>
       <EarnTopPicks
         topList={option}

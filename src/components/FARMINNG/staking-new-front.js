@@ -1352,8 +1352,8 @@ export default function initStakingNew({
                 </button>
               </div> */}
                 <div className="otherside-border col-4">
-                  <div className="d-flex justify-content-between align-items-center gap-2">
-                    <div className="d-flex align-items-center gap-3">
+                  <div className="d-flex justify-content-between align-items-start gap-2">
+                    <div className="d-flex align-items-start gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
                       <div className="d-flex justify-content-center align-items-center">
                         <div class="dropdown">
@@ -1362,6 +1362,7 @@ export default function initStakingNew({
                             type="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
+                            style={{position: 'relative', bottom: '4px'}}
                           >
                             <img
                               src={
@@ -1539,7 +1540,7 @@ export default function initStakingNew({
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                      Reward updated each day 00:00 (UTC) <b>22:36</b>
+                      Rewards are displayed in real-time
                       <Tooltip
                         placement="top"
                         title={
@@ -1554,8 +1555,9 @@ export default function initStakingNew({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-2 align-items-end">
-                      <div
+                    <div className="form-row d-flex gap-2 align-items-end justify-content-between">
+                    <div className="d-flex align-items-center gap-4">
+                    <div
                         className="gap-1 claimreward-wrapper"
                         onClick={() => {
                           this.setState({ selectedPool: "weth" });
@@ -1585,7 +1587,7 @@ export default function initStakingNew({
                             value={
                               Number(pendingDivsEth) > 0
                                 ? `${pendingDivsEth} WETH`
-                                : `${pendingDivsEth} WETH`
+                                : `${getFormattedNumber(0,2)} WETH`
                             }
                             onChange={(e) =>
                               this.setState({
@@ -1606,7 +1608,7 @@ export default function initStakingNew({
                           />
                         </div>
                         <div
-                          className="d-flex align-items-center justify-content-center claimreward-header  py-1 w-100"
+                          className="d-flex align-items-center justify-content-center claimreward-header w-100"
                           // style={{ padding: "3px" }}
                         >
                           {/* <img
@@ -1726,7 +1728,7 @@ export default function initStakingNew({
                             value={
                               Number(pendingDivs) > 0
                                 ? `${pendingDivs} DYP`
-                                : `${pendingDivs} DYP`
+                                : `${getFormattedNumber(0,2)} DYP`
                             }
                             onChange={(e) =>
                               this.setState({
@@ -1748,7 +1750,7 @@ export default function initStakingNew({
                         </div>
 
                         <div
-                          className="d-flex align-items-center justify-content-center w-100 claimreward-header py-1"
+                          className="d-flex align-items-center justify-content-center w-100 claimreward-header "
                           // style={{ paddingLeft: "10px" }}
                         >
                           <img
@@ -1769,6 +1771,7 @@ export default function initStakingNew({
                           </select>
                         </div>
                       </div>
+                    </div>
                       <button
                         disabled={
                           this.state.selectedPool === "" ||
@@ -1864,7 +1867,7 @@ export default function initStakingNew({
                     // disabled={this.state.depositStatus === "success" ? false : true}
                     className={
                       // this.state.depositStatus === "success" ?
-                      "filledbtn btn"
+                      "outline-btn btn"
                       // :
                       //  "btn disabled-btn"
                     }
@@ -2186,8 +2189,7 @@ export default function initStakingNew({
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
-                          : `Your deposit is locked for ${lockTime} days. After ${lockTime} days you can
-                        withdraw or you can continue to earn rewards everyday`}
+                          : `The pool has a lock time. You can withdraw your deposited assets after the lock time expires.`}
                       </h6>
                     </div>
 
@@ -2322,7 +2324,7 @@ export default function initStakingNew({
                             
                             </div>
                             <div
-                              className="d-flex w-100 align-items-center justify-content-center py-2 claimreward-header"
+                              className="d-flex w-100 align-items-center justify-content-center claimreward-header"
                               // style={{ padding: "10px 0 0 10px" }}
                             >
                               {/* <img
@@ -2550,7 +2552,7 @@ export default function initStakingNew({
                               
                             </div> */}
                             <div
-                              className="d-flex w-100 align-items-center justify-content-center py-2 claimreward-header"
+                              className="d-flex w-100 align-items-center justify-content-center claimreward-header"
                               // style={{ padding: "10px 0 0 10px" }}
                             >
                               <img

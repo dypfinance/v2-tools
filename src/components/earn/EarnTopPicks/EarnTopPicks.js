@@ -280,6 +280,7 @@ const EarnTopPicks = ({
   const [cardIndexiDyp, setcardIndexiDyp] = useState();
   const [cardIndexavax30, setcardIndexavax30] = useState();
   const [cardIndexavaxiDyp, setcardIndexavaxiDyp] = useState();
+  const [details, setDetails] = useState()
 
   const eth_address = "ETH";
   const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
@@ -604,6 +605,7 @@ const EarnTopPicks = ({
   });
 
   useEffect(() => {
+    setDetails()
     if (topList === "Staking") {
       setTopPools([]);
       if (chain === "avax") {
@@ -709,11 +711,14 @@ const EarnTopPicks = ({
                   handleCardIndexStake(index);
                   handleCardIndexStake30(index);
                   handleCardIndexStakeiDyp(index);
+                    setDetails(index)
                 }}
                 onHideDetailsClick={() => {
                   setActiveCard(null);
+                  setDetails()
                 }}
                 cardType={topList}
+                details={details === index ? true : false}
               />
             ))}
           </div>
