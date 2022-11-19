@@ -23,6 +23,7 @@ import Governance from "./components/governance/Governance";
 import initFarmAvax from "./components/FARMINNG/farmAvax";
 import navRadius from "./assets/navRadius.svg";
 import Governancedev from "./components/governance/dev/governance-new";
+import Launchpad from "./components/launchpad/Launchpad";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -399,6 +400,8 @@ class App extends React.Component {
                 )}
               />
               <Route exact path="/governance" render={() => <Governance />} />
+              <Route exact path="/launchpad" render={() => <Launchpad />} />
+
               <Route
                 exact
                 path="/governancedev"

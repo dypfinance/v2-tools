@@ -4255,7 +4255,7 @@ body.theme-dark span.l-return-type {
   color: #ffffff !important;
   background: linear-gradient(90.74deg, #75cac2 0%, #57b6ab 100%) !important;
   border: none !important;
-  border-radius: 10px;
+  border-radius: 8px;
   opacity: 1 !important;
 }
 .fail-button {
