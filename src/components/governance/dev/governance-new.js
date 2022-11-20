@@ -4,9 +4,14 @@ import { NavLink, Route } from "react-router-dom";
 import Address from "../../FARMINNG/address";
 import getFormattedNumber from "../../../functions/get-formatted-number";
 import "./governance-new.css";
+import eth from "../assets/eth.svg";
+import bnb from "../assets/bnb.svg";
+import avax from "../assets/avax.svg";
+import submit from "../assets/submit.svg";
+import walleticon from "../assets/walleticon.svg";
+import copy from "../assets/copy.svg";
 
 const { new_governance: governance, reward_token, BigNumber } = window;
-
 const LP_AMPLIFY_FACTOR = 1;
 
 let PoolGroupName = Object.freeze({
@@ -194,9 +199,12 @@ const AddProposal = (props) => {
   );
 };
 
-const ProposalCard = (props) => (
-  <NavLink to={`/proposals/${props._proposalId}`}>
-    <div className="container vault-container d-flex">
+const ProposalCard = (props) => {
+  return (
+    <div
+      className="container vault-container d-flex"
+      id="example-collapse-text"
+    >
       <div className="row vault-row text-start justify-content-between">
         <div
           className="col-sm-8 col-md-8 text-center mb-2 d-flex align-items-center gap-3 justify-content-start"
@@ -204,7 +212,7 @@ const ProposalCard = (props) => (
         >
           <img
             className="m-0 cardlogo"
-            src={props.vault ? props.vault.logo : "/logo192.png"} 
+            src={props.vault ? props.vault.logo : "/logo192.png"}
           />
           <div
             style={{ whiteSpace: "pre-line", gap: 10 }}
@@ -243,8 +251,8 @@ const ProposalCard = (props) => (
         </div>
       </div>
     </div>
-  </NavLink>
-);
+  );
+};
 
 function getVaultByAddress(contract_address) {
   contract_address = contract_address.toLowerCase();
@@ -277,6 +285,8 @@ export default class Governance extends React.Component {
       QUORUM: "",
       coinbase: "0x0000000000000000000000000000000000000111",
       MIN_BALANCE_TO_INIT_PROPOSAL: "",
+      open: false,
+      proposalId: undefined,
     };
   }
 
@@ -500,6 +510,93 @@ export default class Governance extends React.Component {
             deviceWidth < 500 ? "container-fluid" : "container-fluid p-0"
           }
         >
+          <div className="d-flex justify-content-between gap-2 align-items-center">
+            <div className="col-7">
+              <h6 className="govtitle mb-3">Dypius Governance</h6>
+              <h6 className="govdesc mb-3">
+                DYP tokens represent voting shares in Dypius Governance. The
+                introduction of DYP tokens enables shared community ownership of
+                a vibrant, diverse, and dedicated governance system which will
+                actively guide the protocol toward the future. <br />
+                <br />
+                Through governance, DYP holders can vote to add more pools, burn
+                tokens, or allocate DYP toward grants, strategic partnerships,
+                governance initiatives, and other programs.
+              </h6>
+            </div>
+
+            <div className="col-4 d-flex justify-content-between gap-2">
+              <div className="totalproposals col-4">
+                <img src={eth} alt="" className="chainlogo" />
+                <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
+                  <h6 className="chaintitle">Ethereum</h6>
+                  <h6 className="totalpoolsnr">52</h6>
+                  <h6 className="totalproposals-text">Total proposals</h6>
+                </div>
+              </div>
+              <div className="totalproposals col-4">
+                <img src={bnb} alt="" className="chainlogo" />
+                <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
+                  <h6 className="chaintitle">BNB Chain</h6>
+                  <h6 className="totalpoolsnr">64</h6>
+                  <h6 className="totalproposals-text">Total proposals</h6>
+                </div>
+              </div>
+              <div className="totalproposals col-4">
+                <img src={avax} alt="" className="chainlogo" />
+                <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
+                  <h6 className="chaintitle">Avalanche</h6>
+                  <h6 className="totalpoolsnr">52</h6>
+                  <h6 className="totalproposals-text">Total proposals</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="d-flex justify-content-between gap-2 cardwrapper mt-4 mb-4">
+            <div className="govcard1 col-3">
+              <div className="purplediv"></div>
+              <div className="d-flex flex-column gap-2">
+                <img src={walleticon} alt="" style={{width: 40, height: 40}}/>
+                <div className="d-flex justify-content-between gap-2 align-items-baseline position-relative">
+                  <h6 className="govcard-title">Connect wallet</h6>
+                  <h6 className="govcard-number">1</h6>
+                </div>
+                <h6 className="govcard-desc">
+                  Dypius Governance runs on Ethereum, BNB Chain, and Avalanche.
+                  Connect your wallet to get started
+                </h6>
+              </div>
+            </div>
+            <div className="govcard2 col-3">
+              <div className="greendiv"></div>
+              <div className="d-flex flex-column gap-2">
+                <img src={copy} alt=""  style={{width: 40, height: 40}}/>
+                <div className="d-flex justify-content-between gap-2 align-items-baseline position-relative">
+                  <h6 className="govcard-title">Create proposal</h6>
+                  <h6 className="govcard-number">2</h6>
+                </div>
+                <h6 className="govcard-desc">
+                  The proposal can be related to disbursing/burning tokens, or
+                  other suggestions
+                </h6>
+              </div>
+            </div>
+            <div className="govcard3 col-3">
+              <div className="orangediv"></div>
+              <div className="d-flex flex-column gap-2">
+                <img src={submit} alt=""  style={{width: 40, height: 40}}/>
+                <div className="d-flex justify-content-between gap-2 align-items-baseline position-relative">
+                  <h6 className="govcard-title">Submit</h6>
+                  <h6 className="govcard-number">3</h6>
+                </div>
+                <h6 className="govcard-desc">
+                  Submitting a proposal requires a minimum of 5000 DYP
+                  Governance token balance
+                </h6>
+              </div>
+            </div>
+          </div>
+
           <div
             className={`${
               !this.state.is_wallet_connected
@@ -547,9 +644,7 @@ export default class Governance extends React.Component {
             className="row pb-5 m-0"
             style={{ flexDirection: "column-reverse" }}
           >
-            <div
-              className={`col-lg-12 p-0 governanceWrapper`}
-            >
+            <div className={`col-lg-12 p-0 governanceWrapper`}>
               {this.state.is_wallet_connected === undefined && (
                 <div className="errorWrapper">
                   <span>
@@ -562,7 +657,16 @@ export default class Governance extends React.Component {
 
               {this.state.is_wallet_connected === true ? (
                 this.state.proposals.map((props, i) => (
-                  <div className=" proposalscard" key={i}>
+                  <div
+                    className=" proposalscard"
+                    key={i}
+                    onClick={() => {
+                      this.setState({ open: true });
+                      this.setState({
+                        proposalId: this.state.total_proposals - i,
+                      });
+                    }}
+                  >
                     <div className="purplediv"></div>
                     <ProposalCard {...props} />
                   </div>
@@ -575,7 +679,7 @@ export default class Governance extends React.Component {
                 {this.state.proposals.length < this.state.total_proposals && (
                   <button
                     className="btn btn-primary l-outline-btn bgt"
-                    style={{ 
+                    style={{
                       fontSize: ".8rem",
                       background: "transparent",
                     }}
@@ -669,16 +773,15 @@ export default class Governance extends React.Component {
               </div>
             </div>
           </div>
-          <Route
-            exact
-            path="/proposals/:id"
-            render={(props) => (
-              <ProposalDetails
-                refreshBalance={this.refreshBalance}
-                {...props}
-              />
-            )}
-          />
+
+          {this.state.open === true && (
+            <ProposalDetails
+              refreshBalance={this.refreshBalance}
+              proposalId={
+                this.state.proposalId === undefined ? 0 : this.state.proposalId
+              }
+            />
+          )}
         </div>
       </div>
     );
@@ -701,6 +804,7 @@ class ProposalDetails extends React.Component {
       MIN_BALANCE_TO_INIT_PROPOSAL: "",
       is_wallet_connected: false,
       is_proposal_executible: false,
+      open: false,
 
       proposal: {},
     };
@@ -720,7 +824,7 @@ class ProposalDetails extends React.Component {
   }
 
   refreshProposal = () => {
-    this.getProposal(this.props.match.params.id)
+    this.getProposal(this.props.proposalId)
       .then((proposal) => this.setState({ proposal }))
       .catch(console.error);
   };
@@ -740,14 +844,14 @@ class ProposalDetails extends React.Component {
   handleAddVote = (e) => {
     let amount = this.state.depositAmount;
     amount = new BigNumber(amount).times(1e18).toFixed(0);
-    governance.addVotes(this.props.match.params.id, this.state.option, amount);
+    governance.addVotes(this.props.proposalId, this.state.option, amount);
   };
 
   handleRemoveVote = (e) => {
     e.preventDefault();
     let amount = this.state.withdrawAmount;
     amount = new BigNumber(amount).times(1e18).toFixed(0);
-    governance.removeVotes(this.props.match.params.id, amount);
+    governance.removeVotes(this.props.proposalId, amount);
   };
 
   handleClaim = (e) => {
@@ -793,16 +897,16 @@ class ProposalDetails extends React.Component {
         let _rBal = reward_token.balanceOf(coinbase);
         let _myVotes = governance.votesForProposalByAddress(
           coinbase,
-          this.props.match.params.id
+          this.props.proposalId
         );
         let _totalDeposited = governance.totalDepositedTokens(coinbase);
         let _option = governance.votedForOption(
           coinbase,
-          this.props.match.params.id
+          this.props.proposalId
         );
         let _lvsTime = governance.lastVotedProposalStartTime(coinbase);
         let _isExecutible = governance.isProposalExecutible(
-          this.props.match.params.id
+          this.props.proposalId
         );
         let _q = governance.QUORUM();
         let _m = governance.MIN_BALANCE_TO_INIT_PROPOSAL();
@@ -864,12 +968,12 @@ class ProposalDetails extends React.Component {
   };
 
   handleExecute = () => {
-    governance.executeProposal(this.props.match.params.id);
+    governance.executeProposal(this.props.proposalId);
   };
 
   render() {
     ////
-    let id = this.props.match.params.id;
+    // let id = this.props.match.params.id;
 
     let { coinbase, token_balance, proposal, totalDeposited, depositedTokens } =
       this.state;

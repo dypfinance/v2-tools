@@ -25,6 +25,7 @@ import navRadius from "./assets/navRadius.svg";
 import Governancedev from "./components/governance/dev/governance-new";
 import Launchpad from "./components/launchpad/Launchpad";
 
+
 const API_BASEURL = window.config.api_baseurl;
 
 class App extends React.Component {
