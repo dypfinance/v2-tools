@@ -4,6 +4,7 @@
   border-radius: 12px;
   padding: 10px;
   position: relative;
+  cursor: pointer;
 }
 
 .purplediv {
@@ -12,6 +13,25 @@
   position: absolute;
   border-radius: 0px 100px 100px 0px;
   left: 0px;
+  background: #7770e0;
+}
+
+.greendiv {
+  width: 4px;
+  height: 40px;
+  position: absolute;
+  border-radius: 0px 100px 100px 0px;
+  left: 0px;
+  background: #75cac2;
+}
+
+.orangediv {
+  width: 4px;
+  height: 40px;
+  position: absolute;
+  border-radius: 0px 100px 100px 0px;
+  left: 0px;
+  background: #eb5e39;
 }
 
 .vault-container {
@@ -85,9 +105,9 @@
 }
 
 .governanceWrapper {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
 .ethchain {
@@ -100,18 +120,145 @@
   position: relative;
 }
 
-
 .bnbchain {
-    background: linear-gradient(275.63deg, #F1C623 2.68%, rgba(242, 198, 35, 0) 105.72%);
-    border-radius: 6px 0px 0px 6px;
-    position: relative;
-  }
+  background: linear-gradient(
+    275.63deg,
+    #f1c623 2.68%,
+    rgba(242, 198, 35, 0) 105.72%
+  );
+  border-radius: 6px 0px 0px 6px;
+  position: relative;
+}
 
+.avaxchain {
+  background: linear-gradient(
+    275.63deg,
+    #ea4647 2.68%,
+    rgba(235, 71, 72, 0) 105.72%
+  );
+  border-radius: 6px 0px 0px 6px;
+  position: relative;
+}
 
+.govtitle {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 28px;
+  color: #f7f7fc;
+}
 
-  .avaxchain {
-    background: linear-gradient(275.63deg, #EA4647 2.68%, rgba(235, 71, 72, 0) 105.72%);
-    border-radius: 6px 0px 0px 6px;
-    position: relative;
-  }
+.govdesc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.018em;
+  color: #d6d8e7;
+}
 
+.totalproposals {
+  border-radius: 12px;
+  padding: 25px 10px 25px 10px;
+  background: #26264f;
+  position: relative;
+}
+
+.chaintitle {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.totalpoolsnr {
+  font-weight: 400;
+  font-size: 60px;
+  line-height: 64px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.totalproposals-text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  color: #8e97cd;
+}
+
+.chainlogo {
+  position: absolute;
+  top: -15px;
+  left: 55px;
+}
+
+.govcard1 {
+  position: relative;
+  padding: 20px 10px;
+  border-radius: 12px;
+  background-color: #26264f;
+  background-image: url(../assets/card1.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.govcard2 {
+  position: relative;
+  padding: 20px 10px;
+  border-radius: 12px;
+  background-color: #26264f;
+  background-image: url(../assets/card2.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.govcard3 {
+  position: relative;
+  padding: 20px 10px;
+  border-radius: 12px;
+  background-color: #26264f;
+  background-image: url(../assets/card3.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.govcard-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.govcard-number {
+  color: #8e97cd;
+  font-size: 80px;
+  font-weight: 600;
+  position: absolute;
+  right: 0;
+  top: -55px;
+}
+
+.govcard-desc {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #d6d8e7;
+}
+
+.cardwrapper {
+  background: url(../assets/cardbg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 13px 0px;
+}

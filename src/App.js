@@ -22,7 +22,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Governance from "./components/governance/Governance";
 import initFarmAvax from "./components/FARMINNG/farmAvax";
 import navRadius from "./assets/navRadius.svg";
-import Governancedev from "./components/governance/dev/governance-new";
+import Governancedev from "./components/governance/dev/governance-new-avax";
 
 const API_BASEURL = window.config.api_baseurl;
 
