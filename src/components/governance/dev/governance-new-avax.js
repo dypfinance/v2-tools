@@ -53,10 +53,7 @@ const AddProposal = (props) => {
   let { isOwner, connected } = props;
   return (
     <div>
-      <div
-        className="l-box addProposal"
-        style={{ marginTop: connected ? 43 : 0 }}
-      >
+      <div className="">
         <h3 style={{ textAlign: "left" }}>Submit a proposal</h3>
         <form onSubmit={props.onSubmit(formState)}>
           <div>
@@ -163,6 +160,7 @@ const AddProposal = (props) => {
     </div>
   );
 };
+
 const ProposalCard = (props) => (
   <div className="container vault-container d-flex">
     <div className="row vault-row text-start justify-content-between p-1">
@@ -183,10 +181,10 @@ const ProposalCard = (props) => (
             {props.vault ? props.vault.name : "DYP Proposal"}{" "}
           </span>
           <div className="avaxchain">
-             <span className="chaintext">
-             AVAX Chain
-             <img src={avax} alt="" className="chainlogo2" />
-          </span>
+            <span className="chaintext">
+              AVAX Chain
+              <img src={avax} alt="" className="chainlogo2" />
+            </span>
           </div>
         </div>
       </div>
@@ -515,6 +513,7 @@ export default class Governance extends React.Component {
               </div>
             </div>
           </div>
+
           <div className="d-flex justify-content-between gap-2 cardwrapper mt-4 mb-4">
             <div className="govcard1 col-3">
               <div className="purplediv"></div>
@@ -564,49 +563,107 @@ export default class Governance extends React.Component {
             </div>
           </div>
 
-          <div
-            className={`${
-              !this.state.is_wallet_connected
-                ? "containertop"
-                : "connectWallet-blue d-block d-md-flex"
-            } 
-                  col-lg-7`}
-          >
-            {this.state.is_wallet_connected === false ? (
-              <>
-                <span style={{ display: "flex" }}>My Wallet</span>
-                <div className="connectWallet">
-                  <h3 className="titleWrapper">
-                    Please connect wallet to use this dApp
-                  </h3>
-                  <button
-                    onClick={() => {
-                      this.props.handleConnection();
-                    }}
-                    style={{ borderRadius: "6px" }}
-                    className="btn connectWalletBTN pr-5 pl-5"
-                  >
-                    Connect Wallet
-                  </button>
-                </div>
-              </>
-            ) : (
-              <div className="d-flex justify-content-between w-100">
-                <div className="colored-container">
-                  <span>My DYP Balance</span>
-                  {/* <img src={walletLogo} color="white" alt="wallet-icon" /> */}
-                  &nbsp; &nbsp; &nbsp;{" "}
-                  <span>{this.state.token_balance} DYP</span>
-                </div>
-                <div className="colored-container">
-                  <span>
-                    My NO Votes &nbsp; {noVotes == null ? 0 : noVotes} DYP
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
+          <div className="d-flex justify-content-between align-items-center">
+            <div
+              className=""
+              id="votingWrapper"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 20,
+              }}
+            >
+              <AddProposal
+                isOwner={isOwner}
+                connected={this.state.is_wallet_connected}
+                MIN_BALANCE_TO_INIT_PROPOSAL={
+                  this.state.MIN_BALANCE_TO_INIT_PROPOSAL
+                }
+                onSubmit={this.handleProposalSubmit}
+              />
+            </div>
+            <div>
+              <h6 className="myDetails-title mb-3">My details</h6>
+              <div className="mydetails-wrapper">
+                <div className="purplediv"></div>
+                {this.state.is_wallet_connected === true ? (
+                  <div className="d-flex justify-content-between flex-column">
+                    <div className="d-flex justify-content-between gap-2 align-items-center mb-3">
+                      <div className="colored-container">
+                        <span className="purpletext">
+                          <img
+                            src={require("../assets/wallet2.svg").default}
+                            alt=""
+                          />{" "}
+                          My DYP Balance
+                        </span>
+                        <span className="whitetext">
+                          {this.state.token_balance} DYP
+                        </span>
+                      </div>
+                      <div className="colored-container">
+                        <span className="purpletext">
+                          <img
+                            src={require("../assets/votes.svg").default}
+                            alt=""
+                          />
+                          My number of votes
+                        </span>
+                        <span className="whitetext">
+                          {noVotes == null ? 0 : noVotes} DYP
+                        </span>
+                      </div>
+                    </div>
 
+                    <form className="" onSubmit={this.handleClaim}>
+                      <div className="form-group2">
+                        <label
+                          htmlFor="deposit-amount"
+                          className="text-left d-block totalvoting"
+                        >
+                          Total in voting
+                        </label>
+                        <div className="d-flex justify-content-between align-items-center gap-2">
+                          <div className="form-row totalVotingButton">
+                            <div>
+                              <span className="dypamounttext">
+                                {totalDeposited} DYP
+                              </span>
+                            </div>
+                          </div>
+
+                          <button
+                            title={withdrawableTitleText}
+                            disabled
+                            className="btn withdrawButton"
+                            type="submit"
+                          >
+                            Withdraw all
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                ) : (
+                  <div className="connectWallet">
+                    <span style={{ display: "flex" }}>My Wallet</span>
+                    <h3 className="titleWrapper">
+                      Please connect wallet to use this dApp
+                    </h3>
+                    <button
+                      onClick={() => {
+                        this.props.handleConnection();
+                      }}
+                      style={{ borderRadius: "6px" }}
+                      className="btn connectWalletBTN pr-5 pl-5"
+                    >
+                      Connect Wallet
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
           <div
             className="row pb-5 m-0"
             style={{ flexDirection: "column-reverse" }}
@@ -620,7 +677,7 @@ export default class Governance extends React.Component {
                   </span>
                 </div>
               )}
-              {/* <h3>GOVERNANCE PROPOSALS</h3> */}
+
               {this.state.is_wallet_connected === true ? (
                 this.state.proposals.map((props, i) => (
                   <div
@@ -664,78 +721,6 @@ export default class Governance extends React.Component {
                     <p>No Proposals to Display</p>
                   </div>
                 )}
-              </div>
-            </div>
-            <div
-              className="col-lg-12 p-0"
-              id="votingWrapper"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 20,
-              }}
-            >
-              <AddProposal
-                isOwner={isOwner}
-                connected={this.state.is_wallet_connected}
-                MIN_BALANCE_TO_INIT_PROPOSAL={
-                  this.state.MIN_BALANCE_TO_INIT_PROPOSAL
-                }
-                onSubmit={this.handleProposalSubmit}
-              />
-              <div className="l-box col-lg-7 totalVoting">
-                <form className="" onSubmit={this.handleClaim}>
-                  <div className="form-group">
-                    <label
-                      htmlFor="deposit-amount"
-                      className="text-left d-block"
-                    >
-                      Total in voting
-                    </label>
-                    <div className="row buttonWrapper">
-                      <div
-                        className="form-row totalVotingButton"
-                        style={{
-                          maxWidth: 180,
-                          width: "100%",
-                        }}
-                      >
-                        <div className="col-12">
-                          <p
-                            className="form-control  text-right"
-                            style={{
-                              border: "none",
-                              marginBottom: 0,
-                              paddingLeft: 0,
-                              background: "rgba(82, 168, 164, 0.2)",
-                              color: "var(--text-color)",
-                            }}
-                          >
-                            <span
-                              style={{
-                                fontSize: "1.2rem",
-                                color: "var(--text-color)",
-                              }}
-                            >
-                              {totalDeposited}
-                            </span>{" "}
-                            <small className="text-bold">DYP</small>
-                          </p>
-                        </div>
-                      </div>
-
-                      <button
-                        title={withdrawableTitleText}
-                        disabled={!canWithdrawAll}
-                        className="btn btn-primary btn-block l-outline-btn withdrawButton"
-                        type="submit"
-                        style={{ maxWidth: 180 }}
-                      >
-                        Withdraw all
-                      </button>
-                    </div>
-                  </div>
-                </form>
               </div>
             </div>
           </div>
@@ -1185,7 +1170,7 @@ class ProposalDetails extends React.Component {
                       >
                         Total in voting
                       </label>
-                      <div className="row buttonWrapper">
+                      <div className="row buttonWrapper m-0">
                         <div
                           className="form-row totalVotingButton"
                           style={{
