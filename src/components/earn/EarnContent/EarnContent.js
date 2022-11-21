@@ -220,7 +220,7 @@ const EarnContent = ({
                       className="text-white"
                       style={{ fontSize: "12px", fontWeight: "300" }}
                     >
-                      ETH {option}
+                      ETH Chain
                     </p>
                     <p
                       style={{
@@ -261,7 +261,7 @@ const EarnContent = ({
                       className="text-white"
                       style={{ fontSize: "12px", fontWeight: "300" }}
                     >
-                      BNB {option}
+                      BNB Chain
                     </p>
                     <p
                       style={{
@@ -302,7 +302,7 @@ const EarnContent = ({
                       className="text-white"
                       style={{ fontSize: "12px", fontWeight: "300" }}
                     >
-                      AVAX {option}
+                      AVAX Chain
                     </p>
                     <p
                       style={{

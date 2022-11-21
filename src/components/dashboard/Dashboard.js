@@ -15,6 +15,7 @@ import TopPoolsDetails from "../top-pools-card/TopPoolsDetails";
 import initStakingNew from "../FARMINNG/staking-new-front";
 import { NavLink } from "react-router-dom";
 import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
+import initVaultNew from "../FARMINNG/vault-new";
 
  const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network, handleConnection  }) => {
   const cards = [
@@ -24,16 +25,17 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
       apr: "1.09%",
       tvl: "$48,382.30",
       lockTime: "No lock",
-      
       tokenLogo: 'dyplogo.svg',
+      cardType: 'Staking'
     },
     {
       top_pick: false,
-      tokenName: "DYP",
-      apr: "1.09%",
+      tokenName: "USDT",
+      apr: "9-23%",
       tvl: "$48,382.30",
       lockTime: "No lock",
-      tokenLogo: 'dyplogo.svg',
+      tokenLogo: 'usdt.svg',
+      cardType: 'Vault'
     },
   ];
 
@@ -100,6 +102,29 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
     renderedPage: "dashboard",
     listType: "table"
   });
+
+
+  const vaultArray = window.vault_usdt
+    const tokenvaultArray = window.token_usdt
+    
+  const vaultplatformArray = 15;
+  const vaultdecimalsArray = 6;
+  const vaultsymbolArray = "USDT"
+  const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
+
+  const VaultCard = initVaultNew({
+    vault: window.vault_usdt,
+    token: window.token_usdt,
+    platformTokenApyPercent: 15,
+    UNDERLYING_DECIMALS: 6,
+    UNDERLYING_SYMBOL: "USDT",
+    expiration_time: "04 March 2023",
+    coinbase: coinbase,
+    lockTime: "No Lock",
+    handleConnection: handleConnection,
+    chainId: network,
+    listType: "table"
+  });
   
   return (
     <div className="container-lg dashboardwrapper px-0">
@@ -135,6 +160,7 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
                       renderedPage="dashboard"
                         cardId={item.tokenName}
                         key={index}
+                        cardType={item.cardType}
                         top_pick={item.top_pick}
                         tokenName={item.tokenName}
                         apr={item.apr}
@@ -143,6 +169,7 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
                         tokenLogo={item.tokenLogo}
                         onShowDetailsClick={() => {
                           setActiveCard(cards[index]);
+                          console.log(activeCard);
                           setcardIndex(index);
                           setDetails(index)
                         }}
@@ -155,7 +182,7 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
                     );
                   })}
               </div>
-              {activeCard && (
+              {activeCard.cardType === "Staking" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
@@ -164,7 +191,21 @@ import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
                   chainId={network}
                   handleConnection = {handleConnection}
                 />
-              )}
+              )
+              : 
+              (
+                <VaultCard
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              chainId={network}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              
+            />
+              )
+            
+            
+            }
               {/* {showDetails && <TopPoolsDetails />} */}
 
             </div>
