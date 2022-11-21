@@ -404,7 +404,6 @@ export default class Governance extends React.Component {
     // window._refreshBalInterval = setInterval(this.getProposal, 3000);
     if(this.state.proposals.length == 0) {
     this.refreshProposals()
-
     }
     window.gRefBalInterval = setInterval(this.refreshBalance, 7e3);
     window.gRefDYPBalInterval = setInterval(this.refreshDYPBalance, 3000);
