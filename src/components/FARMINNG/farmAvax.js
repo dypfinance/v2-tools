@@ -1200,12 +1200,12 @@ export default function initFarmAvax({
                     />
                     Active status
                   </h6>
-                  <div className="d-flex align-items-center justify-content-between gap-3">
+                  {/* <div className="d-flex align-items-center justify-content-between gap-3">
                     <h6 className="earnrewards-text">Earn rewards in:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       WAVAX & DYP
                     </h6>
-                  </div>
+                  </div> */}
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Performance fee:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
