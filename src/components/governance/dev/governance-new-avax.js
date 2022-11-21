@@ -164,55 +164,59 @@ const AddProposal = (props) => {
   );
 };
 const ProposalCard = (props) => (
-  
-    <div className="container vault-container d-flex">
-      <div className="row vault-row text-start justify-content-between">
-        <div
-          className="col-sm-8 col-md-8 text-center mb-2 d-flex align-items-center gap-3 justify-content-start"
-          style={{ gap: 10 }}
-        >
-          <img
-            className="m-0 cardlogo"
-            src={props.vault ? props.vault.logo : "/logo192.png"} 
-          />
+  <div className="container vault-container d-flex">
+    <div className="row vault-row text-start justify-content-between p-1">
+      <div
+        className="col-sm-8 col-md-8 text-center mb-2 d-flex align-items-center gap-3 justify-content-start"
+        style={{ gap: 10 }}
+      >
+        <img
+          className="m-0 cardlogo"
+          src={props.vault ? props.vault.logo : "/logo192.png"}
+        />
 
-          <div
-            style={{ whiteSpace: "pre-line", gap: 10 }}
-            className="col-sm-3 col-md-12 p-0 d-flex"
-          >
-            <span className="vault-name ">
-              {props.vault ? props.vault.name : "DYP Proposal"}{" "}
-            </span>
-          </div>
-        </div>
-        <div className="card-bottom-wrapper">
-          <div className="text-left ExpireWrapper d-flex flex-column justify-content-start">
-            <p className="expiretxt">Expires</p>
-            <h6 className="duration-txt small mb-0 ">
-              {moment
-                .duration(
-                  props._proposalStartTime * 1e3 +
-                    window.config.vote_duration_in_seconds * 1e3 -
-                    Date.now()
-                )
-                .humanize(true)}
-            </h6>
-          </div>
-          <div className="col-sm-10 text-left actionwrapper">
-            <span className="actionText">
-              {{
-                0: "Disburse / Burn",
-                1: "Upgrade Governance",
-                2: "Change Quorum",
-                3: "Other / Free Text",
-                4: "Change Min Balance",
-              }[props._proposalAction] || ""}
-            </span>
+        <div
+          style={{ whiteSpace: "pre-line", gap: 10 }}
+          className="col-sm-3 col-md-12 p-0 d-flex"
+        >
+          <span className="vault-name ">
+            {props.vault ? props.vault.name : "DYP Proposal"}{" "}
+          </span>
+          <div className="avaxchain">
+             <span className="chaintext">
+             AVAX Chain
+             <img src={avax} alt="" className="chainlogo2" />
+          </span>
           </div>
         </div>
       </div>
+      <div className="card-bottom-wrapper">
+        <div className="text-left ExpireWrapper d-flex flex-column justify-content-start">
+          <p className="expiretxt">Expires</p>
+          <h6 className="duration-txt small mb-0 ">
+            {moment
+              .duration(
+                props._proposalStartTime * 1e3 +
+                  window.config.vote_duration_in_seconds * 1e3 -
+                  Date.now()
+              )
+              .humanize(true)}
+          </h6>
+        </div>
+        <div className="col-sm-10 text-left actionwrapper">
+          <span className="actionText">
+            {{
+              0: "Disburse / Burn",
+              1: "Upgrade Governance",
+              2: "Change Quorum",
+              3: "Other / Free Text",
+              4: "Change Min Balance",
+            }[props._proposalAction] || ""}
+          </span>
+        </div>
+      </div>
     </div>
-    
+  </div>
 );
 
 function getVaultByAddress(contract_address) {
@@ -469,8 +473,7 @@ export default class Governance extends React.Component {
             deviceWidth < 500 ? "container-fluid" : "container-fluid p-0"
           }
         >
-
-<div className="d-flex justify-content-between gap-2 align-items-center">
+          <div className="d-flex justify-content-between gap-2 align-items-center">
             <div className="col-7">
               <h6 className="govtitle mb-3">Dypius Governance</h6>
               <h6 className="govdesc mb-3">
@@ -516,7 +519,11 @@ export default class Governance extends React.Component {
             <div className="govcard1 col-3">
               <div className="purplediv"></div>
               <div className="d-flex flex-column gap-2">
-                <img src={walleticon} alt="" style={{width: 40, height: 40}}/>
+                <img
+                  src={walleticon}
+                  alt=""
+                  style={{ width: 40, height: 40 }}
+                />
                 <div className="d-flex justify-content-between gap-2 align-items-baseline position-relative">
                   <h6 className="govcard-title">Connect wallet</h6>
                   <h6 className="govcard-number">1</h6>
@@ -530,7 +537,7 @@ export default class Governance extends React.Component {
             <div className="govcard2 col-3">
               <div className="greendiv"></div>
               <div className="d-flex flex-column gap-2">
-                <img src={copy} alt=""  style={{width: 40, height: 40}}/>
+                <img src={copy} alt="" style={{ width: 40, height: 40 }} />
                 <div className="d-flex justify-content-between gap-2 align-items-baseline position-relative">
                   <h6 className="govcard-title">Create proposal</h6>
                   <h6 className="govcard-number">2</h6>
@@ -544,7 +551,7 @@ export default class Governance extends React.Component {
             <div className="govcard3 col-3">
               <div className="orangediv"></div>
               <div className="d-flex flex-column gap-2">
-                <img src={submit} alt=""  style={{width: 40, height: 40}}/>
+                <img src={submit} alt="" style={{ width: 40, height: 40 }} />
                 <div className="d-flex justify-content-between gap-2 align-items-baseline position-relative">
                   <h6 className="govcard-title">Submit</h6>
                   <h6 className="govcard-number">3</h6>
@@ -556,186 +563,184 @@ export default class Governance extends React.Component {
               </div>
             </div>
           </div>
-          
-          
-            <div
-              className={`${
-                !this.state.is_wallet_connected
-                  ? "containertop"
-                  : "connectWallet-blue d-block d-md-flex"
-              } 
+
+          <div
+            className={`${
+              !this.state.is_wallet_connected
+                ? "containertop"
+                : "connectWallet-blue d-block d-md-flex"
+            } 
                   col-lg-7`}
-            >
-              {this.state.is_wallet_connected === false ? (
-                <>
-                  <span style={{ display: "flex" }}>My Wallet</span>
-                  <div className="connectWallet">
-                    <h3 className="titleWrapper">
-                      Please connect wallet to use this dApp
-                    </h3>
-                    <button
-                      onClick={() => {
-                        this.props.handleConnection();
-                      }}
-                      style={{ borderRadius: "6px" }}
-                      className="btn connectWalletBTN pr-5 pl-5"
-                    >
-                      Connect Wallet
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <div className="d-flex justify-content-between w-100">
-                  <div className="colored-container">
-                    <span>My DYP Balance</span>
-                    {/* <img src={walletLogo} color="white" alt="wallet-icon" /> */}
-                    &nbsp; &nbsp; &nbsp;{" "}
-                    <span>{this.state.token_balance} DYP</span>
-                  </div>
-                  <div className="colored-container">
-                    <span>
-                      My NO Votes &nbsp; {noVotes == null ? 0 : noVotes} DYP
-                    </span>
-                  </div>
+          >
+            {this.state.is_wallet_connected === false ? (
+              <>
+                <span style={{ display: "flex" }}>My Wallet</span>
+                <div className="connectWallet">
+                  <h3 className="titleWrapper">
+                    Please connect wallet to use this dApp
+                  </h3>
+                  <button
+                    onClick={() => {
+                      this.props.handleConnection();
+                    }}
+                    style={{ borderRadius: "6px" }}
+                    className="btn connectWalletBTN pr-5 pl-5"
+                  >
+                    Connect Wallet
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="d-flex justify-content-between w-100">
+                <div className="colored-container">
+                  <span>My DYP Balance</span>
+                  {/* <img src={walletLogo} color="white" alt="wallet-icon" /> */}
+                  &nbsp; &nbsp; &nbsp;{" "}
+                  <span>{this.state.token_balance} DYP</span>
+                </div>
+                <div className="colored-container">
+                  <span>
+                    My NO Votes &nbsp; {noVotes == null ? 0 : noVotes} DYP
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div
+            className="row pb-5 m-0"
+            style={{ flexDirection: "column-reverse" }}
+          >
+            <div className={`col-lg-12 p-0 governanceWrapper `}>
+              {this.state.is_wallet_connected === undefined && (
+                <div className="errorWrapper">
+                  <span>
+                    You need to connect your wallet in order to see the
+                    proposals
+                  </span>
                 </div>
               )}
-            </div>
-
-            <div
-              className="row pb-5 m-0"
-              style={{ flexDirection: "column-reverse" }}
-            >
-              <div
-                className={`col-lg-12 p-0 governanceWrapper `}
-              >
-                {this.state.is_wallet_connected === undefined && (
-                  <div className="errorWrapper">
-                    <span>
-                      You need to connect your wallet in order to see the
-                      proposals
-                    </span>
-                  </div>
-                )}
-                {/* <h3>GOVERNANCE PROPOSALS</h3> */}
-                {this.state.is_wallet_connected === true ? (
-                  this.state.proposals.map((props, i) => (
-                    <div className=" proposalscard" key={i}
+              {/* <h3>GOVERNANCE PROPOSALS</h3> */}
+              {this.state.is_wallet_connected === true ? (
+                this.state.proposals.map((props, i) => (
+                  <div
+                    className=" proposalscard"
+                    key={i}
                     onClick={() => {
                       this.setState({ open: true });
                       this.setState({
                         proposalId: this.state.total_proposals - i,
                       });
                     }}
-                    >
-                      <div className="purplediv"></div>
-                      <ProposalCard {...props} />
-                    </div>
-                  ))
-                ) : (
-                  <div className="col-lg-12 row justify-content-between p-0 ml-0"></div>
+                  >
+                    <div className="purplediv"></div>
+                    <ProposalCard {...props} />
+                  </div>
+                ))
+              ) : (
+                <div className="col-lg-12 row justify-content-between p-0 ml-0"></div>
+              )}
+
+              <div className="text-center">
+                {this.state.proposals.length < this.state.total_proposals && (
+                  <button
+                    className="btn btn-primary l-outline-btn bgt"
+                    style={{
+                      fontSize: ".8rem",
+                      background: "transparent",
+                    }}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      this.refreshProposals();
+                    }}
+                  >
+                    {this.state.isLoading ? "LOADING..." : "LOAD MORE"}
+                  </button>
                 )}
 
-                <div className="text-center">
-                  {this.state.proposals.length < this.state.total_proposals && (
-                    <button
-                      className="btn btn-primary l-outline-btn bgt"
-                      style={{ 
-                        fontSize: ".8rem",
-                        background: "transparent",
-                      }}
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        this.refreshProposals();
-                      }}
-                    >
-                      {this.state.isLoading ? "LOADING..." : "LOAD MORE"}
-                    </button>
-                  )}
-
-                  {!this.state.isLoading && this.state.proposals.length == 0 && (
-                    <div className="pt-5">
-                      <p>No Proposals to Display</p>
-                    </div>
-                  )}
-                </div>
+                {!this.state.isLoading && this.state.proposals.length == 0 && (
+                  <div className="pt-5">
+                    <p>No Proposals to Display</p>
+                  </div>
+                )}
               </div>
-              <div
-                className="col-lg-12 p-0"
-                id="votingWrapper"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: 20,
-                }}
-              >
-                <AddProposal
-                  isOwner={isOwner}
-                  connected={this.state.is_wallet_connected}
-                  MIN_BALANCE_TO_INIT_PROPOSAL={
-                    this.state.MIN_BALANCE_TO_INIT_PROPOSAL
-                  }
-                  onSubmit={this.handleProposalSubmit}
-                />
-                <div className="l-box col-lg-7 totalVoting">
-                  <form className="" onSubmit={this.handleClaim}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="deposit-amount"
-                        className="text-left d-block"
+            </div>
+            <div
+              className="col-lg-12 p-0"
+              id="votingWrapper"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 20,
+              }}
+            >
+              <AddProposal
+                isOwner={isOwner}
+                connected={this.state.is_wallet_connected}
+                MIN_BALANCE_TO_INIT_PROPOSAL={
+                  this.state.MIN_BALANCE_TO_INIT_PROPOSAL
+                }
+                onSubmit={this.handleProposalSubmit}
+              />
+              <div className="l-box col-lg-7 totalVoting">
+                <form className="" onSubmit={this.handleClaim}>
+                  <div className="form-group">
+                    <label
+                      htmlFor="deposit-amount"
+                      className="text-left d-block"
+                    >
+                      Total in voting
+                    </label>
+                    <div className="row buttonWrapper">
+                      <div
+                        className="form-row totalVotingButton"
+                        style={{
+                          maxWidth: 180,
+                          width: "100%",
+                        }}
                       >
-                        Total in voting
-                      </label>
-                      <div className="row buttonWrapper">
-                        <div
-                          className="form-row totalVotingButton"
-                          style={{
-                            maxWidth: 180,
-                            width: "100%",
-                          }}
-                        >
-                          <div className="col-12">
-                            <p
-                              className="form-control  text-right"
+                        <div className="col-12">
+                          <p
+                            className="form-control  text-right"
+                            style={{
+                              border: "none",
+                              marginBottom: 0,
+                              paddingLeft: 0,
+                              background: "rgba(82, 168, 164, 0.2)",
+                              color: "var(--text-color)",
+                            }}
+                          >
+                            <span
                               style={{
-                                border: "none",
-                                marginBottom: 0,
-                                paddingLeft: 0,
-                                background: "rgba(82, 168, 164, 0.2)",
+                                fontSize: "1.2rem",
                                 color: "var(--text-color)",
                               }}
                             >
-                              <span
-                                style={{
-                                  fontSize: "1.2rem",
-                                  color: "var(--text-color)",
-                                }}
-                              >
-                                {totalDeposited}
-                              </span>{" "}
-                              <small className="text-bold">DYP</small>
-                            </p>
-                          </div>
+                              {totalDeposited}
+                            </span>{" "}
+                            <small className="text-bold">DYP</small>
+                          </p>
                         </div>
-
-                        <button
-                          title={withdrawableTitleText}
-                          disabled={!canWithdrawAll}
-                          className="btn btn-primary btn-block l-outline-btn withdrawButton"
-                          type="submit"
-                          style={{ maxWidth: 180 }}
-                        >
-                          Withdraw all
-                        </button>
                       </div>
+
+                      <button
+                        title={withdrawableTitleText}
+                        disabled={!canWithdrawAll}
+                        className="btn btn-primary btn-block l-outline-btn withdrawButton"
+                        type="submit"
+                        style={{ maxWidth: 180 }}
+                      >
+                        Withdraw all
+                      </button>
                     </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
             </div>
-            
-         
-            {this.state.open === true && (
+          </div>
+
+          {this.state.open === true && (
             <ProposalDetails
               refreshBalance={this.refreshBalance}
               proposalId={
@@ -743,7 +748,6 @@ export default class Governance extends React.Component {
               }
             />
           )}
-            
         </div>
       </div>
     );
