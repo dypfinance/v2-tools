@@ -7,7 +7,7 @@ import './govcard.css'
 const GovCard = () => {
   return (
     <NavLink to="/governance" className="govcard-wrapper">
-      <div className="greendiv"></div>
+      <div className="purplediv" style={{background: '#8890C4'}}></div>
       <div className="d-flex flex-column gap-3 justify-content-between">
         <div className="">
           <h6 className="govcard-title d-flex justify-content-between gap-2 align-items-center">

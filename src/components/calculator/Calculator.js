@@ -11,16 +11,15 @@ import bnb from "./assets/bnb.svg";
 import eth from "./assets/eth.svg";
 import rightarrow from "./assets/rightarrow.svg";
 import getFormattedNumber from "../../functions/getFormattedNumber2";
-
-import xMark from './assets/xMark.svg'
-
+import ethStakeActive from "../../assets/earnAssets/ethStakeActive.svg";
+import bnbStakeActive from "../../assets/earnAssets/bnbStakeActive.svg";
+import avaxStakeActive from "../../assets/earnAssets/avaxStakeActive.svg";
+import xMark from "./assets/xMark.svg";
+import filledArrow from "../bridgecard/assets/filledarrow.svg";
+import calculatorChart from './assets/calculatorChart.png'
 import "./calculator.css";
 
-
-
-
-const Calculator = ({earnClass, onClose, ref  }) => {
-
+const Calculator = ({ earnClass, onClose, ref }) => {
   const chainButtonsArray = [
     {
       icon: "eth.svg",
@@ -45,10 +44,15 @@ const Calculator = ({earnClass, onClose, ref  }) => {
   const [usdToDeposit, setUsdToDeposit] = useState(1000);
   const [days, setDays] = useState(365);
   const [activeChain, setActiveChain] = useState(chainButtonsArray[0]);
-  const [activeTime, setActiveTime] = useState(timePillsArray[timePillsArray.length - 1]);
+  const [activeTime, setActiveTime] = useState(
+    timePillsArray[timePillsArray.length - 1]
+  );
   const [activeMethod, setActiveMethod] = useState(pillsNames[0]);
   const [calculateApproxUSD, setCalculateApproxUSD] = useState(0);
   const [calculateApproxCrypto, setCalculateApproxCrypto] = useState("0");
+  const [calculateApproxWeth, setCalculateApproxWeth] = useState("0");
+  const [calculateApproxWbnb, setCalculateApproxWbnb] = useState("0");
+  const [calculateApproxWavax, setCalculateApproxWavax] = useState("0");
   const [stakeApy, setStakeApy] = useState();
   const [buybackApy, setBuybackApy] = useState();
   const [vaultApy, setVaultApy] = useState();
@@ -58,7 +62,6 @@ const Calculator = ({earnClass, onClose, ref  }) => {
   const [wethPrice, setWethPrice] = useState(0);
   const [wbnbPrice, setWbnbPrice] = useState(0);
   const [wavaxPrice, setWavaxPrice] = useState(0);
-
 
   let formData = {};
 
@@ -101,8 +104,6 @@ const Calculator = ({earnClass, onClose, ref  }) => {
         setWavaxPrice(wavaxPrice);
       });
   };
-
-
 
   useEffect(() => {
     getApy();
@@ -178,7 +179,15 @@ const Calculator = ({earnClass, onClose, ref  }) => {
   }, [activeChain.text, activeMethod, apyData]);
 
   useEffect(() => {
-
+    setCalculateApproxWeth(
+      getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
+    );
+    setCalculateApproxWbnb(
+      getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+    );
+    setCalculateApproxWavax(
+      getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+    );
     if (activeMethod === "Farming") {
       if (activeChain.text === "ETH") {
         setCalculateApproxUSD(
@@ -215,7 +224,6 @@ const Calculator = ({earnClass, onClose, ref  }) => {
       }
     }
     if (activeMethod === "Staking") {
-
       if (activeChain.text === "ETH") {
         setCalculateApproxUSD(
           (
@@ -344,20 +352,16 @@ const Calculator = ({earnClass, onClose, ref  }) => {
     setDays(e);
     if (parseInt(e) <= 30) {
       setActiveTime(timePillsArray[0]);
-      setActiveTimePill(timePillsArray[0])
-
+      setActiveTimePill(timePillsArray[0]);
     } else if (parseInt(e) > 30 && parseInt(e) < 92) {
       setActiveTime(timePillsArray[1]);
-      setActiveTimePill(timePillsArray[1])
-
+      setActiveTimePill(timePillsArray[1]);
     } else if (parseInt(e) > 92 && parseInt(e) < 185) {
       setActiveTime(timePillsArray[2]);
-      setActiveTimePill(timePillsArray[2])
-
+      setActiveTimePill(timePillsArray[2]);
     } else if (parseInt(e) > 185) {
       setActiveTime(timePillsArray[3]);
-      setActiveTimePill(timePillsArray[3])
-
+      setActiveTimePill(timePillsArray[3]);
     }
   };
 
@@ -392,8 +396,11 @@ const Calculator = ({earnClass, onClose, ref  }) => {
   const timepillRef = useRef([]);
 
   return (
-    <div id="calculator" className={`calculator-wrapper position-relative ${earnClass}`}>
-      <div className="purplediv" style={{background: '#8E97CD'}}></div>
+    <div
+      id="calculator"
+      className={`calculator-wrapper position-relative ${earnClass}`}
+    >
+      <div className="purplediv" style={{ background: "#8E97CD" }}></div>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-column gap-2 justify-content-between">
           <div className="d-flex justify-content-between gap-2 align-items-center pb-4">
@@ -409,16 +416,16 @@ const Calculator = ({earnClass, onClose, ref  }) => {
                       chainState === "eth"
                         ? eth
                         : chainState === "bnb"
-                          ? bnb
-                          : avax
+                        ? bnb
+                        : avax
                     }
                     alt=""
                   />
                   {chainState === "eth"
                     ? "Ethereum"
                     : chainState === "bnb"
-                      ? "BNB Chain"
-                      : "Avalanche"}
+                    ? "BNB Chain"
+                    : "Avalanche"}
                   {/* <img src={dropdown} alt="" /> */}
                 </span>
               }
@@ -451,45 +458,54 @@ const Calculator = ({earnClass, onClose, ref  }) => {
                 Avalanche
               </Dropdown.Item>
             </DropdownButton>
-            {earnClass === 'earn-calculator' &&
-            <img src={xMark} width={25} height={25} onClick={onClose} style={{cursor: 'pointer'}} />
-            }
+            {earnClass === "earn-calculator" && (
+              <img
+                src={xMark}
+                width={25}
+                height={25}
+                onClick={onClose}
+                style={{ cursor: "pointer" }}
+              />
+            )}
           </div>
           <div className="pills-container d-flex justify-content-center row m-0 w-100">
             {pillsNames &&
               pillsNames.length > 0 &&
               pillsNames.map((item, id) => (
-               <p
-               key={id}
-               onClick={() => {
-                 setActivePill(item);
-                 getActivePill(item);
-               }}
-               className={`col-3 pill-item d-flex align-items-center gap-2 ${activePill == item ? "active-color" : ""
-                 }`}
-               ref={(el) => (pillRef.current[id] = el)}
-               style={{
-                 background:
-                   activePill == item
-                     ? "#1E1C40"
-                     : "#312F69",
-                 color: activePill == item ? "#F7F7FC" : "#8E97CD",
-                 border:
-                   activePill == item
-                     ? "1px solid #565891"
-                     : "1px solid #312F69",
-               }}
-             >
-                <img src={require(`./assets/${item.toLowerCase()}Icon.svg`).default} alt="" />
-               {item}
-             </p>
+                <p
+                  key={id}
+                  onClick={() => {
+                    setActivePill(item);
+                    getActivePill(item);
+                  }}
+                  className={`col-3 pill-item d-flex align-items-center gap-2 ${
+                    activePill == item ? "active-color" : ""
+                  }`}
+                  ref={(el) => (pillRef.current[id] = el)}
+                  style={{
+                    background: activePill == item ? "#1E1C40" : "#312F69",
+                    color: activePill == item ? "#F7F7FC" : "#8E97CD",
+                    border:
+                      activePill == item
+                        ? "1px solid #565891"
+                        : "1px solid #312F69",
+                  }}
+                >
+                  <img
+                    src={
+                      require(`./assets/${item.toLowerCase()}Icon.svg`).default
+                    }
+                    alt=""
+                  />
+                  {item}
+                </p>
               ))}
           </div>
           <div className="separator"></div>
-          <div className="row justify-content-between align-items-center gap-2 m-0">
+          <div className="row align-items-center gap-2 m-0 position-relative" style={{top: '15px'}}>
             <div
-              className="inputwrapper position-relative w-25 px-0"
-              style={{ width: "fit-content", paddingLeft: 0 }}
+              className="inputwrapper position-relative px-0"
+              style={{ width: "32%", paddingLeft: 0 }}
             >
               <h6 className="inputlabel position-absolute">
                 Days<h6 className="requiredstar">*</h6>
@@ -529,7 +545,10 @@ const Calculator = ({earnClass, onClose, ref  }) => {
                   </p>
                 ))}
             </div> */}
-             <div className="inputwrapper position-relative px-0" style={{width: '43%'}}>
+            <div
+              className="inputwrapper position-relative px-0"
+              style={{ width: "32%" }}
+            >
               <h6 className="inputlabel position-absolute">
                 USD to deposit<h6 className="requiredstar">*</h6>
               </h6>
@@ -543,9 +562,10 @@ const Calculator = ({earnClass, onClose, ref  }) => {
                 onChange={(e) => handleInputUSD(e.target.value)}
               />
             </div>
+            <img src={calculatorChart} className="calculator-chart"alt="" />
           </div>
-         
-          <div className="d-flex justify-content-between gap-2 align-items-end mt-3">
+
+          {/* <div className="d-flex justify-content-between gap-2 align-items-end mt-3">
             <button
               className="earnbtn btn"
               onClick={() => {
@@ -578,7 +598,54 @@ const Calculator = ({earnClass, onClose, ref  }) => {
             <h6 className="calc-footer mt-3">
               *This calculator is for informational purposes only. Calculated
               yields assume that prices of the deposited assets don't change.
-            </h6>
+            </h6> */}
+          <div className="row w-100 mx-0 align-items-center justify-content-between mt-5">
+            <div className="ethereum-chain-wrapper">
+              <div className="chain-content d-flex flex-column justify-content-center gap-4 p-2">
+                <div className="d-flex flex-column gap-1">
+                  <div className="usd-value">${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}</div>
+                  <div className="approx-value">Approx ({calculateApproxWeth != "∞.undefined" && calculateApproxWeth != "..." ? calculateApproxWeth : '0.0'} WETH)</div>
+                </div>
+                <div className="d-flex align-items-center justify-content-between gap-4">
+                  <div className="d-flex align-items-center gap-2">
+                    <img src={ethStakeActive} width={20} height={20} alt="" />
+                    <h6 className="chain-name">Ethereum</h6>
+                  </div>
+                  <img src={filledArrow} alt="" />
+                </div>
+              </div>
+            </div>
+            <div className={`bnb-chain-wrapper ${activeMethod === "Vault" && 'd-none'}`}>
+              <div className="chain-content d-flex flex-column justify-content-center gap-4 p-2">
+                <div className="d-flex flex-column gap-1">
+                  <div className="usd-value">${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}</div>
+                  <div className="approx-value">Approx ({calculateApproxWbnb != "∞.undefined" && calculateApproxWbnb != "..." ? calculateApproxWbnb : '0.0'} WBNB)</div>
+                </div>
+                <div className="d-flex align-items-center justify-content-between gap-4">
+                  <div className="d-flex align-items-center gap-2">
+                    <img src={bnbStakeActive} width={20} height={20} alt="" />
+                    <h6 className="chain-name">Binance</h6>
+                  </div>
+                  <img src={filledArrow} alt="" />
+                </div>
+              </div>
+            </div>
+            <div className={`avax-chain-wrapper ${activeMethod === "Vault" && 'd-none'}`}>
+              <div className="chain-content d-flex flex-column justify-content-center gap-4 p-2">
+                <div className="d-flex flex-column gap-1">
+                  <div className="usd-value">${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}</div>
+                  <div className="approx-value">Approx ({calculateApproxWavax != "∞.undefined" && calculateApproxWavax != "..." ? calculateApproxWavax : '0.0'} WAVAX)</div>
+                </div>
+                <div className="d-flex align-items-center justify-content-between gap-4">
+                  <div className="d-flex align-items-center gap-2">
+                    <img src={avaxStakeActive} width={20} height={20} alt="" />
+                    <h6 className="chain-name">Avalanche</h6>
+                  </div>
+                  <img src={filledArrow} alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </form>
     </div>
