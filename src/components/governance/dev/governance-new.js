@@ -10,6 +10,12 @@ import avax from "../assets/avax.svg";
 import submit from "../assets/submit.svg";
 import walleticon from "../assets/walleticon.svg";
 import copy from "../assets/copy.svg";
+import freetextPassive from "../assets/freetext-passive.svg";
+import freetextActive from "../assets/freetext-active.svg";
+import disburselogoActive from "../assets/disburselogo-active.svg";
+import disburselogoPassive from "../assets/disburselogo-passive.svg";
+import empty from "../assets/empty.svg";
+import check from "../assets/check.svg";
 
 const { new_governance: governance, reward_token, BigNumber } = window;
 const LP_AMPLIFY_FACTOR = 1;
