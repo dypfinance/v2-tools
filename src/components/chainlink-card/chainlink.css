@@ -38,10 +38,10 @@
     rgba(21, 19, 41, 0.4) 81.69%
   );
   border-radius: 6px;
-  padding: 12px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 9.5px;
+  gap: 7px;
 }
 
 .totalpaidtxt {

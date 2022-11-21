@@ -1,29 +1,28 @@
 .calculator-wrapper {
-  background-color: #312F69;
+  background-color: #312f69;
   box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
   border-radius: 12px;
   padding: 20px;
-  border: 2px solid #312F69;
+  border: 2px solid #312f69;
   /* background-image: url(./assets/calculatorbg.png); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   width: 49%;
-  transition: all .25s;
+  transition: all 0.25s;
 }
 
 .calculator-wrapper:focus,
 .calculator-wrapper:hover,
-.calculator-wrapper:active{
+.calculator-wrapper:active {
   border: 2px solid rgb(142, 151, 205);
 }
 
-
-.earn-calculator{
+.earn-calculator {
   position: fixed;
   left: 63%;
   top: 45%;
-  box-shadow:0 0 0 1000px rgba(0,0,0,.50);
+  box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
   width: 35%;
   pointer-events: auto;
   z-index: 15;
@@ -63,7 +62,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 21px;
-  color: #8E97CD;
+  color: #8e97cd;
   padding: 10px 20px;
   margin-bottom: 0;
   cursor: pointer;
@@ -74,11 +73,11 @@
   /* width: 25%; */
   display: flex;
   justify-content: center;
-  transition: all .25s;
+  transition: all 0.25s;
 }
 
-.pill-item:hover{
-  background: #1E1C40 !important;
+.pill-item:hover {
+  background: #1e1c40 !important;
 }
 
 .active-color {
@@ -109,7 +108,7 @@
   letter-spacing: 0.4px;
   color: #8e97cd;
   display: flex;
-  background: #312F69 !important;
+  background: #312f69 !important;
   padding: 0 0px 0 5px;
   top: -11px;
   left: 8px;
@@ -122,7 +121,7 @@
 }
 
 .calcinput {
-  background: #312F69 !important;
+  background: #312f69 !important;
   border: 1px solid #8e97cd !important;
   border-radius: 8px;
   font-weight: 500;
@@ -139,7 +138,7 @@
   font-size: 36px;
   text-align: right;
   letter-spacing: -0.018em;
-  color: #F7F7FC;
+  color: #f7f7fc;
 }
 
 .cryptotext {
@@ -148,7 +147,7 @@
   line-height: 12px;
   text-align: right;
   letter-spacing: -0.018em;
-  color: #D6D8E7;
+  color: #d6d8e7;
 }
 
 .time-pill-item {
@@ -182,12 +181,12 @@
   line-height: 16px;
   /* text-align: right; */
   /* letter-spacing: -0.018em; */
-  color: #D6D8E7;
+  color: #d6d8e7;
   width: 60%;
 }
 
 .earnbtn {
-  background: linear-gradient(to left, #7770E0, #3E3AA5, #554FD8, #7770E0);
+  background: linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0);
   background-size: 300%;
   background-position: 0 0;
   border: none;
@@ -198,16 +197,74 @@
   align-items: center;
   gap: 10px;
   font-style: normal;
-font-weight: 500;
-font-size: 12px;
-line-height: 18px;
-color: #FFFFFF;
-transition: all ease 0.4s;
--webkit-transition: all ease 0.4s;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #ffffff;
+  transition: all ease 0.4s;
+  -webkit-transition: all ease 0.4s;
 }
 
 .earnbtn:hover {
-    color: #fff;
-    background-position: 100% 0 !important;
+  color: #fff;
+  background-position: 100% 0 !important;
   box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.09) !important;
+}
+
+.ethereum-chain-wrapper {
+  background-image: url("./assets/ethBackground.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  width: 32%;
+  padding: 2px;
+}
+.bnb-chain-wrapper {
+  background-image: url("./assets/bnbBackground.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  width: 32%;
+  padding: 2px;
+}
+.avax-chain-wrapper {
+  background-image: url("./assets/avaxBackground.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  width: 32%;
+  padding: 2px;
+}
+
+.chain-content {
+  background: #26264f;
+  border-radius: 8px;
+}
+
+.usd-value {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: -0.018em;
+  color: #f7f7fc !important;
+}
+
+.approx-value {
+  font-weight: 300;
+  font-size: 10px;
+  line-height: 15px;
+  letter-spacing: -0.018em;
+  color: #d6d8e7 !important;
+}
+.chain-name {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #f7f7fc;
+}
+
+.calculator-chart{
+  position: absolute;
+  width: 200px;
+  right: -25px;
 }

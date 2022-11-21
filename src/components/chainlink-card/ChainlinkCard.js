@@ -30,13 +30,18 @@ const ChainlinkCard = () => {
               target={"_blank"}
               rel="noreferrer"
             >
-              <img src={chainlinkLogo} className='pe-1' alt=""  style={{width: 20, height: 20}}/>
+              <img
+                src={chainlinkLogo}
+                className="pe-1"
+                alt=""
+                style={{ width: 20, height: 20 }}
+              />
               Provided by Chainlink
             </a>
           </h6>
         </div>
         <div className="chbottomwrapper">
-          <span style={{fontSize: '10px', fontWeight: '400', lineHeight: '14px', color: '#857DFA'}}>Earned by users</span>
+          {/* <span style={{fontSize: '10px', fontWeight: '400', lineHeight: '14px', color: '#857DFA'}}>Earned by users</span> */}
           <div>
             <h6 className="d-flex align-items-center gap-2 totalpaidtxt text-white">
               <img src={eth} alt="" />
@@ -46,10 +51,7 @@ const ChainlinkCard = () => {
           <div>
             <h6 className="d-flex align-items-center gap-2 totalpaidtxt text-white">
               <img src={bnb} alt="" />
-              {getFormattedNumber(
-                totalpaid?.bnbTotal.wbnbPaidOutTotals,
-                0
-              )} BNB
+              {getFormattedNumber(totalpaid?.bnbTotal.wbnbPaidOutTotals, 0)} BNB
             </h6>
           </div>
           <div>
@@ -58,9 +60,33 @@ const ChainlinkCard = () => {
               {getFormattedNumber(
                 totalpaid?.avaxTotal.avaxPaidOutTotals,
                 0
-              )} AVAX
+              )}{" "}
+              AVAX
             </h6>
           </div>
+        </div>
+        <div>
+          <span
+            style={{
+              fontWeight: "400",
+              fontSize: "10px",
+              lineHeight: "15px",
+              color: "#c0c9ff",
+            }}
+          >
+            Paid to users
+          </span>
+          <h6
+            style={{
+              fontWeight: "300",
+              fontSize: "18px",
+              lineHeight: "27px",
+              color: "#f7f7fc",
+              letterSpacing: '0.05em'
+            }}
+          >
+            ${getFormattedNumber(totalpaid?.totalPaidInUsd)}
+          </h6>
         </div>
       </div>
     </div>

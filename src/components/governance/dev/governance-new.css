@@ -12,7 +12,7 @@
   height: 40px;
   position: absolute;
   border-radius: 0px 100px 100px 0px;
-  left: 0px;
+  left: -1px;
   background: #7770e0;
 }
 

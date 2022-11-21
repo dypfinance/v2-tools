@@ -21,7 +21,7 @@
   height: 40px;
   position: absolute;
   border-radius: 0px 100px 100px 0px;
-  left: 0px;
+  left: -1px;
 }
 
 .myaddrtext {
@@ -641,14 +641,14 @@
 
 
 .outline-btn {
-  background: #26264F;
+  background: #312f69;
   border-radius: 8px;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;
-  color: #7770E0;
-  border: 1.5px solid #7770E0;
+  color: #857dfa;
+  border: 1.5px solid #857dfa;
   padding: 8px 24px;
   transition: all ease 0.4s;
   -webkit-transition: all ease 0.4s;
@@ -656,7 +656,7 @@
 
 .outline-btn:hover{
   color: #fff;
-  background: #7770E0;
+  background: #857dfa;
 }
 
 

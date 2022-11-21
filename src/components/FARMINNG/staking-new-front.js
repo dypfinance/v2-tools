@@ -23,7 +23,7 @@ import axios from "axios";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import poolStatsIcon from "./assets/poolStatsIcon.svg";
-
+import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 
@@ -1290,7 +1290,7 @@ export default function initStakingNew({
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between gap-3">
-                  <a
+                  {/* <a
                     href={
                       // chainId === 1
                         // ? 
@@ -1304,7 +1304,11 @@ export default function initStakingNew({
                       <img src={arrowup} alt="" />
                       Get DYP
                     </h6>
-                  </a>
+                  </a> */}
+                   <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
+                      <img src={poolsCalculatorIcon} alt="" />
+                      Calculator
+                    </h6>
                   <div
                     onClick={() => {
                       this.showPopup();
@@ -2695,7 +2699,7 @@ export default function initStakingNew({
             />
           )}
 
-          <div
+          {/* <div
             className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
             onClick={() => this.setState({ showCalculator: true })}
           >
@@ -2705,7 +2709,7 @@ export default function initStakingNew({
               style={{ width: 30, height: 30 }}
             />{" "}
             Calculator
-          </div>
+          </div> */}
 
           {this.state.showCalculator && (
             <div className="pools-calculator p-3">
@@ -2791,11 +2795,7 @@ export default function initStakingNew({
                   }}
                 >
                   Approx{" "}
-                  {getFormattedNumber(
-                    this.getApproxReturnUSD() / this.getUsdPerETH(),
-                    6
-                  )}
-                  WETH
+                  {getFormattedNumber(this.getApproxReturnUSD() / this.getUsdPerETH(), 6)} WETH
                 </h6>
               </div>
               <div className="mt-4">

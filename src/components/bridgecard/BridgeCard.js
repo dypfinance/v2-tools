@@ -6,7 +6,7 @@ import './bridgecard.css'
 const BridgeCard = () => {
   return (
     <div className="bridgecard-wrapper">
-      <div className="orangediv"></div>
+      <div className="purplediv" style={{background: '#8890C4'}}></div>
       <div className="d-flex flex-column gap-3 justify-content-between">
         <div className="">
           <h6 className="bridgecard-title d-flex justify-content-between gap-2 align-items-center">

@@ -24,6 +24,8 @@ import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import axios from "axios";
 import poolStatsIcon from './assets/poolStatsIcon.svg'
+import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+
                         
 
 
@@ -1261,7 +1263,7 @@ export default function initFarmAvax({
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between gap-3">
-                  <a
+                  {/* <a
                     href={
                       // chainId === 1
                         // ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
@@ -1275,7 +1277,11 @@ export default function initFarmAvax({
                       <img src={arrowup} alt="" />
                       Get DYP
                     </h6>
-                  </a>
+                  </a> */}
+                   <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
+                      <img src={poolsCalculatorIcon} alt="" />
+                      Calculator
+                    </h6>
                   <div
                     onClick={() => {
                       this.showPopup();
@@ -2620,7 +2626,7 @@ export default function initFarmAvax({
             />
           )}
 
-          <div
+          {/* <div
             className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
             onClick={() => this.setState({ showCalculator: true })}
           >
@@ -2630,7 +2636,7 @@ export default function initFarmAvax({
               style={{ width: 30, height: 30 }}
             />
             Calculator
-          </div>
+          </div> */}
 
           {this.state.showCalculator && (
             <div className="pools-calculator p-3">

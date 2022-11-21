@@ -22,6 +22,8 @@ import { shortAddress } from "../../functions/shortAddress";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
+import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -690,6 +692,10 @@ export default function stakeAvaxiDyp({
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between gap-3">
+                <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
+                      <img src={poolsCalculatorIcon} alt="" />
+                      Calculator
+                    </h6>
                   <a
                     href={
                       // chainId === 1
@@ -892,7 +898,7 @@ export default function stakeAvaxiDyp({
                               getFormattedNumber(0, 6)
                             }</span>
                     </div>
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-3">
                       <button
                         disabled={
                           this.state.claimStatus === "claimed" ||
@@ -1420,7 +1426,7 @@ export default function stakeAvaxiDyp({
             />
           )}
 
-          <div
+          {/* <div
             className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
             onClick={() => this.setState({ showCalculator: true })}
           >
@@ -1430,7 +1436,7 @@ export default function stakeAvaxiDyp({
               style={{ width: 30, height: 30 }}
             />
             Calculator
-          </div>
+          </div> */}
 
           {this.state.showCalculator && (
             <div className="pools-calculator p-3">

@@ -18,7 +18,7 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
-
+import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import CountDownTimer from "../locker/Countdown";
 import { shortAddress } from "../../functions/shortAddress";
@@ -912,7 +912,7 @@ export default function initConstantStakingNew({
           <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
               <div className="activewrapper">
-                <div className="d-flex align-items-center justify-content-between gap-5">
+                <div className={`d-flex align-items-center justify-content-between ${renderedPage === "dashboard" ? 'gap-4' : 'gap-5'}`}>
                   <h6 className="activetxt">
                     <img
                       src={ellipse}
@@ -986,6 +986,10 @@ export default function initConstantStakingNew({
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between gap-3">
+                <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
+                      <img src={poolsCalculatorIcon} alt="" />
+                      Calculator
+                    </h6>
                   <a
                     href={
                       // chainId === 1
@@ -1225,7 +1229,7 @@ export default function initConstantStakingNew({
                           style={{ fontSize: "14px", width: renderedPage === "dashboard" && '120px', padding: 0 }}
                         /> */}
                       </div>
-                      <div className="d-flex align-items-center gap-2">
+                      <div className="d-flex align-items-center gap-3">
                         <button
                           disabled={
                             this.state.claimStatus === "claimed" ||
@@ -1794,7 +1798,7 @@ export default function initConstantStakingNew({
               handleConnection={this.props.handleConnection}
             />
           )}
-          <div
+          {/* <div
             className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
             onClick={() => this.setState({ showCalculator: true })}
           >
@@ -1804,7 +1808,7 @@ export default function initConstantStakingNew({
               style={{ width: 30, height: 30 }}
             />{" "}
             Calculator
-          </div>
+          </div> */}
 
           {this.state.showCalculator && (
             <div className="pools-calculator p-3">
