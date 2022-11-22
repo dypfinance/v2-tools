@@ -10,6 +10,12 @@ import avax from "../assets/avax.svg";
 import submit from "../assets/submit.svg";
 import walleticon from "../assets/walleticon.svg";
 import copy from "../assets/copy.svg";
+import freetextPassive from "../assets/freetext-passive.svg";
+import freetextActive from "../assets/freetext-active.svg";
+import disburselogoActive from "../assets/disburselogo-active.svg";
+import disburselogoPassive from "../assets/disburselogo-passive.svg";
+import empty from "../assets/empty.svg";
+import check from "../assets/check.svg";
 
 const { new_governanceavax: governance, reward_token, BigNumber } = window;
 
@@ -50,51 +56,181 @@ const AddProposal = (props) => {
   });
 
   const setState = (obj) => setFormState({ ...formState, ...obj });
-  let { isOwner, connected } = props;
+  let { isOwner, connected, coinbase } = props;
+
   return (
     <div>
-      <div className="">
-        <h3 style={{ textAlign: "left" }}>Submit a proposal</h3>
-        <form onSubmit={props.onSubmit(formState)}>
-          <div>
-            <label htmlFor="proposal-action" style={{ display: "none" }}>
-              Select Action
-            </label>
-            <select
-              value={formState.action}
-              onChange={(e) => setState({ action: e.target.value })}
-              className="form-control"
-              id="proposal-action"
-            >
-              <option value="0">Disburse or Burn</option>
-              {isOwner && <option value="1">Upgrade Governance</option>}
-              {isOwner && <option value="2">Change Quorum</option>}
-              {isOwner && <option value="4">Change Min Balance</option>}
-              <option value="3">Other / Free Text</option>
-            </select>
-          </div>
-
-          {/* <br /> */}
-          {["0", "1"].includes(formState.action) && (
-            <div className="pt-3">
-              <label htmlFor="staking-pool" className="d-flex">
-                Select Pool
-              </label>
-              <select
-                className="form-control"
-                id="staking-pool"
-                value={formState.stakingPool}
-                onChange={(e) => setState({ stakingPool: e.target.value })}
-              >
-                {stakingPools.map((v, i) => (
-                  <option value={v.pools} key={i}>
-                    {" "}
-                    {v ? v.name : "DYP"}{" "}
-                  </option>
-                ))}
-              </select>
+      <h6 className="myDetails-title mb-3">New proposal</h6>
+      <div className="submitproposal-wrapper">
+        <div className="purplediv"></div>
+        <div className="d-flex justify-content-between gap-2 align-items-center mb-3">
+          <h6 className="submitnewproposal-title">
+            <img src={require("../assets/submitwhite.svg").default} alt="" />{" "}
+            Submit a proposal
+          </h6>
+          {coinbase === null ? (
+            <button className="connectbtn btn" onClick={this.showModal}>
+              <img src={require("../assets/wallet-green.svg").default} alt="" />{" "}
+              Connect wallet
+            </button>
+          ) : (
+            <div className="addressbtn btn">
+              <Address a={coinbase} />
             </div>
           )}
+        </div>
+        <div className="separator mb-3"></div>
+        <form onSubmit={props.onSubmit(formState)}>
+          <div className="d-flex gap-2 justify-content-between align-items-center">
+            <div>
+              <label htmlFor="proposal-action" className="d-none">
+                Select Action
+              </label>
+              <div className="d-flex justify-content-between gap-3 align-items-center">
+                <div
+                  className={
+                    formState.action === "0"
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                >
+                  <input
+                    type="checkbox"
+                    value="0"
+                    onChange={(e) => setState({ action: e.target.value })}
+                    id="disburseburn"
+                    className="d-none"
+                  />
+                  <label for="disburseburn" className="optiontext">
+                    <img
+                      src={
+                        formState.action === "0"
+                          ? disburselogoActive
+                          : disburselogoPassive
+                      }
+                      alt=""
+                    />
+                    Disburse or Burn
+                  </label>
+                </div>
+                <div
+                  className={
+                    formState.action === "3"
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                >
+                  <input
+                    type="checkbox"
+                    value="3"
+                    onChange={(e) => setState({ action: e.target.value })}
+                    id="freetext"
+                    className="d-none"
+                  />
+                  <label for="freetext" className="optiontext">
+                    <img
+                      src={
+                        formState.action === "3"
+                          ? freetextActive
+                          : freetextPassive
+                      }
+                      alt=""
+                    />
+                    Other / Free Text
+                  </label>
+                </div>
+              </div>
+              <select
+                value={formState.action}
+                onChange={(e) => setState({ action: e.target.value })}
+                className="form-control d-none"
+                id="proposal-action"
+              >
+                <option value="0">Disburse or Burn</option>
+                {isOwner && <option value="1">Upgrade Governance</option>}
+                {isOwner && <option value="2">Change Quorum</option>}
+                {isOwner && <option value="4">Change Min Balance</option>}
+                <option value="3">Other / Free Text</option>
+              </select>
+            </div>
+            {["0", "1"].includes(formState.action) && (
+              <div className="">
+                <label htmlFor="staking-pool" className="d-none">
+                  Select Pool
+                </label>
+                {stakingPools.map((v, i) => (
+                  // <option value={v.pools} key={i}>
+                  //   {" "}
+                  //   {v ? v.name : "DYP"}{" "}
+                  // </option>
+                  <div key={i}>
+                    <input
+                      type="checkbox"
+                      value={v.pools}
+                      onChange={(e) =>
+                        setState({ stakingPool: e.target.value })
+                      }
+                      id="stakingpool"
+                      className="d-none"
+                    />
+                    <label for="stakingpool" className="stakingpool-option">
+                      <img
+                        src={
+                          formState.stakingPool === stakingPools[0].pools
+                            ? check
+                            : empty
+                        }
+                        alt=""
+                      />
+
+                      <img
+                        src={avax}
+                        alt=""
+                        style={{ width: 18, height: 18 }}
+                      />
+                      {v ? v.name : "DYP"}
+                    </label>
+                  </div>
+                ))}
+                <button className="btn btn-primary btn-block" type="submit">
+              SUBMIT PROPOSAL
+            </button>
+
+                <select
+                  className="form-control d-none"
+                  id="staking-pool"
+                  value={formState.stakingPool}
+                  onChange={(e) => setState({ stakingPool: e.target.value })}
+                >
+                  {stakingPools.map((v, i) => (
+                    <option value={v.pools} key={i}>
+                      {" "}
+                      {v ? v.name : "DYP"}{" "}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+          {formState.action == "3" && (
+            <div className="pt-3">
+              <textarea
+                style={{
+                  minHeight: "150px",
+                  width: "100%",
+                  background: "#312F69",
+                  border: "1px solid #8E97CD",
+                }}
+                required
+                className="form-control"
+                type="text"
+                placeholder="Enter Proposal Text"
+                value={formState.text}
+                onChange={(e) => setState({ text: e.target.value })}
+              ></textarea>
+            </div>
+          )}
+
           {formState.action == "1" && (
             <div className="pt-3">
               <input
@@ -119,19 +255,7 @@ const AddProposal = (props) => {
               />
             </div>
           )}
-          {formState.action == "3" && (
-            <div className="pt-3">
-              <textarea
-                style={{ minHeight: "150px" }}
-                required
-                className="form-control"
-                type="text"
-                placeholder="Enter Proposal Text"
-                value={formState.text}
-                onChange={(e) => setState({ text: e.target.value })}
-              ></textarea>
-            </div>
-          )}
+
           {formState.action == "4" && (
             <div className="pt-3">
               <input
@@ -144,13 +268,10 @@ const AddProposal = (props) => {
               />
             </div>
           )}
-          <div className="pt-3">
-            <button className="btn btn-primary btn-block" type="submit">
-              SUBMIT PROPOSAL
-            </button>
-            <small className="form-text text-muted mt-4">
-              {/*<i className='fas fa-info-circle'></i> */}Submitting a proposal
-              requires a minimum of{" "}
+          <div className="pt-3 d-flex flex-column gap-2">
+            
+            <small className="form-text text-muted">
+              Submitting a proposal requires a minimum of{" "}
               {(props.MIN_BALANCE_TO_INIT_PROPOSAL / 1e18).toFixed(2)} DYP
               Governance Token Balance.
             </small>
@@ -563,7 +684,7 @@ export default class Governance extends React.Component {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex justify-content-between mb-5">
             <div
               className=""
               id="votingWrapper"
@@ -580,11 +701,12 @@ export default class Governance extends React.Component {
                   this.state.MIN_BALANCE_TO_INIT_PROPOSAL
                 }
                 onSubmit={this.handleProposalSubmit}
+                coinbase={this.state.coinbase}
               />
             </div>
-            <div>
+            <div className="d-flex flex-column">
               <h6 className="myDetails-title mb-3">My details</h6>
-              <div className="mydetails-wrapper">
+              <div className="mydetails-wrapper h-100">
                 <div className="purplediv"></div>
                 {this.state.is_wallet_connected === true ? (
                   <div className="d-flex justify-content-between flex-column">
@@ -623,7 +745,7 @@ export default class Governance extends React.Component {
                         >
                           Total in voting
                         </label>
-                        <div className="d-flex justify-content-between align-items-center gap-2">
+                        <div className="d-flex justify-content-between align-items-center gap-5">
                           <div className="form-row totalVotingButton">
                             <div>
                               <span className="dypamounttext">
