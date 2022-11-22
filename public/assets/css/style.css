@@ -3383,7 +3383,6 @@ body.theme-dark .table tbody td {
 }
 body.theme-dark input[type="text"],
 body.theme-dark input[type="email"],
-body.theme-dark textarea,
 body.theme-dark input[type="number"],
 body.theme-dark select.form-control {
   background: var(--grey);
@@ -4184,7 +4183,7 @@ background-size: cover; */
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: fit-content;
+  /* width: fit-content; */
   /* min-height: 396px; */
   height: fit-content;
   margin: auto;
