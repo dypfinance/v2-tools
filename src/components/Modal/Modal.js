@@ -4,13 +4,13 @@ import withdrawIcon from './withdrawIcon.svg'
 import statsIcon from './statsIcon.svg'
 
 
-const Modal = ({   visible, modalId, setIsVisible, children, title }) => {
+const Modal = ({   visible, modalId, setIsVisible, children, title, width }) => {
 
   let className = "modal fade ";
   let style = {};
   if (visible === true) {
     className = "modal fade show";
-    style = { display: "block", background: "rgba(0,0,0, 0.5)" };
+    style = { display: "block", background: "rgba(0,0,0, 0.5)"  };
   }
 
   const closeModal = () => {
@@ -27,7 +27,7 @@ const Modal = ({   visible, modalId, setIsVisible, children, title }) => {
       style={style}
     >
       <div className="modal-dialog tymodal">
-        <div className="modal-content" style={{width: title === "withdraw" && '37%' }}>
+        <div className="modal-content" style={{width: title === "withdraw" ? '37%' : width }}>
           <div className="modal-header justify-content-between align-items-center">
            <div className="d-flex align-items-center gap-2">
             <img src={title === "stats" ? statsIcon : withdrawIcon} height={25} width={25} alt="" />

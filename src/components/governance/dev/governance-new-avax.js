@@ -4,6 +4,8 @@ import { NavLink, Route } from "react-router-dom";
 import Address from "../../FARMINNG/address";
 import getFormattedNumber from "../../../functions/get-formatted-number";
 import "./governance-new.css";
+import Modal from "../../Modal/Modal";
+import WalletModal from "../../WalletModal";
 import eth from "../assets/eth.svg";
 import bnb from "../assets/bnb.svg";
 import avax from "../assets/avax.svg";
@@ -16,6 +18,9 @@ import disburselogoActive from "../assets/disburselogo-active.svg";
 import disburselogoPassive from "../assets/disburselogo-passive.svg";
 import empty from "../assets/empty.svg";
 import check from "../assets/check.svg";
+import govhero from "../assets/govhero.png";
+import statsLinkIcon from "../../FARMINNG/assets/statsLinkIcon.svg";
+import { shortAddress } from "../../../functions/shortAddress";
 
 const { new_governanceavax: governance, reward_token, BigNumber } = window;
 
@@ -55,33 +60,22 @@ const AddProposal = (props) => {
     text: "",
   });
 
+  const [showModal, setShowModal] = useState(false);
+
   const setState = (obj) => setFormState({ ...formState, ...obj });
-  let { isOwner, connected, coinbase } = props;
+  let { isOwner, connected, coinbase, handleConnection } = props;
 
   return (
-    <div>
-      <h6 className="myDetails-title mb-3">New proposal</h6>
-      <div className="submitproposal-wrapper">
-        <div className="purplediv"></div>
+    <div className="col-6">
+      <div className="d-flex flex-column justify-content-between h-100"> 
         <div className="d-flex justify-content-between gap-2 align-items-center mb-3">
           <h6 className="submitnewproposal-title">
             <img src={require("../assets/submitwhite.svg").default} alt="" />{" "}
             Submit a proposal
           </h6>
-          {coinbase === null ? (
-            <button className="connectbtn btn" onClick={this.showModal}>
-              <img src={require("../assets/wallet-green.svg").default} alt="" />{" "}
-              Connect wallet
-            </button>
-          ) : (
-            <div className="addressbtn btn">
-              <Address a={coinbase} />
-            </div>
-          )}
-        </div>
-        <div className="separator mb-3"></div>
-        <form onSubmit={props.onSubmit(formState)}>
-          <div className="d-flex gap-2 justify-content-between align-items-center">
+        </div> 
+        <form onSubmit={props.onSubmit(formState)} className='h-100'>
+          {/* <div className="d-flex gap-2 justify-content-between align-items-center">
             <div>
               <label htmlFor="proposal-action" className="d-none">
                 Select Action
@@ -192,9 +186,9 @@ const AddProposal = (props) => {
                     </label>
                   </div>
                 ))}
-                <button className="btn btn-primary btn-block" type="submit">
-              SUBMIT PROPOSAL
-            </button>
+                <button className="btn filledbtn" type="submit">
+                  SUBMIT PROPOSAL
+                </button>
 
                 <select
                   className="form-control d-none"
@@ -211,7 +205,23 @@ const AddProposal = (props) => {
                 </select>
               </div>
             )}
-          </div>
+          </div> */}
+          
+            <div className="d-flex flex-column gap-2 align-items-end justify-content-between h-100">
+              <h6 className="initialdesc">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+                metus nibh, finibus eu tortor consequat tortor.<br/>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+                metus nibh, finibus eu tortor consequat tortor.
+                
+              </h6>
+              <button
+                className="btn filledbtn"
+                style={{ width: "fit-content" }}
+              >
+                Create proposal
+              </button>
+            </div>
           {formState.action == "3" && (
             <div className="pt-3">
               <textarea
@@ -268,16 +278,24 @@ const AddProposal = (props) => {
               />
             </div>
           )}
-          <div className="pt-3 d-flex flex-column gap-2">
-            
+          {/* <div className="pt-3 d-flex flex-column gap-2">
             <small className="form-text text-muted">
               Submitting a proposal requires a minimum of{" "}
               {(props.MIN_BALANCE_TO_INIT_PROPOSAL / 1e18).toFixed(2)} DYP
               Governance Token Balance.
             </small>
-          </div>
+          </div> */}
         </form>
       </div>
+      {showModal && (
+        <WalletModal
+          show={showModal}
+          handleClose={() => {
+            setShowModal(false);
+          }}
+          handleConnection={handleConnection}
+        />
+      )}
     </div>
   );
 };
@@ -474,7 +492,9 @@ export default class Governance extends React.Component {
   componentDidMount() {
     this.refreshBalance();
     this.refreshDYPBalance();
-
+    if(this.state.proposals.length == 0) {
+      this.refreshProposals()
+      }
     this.checkConnection();
     this.getProposal();
     window._refreshBalInterval = setInterval(this.checkConnection, 1000);
@@ -684,32 +704,53 @@ export default class Governance extends React.Component {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between mb-5">
-            <div
-              className=""
-              id="votingWrapper"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                gap: 20,
-              }}
-            >
-              <AddProposal
-                isOwner={isOwner}
-                connected={this.state.is_wallet_connected}
-                MIN_BALANCE_TO_INIT_PROPOSAL={
-                  this.state.MIN_BALANCE_TO_INIT_PROPOSAL
-                }
-                onSubmit={this.handleProposalSubmit}
-                coinbase={this.state.coinbase}
-              />
-            </div>
-            <div className="d-flex flex-column">
-              <h6 className="myDetails-title mb-3">My details</h6>
-              <div className="mydetails-wrapper h-100">
-                <div className="purplediv"></div>
-                {this.state.is_wallet_connected === true ? (
+          <div>
+            <h6 className="myDetails-title mb-3">New proposal</h6>
+            <div className="d-flex justify-content-end mb-5 gap-5 align-items-center position-relative">
+              <img src={govhero} alt='' className="project-banner2"/>
+              <div
+                className="submitproposal-wrapper"
+                id="votingWrapper"
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                  gap: 20,
+                }}
+              >
+                <AddProposal
+                  isOwner={isOwner}
+                  connected={this.state.is_wallet_connected}
+                  MIN_BALANCE_TO_INIT_PROPOSAL={
+                    this.state.MIN_BALANCE_TO_INIT_PROPOSAL
+                  }
+                  onSubmit={this.handleProposalSubmit}
+                  coinbase={this.state.coinbase}
+                  handleConnection={() => {
+                    // this.props.handleConnection();
+                  }}
+                />
+                <div className="mydetails-wrapper col-4">
+                 
                   <div className="d-flex justify-content-between flex-column">
+                    <div className="d-flex justify-content-end">
+                  {this.state.is_wallet_connected === false ? (
+                    <button
+                      className="connectbtn btn mb-3"
+                      onClick={() => {
+                        // setShowModal(true);
+                      }}
+                    >
+                      <img
+                        src={require("../assets/wallet-green.svg").default}
+                        alt=""
+                      />{" "}
+                      Connect wallet
+                    </button>
+                  ) : (
+                    <div className="addressbtn btn mb-3">
+                      <Address a={this.state.coinbase} />
+                    </div>
+                  )}</div>
                     <div className="d-flex justify-content-between gap-2 align-items-center mb-3">
                       <div className="colored-container">
                         <span className="purpletext">
@@ -766,23 +807,7 @@ export default class Governance extends React.Component {
                       </div>
                     </form>
                   </div>
-                ) : (
-                  <div className="connectWallet">
-                    <span style={{ display: "flex" }}>My Wallet</span>
-                    <h3 className="titleWrapper">
-                      Please connect wallet to use this dApp
-                    </h3>
-                    <button
-                      onClick={() => {
-                        this.props.handleConnection();
-                      }}
-                      style={{ borderRadius: "6px" }}
-                      className="btn connectWalletBTN pr-5 pl-5"
-                    >
-                      Connect Wallet
-                    </button>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
           </div>
@@ -853,6 +878,10 @@ export default class Governance extends React.Component {
               proposalId={
                 this.state.proposalId === undefined ? 0 : this.state.proposalId
               }
+              open={this.state.open}
+              setIsVisible={() => {
+                this.setState({ open: false });
+              }}
             />
           )}
         </div>
@@ -877,8 +906,8 @@ class ProposalDetails extends React.Component {
       MIN_BALANCE_TO_INIT_PROPOSAL: "",
       is_wallet_connected: false,
       is_proposal_executible: false,
-
       proposal: {},
+      open: this.props.open,
     };
   }
   componentDidMount() {
@@ -1043,8 +1072,6 @@ class ProposalDetails extends React.Component {
   };
 
   render() {
-    let id = this.props.proposalId;
-
     let { coinbase, token_balance, proposal, totalDeposited, depositedTokens } =
       this.state;
 
@@ -1095,437 +1122,545 @@ class ProposalDetails extends React.Component {
         moment.duration(canWithdrawAllAfter - Date.now()).humanize(true);
     }
 
-    return (
-      <div className="token-staking">
-        <div className="row justify-content-between">
-          <div className="col-lg-5 mt-5 proposalWrapper">
-            <div className="row token-staking-form">
-              <div className="col-12">
-                <div className="l-box">
-                  <form onSubmit={(e) => e.preventDefault()}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="deposit-amount"
-                        className="d-block text-left"
-                      >
-                        Add votes
-                      </label>
-                      <h5
-                        className=""
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 20,
-                          fontWeight: 600,
-                          marginBottom: 20,
-                        }}
-                      >
-                        <img
-                          height={38}
-                          src={
-                            proposal.vault
-                              ? proposal.vault.logo.toString()
-                              : "/logo192.png"
-                          }
-                        />{" "}
-                        {proposal.vault
-                          ? proposal.vault.name.toString()
-                          : "DYP Proposal"}
-                      </h5>
-                      <div className="input-group ">
-                        <input
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount * LP_AMPLIFY_FACTOR
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount:
-                                Number(e.target.value) > 0
-                                  ? e.target.value / LP_AMPLIFY_FACTOR
-                                  : e.target.value,
-                            })
-                          }
-                          className="form-control left-radius"
-                          placeholder="0"
-                          type="text"
-                        />
-                        <div className="input-group-append">
-                          <button
-                            className="btn btn-primary right-radius btn-max l-light-btn"
-                            style={{ cursor: "pointer" }}
-                            onClick={this.handleSetMaxDeposit}
-                          >
-                            MAX
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div style={{ paddingRight: "0.3rem" }} className="col-6">
-                        <button
-                          onClick={() => this.handleSetOption("0")}
-                          className={`btn btn-block btn-primary l-light-btn ${
-                            this.state.option == "0" ? "btn-outline" : ""
-                          }`}
-                          type="button"
-                        >
-                          <i
-                            className={
-                              this.state.option == "0"
-                                ? "fas fa-check-square"
-                                : "far fa-square"
-                            }
-                          ></i>{" "}
-                          {this.getOptionText("0")}
-                        </button>
-                      </div>
-                      <div style={{ paddingLeft: "0.3rem" }} className="col-6">
-                        <button
-                          onClick={() => this.handleSetOption("1")}
-                          className={`btn btn-block btn-primary l-light-btn ${
-                            this.state.option == "1" ? "btn-outline" : ""
-                          }`}
-                          type="button"
-                        >
-                          <i
-                            className={
-                              this.state.option == "1"
-                                ? "fas fa-check-square"
-                                : "far fa-square"
-                            }
-                          ></i>{" "}
-                          {this.getOptionText("1")}
-                        </button>
-                      </div>
-                    </div>
-                    <div className="row mt-3">
-                      <div style={{ paddingRight: "0.3rem" }} className="col-6">
-                        <button
-                          onClick={this.handleApprove}
-                          className="btn btn-block btn-primary"
-                          type="button"
-                        >
-                          APPROVE
-                        </button>
-                      </div>
-                      <div style={{ paddingLeft: "0.3rem" }} className="col-6">
-                        <button
-                          disabled={!canRemoveVotes}
-                          onClick={this.handleAddVote}
-                          className="btn btn-block btn-primary l-outline-btn"
-                          type="submit"
-                        >
-                          ADD VOTES
-                        </button>
-                      </div>
-                    </div>
-                    <p
-                      style={{ fontSize: ".8rem" }}
-                      className="mt-1 text-center mb-0 text-muted mt-3"
-                    >
-                      {/* Some info text here.<br /> */}
-                      Please approve before voting.
-                    </p>
-                  </form>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="l-box">
-                  <form onSubmit={this.handleRemoveVote}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="deposit-amount"
-                        className="d-block text-left"
-                      >
-                        REMOVE VOTES
-                      </label>
-                      <div className="input-group ">
-                        <input
-                          value={
-                            Number(this.state.withdrawAmount) > 0
-                              ? this.state.withdrawAmount * LP_AMPLIFY_FACTOR
-                              : this.state.withdrawAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              withdrawAmount:
-                                Number(e.target.value) > 0
-                                  ? e.target.value / LP_AMPLIFY_FACTOR
-                                  : e.target.value,
-                            })
-                          }
-                          className="form-control left-radius"
-                          placeholder="0"
-                          type="text"
-                        />
-                        <div className="input-group-append">
-                          <button
-                            className="btn btn-primary right-radius btn-max l-light-btn"
-                            style={{ cursor: "pointer" }}
-                            onClick={this.handleSetMaxWithdraw}
-                          >
-                            MAX
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      disabled={!canRemoveVotes}
-                      className="btn btn-primary btn-block l-outline-btn"
-                      type="submit"
-                    >
-                      REMOVE VOTES
-                    </button>
-                    {/* <p style={{fontSize: '.8rem'}} className='mt-1 text-center'>Some info text here.</p> */}
-                  </form>
-                </div>
-              </div>
-              <div className="col-12">
-                <div className="l-box">
-                  <form onSubmit={this.handleClaim}>
-                    <div className="form-group">
-                      <label
-                        htmlFor="deposit-amount"
-                        className="text-left d-block"
-                      >
-                        Total in voting
-                      </label>
-                      <div className="row buttonWrapper m-0">
-                        <div
-                          className="form-row totalVotingButton"
-                          style={{
-                            maxWidth: 180,
-                            width: "100%",
-                          }}
-                        >
-                          <div className="form-row">
-                            <div className="col-12">
-                              <p
-                                className="form-control  text-right"
-                                style={{
-                                  border: "none",
-                                  fontSize: "1.2rem",
-                                  marginBottom: 0,
-                                  paddingLeft: 0,
-                                  background: "rgba(82, 168, 164, 0.2)",
-                                  color: "var(--text-color)",
-                                }}
-                              >
-                                <span
-                                  style={{
-                                    fontSize: "1.2rem",
-                                    color: "var(--text-color)",
-                                  }}
-                                >
-                                  {totalDeposited}
-                                </span>{" "}
-                                <small className="text-bold">DYP</small>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <button
-                          title={withdrawableTitleText}
-                          disabled={!canWithdrawAll}
-                          className="btn btn-primary btn-block l-outline-btn withdrawButton"
-                          type="submit"
-                          style={{ maxWidth: 180 }}
-                        >
-                          Withdraw all
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
+    if (this.props.open === true) {
+      return (
+        <Modal
+          visible={this.props.open}
+          modalId="statsmodal"
+          title="stats"
+          setIsVisible={() => {
+            this.props.setIsVisible();
+          }}
+          width="fit-content"
+        >
+          <div className="stats-container my-4">
+            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+              <span className="stats-card-title">{`My ${this.getOptionText(
+                this.state.option
+              )} Votes`}</span>
+              <h6 className="stats-card-content">{depositedTokens} DYP</h6>
+            </div>
+            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+              <span className="stats-card-title">Proposal Action</span>
+              <h6 className="stats-card-content">{actionText}</h6>
+            </div>
+            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+              <span className="stats-card-title">Expires</span>
+              <h6 className="stats-card-content">{expires}</h6>
+            </div>
+            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+              <span className="stats-card-title">My DYP Balance</span>
+              <h6 className="stats-card-content">{token_balance} DYP</h6>
+            </div>
+            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+              <span className="stats-card-title">
+                {this.getOptionText("0")} Votes
+              </span>
+              <h6 className="stats-card-content">{optionOneVotes} DYP</h6>
+            </div>
+            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+              <span className="stats-card-title">
+                {this.getOptionText("1")} Votes
+              </span>
+              <h6 className="stats-card-content">{optionTwoVotes} DYP</h6>
             </div>
           </div>
-          <div className="col-lg-7 mt-4 pl-0">
-            <div className="l-box">
-              <div className="table-responsive">
-                <h3
-                  style={{
-                    fontSize: "1.1rem",
-                    fontWeight: "600",
-                    padding: ".3rem",
-                    display: "flex",
-                  }}
-                >
-                  PROPOSAL DETAILS
-                </h3>
-                {proposal._proposalAction == "3" && (
-                  <p
-                    className="l-proposal-text"
-                    style={{ whiteSpace: "pre-line", padding: ".3rem" }}
-                  >
-                    <td colSpan> {proposal._proposalText} </td>
-                  </p>
-                )}
-                <table className="table-stats table table-sm table-borderless">
-                  <tbody>
-                    <tr>
-                      <th className="d-flex">Pool</th>
-                      <td className="text-right">
-                        <strong>
-                          {proposal.vault
-                            ? proposal.vault.name
-                            : "DYP Proposal"}
-                        </strong>{" "}
-                        <small></small>
-                      </td>
-                    </tr>
+          <div className="d-flex align-items-center justify-content-between gap-1 mb-3">
+            <div className="d-flex flex-column gap-1">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://github.com/dypfinance/Avalanche-Bridge-and-Farming-contracts/tree/main/Audits`}
+                className="stats-link"
+              >
+                Audit <img src={statsLinkIcon} alt="" />
+              </a>
+            </div>
+            <div className="d-flex align-items-center gap-1 justify-content-between">
+              <span
+                style={{
+                  fontWeight: "400",
+                  fontSize: "12px",
+                  lineHeight: "18px",
+                  color: "#C0C9FF",
+                }}
+              >
+                Contract Address
+              </span>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`${window.config.snowtrace_baseURL}/address/${governance._address}`}
+                className="stats-link"
+              >
+                {shortAddress(governance._address)}{" "}
+                <img src={statsLinkIcon} alt="" />
+              </a>
+            </div>
+            <div className="d-flex align-items-center gap-1 justify-content-between">
+              <span
+                style={{
+                  fontWeight: "400",
+                  fontSize: "12px",
+                  lineHeight: "18px",
+                  color: "#C0C9FF",
+                }}
+              >
+                My Address
+              </span>
 
-                    <tr>
-                      <th className="d-flex">Proposal Action</th>
-                      <td className="text-right">
-                        <strong>{actionText}</strong> <small></small>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th className="d-flex">My DYP Balance</th>
-                      <td className="text-right">
-                        <strong>{token_balance + " DYP"}</strong>{" "}
-                        <small></small>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="d-flex">{`My ${this.getOptionText(
-                        this.state.option
-                      )} Votes`}</th>
-                      <td className="text-right">
-                        <strong>{depositedTokens + " DYP"}</strong>{" "}
-                        <small></small>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="d-flex">Expires</th>
-                      <td className="text-right">
-                        <strong>{expires}</strong> <small></small>
-                      </td>
-                    </tr>
-                    {proposal._proposalAction == "1" && (
-                      <tr>
-                        <th className="d-flex">New Gov. Address</th>
-                        <td className="text-right">
-                          <Address
-                            style={{ fontFamily: "monospace" }}
-                            a={proposal._newGovernance}
-                          />
-                        </td>
-                      </tr>
-                    )}
-                    {proposal._proposalAction == "2" && (
-                      <tr>
-                        <th className="d-flex">New Quorum</th>
-                        <td className="text-right">
-                          <strong>
-                            {getFormattedNumber(proposal._newQuorum / 1e18, 6)}
-                          </strong>{" "}
-                          <small>DYP</small>
-                        </td>
-                      </tr>
-                    )}
-                    {proposal._proposalAction == "4" && (
-                      <tr>
-                        <th className="d-flex">New Min Balance</th>
-                        <td className="text-right">
-                          <strong>
-                            {getFormattedNumber(
-                              proposal._newMinBalance / 1e18,
-                              6
-                            )}
-                          </strong>{" "}
-                          <small>DYP</small>
-                        </td>
-                      </tr>
-                    )}
-                    <tr>
-                      <th className="d-flex">My Address</th>
-                      <td className="text-right">
-                        <Address
-                          style={{ fontFamily: "monospace" }}
-                          a={coinbase}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="d-flex">Contract Address</th>
-                      <td className="text-right">
-                        <Address
-                          style={{ fontFamily: "monospace" }}
-                          a={governance._address}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className="d-flex">
-                        {this.getOptionText("0")} Votes{" "}
-                      </th>
-                      <td className="text-right">
-                        <strong>{optionOneVotes}</strong> <small>DYP</small>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th className="d-flex">
-                        {this.getOptionText("1")} Votes{" "}
-                      </th>
-                      <td className="text-right">
-                        <strong>{optionTwoVotes}</strong> <small>DYP</small>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th className="d-flex">
-                        My {this.getOptionText(this.state.option)} Votes{" "}
-                      </th>
-                      <td className="text-right">
-                        <strong>{depositedTokens}</strong> <small>DYP</small>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        colSpan="2"
-                        className="text-left text-muted small pt-3"
-                        style={{ fontSize: ".8rem" }}
-                      >
-                        Proposals may be executed within{" "}
-                        {moment
-                          .duration(
-                            window.config.execution_allowance_in_seconds * 1e3
-                          )
-                          .humanize()}{" "}
-                        after voting ends. Quorum requirement is a minimum of{" "}
-                        {(this.state.QUORUM / 1e18).toFixed(2)} DYP, proposals
-                        with winning votes less than QUORUM will not be
-                        executed. Disburse proposals will disburse a maximum
-                        amount of DYP with a -2.5% Price Impact.
-                      </td>
-                    </tr>
-
-                    {this.state.is_proposal_executible && (
-                      <tr>
-                        <td colSpan="2">
-                          <button
-                            onClick={this.handleExecute}
-                            className="btn btn-block btn-primary mt-3"
-                            type="button"
-                          >
-                            EXECUTE PROPOSAL
-                          </button>
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`${window.config.snowtrace_baseURL}/address/${this.state.coinbase}`}
+                className="stats-link"
+              >
+                {shortAddress(this.state.coinbase)}{" "}
+                <img src={statsLinkIcon} alt="" />
+              </a>
             </div>
           </div>
-        </div>
-      </div>
-    );
+          <div className="separator"></div>
+          <h6 className="footertext">
+            Proposals may be executed within <b>3 days</b> after voting ends.
+            Quorum requirement is a minimum of <b>25000.00 DYP</b>, proposals
+            with winning votes less than QUORUM will not be executed. Disburse
+            proposals will disburse a maximum amount of DYP with a{" "}
+            <b>-2.5% Price Impact</b>.
+          </h6>
+        </Modal>
+      );
+    }
+
+    //  <div className="token-staking">
+    //  <div className="row justify-content-between">
+    //    <div className="col-lg-5 mt-5 proposalWrapper">
+    //      <div className="row token-staking-form">
+    //        <div className="col-12">
+    //          <div className="l-box">
+    //            <form onSubmit={(e) => e.preventDefault()}>
+    //              <div className="form-group">
+    //                <label
+    //                  htmlFor="deposit-amount"
+    //                  className="d-block text-left"
+    //                >
+    //                  Add votes
+    //                </label>
+    //                <h5
+    //                  className=""
+    //                  style={{
+    //                    display: "flex",
+    //                    alignItems: "center",
+    //                    gap: 20,
+    //                    fontWeight: 600,
+    //                    marginBottom: 20,
+    //                  }}
+    //                >
+    //                  <img
+    //                    height={38}
+    //                    src={
+    //                      proposal.vault
+    //                        ? proposal.vault.logo.toString()
+    //                        : "/logo192.png"
+    //                    }
+    //                  />{" "}
+    //                  {proposal.vault
+    //                    ? proposal.vault.name.toString()
+    //                    : "DYP Proposal"}
+    //                </h5>
+    //                <div className="input-group ">
+    //                  <input
+    //                    value={
+    //                      Number(this.state.depositAmount) > 0
+    //                        ? this.state.depositAmount * LP_AMPLIFY_FACTOR
+    //                        : this.state.depositAmount
+    //                    }
+    //                    onChange={(e) =>
+    //                      this.setState({
+    //                        depositAmount:
+    //                          Number(e.target.value) > 0
+    //                            ? e.target.value / LP_AMPLIFY_FACTOR
+    //                            : e.target.value,
+    //                      })
+    //                    }
+    //                    className="form-control left-radius"
+    //                    placeholder="0"
+    //                    type="text"
+    //                  />
+    //                  <div className="input-group-append">
+    //                    <button
+    //                      className="btn btn-primary right-radius btn-max l-light-btn"
+    //                      style={{ cursor: "pointer" }}
+    //                      onClick={this.handleSetMaxDeposit}
+    //                    >
+    //                      MAX
+    //                    </button>
+    //                  </div>
+    //                </div>
+    //              </div>
+    //              <div className="row">
+    //                <div style={{ paddingRight: "0.3rem" }} className="col-6">
+    //                  <button
+    //                    onClick={() => this.handleSetOption("0")}
+    //                    className={`btn btn-block btn-primary l-light-btn ${
+    //                      this.state.option == "0" ? "btn-outline" : ""
+    //                    }`}
+    //                    type="button"
+    //                  >
+    //                    <i
+    //                      className={
+    //                        this.state.option == "0"
+    //                          ? "fas fa-check-square"
+    //                          : "far fa-square"
+    //                      }
+    //                    ></i>{" "}
+    //                    {this.getOptionText("0")}
+    //                  </button>
+    //                </div>
+    //                <div style={{ paddingLeft: "0.3rem" }} className="col-6">
+    //                  <button
+    //                    onClick={() => this.handleSetOption("1")}
+    //                    className={`btn btn-block btn-primary l-light-btn ${
+    //                      this.state.option == "1" ? "btn-outline" : ""
+    //                    }`}
+    //                    type="button"
+    //                  >
+    //                    <i
+    //                      className={
+    //                        this.state.option == "1"
+    //                          ? "fas fa-check-square"
+    //                          : "far fa-square"
+    //                      }
+    //                    ></i>{" "}
+    //                    {this.getOptionText("1")}
+    //                  </button>
+    //                </div>
+    //              </div>
+    //              <div className="row mt-3">
+    //                <div style={{ paddingRight: "0.3rem" }} className="col-6">
+    //                  <button
+    //                    onClick={this.handleApprove}
+    //                    className="btn btn-block btn-primary"
+    //                    type="button"
+    //                  >
+    //                    APPROVE
+    //                  </button>
+    //                </div>
+    //                <div style={{ paddingLeft: "0.3rem" }} className="col-6">
+    //                  <button
+    //                    disabled={!canRemoveVotes}
+    //                    onClick={this.handleAddVote}
+    //                    className="btn btn-block btn-primary l-outline-btn"
+    //                    type="submit"
+    //                  >
+    //                    ADD VOTES
+    //                  </button>
+    //                </div>
+    //              </div>
+    //              <p
+    //                style={{ fontSize: ".8rem" }}
+    //                className="mt-1 text-center mb-0 text-muted mt-3"
+    //              >
+    //                {/* Some info text here.<br /> */}
+    //                Please approve before voting.
+    //              </p>
+    //            </form>
+    //          </div>
+    //        </div>
+    //        <div className="col-12">
+    //          <div className="l-box">
+    //            <form onSubmit={this.handleRemoveVote}>
+    //              <div className="form-group">
+    //                <label
+    //                  htmlFor="deposit-amount"
+    //                  className="d-block text-left"
+    //                >
+    //                  REMOVE VOTES
+    //                </label>
+    //                <div className="input-group ">
+    //                  <input
+    //                    value={
+    //                      Number(this.state.withdrawAmount) > 0
+    //                        ? this.state.withdrawAmount * LP_AMPLIFY_FACTOR
+    //                        : this.state.withdrawAmount
+    //                    }
+    //                    onChange={(e) =>
+    //                      this.setState({
+    //                        withdrawAmount:
+    //                          Number(e.target.value) > 0
+    //                            ? e.target.value / LP_AMPLIFY_FACTOR
+    //                            : e.target.value,
+    //                      })
+    //                    }
+    //                    className="form-control left-radius"
+    //                    placeholder="0"
+    //                    type="text"
+    //                  />
+    //                  <div className="input-group-append">
+    //                    <button
+    //                      className="btn btn-primary right-radius btn-max l-light-btn"
+    //                      style={{ cursor: "pointer" }}
+    //                      onClick={this.handleSetMaxWithdraw}
+    //                    >
+    //                      MAX
+    //                    </button>
+    //                  </div>
+    //                </div>
+    //              </div>
+    //              <button
+    //                disabled={!canRemoveVotes}
+    //                className="btn btn-primary btn-block l-outline-btn"
+    //                type="submit"
+    //              >
+    //                REMOVE VOTES
+    //              </button>
+    //              {/* <p style={{fontSize: '.8rem'}} className='mt-1 text-center'>Some info text here.</p> */}
+    //            </form>
+    //          </div>
+    //        </div>
+    //        <div className="col-12">
+    //          <div className="l-box">
+    //            <form onSubmit={this.handleClaim}>
+    //              <div className="form-group">
+    //                <label
+    //                  htmlFor="deposit-amount"
+    //                  className="text-left d-block"
+    //                >
+    //                  Total in voting
+    //                </label>
+    //                <div className="row buttonWrapper m-0">
+    //                  <div
+    //                    className="form-row totalVotingButton"
+    //                    style={{
+    //                      maxWidth: 180,
+    //                      width: "100%",
+    //                    }}
+    //                  >
+    //                    <div className="form-row">
+    //                      <div className="col-12">
+    //                        <p
+    //                          className="form-control  text-right"
+    //                          style={{
+    //                            border: "none",
+    //                            fontSize: "1.2rem",
+    //                            marginBottom: 0,
+    //                            paddingLeft: 0,
+    //                            background: "rgba(82, 168, 164, 0.2)",
+    //                            color: "var(--text-color)",
+    //                          }}
+    //                        >
+    //                          <span
+    //                            style={{
+    //                              fontSize: "1.2rem",
+    //                              color: "var(--text-color)",
+    //                            }}
+    //                          >
+    //                            {totalDeposited}
+    //                          </span>{" "}
+    //                          <small className="text-bold">DYP</small>
+    //                        </p>
+    //                      </div>
+    //                    </div>
+    //                  </div>
+    //                  <button
+    //                    title={withdrawableTitleText}
+    //                    disabled={!canWithdrawAll}
+    //                    className="btn btn-primary btn-block l-outline-btn withdrawButton"
+    //                    type="submit"
+    //                    style={{ maxWidth: 180 }}
+    //                  >
+    //                    Withdraw all
+    //                  </button>
+    //                </div>
+    //              </div>
+    //            </form>
+    //          </div>
+    //        </div>
+    //      </div>
+    //    </div>
+    //    <div className="col-lg-7 mt-4 pl-0">
+    //      <div className="l-box">
+    //        <div className="table-responsive">
+    //          <h3
+    //            style={{
+    //              fontSize: "1.1rem",
+    //              fontWeight: "600",
+    //              padding: ".3rem",
+    //              display: "flex",
+    //            }}
+    //          >
+    //            PROPOSAL DETAILS
+    //          </h3>
+    //          {proposal._proposalAction == "3" && (
+    //            <p
+    //              className="l-proposal-text"
+    //              style={{ whiteSpace: "pre-line", padding: ".3rem" }}
+    //            >
+    //              <td colSpan> {proposal._proposalText} </td>
+    //            </p>
+    //          )}
+    //          <table className="table-stats table table-sm table-borderless">
+    //            <tbody>
+    //              <tr>
+    //                <th className="d-flex">Pool</th>
+    //                <td className="text-right">
+    //                  <strong>
+    //                    {proposal.vault
+    //                      ? proposal.vault.name
+    //                      : "DYP Proposal"}
+    //                  </strong>{" "}
+    //                  <small></small>
+    //                </td>
+    //              </tr>
+
+    //              <tr>
+    //                <th className="d-flex">Proposal Action</th>
+    //                <td className="text-right">
+    //                  <strong>{actionText}</strong> <small></small>
+    //                </td>
+    //              </tr>
+
+    //              <tr>
+    //                <th className="d-flex">My DYP Balance</th>
+    //                <td className="text-right">
+    //                  <strong>{token_balance + " DYP"}</strong>{" "}
+    //                  <small></small>
+    //                </td>
+    //              </tr>
+    //              <tr>
+    //                <th className="d-flex">{`My ${this.getOptionText(
+    //                  this.state.option
+    //                )} Votes`}</th>
+    //                <td className="text-right">
+    //                  <strong>{depositedTokens + " DYP"}</strong>{" "}
+    //                  <small></small>
+    //                </td>
+    //              </tr>
+    //              <tr>
+    //                <th className="d-flex">Expires</th>
+    //                <td className="text-right">
+    //                  <strong>{expires}</strong> <small></small>
+    //                </td>
+    //              </tr>
+    //              {proposal._proposalAction == "1" && (
+    //                <tr>
+    //                  <th className="d-flex">New Gov. Address</th>
+    //                  <td className="text-right">
+    //                    <Address
+    //                      style={{ fontFamily: "monospace" }}
+    //                      a={proposal._newGovernance}
+    //                    />
+    //                  </td>
+    //                </tr>
+    //              )}
+    //              {proposal._proposalAction == "2" && (
+    //                <tr>
+    //                  <th className="d-flex">New Quorum</th>
+    //                  <td className="text-right">
+    //                    <strong>
+    //                      {getFormattedNumber(proposal._newQuorum / 1e18, 6)}
+    //                    </strong>{" "}
+    //                    <small>DYP</small>
+    //                  </td>
+    //                </tr>
+    //              )}
+    //              {proposal._proposalAction == "4" && (
+    //                <tr>
+    //                  <th className="d-flex">New Min Balance</th>
+    //                  <td className="text-right">
+    //                    <strong>
+    //                      {getFormattedNumber(
+    //                        proposal._newMinBalance / 1e18,
+    //                        6
+    //                      )}
+    //                    </strong>{" "}
+    //                    <small>DYP</small>
+    //                  </td>
+    //                </tr>
+    //              )}
+    //              <tr>
+    //                <th className="d-flex">My Address</th>
+    //                <td className="text-right">
+    //                  <Address
+    //                    style={{ fontFamily: "monospace" }}
+    //                    a={coinbase}
+    //                  />
+    //                </td>
+    //              </tr>
+    //              <tr>
+    //                <th className="d-flex">Contract Address</th>
+    //                <td className="text-right">
+    //                  <Address
+    //                    style={{ fontFamily: "monospace" }}
+    //                    a={governance._address}
+    //                  />
+    //                </td>
+    //              </tr>
+    //              <tr>
+    //                <th className="d-flex">
+    //                  {this.getOptionText("0")} Votes{" "}
+    //                </th>
+    //                <td className="text-right">
+    //                  <strong>{optionOneVotes}</strong> <small>DYP</small>
+    //                </td>
+    //              </tr>
+
+    //              <tr>
+    //                <th className="d-flex">
+    //                  {this.getOptionText("1")} Votes{" "}
+    //                </th>
+    //                <td className="text-right">
+    //                  <strong>{optionTwoVotes}</strong> <small>DYP</small>
+    //                </td>
+    //              </tr>
+
+    //              <tr>
+    //                <th className="d-flex">
+    //                  My {this.getOptionText(this.state.option)} Votes{" "}
+    //                </th>
+    //                <td className="text-right">
+    //                  <strong>{depositedTokens}</strong> <small>DYP</small>
+    //                </td>
+    //              </tr>
+    //              <tr>
+    //                <td
+    //                  colSpan="2"
+    //                  className="text-left text-muted small pt-3"
+    //                  style={{ fontSize: ".8rem" }}
+    //                >
+    //                  Proposals may be executed within{" "}
+    //                  {moment
+    //                    .duration(
+    //                      window.config.execution_allowance_in_seconds * 1e3
+    //                    )
+    //                    .humanize()}{" "}
+    //                  after voting ends. Quorum requirement is a minimum of{" "}
+    //                  {(this.state.QUORUM / 1e18).toFixed(2)} DYP, proposals
+    //                  with winning votes less than QUORUM will not be
+    //                  executed. Disburse proposals will disburse a maximum
+    //                  amount of DYP with a -2.5% Price Impact.
+    //                </td>
+    //              </tr>
+
+    //              {this.state.is_proposal_executible && (
+    //                <tr>
+    //                  <td colSpan="2">
+    //                    <button
+    //                      onClick={this.handleExecute}
+    //                      className="btn btn-block btn-primary mt-3"
+    //                      type="button"
+    //                    >
+    //                      EXECUTE PROPOSAL
+    //                    </button>
+    //                  </td>
+    //                </tr>
+    //              )}
+    //            </tbody>
+    //          </table>
+    //        </div>
+    //      </div>
+    //    </div>
+    //  </div>
+    // </div>
   }
 }

@@ -180,10 +180,9 @@ const EarnContent = ({
             >
               <div className="pill"></div>
             </div>
-            <h5 className="text-white" style={{fontSize: '16px' }}>My Stakes</h5>
+            <h5 className="text-white" style={{fontSize: '16px' }}>My earnings</h5>
           </div>
-        </div>
-        {/* <hr /> */}
+        </div> 
 
         <div className="row align-items-center justify-content-between px-0" style={{minHeight: '52px'}}>
           <div className="col-3 px-0">
