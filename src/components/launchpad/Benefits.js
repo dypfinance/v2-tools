@@ -2,6 +2,7 @@ import React from "react";
 import "./launchpad.css";
 import whiteArrow from './assets/whiteArrow.svg'
 import BenefitsCard from "./BenefitsCard";
+import { NavLink } from "react-router-dom";
 
 const Benefits = () => {
 
@@ -30,10 +31,10 @@ const Benefits = () => {
         <h6 className="launch-project-title w-50">
           Launch your project with Dypius now!
         </h6>
-        <button className="btn success-button d-flex align-items-center gap-2" style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px'}}>
+        <NavLink to='/launchpad-form'  className="btn success-button d-flex align-items-center gap-2" style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px'}}>
           Apply Now
           <img src={whiteArrow} alt="" />
-        </button>
+        </NavLink >
       </div>
       <div className="col-6 benefits px-4">
         <div className="d-flex align-items-center justify-content-end">

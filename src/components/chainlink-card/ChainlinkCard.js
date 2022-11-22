@@ -6,6 +6,7 @@ import bnb from "../../assets/earnAssets/bnbIcon.svg";
 import avax from "../../assets/earnAssets/avaxIcon.svg";
 import "./chainlink.css";
 import getFormattedNumber from "../../functions/get-formatted-number";
+import CountUp from "react-countup";
 
 const ChainlinkCard = () => {
   const [totalpaid, setTotalPaid] = useState();
@@ -85,7 +86,23 @@ const ChainlinkCard = () => {
               letterSpacing: '0.05em'
             }}
           >
-            ${getFormattedNumber(totalpaid?.totalPaidInUsd)}
+            {/* ${getFormattedNumber(totalpaid?.totalPaidInUsd)} */}
+            <CountUp
+              className="count-up"
+              style={{
+                fontWeight: "300",
+              fontSize: "18px",
+              lineHeight: "27px",
+              color: "#f7f7fc",
+              letterSpacing: '0.05em'
+              }}
+              start={totalpaid?.totalPaidInUsd - 400.0}
+              end={totalpaid?.totalPaidInUsd}
+              duration={120}
+              separator=","
+              decimals={2}
+              prefix="$"
+            />
           </h6>
         </div>
       </div>

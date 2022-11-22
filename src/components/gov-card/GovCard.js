@@ -16,9 +16,8 @@ const GovCard = () => {
         </div>
       <div>
       <div>
-          <h6 className="govcard-desc">
-            DYP holders can vote to add more pools, burn tokens and other
-            programs
+          <h6 className="governancecard-desc">
+          Vote to add more pools, burn tokens and create other unique proposals.
           </h6>
         </div>
         <div className="">

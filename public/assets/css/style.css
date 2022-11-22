@@ -23,6 +23,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif !important;
 }
 
 :focus,
@@ -490,10 +491,10 @@ a:hover {
   padding: 20px;
 }
 
-.MuiCircularProgress-root {
+/* .MuiCircularProgress-root {
   transform: rotate(-180deg) !important;
   color: #d32f2f !important;
-}
+} */
 
 .css-nt50a2-MuiCircularProgress-root {
   color: #d6d8e7 !important;
@@ -4323,4 +4324,60 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.input-container{
+  position: relative;
+}
+
+.label{
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  transition: all 0.2s;
+  padding: 0 2px;
+  z-index: 1;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+
+.text-input{
+  padding: 0.4rem;
+  /* width: 100%; */
+  /* height: 100%; */
+  border: 1px solid #8e97cd !important;
+  background: #312f69 !important;
+  border-radius: 8px;
+  outline: none;
+  transition: all .2s;
+  color: #f7f7fc !important;
+}
+
+.label::before{
+  content: "";
+  height: 5px;
+  background-color: #312f69 !important;
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 100%;
+  z-index: -1;
+}
+
+
+.text-input:focus + .label ,
+.text-input:not(:placeholder-shown) + .label,
+.filled{
+  top: -10px;
+  font-size: 10px;
+}
+
+.text-input::placeholder{
+  opacity: 0;
+  transition: all .3s;
+}
+
+.text-input:focus::placeholder{
+  opacity: 1;
+  animation-delay: 0.2s;
 }
