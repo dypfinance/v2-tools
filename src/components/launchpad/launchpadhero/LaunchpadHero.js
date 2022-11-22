@@ -8,16 +8,16 @@ import { NavLink } from 'react-router-dom'
 
 const LaunchpadHero = () => {
   return (
-    <div className="row align-items-end justify-content-between">
+    <div className="row align-items-center justify-content-between">
         <div className="col-5 d-flex flex-column gap-5">
             <div className="d-flex flex-column gap-3">
             <h6 className="launchpad-hero-title">Dypius Launchpad</h6>
             <p className="launchpad-hero-desc">Join Dypius, a powerful, decentralized ecosystem with a focus on scalability, security, and global adoption through next-gen infrastructure. The Launchpad enables projects to raise capital in a decentralized environment per DYP Tools to deliver the highest security for users.</p>
             </div>
-            <div className="d-flex justify-content-start align-items-center gap-5">
+            {/* <div className="d-flex justify-content-start align-items-center gap-5">
                 <a className="goto-button d-flex align-items-center gap-2">Projects  <img src={gotoIndicator} alt="" /></a>
                 <a className="goto-button d-flex align-items-center gap-2">Launch Form <img src={gotoIndicator} alt="" /></a>
-            </div>
+            </div> */}
         </div>
         <div className="col-6 tier-level-wrapper p-3">
         <div className="row align-items-center">

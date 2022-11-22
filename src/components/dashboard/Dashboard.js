@@ -182,7 +182,8 @@ import initVaultNew from "../FARMINNG/vault-new";
                     );
                   })}
               </div>
-              {activeCard.cardType === "Staking" ? (
+              {activeCard ?
+              activeCard?.cardType === "Staking" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
@@ -204,6 +205,8 @@ import initVaultNew from "../FARMINNG/vault-new";
             />
               )
             
+              :
+              <></>
             
             }
               {/* {showDetails && <TopPoolsDetails />} */}
