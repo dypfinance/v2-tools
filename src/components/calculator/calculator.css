@@ -259,6 +259,7 @@
 .chain-name {
   font-weight: 500;
   font-size: 12px;
+  white-space: nowrap;
   line-height: 18px;
   color: #f7f7fc;
 }
@@ -268,3 +269,4 @@
   width: 200px;
   right: -25px;
 }
+

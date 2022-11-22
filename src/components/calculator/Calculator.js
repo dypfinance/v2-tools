@@ -18,8 +18,25 @@ import xMark from "./assets/xMark.svg";
 import filledArrow from "../bridgecard/assets/filledarrow.svg";
 import calculatorChart from './assets/calculatorChart.png'
 import "./calculator.css";
+import { createTheme, TextField } from "@material-ui/core";
 
 const Calculator = ({ earnClass, onClose, ref }) => {
+
+
+  const theme = createTheme({
+    components: {
+      MuiTextField: {
+        styleOverrides: {
+          root:{
+
+          }
+        }
+      }
+    }
+  })
+
+
+
   const chainButtonsArray = [
     {
       icon: "eth.svg",
@@ -395,6 +412,11 @@ const Calculator = ({ earnClass, onClose, ref }) => {
   const [activeTimePill, setActiveTimePill] = useState(timePillsArray[3]);
   const timepillRef = useRef([]);
 
+
+  const focusInput = (field) => {
+    document.getElementById(field).focus()
+  }
+
   return (
     <div
       id="calculator"
@@ -502,8 +524,34 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               ))}
           </div>
           <div className="separator"></div>
+         
           <div className="row align-items-center gap-2 m-0 position-relative" style={{top: '15px'}}>
-            <div
+          {/* <div
+              className="inputwrapper position-relative px-0"
+              style={{ width: "32%" }}
+            >
+              <h6 className="inputlabel position-absolute">
+                USD to deposit<h6 className="requiredstar">*</h6>
+              </h6>
+              <input
+                type="number"
+                min={1}
+                className="form-control calcinput w-100"
+                id="usd_to_deposit"
+                name="usd_to_deposit"
+                value={usdToDeposit}
+                onChange={(e) => handleInputUSD(e.target.value)}
+              />
+            </div> */}
+             <div className="input-container px-0" style={{width: '32%'}}>
+            <input type="number" min={1}  id="usd_to_deposit" name="usd_to_deposit" value={usdToDeposit} placeholder=" " className="text-input" onChange={(e) => handleInputUSD(e.target.value)}  style={{width: '100%'}}/>
+            <label htmlFor="usd"  className="label" onClick={() => focusInput("usd_to_deposit")}>USD to deposit</label>
+          </div>
+             <div className="input-container px-0" style={{width: '32%'}}>
+            <input type="number" min={1} max={365} id="days" name="days" value={days}  placeholder=" " className="text-input" onChange={(e) => handleInputDays(e.target.value)}  style={{width: '100%'}}/>
+            <label htmlFor="usd"  className="label" onClick={() => focusInput("days")}>Days</label>
+          </div>
+            {/* <div
               className="inputwrapper position-relative px-0"
               style={{ width: "32%", paddingLeft: 0 }}
             >
@@ -520,7 +568,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 value={days}
                 onChange={(e) => handleInputDays(e.target.value)}
               />
-            </div>
+            </div> */}
             {/* <div className="time-pills-container row m-0">
               {timePillsArray.length > 0 &&
                 timePillsArray.map((item, id) => (
@@ -545,23 +593,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                   </p>
                 ))}
             </div> */}
-            <div
-              className="inputwrapper position-relative px-0"
-              style={{ width: "32%" }}
-            >
-              <h6 className="inputlabel position-absolute">
-                USD to deposit<h6 className="requiredstar">*</h6>
-              </h6>
-              <input
-                type="number"
-                min={1}
-                className="form-control calcinput w-100"
-                id="usd_to_deposit"
-                name="usd_to_deposit"
-                value={usdToDeposit}
-                onChange={(e) => handleInputUSD(e.target.value)}
-              />
-            </div>
+          
             <img src={calculatorChart} className="calculator-chart"alt="" />
           </div>
 
@@ -624,7 +656,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 <div className="d-flex align-items-center justify-content-between gap-4">
                   <div className="d-flex align-items-center gap-2">
                     <img src={bnbStakeActive} width={20} height={20} alt="" />
-                    <h6 className="chain-name">Binance</h6>
+                    <h6 className="chain-name">BNB Chain</h6>
                   </div>
                   <img src={filledArrow} alt="" />
                 </div>
