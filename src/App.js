@@ -25,6 +25,7 @@ import navRadius from "./assets/navRadius.svg";
 import Governancedev from "./components/governance/dev/governance-new-avax";
 import Launchpad from "./components/launchpad/Launchpad";
 import LaunchpadForm from "./components/launchpad/launchpadform/LaunchpadForm";
+import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadDetails";
 
 
 const API_BASEURL = window.config.api_baseurl;
@@ -403,6 +404,7 @@ class App extends React.Component {
               />
               <Route exact path="/governance" render={() => <Governance />} />
               <Route exact path="/launchpad" render={() => <Launchpad />} />
+              <Route exact path="/launchpad/details/:id" render={() => <LaunchpadDetails />} />
               <Route exact path="/launchpad-form" render={() => <LaunchpadForm />} />
 
               <Route

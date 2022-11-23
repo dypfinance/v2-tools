@@ -1392,8 +1392,8 @@ export default function initFarmAvax({
                               10 ** this.state.selectedTokenDecimals,
                             6
                           )}
+                        {" "}{this.state.selectedTokenSymbol}
                         </b>
-                        {this.state.selectedTokenSymbol}
                       </h6>
                     </div>
                     <Tooltip
@@ -2355,7 +2355,7 @@ export default function initFarmAvax({
                               className="d-flex align-items-center justify-content-center w-100 claimreward-header"
                               // style={{ padding: "10px 0 0 10px" }}
                             >
-                              <img
+                              {/* <img
                                 src={
                                   require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
                                     .default
@@ -2380,7 +2380,67 @@ export default function initFarmAvax({
                               >
                                 <option value="0"> WAVAX </option>
                                 <option value="1"> WETH.e </option>
-                              </select>
+                              </select> */}
+                               <div class="dropdown">
+                            <button
+                              class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                            >
+                              <img
+                                src={
+                                  require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                    .default
+                                }
+                                alt=""
+                                style={{ width: 14, height: 14 }}
+                              />
+                              {this.state.selectedRewardTokenLogo1.toUpperCase()}
+                              <img
+                                src={dropdownVector}
+                                alt=""
+                                style={{ width: 10, height: 10 }}
+                              />
+                            </button>
+                            <ul
+                              class="dropdown-menu"
+                              style={{ minWidth: "100%" }}
+                            >
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("1");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "wavax",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={require(`./assets/wavax.svg`).default}
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                WAVAX
+                              </span>
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("2");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "usdt",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={require(`./assets/usdt.svg`).default}
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                USDT
+                              </span>
+                            </ul>
+                          </div>
                             </div>
                           </div>
                           <h6 className="withsubtitle d-flex justify-content-start w-100 mb-2">

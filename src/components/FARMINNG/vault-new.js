@@ -1010,7 +1010,7 @@ export default function initVaultNew({
                     Deposit
                    
                   </h6>
-                  <div className="d-flex gap-2 align-items-center">
+                  {/* <div className="d-flex gap-2 align-items-center">
                         <img
                           src={require(`./assets/dyp.svg`).default}
                           alt=""
@@ -1022,10 +1022,10 @@ export default function initVaultNew({
                         >
                           DYP
                         </h6>
-                      </div>
+                      </div> */}
                   <h6 className="mybalance-text">
                     Balance:
-                    <b>{token_balance}</b>
+                    <b>{token_balance} DYP</b>
                     {/* <img
                       src={require(`./assets/dyp.svg`).default}
                       alt=""

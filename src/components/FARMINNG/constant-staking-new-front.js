@@ -18,7 +18,7 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
-import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import CountDownTimer from "../locker/Countdown";
 import { shortAddress } from "../../functions/shortAddress";
@@ -58,7 +58,7 @@ export default function initConstantStakingNew({
   lockTime,
   coinbase,
   renderedPage,
-  listType
+  listType,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -261,12 +261,11 @@ export default function initConstantStakingNew({
     };
 
     componentDidMount() {
-     
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
- this.refreshBalance();
+      this.refreshBalance();
       //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
@@ -468,7 +467,7 @@ export default function initConstantStakingNew({
       this.setState({ claimLoading: true });
       // this.setState({ claimStatus: "claim" });
 
-      let address = this.state.coinbase; 
+      let address = this.state.coinbase;
       let amount = await staking.getTotalPendingDivs(address);
 
       let router = await window.getUniswapRouterContract();
@@ -550,7 +549,7 @@ export default function initConstantStakingNew({
 
     refreshBalance = async () => {
       let coinbase = this.state.coinbase;
-   
+
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
         this.setState({ coinbase });
@@ -559,7 +558,7 @@ export default function initConstantStakingNew({
       this.getTotalTvl();
 
       let lp_data = this.props.the_graph_result.token_data;
-      //console.log({lp_data}) 
+      //console.log({lp_data})
       //Calculate APY
       let { the_graph_result } = this.props;
       let usd_per_token = the_graph_result.token_data
@@ -901,6 +900,11 @@ export default function initConstantStakingNew({
 
       let id = Math.random().toString(36);
 
+
+      const focusInput = (input) => {
+        document.getElementById(input).focus()
+      }
+
       // let apy = new BigNumber(apr).div(1e2).times(usd_per_idyp).div(usd_per_token).times(1e2).toFixed(2)
 
       //this.setState({apy})
@@ -909,10 +913,20 @@ export default function initConstantStakingNew({
       // console.log(this.convertTimestampToDate(1670596969))
       return (
         <div className="container-lg p-0">
-          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
+          <div
+            className={`allwrapper ${listType === "table" && "my-4"}`}
+            style={{
+              border: listType !== "table" && "none",
+              borderRadius: listType !== "table" && "0px",
+            }}
+          >
             <div className="leftside2 w-100">
               <div className="activewrapper">
-                <div className={`d-flex align-items-center justify-content-between ${renderedPage === "dashboard" ? 'gap-4' : 'gap-5'}`}>
+                <div
+                  className={`d-flex align-items-center justify-content-between ${
+                    renderedPage === "dashboard" ? "gap-4" : "gap-5"
+                  }`}
+                >
                   <h6 className="activetxt">
                     <img
                       src={ellipse}
@@ -986,10 +1000,13 @@ export default function initConstantStakingNew({
                 </div>
 
                 <div className="d-flex align-items-center justify-content-between gap-3">
-                <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
-                      <img src={poolsCalculatorIcon} alt="" />
-                      Calculator
-                    </h6>
+                  <h6
+                    className="bottomitems"
+                    onClick={() => this.setState({ showCalculator: true })}
+                  >
+                    <img src={poolsCalculatorIcon} alt="" />
+                    Calculator
+                  </h6>
                   <a
                     href={
                       // chainId === 1
@@ -1059,7 +1076,7 @@ export default function initConstantStakingNew({
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
-                      <div className="d-flex gap-2 align-items-center">
+                      {/* <div className="d-flex gap-2 align-items-center">
                         <img
                           src={require(`./assets/dyp.svg`).default}
                           alt=""
@@ -1071,18 +1088,24 @@ export default function initConstantStakingNew({
                         >
                           DYP
                         </h6>
-                      </div>
+                      </div> */}
                       <h6 className="mybalance-text">
                         Balance:
-                        <b>{token_balance > 0 ? token_balance : getFormattedNumber(0,6)}</b>
-                        
+                        <b>
+                          {token_balance > 0
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "}
+                          {token_symbol}
+                        </b>
                       </h6>
                     </div>
                     <Tooltip
                       placement="top"
                       title={
                         <div className="tooltip-text">
-                          {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
+                          {
+                            "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                          }
                         </div>
                       }
                     >
@@ -1110,6 +1133,32 @@ export default function initConstantStakingNew({
                           }
                         />
                       </div>
+                      {/* <div
+                        className="input-container px-0"
+                        style={{ width: "32%" }}
+                      >
+                        <input
+                          type="number"
+                          min={1}
+                          id="amount"
+                          name="amount"
+                          value={ Number(this.state.depositAmount) > 0
+                            ? this.state.depositAmount
+                            : this.state.depositAmount
+                          }
+                          placeholder=" "
+                          className="text-input"
+                          onChange={(e) => this.setState({depositAmount: e.target.value})}
+                          style={{ width: "100%" }}
+                        />
+                        <label
+                          htmlFor="usd"
+                          className="label"
+                          onClick={() => focusInput("amount")}
+                        >
+                          DYP Amount
+                        </label>
+                      </div> */}
                       <button
                         className="btn maxbtn"
                         onClick={this.handleSetMaxDeposit}
@@ -1190,7 +1239,9 @@ export default function initConstantStakingNew({
                         placement="top"
                         title={
                           <div className="tooltip-text">
-                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
+                            {
+                              "Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."
+                            }
                           </div>
                         }
                       >
@@ -1202,12 +1253,21 @@ export default function initConstantStakingNew({
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
                     <div className="form-row d-flex  align-items-center justify-content-between">
                       <div className="position-relative d-flex flex-column">
-                        <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>DYP</span>
-                      <span>{pendingDivs > 0 ?
-                              pendingDivs 
-                              : 
-                              getFormattedNumber(0, 6)
-                            }</span>
+                        <span
+                          style={{
+                            fontWeight: "500",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#c0c9ff",
+                          }}
+                        >
+                          DYP
+                        </span>
+                        <span>
+                          {pendingDivs > 0
+                            ? pendingDivs
+                            : getFormattedNumber(0, 6)}
+                        </span>
                         {/* <input
                           disabled
                           value={
@@ -1238,7 +1298,7 @@ export default function initConstantStakingNew({
                               : false
                           }
                           className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed"  &&
+                            this.state.claimStatus === "claimed" &&
                             this.state.claimStatus === "initial"
                               ? "disabled-btn"
                               : this.state.claimStatus === "failed"
@@ -1247,9 +1307,7 @@ export default function initConstantStakingNew({
                               ? "success-button"
                               : null
                           } d-flex justify-content-center align-items-center gap-2`}
-
-                          style={{ height: "fit-content"}}
-
+                          style={{ height: "fit-content" }}
                           onClick={this.handleClaimDivs}
                         >
                           {this.state.claimLoading ? (
@@ -1285,11 +1343,10 @@ export default function initConstantStakingNew({
                               ? "success-button"
                               : null
                           } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content"}}
-
+                          style={{ height: "fit-content" }}
                           onClick={this.handleReinvest}
                         >
-                          {this.state.reInvestLoading   ? (
+                          {this.state.reInvestLoading ? (
                             <div
                               class="spinner-border spinner-border-sm text-light"
                               role="status"
@@ -1322,7 +1379,9 @@ export default function initConstantStakingNew({
                       placement="top"
                       title={
                         <div className="tooltip-text">
-                          {"Withdraw your deposited assets from the staking smart contract."}
+                          {
+                            "Withdraw your deposited assets from the staking smart contract."
+                          }
                         </div>
                       }
                     >
@@ -1649,7 +1708,10 @@ export default function initConstantStakingNew({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                            {token_balance > 0 ? token_balance : getFormattedNumber(0, 6)} {token_symbol}
+                            {token_balance > 0
+                              ? token_balance
+                              : getFormattedNumber(0, 6)}{" "}
+                            {token_symbol}
                           </h6>
                         </div>
                       </div>

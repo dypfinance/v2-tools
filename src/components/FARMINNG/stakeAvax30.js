@@ -1020,7 +1020,7 @@ export default function stakeAvax30({
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
-                      <div className="d-flex gap-2 align-items-center">
+                      {/* <div className="d-flex gap-2 align-items-center">
                         <img
                           src={require(`./assets/dyp.svg`).default}
                           alt=""
@@ -1032,10 +1032,10 @@ export default function stakeAvax30({
                         >
                           DYP
                         </h6>
-                      </div>
+                      </div> */}
                       <h6 className="mybalance-text">
                         Balance:
-                        <b>{token_balance > 0 ? token_balance : getFormattedNumber(0, 6)}</b>
+                        <b>{token_balance > 0 ? token_balance : getFormattedNumber(0, 6)} {token_symbol}</b>
                       </h6>
                     </div>
                     <Tooltip

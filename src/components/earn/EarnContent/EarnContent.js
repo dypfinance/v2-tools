@@ -180,7 +180,7 @@ const EarnContent = ({
             >
               <div className="pill"></div>
             </div>
-            <h5 className="text-white" style={{fontSize: '16px' }}>My earnings</h5>
+            <h5 className="text-white" style={{fontSize: '16px' }}>My investments</h5>
           </div>
         </div> 
 
