@@ -196,7 +196,7 @@ const Header = ({
   useEffect(() => {
     getEthBalance();
   },[chainId]);
-
+  
   useEffect(() => {
     fetchData().then();
     refreshHotPairs().then();

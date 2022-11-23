@@ -288,10 +288,58 @@
 .totalproposals {
   border-radius: 12px;
   padding: 25px 10px 25px 10px;
-  background: rgba(38, 38, 79, 0.5);
+  background: url(../assets/statsbg.png);
+  background-color: rgba(255, 255, 255, 0.06);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   position: relative;
 }
 
+.expiredtxt {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.018em;
+  color: #f8845b;
+  text-shadow: 0px 0px 2px rgba(248, 132, 91, 0.6);
+  display: flex;
+  gap: 5px;
+}
+
+.addvotestxt {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.018em;
+  text-transform: uppercase;
+  color: #f7f7fc !important;
+}
+
+.proposal-details-wrapper {
+  background: #211f45;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.proposal-details-title {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.018em;
+  text-transform: uppercase;
+  color: #f7f7fc;
+}
+
+.l-proposal-text {
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 24px !important;
+  letter-spacing: -0.018em !important;
+  color: #f7f7fc !important;
+}
 .submitnewproposal-title {
   font-weight: 500;
   font-size: 16px;
@@ -300,6 +348,105 @@
   color: #f7f7fc;
 }
 
+.emptybtnactive {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.emptybtnpassive {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 14px;
+  letter-spacing: -0.018em;
+  color: #8e97cd;
+}
+
+.emptycard {
+  height: 150px;
+  border-radius: 12px;
+  background: url("../assets/emptycard.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.08);
+}
+
+.accordion-button::after {
+  filter: none !important;
+  margin: auto;
+  position: absolute;
+  bottom: 0;
+  background-image: url("../assets/detailsbg.svg") !important;
+  width: 94px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: url("../assets/close.svg") !important;
+  width: 94px;
+  height: 25px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  filter: none !important;
+  transform: rotate(0deg) !important;
+}
+
+.accordion-button {
+  background-color: #312f69 !important;
+  box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #14142a !important;
+  border: 2px solid #857dfa;
+  border-radius: 12px 12px 0 0;
+  border-bottom: none;
+}
+
+.accordion-item:first-of-type .accordion-button,
+.accordion-item:last-of-type .accordion-button.collapsed {
+  border-radius: 12px;
+}
+
+.accordion-item:first-of-type .accordion-button:not(.collapsed),
+.accordion-item:last-of-type .accordion-button:not(.collapsed) {
+  border-radius: 12px 12px 0 0;
+}
+
+.accordion-body {
+  background: #14142a !important;
+  border: 2px solid #857dfa !important;
+  border-top: none;
+  padding-top: 54px;
+}
+
+.accordion-body {
+  position: relative;
+  top: -20px;
+}
+
+.accordion-header {
+  position: relative;
+  z-index: 3;
+}
 .connectbtn,
 .connectbtn:hover,
 .connectbtn:focus {
@@ -491,9 +638,8 @@
   color: #d6d8e7;
 }
 
-
 .govhero {
   border-radius: 12px;
   width: 239px;
-height: 134px;
+  height: 134px;
 }
