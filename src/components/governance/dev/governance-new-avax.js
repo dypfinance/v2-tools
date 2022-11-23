@@ -287,15 +287,6 @@ const AddProposal = (props) => {
           </div> */}
         </form>
       </div>
-      {showModal && (
-        <WalletModal
-          show={showModal}
-          handleClose={() => {
-            setShowModal(false);
-          }}
-          handleConnection={handleConnection}
-        />
-      )}
     </div>
   );
 };
@@ -389,6 +380,7 @@ export default class Governance extends React.Component {
       coinbase: "0x0000000000000000000000000000000000000111",
       open: false,
       proposalId: undefined,
+      showModal: false
     };
   }
 
@@ -737,7 +729,7 @@ export default class Governance extends React.Component {
                     <button
                       className="connectbtn btn mb-3"
                       onClick={() => {
-                        // setShowModal(true);
+                        this.setState({showModal: true});
                       }}
                     >
                       <img
@@ -810,6 +802,15 @@ export default class Governance extends React.Component {
                 </div>
               </div>
             </div>
+            {this.state.showModal && (
+        <WalletModal
+          show={this.state.showModal}
+          handleClose={() => {
+            this.setState({showModal: false});
+          }}
+          handleConnection={()=>{this.props.handleConnection(); this.setState({showModal: false})}}
+        />
+      )}
           </div>
           <div
             className="row pb-5 m-0"
