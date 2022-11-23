@@ -1062,7 +1062,7 @@ export default function initConstantStakingNew({
                       </button>
                     ) : (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} />
+                        <Address a={this.props.coinbase} chainId={1}/>
                       </div>
                     )}
                   </div>

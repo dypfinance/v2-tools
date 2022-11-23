@@ -11,7 +11,7 @@ export default function Address(props) {
         style={{ fontSize: "12px", color: '#75CAC2'}}
         rel="noopener noreferrer"
         target="_blank"
-        href={`${window.config.etherscan_baseURL}/${
+        href={`${ props.chainId === 1 ? window.config.etherscan_baseURL : window.config.snowtrace_baseURL}/${
           props.token ? "token" : "address"
         }/${props.a}`}
       >
