@@ -761,7 +761,7 @@ export default function initConstantStakingiDYP({
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
-                      <h6 className="deposit-txt d-flex align-items-center gap-2">
+                      {/* <h6 className="deposit-txt d-flex align-items-center gap-2">
                         <img
                           src={
                             require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
@@ -771,7 +771,7 @@ export default function initConstantStakingiDYP({
                           style={{ width: 14, height: 14 }}
                         />
                         {token_symbol}
-                      </h6>
+                      </h6> */}
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
@@ -780,7 +780,7 @@ export default function initConstantStakingiDYP({
                         10 ** this.state.selectedTokenDecimals,
                       6
                     )} */}
-                          {token_balance}
+                          {token_balance} {token_symbol}
                         </b>
                         {/* <select
                     disabled={!is_connected}

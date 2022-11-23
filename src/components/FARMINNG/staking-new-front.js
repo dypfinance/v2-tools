@@ -1422,8 +1422,8 @@ export default function initStakingNew({
                               10 ** this.state.selectedTokenDecimals,
                             6
                           )}
+                        {" "}{this.state.selectedTokenSymbol}
                         </b>
-                        {this.state.selectedTokenSymbol}
                       </h6>
                     </div>
                     <Tooltip

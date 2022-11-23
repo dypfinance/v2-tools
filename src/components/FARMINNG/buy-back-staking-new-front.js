@@ -1671,7 +1671,7 @@ export default function initBuybackStakingNew({
                             this.state.selectedTokenBalance /
                               10 ** this.state.selectedTokenDecimals,
                             6
-                          )}
+                          )} {" "}{this.state.selectedTokenSymbol}
                         </b>
                       </h6>
                     </div>
