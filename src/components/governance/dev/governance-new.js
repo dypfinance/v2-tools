@@ -1352,6 +1352,7 @@ class ProposalDetails extends React.Component {
                           <Address
                             style={{ fontFamily: "monospace" }}
                             a={proposal._newGovernance}
+                            chainId={1}
                           />
                         </td>
                       </tr>
@@ -1387,6 +1388,7 @@ class ProposalDetails extends React.Component {
                         <Address
                           style={{ fontFamily: "monospace" }}
                           a={coinbase}
+                          chainId={1}
                         />
                       </td>
                     </tr>
@@ -1396,6 +1398,7 @@ class ProposalDetails extends React.Component {
                         <Address
                           style={{ fontFamily: "monospace" }}
                           a={governance._address}
+                          chainId={1}
                         />
                       </td>
                     </tr>

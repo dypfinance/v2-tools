@@ -799,7 +799,7 @@ export default function stakeAvax({
                       </button>
                     ) : (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} />
+                        <Address a={this.props.coinbase}  chainId={43114}/>
                       </div>
                     )}
                   </div>

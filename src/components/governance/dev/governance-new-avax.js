@@ -336,8 +336,16 @@ const ProposalCard = (props) => (
               .humanize(true)}
           </h6>
         </div>
-        <div className="col-sm-10 text-left actionwrapper">
-          <span className="actionText">
+        <div
+          className={`${
+            props._proposalAction === "3" ? "actionwrapper2" : "actionwrapper"
+          } col-sm-10 text-left`}
+        >
+          <span
+            className={
+              props._proposalAction === "3" ? "actionText2" : "actionText"
+            }
+          >
             {{
               0: "Disburse / Burn",
               1: "Upgrade Governance",
@@ -726,7 +734,7 @@ export default class Governance extends React.Component {
                   onSubmit={this.handleProposalSubmit}
                   coinbase={this.state.coinbase}
                   handleConnection={() => {
-                    // this.props.handleConnection();
+                    this.props.handleConnection();
                   }}
                 />
                 <div className="mydetails-wrapper col-4">
@@ -746,8 +754,21 @@ export default class Governance extends React.Component {
                           Connect wallet
                         </button>
                       ) : (
-                        <div className="addressbtn btn mb-3">
-                          <Address a={this.state.coinbase} />
+                        <div className="d-flex gap-2 mb-2">
+                          <h6 className="change-chain-text">
+                            To change chain
+                            <br />
+                            go to your wallet*
+                          </h6>
+                          <div
+                            className="avaxchain position-relative"
+                            style={{ right: "auto" }}
+                          >
+                            <span className="chaintext">
+                              AVAX Chain
+                              <img src={avax} alt="" className="chainlogo2" />
+                            </span>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -838,60 +859,70 @@ export default class Governance extends React.Component {
               )}
 
               {this.state.is_wallet_connected === true ? (
-                <div
-                  className="accordion  governanceWrapper"
-                  id="accordionExample"
-                >
-                  {this.state.proposals.map((props, index) => (
-                    <div
-                      className="accordion-item position-relative"
-                      key={index}
-                      style={{ border: "none" }}
-                    >
-                      <div className="accordion-header" id="headingOne">
-                        <button
-                          className="accordion-button collapsed d-flex flex-column position-relative acordionstate"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#${"collapse" + index}`}
-                          aria-expanded="true"
-                          aria-controls={"collapse" + index}
-                          onClick={() => {
-                            this.setState({
-                              proposalId: this.state.total_proposals - index,
-                            });
-                          }}
-                          style={{
-                            width: "fit-content",
-                            margin: "auto",
-                            paddingLeft: 10,
-                            paddingRight: 10,
-                          }}
-                        >
-                          <div className="purplediv"></div>
-                          <ProposalCard {...props} />
-                        </button>
-                      </div>
+                <div>
+                  <h6 className="myDetails-title mb-3">Previous proposals</h6>
 
+                  <div
+                    className="accordion  governanceWrapper"
+                    id="accordionExample"
+                  >
+                    {this.state.proposals.map((props, index) => (
                       <div
-                        id={"collapse" + index}
-                        className="accordion-collapse collapse"
-                        aria-labelledby={"collapsed" + index}
-                        data-bs-parent="#accordionExample"
+                        className="accordion-item position-relative"
+                        key={index}
+                        style={{ border: "none" }}
                       >
-                        <div className="accordion-body">
-                          <ProposalDetails
-                            refreshBalance={this.refreshBalance}
-                            proposalId={
-                              this.state.proposalId === undefined
-                                ? 0
-                                : this.state.proposalId
-                            }
-                          />
+                        <img
+                          src={require("../assets/expired.png").default}
+                          alt=""
+                          className="acordionstate"
+                        />
+                        <div className="accordion-header" id="headingOne">
+                          <button
+                            className="accordion-button collapsed d-flex flex-column position-relative "
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={`#${"collapse" + index}`}
+                            aria-expanded="true"
+                            aria-controls={"collapse" + index}
+                            onClick={() => {
+                              this.setState({
+                                proposalId: this.state.total_proposals - index,
+                              });
+                            }}
+                            style={{
+                              width: "fit-content",
+                              margin: "auto",
+                              paddingLeft: 10,
+                              paddingRight: 10,
+                            }}
+                          >
+                            <div className="purplediv"></div>
+                            <ProposalCard {...props} />
+                          </button>
+                        </div>
+
+                        <div
+                          id={"collapse" + index}
+                          className="accordion-collapse collapse"
+                          aria-labelledby={"collapsed" + index}
+                          data-bs-parent="#accordionExample"
+                        >
+                          <div className="accordion-body">
+                            <ProposalDetails
+                              refreshBalance={this.refreshBalance}
+                              proposalId={
+                                this.state.proposalId === undefined
+                                  ? 0
+                                  : this.state.proposalId
+                              }
+                              
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               ) : (
                 <div className="governanceWrapper">
@@ -930,19 +961,6 @@ export default class Governance extends React.Component {
               </div>
             </div>
           </div>
-
-          {this.state.open === true && (
-            <ProposalDetails
-              refreshBalance={this.refreshBalance}
-              proposalId={
-                this.state.proposalId === undefined ? 0 : this.state.proposalId
-              }
-              open={this.state.open}
-              setIsVisible={() => {
-                this.setState({ open: false });
-              }}
-            />
-          )}
         </div>
       </div>
     );
@@ -966,13 +984,14 @@ class ProposalDetails extends React.Component {
       is_wallet_connected: false,
       is_proposal_executible: false,
       proposal: {},
-      open: false,
+      z: false,
       depositLoading: false,
       depositStatus: "initial",
       removeLoading: false,
       removeStatus: "initial",
       errorMsg: "",
       errorMsg2: "",
+      showWalletModal: false,
     };
   }
   componentDidMount() {
@@ -1271,7 +1290,7 @@ class ProposalDetails extends React.Component {
                     <button
                       className="connectbtn btn"
                       style={{ width: "fit-content" }}
-                      // onClick={this.showModal}
+                      onClick={this.setState({ showWalletModal: true })}
                     >
                       <img
                         src={require("../assets/wallet-green.svg").default}
@@ -1281,7 +1300,7 @@ class ProposalDetails extends React.Component {
                     </button>
                   ) : (
                     <div className="addressbtn btn">
-                      <Address a={this.state.coinbase} />
+                      <Address a={this.state.coinbase} chainId={43114} />
                     </div>
                   )}
                 </div>
@@ -1665,6 +1684,19 @@ class ProposalDetails extends React.Component {
               <b>-2.5% Price Impact</b>.
             </h6>
           </Modal>
+        )}
+
+        {this.state.showWalletModal && (
+          <WalletModal
+            show={this.state.showWalletModal}
+            handleClose={() => {
+              this.setState({ showWalletModal: false });
+            }}
+            handleConnection={() => {
+              // this.props.handleConnection();
+              this.setState({ showWalletModal: false });
+            }}
+          />
         )}
       </div>
     );
