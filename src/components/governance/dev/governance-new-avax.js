@@ -12,6 +12,7 @@ import avax from "../assets/avax.svg";
 import submit from "../assets/submit.svg";
 import walleticon from "../assets/walleticon.svg";
 import copy from "../assets/copy.svg";
+import emptyCard from "../assets/emptycard.png";
 import freetextPassive from "../assets/freetext-passive.svg";
 import freetextActive from "../assets/freetext-active.svg";
 import disburselogoActive from "../assets/disburselogo-active.svg";
@@ -20,6 +21,13 @@ import empty from "../assets/empty.svg";
 import check from "../assets/check.svg";
 import govhero from "../assets/govhero.png";
 import statsLinkIcon from "../../FARMINNG/assets/statsLinkIcon.svg";
+import purplestats from "../../FARMINNG/assets/purpleStat.svg";
+import moreinfo from "../../FARMINNG/assets//more-info.svg";
+import failMark from "../../../assets/failMark.svg";
+import Tooltip from "@material-ui/core/Tooltip";
+
+import ellipse from "../assets/ellipse.svg";
+
 import { shortAddress } from "../../../functions/shortAddress";
 
 const { new_governanceavax: governance, reward_token, BigNumber } = window;
@@ -67,14 +75,14 @@ const AddProposal = (props) => {
 
   return (
     <div className="col-6">
-      <div className="d-flex flex-column justify-content-between h-100"> 
+      <div className="d-flex flex-column justify-content-between h-100">
         <div className="d-flex justify-content-between gap-2 align-items-center mb-3">
           <h6 className="submitnewproposal-title">
             <img src={require("../assets/submitwhite.svg").default} alt="" />{" "}
             Submit a proposal
           </h6>
-        </div> 
-        <form onSubmit={props.onSubmit(formState)} className='h-100'>
+        </div>
+        <form onSubmit={props.onSubmit(formState)} className="h-100">
           {/* <div className="d-flex gap-2 justify-content-between align-items-center">
             <div>
               <label htmlFor="proposal-action" className="d-none">
@@ -206,22 +214,19 @@ const AddProposal = (props) => {
               </div>
             )}
           </div> */}
-          
-            <div className="d-flex flex-column gap-2 align-items-end justify-content-between h-100">
-              <h6 className="initialdesc">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                metus nibh, finibus eu tortor consequat tortor.<br/>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-                metus nibh, finibus eu tortor consequat tortor.
-                
-              </h6>
-              <button
-                className="btn filledbtn"
-                style={{ width: "fit-content" }}
-              >
-                Create proposal
-              </button>
-            </div>
+
+          <div className="d-flex flex-column gap-2 align-items-end justify-content-between h-100">
+            <h6 className="initialdesc">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus
+              nibh, finibus eu tortor consequat tortor.
+              <br />
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus
+              nibh, finibus eu tortor consequat tortor.
+            </h6>
+            <button className="btn filledbtn" style={{ width: "fit-content" }}>
+              Create proposal
+            </button>
+          </div>
           {formState.action == "3" && (
             <div className="pt-3">
               <textarea
@@ -380,7 +385,7 @@ export default class Governance extends React.Component {
       coinbase: "0x0000000000000000000000000000000000000111",
       open: false,
       proposalId: undefined,
-      showModal: false
+      showModal: false,
     };
   }
 
@@ -395,7 +400,7 @@ export default class Governance extends React.Component {
       let step = window.config.max_proposals_per_call;
       for (
         let i = total_proposals - proposals.length;
-        i >= Math.max(1, total_proposals - proposals.length - step + 1);
+        i >= Math.max(1, total_proposals - proposals.length - step + 2);
         i--
       ) {
         const checkproposal = await this.getProposal(i).then();
@@ -484,9 +489,12 @@ export default class Governance extends React.Component {
   componentDidMount() {
     this.refreshBalance();
     this.refreshDYPBalance();
-    if(this.state.proposals.length == 0) {
-      this.refreshProposals()
-      }
+    if (
+      this.state.proposals.length == 0 &&
+      this.state.is_wallet_connected === true
+    ) {
+      this.refreshProposals();
+    }
     this.checkConnection();
     this.getProposal();
     window._refreshBalInterval = setInterval(this.checkConnection, 1000);
@@ -699,7 +707,7 @@ export default class Governance extends React.Component {
           <div>
             <h6 className="myDetails-title mb-3">New proposal</h6>
             <div className="d-flex justify-content-end mb-5 gap-5 align-items-center position-relative">
-              <img src={govhero} alt='' className="project-banner2"/>
+              <img src={govhero} alt="" className="project-banner2" />
               <div
                 className="submitproposal-wrapper"
                 id="votingWrapper"
@@ -722,27 +730,27 @@ export default class Governance extends React.Component {
                   }}
                 />
                 <div className="mydetails-wrapper col-4">
-                 
                   <div className="d-flex justify-content-between flex-column">
                     <div className="d-flex justify-content-end">
-                  {this.state.is_wallet_connected === false ? (
-                    <button
-                      className="connectbtn btn mb-3"
-                      onClick={() => {
-                        this.setState({showModal: true});
-                      }}
-                    >
-                      <img
-                        src={require("../assets/wallet-green.svg").default}
-                        alt=""
-                      />{" "}
-                      Connect wallet
-                    </button>
-                  ) : (
-                    <div className="addressbtn btn mb-3">
-                      <Address a={this.state.coinbase} />
+                      {this.state.is_wallet_connected === false ? (
+                        <button
+                          className="connectbtn btn mb-3"
+                          onClick={() => {
+                            this.setState({ showModal: true });
+                          }}
+                        >
+                          <img
+                            src={require("../assets/wallet-green.svg").default}
+                            alt=""
+                          />{" "}
+                          Connect wallet
+                        </button>
+                      ) : (
+                        <div className="addressbtn btn mb-3">
+                          <Address a={this.state.coinbase} />
+                        </div>
+                      )}
                     </div>
-                  )}</div>
                     <div className="d-flex justify-content-between gap-2 align-items-center mb-3">
                       <div className="colored-container">
                         <span className="purpletext">
@@ -803,21 +811,24 @@ export default class Governance extends React.Component {
               </div>
             </div>
             {this.state.showModal && (
-        <WalletModal
-          show={this.state.showModal}
-          handleClose={() => {
-            this.setState({showModal: false});
-          }}
-          handleConnection={()=>{this.props.handleConnection(); this.setState({showModal: false})}}
-        />
-      )}
+              <WalletModal
+                show={this.state.showModal}
+                handleClose={() => {
+                  this.setState({ showModal: false });
+                }}
+                handleConnection={() => {
+                  this.props.handleConnection();
+                  this.setState({ showModal: false });
+                }}
+              />
+            )}
           </div>
           <div
             className="row pb-5 m-0"
             style={{ flexDirection: "column-reverse" }}
           >
-            <div className={`col-lg-12 p-0 governanceWrapper `}>
-              {this.state.is_wallet_connected === undefined && (
+            <div className={`col-lg-12 p-0 `}>
+              {this.state.is_wallet_connected === false && (
                 <div className="errorWrapper">
                   <span>
                     You need to connect your wallet in order to see the
@@ -827,48 +838,95 @@ export default class Governance extends React.Component {
               )}
 
               {this.state.is_wallet_connected === true ? (
-                this.state.proposals.map((props, i) => (
-                  <div
-                    className=" proposalscard"
-                    key={i}
-                    onClick={() => {
-                      this.setState({ open: true });
-                      this.setState({
-                        proposalId: this.state.total_proposals - i,
-                      });
-                    }}
-                  >
-                    <div className="purplediv"></div>
-                    <ProposalCard {...props} />
-                  </div>
-                ))
+                <div
+                  className="accordion  governanceWrapper"
+                  id="accordionExample"
+                >
+                  {this.state.proposals.map((props, index) => (
+                    <div
+                      className="accordion-item position-relative"
+                      key={index}
+                      style={{ border: "none" }}
+                    >
+                      <div className="accordion-header" id="headingOne">
+                        <button
+                          className="accordion-button collapsed d-flex flex-column position-relative acordionstate"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target={`#${"collapse" + index}`}
+                          aria-expanded="true"
+                          aria-controls={"collapse" + index}
+                          onClick={() => {
+                            this.setState({
+                              proposalId: this.state.total_proposals - index,
+                            });
+                          }}
+                          style={{
+                            width: "fit-content",
+                            margin: "auto",
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                          }}
+                        >
+                          <div className="purplediv"></div>
+                          <ProposalCard {...props} />
+                        </button>
+                      </div>
+
+                      <div
+                        id={"collapse" + index}
+                        className="accordion-collapse collapse"
+                        aria-labelledby={"collapsed" + index}
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div className="accordion-body">
+                          <ProposalDetails
+                            refreshBalance={this.refreshBalance}
+                            proposalId={
+                              this.state.proposalId === undefined
+                                ? 0
+                                : this.state.proposalId
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : (
-                <div className="col-lg-12 row justify-content-between p-0 ml-0"></div>
+                <div className="governanceWrapper">
+                  <div className="emptycard"></div>
+                  <div className="emptycard"></div>
+                  <div className="emptycard"></div>
+                </div>
               )}
 
               <div className="text-center">
-                {this.state.proposals.length < this.state.total_proposals && (
-                  <button
-                    className="btn btn-primary l-outline-btn bgt"
-                    style={{
-                      fontSize: ".8rem",
-                      background: "transparent",
-                    }}
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.refreshProposals();
-                    }}
-                  >
-                    {this.state.isLoading ? "LOADING..." : "LOAD MORE"}
-                  </button>
-                )}
+                {this.state.proposals.length < this.state.total_proposals &&
+                  this.state.is_wallet_connected === true && (
+                    <button
+                      className="btn btn-primary l-outline-btn bgt"
+                      style={{
+                        fontSize: ".8rem",
+                        background: "transparent",
+                      }}
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        this.refreshProposals();
+                      }}
+                    >
+                      {this.state.isLoading ? "LOADING..." : "LOAD MORE"}
+                    </button>
+                  )}
 
-                {!this.state.isLoading && this.state.proposals.length == 0 && (
-                  <div className="pt-5">
-                    <p>No Proposals to Display</p>
-                  </div>
-                )}
+                {!this.state.isLoading &&
+                  this.state.proposals.length == 0 &&
+                  this.state.is_wallet_connected === true && (
+                    <div className="pt-5">
+                      <p>No Proposals to Display</p>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
@@ -908,7 +966,13 @@ class ProposalDetails extends React.Component {
       is_wallet_connected: false,
       is_proposal_executible: false,
       proposal: {},
-      open: this.props.open,
+      open: false,
+      depositLoading: false,
+      depositStatus: "initial",
+      removeLoading: false,
+      removeStatus: "initial",
+      errorMsg: "",
+      errorMsg2: "",
     };
   }
   componentDidMount() {
@@ -935,23 +999,74 @@ class ProposalDetails extends React.Component {
     return p;
   };
 
-  handleApprove = (e) => {
-    e.preventDefault();
+  handleApprove = async (e) => {
+    // e.preventDefault();
+    this.setState({ depositLoading: true });
+
     let amount = this.state.depositAmount;
     amount = new BigNumber(amount).times(1e18).toFixed(0);
-    reward_token.approve(governance._address, amount);
+    await reward_token
+      .approve(governance._address, amount)
+      .then(() => {
+        this.setState({ depositLoading: false, depositStatus: "deposit" });
+      })
+      .catch((e) => {
+        this.setState({ depositLoading: false, depositStatus: "fail" });
+        this.setState({ errorMsg: e?.message });
+        setTimeout(() => {
+          this.setState({
+            depositStatus: "initial",
+            depositAmount: "",
+            errorMsg: "",
+          });
+        }, 8000);
+      });
   };
-  handleAddVote = (e) => {
+  handleAddVote = async (e) => {
+    this.setState({ depositLoading: true });
+
     let amount = this.state.depositAmount;
     amount = new BigNumber(amount).times(1e18).toFixed(0);
-    governance.addVotes(this.props.proposalId, this.state.option, amount);
+    await governance
+      .addVotes(this.props.proposalId, this.state.option, amount)
+      .then(() => {
+        this.setState({ depositLoading: false, depositStatus: "success" });
+      })
+      .catch((e) => {
+        this.setState({ depositLoading: false, depositStatus: "fail" });
+        this.setState({ errorMsg: e?.message });
+        setTimeout(() => {
+          this.setState({
+            depositStatus: "initial",
+            depositAmount: "",
+            errorMsg: "",
+          });
+        }, 8000);
+      });
   };
 
-  handleRemoveVote = (e) => {
-    e.preventDefault();
+  handleRemoveVote = async (e) => {
+    // e.preventDefault();
+    this.setState({ removeLoading: true });
+
     let amount = this.state.withdrawAmount;
     amount = new BigNumber(amount).times(1e18).toFixed(0);
-    governance.removeVotes(this.props.proposalId, amount);
+    await governance
+      .removeVotes(this.props.proposalId, amount)
+      .then(() => {
+        this.setState({ removeLoading: false, removeStatus: "success" });
+      })
+      .catch((e) => {
+        this.setState({ removeLoading: false, removeStatus: "fail" });
+        this.setState({ errorMsg2: e?.message });
+        setTimeout(() => {
+          this.setState({
+            removeStatus: "initial",
+            withdrawAmount: "",
+            errorMsg2: "",
+          });
+        }, 8000);
+      });
   };
 
   handleClaim = (e) => {
@@ -1123,545 +1238,435 @@ class ProposalDetails extends React.Component {
         moment.duration(canWithdrawAllAfter - Date.now()).humanize(true);
     }
 
-    if (this.props.open === true) {
-      return (
-        <Modal
-          visible={this.props.open}
-          modalId="statsmodal"
-          title="stats"
-          setIsVisible={() => {
-            this.props.setIsVisible();
-          }}
-          width="fit-content"
-        >
-          <div className="stats-container my-4">
-            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-              <span className="stats-card-title">{`My ${this.getOptionText(
-                this.state.option
-              )} Votes`}</span>
-              <h6 className="stats-card-content">{depositedTokens} DYP</h6>
-            </div>
-            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-              <span className="stats-card-title">Proposal Action</span>
-              <h6 className="stats-card-content">{actionText}</h6>
-            </div>
-            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-              <span className="stats-card-title">Expires</span>
-              <h6 className="stats-card-content">{expires}</h6>
-            </div>
-            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-              <span className="stats-card-title">My DYP Balance</span>
-              <h6 className="stats-card-content">{token_balance} DYP</h6>
-            </div>
-            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-              <span className="stats-card-title">
-                {this.getOptionText("0")} Votes
-              </span>
-              <h6 className="stats-card-content">{optionOneVotes} DYP</h6>
-            </div>
-            <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-              <span className="stats-card-title">
-                {this.getOptionText("1")} Votes
-              </span>
-              <h6 className="stats-card-content">{optionTwoVotes} DYP</h6>
+    return (
+      <div className="token-staking">
+        <div className="d-flex flex-column justify-content-between">
+          <div className="proposalWrapper">
+            <div className="row token-staking-form">
+              <div className="col-12">
+                <div className="activewrapper">
+                  <div className="d-flex align-items-center justify-content-between gap-5">
+                    <h6 className="expiredtxt">
+                      <img src={ellipse} alt="" className="position-relative" />
+                      Expired
+                    </h6>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between gap-3">
+                    <div
+                      onClick={() => {
+                        this.setState({ open: true });
+                      }}
+                    >
+                      <h6 className="bottomitems">
+                        <img src={purplestats} alt="" />
+                        Stats
+                      </h6>
+                    </div>
+                  </div>
+                </div>
+                <div className="d-flex  justify-content-between gap-4 mt-4">
+                  <h6 className="start-title">Start Governance</h6>
+
+                  {this.state.is_wallet_connected === false ? (
+                    <button
+                      className="connectbtn btn"
+                      style={{ width: "fit-content" }}
+                      // onClick={this.showModal}
+                    >
+                      <img
+                        src={require("../assets/wallet-green.svg").default}
+                        alt=""
+                      />
+                      Connect wallet
+                    </button>
+                  ) : (
+                    <div className="addressbtn btn">
+                      <Address a={this.state.coinbase} />
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-4 otherside w-100">
+                  <div className="form-group">
+                    <div className="d-flex justify-content-between gap-2 align-items-center">
+                      <div className="d-flex justify-content-between gap-4 align-items-center">
+                        <label
+                          htmlFor="deposit-amount"
+                          className="d-block text-left addvotestxt"
+                        >
+                          Add votes
+                        </label>
+                        <h6 className="mybalance-text">
+                          Balance:
+                          <b>{token_balance} DYP</b>
+                        </h6>
+                      </div>
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Add votes to the governance pool.  The more you contribute, the more likely it will be for your vote to make an impact. Every vote counts!"
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </div>
+                    <div className="d-flex gap-2 align-items-center justify-content-between mt-2">
+                      <div className="d-flex align-items-center gap-2">
+                        <input
+                          value={
+                            Number(this.state.depositAmount) > 0
+                              ? this.state.depositAmount * LP_AMPLIFY_FACTOR
+                              : this.state.depositAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              depositAmount:
+                                Number(e.target.value) > 0
+                                  ? e.target.value / LP_AMPLIFY_FACTOR
+                                  : e.target.value,
+                            })
+                          }
+                          className="styledinput"
+                          style={{ width: "120px" }}
+                          placeholder="0"
+                          type="text"
+                        />
+
+                        <button
+                          className="btn maxbtn"
+                          style={{ cursor: "pointer" }}
+                          onClick={this.handleSetMaxDeposit}
+                        >
+                          MAX
+                        </button>
+                      </div>
+                      <div className="d-flex align-items-center gap-2">
+                        <button
+                          onClick={() => this.handleSetOption("0")}
+                          className={
+                            this.state.option == "0"
+                              ? "emptybtnactive"
+                              : "emptybtnpassive"
+                          }
+                          type="button"
+                        >
+                          <img
+                            src={this.state.option == "0" ? check : empty}
+                            alt=""
+                          />
+
+                          {this.getOptionText("0")}
+                        </button>
+
+                        <button
+                          onClick={() => this.handleSetOption("1")}
+                          className={
+                            this.state.option == "1"
+                              ? "emptybtnactive"
+                              : "emptybtnpassive"
+                          }
+                          type="button"
+                        >
+                          <img
+                            src={this.state.option == "1" ? check : empty}
+                            alt=""
+                          />
+                          {this.getOptionText("1")}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row justify-content-center">
+                    <button
+                      style={{ width: "fit-content" }}
+                      disabled={
+                        this.state.depositAmount === "" ||
+                        this.state.depositLoading === true ||
+                        this.state.depositStatus === "success"
+                          ? true
+                          : false
+                      }
+                      className={`btn filledbtn ${
+                        this.state.depositAmount === "" &&
+                        this.state.depositStatus === "initial" &&
+                        "disabled-btn"
+                      } ${
+                        this.state.depositStatus === "deposit" ||
+                        this.state.depositStatus === "success"
+                          ? "success-button"
+                          : this.state.depositStatus === "fail"
+                          ? "fail-button"
+                          : null
+                      } d-flex justify-content-center align-items-center gap-2`}
+                      onClick={() => {
+                        this.state.depositStatus === "deposit"
+                          ? this.handleAddVote()
+                          : this.state.depositStatus === "initial" &&
+                            this.state.depositAmount !== ""
+                          ? this.handleApprove()
+                          : console.log("");
+                      }}
+                    >
+                      {this.state.depositLoading ? (
+                        <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      ) : this.state.depositStatus === "initial" ? (
+                        <>Approve</>
+                      ) : this.state.depositStatus === "deposit" ? (
+                        <>Add votes</>
+                      ) : this.state.depositStatus === "success" ? (
+                        <>Success</>
+                      ) : (
+                        <>
+                          <img src={failMark} alt="" />
+                          Failed
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  {this.state.errorMsg && (
+                    <h6 className="errormsg">{this.state.errorMsg}</h6>
+                  )}
+                </div>
+              </div>
+              <div className="mt-4 col-12">
+                <div className="otherside w-100">
+                  <div className="form-group">
+                    <div className="d-flex justify-content-between gap-2 align-items-center">
+                      <div className="d-flex justify-content-between gap-4 align-items-center">
+                        <label
+                          htmlFor="deposit-amount"
+                          className="d-block text-left addvotestxt"
+                        >
+                          REMOVE VOTES
+                        </label>
+                      </div>
+                      <Tooltip
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Remove votes from the governance pool. You have the possibility to remove a part or all of them."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" />
+                      </Tooltip>
+                    </div>
+
+                    <div className="d-flex align-items-center gap-3 justify-content-between mt-3">
+                      <div className="d-flex align-items-center gap-2 ">
+                        <input
+                          value={
+                            Number(this.state.withdrawAmount) > 0
+                              ? this.state.withdrawAmount * LP_AMPLIFY_FACTOR
+                              : this.state.withdrawAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              withdrawAmount:
+                                Number(e.target.value) > 0
+                                  ? e.target.value / LP_AMPLIFY_FACTOR
+                                  : e.target.value,
+                            })
+                          }
+                          className="styledinput"
+                          style={{ width: "120px" }}
+                          placeholder="0"
+                          type="text"
+                        />
+                        <button
+                          className="btn maxbtn"
+                          style={{ cursor: "pointer" }}
+                          onClick={this.handleSetMaxWithdraw}
+                        >
+                          MAX
+                        </button>
+                      </div>
+                      <button
+                        style={{ width: "fit-content" }}
+                        disabled={
+                          this.state.withdrawAmount === "" ||
+                          this.state.removeLoading === true ||
+                          this.state.removeStatus === "success"
+                            ? true
+                            : false
+                        }
+                        className={`btn filledbtn ${
+                          this.state.withdrawAmount === "" &&
+                          this.state.removeStatus === "initial" &&
+                          "disabled-btn"
+                        } ${
+                          this.state.removeStatus === "deposit" ||
+                          this.state.removeStatus === "success"
+                            ? "success-button"
+                            : this.state.removeStatus === "fail"
+                            ? "fail-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        onClick={() => {
+                          this.handleRemoveVote();
+                        }}
+                      >
+                        {this.state.removeLoading ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.removeStatus === "initial" ? (
+                          <>Remove</>
+                        ) : this.state.removeStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+
+                  {this.state.errorMsg2 && (
+                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-between gap-1 mb-3">
-            <div className="d-flex flex-column gap-1">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`https://github.com/dypfinance/Avalanche-Bridge-and-Farming-contracts/tree/main/Audits`}
-                className="stats-link"
-              >
-                Audit <img src={statsLinkIcon} alt="" />
-              </a>
-            </div>
-            <div className="d-flex align-items-center gap-1 justify-content-between">
-              <span
-                style={{
-                  fontWeight: "400",
-                  fontSize: "12px",
-                  lineHeight: "18px",
-                  color: "#C0C9FF",
-                }}
-              >
-                Contract Address
-              </span>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`${window.config.snowtrace_baseURL}/address/${governance._address}`}
-                className="stats-link"
-              >
-                {shortAddress(governance._address)}{" "}
-                <img src={statsLinkIcon} alt="" />
-              </a>
-            </div>
-            <div className="d-flex align-items-center gap-1 justify-content-between">
-              <span
-                style={{
-                  fontWeight: "400",
-                  fontSize: "12px",
-                  lineHeight: "18px",
-                  color: "#C0C9FF",
-                }}
-              >
-                My Address
-              </span>
-
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`${window.config.snowtrace_baseURL}/address/${this.state.coinbase}`}
-                className="stats-link"
-              >
-                {shortAddress(this.state.coinbase)}{" "}
-                <img src={statsLinkIcon} alt="" />
-              </a>
-            </div>
+          <div className="mt-4 pl-0">
+            {proposal._proposalAction == "3" && (
+              <div className="l-box proposal-details-wrapper">
+                <div className="table-responsive">
+                  <h6 className="proposal-details-title">PROPOSAL DETAILS</h6>
+                  <p className="l-proposal-text">
+                    <td colSpan> {proposal._proposalText} </td>
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="separator"></div>
-          <h6 className="footertext">
-            Proposals may be executed within <b>3 days</b> after voting ends.
-            Quorum requirement is a minimum of <b>25000.00 DYP</b>, proposals
-            with winning votes less than QUORUM will not be executed. Disburse
-            proposals will disburse a maximum amount of DYP with a{" "}
-            <b>-2.5% Price Impact</b>.
-          </h6>
-        </Modal>
-      );
-    }
+        </div>
+        {this.state.open === true && (
+          <Modal
+            visible={this.state.open}
+            modalId="statsmodal"
+            title="stats"
+            setIsVisible={() => {
+              this.setState({ open: false });
+            }}
+            width="fit-content"
+          >
+            <div className="stats-container my-4">
+              <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                <span className="stats-card-title">{`My ${this.getOptionText(
+                  this.state.option
+                )} Votes`}</span>
+                <h6 className="stats-card-content">{depositedTokens} DYP</h6>
+              </div>
+              <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                <span className="stats-card-title">Proposal Action</span>
+                <h6 className="stats-card-content">{actionText}</h6>
+              </div>
+              <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                <span className="stats-card-title">Expires</span>
+                <h6 className="stats-card-content">{expires}</h6>
+              </div>
+              <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                <span className="stats-card-title">My DYP Balance</span>
+                <h6 className="stats-card-content">{token_balance} DYP</h6>
+              </div>
+              <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                <span className="stats-card-title">
+                  {this.getOptionText("0")} Votes
+                </span>
+                <h6 className="stats-card-content">{optionOneVotes} DYP</h6>
+              </div>
+              <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                <span className="stats-card-title">
+                  {this.getOptionText("1")} Votes
+                </span>
+                <h6 className="stats-card-content">{optionTwoVotes} DYP</h6>
+              </div>
+            </div>
+            <div className="d-flex align-items-center justify-content-between gap-1 mb-3">
+              <div className="d-flex flex-column gap-1">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://github.com/dypfinance/Avalanche-Bridge-and-Farming-contracts/tree/main/Audits`}
+                  className="stats-link"
+                >
+                  Audit <img src={statsLinkIcon} alt="" />
+                </a>
+              </div>
+              <div className="d-flex align-items-center gap-1 justify-content-between">
+                <span
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "12px",
+                    lineHeight: "18px",
+                    color: "#C0C9FF",
+                  }}
+                >
+                  Contract Address
+                </span>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`${window.config.snowtrace_baseURL}/address/${governance._address}`}
+                  className="stats-link"
+                >
+                  {shortAddress(governance._address)}{" "}
+                  <img src={statsLinkIcon} alt="" />
+                </a>
+              </div>
+              <div className="d-flex align-items-center gap-1 justify-content-between">
+                <span
+                  style={{
+                    fontWeight: "400",
+                    fontSize: "12px",
+                    lineHeight: "18px",
+                    color: "#C0C9FF",
+                  }}
+                >
+                  My Address
+                </span>
 
-    //  <div className="token-staking">
-    //  <div className="row justify-content-between">
-    //    <div className="col-lg-5 mt-5 proposalWrapper">
-    //      <div className="row token-staking-form">
-    //        <div className="col-12">
-    //          <div className="l-box">
-    //            <form onSubmit={(e) => e.preventDefault()}>
-    //              <div className="form-group">
-    //                <label
-    //                  htmlFor="deposit-amount"
-    //                  className="d-block text-left"
-    //                >
-    //                  Add votes
-    //                </label>
-    //                <h5
-    //                  className=""
-    //                  style={{
-    //                    display: "flex",
-    //                    alignItems: "center",
-    //                    gap: 20,
-    //                    fontWeight: 600,
-    //                    marginBottom: 20,
-    //                  }}
-    //                >
-    //                  <img
-    //                    height={38}
-    //                    src={
-    //                      proposal.vault
-    //                        ? proposal.vault.logo.toString()
-    //                        : "/logo192.png"
-    //                    }
-    //                  />{" "}
-    //                  {proposal.vault
-    //                    ? proposal.vault.name.toString()
-    //                    : "DYP Proposal"}
-    //                </h5>
-    //                <div className="input-group ">
-    //                  <input
-    //                    value={
-    //                      Number(this.state.depositAmount) > 0
-    //                        ? this.state.depositAmount * LP_AMPLIFY_FACTOR
-    //                        : this.state.depositAmount
-    //                    }
-    //                    onChange={(e) =>
-    //                      this.setState({
-    //                        depositAmount:
-    //                          Number(e.target.value) > 0
-    //                            ? e.target.value / LP_AMPLIFY_FACTOR
-    //                            : e.target.value,
-    //                      })
-    //                    }
-    //                    className="form-control left-radius"
-    //                    placeholder="0"
-    //                    type="text"
-    //                  />
-    //                  <div className="input-group-append">
-    //                    <button
-    //                      className="btn btn-primary right-radius btn-max l-light-btn"
-    //                      style={{ cursor: "pointer" }}
-    //                      onClick={this.handleSetMaxDeposit}
-    //                    >
-    //                      MAX
-    //                    </button>
-    //                  </div>
-    //                </div>
-    //              </div>
-    //              <div className="row">
-    //                <div style={{ paddingRight: "0.3rem" }} className="col-6">
-    //                  <button
-    //                    onClick={() => this.handleSetOption("0")}
-    //                    className={`btn btn-block btn-primary l-light-btn ${
-    //                      this.state.option == "0" ? "btn-outline" : ""
-    //                    }`}
-    //                    type="button"
-    //                  >
-    //                    <i
-    //                      className={
-    //                        this.state.option == "0"
-    //                          ? "fas fa-check-square"
-    //                          : "far fa-square"
-    //                      }
-    //                    ></i>{" "}
-    //                    {this.getOptionText("0")}
-    //                  </button>
-    //                </div>
-    //                <div style={{ paddingLeft: "0.3rem" }} className="col-6">
-    //                  <button
-    //                    onClick={() => this.handleSetOption("1")}
-    //                    className={`btn btn-block btn-primary l-light-btn ${
-    //                      this.state.option == "1" ? "btn-outline" : ""
-    //                    }`}
-    //                    type="button"
-    //                  >
-    //                    <i
-    //                      className={
-    //                        this.state.option == "1"
-    //                          ? "fas fa-check-square"
-    //                          : "far fa-square"
-    //                      }
-    //                    ></i>{" "}
-    //                    {this.getOptionText("1")}
-    //                  </button>
-    //                </div>
-    //              </div>
-    //              <div className="row mt-3">
-    //                <div style={{ paddingRight: "0.3rem" }} className="col-6">
-    //                  <button
-    //                    onClick={this.handleApprove}
-    //                    className="btn btn-block btn-primary"
-    //                    type="button"
-    //                  >
-    //                    APPROVE
-    //                  </button>
-    //                </div>
-    //                <div style={{ paddingLeft: "0.3rem" }} className="col-6">
-    //                  <button
-    //                    disabled={!canRemoveVotes}
-    //                    onClick={this.handleAddVote}
-    //                    className="btn btn-block btn-primary l-outline-btn"
-    //                    type="submit"
-    //                  >
-    //                    ADD VOTES
-    //                  </button>
-    //                </div>
-    //              </div>
-    //              <p
-    //                style={{ fontSize: ".8rem" }}
-    //                className="mt-1 text-center mb-0 text-muted mt-3"
-    //              >
-    //                {/* Some info text here.<br /> */}
-    //                Please approve before voting.
-    //              </p>
-    //            </form>
-    //          </div>
-    //        </div>
-    //        <div className="col-12">
-    //          <div className="l-box">
-    //            <form onSubmit={this.handleRemoveVote}>
-    //              <div className="form-group">
-    //                <label
-    //                  htmlFor="deposit-amount"
-    //                  className="d-block text-left"
-    //                >
-    //                  REMOVE VOTES
-    //                </label>
-    //                <div className="input-group ">
-    //                  <input
-    //                    value={
-    //                      Number(this.state.withdrawAmount) > 0
-    //                        ? this.state.withdrawAmount * LP_AMPLIFY_FACTOR
-    //                        : this.state.withdrawAmount
-    //                    }
-    //                    onChange={(e) =>
-    //                      this.setState({
-    //                        withdrawAmount:
-    //                          Number(e.target.value) > 0
-    //                            ? e.target.value / LP_AMPLIFY_FACTOR
-    //                            : e.target.value,
-    //                      })
-    //                    }
-    //                    className="form-control left-radius"
-    //                    placeholder="0"
-    //                    type="text"
-    //                  />
-    //                  <div className="input-group-append">
-    //                    <button
-    //                      className="btn btn-primary right-radius btn-max l-light-btn"
-    //                      style={{ cursor: "pointer" }}
-    //                      onClick={this.handleSetMaxWithdraw}
-    //                    >
-    //                      MAX
-    //                    </button>
-    //                  </div>
-    //                </div>
-    //              </div>
-    //              <button
-    //                disabled={!canRemoveVotes}
-    //                className="btn btn-primary btn-block l-outline-btn"
-    //                type="submit"
-    //              >
-    //                REMOVE VOTES
-    //              </button>
-    //              {/* <p style={{fontSize: '.8rem'}} className='mt-1 text-center'>Some info text here.</p> */}
-    //            </form>
-    //          </div>
-    //        </div>
-    //        <div className="col-12">
-    //          <div className="l-box">
-    //            <form onSubmit={this.handleClaim}>
-    //              <div className="form-group">
-    //                <label
-    //                  htmlFor="deposit-amount"
-    //                  className="text-left d-block"
-    //                >
-    //                  Total in voting
-    //                </label>
-    //                <div className="row buttonWrapper m-0">
-    //                  <div
-    //                    className="form-row totalVotingButton"
-    //                    style={{
-    //                      maxWidth: 180,
-    //                      width: "100%",
-    //                    }}
-    //                  >
-    //                    <div className="form-row">
-    //                      <div className="col-12">
-    //                        <p
-    //                          className="form-control  text-right"
-    //                          style={{
-    //                            border: "none",
-    //                            fontSize: "1.2rem",
-    //                            marginBottom: 0,
-    //                            paddingLeft: 0,
-    //                            background: "rgba(82, 168, 164, 0.2)",
-    //                            color: "var(--text-color)",
-    //                          }}
-    //                        >
-    //                          <span
-    //                            style={{
-    //                              fontSize: "1.2rem",
-    //                              color: "var(--text-color)",
-    //                            }}
-    //                          >
-    //                            {totalDeposited}
-    //                          </span>{" "}
-    //                          <small className="text-bold">DYP</small>
-    //                        </p>
-    //                      </div>
-    //                    </div>
-    //                  </div>
-    //                  <button
-    //                    title={withdrawableTitleText}
-    //                    disabled={!canWithdrawAll}
-    //                    className="btn btn-primary btn-block l-outline-btn withdrawButton"
-    //                    type="submit"
-    //                    style={{ maxWidth: 180 }}
-    //                  >
-    //                    Withdraw all
-    //                  </button>
-    //                </div>
-    //              </div>
-    //            </form>
-    //          </div>
-    //        </div>
-    //      </div>
-    //    </div>
-    //    <div className="col-lg-7 mt-4 pl-0">
-    //      <div className="l-box">
-    //        <div className="table-responsive">
-    //          <h3
-    //            style={{
-    //              fontSize: "1.1rem",
-    //              fontWeight: "600",
-    //              padding: ".3rem",
-    //              display: "flex",
-    //            }}
-    //          >
-    //            PROPOSAL DETAILS
-    //          </h3>
-    //          {proposal._proposalAction == "3" && (
-    //            <p
-    //              className="l-proposal-text"
-    //              style={{ whiteSpace: "pre-line", padding: ".3rem" }}
-    //            >
-    //              <td colSpan> {proposal._proposalText} </td>
-    //            </p>
-    //          )}
-    //          <table className="table-stats table table-sm table-borderless">
-    //            <tbody>
-    //              <tr>
-    //                <th className="d-flex">Pool</th>
-    //                <td className="text-right">
-    //                  <strong>
-    //                    {proposal.vault
-    //                      ? proposal.vault.name
-    //                      : "DYP Proposal"}
-    //                  </strong>{" "}
-    //                  <small></small>
-    //                </td>
-    //              </tr>
-
-    //              <tr>
-    //                <th className="d-flex">Proposal Action</th>
-    //                <td className="text-right">
-    //                  <strong>{actionText}</strong> <small></small>
-    //                </td>
-    //              </tr>
-
-    //              <tr>
-    //                <th className="d-flex">My DYP Balance</th>
-    //                <td className="text-right">
-    //                  <strong>{token_balance + " DYP"}</strong>{" "}
-    //                  <small></small>
-    //                </td>
-    //              </tr>
-    //              <tr>
-    //                <th className="d-flex">{`My ${this.getOptionText(
-    //                  this.state.option
-    //                )} Votes`}</th>
-    //                <td className="text-right">
-    //                  <strong>{depositedTokens + " DYP"}</strong>{" "}
-    //                  <small></small>
-    //                </td>
-    //              </tr>
-    //              <tr>
-    //                <th className="d-flex">Expires</th>
-    //                <td className="text-right">
-    //                  <strong>{expires}</strong> <small></small>
-    //                </td>
-    //              </tr>
-    //              {proposal._proposalAction == "1" && (
-    //                <tr>
-    //                  <th className="d-flex">New Gov. Address</th>
-    //                  <td className="text-right">
-    //                    <Address
-    //                      style={{ fontFamily: "monospace" }}
-    //                      a={proposal._newGovernance}
-    //                    />
-    //                  </td>
-    //                </tr>
-    //              )}
-    //              {proposal._proposalAction == "2" && (
-    //                <tr>
-    //                  <th className="d-flex">New Quorum</th>
-    //                  <td className="text-right">
-    //                    <strong>
-    //                      {getFormattedNumber(proposal._newQuorum / 1e18, 6)}
-    //                    </strong>{" "}
-    //                    <small>DYP</small>
-    //                  </td>
-    //                </tr>
-    //              )}
-    //              {proposal._proposalAction == "4" && (
-    //                <tr>
-    //                  <th className="d-flex">New Min Balance</th>
-    //                  <td className="text-right">
-    //                    <strong>
-    //                      {getFormattedNumber(
-    //                        proposal._newMinBalance / 1e18,
-    //                        6
-    //                      )}
-    //                    </strong>{" "}
-    //                    <small>DYP</small>
-    //                  </td>
-    //                </tr>
-    //              )}
-    //              <tr>
-    //                <th className="d-flex">My Address</th>
-    //                <td className="text-right">
-    //                  <Address
-    //                    style={{ fontFamily: "monospace" }}
-    //                    a={coinbase}
-    //                  />
-    //                </td>
-    //              </tr>
-    //              <tr>
-    //                <th className="d-flex">Contract Address</th>
-    //                <td className="text-right">
-    //                  <Address
-    //                    style={{ fontFamily: "monospace" }}
-    //                    a={governance._address}
-    //                  />
-    //                </td>
-    //              </tr>
-    //              <tr>
-    //                <th className="d-flex">
-    //                  {this.getOptionText("0")} Votes{" "}
-    //                </th>
-    //                <td className="text-right">
-    //                  <strong>{optionOneVotes}</strong> <small>DYP</small>
-    //                </td>
-    //              </tr>
-
-    //              <tr>
-    //                <th className="d-flex">
-    //                  {this.getOptionText("1")} Votes{" "}
-    //                </th>
-    //                <td className="text-right">
-    //                  <strong>{optionTwoVotes}</strong> <small>DYP</small>
-    //                </td>
-    //              </tr>
-
-    //              <tr>
-    //                <th className="d-flex">
-    //                  My {this.getOptionText(this.state.option)} Votes{" "}
-    //                </th>
-    //                <td className="text-right">
-    //                  <strong>{depositedTokens}</strong> <small>DYP</small>
-    //                </td>
-    //              </tr>
-    //              <tr>
-    //                <td
-    //                  colSpan="2"
-    //                  className="text-left text-muted small pt-3"
-    //                  style={{ fontSize: ".8rem" }}
-    //                >
-    //                  Proposals may be executed within{" "}
-    //                  {moment
-    //                    .duration(
-    //                      window.config.execution_allowance_in_seconds * 1e3
-    //                    )
-    //                    .humanize()}{" "}
-    //                  after voting ends. Quorum requirement is a minimum of{" "}
-    //                  {(this.state.QUORUM / 1e18).toFixed(2)} DYP, proposals
-    //                  with winning votes less than QUORUM will not be
-    //                  executed. Disburse proposals will disburse a maximum
-    //                  amount of DYP with a -2.5% Price Impact.
-    //                </td>
-    //              </tr>
-
-    //              {this.state.is_proposal_executible && (
-    //                <tr>
-    //                  <td colSpan="2">
-    //                    <button
-    //                      onClick={this.handleExecute}
-    //                      className="btn btn-block btn-primary mt-3"
-    //                      type="button"
-    //                    >
-    //                      EXECUTE PROPOSAL
-    //                    </button>
-    //                  </td>
-    //                </tr>
-    //              )}
-    //            </tbody>
-    //          </table>
-    //        </div>
-    //      </div>
-    //    </div>
-    //  </div>
-    // </div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`${window.config.snowtrace_baseURL}/address/${this.state.coinbase}`}
+                  className="stats-link"
+                >
+                  {shortAddress(this.state.coinbase)}{" "}
+                  <img src={statsLinkIcon} alt="" />
+                </a>
+              </div>
+            </div>
+            <div className="separator"></div>
+            <h6 className="footertext">
+              Proposals may be executed within <b>3 days</b> after voting ends.
+              Quorum requirement is a minimum of <b>25000.00 DYP</b>, proposals
+              with winning votes less than QUORUM will not be executed. Disburse
+              proposals will disburse a maximum amount of DYP with a{" "}
+              <b>-2.5% Price Impact</b>.
+            </h6>
+          </Modal>
+        )}
+      </div>
+    );
   }
 }
