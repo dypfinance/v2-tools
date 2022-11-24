@@ -194,23 +194,23 @@ const LaunchpadDetails = () => {
               My rewards: <b>23.647845 iDYP</b>
             </span>
             <div className="d-flex align-items-center justify-content-between mt-3 ">
-              <div className="dates-container p-4 d-flex  align-items-start justify-content-center">
-                <div className="d-flex flex-column align-items-center gap-2">
+              <div className="dates-container p-3 me-2 d-flex  align-items-start justify-content-center">
+                <div className="d-flex flex-column align-items-center gap-2" style={{width: '65px'}}>
                   <div className="timer-text">00</div>
                   <div className="details-warning">days</div>
                 </div>
-                <div className="timer-text">  :  </div>
-                <div className="d-flex flex-column align-items-center gap-2">
+                <div className="timer-text"> : </div>
+                <div className="d-flex flex-column align-items-center gap-2" style={{width: '65px'}}>
                   <div className="timer-text">00</div>
                   <div className="details-warning">hours</div>
                 </div>
-                <div className="timer-text">  :  </div>
-                <div className="d-flex flex-column align-items-center gap-2">
+                <div className="timer-text"> : </div>
+                <div className="d-flex flex-column align-items-center gap-2" style={{width: '65px'}}>
                   <div className="timer-text">00</div>
                   <div className="details-warning">minutes</div>
                 </div>
-                <div className="timer-text">  :  </div>
-                <div className="d-flex flex-column align-items-center gap-2">
+                <div className="timer-text"> : </div>
+                <div className="d-flex flex-column align-items-center gap-2" style={{width: '65px'}}>
                   <div className="timer-text">00</div>
                   <div className="details-warning">seconds</div>
                 </div>

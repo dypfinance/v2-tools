@@ -4,11 +4,13 @@ import rocketIcon from '../assets/rocketIcon.svg'
 import lockIcon from '../assets/lockIcon.svg'
 import rightArrow from '../../dashboard/assets/right-arrow.svg'
 import expiredTag from '../assets/expiredTag.svg'
+import { NavLink } from 'react-router-dom'
 
-const ProjectCard = ({upcoming, expired}) => {
+const ProjectCard = ({upcoming, expired, id}) => {
 
   return (
-    <div className={`launchpad-project-card d-flex flex-column p-0  ${upcoming === true && 'upcoming-project'}`}>
+    <NavLink to={`launchpad/details/${id}`}>
+      <div className={`launchpad-project-card d-flex flex-column p-0  ${upcoming === true && 'upcoming-project'}`}>
         <div className="project-header d-flex flex-column justify-content-center gap-5 p-3">
           <div className="d-flex align-items-center justify-content-between">
           <div className="d-flex align-items-center gap-2">
@@ -41,6 +43,7 @@ const ProjectCard = ({upcoming, expired}) => {
           </div>
         </div>
     </div>
+    </NavLink>
   )
 }
 
