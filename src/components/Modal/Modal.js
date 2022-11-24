@@ -32,6 +32,7 @@ const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
           <div className="modal-header justify-content-between align-items-center">
             <div className="d-flex align-items-center gap-2">
               {title === "stats" ||
+                title !== "withdraw" ||
                 (title !== "proposal" && (
                   <img
                     src={title === "stats" ? statsIcon : withdrawIcon}
@@ -52,7 +53,9 @@ const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
                   ? "My Stats"
                   : title === "proposal"
                   ? "New proposal"
-                  : "Withdraw"}
+                  : title === "withdraw"
+                  ? "Withdraw"
+                  : ""}
               </h6>
             </div>
             <img

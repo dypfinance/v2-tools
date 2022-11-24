@@ -332,13 +332,41 @@
 
 .form-bottomtext {
   font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 21px;
-color: #D6D8E7;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #d6d8e7;
 }
 
-.loadmore-btn:hover, .loadmore-btn:focus {
+.ty-title {
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 28px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.ty-subtitle {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #c0cbf7;
+  padding: 10px 0;
+}
+
+.tyHero {
+  width: 143.97px;
+  height: 217.17px;
+  margin: auto;
+  display: flex;
+
+}
+
+.loadmore-btn:hover,
+.loadmore-btn:focus {
   background: #7770e0 !important;
   border-radius: 8px;
   border: 1px solid #7770e0;

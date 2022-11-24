@@ -25,8 +25,8 @@ import purplestats from "../../FARMINNG/assets/purpleStat.svg";
 import moreinfo from "../../FARMINNG/assets//more-info.svg";
 import failMark from "../../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
-
 import ellipse from "../assets/ellipse.svg";
+import tyHero from "../assets/tyhero.png";
 
 import { shortAddress } from "../../../functions/shortAddress";
 
@@ -329,11 +329,17 @@ const AddProposal = (props) => {
               </button>
               <button
                 className={
-                  formState.text === "" && formState.action == "3" ? "btn disabled-btn" : "btn filledbtn"
+                  formState.text === "" && formState.action == "3"
+                    ? "btn disabled-btn"
+                    : "btn filledbtn"
                 }
                 type="submit"
                 onClick={props.onSubmit(formState)}
-                disabled={formState.text === "" && formState.action == "3" ? true : false}
+                disabled={
+                  formState.text === "" && formState.action == "3"
+                    ? true
+                    : false
+                }
               >
                 SUBMIT PROPOSAL
               </button>
@@ -461,6 +467,9 @@ export default class Governance extends React.Component {
       open: false,
       proposalId: undefined,
       showModal: false,
+      submitLoading: false,
+      submitStatius: "initial",
+      showTYModal: false,
     };
   }
 
@@ -564,10 +573,9 @@ export default class Governance extends React.Component {
   componentDidMount() {
     this.refreshBalance();
     this.refreshDYPBalance();
-    if (
-      this.state.proposals.length == 0 &&
-      this.state.is_wallet_connected === true
-    ) {
+    const logout = localStorage.getItem("logout");
+
+    if (this.state.proposals.length == 0 && logout === "false") {
       this.refreshProposals();
     }
     this.checkConnection();
@@ -643,7 +651,9 @@ export default class Governance extends React.Component {
         return;
       }
       newMinBalance = new BigNumber(newMinBalance).times(1e18).toFixed(0);
-      governance.proposeNewMinBalanceToInitProposal(newMinBalance);
+      governance.proposeNewMinBalanceToInitProposal(newMinBalance).then(() => {
+        this.setState({ showTYModal: true });
+      });
     }
   };
 
@@ -1034,6 +1044,23 @@ export default class Governance extends React.Component {
             </div>
           </div>
         </div>
+
+        {this.state.showTYModal === true && (
+          <Modal
+            visible={this.state.showTYModal}
+            modalId="tymodal"
+            title="ty"
+            setIsVisible={() => {
+              this.setState({ showTYModal: false });
+            }}
+            width="fit-content"
+          >
+            <img src={tyHero} alt='' className="tyHero"/>
+            <h6 className="ty-title">Thank you</h6>
+            <h6 className="ty-subtitle">Your proposal submitted successfully</h6>
+
+          </Modal>
+        )}
       </div>
     );
   }
