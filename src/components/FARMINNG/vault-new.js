@@ -1033,7 +1033,7 @@ export default function initVaultNew({
                       </div> */}
                     <h6 className="mybalance-text">
                       Balance:
-                      <b>{token_balance} DYP</b>
+                      <b>{token_balance} {token_symbol}</b>
                       {/* <img
                       src={require(`./assets/dyp.svg`).default}
                       alt=""
@@ -1148,31 +1148,36 @@ export default function initVaultNew({
                       placement="top"
                       title={
                         <div className="tooltip-text">
+                          <h6 className="tvl-text mb-3">Rewards earned by your deposit to the vault smart contract are displayed in real-time. Rewards breakdown:</h6>
                           <h6 className="tvl-text">
-                            Earn Rewards in:{" "}
+
+                            {token_symbol} worth iDYP{" "}
+                            {/* {pendingDivsDyp}
+{pendingDivsComp}
+{pendingDivsToken} */}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
                               {" "}
-                              {pendingDivsDyp} iDYP
+                              {pendingDivsDyp}
                             </h6>
                           </h6>
                           <h6 className="tvl-text">
-                            Earn Rewards in:{" "}
+                            {token_symbol} (Compound){" "}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
-                              {pendingDivsEth} ETH
+                              {pendingDivsComp}
                             </h6>
                           </h6>
                           <h6 className="tvl-text">
-                            Earn Rewards in:{" "}
+                            {token_symbol}{" "}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
-                              {pendingDivsComp} {token_symbol} (Compound){" "}
+                              {pendingDivsToken}
                             </h6>
                           </h6>
-                          <h6 className="tvl-text">
+                          {/* <h6 className="tvl-text">
                             Earn Rewards in:{" "}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
                               {pendingDivsToken} {token_symbol}
                             </h6>
-                          </h6>
+                          </h6> */}
                         </div>
                       }
                     >

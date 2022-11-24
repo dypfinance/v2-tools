@@ -26,7 +26,7 @@ import Governancedev from "./components/governance/dev/governance-new-avax";
 import Launchpad from "./components/launchpad/Launchpad";
 import LaunchpadForm from "./components/launchpad/launchpadform/LaunchpadForm";
 import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadDetails";
-
+import TierLevels from "./components/launchpad/tierlevels/TierLevels";
 
 const API_BASEURL = window.config.api_baseurl;
 
@@ -404,8 +404,30 @@ class App extends React.Component {
               />
               <Route exact path="/governance" render={() => <Governance />} />
               <Route exact path="/launchpad" render={() => <Launchpad />} />
-              <Route exact path="/launchpad/details/:id" render={() => <LaunchpadDetails />} />
-              <Route exact path="/launchpad-form" render={() => <LaunchpadForm />} />
+              <Route
+                exact
+                path="/launchpad/details/:id"
+                render={() => <LaunchpadDetails />}
+              />
+              <Route
+                exact
+                path="/launchpad/form"
+                render={() => <LaunchpadForm />}
+              />
+              <Route
+                exact
+                path="/launchpad/tiers"
+                render={() => (
+                  <TierLevels
+                    coinbase={this.state.coinbase}
+                    chainId={this.state.networkId}
+                    handleConnection={this.handleConnection}
+                    the_graph_result={this.state.the_graph_result_ETH_V2}
+                    lp_id={LP_ID_Array}
+                    isConnected={this.state.isConnected}
+                  />
+                )}
+              />
 
               <Route
                 exact

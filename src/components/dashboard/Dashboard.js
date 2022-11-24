@@ -169,7 +169,6 @@ import initVaultNew from "../FARMINNG/vault-new";
                         tokenLogo={item.tokenLogo}
                         onShowDetailsClick={() => {
                           setActiveCard(cards[index]);
-                          console.log(activeCard);
                           setcardIndex(index);
                           setDetails(index)
                         }}
