@@ -6,6 +6,10 @@ import axios from "axios";
 import DisabledButton from "../../disabledButton/DisabledButton";
 import SuccessButton from "../../universalButton/UniversalButton";
 import UniversalButton from "../../universalButton/UniversalButton";
+import arrowActive from './arrowActive.svg'
+import arrowPassive from './arrowPassive.svg'
+
+import Collapse from "react-bootstrap/Collapse";
 
 const EarnFaq = ({ faqTypes }) => {
   const categories = [
@@ -33,6 +37,7 @@ const EarnFaq = ({ faqTypes }) => {
 
   const [faqItems, setFaqItems] = useState([]);
   const [faqTitle, setFaqTitle] = useState("");
+  const [open, setOpen] =  useState(-1);
 
   const fetchFaq = async (category) => {
     await axios
@@ -55,7 +60,7 @@ const EarnFaq = ({ faqTypes }) => {
       fetchFaq(categories[3]);
     }
   }, [faqTypes]);
- 
+
   return (
     <div className="row w-100 my-5 p-0 faq-container justify-content-between">
       <div className="col-7 ps-0">
@@ -63,35 +68,30 @@ const EarnFaq = ({ faqTypes }) => {
           {faqTitle} FAQs
         </h3>
         <div className="faq-items-container p-3">
-          <div className="accordion" id="accordionExample">
-            {faqItems.map((faqItem, index) => (
-              <div className="accordion-item" key={index}>
-                <h2 className="accordion-header" id="headingOne">
-                  <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target={`#${faqItem.collapse}`}
-                    aria-expanded="true"
-                    aria-controls={faqItem.collapse}
-                  >
-                    {faqItem.title}
-                  </button>
-                </h2>
-                <div
-                  id={faqItem.collapse}
-                  className="accordion-collapse collapse"
-                  aria-labelledby={faqItem.heading}
-                  data-bs-parent="#accordionExample"
+          {faqItems.map((faqItem, index) => (
+            <div key={index} className='faqwrapper'>
+              <h2 id="headingOne">
+                <button
+                   onClick={() => setOpen(open === index ? -1 : index)}
+                  aria-controls="example-collapse-text"
+                  aria-expanded={open}
+                  className={ open===index && index !== -1 ? 'headingtitle-active' : 'headingtitle-passive'}
+                  style={{borderRadius: index === -1 ? 0 : index === 0  ? '8px 8px 0 0' : index === faqItems.length-1 ? '0 0 8px 8px' : 0}}
                 >
-                  <div
-                    className="accordion-body"
-                    dangerouslySetInnerHTML={{ __html: faqItem.content }}
-                  ></div>
-                </div>
-              </div>
-            ))}
-          </div>
+                  {faqItem.title}
+                  <img src={open === -1 ? arrowPassive : arrowActive} alt=''/>
+                </button>
+              </h2>
+              {open === index ? (
+              <Collapse in={open < 0 ? false : true}>
+                <div
+                  id="example-collapse-text"
+                  dangerouslySetInnerHTML={{ __html: faqItem.content }}
+                ></div>
+              </Collapse>
+              ) : <></>}
+            </div>
+          ))}
         </div>
       </div>
       <div className="col-5 pe-0">

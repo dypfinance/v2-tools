@@ -1286,6 +1286,8 @@ export default function stakeAvax30({
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
+            width="fit-content"
+
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -1519,6 +1521,8 @@ export default function stakeAvax30({
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
+            width="fit-content"
+
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">

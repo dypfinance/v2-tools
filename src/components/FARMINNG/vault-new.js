@@ -23,7 +23,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import poolStatsIcon from "./assets/poolStatsIcon.svg";
-import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 
 export default function initVaultNew({
   vault,
@@ -37,7 +37,7 @@ export default function initVaultNew({
   coinbase,
   chainId,
   lockTime,
-  listType
+  listType,
 }) {
   let { BigNumber, alertify, token_dyps } = window;
   let token_symbol = UNDERLYING_SYMBOL;
@@ -381,7 +381,7 @@ export default function initVaultNew({
           this.setState({ errorMsg3: e?.message });
           setTimeout(() => {
             this.setState({
-              withdrawStatus: "initial", 
+              withdrawStatus: "initial",
               errorMsg3: "",
             });
           }, 10000);
@@ -410,7 +410,7 @@ export default function initVaultNew({
           this.setState({ errorMsg3: e?.message });
           setTimeout(() => {
             this.setState({
-              withdrawStatus: "initial", 
+              withdrawStatus: "initial",
               errorMsg3: "",
             });
           }, 10000);
@@ -446,9 +446,9 @@ export default function initVaultNew({
           this.setState({ errorMsg3: e?.message });
           setTimeout(() => {
             this.setState({
-              withdrawStatus: "initial", 
+              withdrawStatus: "initial",
               errorMsg3: "",
-              withdrawAmount: ''
+              withdrawAmount: "",
             });
           }, 10000);
         });
@@ -630,7 +630,9 @@ export default function initVaultNew({
 
         let _pDivsToken = vault.tokenDivsOwing(this.state.coinbase);
 
-        let _pDivsComp = vault.getEstimatedCompoundDivsOwing(this.state.coinbase);
+        let _pDivsComp = vault.getEstimatedCompoundDivsOwing(
+          this.state.coinbase
+        );
 
         let _pDivsDyp = vault.platformTokenDivsOwing(this.state.coinbase);
 
@@ -866,7 +868,13 @@ export default function initVaultNew({
 
       return (
         <div className="container-lg p-0">
-          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
+          <div
+            className={`allwrapper ${listType === "table" && "my-4"}`}
+            style={{
+              border: listType !== "table" && "none",
+              borderRadius: listType !== "table" && "0px",
+            }}
+          >
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div className="d-flex align-items-center justify-content-between gap-5">
@@ -957,10 +965,13 @@ export default function initVaultNew({
                       Get DYP
                     </h6>
                   </a> */}
-                    <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
-                      <img src={poolsCalculatorIcon} alt="" />
-                      Calculator
-                    </h6>
+                  <h6
+                    className="bottomitems"
+                    onClick={() => this.setState({ showCalculator: true })}
+                  >
+                    <img src={poolsCalculatorIcon} alt="" />
+                    Calculator
+                  </h6>
                   <div
                     onClick={() => {
                       this.showPopup();
@@ -993,7 +1004,7 @@ export default function initVaultNew({
                     </button>
                   ) : (
                     <div className="addressbtn btn">
-                      <Address a={this.props.coinbase}  chainId={1}/>
+                      <Address a={this.props.coinbase} chainId={1} />
                     </div>
                   )}
                 </div>
@@ -1005,12 +1016,9 @@ export default function initVaultNew({
             </div> */}
               <div className="otherside-border col-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
-                <div className="d-flex align-items-center gap-2">
-                <h6 className="deposit-txt">
-                    Deposit
-                   
-                  </h6>
-                  {/* <div className="d-flex gap-2 align-items-center">
+                  <div className="d-flex align-items-center gap-2">
+                    <h6 className="deposit-txt">Deposit</h6>
+                    {/* <div className="d-flex gap-2 align-items-center">
                         <img
                           src={require(`./assets/dyp.svg`).default}
                           alt=""
@@ -1023,26 +1031,26 @@ export default function initVaultNew({
                           DYP
                         </h6>
                       </div> */}
-                  <h6 className="mybalance-text">
-                    Balance:
-                    <b>{token_balance} DYP</b>
-                    {/* <img
+                    <h6 className="mybalance-text">
+                      Balance:
+                      <b>{token_balance} DYP</b>
+                      {/* <img
                       src={require(`./assets/dyp.svg`).default}
                       alt=""
                       style={{ width: 14, height: 14 }}
                     /> */}
-                  </h6>
-                </div>
-                 <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {"Deposit your assets to the vault smart contract."}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    </h6>
+                  </div>
+                  <Tooltip
+                    placement="top"
+                    title={
+                      <div className="tooltip-text">
+                        {"Deposit your assets to the vault smart contract."}
+                      </div>
+                    }
+                  >
+                    <img src={moreinfo} alt="" />
+                  </Tooltip>
                 </div>
                 <div className="d-flex flex-column gap-2 justify-content-between">
                   <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1135,8 +1143,8 @@ export default function initVaultNew({
                 <div className="d-flex justify-content-between gap-2 ">
                   <h6 className="withdraw-txt">Rewards</h6>
                   <h6 className="withdraw-littletxt d-flex align-items-center gap-1">
-                    You have 3 differents reward categories 
-                    <Tooltip 
+                    You have 3 differents reward categories
+                    <Tooltip
                       placement="top"
                       title={
                         <div className="tooltip-text">
@@ -1176,7 +1184,12 @@ export default function initVaultNew({
                   <div className="d-flex align-items-center justify-content-between gap-2"></div>
                   <div className="form-row d-flex gap-2 align-items-center justify-content-between">
                     <div className="position-relative">
-                      <span>{pendingDivsEth > 0 ? pendingDivsEth : getFormattedNumber(0, 18)} {token_symbol}</span>
+                      <span>
+                        {pendingDivsEth > 0
+                          ? pendingDivsEth
+                          : getFormattedNumber(0, 18)}{" "}
+                        {token_symbol}
+                      </span>
                     </div>
                     <button
                       disabled={
@@ -1230,7 +1243,9 @@ export default function initVaultNew({
                     placement="top"
                     title={
                       <div className="tooltip-text">
-                        {"Withdraw your deposited assets from the vault smart contract."}
+                        {
+                          "Withdraw your deposited assets from the vault smart contract."
+                        }
                       </div>
                     }
                   >
@@ -1263,6 +1278,7 @@ export default function initVaultNew({
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
+              width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -1531,6 +1547,7 @@ export default function initVaultNew({
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
+              width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -1705,7 +1722,7 @@ export default function initVaultNew({
               handleConnection={this.props.handleConnection}
             />
           )}
-           {this.state.showCalculator && (
+          {this.state.showCalculator && (
             <div className="pools-calculator p-3">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
@@ -1779,7 +1796,8 @@ export default function initVaultNew({
                     color: "#f7f7fc",
                   }}
                 >
-                  Approx {getFormattedNumber(this.getApproxReturn(), 6)} {token_symbol}
+                  Approx {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                  {token_symbol}
                 </h6>
               </div>
               <div className="mt-4">

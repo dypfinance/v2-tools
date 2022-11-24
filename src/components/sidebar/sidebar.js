@@ -184,7 +184,7 @@ const Sidebar = (props) => {
       >
         {sidebarItems.map((sideItem, index) =>
           sideItem.children?.length > 0 ? (
-            <div className="accordion" id="accordionExample" 
+            <div className="accordion" id="accordionExample2" 
             key={index}
             >
               <div
@@ -235,7 +235,7 @@ const Sidebar = (props) => {
                 id={`collapse${sideItem.label}`}
                 className="accordion-collapse collapse"
                 aria-labelledby={`heading${sideItem.label}`}
-                data-bs-parent="#accordionExample"
+                data-bs-parent="#accordionExample2"
               >
                 {activeSidebar ? (
                   <div className="accordion-container d-flex flex-column ms-5 py-3">

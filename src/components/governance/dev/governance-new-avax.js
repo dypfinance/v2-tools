@@ -849,14 +849,14 @@ export default class Governance extends React.Component {
             style={{ flexDirection: "column-reverse" }}
           >
             <div className={`col-lg-12 p-0 `}>
-              {this.state.is_wallet_connected === false && (
+              {/* {this.state.is_wallet_connected === false && (
                 <div className="errorWrapper">
                   <span>
                     You need to connect your wallet in order to see the
                     proposals
                   </span>
                 </div>
-              )}
+              )} */}
 
               {this.state.is_wallet_connected === true ? (
                 <div>
@@ -1264,7 +1264,7 @@ class ProposalDetails extends React.Component {
             <div className="row token-staking-form">
               <div className="col-12">
                 <div className="activewrapper">
-                  <div className="d-flex align-items-center justify-content-between gap-5">
+                  <div className="d-flex align-items-center justify-co ntent-between gap-5">
                     <h6 className="expiredtxt">
                       <img src={ellipse} alt="" className="position-relative" />
                       Expired
