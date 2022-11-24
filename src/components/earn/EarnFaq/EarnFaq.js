@@ -6,8 +6,8 @@ import axios from "axios";
 import DisabledButton from "../../disabledButton/DisabledButton";
 import SuccessButton from "../../universalButton/UniversalButton";
 import UniversalButton from "../../universalButton/UniversalButton";
-import arrowActive from './arrowActive.svg'
-import arrowPassive from './arrowPassive.svg'
+import arrowActive from "./arrowActive.svg";
+import arrowPassive from "./arrowPassive.svg";
 
 import Collapse from "react-bootstrap/Collapse";
 
@@ -37,7 +37,7 @@ const EarnFaq = ({ faqTypes }) => {
 
   const [faqItems, setFaqItems] = useState([]);
   const [faqTitle, setFaqTitle] = useState("");
-  const [open, setOpen] =  useState(-1);
+  const [open, setOpen] = useState(-1);
 
   const fetchFaq = async (category) => {
     await axios
@@ -69,27 +69,51 @@ const EarnFaq = ({ faqTypes }) => {
         </h3>
         <div className="faq-items-container p-3">
           {faqItems.map((faqItem, index) => (
-            <div key={index} className='faqwrapper'>
+            <div key={index} className="faqwrapper">
               <h2 id="headingOne">
                 <button
-                   onClick={() => setOpen(open === index ? -1 : index)}
+                  onClick={() => setOpen(open === index ? -1 : index)}
                   aria-controls="example-collapse-text"
                   aria-expanded={open}
-                  className={ open===index && index !== -1 ? 'headingtitle-active' : 'headingtitle-passive'}
-                  style={{borderRadius: index === -1 ? 0 : index === 0  ? '8px 8px 0 0' : index === faqItems.length-1 ? '0 0 8px 8px' : 0}}
+                  className={
+                    open === index && index !== -1
+                      ? "headingtitle-active"
+                      : "headingtitle-passive"
+                  }
+                  style={{
+                    borderRadius:
+                      index === -1
+                        ? 0
+                        : index === 0
+                        ? "8px 8px 0 0"
+                        : index === faqItems.length - 1
+                        ? "0 0 8px 8px"
+                        : 0,
+                  }}
                 >
                   {faqItem.title}
-                  <img src={open === -1 ? arrowPassive : arrowActive} alt=''/>
+                  <img
+                    src={
+                      open === -1
+                        ? arrowPassive
+                        : open === index
+                        ? arrowActive
+                        : arrowPassive
+                    }
+                    alt=""
+                  />
                 </button>
               </h2>
               {open === index ? (
-              <Collapse in={open < 0 ? false : true}>
-                <div
-                  id="example-collapse-text"
-                  dangerouslySetInnerHTML={{ __html: faqItem.content }}
-                ></div>
-              </Collapse>
-              ) : <></>}
+                <Collapse in={open < 0 ? false : true}>
+                  <div
+                    id="example-collapse-text"
+                    dangerouslySetInnerHTML={{ __html: faqItem.content }}
+                  ></div>
+                </Collapse>
+              ) : (
+                <></>
+              )}
             </div>
           ))}
         </div>
