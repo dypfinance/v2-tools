@@ -425,9 +425,9 @@ const LaunchpadForm = () => {
               </div>
             </div>
           </div>
-          <div className="mt-3 position-relative">
+          <div className="mt-3 position-relative" style={{width: '34%'}}>
             <span className={`image-tip mt-3 ${imageError && "required-star"}`}>
-              *Logo dimensions must be 250px x 250px and max 150kb - jpeg, png.
+            *Logos must have a 1:1 aspect ratio, a maximum size of 250 × 250 pixels, and a maximum file size of 150 kilobytes (kb) - jpg, jpeg, png.
             </span>
             {errors.project_logo && <span className="error-text" style={{ top: "20px" }}>
               {errors.project_logo}
