@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom'
 
 const LaunchpadHero = () => {
   return (
+    <>
     <div className="row align-items-center justify-content-between">
         <div className="col-5 d-flex flex-column gap-5">
             <div className="d-flex flex-column gap-3">
@@ -45,6 +46,13 @@ const LaunchpadHero = () => {
         </div>
         </div>
     </div>
+    <h6 className="mt-4 launch-hero-title">Key features</h6>
+    <div className="row align-items-center justify-content-between">
+      <div className="key-features-card p-2 d-flex flex-column gap-1">
+        
+      </div>
+    </div>
+    </>
   )
 }
 
