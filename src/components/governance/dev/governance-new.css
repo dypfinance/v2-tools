@@ -12,7 +12,7 @@
   height: 40px;
   position: absolute;
   border-radius: 0px 100px 100px 0px;
-  left: -1px;
+  left: 0px;
   background: #7770e0;
 }
 
@@ -44,7 +44,7 @@
   font-size: 10px !important;
   line-height: 8px !important;
   letter-spacing: -0.018em !important;
-  color: #857dfa !important;
+  color: #c0c9ff !important;
 }
 
 .whitetext {
@@ -170,6 +170,27 @@
   align-items: center;
 }
 
+.actionwrapper3 {
+  background: #14142a;
+  border-radius: 6px;
+  width: fit-content;
+  padding: 5px;
+  height: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionText3 {
+  font-style: normal;
+  font-weight: 400 !important;
+  font-size: 10px !important;
+  line-height: 10px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #f7f7fc !important;
+}
+
 .actionText2 {
   font-style: normal;
   font-weight: 400 !important;
@@ -177,7 +198,7 @@
   line-height: 10px;
   text-align: center;
   letter-spacing: -0.018em;
-  color: #70B8E0!important;
+  color: #70b8e0 !important;
 }
 
 .acordionstate {
@@ -186,7 +207,6 @@
   right: -26px;
   top: -26px;
   scale: 0.6;
-
 }
 
 .actionText {
@@ -287,7 +307,7 @@
   right: -12px;
   width: 24px;
   height: 24px;
-  top: -1px;
+  top: 0px;
 }
 
 .chaintext {
@@ -297,6 +317,63 @@
   text-align: right !important;
   letter-spacing: -0.018em !important;
   color: #f7f7fc !important;
+}
+
+.loadmore-btn {
+  background: #26264f;
+  border-radius: 8px;
+  border: 1px solid #7770e0;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #7770e0;
+  padding: 9px 25px;
+}
+
+.form-bottomtext {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #d6d8e7;
+}
+
+.ty-title {
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 28px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
+.ty-subtitle {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  letter-spacing: -0.018em;
+  color: #c0cbf7;
+  padding: 10px 0;
+}
+
+.tyHero {
+  width: 143.97px;
+  height: 217.17px;
+  margin: auto;
+  display: flex;
+
+}
+
+.loadmore-btn:hover,
+.loadmore-btn:focus {
+  background: #7770e0 !important;
+  border-radius: 8px;
+  border: 1px solid #7770e0;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  color: #fff;
 }
 
 .govtitle {
@@ -340,11 +417,11 @@
 
 .change-chain-text {
   font-style: normal;
-font-weight: 400;
-font-size: 9px;
-line-height: 13px;
-letter-spacing: -0.018em;
-color: #C0C9FF;
+  font-weight: 400;
+  font-size: 9px;
+  line-height: 13px;
+  letter-spacing: -0.018em;
+  color: #c0c9ff;
 }
 
 .addvotestxt {
@@ -379,6 +456,7 @@ color: #C0C9FF;
   letter-spacing: -0.018em !important;
   color: #f7f7fc !important;
 }
+
 .submitnewproposal-title {
   font-weight: 500;
   font-size: 16px;
@@ -486,6 +564,7 @@ color: #C0C9FF;
   position: relative;
   z-index: 3;
 }
+
 .connectbtn,
 .connectbtn:hover,
 .connectbtn:focus {
