@@ -5,8 +5,32 @@ import medalIcon from '../assets/medalIcon.svg'
 import rightArrow from '../../dashboard/assets/right-arrow.svg'
 import goldMedal from '../assets/goldMedal.svg'
 import { NavLink } from 'react-router-dom'
+import firstKeyIcon from '../assets/firstKeyIcon.svg'
+import KeyFeaturesCard from './KeyFeaturesCard'
+
 
 const LaunchpadHero = () => {
+
+  const keyFeatures = [
+    {
+      icon: 'firstKeyIcon',
+      content: 'Project mission, outline, detailed reports and more'
+    },
+    {
+      icon: 'secondKeyIcon',
+      content: 'Multiple tiers depending on the amount of locked DYP'
+    },
+    {
+      icon: 'thirdKeyIcon',
+      content: 'Varied max token buy available at different tiers'
+    },
+    {
+      icon: 'fourthKeyIcon',
+      content: 'Increase tier by depositing assets to Launchpools'
+    },
+  ]
+
+  
   return (
     <>
     <div className="row align-items-center justify-content-between">
@@ -32,25 +56,25 @@ const LaunchpadHero = () => {
           <p className="launchpad-hero-desc">
           Discover your Launchpad tier and check how much you are eligible to benefit. Increase your tier by depositing assets to Launchpools.
           </p>
-          <NavLink to="/" className="view-more-title d-flex justify-content-center align-items-center gap-1">
+          <NavLink to="/launchpad/tiers" className="view-more-title d-flex justify-content-center align-items-center gap-1">
             View All
             <img src={rightArrow} alt="" />
           </NavLink>
           </div>
-          <div className="col-3 current-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3">
+          <div className="col-3 current-tier-wrapper selected-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3">
             <span className="current-tier">Current tier</span>
-            <h6 className="tier-title">Gold</h6>
-            <h6 className="tier-title">2</h6>
-            <img src={goldMedal} alt="" className='tier-medal' />
+            <h6 className="current-tier-title">Gold</h6>
+            {/* <h6 className="tier-title">2</h6> */}
+            <img src={require(`../assets/goldBadge.svg`).default} alt="" className='tier-medal' />
           </div>
         </div>
         </div>
     </div>
-    <h6 className="mt-4 launch-hero-title">Key features</h6>
-    <div className="row align-items-center justify-content-between">
-      <div className="key-features-card p-2 d-flex flex-column gap-1">
-        
-      </div>
+    <h6 className="launchpad-hero-title" style={{marginTop: '85px'}}>Key features</h6>
+    <div className="d-flex align-items-center justify-content-between my-5" style={{width: '90%'}}>
+     {keyFeatures.map((item) => (
+      <KeyFeaturesCard icon={item.icon} content={item.content} /> 
+     ))}
     </div>
     </>
   )

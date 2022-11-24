@@ -8,21 +8,21 @@ const Benefits = () => {
 
   const benefits = [
     {
-      icon: 'benefitsAudit',
-      title: 'Smart contract audits by a top-tier auditor'
+      icon: 'benefitsExposure',
+      title: 'Exposure to Dypius community around the world'
     },
     {
       icon: 'benefitsCustomer',
-      title: 'Know your customer (KYC) of the project team'
+      title: 'Real-time token distribution to all token user holders'
+    },
+    {
+      icon: 'benefitsContact',
+      title: 'Team tokens locked on vesting contracts'
     },
     {
       icon: 'benefitsLocker',
-      title: 'Liquidity locked utilizing DYP Locker'
+      title: 'Outstanding liquidity lock solution via DYP Locker'
     },
-    {
-      icon: 'benefitsContract',
-      title: 'Team tokens locked on vesting contracts'
-    }
   ]
 
   return (
@@ -31,7 +31,7 @@ const Benefits = () => {
         <h6 className="launch-project-title w-50">
           Launch your project with Dypius now!
         </h6>
-        <NavLink to='/launchpad-form'  className="btn success-button d-flex align-items-center gap-2" style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px'}}>
+        <NavLink to='/launchpad/form'  className="btn success-button d-flex align-items-center gap-2" style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px'}}>
           Apply Now
           <img src={whiteArrow} alt="" />
         </NavLink >

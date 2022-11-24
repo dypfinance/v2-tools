@@ -39,4 +39,10 @@
   top: 20px;
 }
 
+.benefits-desc{
+  font-weight: 500;
+font-size: 14px;
+line-height: 21px;
 
+color: #D6D8E7 !important;
+}
