@@ -217,7 +217,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             ((parseInt(usdToDeposit) * parseFloat(farmApy)) / 100 / 365) *
               parseInt(days)
           ) / wethPrice,
-          6
+          4
         )
       );
 
@@ -233,7 +233,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             ((parseInt(usdToDeposit) * parseFloat(farmApyBNB)) / 100 / 365) *
               parseInt(days)
           ) / wbnbPrice,
-          6
+          4
         )
       );
 
@@ -249,7 +249,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             ((parseInt(usdToDeposit) * parseFloat(farmApyAVAX)) / 100 / 365) *
               parseInt(days)
           ) / wavaxPrice,
-          6
+          4
         )
       );
     } else if (activeMethod === "Staking") {
@@ -266,7 +266,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             ((parseInt(usdToDeposit) * parseFloat(stakeApy)) / 100 / 365) *
               parseInt(days)
           ) / wethPrice,
-          6
+          4
         )
       );
 
@@ -282,7 +282,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             ((parseInt(usdToDeposit) * parseFloat(stakeApyBNB)) / 100 / 365) *
               parseInt(days)
           ) / wbnbPrice,
-          6
+          4
         )
       );
 
@@ -298,7 +298,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             ((parseInt(usdToDeposit) * parseFloat(stakeApyAVAX)) / 100 / 365) *
               parseInt(days)
           ) / wavaxPrice,
-          6
+          4
         )
       );
     } else if (activeMethod === "Buyback") {
@@ -310,7 +310,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       );
       setCalculateApproxCrypto(
         getFormattedNumber(parseFloat(((parseInt(usdToDeposit) * parseFloat(buybackApy)) / 100 / 365) *
-        parseInt(days)) / wethPrice, 6)
+        parseInt(days)) / wethPrice, 4)
       );
 
       setCalculateApproxUSDBNB(
@@ -321,7 +321,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       );
       setCalculateApproxWbnb(
         getFormattedNumber(parseFloat( ((parseInt(usdToDeposit) * parseFloat(buybackApyBNB)) / 100 / 365) *
-        parseInt(days)) / wbnbPrice, 6)
+        parseInt(days)) / wbnbPrice, 4)
       );
 
       setCalculateApproxUSDAVAX(
@@ -333,7 +333,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
 
       setCalculateApproxWavax(
         getFormattedNumber(parseFloat( ((parseInt(usdToDeposit) * parseFloat(buybackApyAVAX)) / 100 / 365) *
-        parseInt(days)) / wavaxPrice, 6)
+        parseInt(days)) / wavaxPrice, 4)
       );
     } else {
       if (activeChain.text === "ETH") {
