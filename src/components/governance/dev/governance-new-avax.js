@@ -74,16 +74,54 @@ const AddProposal = (props) => {
   let { isOwner, connected, coinbase, handleConnection } = props;
 
   return (
-    <div className="col-6">
+    <div className="col-7">
       <div className="d-flex flex-column justify-content-between h-100">
-        <div className="d-flex justify-content-between gap-2 align-items-center mb-3">
-          <h6 className="submitnewproposal-title">
+        <div className="d-flex justify-content-center gap-2 align-items-center mb-3 col-6">
+          <h6
+            className="submitnewproposal-title"
+            style={{ paddingRight: "15px" }}
+          >
             <img src={require("../assets/submitwhite.svg").default} alt="" />{" "}
-            Submit a proposal
+            Submit new proposal
           </h6>
         </div>
-        <form onSubmit={props.onSubmit(formState)} className="h-100">
-          {/* <div className="d-flex gap-2 justify-content-between align-items-center">
+        <form className="h-100">
+          <div className="d-flex flex-column gap-2 align-items-end justify-content-between h-100">
+            <h6 className="initialdesc col-11">
+              <b>Governed by the community</b>
+              <br />
+              Vote to add more pools, burn tokens, or allocate DYP toward
+              grants, strategic partnerships, governance initiatives, and other
+              programs.
+            </h6>
+            <div className="d-flex justify-content-start col-11">
+              <div
+                className={
+                  connected === false ? "btn disabled-btn" : "btn filledbtn"
+                }
+                style={{ width: "fit-content" }}
+                disabled={connected === false ? true : false}
+                onClick={() => {
+                  setShowModal(true);
+                }}
+              >
+                Create proposal
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      {showModal === true && (
+        <Modal
+          visible={showModal}
+          modalId="proposal"
+          title="proposal"
+          setIsVisible={() => {
+            setShowModal(false);
+          }}
+          width="fit-content"
+        >
+          <div className="d-flex gap-2 flex-column justify-content-between align-items-start">
             <div>
               <label htmlFor="proposal-action" className="d-none">
                 Select Action
@@ -155,6 +193,74 @@ const AddProposal = (props) => {
                 <option value="3">Other / Free Text</option>
               </select>
             </div>
+            {formState.action == "3" && (
+              <div className="pt-3 w-100">
+                <textarea
+                  style={{
+                    minHeight: "150px",
+                    width: "100%",
+                    background: "#312F69",
+                    border: "1px solid #8E97CD",
+                    color: "#F7F7FC",
+                  }}
+                  required
+                  className="form-control"
+                  type="text"
+                  placeholder="Proposal Text"
+                  value={formState.text}
+                  onChange={(e) => setState({ text: e.target.value })}
+                ></textarea>
+              </div>
+            )}
+
+            {formState.action == "1" && (
+              <div className="pt-3">
+                <input
+                  required
+                  className="form-control"
+                  type="text"
+                  placeholder="New Governance Contract Address"
+                  value={formState.newGovernance}
+                  onChange={(e) => setState({ newGovernance: e.target.value })}
+                />
+              </div>
+            )}
+            {formState.action == "2" && (
+              <div className="pt-3">
+                <input
+                  required
+                  className="form-control"
+                  type="number"
+                  placeholder="New Quorum"
+                  value={formState.newQuorum}
+                  onChange={(e) => setState({ newQuorum: e.target.value })}
+                />
+              </div>
+            )}
+
+            {formState.action == "4" && (
+              <div className="pt-3">
+                <input
+                  required
+                  className="form-control"
+                  type="number"
+                  placeholder="New Min Balance"
+                  value={formState.newMinBalance}
+                  onChange={(e) => setState({ newMinBalance: e.target.value })}
+                />
+              </div>
+            )}
+            <div className="pt-3 d-flex flex-column gap-2">
+              <h6 className="form-bottomtext">
+                Submitting a proposal requires a minimum of
+                <br />{" "}
+                <b>
+                  {(props.MIN_BALANCE_TO_INIT_PROPOSAL / 1e18).toFixed(2)} DYP{" "}
+                </b>
+                Governance Token Balance.
+              </h6>
+            </div>
+            <div className="separator mb-1"></div>
             {["0", "1"].includes(formState.action) && (
               <div className="">
                 <label htmlFor="staking-pool" className="d-none">
@@ -175,7 +281,7 @@ const AddProposal = (props) => {
                       id="stakingpool"
                       className="d-none"
                     />
-                    <label for="stakingpool" className="stakingpool-option">
+                    <label for="stakingpool" className="d-none">
                       <img
                         src={
                           formState.stakingPool === stakingPools[0].pools
@@ -194,9 +300,6 @@ const AddProposal = (props) => {
                     </label>
                   </div>
                 ))}
-                <button className="btn filledbtn" type="submit">
-                  SUBMIT PROPOSAL
-                </button>
 
                 <select
                   className="form-control d-none"
@@ -213,85 +316,31 @@ const AddProposal = (props) => {
                 </select>
               </div>
             )}
-          </div> */}
-
-          <div className="d-flex flex-column gap-2 align-items-end justify-content-between h-100">
-            <h6 className="initialdesc">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus
-              nibh, finibus eu tortor consequat tortor.
-              <br />
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In metus
-              nibh, finibus eu tortor consequat tortor.
-            </h6>
-            <button className="btn filledbtn" style={{ width: "fit-content" }}>
-              Create proposal
-            </button>
-          </div>
-          {formState.action == "3" && (
-            <div className="pt-3">
-              <textarea
-                style={{
-                  minHeight: "150px",
-                  width: "100%",
-                  background: "#312F69",
-                  border: "1px solid #8E97CD",
+            <div className="d-flex gap-3 align-items-center justify-content-between w-100">
+              <button
+                className="btn loadmore-btn"
+                type="submit"
+                onClick={() => {
+                  setShowModal(false);
                 }}
-                required
-                className="form-control"
-                type="text"
-                placeholder="Enter Proposal Text"
-                value={formState.text}
-                onChange={(e) => setState({ text: e.target.value })}
-              ></textarea>
+                style={{ width: "45%" }}
+              >
+                Cancel
+              </button>
+              <button
+                className={
+                  formState.text === "" && formState.action == "3" ? "btn disabled-btn" : "btn filledbtn"
+                }
+                type="submit"
+                onClick={props.onSubmit(formState)}
+                disabled={formState.text === "" && formState.action == "3" ? true : false}
+              >
+                SUBMIT PROPOSAL
+              </button>
             </div>
-          )}
-
-          {formState.action == "1" && (
-            <div className="pt-3">
-              <input
-                required
-                className="form-control"
-                type="text"
-                placeholder="New Governance Contract Address"
-                value={formState.newGovernance}
-                onChange={(e) => setState({ newGovernance: e.target.value })}
-              />
-            </div>
-          )}
-          {formState.action == "2" && (
-            <div className="pt-3">
-              <input
-                required
-                className="form-control"
-                type="number"
-                placeholder="New Quorum"
-                value={formState.newQuorum}
-                onChange={(e) => setState({ newQuorum: e.target.value })}
-              />
-            </div>
-          )}
-
-          {formState.action == "4" && (
-            <div className="pt-3">
-              <input
-                required
-                className="form-control"
-                type="number"
-                placeholder="New Min Balance"
-                value={formState.newMinBalance}
-                onChange={(e) => setState({ newMinBalance: e.target.value })}
-              />
-            </div>
-          )}
-          {/* <div className="pt-3 d-flex flex-column gap-2">
-            <small className="form-text text-muted">
-              Submitting a proposal requires a minimum of{" "}
-              {(props.MIN_BALANCE_TO_INIT_PROPOSAL / 1e18).toFixed(2)} DYP
-              Governance Token Balance.
-            </small>
-          </div> */}
-        </form>
-      </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
@@ -300,27 +349,50 @@ const ProposalCard = (props) => (
   <div className="container vault-container d-flex">
     <div className="row vault-row text-start justify-content-between p-1">
       <div
-        className="col-sm-8 col-md-8 text-center mb-2 d-flex align-items-center gap-3 justify-content-start"
+        className="text-center mb-2 d-flex align-items-center gap-3 justify-content-between"
         style={{ gap: 10 }}
       >
-        <img
-          className="m-0 cardlogo"
-          src={props.vault ? props.vault.logo : "/logo192.png"}
-        />
+        <div className="d-flex justify-content-between gap-2">
+          <img
+            className="m-0 cardlogo"
+            src={props.vault ? props.vault.logo : "/logo192.png"}
+          />
 
-        <div
-          style={{ whiteSpace: "pre-line", gap: 10 }}
-          className="col-sm-3 col-md-12 p-0 d-flex"
-        >
-          <span className="vault-name ">
-            {props.vault ? props.vault.name : "DYP Proposal"}{" "}
-          </span>
-          <div className="avaxchain">
-            <span className="chaintext">
-              AVAX Chain
-              <img src={avax} alt="" className="chainlogo2" />
+          <div
+            style={{ whiteSpace: "pre-line", gap: 10 }}
+            className="p-0 d-flex"
+          >
+            <span className="vault-name ">
+              {props.vault ? props.vault.name : "DYP Proposal"}{" "}
             </span>
           </div>
+        </div>
+        <div
+          className={`${
+            props._proposalAction === "3"
+              ? "actionwrapper2"
+              : props._proposalAction === "1"
+              ? "actionwrapper3"
+              : "actionwrapper"
+          } col-sm-10 text-left`}
+        >
+          <span
+            className={
+              props._proposalAction === "3"
+                ? "actionText2"
+                : props._proposalAction === "1"
+                ? "actionText3"
+                : "actionText"
+            }
+          >
+            {{
+              0: "Disburse / Burn",
+              1: "Upgrade Governance",
+              2: "Change Quorum",
+              3: "Other / Free Text",
+              4: "Change Min Balance",
+            }[props._proposalAction] || ""}
+          </span>
         </div>
       </div>
       <div className="card-bottom-wrapper">
@@ -333,26 +405,21 @@ const ProposalCard = (props) => (
                   window.config.vote_duration_in_seconds * 1e3 -
                   Date.now()
               )
-              .humanize(true)}
+              .humanize(true) === "a year ago"
+              ? "one year ago"
+              : moment
+                  .duration(
+                    props._proposalStartTime * 1e3 +
+                      window.config.vote_duration_in_seconds * 1e3 -
+                      Date.now()
+                  )
+                  .humanize(true)}
           </h6>
         </div>
-        <div
-          className={`${
-            props._proposalAction === "3" ? "actionwrapper2" : "actionwrapper"
-          } col-sm-10 text-left`}
-        >
-          <span
-            className={
-              props._proposalAction === "3" ? "actionText2" : "actionText"
-            }
-          >
-            {{
-              0: "Disburse / Burn",
-              1: "Upgrade Governance",
-              2: "Change Quorum",
-              3: "Other / Free Text",
-              4: "Change Min Balance",
-            }[props._proposalAction] || ""}
+        <div className="avaxchain">
+          <span className="chaintext">
+            AVAX Chain
+            <img src={avax} alt="" className="chainlogo2" />
           </span>
         </div>
       </div>
@@ -723,6 +790,7 @@ export default class Governance extends React.Component {
                   display: "flex",
                   justifyContent: "end",
                   gap: 20,
+                  width: "83%",
                 }}
               >
                 <AddProposal
@@ -766,7 +834,12 @@ export default class Governance extends React.Component {
                           >
                             <span className="chaintext">
                               AVAX Chain
-                              <img src={avax} alt="" className="chainlogo2" />
+                              <img
+                                src={avax}
+                                alt=""
+                                className="chainlogo2"
+                                style={{ top: "-1px" }}
+                              />
                             </span>
                           </div>
                         </div>
@@ -859,7 +932,7 @@ export default class Governance extends React.Component {
               )} */}
 
               {this.state.is_wallet_connected === true ? (
-                <div>
+                <div className="mb-4">
                   <h6 className="myDetails-title mb-3">Previous proposals</h6>
 
                   <div
@@ -916,7 +989,6 @@ export default class Governance extends React.Component {
                                   ? 0
                                   : this.state.proposalId
                               }
-                              
                             />
                           </div>
                         </div>
@@ -936,7 +1008,7 @@ export default class Governance extends React.Component {
                 {this.state.proposals.length < this.state.total_proposals &&
                   this.state.is_wallet_connected === true && (
                     <button
-                      className="btn btn-primary l-outline-btn bgt"
+                      className="btn loadmore-btn"
                       style={{
                         fontSize: ".8rem",
                         background: "transparent",
@@ -947,7 +1019,7 @@ export default class Governance extends React.Component {
                         this.refreshProposals();
                       }}
                     >
-                      {this.state.isLoading ? "LOADING..." : "LOAD MORE"}
+                      {this.state.isLoading ? "Loading..." : "Load more"}
                     </button>
                   )}
 
@@ -1290,7 +1362,9 @@ class ProposalDetails extends React.Component {
                     <button
                       className="connectbtn btn"
                       style={{ width: "fit-content" }}
-                      onClick={this.setState({ showWalletModal: true })}
+                      onClick={() => {
+                        this.setState({ showWalletModal: true });
+                      }}
                     >
                       <img
                         src={require("../assets/wallet-green.svg").default}
