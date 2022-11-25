@@ -2204,16 +2204,18 @@ export default class Locker extends React.Component {
                     </span>
                   </div>
                   <Slider
+
                     step={25}
                     dots
                     min={25}
                     dotStyle={{
-                      background: "#B10C16",
-                      height: 8,
-                      width: 8,
-                      border: "1px solid #B10C16",
+                      background: "#C0C9FF",
+                      height: 16,
+                      width: 16,
+                      bottom: '-8px',
+                      border: "1px solid #C0C9FF",
                     }}
-                    activeDotStyle={{ background: "#B10C16" }}
+                    activeDotStyle={{ background: "#4ED5D2", border: '1px solid #4ED5D2' }}
                     value={this.state.sliderValue}
                     onChange={(e) => {
                       this.handleAmountPercentInput(e);
