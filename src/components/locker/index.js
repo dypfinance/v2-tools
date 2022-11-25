@@ -19,6 +19,16 @@ import BadgeGrayLight from "../../assets/badge-gray-light.svg";
 import CountDownTimer from "./Countdown";
 import Skeleton from "./Skeleton";
 import Error from "../../assets/error.svg";
+import "./newlocker.css";
+import liquidityIcon from "./assets/liquidityIcon.svg";
+import securityIcon from "./assets/securityIcon.svg";
+import greySecurityIcon from "./assets/greySecurityIcon.svg";
+import moreInfo from "../FARMINNG/assets/more-info.svg";
+import ethStakeActive from "../../assets/earnAssets/ethStakeActive.svg";
+import bnbStakeActive from "../../assets/earnAssets/bnbStakeActive.svg";
+import avaxStakeActive from "../../assets/earnAssets/avaxStakeActive.svg";
+import lockerCalendarIcon from "./assets/lockerCalendarIcon.svg";
+
 export default class Locker extends React.Component {
   constructor(props) {
     super(props);
@@ -59,11 +69,11 @@ export default class Locker extends React.Component {
       // iframe
       textToCopy: "",
       loadComponent: false,
-      networkId: '1'
+      networkId: "1",
     };
   }
 
-  checkNetworkId = async ()=> {
+  checkNetworkId = async () => {
     if (window.ethereum) {
       window.ethereum
         .request({ method: "net_version" })
@@ -71,84 +81,75 @@ export default class Locker extends React.Component {
           this.setState({
             networkId: data,
           });
-         
-           this.selectBaseToken().then();
-           this.refreshMyLocks().then()
-           this.loadPairInfo().then();
-           let pair_id = this.props.match.params.pair_id;
-           if (window.web3.utils.isAddress(pair_id)) {
+
+          this.selectBaseToken().then();
+          this.refreshMyLocks().then();
+          this.loadPairInfo().then();
+          let pair_id = this.props.match.params.pair_id;
+          if (window.web3.utils.isAddress(pair_id)) {
             this.refreshTokenLocks(pair_id);
-          this.checkTotalLpLocked().then()
+            this.checkTotalLpLocked().then();
           }
-            
-    if (window.isConnectedOneTime) {
-      this.onComponentMount();
-    } else {
-      window.addOneTimeWalletConnectionListener(this.onComponentMount);
-    }
+
+          if (window.isConnectedOneTime) {
+            this.onComponentMount();
+          } else {
+            window.addOneTimeWalletConnectionListener(this.onComponentMount);
+          }
         })
         .catch(console.error);
     } else {
-     
-     this.selectBaseToken().then();
-    if (window.isConnectedOneTime) {
-      this.onComponentMount();
-    } else {
-      window.addOneTimeWalletConnectionListener(this.onComponentMount);
-    }
+      this.selectBaseToken().then();
+      if (window.isConnectedOneTime) {
+        this.onComponentMount();
+      } else {
+        window.addOneTimeWalletConnectionListener(this.onComponentMount);
+      }
       this.setState({
         networkId: "1",
       });
-      
     }
-  }
+  };
 
   checkTotalLpLocked = async () => {
     let baseTokens =
-   
-    this.state.networkId === "1"
-      ? await window.getBaseTokensETH()
-      : await window.getBaseTokens()
+      this.state.networkId === "1"
+        ? await window.getBaseTokensETH()
+        : await window.getBaseTokens();
 
     let pair_id = this.props.match.params.pair_id;
     let totalLpLocked =
-            this.state.networkId === "1"
-              ? await window.getLockedAmountETH(pair_id)
-              : await window.getLockedAmount(pair_id) 
-            this.refreshUsdValueOfLP(pair_id, totalLpLocked, baseTokens);
-          this.setState({ totalLpLocked });
-  }
-
+      this.state.networkId === "1"
+        ? await window.getLockedAmountETH(pair_id)
+        : await window.getLockedAmount(pair_id);
+    this.refreshUsdValueOfLP(pair_id, totalLpLocked, baseTokens);
+    this.setState({ totalLpLocked });
+  };
 
   checkConnection() {
-    const logout = localStorage.getItem('logout')
+    const logout = localStorage.getItem("logout");
     if (logout !== "true") {
-    if(window.ethereum)
-    {
-      window.ethereum.request({ method: "eth_accounts" })
-      .then((data) => {
-        
-        this.setState({
-          coinbase: data.length === 0 ? undefined : data[0],
-        });
-        
-      })
-      .catch(console.error);
+      if (window.ethereum) {
+        window.ethereum
+          .request({ method: "eth_accounts" })
+          .then((data) => {
+            this.setState({
+              coinbase: data.length === 0 ? undefined : data[0],
+            });
+          })
+          .catch(console.error);
+      }
+    } else {
+      this.setState({
+        coinbase: undefined,
+      });
     }
-  }
-  else {
-    this.setState({
-      coinbase: undefined ,
-    });
-  }
-    
-    
   }
 
   componentDidMount() {
-    window.scrollTo(0,0)
-   this.checkNetworkId()
-   this.checkConnection()
+    // window.scrollTo(0, 0);
+    this.checkNetworkId();
+    this.checkConnection();
   }
   componentWillUnmount() {
     window.removeOneTimeWalletConnectionListener(this.onComponentMount);
@@ -160,11 +161,10 @@ export default class Locker extends React.Component {
     try {
       let recipient = this.state.coinbase;
       let recipientLocksLength =
-      
         this.state.networkId === "1"
           ? await window.getActiveLockIdsLengthByRecipientETH(recipient)
-          : await window.getActiveLockIdsLengthByRecipient(recipient)
-          
+          : await window.getActiveLockIdsLengthByRecipient(recipient);
+
       recipientLocksLength = Number(recipientLocksLength);
 
       let step = window.config.MAX_LOCKS_TO_LOAD_PER_CALL;
@@ -173,7 +173,6 @@ export default class Locker extends React.Component {
         let startIndex = this.state.recipientLocks.length;
         let endIndex = Math.min(recipientLocksLength, startIndex + step);
         let recipientLocks =
-      
           this.state.networkId === "1"
             ? await window.getActiveLocksByRecipientETH(
                 recipient,
@@ -184,8 +183,8 @@ export default class Locker extends React.Component {
                 recipient,
                 startIndex,
                 endIndex
-              )
-             
+              );
+
         recipientLocks = this.state.recipientLocks.concat(recipientLocks);
         this.setState({ recipientLocksLength, recipientLocks });
       }
@@ -197,17 +196,15 @@ export default class Locker extends React.Component {
   onComponentMount = async () => {
     this.refreshMyLocks().then();
     this.selectBaseToken().then();
-   this.checkNetworkId()
-
+    this.checkNetworkId();
 
     this.setState({ coinbase: await window.getCoinbase() });
     let pair_id = this.props.match.params.pair_id;
 
     let baseTokens =
-   
       this.state.networkId === "1"
         ? await window.getBaseTokensETH()
-        : await window.getBaseTokens()
+        : await window.getBaseTokens();
 
     this.setState({ baseTokens });
     if (window.web3.utils.isAddress(pair_id)) {
@@ -216,8 +213,8 @@ export default class Locker extends React.Component {
       let totalLpLocked =
         this.state.networkId === "1"
           ? await window.getLockedAmountETH(pair_id)
-          : await window.getLockedAmount(pair_id) 
-        this.refreshUsdValueOfLP(pair_id, totalLpLocked, baseTokens);
+          : await window.getLockedAmount(pair_id);
+      this.refreshUsdValueOfLP(pair_id, totalLpLocked, baseTokens);
       this.setState({ totalLpLocked });
     }
   };
@@ -256,22 +253,20 @@ export default class Locker extends React.Component {
     this.setState({ isLoadingMoreTokenLocks: true });
     try {
       let tokenLocksLength =
-      
         this.state.networkId === "1"
           ? await window.getActiveLockIdsLengthByTokenETH(token)
-          : await window.getActiveLockIdsLengthByToken(token)
-          
+          : await window.getActiveLockIdsLengthByToken(token);
+
       tokenLocksLength = Number(tokenLocksLength);
       let step = window.config.MAX_LOCKS_TO_LOAD_PER_CALL;
       if (tokenLocksLength !== 0) {
         let startIndex = this.state.tokenLocks.length;
         let endIndex = Math.min(tokenLocksLength, startIndex + step);
         let tokenLocks =
-        
           this.state.networkId === "1"
             ? await window.getActiveLocksByTokenETH(token, startIndex, endIndex)
-            : await window.getActiveLocksByToken(token, startIndex, endIndex)
-            
+            : await window.getActiveLocksByToken(token, startIndex, endIndex);
+
         tokenLocks = this.state.tokenLocks.concat(tokenLocks);
         this.setState({ tokenLocksLength, tokenLocks });
       }
@@ -300,7 +295,7 @@ export default class Locker extends React.Component {
     let totalLpLocked =
       this.state.networkId === "1"
         ? await window.getLockedAmountETH(newPairAddress)
-        : await window.getLockedAmount(newPairAddress)
+        : await window.getLockedAmount(newPairAddress);
     this.setState({ totalLpLocked });
 
     let totalSupply = await window.getTokenTotalSupply(newPairAddress);
@@ -312,7 +307,7 @@ export default class Locker extends React.Component {
 
   loadPairInfo = async () => {
     let isConnected = this.state.coinbase !== undefined ? true : false;
-    
+
     if (!isConnected) {
       this.setState({
         status: "Please connect your wallet!",
@@ -323,31 +318,27 @@ export default class Locker extends React.Component {
     }
     let isAddress;
 
-    
     isAddress = window.web3.utils.isAddress(this.state.pair_address);
     if (!isAddress) {
-      
       this.setState({
-        status: this.state.pair_address === '' ? '' : "Pair address not valid. Please enter a valid address!",
-      }); 
+        status:
+          this.state.pair_address === ""
+            ? ""
+            : "Pair address not valid. Please enter a valid address!",
+      });
       return;
-     
     }
 
     if (this.state.placeholderState === true && isAddress && isConnected) {
       this.setState({ placeholderState: false });
       this.selectBaseToken();
       this.handlePairChange(this.state.pair_address);
-      
     }
 
     if (this.state.placeholderState === false && isAddress && isConnected) {
       this.selectBaseToken();
       this.handlePairChange(this.state.pair_address);
-      
-
     }
-    
   };
 
   selectBaseToken = async (e) => {
@@ -368,11 +359,10 @@ export default class Locker extends React.Component {
       let token1 = pair["token1"]?.address;
 
       let baseTokens =
-      
         this.state.networkId === "1"
           ? await window.getBaseTokensETH()
-          : await window.getBaseTokens()
-         
+          : await window.getBaseTokens();
+
       if (baseTokens.includes(token0)) {
         this.setState({ selectedBaseToken: "0" });
         this.setState({ selectedBaseTokenTicker: pair["token0"].symbol });
@@ -394,12 +384,11 @@ export default class Locker extends React.Component {
           this.state.selectedBaseToken == "0" ? "token0" : "token1"
         ].address
       : "";
-    let baseTokens =
-    window.ethereum ?
-      window.ethereum.chainId === "0x1"
+    let baseTokens = window.ethereum
+      ? window.ethereum.chainId === "0x1"
         ? await window.getBaseTokensETH()
         : await window.getBaseTokens()
-        :await window.getBaseTokensETH();
+      : await window.getBaseTokensETH();
     if (
       !baseTokens.includes(selectedBaseTokenAddress) &&
       this.state.amount != 0
@@ -437,11 +426,11 @@ export default class Locker extends React.Component {
     });
     await tokenContract.methods
       .approve(
-        window.ethereum ?
-        window.ethereum.chainId === "0x1"
-          ? window.config.lockereth_address
-          : window.config.locker_address
-          :window.config.lockereth_address,
+        window.ethereum
+          ? window.ethereum.chainId === "0x1"
+            ? window.config.lockereth_address
+            : window.config.locker_address
+          : window.config.lockereth_address,
         amountWei.times(1e18).toFixed(0).toString()
       )
       .send()
@@ -456,6 +445,10 @@ export default class Locker extends React.Component {
       });
   };
 
+  focusInput = (input) => {
+    document.getElementById(input).focus();
+  };
+
   handleLockSubmit = async (e) => {
     e.preventDefault();
     let selectedBaseTokenAddress = this.state.pair
@@ -463,8 +456,70 @@ export default class Locker extends React.Component {
           this.state.selectedBaseToken == "0" ? "token0" : "token1"
         ].address
       : "";
-      if(window.ethereum) {
- if (window.ethereum.chainId === "0x1") {
+    if (window.ethereum) {
+      if (window.ethereum.chainId === "0x1") {
+        let lockerContract = await window.getContract({ key: "LOCKERETH" });
+
+        let estimatedValue = await window.getMinLockCreationFeeInWei(
+          this.state.pair_address,
+          selectedBaseTokenAddress,
+          this.state.amount
+        );
+        estimatedValue = new window.BigNumber(estimatedValue)
+          .times(1.1)
+          .toFixed(0);
+        this.setState({ loadspinnerLock: true });
+
+        await lockerContract.methods
+          .createLock(
+            this.state.pair_address,
+            selectedBaseTokenAddress,
+            this.state.amount,
+            Math.floor(this.state.unlockDate.getTime() / 1e3)
+          )
+          .send({ value: estimatedValue, from: await window.getCoinbase() })
+          .then(() => {
+            this.setState({ loadspinnerLock: false });
+            this.setState({ lockActive: false });
+          })
+          .catch((e) => {
+            console.error(e);
+            this.setState({ loadspinnerLock: false });
+            this.setState({ status: "An error occurred, please try again" });
+          });
+      }
+
+      if (window.ethereum.chainId === "0xa86a") {
+        let lockerContract = await window.getContract({ key: "LOCKER" });
+
+        let estimatedValue = await window.getMinLockCreationFeeInWei(
+          this.state.pair_address,
+          selectedBaseTokenAddress,
+          this.state.amount
+        );
+        estimatedValue = new window.BigNumber(estimatedValue)
+          .times(1.1)
+          .toFixed(0);
+        this.setState({ loadspinnerLock: true });
+
+        await lockerContract.methods
+          .createLock(
+            this.state.pair_address,
+            selectedBaseTokenAddress,
+            this.state.amount,
+            Math.floor(this.state.unlockDate.getTime() / 1e3)
+          )
+          .send({ value: estimatedValue, from: await window.getCoinbase() })
+          .then(() => {
+            this.setState({ loadspinnerLock: false });
+          })
+          .catch((e) => {
+            console.error(e);
+            this.setState({ loadspinnerLock: false });
+            this.setState({ status: "An error occurred, please try again" });
+          });
+      }
+    } else {
       let lockerContract = await window.getContract({ key: "LOCKERETH" });
 
       let estimatedValue = await window.getMinLockCreationFeeInWei(
@@ -495,72 +550,6 @@ export default class Locker extends React.Component {
           this.setState({ status: "An error occurred, please try again" });
         });
     }
-
-    if (window.ethereum.chainId === "0xa86a") {
-      let lockerContract = await window.getContract({ key: "LOCKER" });
-
-      let estimatedValue = await window.getMinLockCreationFeeInWei(
-        this.state.pair_address,
-        selectedBaseTokenAddress,
-        this.state.amount
-      );
-      estimatedValue = new window.BigNumber(estimatedValue)
-        .times(1.1)
-        .toFixed(0);
-      this.setState({ loadspinnerLock: true });
-
-      await lockerContract.methods
-        .createLock(
-          this.state.pair_address,
-          selectedBaseTokenAddress,
-          this.state.amount,
-          Math.floor(this.state.unlockDate.getTime() / 1e3)
-        )
-        .send({ value: estimatedValue, from: await window.getCoinbase() })
-        .then(() => {
-          this.setState({ loadspinnerLock: false });
-        })
-        .catch((e) => {
-          console.error(e);
-          this.setState({ loadspinnerLock: false });
-          this.setState({ status: "An error occurred, please try again" });
-        });
-    }
-      }
-      else {
-        
-          let lockerContract = await window.getContract({ key: "LOCKERETH" });
-    
-          let estimatedValue = await window.getMinLockCreationFeeInWei(
-            this.state.pair_address,
-            selectedBaseTokenAddress,
-            this.state.amount
-          );
-          estimatedValue = new window.BigNumber(estimatedValue)
-            .times(1.1)
-            .toFixed(0);
-          this.setState({ loadspinnerLock: true });
-    
-          await lockerContract.methods
-            .createLock(
-              this.state.pair_address,
-              selectedBaseTokenAddress,
-              this.state.amount,
-              Math.floor(this.state.unlockDate.getTime() / 1e3)
-            )
-            .send({ value: estimatedValue, from: await window.getCoinbase() })
-            .then(() => {
-              this.setState({ loadspinnerLock: false });
-              this.setState({ lockActive: false });
-            })
-            .catch((e) => {
-              console.error(e);
-              this.setState({ loadspinnerLock: false });
-              this.setState({ status: "An error occurred, please try again" });
-            });
-        
-      }
-   
   };
 
   handleAmountPercentInput = (percent) => (e) => {
@@ -572,16 +561,14 @@ export default class Locker extends React.Component {
 
   handleClaim = (id) => (e) => {
     e.preventDefault();
-    if(window.ethereum) {
+    if (window.ethereum) {
       if (window.ethereum.chainId === "0x1") {
-      window.claimUnlockedETH(id);
-    }
-    if (window.ethereum.chainId === "0xa86a") {
-      window.claimUnlocked(id);
-    }
-    }
-    else window.claimUnlockedETH(id);
-    
+        window.claimUnlockedETH(id);
+      }
+      if (window.ethereum.chainId === "0xa86a") {
+        window.claimUnlocked(id);
+      }
+    } else window.claimUnlockedETH(id);
   };
 
   handleSearchPair = (e) => {
@@ -657,20 +644,20 @@ export default class Locker extends React.Component {
       return (
         <div className="placeholderdiv">
           <strong style={{ fontSize: "18px" }} className="d-block mb-3">
-          Create a lock
+            Create a lock
           </strong>
           <div>
             <form>
-              <p
-                className="text-muted lock-text-wrapper"
-                
-              >
+              <p className="text-muted lock-text-wrapper">
                 DYP Locker is a solution that supports liquidity lock
                 functionality to every new project. Liquidity is the first thing
                 that users check for, therefore having it encrypted via DYP
                 Locker will assure them on the project validity and security.
               </p>
-              <div className="row m-0" style={{ gap: 20, alignItems: 'center', paddingBottom: '1rem'}}>
+              <div
+                className="row m-0"
+                style={{ gap: 20, alignItems: "center", paddingBottom: "1rem" }}
+              >
                 <div>
                   <img
                     src={LiqLocked}
@@ -682,10 +669,7 @@ export default class Locker extends React.Component {
                   <h6 className="lockertitle-text">
                     <b>Locking Liquidity</b>
                   </h6>
-                  <p
-                    className="text-muted lockliqtext"
-                    
-                  >
+                  <p className="text-muted lockliqtext">
                     This makes the funds immovable until they are unlocked.
                     Every owner of the project can encrypt a portion of the
                     asset for a specific period of time and this liquidity
@@ -696,7 +680,10 @@ export default class Locker extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="row m-0" style={{ gap: 20, alignItems: 'center' }}>
+              <div
+                className="row m-0"
+                style={{ gap: 20, alignItems: "center" }}
+              >
                 <div>
                   <img
                     src={VerifiedLock}
@@ -708,10 +695,7 @@ export default class Locker extends React.Component {
                   <h6 className="lockertitle-text">
                     <b>Verified Security</b>
                   </h6>
-                  <p
-                    className="text-muted"
-                    style={{  width: "fit-content" }}
-                  >
+                  <p className="text-muted" style={{ width: "fit-content" }}>
                     Each project that locks liquidity on DYP Locker will be
                     given a verified security badge. Owners of the project can
                     share it to their communities in order to increase
@@ -720,7 +704,10 @@ export default class Locker extends React.Component {
                 </div>
               </div>
               <br />
-              <div style={{ gap: 100, marginTop: 40, marginBottom: 40 }} className="row ml-0">
+              <div
+                style={{ gap: 100, marginTop: 40, marginBottom: 40 }}
+                className="row ml-0"
+              >
                 <div>
                   <div className="row m-0 align-items-end" style={{ gap: 40 }}>
                     <div>
@@ -744,7 +731,10 @@ export default class Locker extends React.Component {
                     </div>
 
                     <div className="form-group m-0">
-                      <div className="search-pair-btn" onClick={this.handleSearchPair}>
+                      <div
+                        className="search-pair-btn"
+                        onClick={this.handleSearchPair}
+                      >
                         <p className="search-pair-text">Search</p>
                       </div>
                     </div>
@@ -767,20 +757,20 @@ export default class Locker extends React.Component {
       return (
         <div>
           <strong style={{ fontSize: "18px" }} className="d-block mb-3">
-          Create a lock
+            Create a lock
           </strong>
           <div>
             <form onSubmit={this.handleLockSubmit}>
-              <p
-                className="text-muted lock-text-wrapper"
-                
-              >
+              <p className="text-muted lock-text-wrapper">
                 DYP Locker is a solution that supports liquidity lock
                 functionality to every new project. Liquidity is the first thing
                 that users check for, therefore having it encrypted via DYP
                 Locker will assure them on the project validity and security.
               </p>
-              <div className="row m-0" style={{ gap: 20, alignItems: 'center', paddingBottom: '1rem' }}>
+              <div
+                className="row m-0"
+                style={{ gap: 20, alignItems: "center", paddingBottom: "1rem" }}
+              >
                 <div>
                   <img
                     src={LiqLocked}
@@ -792,10 +782,7 @@ export default class Locker extends React.Component {
                   <h6 className="lockertitle-text">
                     <b>Locking Liquidity</b>
                   </h6>
-                  <p
-                    className="text-muted lockliqtext"
-                    
-                  >
+                  <p className="text-muted lockliqtext">
                     This makes the funds immovable until they are unlocked.
                     Every owner of the project can encrypt a portion of the
                     asset for a specific period of time and this liquidity
@@ -806,7 +793,10 @@ export default class Locker extends React.Component {
                   </p>
                 </div>
               </div>
-              <div className="row m-0" style={{ gap: 20, alignItems: 'center' }}>
+              <div
+                className="row m-0"
+                style={{ gap: 20, alignItems: "center" }}
+              >
                 <div>
                   <img
                     src={VerifiedLock}
@@ -818,10 +808,7 @@ export default class Locker extends React.Component {
                   <h6 className="lockertitle-text">
                     <b>Verified Security</b>
                   </h6>
-                  <p
-                    className="text-muted"
-                    style={{  width: "fit-content" }}
-                  >
+                  <p className="text-muted" style={{ width: "fit-content" }}>
                     Each project that locks liquidity on DYP Locker will be
                     given a verified security badge. Owners of the project can
                     share it to their communities in order to increase
@@ -830,7 +817,10 @@ export default class Locker extends React.Component {
                 </div>
               </div>
               <br />
-              <div style={{ gap: 100, marginTop: 40, marginBottom: 40 }} className="row ml-0">
+              <div
+                style={{ gap: 100, marginTop: 40, marginBottom: 40 }}
+                className="row ml-0"
+              >
                 <div>
                   <div className="row m-0 align-items-end" style={{ gap: 40 }}>
                     <div>
@@ -1179,9 +1169,7 @@ export default class Locker extends React.Component {
                 </div>
                 {this.state.recipientLocks.length > 0 ? (
                   <div style={{ maxWidth: "400px", width: "100%" }}>
-                    
                     <div className="row m-0">
-                      
                       <div className="badge-wraper">
                         <img
                           src={
@@ -1200,7 +1188,6 @@ export default class Locker extends React.Component {
                                 : "#C4C4C4",
                           }}
                         >
-                          
                           {this.state.lockActive === true ? (
                             <span className="counter-text">
                               Liquidity not locked
@@ -1307,15 +1294,15 @@ export default class Locker extends React.Component {
                 ) : (
                   <div className="badge-wraper">
                     <div
-                          className="moreinfo-wrapper"
-                          onClick={() => {
-                            this.setState({ showModal: true });
-                          }}
-                        >
-                          <span className="moreinfo-text">
-                            More info<i className="fas fa-info-circle"></i>
-                          </span>
-                        </div>
+                      className="moreinfo-wrapper"
+                      onClick={() => {
+                        this.setState({ showModal: true });
+                      }}
+                    >
+                      <span className="moreinfo-text">
+                        More info<i className="fas fa-info-circle"></i>
+                      </span>
+                    </div>
                     <img src={BadgeGrayLight} alt="" />
                     <div
                       className="counter-wrapper"
@@ -1587,9 +1574,9 @@ export default class Locker extends React.Component {
             My locks
           </strong>
           <div className="row justify-content-between p-0 ml-0">
-            <Skeleton theme={this.props.theme}/>
-            <Skeleton theme={this.props.theme}/>
-            <Skeleton theme={this.props.theme}/>
+            <Skeleton theme={this.props.theme} />
+            <Skeleton theme={this.props.theme} />
+            <Skeleton theme={this.props.theme} />
           </div>
         </div>
       );
@@ -1934,9 +1921,9 @@ export default class Locker extends React.Component {
 
           {this.state.tokenLocks.length == 0 && (
             <div className="row justify-content-between p-0 ml-0">
-              <Skeleton theme={this.props.theme}/>
-              <Skeleton theme={this.props.theme}/>
-              <Skeleton theme={this.props.theme}/>
+              <Skeleton theme={this.props.theme} />
+              <Skeleton theme={this.props.theme} />
+              <Skeleton theme={this.props.theme} />
             </div>
           )}
         </div>
@@ -1945,25 +1932,329 @@ export default class Locker extends React.Component {
   };
   render() {
     return (
-      <div className="locker">
-        <div className="table-title">
-          <h2 style={{ display: "block", color: `var(--preloader-clr)` }}>
-            DYP Locker
-          </h2>
-
-          <p>
-            Lock {window.ethereum ? window.ethereum.chainId === "0x1" ? "Uniswap" : "Pangolin" : 'Uniswap'}
-            {" "}liquidity and check status of liquidity locks.
+      <div className="container-lg px-0">
+        <div className="d-flex flex-column gap-3">
+          <h6 className="locker-title">DYP Locker</h6>
+          <p className="locker-desc">
+            DYP Locker is a solution that supports liquidity lock functionality
+            to every new project. Liquidity is the first thing that users check
+            for, therefore having it encrypted via DYP Locker will assure them
+            on the project validity and security.
           </p>
         </div>
-        <div className="l-table-wrapper-div p-4">
-          <div className="mb-4">{this.GetCreateLockForm()}</div>
-          <div className="mb-4">{this.GetTokenLocks()}</div>
-          {this.state.recipientLocks.length > 0 && (
-            <div className="mb-5">{this.GetMyLocks()}</div>
-          )}
+        <div className="row mt-4 w-100 mx-0">
+          <div className="col-6 ps-0">
+            <div className="px-3 py-4 locker-card liquidity-background d-flex gap-3 position-relative">
+              <div
+                className="purplediv"
+                style={{ left: "0px", background: "#EB5E39" }}
+              ></div>
+              <div className="liquidity-icon-holder d-flex align-items-center justify-content-center">
+                <img src={liquidityIcon} alt="" />
+              </div>
+              <div
+                className="d-flex flex-column gap-2"
+                style={{ marginTop: "7px" }}
+              >
+                <h6 className="locker-card-title">Locking Liquidity</h6>
+                <p className="locker-card-desc">
+                  This makes the funds immovable until they are unlocked. Every
+                  owner of the project can encrypt a portion of the asset for a
+                  specific period of time and this liquidity cannot be withdrawn
+                  until the time is over. This way users will create a sense of
+                  security against projects. Liquidity is locked using
+                  time-locked smart contracts and DYP Locker offers this
+                  functionality with no additional costs.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="col-6 pe-0">
+            <div className="px-3 py-4 locker-card security-background d-flex gap-3 h-100  position-relative">
+              <div className="purplediv" style={{ left: "0px" }}></div>
+              <div className="security-icon-holder d-flex align-items-center justify-content-center">
+                <img src={securityIcon} alt="" />
+              </div>
+              <div
+                className="d-flex flex-column gap-2"
+                style={{ marginTop: "7px" }}
+              >
+                <h6 className="locker-card-title">Verified Security</h6>
+                <p className="locker-card-desc">
+                  Each project that locks liquidity on DYP Locker will be given
+                  a verified security badge. Owners of the project can share it
+                  to their communities in order to increase credibility.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row mx-0 w-100 mt-5">
+          <div className="col-7 ps-0">
+            <div className="p-4 purple-wrapper position-relative">
+              <div
+                className="purplediv"
+                style={{ left: "0px", top: "20px", background: "#8E97CD" }}
+              ></div>
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center gap-2">
+                  <img src={greySecurityIcon} alt="" />
+                  <h6 className="locker-function-title">Create lock</h6>
+                </div>
+                <img src={moreInfo} alt="" height={24} width={24} />
+              </div>
+              <hr className="form-divider my-4" style={{ height: "3px" }} />
+              <div className="d-flex align-items-center justify-content-between gap-5">
+                <div
+                  className="d-flex align-items-end justify-content-start gap-3"
+                  style={{ width: "60%" }}
+                >
+                  <div
+                    className="d-flex flex-column gap-5"
+                    style={{ width: "70%" }}
+                  >
+                    <div className="d-flex flex-column gap-3">
+                      <span className="create-lock-title">
+                        Your pair address
+                      </span>
+                      <div
+                        className="input-container px-0"
+                        style={{ width: "100%" }}
+                      >
+                        <input
+                          type="text"
+                          id="pair_address"
+                          name="pair_address"
+                          placeholder=" "
+                          className="text-input"
+                          style={{ width: "100%" }}
+                        />
+                        <label
+                          htmlFor="usd"
+                          className="label secondary-label"
+                          onClick={() => this.focusInput("pair_address")}
+                        >
+                          Enter pair address
+                        </label>
+                      </div>
+                    </div>
+                    <div className="d-flex flex-column gap-3">
+                      <span className="create-lock-title">Select amount</span>
+                      <div className="d-flex align-items-center gap-3">
+                        <div
+                          className="input-container px-0"
+                          style={{ width: "100%" }}
+                        >
+                          <input
+                            type="text"
+                            id="pair_address"
+                            name="pair_address"
+                            placeholder=" "
+                            className="text-input"
+                            style={{ width: "100%" }}
+                          />
+                          <label
+                            htmlFor="usd"
+                            className="label secondary-label"
+                            onClick={() => this.focusInput("pair_address")}
+                          >
+                            Amount
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    className="btn maxbtn"
+                    style={{ marginBottom: "3px" }}
+                  >
+                    Max
+                  </button>
+                </div>
+                <div className="d-flex flex-column gap-5">
+                  <div className="selected-token-wrapper py-3 ps-3 pe-5">
+                    <div className="d-flex flex-column gap-2">
+                      <span className="create-lock-title">
+                        Selected base token
+                      </span>
+                      <div className="d-flex align-items-center gap-2">
+                        <img
+                          src={avaxStakeActive}
+                          alt=""
+                          height={24}
+                          width={24}
+                        />
+                        <h6 className="create-lock-token">AVAX</h6>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="d-flex flex-column gap-2"
+                    style={{ paddingLeft: "5px" }}
+                  >
+                    <span className="create-lock-title">Balance</span>
+                    <h6 className="locker-balance">0.109322</h6>
+                  </div>
+                </div>
+              </div>
+              <hr className="form-divider my-4" style={{ height: "3px" }} />
+              <div className="d-flex justify-content-between align-items-end">
+                <div className="d-flex flex-column gap-2">
+                  <span className="create-lock-title">Select unlock date</span>
+                  <div className="d-flex align-items-center gap-3">
+                    <span className="create-lock-month selected-month">
+                      1 month
+                    </span>
+                    <span className="create-lock-month">3 months</span>
+                    <span className="create-lock-month">6 months</span>
+                  </div>
+                </div>
+                <div className="input-container px-0" style={{ width: "40%" }}>
+                  <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    placeholder=" "
+                    className="text-input"
+                    style={{ width: "100%" }}
+                  />
+                  <img
+                    src={lockerCalendarIcon}
+                    alt=""
+                    className="locker-calendar"
+                  />
+                </div>
+              </div>
+              <div className="d-flex flex-column gap-3 mt-4 w-50">
+                <span className="create-lock-title">
+                  Seleted % rate
+                </span>
+                {/* <input type="range" className="w-50" /> */}
+                <div className="slider-text-wrapper">
+                    <span
+                      className="slider-text"
+                      style={{
+                        color:
+                          this.state.sliderValue < 35 ? "#E30613" : "#A4A4A4",
+                        fontSize: this.state.sliderValue < 35 ? 20 : 15,
+                        fontWeight: this.state.sliderValue < 35 ? 700 : 500,
+                        justifyContent: "start",
+                      }}
+                    >
+                      25%
+                    </span>
+                    <span
+                      className="slider-text"
+                      style={{
+                        color:
+                          this.state.sliderValue > 35 &&
+                          this.state.sliderValue < 65
+                            ? "#E30613"
+                            : "#A4A4A4",
+                        fontSize:
+                          this.state.sliderValue > 35 &&
+                          this.state.sliderValue < 65
+                            ? 20
+                            : 15,
+                        fontWeight:
+                          this.state.sliderValue > 35 &&
+                          this.state.sliderValue < 65
+                            ? 700
+                            : 500,
+                        justifyContent: "center",
+                        width: "18%",
+                      }}
+                    >
+                      50%
+                    </span>
+                    <span
+                      className="slider-text"
+                      style={{
+                        color:
+                          this.state.sliderValue > 65 &&
+                          this.state.sliderValue < 90
+                            ? "#E30613"
+                            : "#A4A4A4",
+                        fontSize:
+                          this.state.sliderValue > 65 &&
+                          this.state.sliderValue < 90
+                            ? 20
+                            : 15,
+                        fontWeight:
+                          this.state.sliderValue > 65 &&
+                          this.state.sliderValue < 90
+                            ? 700
+                            : 500,
+                        width: "27%",
+                      }}
+                    >
+                      75%
+                    </span>
+                    <span
+                      className="slider-text"
+                      style={{
+                        color:
+                          this.state.sliderValue > 90 ? "#E30613" : "#A4A4A4",
+                        fontSize: this.state.sliderValue > 90 ? 20 : 15,
+                        fontWeight: this.state.sliderValue > 90 ? 700 : 500,
+                        width: "30%",
+                      }}
+                    >
+                      100%
+                    </span>
+                  </div>
+                  <Slider
+                    step={25}
+                    dots
+                    min={25}
+                    dotStyle={{
+                      background: "#B10C16",
+                      height: 8,
+                      width: 8,
+                      border: "1px solid #B10C16",
+                    }}
+                    activeDotStyle={{ background: "#B10C16" }}
+                    value={this.state.sliderValue}
+                    onChange={(e) => {
+                      this.handleAmountPercentInput(e);
+                      this.setState({ sliderValue: e });
+
+                      this.setState({
+                        amount:
+                          (getFormattedNumber(this.state.lpBalance / 1e18, 6) *
+                            e) /
+                          100,
+                      });
+                    }}
+                  />
+              </div>
+            </div>
+          </div>
+          <div className="col-5 position-relative pe-0">
+            <div className="p-3 purple-wrapper"></div>
+          </div>
         </div>
       </div>
+
+      // <div className="locker">
+      //   <div className="table-title">
+      //     <h2 style={{ display: "block", color: `var(--preloader-clr)` }}>
+      //       DYP Locker
+      //     </h2>
+
+      //     <p>
+      //       Lock {window.ethereum ? window.ethereum.chainId === "0x1" ? "Uniswap" : "Pangolin" : 'Uniswap'}
+      //       {" "}liquidity and check status of liquidity locks.
+      //     </p>
+      //   </div>
+      //   <div className="l-table-wrapper-div p-4">
+      //     <div className="mb-4">{this.GetCreateLockForm()}</div>
+      //     <div className="mb-4">{this.GetTokenLocks()}</div>
+      //     {this.state.recipientLocks.length > 0 && (
+      //       <div className="mb-5">{this.GetMyLocks()}</div>
+      //     )}
+      //   </div>
+      // </div>
     );
   }
 }
