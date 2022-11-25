@@ -577,8 +577,8 @@ const EarnTopPicks = ({
   const vaultArray = [
     window.vault_weth,
     window.vault_wbtc,
-    window.vault_usdt,
     window.vault_usdc,
+    window.vault_usdt,
     window.vault_dai,
   ];
   const tokenvaultArray = [

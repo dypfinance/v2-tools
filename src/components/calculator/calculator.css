@@ -236,6 +236,24 @@
   padding: 2px;
 }
 
+.usdt-wrapper {
+  background-image: url("./assets/usdtBackground.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  width: 32%;
+  padding: 2px;
+}
+
+.usdc-wrapper {
+  background-image: url("./assets/usdcBackground.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  width: 32%;
+  padding: 2px;
+}
+
 .chain-content {
   background: #26264f;
   border-radius: 8px;
