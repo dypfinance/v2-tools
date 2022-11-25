@@ -57,7 +57,7 @@ const LaunchpadHero = () => {
           Discover your Launchpad tier and check how much you are eligible to benefit. Increase your tier by depositing assets to Launchpools.
           </p>
           <NavLink to="/launchpad/tiers" className="view-more-title d-flex justify-content-center align-items-center gap-1">
-            View All
+            View all
             <img src={rightArrow} alt="" />
           </NavLink>
           </div>
