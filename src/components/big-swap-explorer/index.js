@@ -335,9 +335,9 @@ export default class BigSwapExplorer extends React.Component {
           </div>
         </div> */}
                 <div className="table-box">
-                    {/* <div className="table-title">
+                    <div className="table-title">
             <h4>Latest Big Swaps</h4>
-          </div> */}
+          </div>
                     <div className="l-table-wrapper-div">{this.GetDataTable()}</div>
                     {/* <div className="page-nav">
                         <ul>

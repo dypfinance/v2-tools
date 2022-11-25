@@ -100,23 +100,23 @@ const Sidebar = (props) => {
         },
         {
           title: 'Big Swap',
-          link: '/bigswap'
+          link: '/big-swap-explorer'
         },
         {
           title: 'Top Token',
-          link: '/toptoken'
+          link: '/top-tokens'
         },
         {
           title: 'Yields',
-          link: '/yields'
+          link: '/farms'
         },
         {
           title: 'Pair Explorer',
-          link: '/pairexplorer'
+          link: '/pair-explorer'
         },
         {
           title: 'Submit Form',
-          link: '/submitform'
+          link: '/submit-info'
         },
        
       ],
@@ -130,7 +130,7 @@ const Sidebar = (props) => {
       },
       {
         title: 'DYP Locker',
-        link: '/dyplocker'
+        link: '/locker'
       },
     ],
     },

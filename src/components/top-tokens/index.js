@@ -73,11 +73,11 @@ export default class TopTokens extends React.Component {
     // this.fetchTransactions()
     // this.fetchSwaps()
     // this.checkNetworkId();
-    await this.fetchTopTokens().then()
+    await this.fetchTopTokens().then();
   }
 
   async componentDidUpdate(prevProps) {
-    if(prevProps.networkId != this.props.networkId){
+    if (prevProps.networkId != this.props.networkId) {
       this.setState({
         isLoading: true,
         ethPrice: "...",
@@ -90,8 +90,10 @@ export default class TopTokens extends React.Component {
 
   fetchTopTokens = async () => {
     try {
-      let network
-      this.props.networkId == 1 ? network = 'ethereum' : network = 'avalanche'
+      let network;
+      this.props.networkId == 1
+        ? (network = "ethereum")
+        : (network = "avalanche");
       let { tokens, ethPrice } = await getTopTokens(network);
       console.log({ tokens, ethPrice });
       this.setState({ tokens, ethPrice, filteredTokens: tokens });
@@ -131,7 +133,11 @@ export default class TopTokens extends React.Component {
           <a
             target="_blank"
             className="l-clr-purple"
-            href={ this.props.networkId == 1 ? `https://v2.info.uniswap.org/token/${txn.id}` : `https://cchain.explorer.avax.network/address/${txn.id}` }
+            href={
+              this.props.networkId == 1
+                ? `https://v2.info.uniswap.org/token/${txn.id}`
+                : `https://cchain.explorer.avax.network/address/${txn.id}`
+            }
             style={{
               whiteSpace: "nowrap",
               overflow: "hidden",
@@ -296,9 +302,14 @@ export default class TopTokens extends React.Component {
           </div>
         </div>
         <div className="table-box">
-          {/* <div className="table-title">
-            <h4>Pangolin Top Tokens</h4>
-          </div> */}
+          <div className="table-title">
+            <h4>
+              {" "}
+              {this.props.networkId === 1
+                ? "Uniswap Top Tokens"
+                : "Pangolin Top Tokens"}
+            </h4>
+          </div>
           <div className="l-table-wrapper-div">{this.GetDataTable()}</div>
           {/* <div className="page-nav">
                         <ul>

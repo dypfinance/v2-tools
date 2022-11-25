@@ -80,6 +80,9 @@ const Calculator = ({ earnClass, onClose, ref }) => {
   const [buybackApyAVAX, setBuybackApyAVAX] = useState();
 
   const [vaultApy, setVaultApy] = useState();
+  const [priceUSDT, setPriceUSDT] = useState();
+  const [priceUSDC, setPriceUSDC] = useState();
+
   const [farmApy, setFarmApy] = useState();
   const [farmApyBNB, setFarmApyBNB] = useState();
   const [farmApyAVAX, setFarmApyAVAX] = useState();
@@ -131,6 +134,28 @@ const Calculator = ({ earnClass, onClose, ref }) => {
         setWavaxPrice(wavaxPrice);
       });
   };
+
+  const getUSDTdata = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_avax_v2")
+      .then((data) => {
+        const wavaxPrice = data.data.the_graph_avax_v2.usd_per_eth;
+        setWavaxPrice(wavaxPrice);
+      });
+  };
+
+
+
+  const getUSDCdata = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_avax_v2")
+      .then((data) => {
+        const wavaxPrice = data.data.the_graph_avax_v2.usd_per_eth;
+        setWavaxPrice(wavaxPrice);
+      });
+  };
+
+
 
   useEffect(() => {
     getApy();
@@ -336,7 +361,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
         parseInt(days)) / wavaxPrice, 4)
       );
     } else {
-      if (activeChain.text === "ETH") {
+    
         setCalculateApproxUSD(
           (
             ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
@@ -344,30 +369,33 @@ const Calculator = ({ earnClass, onClose, ref }) => {
           ).toFixed(2)
         );
         setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wethPrice, 6)
+          getFormattedNumber(parseFloat( ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
+          parseInt(days)) / wethPrice, 6)
         );
-      } else if (activeChain.text === "BSC") {
-        setCalculateApproxUSD(
+     
+        setCalculateApproxUSDBNB(
           (
             ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
             parseInt(days)
           ).toFixed(2)
         );
-        setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wbnbPrice, 6)
+        setCalculateApproxCryptoBNB(
+          getFormattedNumber(parseFloat(((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
+          parseInt(days)) / wbnbPrice, 6)
         );
-      } else {
-        setCalculateApproxUSD(
+    
+        setCalculateApproxUSDAVAX(
           (
             ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
             parseInt(days)
           ).toFixed(2)
         );
 
-        setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat(calculateApproxUSD) / wavaxPrice, 6)
+        setCalculateApproxCryptoAVAX(
+          getFormattedNumber(parseFloat(((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
+          parseInt(days)) / wavaxPrice, 6)
         );
-      }
+      
     }
   }, [
     activeMethod,
