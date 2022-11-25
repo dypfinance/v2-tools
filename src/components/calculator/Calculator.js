@@ -17,6 +17,9 @@ import avaxStakeActive from "../../assets/earnAssets/avaxStakeActive.svg";
 import xMark from "./assets/xMark.svg";
 import filledArrow from "../bridgecard/assets/filledarrow.svg";
 import calculatorChart from "./assets/calculatorChart.png";
+import usdt from "./assets/usdt.svg";
+import usdc from "./assets/usdc.svg";
+
 import "./calculator.css";
 import { createTheme, TextField } from "@material-ui/core";
 
@@ -80,8 +83,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
   const [buybackApyAVAX, setBuybackApyAVAX] = useState();
 
   const [vaultApy, setVaultApy] = useState();
-  const [priceUSDT, setPriceUSDT] = useState();
-  const [priceUSDC, setPriceUSDC] = useState();
+  const [vaultUSDT, setVaultUSDT] = useState();
+  const [vaultUSDC, setVaultUSDC] = useState();
 
   const [farmApy, setFarmApy] = useState();
   const [farmApyBNB, setFarmApyBNB] = useState();
@@ -135,28 +138,6 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       });
   };
 
-  const getUSDTdata = async () => {
-    await axios
-      .get("https://api.dyp.finance/api/the_graph_avax_v2")
-      .then((data) => {
-        const wavaxPrice = data.data.the_graph_avax_v2.usd_per_eth;
-        setWavaxPrice(wavaxPrice);
-      });
-  };
-
-
-
-  const getUSDCdata = async () => {
-    await axios
-      .get("https://api.dyp.finance/api/the_graph_avax_v2")
-      .then((data) => {
-        const wavaxPrice = data.data.the_graph_avax_v2.usd_per_eth;
-        setWavaxPrice(wavaxPrice);
-      });
-  };
-
-
-
   useEffect(() => {
     getApy();
     getETHdata();
@@ -185,8 +166,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       .plus(apy2_buyback2)
       .times(1e2)
       .toFixed(0);
-   
-      setBuybackApyBNB(apyBuyback2);
+
+    setBuybackApyBNB(apyBuyback2);
     //Apy AVAX V2 APR is 100%
     apy2_buyback2 = new BigNumber(0.25).div(usdPerToken).times(usdiDYPAvax);
 
@@ -194,8 +175,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       .plus(apy2_buyback2)
       .times(1e2)
       .toFixed(0);
-  
-      setBuybackApyAVAX(apyBuybackAvax);
+
+    setBuybackApyAVAX(apyBuybackAvax);
 
     //Apy ETH V2 APR is 100%
     apy2_buyback2 = new BigNumber(0.25).div(usdPerToken).times(usdiDYPEth);
@@ -204,8 +185,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       .plus(apy2_buyback2)
       .times(1e2)
       .toFixed(0);
-   
-      setBuybackApy(apyBuybackEth);
+
+    setBuybackApy(apyBuybackEth);
 
     return buybackApy;
   };
@@ -223,7 +204,24 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       } else if (activeMethod === "Buyback") {
         getTotalTvlBuyBack().then();
       } else {
-        setVaultApy(18.43);
+        const vaultWeth = window.vault_weth;
+        const vaultusdc = window.vault_usdc;
+        const vaultusdt = window.vault_usdt;
+
+        vaultWeth
+          .getTvlUsdAndApyPercent(18)
+          .then((apy_percent) => {  setVaultApy(apy_percent.apy_percent)})
+          .catch(console.error);
+
+        vaultusdc
+          .getTvlUsdAndApyPercent(6)
+          .then((apy_percent) => setVaultUSDC(apy_percent.apy_percent))
+          .catch(console.error);
+
+        vaultusdt
+          .getTvlUsdAndApyPercent(6)
+          .then((apy_percent) => {setVaultUSDT(apy_percent.apy_percent)})
+          .catch(console.error);
       }
     }
   }, [activeMethod, apyData]);
@@ -334,8 +332,13 @@ const Calculator = ({ earnClass, onClose, ref }) => {
         ).toFixed(2)
       );
       setCalculateApproxCrypto(
-        getFormattedNumber(parseFloat(((parseInt(usdToDeposit) * parseFloat(buybackApy)) / 100 / 365) *
-        parseInt(days)) / wethPrice, 4)
+        getFormattedNumber(
+          parseFloat(
+            ((parseInt(usdToDeposit) * parseFloat(buybackApy)) / 100 / 365) *
+              parseInt(days)
+          ) / wethPrice,
+          4
+        )
       );
 
       setCalculateApproxUSDBNB(
@@ -345,8 +348,13 @@ const Calculator = ({ earnClass, onClose, ref }) => {
         ).toFixed(2)
       );
       setCalculateApproxWbnb(
-        getFormattedNumber(parseFloat( ((parseInt(usdToDeposit) * parseFloat(buybackApyBNB)) / 100 / 365) *
-        parseInt(days)) / wbnbPrice, 4)
+        getFormattedNumber(
+          parseFloat(
+            ((parseInt(usdToDeposit) * parseFloat(buybackApyBNB)) / 100 / 365) *
+              parseInt(days)
+          ) / wbnbPrice,
+          4
+        )
       );
 
       setCalculateApproxUSDAVAX(
@@ -357,45 +365,65 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       );
 
       setCalculateApproxWavax(
-        getFormattedNumber(parseFloat( ((parseInt(usdToDeposit) * parseFloat(buybackApyAVAX)) / 100 / 365) *
-        parseInt(days)) / wavaxPrice, 4)
+        getFormattedNumber(
+          parseFloat(
+            ((parseInt(usdToDeposit) * parseFloat(buybackApyAVAX)) /
+              100 /
+              365) *
+              parseInt(days)
+          ) / wavaxPrice,
+          4
+        )
       );
     } else {
-    
-        setCalculateApproxUSD(
-          (
+      setCalculateApproxUSD(
+        (
+          ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
+          parseInt(days)
+        ).toFixed(2)
+      );
+      setCalculateApproxCrypto(
+        getFormattedNumber(
+          parseFloat(
             ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
-            parseInt(days)
-          ).toFixed(2)
-        );
-        setCalculateApproxCrypto(
-          getFormattedNumber(parseFloat( ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
-          parseInt(days)) / wethPrice, 6)
-        );
-     
-        setCalculateApproxUSDBNB(
-          (
-            ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
-            parseInt(days)
-          ).toFixed(2)
-        );
-        setCalculateApproxCryptoBNB(
-          getFormattedNumber(parseFloat(((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
-          parseInt(days)) / wbnbPrice, 6)
-        );
-    
-        setCalculateApproxUSDAVAX(
-          (
-            ((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
-            parseInt(days)
-          ).toFixed(2)
-        );
+              parseInt(days)
+          ),
+          4
+        )
+      );
 
-        setCalculateApproxCryptoAVAX(
-          getFormattedNumber(parseFloat(((parseInt(usdToDeposit) * parseFloat(vaultApy)) / 100 / 365) *
-          parseInt(days)) / wavaxPrice, 6)
-        );
-      
+      setCalculateApproxUSDBNB(
+        (
+          ((parseInt(usdToDeposit) * parseFloat(vaultUSDC)) / 100 / 365) *
+          parseInt(days)
+        ).toFixed(2)
+      );
+      setCalculateApproxCryptoBNB(
+        getFormattedNumber(
+          parseFloat(
+            ((parseInt(usdToDeposit) * parseFloat(vaultUSDC)) / 100 / 365) *
+              parseInt(days)
+          ),
+          4
+        )
+      );
+
+      setCalculateApproxUSDAVAX(
+        (
+          ((parseInt(usdToDeposit) * parseFloat(vaultUSDT)) / 100 / 365) *
+          parseInt(days)
+        ).toFixed(2)
+      );
+
+      setCalculateApproxWavax(
+        getFormattedNumber(
+          parseFloat(
+            ((parseInt(usdToDeposit) * parseFloat(vaultUSDT)) / 100 / 365) *
+              parseInt(days)
+          ),
+          4
+        )
+      );
     }
   }, [
     activeMethod,
@@ -439,21 +467,6 @@ const Calculator = ({ earnClass, onClose, ref }) => {
     } else if (parseInt(e) > 185) {
       setActiveTime(timePillsArray[3]);
       setActiveTimePill(timePillsArray[3]);
-    }
-  };
-
-  const handleInputDays2 = (e) => {
-    if (e === "1 month") {
-      setDays(30);
-    }
-    if (e === "3 months") {
-      setDays(92);
-    }
-    if (e === "6 months") {
-      setDays(185);
-    }
-    if (e === "Max") {
-      setDays(365);
     }
   };
 
@@ -752,9 +765,9 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               </div>
             </div>
             <div
-              className={`bnb-chain-wrapper ${
-                activeMethod === "Vault" && "d-none"
-              }`}
+              className={
+                activeMethod === "Vault" ? "usdc-wrapper" : `bnb-chain-wrapper`
+              }
             >
               <div className="chain-content d-flex flex-column justify-content-center gap-4 p-2">
                 <div className="d-flex flex-column gap-1">
@@ -770,22 +783,29 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                     calculateApproxWbnb != "..."
                       ? calculateApproxWbnb
                       : "0.0"}{" "}
-                    WBNB)
+                    {activeMethod === "Vault" ? "USDC" : "WBNB"} )
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between gap-4">
                   <div className="d-flex align-items-center gap-2">
-                    <img src={bnbStakeActive} width={20} height={20} alt="" />
-                    <h6 className="chain-name">BNB Chain</h6>
+                    <img
+                      src={activeMethod === "Vault" ? usdc : bnbStakeActive}
+                      width={20}
+                      height={20}
+                      alt=""
+                    />
+                    <h6 className="chain-name">
+                      {activeMethod === "Vault" ? "USDC" : "BNB Chain"}
+                    </h6>
                   </div>
                   <img src={filledArrow} alt="" />
                 </div>
               </div>
             </div>
             <div
-              className={`avax-chain-wrapper ${
-                activeMethod === "Vault" && "d-none"
-              }`}
+              className={
+                activeMethod === "Vault" ? "usdt-wrapper" : "avax-chain-wrapper"
+              }
             >
               <div className="chain-content d-flex flex-column justify-content-center gap-4 p-2">
                 <div className="d-flex flex-column gap-1">
@@ -801,13 +821,20 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                     calculateApproxWavax != "..."
                       ? calculateApproxWavax
                       : "0.0"}{" "}
-                    WAVAX)
+                    {activeMethod === "Vault" ? "USDT" : "WAVAX"} )
                   </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between gap-4">
                   <div className="d-flex align-items-center gap-2">
-                    <img src={avaxStakeActive} width={20} height={20} alt="" />
-                    <h6 className="chain-name">Avalanche</h6>
+                    <img
+                      src={activeMethod === "Vault" ? usdt : avaxStakeActive}
+                      width={20}
+                      height={20}
+                      alt=""
+                    />
+                    <h6 className="chain-name">
+                      {activeMethod === "Vault" ? "USDT" : "Avalanche"}
+                    </h6>
                   </div>
                   <img src={filledArrow} alt="" />
                 </div>

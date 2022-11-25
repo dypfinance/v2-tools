@@ -230,7 +230,7 @@ export default function initVaultNew({
         .getTvlUsdAndApyPercent(UNDERLYING_DECIMALS)
         .then(
           ({ tvl_usd, apy_percent }) => this.setState({ tvl_usd, apy_percent })
-          // console.log(tvl_usd)
+          // console.log(apy_percent)
         )
         .catch(console.error);
 
