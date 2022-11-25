@@ -748,6 +748,7 @@ export default function initVaultNew({
 
     getApproxReturn = () => {
       let APY = this.state.apy_percent;
+      console.log(APY)
       let approxDays = this.state.approxDays;
       let approxDeposit = this.state.approxDeposit;
 

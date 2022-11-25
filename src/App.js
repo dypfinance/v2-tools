@@ -388,6 +388,52 @@ class App extends React.Component {
 
               <Route
                 exact
+                path="/big-swap-explorer"
+                render={() => (
+                  <BigSwapExplorer
+                    theme={this.state.theme}
+                    networkId={parseInt(this.state.networkId)}
+                    isConnected={this.state.isConnected}
+                    appState={this.state}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path="/pair-explorer/:pair_id?"
+                render={(props) => (
+                  // to do
+                  <PairExplorer
+                    appState={this.state}
+                    isPremium={this.state.isPremium}
+                    key={props.match.params.pair_id}
+                    theme={this.state.theme}
+                    networkId={parseInt(this.state.networkId)}
+                    {...props}
+                  />
+                )}
+              />
+
+              <Route
+                exact
+                path="/submit-info"
+                render={() => <SubmitInfo theme={this.state.theme} />}
+              />
+
+              <Route
+                exact
+                path="/top-tokens"
+                render={() => (
+                  <TopTokens
+                    theme={this.state.theme}
+                    networkId={parseInt(this.state.networkId)}
+                    isConnected={this.state.isConnected}
+                  />
+                )}
+              />
+
+              <Route
+                exact
                 path="/earn"
                 render={() => (
                   <Earn
@@ -469,43 +515,7 @@ class App extends React.Component {
                   />
                 )}
               />
-              <Route
-                exact
-                path="/big-swap-explorer"
-                render={() => (
-                  <BigSwapExplorer
-                    theme={this.state.theme}
-                    networkId={parseInt(this.state.networkId)}
-                  />
-                )}
-              />
-              <Route
-                exact
-                path="/pair-explorer/:pair_id?"
-                render={(props) => (
-                  // to do
-                  <PairExplorer
-                    appState={this.state}
-                    isPremium={this.state.isPremium}
-                    key={props.match.params.pair_id}
-                    theme={this.state.theme}
-                    networkId={parseInt(this.state.networkId)}
-                    {...props}
-                  />
-                )}
-              />
 
-              <Route
-                exact
-                path="/submit-info"
-                render={() => <SubmitInfo theme={this.state.theme} />}
-              />
-
-              <Route
-                exact
-                path="/top-tokens"
-                render={() => <TopTokens theme={this.state.theme} />}
-              />
               <Route
                 exact
                 path="/account"
@@ -552,6 +562,7 @@ class App extends React.Component {
                     handleConnection={this.handleConnection}
                     isConnected={this.state.isConnected}
                     appState={this.state}
+                    theme={this.state.theme}
                     {...props}
                   />
                 )}

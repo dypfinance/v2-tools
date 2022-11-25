@@ -442,68 +442,6 @@ export default class PoolExplorer extends React.Component {
                             </>
                         )}
 
-                        <div className="screens-container">
-                            <div
-                                style={{
-                                    borderBottom:
-                                        this.state.screen === "pool" ? "3px solid #E30613" : "none",
-                                    paddingBottom: 8,
-                                    fontWeight: this.state.screen === "pool" ? 500 : 300,
-                                    fontSize: this.state.screen === "pool" ? 14 : 12,
-                                }}
-                                onClick={() => {
-                                    this.setState({screen: "pool"});
-                                }}
-                            >
-                                <span>Pool Explorer</span>
-                            </div>
-                            <div
-                                style={{
-                                    borderBottom:
-                                        this.state.screen === "swap" ? "3px solid #E30613" : "none",
-                                    paddingBottom: 8,
-                                    fontWeight: this.state.screen === "swap" ? 500 : 300,
-                                    fontSize: this.state.screen === "swap" ? 14 : 12,
-                                }}
-                                onClick={() => {
-                                    this.setState({screen: "swap"});
-                                }}
-                            >
-                                <span>Big Swap</span>
-                            </div>
-                            <div
-                                style={{
-                                    borderBottom:
-                                        this.state.screen === "tokens"
-                                            ? "3px solid #E30613"
-                                            : "none",
-                                    paddingBottom: 8,
-                                    fontWeight: this.state.screen === "tokens" ? 500 : 300,
-                                    fontSize: this.state.screen === "tokens" ? 14 : 12,
-                                }}
-                                onClick={() => {
-                                    this.setState({screen: "tokens"});
-                                }}
-                            >
-                                <span>Top Tokens</span>
-                            </div>
-                            <div
-                                style={{
-                                    borderBottom:
-                                        this.state.screen === "yields"
-                                            ? "3px solid #E30613"
-                                            : "none",
-                                    paddingBottom: 8,
-                                    fontWeight: this.state.screen === "yields" ? 500 : 300,
-                                    fontSize: this.state.screen === "yields" ? 14 : 12,
-                                }}
-                                onClick={() => {
-                                    this.setState({screen: "yields"});
-                                }}
-                            >
-                                <span>Yields</span>
-                            </div>
-                        </div>
                     </div>
                     <div className="col-md-6 p-0">
                         <div className="search-box">
@@ -536,17 +474,7 @@ export default class PoolExplorer extends React.Component {
                                     ? "Uniswap Pools Activity"
                                     : "Pangolin Pools Activity"}
                             </h4>
-                        ) : this.state.screen === "swap" ? (
-                            <h4>Latest Big Swaps</h4>
-                        ) : this.state.screen === "tokens" ? (
-                            <h4>
-                                {this.props.networkId === 1
-                                    ? "Uniswap Top Tokens"
-                                    : "Pangolin Top Tokens"}
-                            </h4>
-                        ) : (
-                            <h4>Yields Rankings</h4>
-                        )}
+                        ) : <></>}
                     </div>
                     {this.state.screen === "pool" ? (
                         <div className="l-table-wrapper-div">{this.GetDataTable()}</div>

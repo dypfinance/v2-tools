@@ -249,9 +249,9 @@ export default class Farms extends React.Component {
           </div>
         </div>
         <div className="table-box">
-          {/* <div className="table-title">
+          <div className="table-title">
             <h4>Yields Rankings</h4>
-          </div> */}
+          </div>
           <div className="l-table-wrapper-div">{this.GetDataTable()}</div>
           {/* <div className="page-nav">
                         <ul>
