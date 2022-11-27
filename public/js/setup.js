@@ -1624,6 +1624,13 @@ window.config = {
     43114: "AVAX",
     56: "BSC",
   },
+
+	SIGNATURE_API_URLAVAX: 'https://bridge-avax.dyp.finance',
+	SIGNATURE_API_URLBSC: 'https://bridge-api.dyp.finance',
+
+
+
+
 };
 
 window.infuraWeb3 = new Web3(window.config.infura_endpoint);
@@ -21512,21 +21519,9 @@ Object.keys(window.config)
       : window.STAKING_ABI;
   });
 
-function getPrice(coingecko_id = "ethereum", vs_currency = "usd") {
-  return new Promise((resolve, reject) => {
-    window.$.get(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${coingecko_id}&vs_currencies=${vs_currency}`
-    )
-      .then((result) => {
-        resolve(result[coingecko_id][vs_currency]);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-}
 
-window.getPrice = getPrice;
+
+  
 
 async function refreshBalance() {
   //await wait(10000)

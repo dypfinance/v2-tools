@@ -1,34 +1,19 @@
 import React, { useEffect, useState } from "react";
-import metamaskVideo from "../../../assets/earnAssets/metamaskVideo.png";
-import stakeVideo from "../../../assets/earnAssets/stakeVideo.png";
-import playButton from "../../../assets/earnAssets/playButton.svg";
+import metamaskVideo from "../../assets/earnAssets/metamaskVideo.png";
+import stakeVideo from "../../assets/earnAssets/stakeVideo.png";
+import playButton from "../../assets/earnAssets/playButton.svg";
 import axios from "axios";
-import arrowActive from "./arrowActive.svg";
-import arrowPassive from "./arrowPassive.svg";
+import arrowActive from "./assets/arrowActive.svg";
+import arrowPassive from "./assets/arrowPassive.svg";
 
 import Collapse from "react-bootstrap/Collapse";
 
-const EarnFaq = ({ faqTypes }) => {
+const BridgeFAQ = () => {
   const categories = [
     {
-      id: "63481594d7e11d6f1849f730",
-      title: "Stake",
-      icon: "stake",
-    },
-    {
-      id: "63488547062d4b709c4a250b",
-      title: "Buyback",
-      icon: "buyback",
-    },
-    {
-      id: "634885c5062d4b709c4a250f",
-      title: "Vault",
-      icon: "vault",
-    },
-    {
-      id: "6348811e062d4b709c4a24f9",
-      title: "Farming",
-      icon: "farm",
+      id: "63488995062d4b709c4a2535",
+      title: "Bridge",
+      icon: "bridge",
     },
   ];
 
@@ -47,16 +32,8 @@ const EarnFaq = ({ faqTypes }) => {
   };
 
   useEffect(() => {
-    if (faqTypes === "Staking") {
-      fetchFaq(categories[0]);
-    } else if (faqTypes === "Buyback") {
-      fetchFaq(categories[1]);
-    } else if (faqTypes === "Vault") {
-      fetchFaq(categories[2]);
-    } else {
-      fetchFaq(categories[3]);
-    }
-  }, [faqTypes]);
+    fetchFaq(categories[0]);
+  }, []);
 
   return (
     <div className="row w-100 my-5 p-0 faq-container justify-content-between">
@@ -146,4 +123,4 @@ const EarnFaq = ({ faqTypes }) => {
   );
 };
 
-export default EarnFaq;
+export default BridgeFAQ;

@@ -1,4 +1,3 @@
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import Web3 from "web3";
 import React from "react";
 import GoogleAnalyticsReporter from "./functions/analytics";
@@ -20,7 +19,6 @@ import { RedirectPathToHomeOnly } from "./functions/redirects";
 import Earn from "./components/earn/Earn";
 import Dashboard from "./components/dashboard/Dashboard";
 import Governance from "./components/governance/Governance";
-import initFarmAvax from "./components/FARMINNG/farmAvax";
 import navRadius from "./assets/navRadius.svg";
 import Governancedev from "./components/governance/dev/governance-new-avax";
 import Launchpad from "./components/launchpad/Launchpad";
@@ -28,9 +26,10 @@ import LaunchpadForm from "./components/launchpad/launchpadform/LaunchpadForm";
 import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadDetails";
 import TierLevels from "./components/launchpad/tierlevels/TierLevels";
 import initBridge from "./components/bridge/bridge-bsc";
+import Bridge from "./components/bridge/BridgeGeneral";
 
 
-const API_BASEURL = window.config.api_baseurl;
+
 
 class App extends React.Component {
   constructor(props) {
@@ -108,7 +107,7 @@ class App extends React.Component {
     // }.bind(this))
 
     let coinbase = this.state.coinbase;
-    let subscribedPlatformTokenAmount;
+    // let subscribedPlatformTokenAmount;
     let subscribedPlatformTokenAmountETH;
     let subscribedPlatformTokenAmountAvax;
 
@@ -142,8 +141,8 @@ class App extends React.Component {
         .then();
 
       if (
-        subscribedPlatformTokenAmountAvax == 0 &&
-        subscribedPlatformTokenAmountETH == 0
+        subscribedPlatformTokenAmountAvax === 0 &&
+        subscribedPlatformTokenAmountETH === 0
       ) {
         this.setState({ subscribedPlatformTokenAmount: "0", isPremium: false });
       } else if (subscribedPlatformTokenAmountAvax > 0) {
@@ -336,12 +335,12 @@ class App extends React.Component {
     document.addEventListener("touchstart", { passive: true });
 
 
-    const Bridge = initBridge({
-      bridgeETH: window.bridge_bsceth,
-      bridgeBSC: window.bridge_bscbsc,
-      tokenETH: window.token_dyp_bsceth,
-      tokenBSC: window.token_dyp_bscbsc, 
-    });
+    // const Bridge = initBridge({
+    //   bridgeETH: window.bridge_bsceth,
+    //   bridgeBSC: window.bridge_bscbsc,
+    //   tokenETH: window.token_dyp_bsceth,
+    //   tokenBSC: window.token_dyp_bscbsc, 
+    // });
 
 
     return (
