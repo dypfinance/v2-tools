@@ -139,37 +139,29 @@ export default class Farms extends React.Component {
   GetDataTable = () => {
     const columns = [
       {
-        name: " ",
-        selector: "link_logo",
-        maxWidth: "80px",
-        minWidth: "80px",
-        right: true,
-        cell: (row, i) => (
-          <div>
-            {/*i+1*/}{" "}
-            <img
-              src={row.link_logo}
-              height="40"
-              width="40"
-              style={{ objectFit: "cover" }}
-            />
-          </div>
-        ),
-      },
-      {
         name: "Pool",
         selector: "pair_name",
         sortable: true,
         cell: (row) => (
-          <a
-            className="l-clr-purple"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={row.link_pair}
-          >
-            {" "}
-            {row.pair_name}{" "}
-          </a>
+          <div class="token">
+            <img
+                src="/assets/img/icon.svg"
+                alt=""
+            />
+            <a
+                className="token-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={row.link_pair}
+            >
+                {" "}
+                {row.pair_name}{" "}
+            </a>
+            <img
+                src="/assets/img/link.svg"
+                alt=""
+            />
+          </div>
         ),
       },
       {
@@ -215,7 +207,7 @@ export default class Farms extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container-lg">
         <div className="row px-3">
           <div className="col-md-6">
             {/* <h2 style={{display: 'block', color: `var(--preloader-clr)`}}>Yields</h2>
