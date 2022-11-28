@@ -10,6 +10,7 @@ import getFormattedNumber from "../../functions/get-formatted-number";
 import BigSwapExplorer from "../big-swap-explorer";
 import TopTokens from "../top-tokens";
 import Farms from "../farms";
+import './table.css';
 
 const Circular = () => (
     // we need to add some padding to circular progress to keep it from activating our scrollbar
@@ -177,20 +178,32 @@ export default class PoolExplorer extends React.Component {
         const columns = [
             {
                 name: "Token",
+                minWidth: "200px",
                 selector: "tokenSymbol",
                 sortable: true,
                 cell: (txn) => (
-                    <a
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        href={
-                            this.props.networkId === 1
-                                ? `https://etherscan.io/address/${txn.tokenId}`
-                                : `https://cchain.explorer.avax.network/address/${txn.tokenId}`
-                        }
-                    >
-                        {txn.tokenSymbol}
-                    </a>
+                    <div class="token">
+                        <img
+                            src="/assets/img/icon.svg"
+                            alt=""
+                        />
+                        <a
+                            className="token-link"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            href={
+                                this.props.networkId === 1
+                                    ? `https://etherscan.io/address/${txn.tokenId}`
+                                    : `https://cchain.explorer.avax.network/address/${txn.tokenId}`
+                            }
+                        >
+                            {txn.tokenSymbol}
+                        </a>
+                        <img
+                            src="/assets/img/link.svg"
+                            alt=""
+                        />
+                    </div>
                 ),
             },
             {
@@ -218,22 +231,22 @@ export default class PoolExplorer extends React.Component {
                             title="Filter by token"
                             href="#"
                         >
-                            <i
+                            <img 
+                                className="filter-actions"
                                 style={{
-                                    fontSize: "18px",
-                                    position: "relative",
-                                    top: "5px",
-                                    color:
+                                    background:
                                         this.state.filteredByTokenId == txn.tokenId
                                             ? "red"
                                             : "inherit",
                                 }}
-                                className={`fas fa-${
+                                src={`${
                                     this.state.filteredByTokenId == txn.tokenId
-                                        ? "times"
-                                        : "filter"
+                                        ? "/assets/img/times.svg"
+                                        : "/assets/img/filter.svg"
                                 }`}
-                            ></i>
+                                width="18"
+                                alt=""
+                            />
                         </a>
                         <a
                             rel="noopener noreferrer"
@@ -250,6 +263,7 @@ export default class PoolExplorer extends React.Component {
                             }
                         >
                             <img
+                                className="icon-bg-white-rounded"
                                 src={
                                     this.props.networkId === 1
                                         ? "/images/uniswap-logo-home.png"
@@ -283,34 +297,28 @@ export default class PoolExplorer extends React.Component {
                             />
                         </a>
                         {/* <a rel='noopener noreferrer' target="_blank" title="Blocked Liquidity" href={`https://www.unicrypt.network/amm/uni/pair/${txn.pairId}`}><img className='icon-bg-white-rounded' src="/images/unicrypt_v3.svg" width="18" alt="" /></a> */}
-                        <NavLink title="DYP Locker" to={`/locker/${txn.pairId}`}>
-                            <i
-                                style={{
-                                    color: "var(--preloader-clr)",
-                                    fontSize: "20px",
-                                    position: "relative",
-                                    top: "5px",
-                                }}
-                                className="fas fa-lock"
-                            />
-                        </NavLink>
                         <NavLink title="Pair Explorer" to={`/pair-explorer/${txn.pairId}`} onClick={() => {
                             window.location.replace(`/pair-explorer/${txn.pairId}`)
                         }}>
-                            <i
-                                style={{
-                                    fontSize: "20px",
-                                    position: "relative",
-                                    top: "5px",
-                                }}
-                                className="far fa-compass"
-                            ></i>
+                            <img
+                                className="icon-bg-white-rounded"
+                                src="/assets/img/compass-actions.svg"
+                                alt=""
+                            />
+                        </NavLink>
+                        <NavLink title="DYP Locker" to={`/locker/${txn.pairId}`}>     
+                            <img
+                                className="icon-bg-white-rounded"
+                                src="/assets/img/lock.svg"
+                                alt=""
+                            />
                         </NavLink>
                     </div>
                 ),
             },
             {
                 name: "Type",
+                minWidth: "165px",
                 selector: "type",
                 sortable: true,
                 cell: (txn) => (
@@ -324,11 +332,11 @@ export default class PoolExplorer extends React.Component {
                         }
                     >
             <span
-                className={`badge badge-${
+                className={`type-${
                     txn.type == "burn" ? "danger" : "light"
                 } p-2`}
             >
-              {txn.type == "burn" ? "REMOVE" : "ADD"}
+              {txn.type == "burn" ? "Remove Liquidity" : "Added Liquidity"}
             </span>
                     </a>
                 ),
@@ -364,10 +372,15 @@ export default class PoolExplorer extends React.Component {
             },
             {
                 name: "Created on",
+                minWidth: "160px",
                 selector: "pairCreationTimestamp",
                 sortable: true,
                 cell: (txn) => (
-                    <div title={new Date(txn.pairCreationTimestamp * 1e3)}>
+                    <div class="created-on" title={new Date(txn.pairCreationTimestamp * 1e3)}>
+                        <img
+                            src="assets/img/clock.svg"
+                        />
+
                         {moment
                             .duration(txn.pairCreationTimestamp * 1e3 - now)
                             .humanize(true)}

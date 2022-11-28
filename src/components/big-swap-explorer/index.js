@@ -147,18 +147,24 @@ export default class BigSwapExplorer extends React.Component {
                 sortable: true,
                 // minWidth: '145px',
                 cell: (txn) => (
-                    <NavLink
-                        className="l-clr-purple"
-                        to={`/pair-explorer/${txn.pair.id}`}
-                        style={{
-                            whiteSpace: "nowrap",
-                            textOverflow: "ellipsis",
-                            overflow: "hidden",
-                        }}
-                        title={txn.pair_symbols}
-                    >
-                        {txn.pair_symbols}
-                    </NavLink>
+                    <div class="token">
+                        <img
+                            src="/assets/img/icon.svg"
+                            alt=""
+                        />
+                        <NavLink
+                            className="token-link"
+                            to={`/pair-explorer/${txn.pair.id}`}
+                            style={{
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                                overflow: "hidden"
+                            }}
+                            title={txn.pair_symbols}
+                        >
+                            {txn.pair_symbols}
+                        </NavLink>
+                    </div>
                 ),
             },
 
@@ -184,7 +190,7 @@ export default class BigSwapExplorer extends React.Component {
                 minWidth: "80px",
                 textAlign: "right",
                 cell: (txn) => (
-                    <span className={`l-clr-${txn.type == "sell" ? "red" : "purple"}`}>
+                    <span className={`${txn.type == "sell" ? "text-red" : "text-green"}`}>
             {" "}
                         {txn.type}{" "}
           </span>
@@ -271,10 +277,11 @@ export default class BigSwapExplorer extends React.Component {
                         </a>
                         {/* <a rel='noopener noreferrer' target="_blank" title="Blocked Liquidity" href={`https://www.unicrypt.network/pair/${txn.pairId}`}><img className='icon-bg-white-rounded' src="/images/unicrypt_v3.svg" width="18" alt="" /></a> */}
                         <NavLink title={txn.pair.id} to={`/pair-explorer/${txn.pair.id}`}>
-                            <i
-                                style={{ fontSize: "20px", position: "relative", top: "5px" }}
-                                className="far fa-compass"
-                            ></i>
+                            <img
+                                className="icon-bg-white-rounded"
+                                src="/assets/img/compass-actions.svg"
+                                alt=""
+                            />
                         </NavLink>
                     </div>
                 ),

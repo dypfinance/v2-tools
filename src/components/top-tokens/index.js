@@ -130,23 +130,33 @@ export default class TopTokens extends React.Component {
         sortable: true,
         // minWidth: '145px',
         cell: (txn) => (
-          <a
-            target="_blank"
-            className="l-clr-purple"
-            href={
-              this.props.networkId == 1
-                ? `https://v2.info.uniswap.org/token/${txn.id}`
-                : `https://cchain.explorer.avax.network/address/${txn.id}`
-            }
-            style={{
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-            title={txn.name}
-          >
-            {txn.name}
-          </a>
+          <div class="token">
+            <img
+                src="/assets/img/icon.svg"
+                alt=""
+            />
+            <a
+              target="_blank"
+              className="token-link"
+              href={
+                this.props.networkId == 1
+                  ? `https://v2.info.uniswap.org/token/${txn.id}`
+                  : `https://cchain.explorer.avax.network/address/${txn.id}`
+              }
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+              title={txn.name}
+            >
+              {txn.name}
+            </a>
+            <img
+                src="/assets/img/link.svg"
+                alt=""
+            />
+          </div>
         ),
       },
 
