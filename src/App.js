@@ -27,6 +27,7 @@ import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadD
 import TierLevels from "./components/launchpad/tierlevels/TierLevels";
 import initBridge from "./components/bridge/bridge-bsc";
 import Bridge from "./components/bridge/BridgeGeneral";
+import Footer from './components/Footer/footer'
 
 class App extends React.Component {
   constructor(props) {
@@ -375,7 +376,7 @@ class App extends React.Component {
             isPremium={this.state.isPremium}
             network={this.state.networkId}
           />
-          <div className="right-content pr-0">
+          <div className="right-content pr-0 pb-0">
             <Switch>
               <Route
                 exact
@@ -587,7 +588,7 @@ class App extends React.Component {
               <Route component={RedirectPathToHomeOnly} />
             </Switch>
 
-            {/* <Footer /> */}
+            <Footer />
           </div>
         </div>
       </div>
