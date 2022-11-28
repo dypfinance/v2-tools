@@ -16,6 +16,7 @@ import logoutimg from "./assets/logout.svg";
 import walletIcon from "./assets/walletIcon.svg";
 import WalletModal from "../WalletModal";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
+import { NavLink } from "react-router-dom";
 
 const Header = ({
   toggleMobileSidebar,
@@ -236,18 +237,12 @@ const Header = ({
             </span>
           </div>
           <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
-            <a
+            <NavLink
               className="buydyp-btn btn"
-              href={
-                chainId === 1
-                  ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                  : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-              }
-              target={"_blank"}
-              rel="noreferrer"
+              to="/buydyp"
             >
               <img src={coin} alt="" /> Buy DYP
-            </a>
+            </NavLink>
             <div className="d-flex justify-content-between gap-3 align-items-center">
               <DropdownButton
                 id="dropdown-basic-button"
