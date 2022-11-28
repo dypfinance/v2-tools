@@ -188,20 +188,56 @@ letter-spacing: -0.018em;
 color: #D6D8E7 !important;
 }
 
+.pair-locker-wrapper{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 50px;
+  column-gap: 24px;
+}
+
 
 .pair-locker-card{
   background: #312F69;
-border: 2px solid #4ED5D2;
+outline: 2px solid #565891;
 border-radius: 12px;
+}
+
+.pair-locker-left{
+  /* border-right: 2px solid #565891; */
+  border-radius: 12px;
 }
 
 .pair-locker-right{
   background: #2A2859;
-  border: 2px solid #4ED5D2;
+  border-left: 2px solid #565891;
   border-radius: 12px;
 }
 
+.pairlocker-badge{
+  position: absolute;
+  bottom: -15%;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
 
+
+.hide-btn{
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.active-pair-completed{
+  background: linear-gradient(0deg, #2A2859 1.45%, #6C69D5 100%) !important;
+}
+
+.active-pair{
+  background: linear-gradient(0deg, #2A2859 1.45%, #F77F5A 100%) !important;
+}
+
+.inactive-pair{
+  background: linear-gradient(0deg, #2A2859 1.45%, #606580 100%) !important;
+}
 .pair-indicator{
   font-weight: 400;
   font-size: 14px;
@@ -229,10 +265,26 @@ border-radius: 12px;
   font-weight: 500;
 font-size: 10px;
 line-height: 12px;
-/* identical to box height, or 120% */
-
 letter-spacing: -0.018em;
-
 color: #4ED5D2 !important;
+}
+.inactive-tag{
+  padding: 6px 12px 6px 6px;
+  border-radius: 50px;
+  background: #C0C9FF;
+  width: fit-content;
+}
 
+.inactive-tag-text{
+  font-weight: 500;
+font-size: 10px;
+line-height: 12px;
+letter-spacing: -0.018em;
+color: #14142A !important;
+}
+
+.more-info-tag{
+  position: absolute;
+  top: -30px;
+  right: 0;
 }

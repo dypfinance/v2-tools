@@ -30,6 +30,7 @@ import avaxStakeActive from "../../assets/earnAssets/avaxStakeActive.svg";
 import lockerCalendarIcon from "./assets/lockerCalendarIcon.svg";
 import coinStackIcon from '../launchpad/assets/coinStackIcon.svg';
 import purpleLiquidityLocker from './assets/purpleLiquidityLocker.svg'
+import PairLockerCard from "./PairLockerCard";
 
 export default class Locker extends React.Component {
   constructor(props) {
@@ -1945,7 +1946,7 @@ export default class Locker extends React.Component {
           </p>
         </div>
         <div className="row mt-4 w-100 mx-0">
-          <div className="col-6 ps-0">
+          <div className="col-7 ps-0">
             <div className="px-3 py-4 locker-card liquidity-background d-flex gap-3 position-relative">
               <div
                 className="purplediv"
@@ -1971,7 +1972,7 @@ export default class Locker extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-6 pe-0">
+          <div className="col-5 pe-0">
             <div className="px-3 py-4 locker-card security-background d-flex gap-3 h-100  position-relative">
               <div className="purplediv" style={{ left: "0px" }}></div>
               <div className="security-icon-holder d-flex align-items-center justify-content-center">
@@ -2243,59 +2244,10 @@ export default class Locker extends React.Component {
         </div>
           <h6 className="locker-title mt-5">Pair locks</h6>
         <div className="row mx-0 w-100 mt-2">
-          <div className="col-4">
-            <div className="pair-locker-card d-flex">
-              <div className="col-7 p-2 d-flex flex-column gap-2">
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">ID</span>
-                  <span className="pair-value">1</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">Pair address</span>
-                  <span className="pair-value">..2012765</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">LP Amount</span>
-                  <span className="pair-value">0.8664435</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">DYP</span>
-                  <span className="pair-value">..2021765</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">Recipent</span>
-                  <span className="pair-value">..44324</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">Unlock</span>
-                  <span className="pair-value">6 months</span>
-                </div>
-                <img src={require('./assets/pairPurple.svg').default} width={58} height={64} alt="" />
-              </div>
-              <div className="col-5 pair-locker-right p-2 d-flex flex-column justify-content-between">
-                <div className="d-flex flex-column gap-2">
-                  <div className="d-flex flex-column gap-2">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <span className="pair-indicator">Status</span>
-                      <img src={moreInfo} alt="" />
-                    </div>
-                    <div className="active-tag d-flex align-items-center gap-2">
-                      <img src={require('./assets/activeMark.svg').default} alt="" />
-                      <span className="active-tag-text">Active</span>
-                    </div>
-                  </div>
-                  <div className="d-flex flex-column gap-2">
-                    <span className="pair-indicator">Ends in</span>
-                    <span className="pair-value">12.05.2022</span>
-                  </div>
-                  <div className="d-flex flex-column gap-2">
-                    <span className="pair-indicator">Created</span>
-                    <span className="pair-value">12.05.2022</span>
-                  </div>
-                </div>
-                <button className="btn filledbtn">Claim</button>
-              </div>
-            </div>
+          <div className="pair-locker-wrapper px-0">
+           <PairLockerCard completed={true} active={true} />
+           <PairLockerCard completed={false} active={true} />
+           <PairLockerCard  completed={false} active={false} />
           </div>
         </div>
       </div>

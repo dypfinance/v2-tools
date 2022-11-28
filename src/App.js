@@ -27,6 +27,7 @@ import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadD
 import TierLevels from "./components/launchpad/tierlevels/TierLevels";
 import initBridge from "./components/bridge/bridge-bsc";
 import Bridge from "./components/bridge/BridgeGeneral";
+import BuyDyp from "./components/buydyp/BuyDyp";
 
 
 
@@ -492,7 +493,7 @@ class App extends React.Component {
                   />
                 )}
               />
-
+              <Route exact path="/buydyp" render={() => <BuyDyp />} />
               <Route
                 exact
                 path="/governancedev"
