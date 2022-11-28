@@ -274,6 +274,15 @@ export default function initBridge({
           })
           .then(() => {
             this.setState({ depositLoading: false, depositStatus: "deposit" });
+          }).catch((e) => {
+            this.setState({ depositLoading: false, depositStatus: "fail", errorMsg: e?.message });
+            setTimeout(() => {
+              this.setState({
+                depositStatus: "initial",
+                depositAmount: "",
+                errorMsg: "",
+              });
+            }, 8000);
           });
       }
     };
@@ -424,9 +433,10 @@ export default function initBridge({
         );
         canWithdraw = timeDiff === 0;
       }
-
+      
       return (
         <div className="d-flex gap-4 justify-content-between">
+         
           <div className="token-staking col-5">
             <div className="purplediv"></div>
             <div className="row">

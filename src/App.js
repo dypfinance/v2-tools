@@ -376,7 +376,7 @@ class App extends React.Component {
             isPremium={this.state.isPremium}
             network={this.state.networkId}
           />
-          <div className="right-content pr-0 pb-0">
+          <div className="right-content pr-0">
             <Switch>
               <Route
                 exact
