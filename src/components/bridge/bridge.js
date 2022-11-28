@@ -23,26 +23,26 @@ import WalletModal from "../WalletModal";
 // Renderer callback with condition
 const getRenderer =
   (completedText = "0s", braces = false) =>
-    ({ days, hours, minutes, seconds, completed }) => {
-      if (braces && completedText === "0s") {
-        completedText = "( 0s )";
-      }
-      if (completed) {
-        // Render a complete state
-        return <span>{completedText}</span>;
-      } else {
-        // Render a countdown
-        return (
-          <span>
-            {braces ? "(" : ""} {days > 0 ? days + "d " : ""}
-            {hours > 0 || days > 0 ? hours + "h " : ""}
-            {minutes > 0 || hours > 0 || days > 0 ? minutes + "m " : ""}
-            {seconds}s {braces ? ")" : ""}
-            {/* {days}d {hours}h {minutes}m {seconds}s Left */}
-          </span>
-        );
-      }
-    };
+  ({ days, hours, minutes, seconds, completed }) => {
+    if (braces && completedText === "0s") {
+      completedText = "( 0s )";
+    }
+    if (completed) {
+      // Render a complete state
+      return <span>{completedText}</span>;
+    } else {
+      // Render a countdown
+      return (
+        <span>
+          {braces ? "(" : ""} {days > 0 ? days + "d " : ""}
+          {hours > 0 || days > 0 ? hours + "h " : ""}
+          {minutes > 0 || hours > 0 || days > 0 ? minutes + "m " : ""}
+          {seconds}s {braces ? ")" : ""}
+          {/* {days}d {hours}h {minutes}m {seconds}s Left */}
+        </span>
+      );
+    }
+  };
 
 export default function initBridge({
   bridgeETH,
@@ -290,17 +290,18 @@ export default function initBridge({
             ? window.config.SIGNATURE_API_URLAVAX
             : this.props.destinationChain === "bnb" &&
               this.props.networkId === 1
-              ? window.config.SIGNATURE_API_URLBSC
-              : this.props.networkId === 56
-                ? window.config.SIGNATURE_API_URLBSC
-                : window.config.SIGNATURE_API_URLAVAX;
+            ? window.config.SIGNATURE_API_URLBSC
+            : this.props.networkId === 56
+            ? window.config.SIGNATURE_API_URLBSC
+            : window.config.SIGNATURE_API_URLAVAX;
         let url =
           signature +
-          `/api/withdraw-args?depositNetwork=${this.state.chainText === "ETH" &&
+          `/api/withdraw-args?depositNetwork=${
+            this.state.chainText === "ETH" &&
             this.props.destinationChain === "avax"
-            ? "AVAX"
-            : this.state.chainText === "ETH" &&
-              this.props.destinationChain === "bnb"
+              ? "AVAX"
+              : this.state.chainText === "ETH" &&
+                this.props.destinationChain === "bnb"
               ? "BSC"
               : "ETH"
           }&txHash=${this.state.txHash}`;
@@ -363,25 +364,27 @@ export default function initBridge({
             try {
               let signature =
                 this.props.destinationChain === "avax" &&
-                  this.props.networkId === 1
+                this.props.networkId === 1
                   ? window.config.SIGNATURE_API_URLAVAX
                   : this.props.destinationChain === "bnb" &&
                     this.props.networkId === 1
-                    ? window.config.SIGNATURE_API_URLBSC
-                    : this.props.networkId === 56
-                      ? window.config.SIGNATURE_API_URLBSC
-                      : window.config.SIGNATURE_API_URLAVAX;
+                  ? window.config.SIGNATURE_API_URLBSC
+                  : this.props.networkId === 56
+                  ? window.config.SIGNATURE_API_URLBSC
+                  : window.config.SIGNATURE_API_URLAVAX;
 
               let url =
                 signature +
-                `/api/withdraw-args?depositNetwork=${this.state.chainText === "ETH" &&
+                `/api/withdraw-args?depositNetwork=${
+                  this.state.chainText === "ETH" &&
                   this.props.destinationChain === "avax"
-                  ? "AVAX"
-                  : this.state.chainText === "ETH" &&
-                    this.props.destinationChain === "bnb"
+                    ? "AVAX"
+                    : this.state.chainText === "ETH" &&
+                      this.props.destinationChain === "bnb"
                     ? "BSC"
                     : "ETH"
-                }&txHash=${this.state.txHash
+                }&txHash=${
+                  this.state.txHash
                 }&getWithdrawableUnixTimestamp=true`;
               console.log({ url });
               let { withdrawableUnixTimestamp } = await window.jQuery.get(url);
@@ -438,7 +441,7 @@ export default function initBridge({
                             ? "optionbtn-active"
                             : "optionbtn-passive"
                         }
-                        onClick={() => { }}
+                        onClick={() => {}}
                       >
                         <h6 className="optiontext">
                           <img src={eth} alt="" /> Ethereum
@@ -516,21 +519,21 @@ export default function initBridge({
                                   {this.state.chainText === "ETH"
                                     ? "Ethereum"
                                     : this.state.chainText !== "AVAX"
-                                      ? "BNB Chain"
-                                      : "Avalanche"}{" "}
+                                    ? "BNB Chain"
+                                    : "Avalanche"}{" "}
                                   Pool:{" "}
                                   <b>
                                     {this.state.chainText === "ETH"
                                       ? getFormattedNumber(
-                                        this.state.ethPool,
-                                        2
-                                      )
+                                          this.state.ethPool,
+                                          2
+                                        )
                                       : this.state.chainText === "AVAX"
-                                        ? getFormattedNumber(
+                                      ? getFormattedNumber(
                                           this.state.avaxPool,
                                           2
                                         )
-                                        : getFormattedNumber(
+                                      : getFormattedNumber(
                                           this.state.bnbPool,
                                           2
                                         )}{" "}
@@ -598,28 +601,30 @@ export default function initBridge({
                                 style={{ width: "fit-content" }}
                                 disabled={
                                   this.state.depositAmount === "" ||
-                                    this.state.depositLoading === true ||
-                                    this.state.depositStatus === "success"
+                                  this.state.depositLoading === true ||
+                                  this.state.depositStatus === "success"
                                     ? true
                                     : false
                                 }
-                                className={`btn filledbtn ${this.state.depositAmount === "" &&
+                                className={`btn filledbtn ${
+                                  this.state.depositAmount === "" &&
                                   this.state.depositStatus === "initial" &&
                                   "disabled-btn"
-                                  } ${this.state.depositStatus === "deposit" ||
-                                    this.state.depositStatus === "success"
+                                } ${
+                                  this.state.depositStatus === "deposit" ||
+                                  this.state.depositStatus === "success"
                                     ? "success-button"
                                     : this.state.depositStatus === "fail"
-                                      ? "fail-button"
-                                      : null
-                                  } d-flex justify-content-center align-items-center gap-2`}
+                                    ? "fail-button"
+                                    : null
+                                } d-flex justify-content-center align-items-center gap-2`}
                                 onClick={() => {
                                   this.state.depositStatus === "deposit"
                                     ? this.handleDeposit()
                                     : this.state.depositStatus === "initial" &&
                                       this.state.depositAmount !== ""
-                                      ? this.handleApprove()
-                                      : console.log("");
+                                    ? this.handleApprove()
+                                    : console.log("");
                                 }}
                               >
                                 {this.state.depositLoading ? (
@@ -674,7 +679,8 @@ export default function initBridge({
                       borderRadius: 8,
                     }}
                   />
-                  <div className="col-12">
+                  <div className="col-12 position-relative">
+                    <div className="purplediv"></div>
                     <div className="l-box">
                       <form className="pb-0">
                         <div className="form-group">
@@ -691,8 +697,8 @@ export default function initBridge({
                                       this.props.networkId === 1
                                         ? "optionbtn-passive"
                                         : this.state.destinationChain === "eth"
-                                          ? "optionbtn-active"
-                                          : "optionbtn-passive"
+                                        ? "optionbtn-active"
+                                        : "optionbtn-passive"
                                     }
                                     onClick={() => {
                                       this.setState({
@@ -716,8 +722,8 @@ export default function initBridge({
                                       this.props.networkId === 56
                                         ? "optionbtn-passive"
                                         : this.state.destinationChain === "bnb"
-                                          ? "optionbtn-active"
-                                          : "optionbtn-passive"
+                                        ? "optionbtn-active"
+                                        : "optionbtn-passive"
                                     }
                                     onClick={() => {
                                       this.props.onSelectChain("bnb");
@@ -725,7 +731,7 @@ export default function initBridge({
                                     style={{
                                       pointerEvents:
                                         this.props.networkId === 43114 ||
-                                          this.props.networkId === 56
+                                        this.props.networkId === 56
                                           ? "none"
                                           : "auto",
                                     }}
@@ -739,8 +745,8 @@ export default function initBridge({
                                       this.props.networkId === 43114
                                         ? "optionbtn-passive"
                                         : this.state.destinationChain === "avax"
-                                          ? "optionbtn-active"
-                                          : "optionbtn-passive"
+                                        ? "optionbtn-active"
+                                        : "optionbtn-passive"
                                     }
                                     onClick={() => {
                                       this.props.onSelectChain("avax");
@@ -748,7 +754,7 @@ export default function initBridge({
                                     style={{
                                       pointerEvents:
                                         this.props.networkId === 43114 ||
-                                          this.props.networkId === 56
+                                        this.props.networkId === 56
                                           ? "none"
                                           : "auto",
                                     }}
@@ -760,7 +766,6 @@ export default function initBridge({
                                 </div>
                               </div>
                             </div>
-
                           </label>
 
                           <div className="mt-4 otherside w-100">
@@ -774,23 +779,23 @@ export default function initBridge({
                                   {this.state.destinationChain === "bnb"
                                     ? "BNB Chain"
                                     : this.state.destinationChain === "avax"
-                                      ? "Avalanche"
-                                      : "Ethereum"}{" "}
+                                    ? "Avalanche"
+                                    : "Ethereum"}{" "}
                                   Pool:{" "}
                                   <b>
                                     {this.state.chainText === "ETH" &&
-                                      this.props.destinationChain === "avax"
+                                    this.props.destinationChain === "avax"
                                       ? getFormattedNumber(
-                                        this.state.avaxPool,
-                                        2
-                                      )
+                                          this.state.avaxPool,
+                                          2
+                                        )
                                       : this.state.chainText === "ETH" &&
                                         this.props.destinationChain === "bnb"
-                                        ? getFormattedNumber(
+                                      ? getFormattedNumber(
                                           this.state.bnbPool,
                                           2
                                         )
-                                        : getFormattedNumber(
+                                      : getFormattedNumber(
                                           this.state.ethPool,
                                           2
                                         )}{" "}
@@ -831,21 +836,23 @@ export default function initBridge({
                                 style={{ width: "fit-content" }}
                                 disabled={
                                   canWithdraw === false ||
-                                    this.state.withdrawLoading === true ||
-                                    this.state.withdrawStatus === "success"
+                                  this.state.withdrawLoading === true ||
+                                  this.state.withdrawStatus === "success"
                                     ? true
                                     : false
                                 }
-                                className={`btn filledbtn ${canWithdraw === false &&
+                                className={`btn filledbtn ${
+                                  canWithdraw === false &&
                                   this.state.withdrawStatus === "initial" &&
                                   "disabled-btn"
-                                  } ${this.state.withdrawStatus === "deposit" ||
-                                    this.state.withdrawStatus === "success"
+                                } ${
+                                  this.state.withdrawStatus === "deposit" ||
+                                  this.state.withdrawStatus === "success"
                                     ? "success-button"
                                     : this.state.withdrawStatus === "fail"
-                                      ? "fail-button"
-                                      : null
-                                  } d-flex justify-content-center align-items-center gap-2`}
+                                    ? "fail-button"
+                                    : null
+                                } d-flex justify-content-center align-items-center gap-2`}
                                 onClick={() => {
                                   this.handleWithdraw();
                                 }}
@@ -873,7 +880,7 @@ export default function initBridge({
                             </div>
                             {this.state.withdrawableUnixTimestamp &&
                               Date.now() <
-                              this.state.withdrawableUnixTimestamp * 1e3 && (
+                                this.state.withdrawableUnixTimestamp * 1e3 && (
                                 <span>
                                   &nbsp;
                                   <Countdown
@@ -887,14 +894,26 @@ export default function initBridge({
                                 </span>
                               )}
 
+                            <div className="separator"></div>
+                            <div className="d-flex gap-2 align-items-start">
+                              <img
+                                src={require("./assets/errorinfo.svg").default}
+                                alt=""
+                              />
+                              <h6 className="bottominfotxt">
+                                You connot Bridge from BNB Chain to Avalanche directly, you
+                                need to go first to Ethereum and then to Avalanche, the
+                                same will happen if you want to bridge from Avalanche
+                                to BNB Chain, you need first to bridge to Ethereum and then
+                                to BNB Chain.
+                              </h6>
+                            </div>
                             {this.state.errorMsg2 && (
                               <h6 className="errormsg">
                                 {this.state.errorMsg2}
                               </h6>
                             )}
                           </div>
-
-
                         </div>
                       </form>
                     </div>
