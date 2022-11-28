@@ -17,6 +17,8 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import routeIcon from "./assets/route-icon.svg";
+import Address from "../FARMINNG/address";
+import WalletModal from "../WalletModal";
 
 // Renderer callback with condition
 const getRenderer =
@@ -72,6 +74,8 @@ export default function initBridge({
         withdrawStatus: "initial",
         errorMsg: "",
         errorMsg2: "",
+        showWalletModal: false,
+        destinationChain: "",
       };
     }
 
@@ -348,6 +352,7 @@ export default function initBridge({
                             ? "optionbtn-active"
                             : "optionbtn-passive"
                         }
+                        onClick={()=>{}}
                       >
                         <h6 className="optiontext">
                           <img src={eth} alt="" /> Ethereum
@@ -376,12 +381,25 @@ export default function initBridge({
                         </h6>
                       </div>
                     </div>
-                    <button className="connectbtn btn d-flex align-items-center gap-2">
-                      <img src={wallet} alt="" /> Connect wallet
-                    </button>
+                    {this.props.isConnected === false ? (
+                      <button
+                        className="connectbtn btn d-flex align-items-center gap-2"
+                        style={{ width: "fit-content" }}
+                        onClick={() => {
+                          this.setState({ showWalletModal: true });
+                        }}
+                      >
+                        <img src={wallet} alt="" />
+                        Connect wallet
+                      </button>
+                    ) : (
+                      <div className="addressbtn btn">
+                        <Address a={this.state.coinbase} chainId={43114} />
+                      </div>
+                    )}
                   </div>
                 </div>
-                <div className="row token-staking-form">
+                <div className="row token-staking-form gap-3">
                   <div className="col-12">
                     <div className="l-box">
                       <form onSubmit={(e) => e.preventDefault()}>
@@ -544,7 +562,14 @@ export default function initBridge({
                   <img
                     src={switchicon}
                     alt=""
-                    style={{ width: 100, height: 100, margin: "auto" }}
+                    style={{
+                      width: 55,
+                      height: 55,
+                      margin: "auto",
+                      boxShadow: "0px 6px 12px rgba(78, 213, 210, 0.32)",
+                      padding: 0,
+                      borderRadius: 8,
+                    }}
                   />
                   <div className="col-12">
                     <div className="l-box">
@@ -564,6 +589,7 @@ export default function initBridge({
                                         ? "optionbtn-active"
                                         : "optionbtn-passive"
                                     }
+                                    onClick={() => {}}
                                   >
                                     <h6 className="optiontext">
                                       <img src={eth} alt="" /> Ethereum
@@ -839,6 +865,15 @@ export default function initBridge({
               </div>
             </div>
           </div>
+          {this.state.showWalletModal === true && (
+            <WalletModal
+              show={this.state.showWalletModal}
+              handleClose={() => {
+                this.setState({ showWalletModal: false });
+              }}
+              handleConnection={this.props.handleConnection}
+            />
+          )}
           <div className="col-6 guidewrapper">
             <div className="purplediv"> </div>
             <div>

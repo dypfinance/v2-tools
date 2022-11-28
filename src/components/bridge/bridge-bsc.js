@@ -17,6 +17,8 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import routeIcon from "./assets/route-icon.svg";
+import Address from "../FARMINNG/address";
+import WalletModal from "../WalletModal";
 
 // Renderer callback with condition
 const getRenderer =
@@ -72,6 +74,7 @@ export default function initBridgebsc({
         withdrawStatus: "initial",
         errorMsg: "",
         errorMsg2: "",
+        showWalletModal: false,
       };
     }
 
@@ -315,9 +318,22 @@ export default function initBridgebsc({
                         </h6>
                       </div>
                     </div>
-                    <button className="connectbtn btn d-flex align-items-center gap-2">
-                      <img src={wallet} alt="" /> Connect wallet
-                    </button>
+                    {this.props.isConnected === false ? (
+                      <button
+                        className="connectbtn btn d-flex align-items-center gap-2"
+                        style={{ width: "fit-content" }}
+                        onClick={() => {
+                          this.setState({ showWalletModal: true });
+                        }}
+                      >
+                        <img src={wallet} alt="" />
+                        Connect wallet
+                      </button>
+                    ) : (
+                      <div className="addressbtn btn">
+                        <Address a={this.state.coinbase} chainId={43114} />
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="row token-staking-form">
@@ -827,6 +843,15 @@ export default function initBridgebsc({
               </Timeline>
             </div>
           </div>
+          {this.state.showWalletModal === true && (
+            <WalletModal
+              show={this.state.showWalletModal}
+              handleClose={() => {
+                this.setState({ showWalletModal: false });
+              }}
+              handleConnection={this.props.handleConnection}
+            />
+          )}
         </div>
       );
     }

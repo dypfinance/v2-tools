@@ -3,7 +3,7 @@ import initBridgebsc from "./bridge-bsc";
 import initBridge from "./bridge";
 import BridgeFAQ from "./BridgeFAQ";
 
-const Bridge = ({networkId,isConnected}) => {
+const Bridge = ({ networkId, isConnected, handleConnection }) => {
   const Bridgebsc = initBridgebsc({
     bridgeETH: window.bridge_bsceth,
     bridgeBSC: window.bridge_bscbsc,
@@ -20,8 +20,12 @@ const Bridge = ({networkId,isConnected}) => {
 
   return (
     <div>
-      <Bridgeavax isConnected={isConnected} networkId={networkId}/>
-      
+      <Bridgeavax
+        isConnected={isConnected}
+        networkId={networkId}
+        handleConnection={handleConnection}
+      />
+
       <BridgeFAQ />
     </div>
   );
