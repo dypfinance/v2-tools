@@ -60,21 +60,15 @@ const Header = ({
   const [avatar, setAvatar] = useState("../../assets/img/person.svg");
 
   const handleEthPool = () => {
-    handleSwitchNetworkhook("0x1")
+    handleSwitchNetworkhook("0x1");
   };
 
   const handleBnbPool = () => {
-    setAvaxState(false);
-    setBnbState(true);
-    setEthState(false);
-
-    // handleSwitchNetworkhook("0x38").then(() => {
-    //   handleSwitchNetwork(56);
-    // });
+    handleSwitchNetworkhook("0x38");
   };
 
   const handleAvaxPool = () => {
-    handleSwitchNetworkhook("0xa86a")
+    handleSwitchNetworkhook("0xa86a");
   };
 
   const fetchData = async () => {
@@ -173,19 +167,19 @@ const Header = ({
         const bscWeb3 = new Web3(window.config.bsc_endpoint);
         const avaxWeb3 = new Web3(window.config.avax_endpoint);
 
-        if(chainId === 1) {
+        if (chainId === 1) {
           const stringBalance = infuraWeb3.utils.hexToNumberString(balance);
           const amount = infuraWeb3.utils.fromWei(stringBalance, "ether");
           setCurrencyAmount(amount.slice(0, 7));
         }
 
-        if(chainId === 43114) {
+        if (chainId === 43114) {
           const stringBalance = avaxWeb3.utils.hexToNumberString(balance);
           const amount = avaxWeb3.utils.fromWei(stringBalance, "ether");
           setCurrencyAmount(amount.slice(0, 7));
         }
 
-        if(chainId === 56) {
+        if (chainId === 56) {
           const stringBalance = bscWeb3.utils.hexToNumberString(balance);
           const amount = bscWeb3.utils.fromWei(stringBalance, "ether");
           setCurrencyAmount(amount.slice(0, 7));
@@ -196,8 +190,8 @@ const Header = ({
 
   useEffect(() => {
     getEthBalance();
-  },[chainId]);
-  
+  }, [chainId]);
+
   useEffect(() => {
     fetchData().then();
     refreshHotPairs().then();
@@ -212,6 +206,10 @@ const Header = ({
     } else if (chainId === 43114) {
       setAvaxState(true);
       setBnbState(false);
+      setEthState(false);
+    } else if (chainId === 56) {
+      setAvaxState(false);
+      setBnbState(true);
       setEthState(false);
     }
   }, [chainId]);

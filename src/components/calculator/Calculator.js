@@ -501,57 +501,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             <h6 className="d-flex gap-2 align-items-center calc-title">
               <img src={calculator} alt="" /> Calculator
             </h6>
-            <DropdownButton
-              id="dropdown-basic-button3"
-              title={
-                <span className="dropdown-title">
-                  <img
-                    src={
-                      chainState === "eth"
-                        ? eth
-                        : chainState === "bnb"
-                        ? bnb
-                        : avax
-                    }
-                    alt=""
-                  />
-                  {chainState === "eth"
-                    ? "Ethereum"
-                    : chainState === "bnb"
-                    ? "BNB Chain"
-                    : "Avalanche"}
-                  {/* <img src={dropdown} alt="" /> */}
-                </span>
-              }
-            >
-              <Dropdown.Item
-                onClick={() => {
-                  setchainState("eth");
-                  setActiveChain(chainButtonsArray[0]);
-                }}
-              >
-                <img src={eth} alt="" />
-                Ethereum
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  setchainState("bnb");
-                  setActiveChain(chainButtonsArray[1]);
-                }}
-              >
-                <img src={bnb} alt="" />
-                BNB Chain
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
-                  setchainState("avax");
-                  setActiveChain(chainButtonsArray[2]);
-                }}
-              >
-                <img src={avax} alt="" />
-                Avalanche
-              </Dropdown.Item>
-            </DropdownButton>
+           
             {earnClass === "earn-calculator" && (
               <img
                 src={xMark}
