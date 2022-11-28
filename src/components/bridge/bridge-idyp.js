@@ -496,7 +496,7 @@ export default function initBridgeidyp({
                     )}
                   </div>
                 </div>
-                <div className="row token-staking-form">
+                <div className="row token-staking-form gap-3">
                   <div className="col-12">
                     <div className="l-box">
                       <form onSubmit={(e) => e.preventDefault()}>
@@ -659,7 +659,7 @@ export default function initBridgeidyp({
                               </button>
                             </div>
                             <p
-                              style={{ fontSize: ".8rem" }}
+                              style={{ fontSize: "10px" }}
                               className="mt-1 text-center mb-0"
                               id="firstPlaceholder"
                             >
