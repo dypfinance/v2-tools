@@ -308,7 +308,7 @@ export default class BigSwapExplorer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="container-lg">
                 {/* <div className="row px-3">
           <div className="col-md-6">
             <h2 style={{ display: "block", color: `var(--preloader-clr)` }}>
