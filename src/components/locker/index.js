@@ -28,6 +28,8 @@ import ethStakeActive from "../../assets/earnAssets/ethStakeActive.svg";
 import bnbStakeActive from "../../assets/earnAssets/bnbStakeActive.svg";
 import avaxStakeActive from "../../assets/earnAssets/avaxStakeActive.svg";
 import lockerCalendarIcon from "./assets/lockerCalendarIcon.svg";
+import coinStackIcon from '../launchpad/assets/coinStackIcon.svg';
+import purpleLiquidityLocker from './assets/purpleLiquidityLocker.svg'
 
 export default class Locker extends React.Component {
   constructor(props) {
@@ -1991,7 +1993,7 @@ export default class Locker extends React.Component {
         </div>
         <div className="row mx-0 w-100 mt-5">
           <div className="col-7 ps-0">
-            <div className="p-4 purple-wrapper position-relative">
+            <div className="px-4 pt-4 pb-5 purple-wrapper position-relative">
               <div
                 className="purplediv"
                 style={{ left: "0px", top: "20px", background: "#8E97CD" }}
@@ -2126,114 +2128,174 @@ export default class Locker extends React.Component {
                 </div>
               </div>
               <div className="d-flex flex-column gap-3 mt-4 w-50">
-                <span className="create-lock-title">
-                  Seleted % rate
-                </span>
+                <span className="create-lock-title mb-5">Seleted % rate</span>
                 {/* <input type="range" className="w-50" /> */}
-                <div className="slider-text-wrapper">
-                    <span
-                      className="slider-text"
-                      style={{
-                        color:
-                          this.state.sliderValue < 35 ? "#E30613" : "#A4A4A4",
-                        fontSize: this.state.sliderValue < 35 ? 20 : 15,
-                        fontWeight: this.state.sliderValue < 35 ? 700 : 500,
-                        justifyContent: "start",
-                      }}
-                    >
-                      25%
-                    </span>
-                    <span
-                      className="slider-text"
-                      style={{
-                        color:
-                          this.state.sliderValue > 35 &&
-                          this.state.sliderValue < 65
-                            ? "#E30613"
-                            : "#A4A4A4",
-                        fontSize:
-                          this.state.sliderValue > 35 &&
-                          this.state.sliderValue < 65
-                            ? 20
-                            : 15,
-                        fontWeight:
-                          this.state.sliderValue > 35 &&
-                          this.state.sliderValue < 65
-                            ? 700
-                            : 500,
-                        justifyContent: "center",
-                        width: "18%",
-                      }}
-                    >
-                      50%
-                    </span>
-                    <span
-                      className="slider-text"
-                      style={{
-                        color:
-                          this.state.sliderValue > 65 &&
-                          this.state.sliderValue < 90
-                            ? "#E30613"
-                            : "#A4A4A4",
-                        fontSize:
-                          this.state.sliderValue > 65 &&
-                          this.state.sliderValue < 90
-                            ? 20
-                            : 15,
-                        fontWeight:
-                          this.state.sliderValue > 65 &&
-                          this.state.sliderValue < 90
-                            ? 700
-                            : 500,
-                        width: "27%",
-                      }}
-                    >
-                      75%
-                    </span>
-                    <span
-                      className="slider-text"
-                      style={{
-                        color:
-                          this.state.sliderValue > 90 ? "#E30613" : "#A4A4A4",
-                        fontSize: this.state.sliderValue > 90 ? 20 : 15,
-                        fontWeight: this.state.sliderValue > 90 ? 700 : 500,
-                        width: "30%",
-                      }}
-                    >
-                      100%
-                    </span>
-                  </div>
-                  <Slider
 
-                    step={25}
-                    dots
-                    min={25}
-                    dotStyle={{
-                      background: "#C0C9FF",
-                      height: 16,
-                      width: 16,
-                      bottom: '-8px',
-                      border: "1px solid #C0C9FF",
-                    }}
-                    activeDotStyle={{ background: "#4ED5D2", border: '1px solid #4ED5D2' }}
-                    value={this.state.sliderValue}
-                    onChange={(e) => {
-                      this.handleAmountPercentInput(e);
-                      this.setState({ sliderValue: e });
+                <Slider
+                className="ms-3"
+                  step={25}
+                  dots
+                  min={25}
+                  dotStyle={{
+                    background: "#C0C9FF",
+                    height: 16,
+                    width: 16,
+                    bottom: "-8px",
+                    border: "1px solid #C0C9FF",
+                  }}
+                  activeDotStyle={{
+                    background: "#4ED5D2",
+                    border: "1px solid #4ED5D2",
+                  }}
+                  value={this.state.sliderValue}
+                  onChange={(e) => {
+                    this.handleAmountPercentInput(e);
+                    this.setState({ sliderValue: e });
 
-                      this.setState({
-                        amount:
-                          (getFormattedNumber(this.state.lpBalance / 1e18, 6) *
-                            e) /
-                          100,
-                      });
-                    }}
-                  />
+                    this.setState({
+                      amount:
+                        (getFormattedNumber(this.state.lpBalance / 1e18, 6) *
+                          e) /
+                        100,
+                    });
+                  }}
+                />
+                <div className="slider-text-wrapper ms-3">
+                  <span
+                    className={`slider-text ${
+                      this.state.sliderValue < 35 ? "slider-text-active first-value" : null
+                    }`}
+                  >
+                    25%
+                  </span>
+                  <span
+                    className={`slider-text ${
+                      this.state.sliderValue > 35 && this.state.sliderValue < 65
+                        ? "slider-text-active second-value"
+                        : null
+                    }`}
+                  >
+                    50%
+                  </span>
+                  <span
+                    className={`slider-text ${
+                      this.state.sliderValue > 65 && this.state.sliderValue < 90
+                        ? "slider-text-active third-value"
+                        : null
+                    }`}
+                  >
+                    75%
+                  </span>
+                  <span
+                    className={`slider-text ${
+                      this.state.sliderValue > 90 ? "slider-text-active fourth-value" : null
+                    }`}
+                  >
+                    100%
+                  </span>
+                </div>
+                <span className="select-percentage mt-4">*Select % of to the balance to lock</span>
               </div>
+            <hr className="form-divider my-4" />
+            <div className="d-flex align-items-center justify-content-between mx-3">
+              <button className="btn filledbtn px-5">Approve</button>
+              <button className="btn disabled-btn px-5">Lock</button>
+            </div>
             </div>
           </div>
           <div className="col-5 position-relative pe-0">
-            <div className="p-3 purple-wrapper"></div>
+            <div className="p-4 purple-wrapper">
+              <div className="d-flex align-items-center gap-2">
+                  <img src={coinStackIcon} alt="" />
+                  <h6 className="locker-function-title">My DYP locker liquidity</h6>
+              </div>
+              <hr className="form-divider my-3" />
+              <div className="locker-liquidity-wrapper p-3 d-flex align-items-center justify-content-between">
+                <img src={purpleLiquidityLocker} alt="" />
+                <div className="d-flex flex-column justify-content-center gap-2 align-items-end">
+                  <div className="d-flex align-items-center gap-2">
+                  <span className="locker-indicator">DYP locker status</span>
+                  <img src={moreInfo} alt="" height={20} width={20} />
+                  </div>
+                  <div className="locker-status d-flex align-items-center gap-3 p-2">
+                    <span className="locker-status-text">12% Locked</span>
+                    <span className="locker-status-text">12:45:35:07</span>
+                  </div>
+                  <span className="locker-timer">Countdown timer</span>
+                </div>
+              </div>
+              <div className="col-5  mt-3">
+                <span className="create-lock-title">Info data</span>
+                <hr className="form-divider w-100 my-2" style={{height: '3px'}} />
+                <div className="d-flex flex-column gap-3">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <span className="create-loxk-title">ID</span>
+                    <span className="create-loxk-title fw-bold">1</span>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <span className="create-loxk-title">Pair address</span>
+                    <span className="create-loxk-title fw-bold">..332423</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          <h6 className="locker-title mt-5">Pair locks</h6>
+        <div className="row mx-0 w-100 mt-2">
+          <div className="col-4">
+            <div className="pair-locker-card d-flex">
+              <div className="col-7 p-2 d-flex flex-column gap-2">
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="pair-indicator">ID</span>
+                  <span className="pair-value">1</span>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="pair-indicator">Pair address</span>
+                  <span className="pair-value">..2012765</span>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="pair-indicator">LP Amount</span>
+                  <span className="pair-value">0.8664435</span>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="pair-indicator">DYP</span>
+                  <span className="pair-value">..2021765</span>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="pair-indicator">Recipent</span>
+                  <span className="pair-value">..44324</span>
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="pair-indicator">Unlock</span>
+                  <span className="pair-value">6 months</span>
+                </div>
+                <img src={require('./assets/pairPurple.svg').default} width={58} height={64} alt="" />
+              </div>
+              <div className="col-5 pair-locker-right p-2 d-flex flex-column justify-content-between">
+                <div className="d-flex flex-column gap-2">
+                  <div className="d-flex flex-column gap-2">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <span className="pair-indicator">Status</span>
+                      <img src={moreInfo} alt="" />
+                    </div>
+                    <div className="active-tag d-flex align-items-center gap-2">
+                      <img src={require('./assets/activeMark.svg').default} alt="" />
+                      <span className="active-tag-text">Active</span>
+                    </div>
+                  </div>
+                  <div className="d-flex flex-column gap-2">
+                    <span className="pair-indicator">Ends in</span>
+                    <span className="pair-value">12.05.2022</span>
+                  </div>
+                  <div className="d-flex flex-column gap-2">
+                    <span className="pair-indicator">Created</span>
+                    <span className="pair-value">12.05.2022</span>
+                  </div>
+                </div>
+                <button className="btn filledbtn">Claim</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
