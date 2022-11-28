@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./buydyp.css";
 import VendorCard from "./VendorCard";
 import Slider from "react-slick";
 import VideoCard from "./VideoCard";
+import customSliderArrow from '../launchpad/assets/customSliderArrow.svg'
 
 const BuyDyp = () => {
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
     arrows: false,
     dotsClass: "button__bar",
   };
+
+const slider = useRef()
 
   const buyDypItems = [
     {
@@ -23,7 +26,7 @@ const BuyDyp = () => {
       totalvids: "1 video",
       videos: [
         {
-          link: "https://youtu.be/mjUUqNy-zW8",
+          link: "https://www.youtube.com/embed/mjUUqNy-zW8",
           image: "coinbase.png",
           title: "How to buy DeFi Yield Protocol (DYP) on Coinbase",
           walletName: "Coinbase",
@@ -45,7 +48,7 @@ const BuyDyp = () => {
       totalvids: "1 video",
       videos: [
         {
-          link: "https://www.youtube.com/watch?v=BIuy1A-_-dU",
+          link: "https://www.youtube.com/embed/BIuy1A-_-dU",
           image: "kucoin.png",
           title: "How to buy DeFi Yield Protocol (DYP) on KuCoin",
           walletName: "KuCoin",
@@ -60,7 +63,7 @@ const BuyDyp = () => {
       totalvids: "1 video",
       videos: [
         {
-          link: "https://www.youtube.com/watch?v=arVFXf5hESE",
+          link: "https://www.youtube.com/embed/arVFXf5hESE",
           image: "gate.png",
           title: "How to buy DeFi Yield Protocol (DYP) on Gate.io",
           walletName: "Gate.io",
@@ -83,14 +86,14 @@ const BuyDyp = () => {
       totalvids: "8 videos",
       videos: [
         {
-          link: "https://www.youtube.com/watch?v=yBzIPecqKY8",
+          link: "https://www.youtube.com/embed/yBzIPecqKY8",
           image: "metamask.png",
           title: "How to set up MetaMask for DeFi Yield Protocol (DYP)",
           walletName: "Metamask",
           thumbnail: "uni1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=XsmZ9xW_nps",
+          link: "https://www.youtube.com/embed/XsmZ9xW_nps",
           image: "metamask.png",
           title:
             "How to buy DeFi Yield Protocol (DYP) on Uniswap V2 using MetaMask",
@@ -98,14 +101,14 @@ const BuyDyp = () => {
           thumbnail: "uni2.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=amM9wOGNVpg",
+          link: "https://www.youtube.com/embed/amM9wOGNVpg",
           image: "trustwallet.png",
           walletName: "Trust wallet",
           title: "How to set up Trust Wallet for DeFi Yield Protocol (DYP)",
           thumbnail: "trust1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=AxWb2TxiQHw",
+          link: "https://www.youtube.com/embed/AxWb2TxiQHw",
           walletName: "Trust wallet",
           image: "trustwallet.png",
           title:
@@ -113,7 +116,7 @@ const BuyDyp = () => {
           thumbnail: "trust2.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=-kE6mM6d9ek",
+          link: "https://www.youtube.com/embed/-kE6mM6d9ek",
           image: "coin98.png",
           walletName: "Coin98",
           title:
@@ -121,7 +124,7 @@ const BuyDyp = () => {
           thumbnail: "coin1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=Dkt7JCbKHv4",
+          link: "https://www.youtube.com/embed/Dkt7JCbKHv4",
           image: "coin98.png",
           walletName: "Coin98",
           title:
@@ -129,14 +132,14 @@ const BuyDyp = () => {
           thumbnail: "coin2.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=lTD8DAsxmtY",
+          link: "https://www.youtube.com/embed/lTD8DAsxmtY",
           image: "safepal.png",
           walletName: "SafePal",
           title: "How to set up SafePal for DeFi Yield Protocol",
           thumbnail: "safe1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=h-oLMDhVvbg",
+          link: "https://www.youtube.com/embed/h-oLMDhVvbg",
           image: "safepal.png",
           walletName: "SafePal",
           title:
@@ -153,14 +156,14 @@ const BuyDyp = () => {
       totalvids: "4 videos",
       videos: [
         {
-          link: "https://www.youtube.com/watch?v=yBzIPecqKY8",
+          link: "https://www.youtube.com/embed/yBzIPecqKY8",
           image: "metamask.png",
           title: "How to set up MetaMask for DeFi Yield Protocol",
           walletName: "Metamask",
           thumbnail: "uni1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=sLHWYgNEbq8",
+          link: "https://www.youtube.com/embed/sLHWYgNEbq8",
           image: "metamask.png",
           walletName: "Metamask",
           title:
@@ -168,14 +171,14 @@ const BuyDyp = () => {
           thumbnail: "panc1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=amM9wOGNVpg",
+          link: "https://www.youtube.com/embed/amM9wOGNVpg",
           image: "trustwallet.png",
           walletName: "Trust wallet",
           title: "How to set up Trust Wallet for DeFi Yield Protocol (DYP)",
           thumbnail: "trust1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=Z8X3ythoZbg",
+          link: "https://www.youtube.com/embed/Z8X3ythoZbg",
           image: "trustwallet.png",
           walletName: "Trust wallet",
           title:
@@ -191,14 +194,14 @@ const BuyDyp = () => {
       totalvids: "4 videos",
       videos: [
         {
-          link: "https://www.youtube.com/watch?v=yBzIPecqKY8",
+          link: "https://www.youtube.com/embed/yBzIPecqKY8",
           image: "metamask.png",
           walletName: "Metamask",
           title: "How to set up MetaMask for DeFi Yield Protocol (DYP)",
           thumbnail: "uni1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=T6qYvErqD-M",
+          link: "https://www.youtube.com/embed/T6qYvErqD-M",
           image: "metamask.png",
           walletName: "Metamask",
           title:
@@ -206,7 +209,7 @@ const BuyDyp = () => {
           thumbnail: "pan1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=-kE6mM6d9ek",
+          link: "https://www.youtube.com/embed/-kE6mM6d9ek",
           image: "coin98.png",
           walletName: "Coin98",
           title:
@@ -214,7 +217,7 @@ const BuyDyp = () => {
           thumbnail: "coin1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=FmrgSuCo_nk",
+          link: "https://www.youtube.com/embed/FmrgSuCo_nk",
           image: "coin98.png",
           walletName: "Coin98",
           title:
@@ -230,7 +233,7 @@ const BuyDyp = () => {
       totalvids: "3 videos",
       videos: [
         {
-          link: "https://www.youtube.com/watch?v=SvUaexmtgnU",
+          link: "https://www.youtube.com/embed/SvUaexmtgnU",
           image: "uniswap.png",
           walletName: "UniSwap",
           title:
@@ -238,7 +241,7 @@ const BuyDyp = () => {
           thumbnail: "coineth.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=7jf8HGOrdBM",
+          link: "https://www.youtube.com/embed/7jf8HGOrdBM",
           image: "pangolin.png",
           walletName: "Pangolin",
           title:
@@ -246,7 +249,7 @@ const BuyDyp = () => {
           thumbnail: "coinbsc.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=8xaXadlb_Iw",
+          link: "https://www.youtube.com/embed/8xaXadlb_Iw",
           image: "pancake.png",
           walletName: "PancakeSwap",
           title:
@@ -262,28 +265,28 @@ const BuyDyp = () => {
       totalvids: "6 videos",
       videos: [
         {
-          link: "https://www.youtube.com/watch?v=yBzIPecqKY8",
+          link: "https://www.youtube.com/embed/yBzIPecqKY8",
           image: "metamask.png",
           walletName: "Metamask",
           title: "How to set up MetaMask for DeFi Yield Protocol (DYP)",
           thumbnail: "uni1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=IE5danKYD-c",
+          link: "https://www.youtube.com/embed/IE5danKYD-c",
           image: "metamask.png",
           walletName: "Metamask",
           title: "How to buy DeFi Yield Protocol (DYP) on 1Inch using MetaMask",
           thumbnail: "inch1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=amM9wOGNVpg",
+          link: "https://www.youtube.com/embed/amM9wOGNVpg",
           image: "trustwallet.png",
           walletName: "Trust wallet",
           title: "How to set up Trust Wallet for DeFi Yield Protocol (DYP)",
           thumbnail: "trust1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=UtcP4cWkXwg",
+          link: "https://www.youtube.com/embed/UtcP4cWkXwg",
           image: "trustwallet.png",
           walletName: "Trust wallet",
           title:
@@ -291,14 +294,14 @@ const BuyDyp = () => {
           thumbnail: "inch2.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=lTD8DAsxmtY",
+          link: "https://www.youtube.com/embed/lTD8DAsxmtY",
           image: "safepal.png",
           walletName: "SafePal",
           title: "How to set up SafePal for DeFi Yield Protocol",
           thumbnail: "safe1.png",
         },
         {
-          link: "https://www.youtube.com/watch?v=nUvFG00QqS0",
+          link: "https://www.youtube.com/embed/nUvFG00QqS0",
           image: "safepal.png",
           walletName: "SafePal",
           title: "How to buy DeFi Yield Protocol (DYP) on 1Inch using SafePal",
@@ -313,7 +316,7 @@ const BuyDyp = () => {
       totalvids: "1 video",
       videos: [
         {
-          link: "https://www.youtube.com/watch?v=olhIziGMs0Y",
+          link: "https://www.youtube.com/embed/olhIziGMs0Y",
           image: "metamask.png",
           walletName: "Metamask",
           title:
@@ -331,9 +334,17 @@ const BuyDyp = () => {
     },
   ];
 
+  const next = () => {
+    slider.current.slickNext();
+  };
+  const previous = () => {
+    slider.current.slickPrev();
+  };
+
   const [videoList, setVideoList] = useState(buyDypItems[0].videos);
   const [activeVideo, setActiveVideo] = useState(videoList[0]);
   const [activeVendor, setActiveVendor] = useState(0);
+  const [activeVideoCard, setactiveVideoCard] = useState(0)
 
   return (
     <div className="container-lg px-0">
@@ -349,20 +360,7 @@ const BuyDyp = () => {
       <div className="row mt-3 px-0 w-100">
         <div className="col-5">
           <div className="d-grid vendor-container">
-            {/* <div className="vendor-card p-3">
-                    <div className="d-flex align-items-start justify-content-between">
-                        <div className="vendor-image-wrapper">
-                            <img src={require('./assets/coinbase.png').default} alt="" />
-                        </div>
-                        <span className="video-amount">1 video</span>
-                    </div>
-                    <h6 className="vendor-title mt-2">Coinbase</h6>
-                    <hr className="form-divider my-2" style={{height: '2px'}} />
-                    <div className="d-flex align-items-center justify-content-between">
-                        <span className="tutorial-text">View video tutorials</span>
-                        <img src={require('../newsCard/assets/filledArrow.svg').default} alt="" />
-                    </div>
-                </div> */}
+        
             {buyDypItems.map((vendor, index) => (
               <VendorCard
                 key={index}
@@ -370,9 +368,9 @@ const BuyDyp = () => {
                 videoAmount={vendor.totalvids}
                 title={vendor.title}
                 onSelect={() => {
-                    setVideoList(vendor.videos)
-                    setActiveVendor(index)
-                    setActiveVideo(vendor.videos[0])
+                  setVideoList(vendor.videos);
+                  setActiveVendor(index);
+                  setActiveVideo(vendor.videos[0]);
                 }}
                 active={activeVendor === index ? true : false}
               />
@@ -386,31 +384,76 @@ const BuyDyp = () => {
               <div className="d-flex align-items-center gap-2">
                 <div className="selected-image-wrapper">
                   <img
-                    src={require("./assets/coinbase.png").default}
+                    src={
+                      require(`./assets/${buyDypItems[activeVendor].logo}`)
+                        .default
+                    }
                     height={32}
                     width={32}
                     alt=""
                   />
                 </div>
-                <h6 className="vendor-title">Coinbase videos</h6>
+                <h6 className="vendor-title">
+                  {buyDypItems[activeVendor].title} videos
+                </h6>
               </div>
+              <a href={buyDypItems[activeVendor].link} target="_blank" rel="noreferrer">
               <button className="btn filledbtn px-5">Buy DYP</button>
+              </a>
             </div>
             <hr className="form-divider my-3" />
-            <iframe
+            {videoList.length <= 0 ?
+              <img src={require('./assets/commingSoon.svg').default} />
+              :
+              <iframe
               src={activeVideo?.link}
-              style={{ height: "375px", width: "100%" }}
+              style={{ height: "375px", width: "100%", pointerEvents: "auto" }}
               frameborder="0"
-            ></iframe>
+              allowFullScreen
+            ></iframe> 
+            }
             <div className="d-flex align-items center justify-content-between">
               <h6 className="playlist-title mt-3">Video playlist</h6>
+              <div className="d-flex justify-content-center align-items-center gap-2">
+                <div className="p-3 d-flex justify-content-center align-items-center cursor-pointer" onClick={() => previous()}>
+                    <img src={customSliderArrow} alt="" className="prev-arrow" />
+                </div>
+                <div className="p-3 d-flex justify-content-center align-items-center cursor-pointer" onClick={() => next()}>
+                    <img src={customSliderArrow} alt=""  className="next-arrow"/>
+                </div>
+              </div>
             </div>
             <div className="mt-2">
-              <Slider {...settings}>
-                {videoList.length > 0 &&  videoList?.map((video, index) => (
-                    <VideoCard key={index} title={video.title} />
-                ))}
-              </Slider>
+           {videoList.length <= 0 ?
+              <Slider {...settings} ref={slider}>
+             <img src={require('./assets/noVideo.svg').default} alt="" />
+             <img src={require('./assets/noVideo.svg').default} alt="" />
+             <img src={require('./assets/noVideo.svg').default} alt="" />
+             <img src={require('./assets/noVideo.svg').default} alt="" />
+             <img src={require('./assets/noVideo.svg').default} alt="" />
+             <img src={require('./assets/noVideo.svg').default} alt="" />
+            </Slider>
+          :
+           <Slider {...settings} ref={slider}>
+           {
+             videoList?.map((video, index) => (
+               <VideoCard
+                 key={index}
+                 thumbnail={video.thumbnail}
+                 title={video.title}
+                 onSelect={() => 
+                 {
+                  setActiveVideo(video);
+                  setactiveVideoCard(index);
+                 }
+                }
+                 walletName={video.walletName}
+                 walletImage={video.image}
+                 active={activeVideoCard === index ? true : false}
+               />
+             ))}
+         </Slider>
+          }
             </div>
           </div>
         </div>

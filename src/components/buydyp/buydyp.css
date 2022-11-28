@@ -99,6 +99,12 @@ color: #F7F7FC !important;
 border-radius: 8px;
 border: 2px solid #2B2A59;
 width: fit-content;
+transition: all .25s;
+}
+
+.selected-video-card{
+border: 2px solid #857DFA !important;
+
 }
 
 .video-card-image-wrapper{
