@@ -271,10 +271,11 @@ export default class BigSwapExplorer extends React.Component {
                         </a>
                         {/* <a rel='noopener noreferrer' target="_blank" title="Blocked Liquidity" href={`https://www.unicrypt.network/pair/${txn.pairId}`}><img className='icon-bg-white-rounded' src="/images/unicrypt_v3.svg" width="18" alt="" /></a> */}
                         <NavLink title={txn.pair.id} to={`/pair-explorer/${txn.pair.id}`}>
-                            <i
-                                style={{ fontSize: "20px", position: "relative", top: "5px" }}
-                                className="far fa-compass"
-                            ></i>
+                            <img
+                                className="icon-bg-white-rounded"
+                                src="/assets/img/compass-actions.svg"
+                                alt=""
+                            />
                         </NavLink>
                     </div>
                 ),

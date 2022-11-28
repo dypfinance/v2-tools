@@ -223,14 +223,14 @@ export default class PoolExplorer extends React.Component {
                             <img 
                                 className="filter-actions"
                                 style={{
-                                    color:
+                                    background:
                                         this.state.filteredByTokenId == txn.tokenId
                                             ? "red"
                                             : "inherit",
                                 }}
                                 src={`${
                                     this.state.filteredByTokenId == txn.tokenId
-                                        ? "x"
+                                        ? "/assets/img/times.svg"
                                         : "/assets/img/filter.svg"
                                 }`}
                                 width="18"
