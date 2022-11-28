@@ -132,3 +132,107 @@
   pointer-events: none;
   cursor: pointer;
 }
+
+.select-percentage{
+  font-weight: 300;
+font-size: 12px;
+line-height: 18px;
+letter-spacing: -0.018em;
+color: #D6D8E7 !important;
+}
+
+.locker-liquidity-wrapper{
+  background: #2B2A59;
+border: 1px solid #565891;
+border-radius: 8px;
+}
+
+.locker-indicator{
+  font-weight: 400;
+font-size: 10px;
+line-height: 15px;
+/* identical to box height */
+
+text-align: right;
+letter-spacing: -0.018em;
+
+color: #857DFA !important; 
+}
+
+.locker-status{
+  background: linear-gradient(92deg, #4ED5D2 1.66%, #1E9895 98.59%);
+border-radius: 4px;
+}
+
+.locker-status-text{
+  font-weight: 500;
+font-size: 12px;
+line-height: 18px;
+/* identical to box height */
+
+letter-spacing: -0.018em;
+
+color: #FFFFFF !important;
+
+}
+
+.locker-timer{
+  font-weight: 400;
+font-size: 10px;
+line-height: 24px;
+/* identical to box height, or 240% */
+
+text-align: right;
+letter-spacing: -0.018em;
+
+color: #D6D8E7 !important;
+}
+
+
+.pair-locker-card{
+  background: #312F69;
+border: 2px solid #4ED5D2;
+border-radius: 12px;
+}
+
+.pair-locker-right{
+  background: #2A2859;
+  border: 2px solid #4ED5D2;
+  border-radius: 12px;
+}
+
+
+.pair-indicator{
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.018em;
+  color: #D6D8E7 !important;
+}
+
+.pair-value{
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  color: #F7F7FC;
+}
+
+
+.active-tag{
+  padding: 6px 12px 6px 6px;
+  border-radius: 50px;
+  background: #211F45;
+  width: fit-content;
+}
+
+.active-tag-text{
+  font-weight: 500;
+font-size: 10px;
+line-height: 12px;
+/* identical to box height, or 120% */
+
+letter-spacing: -0.018em;
+
+color: #4ED5D2 !important;
+
+}

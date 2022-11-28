@@ -3589,10 +3589,10 @@ body.theme-dark select.form-control {
 }
 
 .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
-  border-color: #4ED5D2 !important;
-  box-shadow: 0 0 0 5px #4ED5D2 !important;
+  border-color: none !important;
+  box-shadow: none !important;
 }
-.rc-slider-handle:focus {
+/* .rc-slider-handle:focus {
   outline: none;
   box-shadow: none;
 }
@@ -3612,7 +3612,7 @@ body.theme-dark select.form-control {
   box-shadow: 0 0 5px #4ED5D2 !important;
   cursor: -webkit-grabbing;
   cursor: grabbing;
-}
+} */
 
 /* .rc-slider-dot-active {
   border-color: #4ED5D2 !important;
@@ -3641,21 +3641,84 @@ body.theme-dark select.form-control {
 
 .rc-slider-handle {
   background: #4ED5D2 !important;
-  border-color: #4ED5D2 !important;
+  /* border-color: #4ED5D2 !important; */
+  color: #4ED5D2 !important;
   opacity: 1 !important;
+  width: 40px !important;
+  height: 40px !important;
+  border: 8px solid white !important;
+  bottom: -15px !important;
+
 }
 
 .slider-text-wrapper {
-  display: flex;
+  /* display: flex; */
+  /* justify-content: space-between; */
   width: 100%;
-  margin-bottom: 15px;
+  /* margin-top: 15px; */
+  position: relative;
 }
 
 .slider-text {
-  display: flex;
-  width: 25%;
-  justify-content: end;
+  /* display: flex; */
+  /* width: 25%; */
+  /* justify-content: end; */
+  font-weight: 400;
+font-size: 14px;
+line-height: 24px;
+/* identical to box height, or 171% */
+
+letter-spacing: -0.018em;
+position: absolute;
+color: #C0C9FF !important;
+transition: all .25s;
 }
+
+.slider-text:first-child{
+  left: -4%;
+}
+
+.slider-text:nth-child(2){
+  left: 29%;
+}
+.slider-text:nth-child(3){
+  left: 63%;
+}
+.slider-text:nth-child(4){
+  right: -5%;
+}
+
+
+.slider-text-active{
+transform: translateY(-85px);
+font-weight: 600;
+font-size: 14px;
+line-height: 24px;
+/* identical to box height, or 171% */
+padding: 5px 10px;
+background: #1E1C40 !important;
+border-radius: 12px;
+letter-spacing: -0.018em;
+color: #4ED5D2 !important;
+}
+
+.first-value{
+  left: -6% !important;
+}
+
+.second-value{
+  left: 26% !important;
+}
+
+.third-value{
+  left: 60% !important;
+}
+
+.fourth-value{
+right: -8% !important;
+}
+
+
 
 .table-left-wrapper {
   display: flex;
@@ -4254,6 +4317,7 @@ body.theme-dark span.l-return-type {
   border-radius: 10px;
   font-style: normal;
   font-weight: 500;
+  padding: 9px 24px;
   font-size: 12px;
   line-height: 18px;
   opacity: 1 !important;
