@@ -178,21 +178,32 @@ export default class PoolExplorer extends React.Component {
         const columns = [
             {
                 name: "Token",
+                minWidth: "200px",
                 selector: "tokenSymbol",
                 sortable: true,
                 cell: (txn) => (
-                    <a
-                        className="token"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        href={
-                            this.props.networkId === 1
-                                ? `https://etherscan.io/address/${txn.tokenId}`
-                                : `https://cchain.explorer.avax.network/address/${txn.tokenId}`
-                        }
-                    >
-                        {txn.tokenSymbol}
-                    </a>
+                    <div class="token">
+                        <img
+                            src="/assets/img/icon.svg"
+                            alt=""
+                        />
+                        <a
+                            className="token-link"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            href={
+                                this.props.networkId === 1
+                                    ? `https://etherscan.io/address/${txn.tokenId}`
+                                    : `https://cchain.explorer.avax.network/address/${txn.tokenId}`
+                            }
+                        >
+                            {txn.tokenSymbol}
+                        </a>
+                        <img
+                            src="/assets/img/link.svg"
+                            alt=""
+                        />
+                    </div>
                 ),
             },
             {

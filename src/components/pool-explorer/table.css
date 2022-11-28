@@ -48,6 +48,32 @@ div.rdt_TableRow:hover {
     gap: 5px;
 }
 
-.token {
+.token-link {
     color: #fff !important;
+}
+
+.token {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+td.green-text {
+    color:#4ED5D2 !important;
+
+}
+
+td.red-text {
+    color:#F36D46 !important;
+
+}
+
+.text-red {
+    color:#F36D46 !important;
+    text-transform: capitalize;
+}
+
+.text-green {
+    color:#4ED5D2 !important;
+    text-transform: capitalize;
 }
