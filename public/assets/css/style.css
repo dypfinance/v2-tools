@@ -1675,7 +1675,6 @@ body.theme-dark img.graph-two {
 .progress {
   border-radius: 20px;
   position: relative;
-  margin: 0 0 10px 0;
   height: 10px;
   width: 100%;
 }

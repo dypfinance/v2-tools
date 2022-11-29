@@ -18,6 +18,7 @@ import GearProgress from "./GearProgress";
 import axios from "axios";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import './pair-explorer.css';
 
 
 async function getTokenInformation(address, network) {
@@ -591,7 +592,7 @@ export default class PairExplorer extends React.Component {
         minWidth: "80px",
         textAlign: "right",
         cell: (txn) => (
-          <span className={`l-clr-${txn.type == "sell" ? "red" : "purple"}`}>
+          <span className={`${txn.type == "sell" ? "text-red" : "text-green"}`}>
             {" "}
             {txn.type}{" "}
           </span>
@@ -956,7 +957,7 @@ export default class PairExplorer extends React.Component {
     }
 
     return (
-      <div className="l-pair-explorer">
+      <div>
         <div>
           <div className="graph-wrap container-lg">
             <div className="leftside">
@@ -1056,7 +1057,7 @@ export default class PairExplorer extends React.Component {
                               position: "relative",
                               top: "-3px",
                             }}
-                            src={this.state.cgInfo?.link_logo}
+                            src="/assets/img/icon.svg"
                           />
                         )}{" "}
                         {this.state.pair?.token0.symbol || "..."} /{" "}
@@ -1086,13 +1087,14 @@ export default class PairExplorer extends React.Component {
                       </h2>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p style={{ fontSize: ".8rem" }}>
+                      <p style={{ fontSize: ".8rem", color: "#fff", opacity: "1" }}>
                         ({this.state.mainToken?.name || "..."})
                         <br />
                         Token contract:{" "}
                         <a
                           rel="noopener noreferrer"
                           target="_blank"
+                          style={{ color: "#70B8E0" }}
                           href={
                             this.props.networkId === 1
                               ? `https://etherscan.io/token/${this.state.mainToken?.id}`
@@ -1108,6 +1110,7 @@ export default class PairExplorer extends React.Component {
                           flexDirection: "column",
                           fontSize: 12,
                           alignItems: "flex-end",
+                          color: "#fff"
                         }}
                       >
                         {this.state[
@@ -1137,6 +1140,25 @@ export default class PairExplorer extends React.Component {
                           1 || "..."}{" "}
                         {this.props.networkId === 1 ? "ETH" : "AVAX"}
                       </p>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <NavLink
+                        title="DYP Locker"
+                        to={`/locker/${this.props.match.params.pair_id}`}
+                        className={"w-auto"}
+                        style={{ color: "#857DFA" }}
+                      >
+                        View pair locker
+                      </NavLink>
+                      <NavLink
+                        to={`/locker/${this.props.match.params.pair_id}`}
+                      >
+                        <img
+                          src={PairLocker}
+                          alt=""
+                          style={{cursor: "pointer" }}
+                        />
+                      </NavLink>
                     </div>
                   </div>
                   <div className="graph-header" style={{ gap: 5 }}>
@@ -1393,33 +1415,16 @@ export default class PairExplorer extends React.Component {
                         )}
                       </ul>
                     </div>
-                    <div className="graph-header-right">
-                      <NavLink
-                        title="DYP Locker"
-                        to={`/locker/${this.props.match.params.pair_id}`}
-                        className={"tradebtn w-auto"}
-                      >
-                        View pair locker
-                      </NavLink>
-                      <NavLink
-                        to={`/locker/${this.props.match.params.pair_id}`}
-                      >
-                        <img
-                          src={PairLocker}
-                          alt=""
-                          style={{ marginLeft: 10, cursor: "pointer" }}
-                        />
-                      </NavLink>
-                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="form-container p-3 position-relative">
                 <div
-                  className="content-title m-0 p-0"
+                  className="content-title mb-3 p-0"
                   style={{ borderBottom: "none" }}
                 >
+                  <div className="purplediv" style={{ background: "#8E97CD", left: "0px" }}></div>
                   <div className="content-title-top">
                     <h2>FAVORITES</h2>
                     {this.state.favorites.length > 0 && (
@@ -1439,11 +1444,11 @@ export default class PairExplorer extends React.Component {
                         >
                           <path
                             d="M4.32229 10C3.23685 10 2.14862 10 1.06318 10C0.423045 10 0 9.57696 0 8.93683C0 6.75759 0 4.57557 0 2.39633C0 1.76177 0.423045 1.33594 1.05483 1.33594C2.36014 1.33594 3.66546 1.33594 4.97078 1.33594C5.22683 1.33594 5.39382 1.55581 5.31033 1.78125C5.26023 1.91484 5.14055 1.99834 4.98748 2.00112C4.801 2.0039 4.61174 2.00112 4.42527 2.00112C3.30365 2.00112 2.18202 2.00112 1.0604 2.00112C0.793209 2.00112 0.667965 2.12636 0.667965 2.39355C0.667965 4.57835 0.667965 6.76037 0.667965 8.94518C0.667965 9.2068 0.795992 9.33482 1.05761 9.33482C3.24242 9.33482 5.42444 9.33482 7.60924 9.33482C7.87364 9.33482 7.99889 9.20958 7.99889 8.94518C7.99889 7.65378 7.99889 6.36238 7.99889 5.07098C7.99889 5.01531 8.00167 4.95965 8.01559 4.90677C8.06012 4.75091 8.20484 4.6535 8.36348 4.6702C8.52213 4.68411 8.65015 4.81771 8.66407 4.97913C8.66685 4.99862 8.66407 5.02088 8.66407 5.04036C8.66407 6.35403 8.66407 7.66491 8.66407 8.97858C8.66407 9.45728 8.37183 9.84415 7.92096 9.96383C7.81798 9.99166 7.70943 10 7.60089 10C6.50988 10 5.41609 10 4.32229 10Z"
-                            fill="white"
+                            fill="#857DFA"
                           />
                           <path
                             d="M8.83322 0.667966C8.57995 0.667966 8.32668 0.667966 8.07341 0.667966C7.60583 0.667966 7.13547 0.670749 6.66789 0.667966C6.49255 0.667966 6.35339 0.537156 6.33391 0.370164C6.31721 0.205956 6.42297 0.0528806 6.58718 0.0111328C6.62336 0.00278319 6.66233 0 6.70129 0C7.67541 0 8.65231 0 9.62642 0C9.86578 0 9.99937 0.133593 9.99937 0.375731C9.99937 1.34706 9.99937 2.3184 9.99937 3.29251C9.99937 3.51517 9.86578 3.66546 9.66817 3.66824C9.46778 3.67103 9.33141 3.51795 9.33141 3.28695C9.33141 2.6162 9.33141 1.94823 9.33141 1.27748C9.33141 1.2413 9.33141 1.20234 9.33141 1.14667C9.28966 1.18564 9.26183 1.21069 9.23678 1.23574C7.69489 2.77762 6.153 4.31673 4.6139 5.8614C4.50536 5.96994 4.38846 6.03396 4.2326 5.98664C4.00995 5.91706 3.92645 5.64709 4.07396 5.4634C4.09901 5.43 4.13241 5.40217 4.16024 5.37434C5.69099 3.84359 7.22453 2.31005 8.75529 0.779293C8.78312 0.751461 8.82208 0.729196 8.85548 0.704147C8.84713 0.687448 8.83878 0.679098 8.83322 0.667966Z"
-                            fill="white"
+                            fill="#857DFA"
                           />
                         </svg>
                         View all
@@ -1453,7 +1458,7 @@ export default class PairExplorer extends React.Component {
                 </div>
                 <div className="d-flex flex-column" style={{ gap: 10 }}>
                   {this.state.favorites.length === 0 ? (
-                    <div className="firstbox-inner">
+                    <div className="box-inner">
                       <p className="d-flex justify-content-between">
                         Add a favorite pair{" "}
                         <button
@@ -1480,7 +1485,7 @@ export default class PairExplorer extends React.Component {
                             to={`/pair-explorer/${lock.id}`}
                           >
                             <div
-                              className="row m-0 justify-content-between align-items-center"
+                              className="d-flex m-0 justify-content-between align-items-center"
                               style={{ gap: 20 }}
                             >
                               <h2 className="favpair">
@@ -1499,7 +1504,7 @@ export default class PairExplorer extends React.Component {
               </div>
 
               <div className="form-container p-3 position-relative">
-                <div className="firstbox-inner pb-0">
+                <div className="box-inner pb-0">
                   <div className="graph-header">
                     <div className="graph-header-left">
                       <h2 className="firstbox-title">
@@ -1529,7 +1534,7 @@ export default class PairExplorer extends React.Component {
                           >
                             <path
                               d="M2.66 4.3335L0 7.00016L2.66 9.66683V7.66683H7.33333V6.3335H2.66V4.3335ZM12 3.00016L9.34 0.333496V2.3335H4.66667V3.66683H9.34V5.66683L12 3.00016Z"
-                              fill="white"
+                              fill="#857DFA"
                             />
                           </svg>
                           Trade
@@ -1537,7 +1542,7 @@ export default class PairExplorer extends React.Component {
                       </a>
                     </div>
                   </div>
-                  <div className="graph-data mb-0">
+                  <div className="graph-data mb-2">
                     <div className="graph-data-item">
                       <p className="firstbox-text">Total liquidity:</p>
                       <span className="firstbox-text">
@@ -1584,18 +1589,20 @@ export default class PairExplorer extends React.Component {
                     <br />
                   </div>
                 </div>{" "}
-                <a
-                  onClick={this.toggleModal}
-                  style={{ fontSize: ".7rem" }}
-                  className="btn-popup btn filledbtn px-5"
-                  href="javascript:void(0)"
-                >
-                  <i className="fas fa-info-circle"></i> View More Info
-                </a>
+                <div style={{ textAlign: "center" }}>
+                  <a
+                    onClick={this.toggleModal}
+                    style={{ fontSize: ".7rem" }}
+                    className="btn-popup btn filledbtn px-5"
+                    href="javascript:void(0)"
+                  >
+                    <i className="fas fa-info-circle"></i> View More Info
+                  </a>
+                </div>
               </div>
 
               <div className="form-container p-3 position-relative">
-                <div className="firstbox-inner">
+                <div>
                   {false && !isNaN(this.state.pairInfo?.ts_score_avg) ? (
                     <div className="graph-progress">
                       <div className="progress-title">
@@ -1711,7 +1718,7 @@ export default class PairExplorer extends React.Component {
                         </GearProgress>
                       </div>
                       <div
-                        className="row m-0 justify-content-between"
+                        className="box-inner row m-0 justify-content-between"
                         style={{ gap: 12, width: "60%" }}
                       >
                         <table className="w-100">
@@ -1720,12 +1727,15 @@ export default class PairExplorer extends React.Component {
                               <td>
                                 {" "}
                                 <div className="score-wrapper" key={i}>
+                                  <span className="score-title">
+                                    {score.name}
+                                  </span>
                                   <div className="d-flex" style={{ gap: 5 }}>
                                     <div
                                       className="color-indicator"
                                       style={{ background: colors[i] }}
                                     ></div>
-                                    <span className="score-title">
+                                    <span className="score-title-points">
                                       {`${
                                         getFormattedNumber(score.score, 2) ===
                                         "100.00"
@@ -1734,9 +1744,6 @@ export default class PairExplorer extends React.Component {
                                       }%`}{" "}
                                     </span>
                                   </div>
-                                  <span className="score-title">
-                                    {score.name}
-                                  </span>
                                 </div>
                               </td>
                             ))}
@@ -1747,12 +1754,15 @@ export default class PairExplorer extends React.Component {
                               .map((score, i) => (
                                 <td>
                                   <div className="score-wrapper" key={i}>
+                                    <span className="score-title">
+                                      {score.name}
+                                    </span>
                                     <div className="d-flex" style={{ gap: 5 }}>
                                       <div
                                         className="color-indicator"
                                         style={{ background: colors[i + 2] }}
                                       ></div>
-                                      <span className="score-title">
+                                      <span className="score-title-points">
                                         {`${
                                           getFormattedNumber(score.score, 2) ===
                                           "100.00"
@@ -1761,9 +1771,6 @@ export default class PairExplorer extends React.Component {
                                         }%`}{" "}
                                       </span>
                                     </div>
-                                    <span className="score-title">
-                                      {score.name}
-                                    </span>
                                   </div>
                                 </td>
                               ))}
@@ -1774,6 +1781,9 @@ export default class PairExplorer extends React.Component {
                               .map((score, i) => (
                                 <td>
                                   <div className="score-wrapper" key={i}>
+                                    <span className="score-title">
+                                      {score.name}
+                                    </span>
                                     <div className="d-flex" style={{ gap: 5 }}>
                                       <div
                                         className="color-indicator"
@@ -1781,7 +1791,7 @@ export default class PairExplorer extends React.Component {
                                           background: colors[scores.length - 1],
                                         }}
                                       ></div>
-                                      <span className="score-title">
+                                      <span className="score-title-points">
                                         {`${
                                           getFormattedNumber(score.score, 2) ===
                                           "100.00"
@@ -1790,9 +1800,6 @@ export default class PairExplorer extends React.Component {
                                         }%`}{" "}
                                       </span>
                                     </div>
-                                    <span className="score-title">
-                                      {score.name}
-                                    </span>
                                   </div>
                                 </td>
                               ))}
@@ -1810,9 +1817,9 @@ export default class PairExplorer extends React.Component {
                       justifyContent: "space-between",
                     }}
                   >
-                    <p>
+                    <p style={{ color: "#4ED5D2 !important" }}>
                       Community Trust{" "}
-                      <span>
+                      <span style={{ color: "#4ED5D2 !important" }}>
                         {(
                           (this.state.upvoteCount /
                             (this.state.voteCount || 1)) *
@@ -1823,22 +1830,28 @@ export default class PairExplorer extends React.Component {
                     </p>
                     <p>{this.state.voteCount} votes</p>
                   </div>
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-1 pl-0 pr-0">
+                  <div className="progress-container">
+                    <div className="d-flex flex-col justify-content-between align-items-center gap-2">
+                      <div>
                         <span
                           onClick={() => this.registerVote(true)}
                           style={{
                             position: "relative",
                             cursor: "pointer",
-                            top: "-3px",
+                            width: "30px",
+                            height: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "#1E1C40",
+                            borderRadius: "8px"
                           }}
                           className={`fa${
                             this.state.coinbaseVote === true ? "s" : "r"
                           } fa-thumbs-up`}
                         ></span>
                       </div>
-                      <div className="col-10 pl-0 pr-0">
+                      <div className="w-100">
                         <div className="progress">
                           <div
                             style={{
@@ -1853,13 +1866,19 @@ export default class PairExplorer extends React.Component {
                           ></div>
                         </div>
                       </div>
-                      <div className="col-1 pl-0 pr-0 text-right">
+                      <div>
                         <span
                           onClick={() => this.registerVote(false)}
                           style={{
                             position: "relative",
                             cursor: "pointer",
-                            top: "-3px",
+                            width: "30px",
+                            height: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "#1E1C40",
+                            borderRadius: "8px"
                           }}
                           className={`fa${
                             this.state.coinbaseVote === false ? "s" : "r"
