@@ -22,6 +22,7 @@ import accordionIndicator from "../../assets/sidebarIcons/accordionIndicator.svg
 import sidebarDypius from '../../assets/sidebarDypius.svg'
 import './sidebar.css'
 import navRadius from '../../assets/navRadius.svg'
+import useWindowSize from "../../functions/useWindowSize";
 
 const activateLasers = () => {
   window.$.alert("Coming Soon!");
@@ -67,12 +68,21 @@ const Sidebar = (props) => {
     }
   }, [account]);
 
+  const windowSize = useWindowSize()
+
+
   useEffect(() => {
     const fetchInterval = setInterval(
       () => setlocation(window.location.pathname),
       1000
     );
-  });
+    if(windowSize.width > 1800){
+      setActiveSidebar(true)
+    }else{
+      setActiveSidebar(false)
+    }
+  }, [windowSize]);
+
 
   const sidebarItems = [
     {
@@ -145,11 +155,13 @@ const Sidebar = (props) => {
   const sidebarItem = document.querySelectorAll(".sidebar-item");
 
   const openSidebar = () => {
-    setActiveSidebar(true);
+    windowSize.width < 1800 && setActiveSidebar(true);
+
+
   };
 
   const closeSidebar = () => {
-    setActiveSidebar(false);
+    windowSize.width < 1800 && setActiveSidebar(false);
   };
   sidebar?.addEventListener("mouseover", openSidebar);
   sidebar?.addEventListener("mouseleave", closeSidebar);

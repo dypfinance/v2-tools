@@ -47,7 +47,8 @@ class App extends React.Component {
       the_graph_result_AVAX_V2: JSON.parse(
         JSON.stringify(window.the_graph_result_avax_v2)
       ),
-
+      windowWidth: 0,
+      windowHeight: 0,
       subscribedPlatformTokenAmount: "...",
       isPremium: false,
       hotPairs: [],
@@ -57,7 +58,9 @@ class App extends React.Component {
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
+
 
   showModal = () => {
     this.setState({ show: true });
@@ -249,7 +252,8 @@ class App extends React.Component {
 
   componentDidMount() {
     this.tvl().then();
-
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
     this.checkConnection();
     this.checkNetworkId();
     this.refreshHotPairs();
@@ -289,6 +293,12 @@ class App extends React.Component {
   };
   componentWillUnmount() {
     // clearInterval(this.subscriptionInterval);
+    window.removeEventListener('resize', this.updateWindowDimensions);
+
+  }
+
+  updateWindowDimensions() {
+    this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight });
   }
 
   toggleTheme = () => {
@@ -339,6 +349,7 @@ class App extends React.Component {
     //   tokenBSC: window.token_dyp_bscbsc,
     // });
 
+
     return (
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
@@ -362,8 +373,11 @@ class App extends React.Component {
           show={this.state.show}
           isConnected={this.state.isConnected}
         />
-        <div className="content-wrapper container-lg">
-          <Sidebar
+        <div className="content-wrapper container-fluid">
+         
+          <div className="row w-100">
+            <div className="col-1">
+            <Sidebar
             appState={this.state}
             theme={this.state.theme}
             isConnected={this.state.isConnected}
@@ -376,7 +390,9 @@ class App extends React.Component {
             isPremium={this.state.isPremium}
             network={this.state.networkId}
           />
-          <div className="right-content pr-0">
+            </div>
+            <div className={`${this.state.windowWidth < 1490 ? 'col-11' : 'col-10'}`}>
+            <div className="right-content pr-0 my-5">
             <Switch>
               <Route
                 exact
@@ -592,6 +608,12 @@ class App extends React.Component {
 
             {/* <Footer /> */}
           </div>
+            </div>
+            <div className="col-1">
+
+            </div>
+          </div>
+          
         </div>
       </div>
     );

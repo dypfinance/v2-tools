@@ -221,8 +221,12 @@ const Header = ({
   return (
     <>
       <header className="header-wrap" style={{ zIndex: 5 }}>
-        <div
-          className="container-lg d-flex justify-content-between gap-3 align-items-center w-100"
+        <div className="container-fluid">
+          <div className="row w-100">
+            <div className="col-1"></div>
+            <div className="col-10">
+            <div
+          className="container-lg px-0 d-flex justify-content-between gap-3 align-items-center w-100"
           // style={{ maxWidth: "calc(100% - 215px)"}}
         >
           {/* marginLeft: "240px" */}
@@ -384,6 +388,10 @@ const Header = ({
                 ></DropdownButton>
               )}
             </div>
+          </div>
+        </div>
+            </div>
+            <div className="col-1"></div>
           </div>
         </div>
       </header>
