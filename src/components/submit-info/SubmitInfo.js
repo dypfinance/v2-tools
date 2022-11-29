@@ -78,10 +78,29 @@ const SubmitInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(values);
     setErrors(validateInfo(values));
 
     if (Object.keys(errors).length === 0) {
+      if (
+        values.project_name !== "" &&
+        values.ticker !== "" &&
+        values.project_logo !== "" &&
+        values.email !== "" &&
+        values.ticker !== "" &&
+        values.contract_address !== "" &&
+        values.about !== "" &&
+        values.audit_info !== "" &&
+        values.audit_link !== "" &&
+        values.website_link !== "" &&
+        values.twitter !== "" &&
+        values.coinmarket !== "" &&
+        values.telegram !== "" &&
+        values.telegram_channel !== "" &&
+        values.coingecko !== ""
+      )
+      {
+
       const data = {
         project_name: values.project_name,
         email: values.email,
@@ -95,27 +114,10 @@ const SubmitInfo = () => {
         twitter: values.twitter,
         coinmarket: values.coinmarket,
         telegram: values.telegram,
-        telegram: values.telegram_channel,
+        telegram_channel: values.telegram_channel,
         coingecko: values.coingecko,
       };
-
-      if (
-        values.project_name !== "" &&
-        values.ticker !== "" &&
-        values.project_logo === "" &&
-        values.email === "" &&
-        values.ticker === "" &&
-        values.contract_address === "" &&
-        values.about === "" &&
-        values.audit_info === "" &&
-        values.audit_link === "" &&
-        values.website_link === "" &&
-        values.twitter === "" &&
-        values.coinmarket === "" &&
-        values.telegram === "" &&
-        values.telegram_channel === "" &&
-        values.coingecko === ""
-      ) {
+      console.log(data);
         const send = await axios
           .post("https://api-mail.dyp.finance/api/submit_form", data)
           .then(function (result) {
@@ -128,8 +130,11 @@ const SubmitInfo = () => {
         if (send.status === 1) {
           alert("Your information has been submitted.");
           setValues({ ...initialState });
+          console.log("done!");
         } else {
           alert("Something goes to wrong.");
+          console.log("not done!");
+
         }
       }
     }
