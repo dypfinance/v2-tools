@@ -2055,7 +2055,12 @@ export default class Locker extends React.Component {
                           type="text"
                           id="pair_address"
                           name="pair_address"
+                          value={this.state.pair_address}
                           placeholder=" "
+                          onChange={(e) => {
+                            this.handlePairChange(e);
+                            this.selectBaseToken(e);
+                          }}
                           className="text-input"
                           style={{ width: "100%" }}
                           disabled={this.props.match.params.pair_id}
