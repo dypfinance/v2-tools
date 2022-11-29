@@ -203,7 +203,7 @@ body.theme-dark .suggest-item h2 {
 }
 
 body.theme-dark .suggest-item h2 span.wh_txt {
-  color: var(--black2);
+  color: var(--white);
 }
 
 body.theme-dark .progress {

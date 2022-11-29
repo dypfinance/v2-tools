@@ -1,3 +1,8 @@
+.content-title {
+    border: 0;
+    padding-bottom: 0;
+}
+
 .content-title3 {
     border-bottom: 1px solid #d9d9d94d;
     padding: 0 0 20px;
@@ -51,4 +56,30 @@
 
 span.favliq {
     color: #70B8E0 !important;
+}
+
+.btn-favorite{
+    background: #26264F !important;
+    width: 25px;
+    height: 25px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    border-radius: 50% !important;
+}
+
+.btn-favorite img {
+    top: 0 !important;
+    padding: 5px;
+}
+
+.is-favorite {
+    border: 1px solid yellow !important;
+}
+
+.output {
+    background: #312F69 !important;
+}
+
+.prediction-item {
+    border-top: 1px solid #3B3C68 !important;
 }

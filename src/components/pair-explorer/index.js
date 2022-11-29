@@ -965,9 +965,9 @@ export default class PairExplorer extends React.Component {
                 className="row m-0 w-100 justify-content-between flex-column"
                 style={{ gap: 20 }}
               >
-                <div className="graph-right2">
+                <div className="graph-right2" style={{ padding: "0px" }}>
                   <div className="search-box">
-                    <form id="searchform">
+                    <form id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
                       <input
                         value={this.state.query}
                         onChange={(e) => this.handleQuery(e.target.value)}
@@ -975,6 +975,7 @@ export default class PairExplorer extends React.Component {
                         id="search-bar"
                         autoComplete="off"
                         placeholder="Search Pairs"
+                        style={{background: "transparent", border: "1px solid #8E97CD", color: "#fff", borderRadius: "8px"}}
                       />
                       <ul
                         className="output"
@@ -986,6 +987,8 @@ export default class PairExplorer extends React.Component {
                           zIndex: 9,
                           maxHeight: "300px",
                           overflowY: "auto",
+                          borderRadius: "8px",
+                          marginLeft: "-10px"
                         }}
                       >
                         {this.state.searchResults.map((p) => (
@@ -998,6 +1001,7 @@ export default class PairExplorer extends React.Component {
                                   style={{
                                     fontSize: "1.2rem",
                                     fontWeight: 500,
+                                    color: "#FCFCF7"
                                   }}
                                 >
                                   <span className="wh_txt">
@@ -1011,6 +1015,7 @@ export default class PairExplorer extends React.Component {
                                   style={{
                                     fontSize: ".85rem",
                                     fontWeight: 400,
+                                    marginBottom: "5px"
                                   }}
                                 >
                                   Token: ...
@@ -1020,25 +1025,19 @@ export default class PairExplorer extends React.Component {
                                   - Pair: ...
                                   {p.pair.address.toLowerCase().slice(34)}
                                 </p>
-                                <p>Total liquidity:</p>
-                                <span>
-                                  ${getFormattedNumber(p.pair.reserve, 2)}
-                                </span>
+                                <div className="d-flex gap-1 align-items-center">
+                                  <p style={{ opacity: "1", color: "#4ED5D2", fontSize: "12px", lineHeight: "18px", fontWeight: "400" }}>Total liquidity:</p>
+                                  <span style={{ opacity: "1", color: "#4ED5D2", fontSize: "12px", lineHeight: "18px", fontWeight: "400" }}>
+                                    ${getFormattedNumber(p.pair.reserve, 2)}
+                                  </span>
+                                </div>
                               </div>
                             </li>
                           </NavLink>
                         ))}
                       </ul>
                       <button type="submit" id="submit">
-                        {/* <img src="/assets/img/search-2.png" alt="Image" /> */}
-                        <i
-                          style={{ color: "var(--red)" }}
-                          className={`fas fa-${
-                            !this.state.isSearching
-                              ? "search"
-                              : "spinner fa-spin"
-                          }`}
-                        ></i>
+                        <img src="/assets/img/search-purple.svg" alt="Image" style={{ marginTop: "11px" }} />
                       </button>
                     </form>
                   </div>
@@ -1064,19 +1063,11 @@ export default class PairExplorer extends React.Component {
                         {this.state.pair?.token1.symbol || "..."}{" "}
                         <button
                           onClick={this.toggleFavorite}
-                          className={`btn v2 p-0 ${
+                          className={`btn btn-favorite v2 p-0 ${
                             this.state.isFavorite ? "is-favorite" : ""
                           }`}
                         >
-                          <i
-                            style={{
-                              color: this.state.starColor,
-                              marginBottom: "18px",
-                            }}
-                            className={`fa${
-                              this.state.isFavorite ? "s" : "r"
-                            } fa-star`}
-                          ></i>
+                          <img src="/assets/img/star.svg"></img>
                         </button>
                       </h2>
                       <h2>
@@ -1161,10 +1152,10 @@ export default class PairExplorer extends React.Component {
                       </NavLink>
                     </div>
                   </div>
-                  <div className="graph-header" style={{ gap: 5 }}>
-                    <div className="graph-header-left">
+                  <div>
+                    <div style={{ background: "#2B2A59", borderRadius: "6px", border: "1px solid #565891", padding: "8px" }}>
                       <ul
-                        className="l-social-icons-list d-flex"
+                        className="d-flex justify-content-between align-items-center"
                         style={{ gap: 4, alignItems: "baseline" }}
                       >
                         <li>
@@ -1426,7 +1417,10 @@ export default class PairExplorer extends React.Component {
                 >
                   <div className="purplediv" style={{ background: "#8E97CD", left: "0px" }}></div>
                   <div className="content-title-top">
-                    <h2>FAVORITES</h2>
+                    <div className="d-flex gap-2 align-items-center">
+                      <img src="/assets/img/star.svg"></img>
+                      <h2>FAVORITES</h2>
+                    </div>
                     {this.state.favorites.length > 0 && (
                       <NavLink
                         className="outline-btn btn m-0 w-auto d-flex align-items-center"
@@ -1459,10 +1453,10 @@ export default class PairExplorer extends React.Component {
                 <div className="d-flex flex-column" style={{ gap: 10 }}>
                   {this.state.favorites.length === 0 ? (
                     <div className="box-inner">
-                      <p className="d-flex justify-content-between">
+                      <p className="d-flex justify-content-between align-items-center">
                         Add a favorite pair{" "}
                         <button
-                          className="tradebtn m-0 w-auto"
+                          className="outline-btn btn m-0 w-auto d-flex align-items-center"
                           onClick={this.toggleFavorite}
                         >
                           Add pair
@@ -1596,7 +1590,7 @@ export default class PairExplorer extends React.Component {
                     className="btn-popup btn filledbtn px-5"
                     href="javascript:void(0)"
                   >
-                    <i className="fas fa-info-circle"></i> View More Info
+                    View More Info
                   </a>
                 </div>
               </div>
@@ -1846,10 +1840,8 @@ export default class PairExplorer extends React.Component {
                             background: "#1E1C40",
                             borderRadius: "8px"
                           }}
-                          className={`fa${
-                            this.state.coinbaseVote === true ? "s" : "r"
-                          } fa-thumbs-up`}
-                        ></span>
+                         
+                        ><img src="/assets/img/thumbsup.svg"></img></span>
                       </div>
                       <div className="w-100">
                         <div className="progress">
@@ -1880,10 +1872,7 @@ export default class PairExplorer extends React.Component {
                             background: "#1E1C40",
                             borderRadius: "8px"
                           }}
-                          className={`fa${
-                            this.state.coinbaseVote === false ? "s" : "r"
-                          } fa-thumbs-down`}
-                        ></span>
+                        ><img src="/assets/img/thumbsdown.svg"></img></span>
                       </div>
                     </div>
                   </div>
@@ -1913,6 +1902,8 @@ export default class PairExplorer extends React.Component {
                         zIndex: 9,
                         maxHeight: "300px",
                         overflowY: "auto",
+                        borderRadius: "8px",
+                        marginLeft: "-10px"
                       }}
                     >
                       {this.state.searchResults.map((p) => (
@@ -1922,7 +1913,7 @@ export default class PairExplorer extends React.Component {
                           <li key={p.id} className="prediction-item">
                             <div className="suggest-item">
                               <h2
-                                style={{ fontSize: "1.2rem", fontWeight: 500 }}
+                                style={{ fontSize: "1rem", fontWeight: 500, color: "#FCFCF7"}}
                               >
                                 <span className="wh_txt">
                                   {p.pair.token_1.symbol}
@@ -1932,7 +1923,7 @@ export default class PairExplorer extends React.Component {
                                 {p.pair.token_0.name})
                               </h2>
                               <p
-                                style={{ fontSize: ".85rem", fontWeight: 400 }}
+                                style={{ fontSize: ".85rem", fontWeight: 400, marginBottom: "5px" }}
                               >
                                 Token: ...
                                 {p.pair.token_0.address
@@ -1941,23 +1932,19 @@ export default class PairExplorer extends React.Component {
                                 - Pair: ...
                                 {p.pair.address.toLowerCase().slice(34)}
                               </p>
-                              <p>Total liquidity:</p>
-                              <span>
-                                ${getFormattedNumber(p.pair.reserve, 2)}
-                              </span>
+                              <div className="d-flex gap-1 align-items-center">
+                                <p style={{ opacity: "1", color: "#4ED5D2", fontSize: "12px", lineHeight: "18px", fontWeight: "400" }}>Total liquidity:</p>
+                                <span style={{ opacity: "1", color: "#4ED5D2", fontSize: "12px", lineHeight: "18px", fontWeight: "400" }}>
+                                  ${getFormattedNumber(p.pair.reserve, 2)}
+                                </span>
+                              </div>
                             </div>
                           </li>
                         </NavLink>
                       ))}
                     </ul>
                     <button type="submit" id="submit">
-                      {/* <img src="/assets/img/search-2.png" alt="Image" /> */}
-                      <i
-                        style={{ color: "#857DFA" }}
-                        className={`fas fa-${
-                          !this.state.isSearching ? "search" : "spinner fa-spin"
-                        }`}
-                      ></i>
+                      <img src="/assets/img/search-purple.svg" alt="Image" style={{ marginTop: "11px" }}/>
                     </button>
                   </form>
                 </div>
