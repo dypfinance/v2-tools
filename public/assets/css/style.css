@@ -3070,13 +3070,22 @@ input[type="radio"] {
 /*---------------------------------
         Content Footer CSS
 --------------------------------*/
-
-.content-footer {
-  margin: 30px 0;
+.footer {
+  width: 100%;
 }
 
-.footer-menu {
+.content-footer {
+  margin: 30px 0 0 250px;
   padding: 20px 0;
+  padding-left: 30px;
+}
+
+.footer-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .footer-menu ul {
@@ -3091,17 +3100,9 @@ input[type="radio"] {
   line-height: 24px;
   text-transform: capitalize;
   /* font-family: "Calibre Regular"; */
-  font-weight: 600;
+  font-weight: 400;
   padding: 0 25px;
-  border-right: 1px solid #f9656e;
-}
-
-.footer-menu ul li:last-child a {
-  border-right: none;
-}
-
-.social-profile {
-  padding: 20px 0;
+  color: #F7F7FC;
 }
 
 .social-profile ul {
