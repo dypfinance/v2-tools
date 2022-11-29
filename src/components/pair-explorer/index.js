@@ -1166,11 +1166,8 @@ export default class PairExplorer extends React.Component {
                               position: "relative",
                             }}
                           >
-                            <button className="btn v3 p-0">
-                              <i
-                                className="fas fa-share-alt"
-                                style={{ color: "#71757E" }}
-                              ></i>
+                            <button className="btn v3 p-0 btn-share">
+                             <img src="/assets/img/share-alt.svg"></img>
                             </button>
 
                             <div className="social-share-wrapper-div">
@@ -1257,7 +1254,7 @@ export default class PairExplorer extends React.Component {
                                 : `https://app.pangolin.exchange/#/swap?outputCurrency/${this.props.match.params.pair_id}`
                             }
                           >
-                            <img
+                            <img className="icon-bg-white-rounded"
                               src={
                                 this.props.networkId === 1
                                   ? "/images/uniswap-logo-home.png"
@@ -1277,7 +1274,7 @@ export default class PairExplorer extends React.Component {
                               href={this.state.pairInfo?.link_coinmarketcap}
                             >
                               <img
-                                src="/images/coinmarketcap.jpeg"
+                                src="/assets/img/coinmarketcap.svg"
                                 width="18"
                                 alt=""
                               />
@@ -1297,28 +1294,8 @@ export default class PairExplorer extends React.Component {
                               }
                             >
                               <img
-                                src="/images/coingecko.webp"
+                                src="/assets/img/coingecko-logo.svg"
                                 width="18"
-                                alt=""
-                              />
-                            </a>
-                          </li>
-                        )}
-                        {(this.state.pairInfo?.link_website ||
-                          this.state.cgInfo?.link_website) && (
-                          <li>
-                            <a
-                              rel="noopener noreferrer"
-                              target="_blank"
-                              title="Website"
-                              href={
-                                this.state.pairInfo?.link_website ||
-                                this.state.cgInfo?.link_website
-                              }
-                            >
-                              <i
-                                style={{ color: `var(--red)` }}
-                                className="fas fa-external-link-alt"
                                 alt=""
                               />
                             </a>
@@ -1336,11 +1313,7 @@ export default class PairExplorer extends React.Component {
                                 this.state.cgInfo?.link_twitter
                               }
                             >
-                              <i
-                                style={{ color: "rgba(29,161,242,1.00)" }}
-                                className="fab fa-twitter"
-                                alt=""
-                              />
+                              <img src="/assets/img/twitter-color.svg"></img>
                             </a>
                           </li>
                         )}
@@ -1356,11 +1329,7 @@ export default class PairExplorer extends React.Component {
                                 this.state.cgInfo.link_telegram
                               }
                             >
-                              <i
-                                style={{ color: "#0088cc" }}
-                                className="fab fa-telegram"
-                                alt=""
-                              />
+                              <img src="/assets/img/telegram-color.svg"></img>
                             </a>
                           </li>
                         )}
@@ -1387,6 +1356,22 @@ export default class PairExplorer extends React.Component {
                             />
                           </a>
                         </li>
+                        {(this.state.pairInfo?.link_website ||
+                          this.state.cgInfo?.link_website) && (
+                          <li>
+                            <a
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              title="Website"
+                              href={
+                                this.state.pairInfo?.link_website ||
+                                this.state.cgInfo?.link_website
+                              }
+                            >
+                              <img src="/assets/img/external-link.svg"></img>
+                            </a>
+                          </li>
+                        )}
 
                         {this.state.pairInfo?.link_audit && (
                           <li>
@@ -1396,11 +1381,7 @@ export default class PairExplorer extends React.Component {
                               title="Audit"
                               href={this.state.pairInfo?.link_audit}
                             >
-                              <i
-                                style={{ color: "var(--red)" }}
-                                className="far fa-file-pdf"
-                                alt=""
-                              />
+                              <img src="/assets/img/file-pdf.svg"></img>
                             </a>
                           </li>
                         )}
@@ -1811,9 +1792,9 @@ export default class PairExplorer extends React.Component {
                       justifyContent: "space-between",
                     }}
                   >
-                    <p style={{ color: "#4ED5D2 !important" }}>
+                    <p className="community">
                       Community Trust{" "}
-                      <span style={{ color: "#4ED5D2 !important" }}>
+                      <span style={{ color: "#4ED5D2" }}>
                         {(
                           (this.state.upvoteCount /
                             (this.state.voteCount || 1)) *

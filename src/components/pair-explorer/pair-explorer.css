@@ -21,6 +21,10 @@
     color: #fff !important;
 }
 
+.progress-title .community {
+    color: #4ED5D2 !important;
+}
+
 .box-inner {
     background: #2B2A59;
     border-radius: 8px;
@@ -70,6 +74,10 @@ span.favliq {
 .btn-favorite img {
     top: 0 !important;
     padding: 5px;
+}
+
+.btn-share img {
+    top: 0 !important;
 }
 
 .is-favorite {
