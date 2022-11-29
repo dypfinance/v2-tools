@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import PropTypes from "prop-types";
 import SvgTimesIcon from "./SvgTimesIcon";
 import Info from "../MyStakes/info.svg";
-import './_myNfts.scss'
+import "./_myNfts.scss";
 
 let settings = {
   dots: true,
@@ -16,9 +16,7 @@ let settings = {
   nextArrow: (
     <div>
       <img
-        src={
-          require("../../../../../../assets/ArrowIcons/arrow.svg").default
-        }
+        src={require("../../../../../../assets/ArrowIcons/arrow.svg").default}
         alt=""
       />
     </div>
@@ -26,9 +24,7 @@ let settings = {
   prevArrow: (
     <div>
       <img
-        src={
-          require("../../../../../../assets/ArrowIcons/arrow.svg").default
-        }
+        src={require("../../../../../../assets/ArrowIcons/arrow.svg").default}
         alt=""
       />
     </div>
@@ -59,21 +55,10 @@ const MyNfts = ({
   label,
   smallTitle,
   bigTitle,
+  isConnected,
+  coinbase,
 }) => {
   const [showAll, setsShowAll] = useState(false);
-  const [isconnectedWallet, setisConnectedWallet] = useState(false);
-
-  const checkConnection = async () => {
-    let test = await window.web3.eth?.getAccounts().then((data) => {
-      data.length === 0
-        ? setisConnectedWallet(false)
-        : setisConnectedWallet(true);
-    });
-  };
-
-  useEffect(() => {
-    checkConnection().then();
-  }, [checkConnection]);
 
   if (window.innerWidth < 768 && showAll) {
     settings = { ...settings, rows: 2, slidesPerRow: 2, slidesToShow: 1 };
@@ -89,6 +74,7 @@ const MyNfts = ({
             nft={item}
             action={onItemClick}
             modalId="#newNftStake"
+            coinbase={coinbase}
           />
         );
       })
@@ -124,7 +110,7 @@ const MyNfts = ({
               </button>
             )}
           </div>
-          <div className="cards-grid">
+          <div className="row justify-content-center">
             <div className="graphic-container d-none d-sm-flex">
               {/* <img
                 src={require("../../../../../assets/Nft/NftMintinglist/collection-graphic.png")}
@@ -142,20 +128,25 @@ const MyNfts = ({
                 </button>
               )}
             </div>
-            <div className="myCaws-info-text"  style={{
-                  display:
-                    isconnectedWallet && numberOfNfts >= 1 ? "none" : "flex",
-                }}>
-              <p className="mycaws-status-text" style={{pointerEvents: 'none'}}>
-                  {/* <Tooltip icon={'i'} color={'#939393'} borderColor={'#939393'} />
-                   */}
-                  <img src={Info} alt=''/>
+            <div
+              className="myCaws-info-text"
+              style={{
+                display: isConnected && numberOfNfts >= 1 ? "none" : "flex",
+              }}
+            >
+              <p
+                className="mycaws-status-text"
+                style={{ pointerEvents: "none" }}
+              >
+                {/* <Tooltip icon={'i'} color={'#939393'} borderColor={'#939393'} />
+                 */}
+                <img src={Info} alt="" />
 
-                {isconnectedWallet === true && numberOfNfts < 1
+                {isConnected === true && numberOfNfts < 1
                   ? "Your minted NFTs will be available here."
-                  : isconnectedWallet === false
+                  : isConnected === false
                   ? "Please connect your wallet in order to see your NFTs"
-                  : isconnectedWallet === true && numberOfNfts > 1
+                  : isConnected === true && numberOfNfts > 1
                   ? ""
                   : ""}
               </p>
@@ -163,7 +154,7 @@ const MyNfts = ({
             {showAll && renderCards()}
             {!showAll && (
               <div className={["slider", showAll ? "d-none" : ""].join(" ")}>
-                <Slider {...settings}>{renderCards()}</Slider>
+                <div className="row justify-content-center">{renderCards()}</div>
               </div>
             )}
           </div>
@@ -179,6 +170,8 @@ MyNfts.propTypes = {
   label: PropTypes.string,
   smallTitle: PropTypes.string,
   bigTitle: PropTypes.string,
+  coinbase: PropTypes.string,
+  isConnected: PropTypes.bool,
 };
 
 export default MyNfts;

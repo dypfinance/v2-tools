@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Web3 from "web3";
 import PropTypes from "prop-types";
 // import SvgEyeIcon from "../NftCawCard/SvgEyeIcon";
 // import EthLogo from "../../../../../assets/General/eth-create-nft.png";
 import { formattedNum } from "../../../../../../functions/formatUSD";
-import getFormattedNumber from '../../../../../../functions/get-formatted-number'
+import getFormattedNumber from "../../../../../../functions/get-formatted-number";
 
 const NftStakingCawChecklist = ({
   modalId,
@@ -15,23 +16,17 @@ const NftStakingCawChecklist = ({
   onChange,
   countDownLeft,
   onNftCheckListClick,
+  coinbase,
+  isConnected,
 }) => {
   const [checkbtn, setCheckBtn] = useState(false);
   const [Unstakebtn, setUnstakeBtn] = useState(false);
   const [checkPassiveBtn, setcheckPassiveBtn] = useState(false);
 
-  const [isconnectedWallet, setisConnectedWallet] = useState(false);
   const [EthRewards, setEthRewards] = useState(0);
 
   const [ethToUSD, setethToUSD] = useState(0);
   const [loading, setloading] = useState(false);
-  const checkConnection = async () => {
-    let test = await window.web3.eth?.getAccounts().then((data) => {
-      data.length === 0
-        ? setisConnectedWallet(false)
-        : setisConnectedWallet(true);
-    });
-  };
 
   const convertEthToUsd = async () => {
     const res = axios
@@ -43,31 +38,31 @@ const NftStakingCawChecklist = ({
   };
 
   const calculateReward = async (currentId) => {
-    const address = await window.web3.eth?.getAccounts().then((data) => {
-      return data[0];
-    });
+    const address = coinbase;
 
     let calculateRewards;
-    let staking_contract = await window.getContract("NFTSTAKING");
+    let staking_contract = await window.getContractNFT("NFTSTAKING");
+    if (address !== null && currentId) {
+      calculateRewards = await staking_contract.methods
+        .calculateReward(address, parseInt(currentId))
+        .call()
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          // window.alertify.error(err?.message);
+        });
+      const infuraWeb3 = new Web3(window.config.infura_endpoint);
 
-    calculateRewards = await staking_contract.methods
-      .calculateReward(address, parseInt(currentId))
-      .call()
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        // window.alertify.error(err?.message);
-      });
-
-    let a = await window.web3.utils.fromWei(calculateRewards, "ether");
-    const ethprice = await convertEthToUsd();
-    setethToUSD(Number(ethprice) * Number(a));
-    setEthRewards(Number(a));
+      let a = infuraWeb3.utils.fromWei(calculateRewards, "ether");
+      const ethprice = await convertEthToUsd();
+      setethToUSD(Number(ethprice) * Number(a));
+      setEthRewards(Number(a));
+    }
   };
 
   const handleClaim = async (itemId) => {
-    let staking_contract = await window.getContract("NFTSTAKING");
+    let staking_contract = await window.getContractNFT("NFTSTAKING");
 
     await staking_contract.methods
       .claimRewards([itemId])
@@ -82,7 +77,7 @@ const NftStakingCawChecklist = ({
   };
 
   const handleUnstake = async (itemId) => {
-    let stake_contract = await window.getContract("NFTSTAKING");
+    let stake_contract = await window.getContractNFT("NFTSTAKING");
     setloading(true);
 
     await stake_contract.methods
@@ -99,8 +94,7 @@ const NftStakingCawChecklist = ({
   };
 
   useEffect(() => {
-    checkConnection().then();
-    if (isconnectedWallet) {
+    if (isConnected) {
       getStakesIds().then();
       calculateReward(checklistItemID).then();
 
@@ -108,7 +102,7 @@ const NftStakingCawChecklist = ({
         setcheckPassiveBtn(true);
       }
     }
-  }, [EthRewards, checklistItemID, isconnectedWallet, countDownLeft]);
+  }, [EthRewards, checklistItemID, isConnected, countDownLeft]);
 
   useEffect(() => {
     setCheckBtn(checked);
@@ -120,20 +114,20 @@ const NftStakingCawChecklist = ({
   }
 
   const getStakesIds = async () => {
-    const address = await window.web3.eth?.getAccounts().then((data) => {
-      return data[0];
-    });
-    let staking_contract = await window.getContract("NFTSTAKING");
+    const address = coinbase;
+    let staking_contract = await window.getContractNFT("NFTSTAKING");
     let stakenft = [];
-    let myStakes = await staking_contract.methods
-      .depositsOf(address)
-      .call()
-      .then((result) => {
-        for (let i = 0; i < result.length; i++)
-          stakenft.push(parseInt(result[i]));
-        return stakenft;
-      });
-    return myStakes;
+    if (address !== null) {
+      let myStakes = await staking_contract.methods
+        .depositsOf(address)
+        .call()
+        .then((result) => {
+          for (let i = 0; i < result.length; i++)
+            stakenft.push(parseInt(result[i]));
+          return stakenft;
+        });
+      return myStakes;
+    }
   };
 
   const handleCawClick = () => {
@@ -355,6 +349,8 @@ NftStakingCawChecklist.propTypes = {
   onChange: PropTypes.func,
   onNftCheckListClick: PropTypes.func,
   countDownLeft: PropTypes.any,
+  coinbase: PropTypes.string,
+  isConnected: PropTypes.bool,
 };
 
 export default NftStakingCawChecklist;
