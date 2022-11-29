@@ -312,15 +312,10 @@ export default class TopTokens extends React.Component {
           </div>
         </div>
         <div className="table-box">
-          <div className="table-title">
-            <h4>
-              {" "}
-              {this.props.networkId === 1
-                ? "Uniswap Top Tokens"
-                : "Pangolin Top Tokens"}
-            </h4>
+          <div className="form-container p-3 position-relative">
+            <div className="tablepurplediv" style={{background: "#8E97CD", left: "0px" }}></div>
+            {this.GetDataTable()}
           </div>
-          <div className="l-table-wrapper-div">{this.GetDataTable()}</div>
           {/* <div className="page-nav">
                         <ul>
                             <li><a href="#"><img src="assets/img/arrow-left.png" alt="Image" /></a></li>
