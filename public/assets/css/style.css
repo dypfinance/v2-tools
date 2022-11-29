@@ -3072,6 +3072,11 @@ input[type="radio"] {
 --------------------------------*/
 .footer {
   width: 100%;
+  background: #2A2859;
+}
+
+body.theme-dark .content-footer {
+  background: #2A2859 !important;
 }
 
 .content-footer {
@@ -3088,6 +3093,10 @@ input[type="radio"] {
   gap: 20px;
 }
 
+.footer-menu {
+  border: 0 !important;
+}
+
 .footer-menu ul {
   display: flex;
   justify-content: center;
@@ -3101,7 +3110,7 @@ input[type="radio"] {
   text-transform: capitalize;
   /* font-family: "Calibre Regular"; */
   font-weight: 400;
-  padding: 0 25px;
+  padding: 0 10px;
   color: #F7F7FC;
 }
 
