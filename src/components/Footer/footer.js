@@ -1,6 +1,6 @@
 const Footer = () => (
 <div className="footer">
-    <div className="content-footer container-lg d-flex justify-content-between gap-3 align-items-center w-100">
+    <div className="content-footer container-fluid d-flex justify-content-between gap-3 align-items-center">
         <div className="footer-logo">
             <a target={'_blank'} href="https://lorenadev.dyp.finance/"><img src="/assets/img/logo-footer.svg" alt="Dypius"></img></a>
             <a target={'_blank'} href="https://lorenadev.dyp.finance/#metaverse"><img src="/assets/img/metaverse.svg" alt="METAVERSE"></img></a>
