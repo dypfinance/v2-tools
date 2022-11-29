@@ -293,14 +293,6 @@ const Sidebar = (props) => {
         )}
       </div>
      </div>
-      <div className="dypius-link d-flex w-100 justify-content-center align-items-center mt-5">
-        <a href="https://lorenadev.dyp.finance/" target="_blank" rel="noreferrer" className="dypius-button d-flex justify-content-center align-items-center gap-2">
-        <img src={sidebarDypius} alt="" />
-        {activeSidebar &&
-          <span style={{color: '#8E97CD', fontWeight: '500', fontSize: '17px'}}>Dypius.com</span>
-        }
-        </a>
-      </div>
     </div>
     // <div
     //   onClick={props.toggleMobileSidebar}
