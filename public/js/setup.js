@@ -1616,19 +1616,37 @@ window.config = {
   bridge_bsceth_address: "0x81A0d2f173590A23636DB6a475BC7E32aAae946C",
   bridge_bscbsc_address: "0x229eD0B61bEA41710A79A3634E06B1A619a0EBCb",
 
+  //bridge eth-avax idyp
+  token_idyp_eth_address: "0xBD100d061E120b2c67A24453CF6368E63f1Be056",
+  token_idyp_bsc_address: "0xBD100d061E120b2c67A24453CF6368E63f1Be056",
+
+  bridge_idypeth_address: "0x9D8a633cee6438004099478AF3120Aa7e506b774",
+  bridge_idypbsc_address: "0x6e08239150D8E76920Cf5ffaa2293e89bE345CA9",
+
+  //bridge eth-bsc idyp
+
+  token_idyp_bsceth_address: "0xBD100d061E120b2c67A24453CF6368E63f1Be056",
+  token_idyp_bscbsc_address: "0xBD100d061E120b2c67A24453CF6368E63f1Be056",
+
+  bridge_idypbsceth_address: "0x70C89Bd30d8543a594f83C57ed92240a1B4925Fe",
+  bridge_idypbscbsc_address: "0x66f8449b73C42Bb0820a8132348bfE2820Cfd6B8",
+
   chain_ids: {
     ETH: 1, // 4 = rinkeby, 1 = main, 42 = kovan, 43114 = AVAX
     AVAX: 43114, // 43114 = AVAX
-    BSC: 56,// 97 = testnet, 56 = main
+    BSC: 56, // 97 = testnet, 56 = main
     1: "ETH",
     43114: "AVAX",
     56: "BSC",
   },
 
-	SIGNATURE_API_URLAVAX: 'https://bridge-avax.dyp.finance',
-	SIGNATURE_API_URLBSC: 'https://bridge-api.dyp.finance',
+  SIGNATURE_API_URLAVAX: "https://bridge-avax.dyp.finance",
+  SIGNATURE_API_URLBSC: "https://bridge-api.dyp.finance",
 
 
+
+  SIGNATURE_API_URLAVAXiDYP: "https://ibridge-avax.dyp.finance",
+  SIGNATURE_API_URLBSCiDYP: "https://ibridge-api.dyp.finance",
 
 
 };
@@ -2149,9 +2167,6 @@ window.bridge_bsc = new BRIDGE(
   window.config.token_dyp_bsc_address
 );
 
-
-
-
 //bridge eth-bsc
 window.bridge_bsceth = new BRIDGE(
   window.config.bridge_bsceth_address,
@@ -2162,12 +2177,34 @@ window.bridge_bscbsc = new BRIDGE(
   window.config.token_dyp_bscbsc_address
 );
 
-
-
 window.token_dyp_bsceth = new TOKEN("TOKEN_DYP_BSCETH");
 window.token_dyp_bscbsc = new TOKEN("TOKEN_DYP_BSCBSC");
 
+//bridge eth-avax idyp
+window.token_idyp_eth = new TOKEN("TOKEN_IDYP_ETH");
+window.token_idyp_bsc = new TOKEN("TOKEN_IDYP_BSC");
 
+window.bridge_idypeth = new BRIDGE(
+  window.config.bridge_idypeth_address,
+  window.config.token_idyp_eth_address
+);
+window.bridge_idypbsc = new BRIDGE(
+  window.config.bridge_idypbsc_address,
+  window.config.token_idyp_bsc_address
+);
+
+//bridge eth-bsc idyp
+window.token_idyp_bsceth = new TOKEN("TOKEN_IDYP_BSCETH");
+window.token_idyp_bscbsc = new TOKEN("TOKEN_IDYP_BSCBSC");
+
+window.bridge_idypbsceth = new BRIDGE(
+  window.config.bridge_idypbsceth_address,
+  window.config.token_idyp_bsceth_address
+);
+window.bridge_idypbscbsc = new BRIDGE(
+  window.config.bridge_idypbscbsc_address,
+  window.config.token_idyp_bscbsc_address
+);
 
 async function getTokenHolderBalanceAll(holder, token_address, network) {
   if (network == 1) {
@@ -2180,6 +2217,15 @@ async function getTokenHolderBalanceAll(holder, token_address, network) {
   }
   if (network == 2) {
     let tokenContract = new window.avaxWeb3.eth.Contract(
+      window.TOKEN_ABI,
+      token_address,
+      { from: undefined }
+    );
+    return await tokenContract.methods.balanceOf(holder).call();
+  }
+
+  if (network == 3) {
+    let tokenContract = new window.bscWeb3.eth.Contract(
       window.TOKEN_ABI,
       token_address,
       { from: undefined }
@@ -21411,8 +21457,12 @@ Object.keys(window.config)
       k.startsWith("reward_token_dyps") ||
       k.startsWith("token_dyp_eth") ||
       k.startsWith("token_dyp_bsc") ||
+      k.startsWith("token_idyp_eth") ||
+      k.startsWith("token_idyp_bsc") ||
       k.startsWith("token_dyp_bsceth") ||
       k.startsWith("token_dyp_bscbsc") ||
+      k.startsWith("token_idyp_bsceth") ||
+      k.startsWith("token_idyp_bscbsc") ||
       k.startsWith("reward_token_dypsavax") ||
       k.startsWith("farmweth") ||
       k.startsWith("weth") ||
@@ -21440,11 +21490,19 @@ Object.keys(window.config)
       ? window.TOKEN_ABI
       : k.startsWith("token_dyp_eth")
       ? window.TOKEN_ABI
+      : k.startsWith("token_idyp_eth")
+      ? window.TOKEN_ABI
       : k.startsWith("token_dyp_bsc")
+      ? window.TOKEN_ABI
+      : k.startsWith("token_idyp_bsc")
       ? window.TOKEN_ABI
       : k.startsWith("token_dyp_bscbsc")
       ? window.TOKEN_ABI
+      : k.startsWith("token_idyp_bscbsc")
+      ? window.TOKEN_ABI
       : k.startsWith("token_dyp_bsceth")
+      ? window.TOKEN_ABI
+      : k.startsWith("token_idyp_bsceth")
       ? window.TOKEN_ABI
       : k.startsWith("reward_token_dypsavax")
       ? window.TOKENAVAX_ABI
@@ -21518,10 +21576,6 @@ Object.keys(window.config)
       ? window.NEW_GOVERNANCEAVAX_ABI
       : window.STAKING_ABI;
   });
-
-
-
-  
 
 async function refreshBalance() {
   //await wait(10000)

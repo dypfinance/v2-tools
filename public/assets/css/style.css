@@ -39,6 +39,10 @@ iframe {
   pointer-events: none;
 }
 
+.container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+  max-width: calc(100% - 300px);
+}
+
 .form-control:focus {
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -2387,7 +2391,7 @@ border: 1px solid #3B3C68 !important;
   justify-content: end;
   cursor: pointer;
   position: absolute;
-  right: 0;
+  right: 21px;
 }
 
 .walletbutton {

@@ -25,12 +25,9 @@ import Launchpad from "./components/launchpad/Launchpad";
 import LaunchpadForm from "./components/launchpad/launchpadform/LaunchpadForm";
 import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadDetails";
 import TierLevels from "./components/launchpad/tierlevels/TierLevels";
-import initBridge from "./components/bridge/bridge-bsc";
+import NftMinting from "./components/caws/NftMinting/index";
 import Bridge from "./components/bridge/BridgeGeneral";
 import BuyDyp from "./components/buydyp/BuyDyp";
-
-
-
 
 class App extends React.Component {
   constructor(props) {
@@ -335,14 +332,12 @@ class App extends React.Component {
 
     document.addEventListener("touchstart", { passive: true });
 
-
     // const Bridge = initBridge({
     //   bridgeETH: window.bridge_bsceth,
     //   bridgeBSC: window.bridge_bscbsc,
     //   tokenETH: window.token_dyp_bsceth,
-    //   tokenBSC: window.token_dyp_bscbsc, 
+    //   tokenBSC: window.token_dyp_bscbsc,
     // });
-
 
     return (
       <div
@@ -397,13 +392,19 @@ class App extends React.Component {
                 )}
               />
 
-<Route
+              <Route
                 exact
                 path="/bridge"
                 render={() => (
-                  <Bridge networkId={parseInt(this.state.networkId) } isConnected={this.state.isConnected}/>
+                  <Bridge
+                    networkId={parseInt(this.state.networkId)}
+                    isConnected={this.state.isConnected}
+                    handleConnection={this.handleConnection}
+                  />
                 )}
               />
+
+              <Route exact path="/caws" render={() => <NftMinting />} />
 
               <Route
                 exact

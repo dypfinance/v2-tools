@@ -694,7 +694,7 @@ export default class Governance extends React.Component {
       <div>
         <div
           className={
-            deviceWidth < 500 ? "container-fluid" : "container-fluid p-0"
+            deviceWidth < 500 ? "container-lg" : "container-lg p-0"
           }
         >
           <div className="d-flex justify-content-between gap-2 align-items-center">
