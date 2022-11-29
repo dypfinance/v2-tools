@@ -25,9 +25,11 @@ import Launchpad from "./components/launchpad/Launchpad";
 import LaunchpadForm from "./components/launchpad/launchpadform/LaunchpadForm";
 import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadDetails";
 import TierLevels from "./components/launchpad/tierlevels/TierLevels";
-import initBridge from "./components/bridge/bridge-bsc";
+import NftMinting from "./components/caws/NftMinting/index";
 import Bridge from "./components/bridge/BridgeGeneral";
 import Footer from "./components/Footer/footer";
+import BuyDyp from "./components/buydyp/BuyDyp";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -404,6 +406,8 @@ class App extends React.Component {
                 )}
               />
 
+              <Route exact path="/caws" render={() => <NftMinting />} />
+
               <Route
                 exact
                 path="/big-swap-explorer"
@@ -492,7 +496,7 @@ class App extends React.Component {
                   />
                 )}
               />
-
+              <Route exact path="/buydyp" render={() => <BuyDyp />} />
               <Route
                 exact
                 path="/governancedev"

@@ -12,6 +12,15 @@
   color: #857dfa !important;
 }
 
+
+.form-sub-title{
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: #F7F7FC !important;
+  
+}
+
 .upload-container {
   background: #26264f;
   border: 1px dashed #565891;
@@ -22,6 +31,11 @@
 
 .form-grid {
   grid-template-columns: repeat(2, 1fr);
+  gap: 38px;
+}
+
+.additional-grid{
+  grid-template-columns: repeat(3, 1fr);
   gap: 38px;
 }
 

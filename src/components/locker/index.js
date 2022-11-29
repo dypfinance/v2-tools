@@ -28,8 +28,9 @@ import ethStakeActive from "../../assets/earnAssets/ethStakeActive.svg";
 import bnbStakeActive from "../../assets/earnAssets/bnbStakeActive.svg";
 import avaxStakeActive from "../../assets/earnAssets/avaxStakeActive.svg";
 import lockerCalendarIcon from "./assets/lockerCalendarIcon.svg";
-import coinStackIcon from '../launchpad/assets/coinStackIcon.svg';
-import purpleLiquidityLocker from './assets/purpleLiquidityLocker.svg'
+import coinStackIcon from "../launchpad/assets/coinStackIcon.svg";
+import purpleLiquidityLocker from "./assets/purpleLiquidityLocker.svg";
+import PairLockerCard from "./PairLockerCard";
 
 export default class Locker extends React.Component {
   constructor(props) {
@@ -1932,6 +1933,33 @@ export default class Locker extends React.Component {
       </div>
     );
   };
+
+  getPercentageLocked = () => {
+    if (this.state.recipientLocksLength !== 0) {
+      const amount =
+        this.state.recipientLocks[this.state.recipientLocksLength - 1].amount /
+        1e18;
+      const percentage =
+        (amount * 100) / (this.state.lpBalance / 1e18 + amount);
+
+      return percentage.toFixed(0);
+    }
+
+    if (!this.props.match.params.pair_id) {
+      const percentage = 25;
+      return percentage;
+    }
+  };
+
+  convertTimestampToDate = (timestamp) => {
+    const result = new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(timestamp * 1000);
+    return result;
+  };
+
   render() {
     return (
       <div className="container-lg px-0">
@@ -1945,7 +1973,7 @@ export default class Locker extends React.Component {
           </p>
         </div>
         <div className="row mt-4 w-100 mx-0">
-          <div className="col-6 ps-0">
+          <div className="col-7 ps-0">
             <div className="px-3 py-4 locker-card liquidity-background d-flex gap-3 position-relative">
               <div
                 className="purplediv"
@@ -1971,7 +1999,7 @@ export default class Locker extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-6 pe-0">
+          <div className="col-5 pe-0">
             <div className="px-3 py-4 locker-card security-background d-flex gap-3 h-100  position-relative">
               <div className="purplediv" style={{ left: "0px" }}></div>
               <div className="security-icon-holder d-flex align-items-center justify-content-center">
@@ -2027,9 +2055,21 @@ export default class Locker extends React.Component {
                           type="text"
                           id="pair_address"
                           name="pair_address"
+                          value={this.state.pair_address}
                           placeholder=" "
+                          onChange={(e) => {
+                            this.handlePairChange(e);
+                            this.selectBaseToken(e);
+                          }}
                           className="text-input"
                           style={{ width: "100%" }}
+                          disabled={this.props.match.params.pair_id}
+                          value={this.state.pair_address}
+                          onChange={(e) => {
+                            this.handlePairChange(e);
+                            this.loadPairInfo();
+                            this.selectBaseToken(e);
+                          }}
                         />
                         <label
                           htmlFor="usd"
@@ -2048,12 +2088,25 @@ export default class Locker extends React.Component {
                           style={{ width: "100%" }}
                         >
                           <input
-                            type="text"
                             id="pair_address"
                             name="pair_address"
                             placeholder=" "
                             className="text-input"
                             style={{ width: "100%" }}
+                            disabled
+                            onChange={(e) => {
+                              let amount = new window.BigNumber(e.target.value);
+                              amount = amount.times(1e18).toFixed(0);
+                              this.setState({ amount });
+                            }}
+                            value={this.state.amount}
+                            type="number"
+                            min={
+                              getFormattedNumber(
+                                this.state.lpBalance / 1e18,
+                                6
+                              ) * 0.25
+                            }
                           />
                           <label
                             htmlFor="usd"
@@ -2069,6 +2122,14 @@ export default class Locker extends React.Component {
                   <button
                     className="btn maxbtn"
                     style={{ marginBottom: "3px" }}
+                    onClick={() => {
+                      this.setState({
+                        amount: getFormattedNumber(
+                          this.state.lpBalance / 1e18,
+                          6
+                        ),
+                      });
+                    }}
                   >
                     Max
                   </button>
@@ -2086,7 +2147,9 @@ export default class Locker extends React.Component {
                           height={24}
                           width={24}
                         />
-                        <h6 className="create-lock-token">AVAX</h6>
+                        <h6 className="create-lock-token">
+                          {this.state.selectedBaseTokenTicker}
+                        </h6>
                       </div>
                     </div>
                   </div>
@@ -2095,7 +2158,9 @@ export default class Locker extends React.Component {
                     style={{ paddingLeft: "5px" }}
                   >
                     <span className="create-lock-title">Balance</span>
-                    <h6 className="locker-balance">0.109322</h6>
+                    <h6 className="locker-balance">
+                      {getFormattedNumber(this.state.lpBalance / 1e18, 6)}
+                    </h6>
                   </div>
                 </div>
               </div>
@@ -2104,11 +2169,51 @@ export default class Locker extends React.Component {
                 <div className="d-flex flex-column gap-2">
                   <span className="create-lock-title">Select unlock date</span>
                   <div className="d-flex align-items-center gap-3">
-                    <span className="create-lock-month selected-month">
+                    <span
+                      className={`create-lock-month ${
+                        this.state.unlockDatebtn === "1" && "selected-month"
+                      }`}
+                      onClick={() => {
+                        this.setState({
+                          unlockDate: new Date(
+                            Date.now() + 1 * 30 * 24 * 60 * 60 * 1000
+                          ),
+                        });
+                        this.setState({ unlockDatebtn: "1" });
+                      }}
+                    >
                       1 month
                     </span>
-                    <span className="create-lock-month">3 months</span>
-                    <span className="create-lock-month">6 months</span>
+                    <span
+                      className={`create-lock-month ${
+                        this.state.unlockDatebtn === "3" && "selected-month"
+                      }`}
+                      onClick={() => {
+                        this.setState({
+                          unlockDate: new Date(
+                            Date.now() + 3 * 30 * 24 * 60 * 60 * 1000
+                          ),
+                        });
+                        this.setState({ unlockDatebtn: "3" });
+                      }}
+                    >
+                      3 months
+                    </span>
+                    <span
+                      className={`create-lock-month ${
+                        this.state.unlockDatebtn === "6" && "selected-month"
+                      }`}
+                      onClick={() => {
+                        this.setState({
+                          unlockDate: new Date(
+                            Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
+                          ),
+                        });
+                        this.setState({ unlockDatebtn: "6" });
+                      }}
+                    >
+                      6 months
+                    </span>
                   </div>
                 </div>
                 <div className="input-container px-0" style={{ width: "40%" }}>
@@ -2119,6 +2224,7 @@ export default class Locker extends React.Component {
                     placeholder=" "
                     className="text-input"
                     style={{ width: "100%" }}
+                    onChange={(unlockDate) => this.setState({ unlockDate })}
                   />
                   <img
                     src={lockerCalendarIcon}
@@ -2132,7 +2238,7 @@ export default class Locker extends React.Component {
                 {/* <input type="range" className="w-50" /> */}
 
                 <Slider
-                className="ms-3"
+                  className="ms-3"
                   step={25}
                   dots
                   min={25}
@@ -2163,7 +2269,9 @@ export default class Locker extends React.Component {
                 <div className="slider-text-wrapper ms-3">
                   <span
                     className={`slider-text ${
-                      this.state.sliderValue < 35 ? "slider-text-active first-value" : null
+                      this.state.sliderValue < 35
+                        ? "slider-text-active first-value"
+                        : null
                     }`}
                   >
                     25%
@@ -2188,114 +2296,123 @@ export default class Locker extends React.Component {
                   </span>
                   <span
                     className={`slider-text ${
-                      this.state.sliderValue > 90 ? "slider-text-active fourth-value" : null
+                      this.state.sliderValue > 90
+                        ? "slider-text-active fourth-value"
+                        : null
                     }`}
                   >
                     100%
                   </span>
                 </div>
-                <span className="select-percentage mt-4">*Select % of to the balance to lock</span>
+                <span className="select-percentage mt-4">
+                  *Select % of to the balance to lock
+                </span>
               </div>
-            <hr className="form-divider my-4" />
-            <div className="d-flex align-items-center justify-content-between mx-3">
-              <button className="btn filledbtn px-5">Approve</button>
-              <button className="btn disabled-btn px-5">Lock</button>
-            </div>
+              <hr className="form-divider my-4" />
+              <div className="d-flex align-items-center justify-content-between mx-3">
+                <button
+                  className="btn filledbtn px-5"
+                  onClick={this.handleApprove}
+                >
+                  Approve
+                </button>
+                <button
+                  className="btn disabled-btn px-5"
+                  onClick={this.handleLockSubmit}
+                >
+                  Lock
+                </button>
+              </div>
             </div>
           </div>
           <div className="col-5 position-relative pe-0">
             <div className="p-4 purple-wrapper">
               <div className="d-flex align-items-center gap-2">
-                  <img src={coinStackIcon} alt="" />
-                  <h6 className="locker-function-title">My DYP locker liquidity</h6>
+                <img src={coinStackIcon} alt="" />
+                <h6 className="locker-function-title">
+                  My DYP locker liquidity
+                </h6>
               </div>
               <hr className="form-divider my-3" />
               <div className="locker-liquidity-wrapper p-3 d-flex align-items-center justify-content-between">
                 <img src={purpleLiquidityLocker} alt="" />
                 <div className="d-flex flex-column justify-content-center gap-2 align-items-end">
                   <div className="d-flex align-items-center gap-2">
-                  <span className="locker-indicator">DYP locker status</span>
-                  <img src={moreInfo} alt="" height={20} width={20} />
+                    <span className="locker-indicator">DYP locker status</span>
+                    <img src={moreInfo} alt="" height={20} width={20} />
                   </div>
                   <div className="locker-status d-flex align-items-center gap-3 p-2">
-                    <span className="locker-status-text">12% Locked</span>
-                    <span className="locker-status-text">12:45:35:07</span>
+                    <span className="locker-status-text">
+                      {!this.state.lpBalance ? 25 : this.getPercentageLocked()}{" "}
+                      % Locked
+                    </span>
+                    <span className="locker-status-text">
+                      <CountDownTimer
+                        date={
+                          this.state.recipientLocksLength
+                            ? this.convertTimestampToDate(
+                                Number(
+                                  this.state.recipientLocks[
+                                    this.state.recipientLocksLength - 1
+                                  ].unlockTimestamp
+                                )
+                              )
+                            : "00:00:00:00"
+                        }
+                      />
+                    </span>
                   </div>
                   <span className="locker-timer">Countdown timer</span>
                 </div>
               </div>
               <div className="col-5  mt-3">
                 <span className="create-lock-title">Info data</span>
-                <hr className="form-divider w-100 my-2" style={{height: '3px'}} />
+                <hr
+                  className="form-divider w-100 my-2"
+                  style={{ height: "3px" }}
+                />
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex align-items-center justify-content-between">
                     <span className="create-loxk-title">ID</span>
-                    <span className="create-loxk-title fw-bold">1</span>
+                    <span className="create-loxk-title fw-bold"> {this.state.recipientLocksLength
+                            ? this.state.recipientLocks[
+                                this.state.recipientLocksLength - 1
+                              ].id
+                            : ""}</span>
                   </div>
                   <div className="d-flex align-items-center justify-content-between">
                     <span className="create-loxk-title">Pair address</span>
-                    <span className="create-loxk-title fw-bold">..332423</span>
+                    <span className="create-loxk-title fw-bold">
+                      <NavLink
+                        to={`/pair-explorer/${
+                          this.state.recipientLocksLength
+                            ? this.state.recipientLocks[
+                                this.state.recipientLocksLength - 1
+                              ].token
+                            : ""
+                        }`}
+                        style={{ color: "#A4A4A4" }}
+                      >
+                        ...
+                        {this.state.recipientLocksLength
+                          ? this.state.recipientLocks[
+                              this.state.recipientLocksLength - 1
+                            ].token.slice(35)
+                          : ""}
+                      </NavLink>
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-          <h6 className="locker-title mt-5">Pair locks</h6>
+        <h6 className="locker-title mt-5">Pair locks</h6>
         <div className="row mx-0 w-100 mt-2">
-          <div className="col-4">
-            <div className="pair-locker-card d-flex">
-              <div className="col-7 p-2 d-flex flex-column gap-2">
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">ID</span>
-                  <span className="pair-value">1</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">Pair address</span>
-                  <span className="pair-value">..2012765</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">LP Amount</span>
-                  <span className="pair-value">0.8664435</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">DYP</span>
-                  <span className="pair-value">..2021765</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">Recipent</span>
-                  <span className="pair-value">..44324</span>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="pair-indicator">Unlock</span>
-                  <span className="pair-value">6 months</span>
-                </div>
-                <img src={require('./assets/pairPurple.svg').default} width={58} height={64} alt="" />
-              </div>
-              <div className="col-5 pair-locker-right p-2 d-flex flex-column justify-content-between">
-                <div className="d-flex flex-column gap-2">
-                  <div className="d-flex flex-column gap-2">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <span className="pair-indicator">Status</span>
-                      <img src={moreInfo} alt="" />
-                    </div>
-                    <div className="active-tag d-flex align-items-center gap-2">
-                      <img src={require('./assets/activeMark.svg').default} alt="" />
-                      <span className="active-tag-text">Active</span>
-                    </div>
-                  </div>
-                  <div className="d-flex flex-column gap-2">
-                    <span className="pair-indicator">Ends in</span>
-                    <span className="pair-value">12.05.2022</span>
-                  </div>
-                  <div className="d-flex flex-column gap-2">
-                    <span className="pair-indicator">Created</span>
-                    <span className="pair-value">12.05.2022</span>
-                  </div>
-                </div>
-                <button className="btn filledbtn">Claim</button>
-              </div>
-            </div>
+          <div className="pair-locker-wrapper px-0">
+            <PairLockerCard completed={true} active={true} />
+            <PairLockerCard completed={false} active={true} />
+            <PairLockerCard completed={false} active={false} />
           </div>
         </div>
       </div>

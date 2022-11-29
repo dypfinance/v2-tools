@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import validateInfo from "./validateinfo";
 import axios from "axios";
+import formIcon from "./assets/formIcon.svg";
+import uploadLogo from './assets/uploadLogo.svg'
+import clearFieldsIcon from './assets/clearFieldsIcon.svg'
 
 const SubmitInfo = () => {
   const initialState = {
@@ -70,7 +73,7 @@ const SubmitInfo = () => {
         errors.twitter === "" &&
         errors.coinmarket === "" &&
         errors.telegram === "" &&
-        errors.coingecko === "" 
+        errors.coingecko === ""
       ) {
         const send = await axios
           .post("https://api-mail.dyp.finance/api/submit_form", data)
@@ -91,301 +94,701 @@ const SubmitInfo = () => {
     }
   };
 
+  const focusInput = (input) => {
+    document.getElementById(input).focus();
+  };
+
+  const clearFields = () => {
+    setValues(initialState)
+  }
+
   return (
-    <div>
-      <div className="row px-3 table-title">
-        <div>
-          <h2 style={{ display: "block", color: "var(--preloader-clr)" }}>
+    <div className="container-lg px-0">
+      <div className="d-flex flex-column gap-3" style={{ width: "65%" }}>
+        <h6 className="launchpad-hero-title">Submit Form</h6>
+        <p className="launchpad-hero-desc">
+          Use this form to submit information about your project to DYP Tools.
+        </p>
+      </div>
+      <div className="form-container p-3 position-relative mt-4">
+        <div
+          className="purplediv"
+          style={{ background: "#8E97CD", left: "0px" }}
+        ></div>
+        <div className="d-flex align-items-center gap-2 mt-1">
+          <img src={formIcon} alt="form icon" />
+          <h6
+            style={{
+              fontWeight: "500",
+              fontSize: "20px",
+              lineHeight: "30px",
+              color: "#f7f7fc",
+            }}
+          >
             Submit form
-          </h2>
-          <p className="d-block">
-            Use this form to submit information about your project to DYP Tools
-          </p>
+          </h6>
+        </div>
+        <h6 className="mt-3 form-sub-title">Your details</h6>
+        <div className="row px-0 w-100 mt-3">
+          <div className="col-6 d-grid form-grid">
+            <div className="input-container px-0" style={{ width: "100%" }}>
+              <input
+                type="text"
+                id="project_name"
+                name="project_name"
+                placeholder=" "
+                className={`text-input ${
+                  errors.project_name && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.project_name}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                onClick={() => focusInput("project_name")}
+              >
+                Project name<span className="required-star">*</span>
+              </label>
+              {errors.project_name && (
+                <span className="error-text">{errors.project_name}</span>
+              )}
+            </div>
+            <div className="input-container px-0" style={{ width: "100%" }}>
+              <input
+                type="text"
+                id="ticker"
+                name="ticker"
+                placeholder=" "
+                className={`text-input ${
+                  errors.ticker && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.ticker}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                onClick={() => focusInput("ticker")}
+              >
+                Project name<span className="required-star">*</span>
+              </label>
+              {errors.ticker && (
+                <span className="error-text">{errors.ticker}</span>
+              )}
+            </div>
+            <div className="input-container px-0" style={{ width: "100%" }}>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                placeholder=" "
+                className={`text-input ${
+                  errors.email && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.email}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                onClick={() => focusInput("email")}
+              >
+                Email<span className="required-star">*</span>
+              </label>
+              {errors.email && (
+                <span className="error-text">{errors.email}</span>
+              )}
+            </div>
+            <div className="input-container px-0" style={{ width: "100%" }}>
+              <input
+                type="text"
+                id="contract_address"
+                name="contract_address"
+                placeholder=" "
+                className={`text-input ${
+                  errors.contract_address && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.contract_address}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                onClick={() => focusInput("contract_address")}
+              >
+                Uniswap pair contract list<span className="required-star">*</span>
+              </label>
+              {errors.contract_address && (
+                <span className="error-text">{errors.contract_address}</span>
+              )}
+            </div>
+          </div>
+          <div className="col-6">
+          <div className="input-container px-0" style={{ width: "100%" }}>
+                  <textarea
+                    type="text"
+                    id="about"
+                    name="about"
+                    placeholder=" "
+                    className="text-input"
+                    style={{ width: "100%" }}
+                    rows="7"
+                    value={values.about}
+                    onChange={(e) => handleChange(e)}
+                  />
+                  <label
+                    htmlFor="usd"
+                    className="label"
+                    onClick={() => focusInput("about")}
+                  >
+                    About the project <span className="required-star">*</span>
+                  </label>
+                  {errors.project_name && (
+                <span className="error-text">{errors.about}</span>
+              )}
+                </div>
+          </div>
+        </div>
+        <hr className="form-divider my-4" style={{height: '2px'}} />
+        <h6 className="form-sub-title">Smart contract details</h6>
+
+        <div className="row px-0 w-100 mt-4">
+          <div className="col-6 d-grid form-grid">
+          <div className="input-container px-0" style={{ width: "100%" }}>
+              <input
+                type="text"
+                id="audit_info"
+                name="audit_info"
+                placeholder=" "
+                className={`text-input ${
+                  errors.audit_info && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.audit_info}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                onClick={() => focusInput("audit_info")}
+              >
+                Smart contract audit information<span className="required-star">*</span>
+              </label>
+              {errors.audit_info && (
+                <span className="error-text">{errors.audit_info}</span>
+              )}
+            </div>
+            <div className="input-container px-0" style={{ width: "100%" }}>
+              <img src={require('./assets/webIcon.svg').default} alt="" className="input-icon" />
+              <input
+                type="text"
+                id="audit_link"
+                name="audit_link"
+                placeholder=" "
+                className={`text-input ${
+                  errors.audit_link && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.audit_link}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                style={{left: '30px'}}
+                onClick={() => focusInput("audit_link")}
+              >
+                Smart contracct audit URL<span className="required-star">*</span>
+              </label>
+              {errors.audit_link && (
+                <span className="error-text">{errors.audit_link}</span>
+              )}
+            </div>
+          </div>
+        </div>
+        <hr className="form-divider my-4" style={{height: '2px'}} />
+        <h6 className="form-sub-title">Additional links</h6>
+        <h6 className="form-title mt-3">Media links</h6>
+        <div className="row px-0 w-100 mt-2">
+          <div className="col-3">
+          <div className="upload-container d-flex justify-content-center align-items-center position-relative">
+                <input
+                  type="file"
+                  id="file-upload"
+                />
+                  <img src={uploadLogo} alt="" />
+              </div>
+          </div>
+          <div className="col-9 ps-3 d-grid additional-grid">
+          <div className="input-container px-0" style={{ width: "100%" }}>
+              <img src={require('./assets/webIcon.svg').default} alt="" className="input-icon" />
+              <input
+                type="text"
+                id="website_link"
+                name="website_link"
+                placeholder=" "
+                className={`text-input ${
+                  errors.website_link && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.website_link}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                style={{left: '30px'}}
+                onClick={() => focusInput("website_link")}
+              >
+                Website<span className="required-star">*</span>
+              </label>
+              {errors.website_link && (
+                <span className="error-text">{errors.website_link}</span>
+              )}
+            </div>
+          <div className="input-container px-0" style={{ width: "100%" }}>
+              <img src={require('./assets/coinmarketcapIcon.svg').default} alt="" className="input-icon" />
+              <input
+                type="text"
+                id="coinmarket"
+                name="coinmarket"
+                placeholder=" "
+                className={`text-input ${
+                  errors.coinmarket && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.coinmarket}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                style={{left: '30px'}}
+                onClick={() => focusInput("coinmarket")}
+              >
+                CoinMarketCap<span className="required-star">*</span>
+              </label>
+              {errors.coinmarket && (
+                <span className="error-text">{errors.coinmarket}</span>
+              )}
+            </div>
+          <div className="input-container px-0" style={{ width: "100%" }}>
+              <img src={require('./assets/coingeckoIcon.svg').default} alt="" className="input-icon" />
+              <input
+                type="text"
+                id="coingecko"
+                name="coingecko"
+                placeholder=" "
+                className={`text-input ${
+                  errors.coingecko && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.coingecko}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                style={{left: '30px'}}
+                onClick={() => focusInput("coingecko")}
+              >
+                CoinGecko<span className="required-star">*</span>
+              </label>
+              {errors.coingecko && (
+                <span className="error-text">{errors.coingecko}</span>
+              )}
+            </div>
+          <div className="input-container px-0" style={{ width: "100%" }}>
+              <img src={require('./assets/telegramIcon.svg').default} alt="" className="input-icon" />
+              <input
+                type="text"
+                id="telegram"
+                name="telegram"
+                placeholder=" "
+                className={`text-input ${
+                  errors.telegram && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.telegram}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                style={{left: '30px'}}
+                onClick={() => focusInput("telegram")}
+              >
+                Telegram username<span className="required-star">*</span>
+              </label>
+              {errors.telegram && (
+                <span className="error-text">{errors.telegram}</span>
+              )}
+            </div>
+          <div className="input-container px-0" style={{ width: "100%" }}>
+              <img src={require('./assets/telegramIcon.svg').default} alt="" className="input-icon" />
+              <input
+                type="text"
+                id="telegram"
+                name="telegram"
+                placeholder=" "
+                className={`text-input ${
+                  errors.telegram && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.telegram}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                style={{left: '30px'}}
+                onClick={() => focusInput("telegram")}
+              >
+                Telegram official channel<span className="required-star">*</span>
+              </label>
+              {errors.telegram && (
+                <span className="error-text">{errors.telegram}</span>
+              )}
+            </div>
+          <div className="input-container px-0" style={{ width: "100%" }}>
+              <img src={require('./assets/twitterIcon.svg').default} alt="" className="input-icon" />
+              <input
+                type="text"
+                id="twitter"
+                name="twitter"
+                placeholder=" "
+                className={`text-input ${
+                  errors.twitter && "error-border"
+                }`}
+                style={{ width: "100%" }}
+                value={values.twitter}
+                onChange={(e) => handleChange(e)}
+              />
+              <label
+                htmlFor="usd"
+                className="label"
+                style={{left: '30px'}}
+                onClick={() => focusInput("twitter")}
+              >
+                Twitter<span className="required-star">*</span>
+              </label>
+              {errors.twitter && (
+                <span className="error-text">{errors.twitter}</span>
+              )}
+            </div>
+          </div>
+        </div>
+        <h6 className="image-tip mt-3">*Logo dimensions must be 250px x 250px and max 150kb - jpeg, png.</h6>
+        <div className="d-flex align-items-center justify-content-between mt-5">
+          <div className="d-flex align-items-center gap-2 cursor-pointer">
+            <img src={clearFieldsIcon} alt="" />
+            <h6 className="clear-fields" onClick={clearFields}>
+              Clear all fields
+            </h6>
+          </div>
+          <button className="btn filledbtn px-5" onClick={(e) => handleSubmit(e)}>Submit</button>
         </div>
       </div>
-      <div className="px-3 table-title" style={{ paddingBottom: "6rem" }}>
-        <form
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 20,
-            margin: "2rem",
-          }}
-        >
-          <div style={{ borderBottom: "1px solid #D5D7E6" }}>
-            <h5>Your details</h5>
-            <div className="row mt-3 mb-4">
-              <div className="col-lg-4 single-cell">
-                <div className="input-wrapper">
-                  <span className="required-text">Project name</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="project_name"
-                    id="project_name"
-                    value={values.project_name}
-                    onChange={handleChange}
-                    placeholder="Project name"
-                  />
-                  {errors.project_name && (
-                    <span className="errormessage">{errors.project_name}</span>
-                  )}
-                </div>
-                {/* <div className="input-wrapper">
-                  <span className="required-text">Nr. of NFT to created</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="nft_number"
-                    id="nft_number"
-                    value={values.nft_number}
-                    onChange={handleChange}
-                    placeholder="Nft number"
-                  />
-                  {errors.nft_number && (
-                    <span className="errormessage">{errors.nft_number}</span>
-                  )}
-                </div> */}
-                <div className="input-wrapper">
-                  <span className="required-text">Email</span>
-                  <input
-                    type="email"
-                    className="inputfield"
-                    name="email"
-                    id="email"
-                    value={values.email}
-                    onChange={handleChange}
-                    placeholder="Email"
-                  />
-                  {errors.email && (
-                    <span className="errormessage">{errors.email}</span>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-4 single-cell">
-                <div className="input-wrapper">
-                  <span className="required-text">Ticker symbol</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="ticker"
-                    id="ticker"
-                    value={values.ticker}
-                    onChange={handleChange}
-                    placeholder="Ticker"
-                  />
-                  {errors.ticker && (
-                    <span className="errormessage">{errors.ticker}</span>
-                  )}
-                </div>
-                <div className="input-wrapper">
-                  <span className="required-text">
-                    Uniswap pair contract list
-                  </span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="contract_address"
-                    id="contract_address"
-                    value={values.contract_address}
-                    onChange={handleChange}
-                    placeholder="For multiple addresses, separate them by comma ','"
-                  />
-                  {errors.contract_address && (
-                    <span className="errormessage">
-                      {errors.contract_address}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <div className="input-wrapper">
-                  <span className="required-text">About the project</span>
-
-                  <textarea
-                    className="inputfield"
-                    style={{
-                      height: "auto",
-                      paddingTop: 10,
-                      paddingBottom: 10,
-                    }}
-                    id="inputAddress"
-                    placeholder="Enter project description and include information about the project's liquidity, team profiles, smart contract security efforts, project mission etc."
-                    name="about"
-                    rows="8"
-                    cols="2"
-                    onChange={handleChange}
-                    value={values.about}
-                  />
-                  {errors.about && (
-                    <span className="errormessage">{errors.about}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ borderBottom: "1px solid #D5D7E6" }}>
-            <h5>Smart contract details</h5>
-            <div className="row mt-3 mb-4">
-              <div className="col-lg-4 single-cell">
-                <div className="input-wrapper">
-                  <span className="required-text">
-                    Smart contract audit information
-                  </span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="audit_info"
-                    id="audit_info"
-                    value={values.audit_info}
-                    onChange={handleChange}
-                    placeholder="Smart contract audit information"
-                  />
-                  {errors.audit_info && (
-                    <span className="errormessage">{errors.audit_info}</span>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-4 single-cell">
-                <div className="input-wrapper">
-                  <span className="required-text">Smart contract audit</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="audit_link"
-                    id="audit_link"
-                    value={values.audit_link}
-                    onChange={handleChange}
-                    placeholder="URL"
-                  />
-                  {errors.audit_link && (
-                    <span className="errormessage">{errors.audit_link}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <h5>Additional links</h5>
-            <div className="row mt-3 mb-4">
-              <div className="col-lg-4 single-cell">
-                <div className="input-wrapper">
-                  <span className="required-text">Website</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="website_link"
-                    id="website_link"
-                    value={values.website_link}
-                    onChange={handleChange}
-                    placeholder="URL"
-                  />
-                  {errors.website_link && (
-                    <span className="errormessage">{errors.website_link}</span>
-                  )}
-                </div>
-                <div className="input-wrapper">
-                  <span className="required-text">Transparent logo image</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="logo_link"
-                    id="logo_link"
-                    value={values.logo_link}
-                    onChange={handleChange}
-                    placeholder="URL"
-                  />
-                  {errors.logo_link && (
-                    <span className="errormessage">{errors.logo_link}</span>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-4 single-cell">
-                <div className="input-wrapper">
-                  <span className="required-text">CoinMarketCap</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="coinmarket"
-                    id="coinmarket"
-                    value={values.coinmarket}
-                    onChange={handleChange}
-                    placeholder="URL"
-                  />
-                  {errors.coinmarket && (
-                    <span className="errormessage">{errors.coinmarket}</span>
-                  )}
-                </div>
-                <div className="input-wrapper">
-                  <span className="required-text">Telegram</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="telegram"
-                    id="telegram"
-                    value={values.telegram}
-                    onChange={handleChange}
-                    placeholder="URL"
-                  />
-                  {errors.telegram && (
-                    <span className="errormessage">{errors.telegram}</span>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-4 single-cell">
-                <div className="input-wrapper">
-                  <span className="required-text">CoinGecko</span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="coingecko"
-                    id="coingecko"
-                    value={values.coingecko}
-                    onChange={handleChange}
-                    placeholder="URL"
-                  />
-                  {errors.coingecko && (
-                    <span className="errormessage">{errors.coingecko}</span>
-                  )}
-                </div>
-                <div className="input-wrapper">
-                  <span className="required-text">Twitter </span>
-                  <input
-                    type="text"
-                    className="inputfield"
-                    name="twitter"
-                    id="twitter"
-                    value={values.twitter}
-                    onChange={handleChange}
-                    placeholder="URL"
-                  />
-                  {errors.twitter && (
-                    <span className="errormessage">{errors.twitter}</span>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row mt-3 buttons-wrapper">
-            <div className="col-lg-4 single-cell">
-              <div className="submitbtn" onClick={handleSubmit}>
-                <span className="submit-text">Submit</span>
-              </div>
-            </div>
-            <div className="col-lg-4 single-cell">
-              <div
-                className="clearbtn"
-                onClick={() => {
-                  setValues({ ...initialState });
-                }}
-              >
-                <span className="clear-text">Clear form</span>
-              </div>
-            </div>
-          </div>
-        </form>{" "}
-      </div>
     </div>
+    // <div>
+    //   <div className="row px-3 table-title">
+    //     <div>
+    //       <h2 style={{ display: "block", color: "var(--preloader-clr)" }}>
+    //         Submit form
+    //       </h2>
+    //       <p className="d-block">
+    //         Use this form to submit information about your project to DYP Tools
+    //       </p>
+    //     </div>
+    //   </div>
+    //   <div className="px-3 table-title" style={{ paddingBottom: "6rem" }}>
+    //     <form
+    //       style={{
+    //         display: "flex",
+    //         flexDirection: "column",
+    //         gap: 20,
+    //         margin: "2rem",
+    //       }}
+    //     >
+    //       <div style={{ borderBottom: "1px solid #D5D7E6" }}>
+    //         <h5>Your details</h5>
+    //         <div className="row mt-3 mb-4">
+    //           <div className="col-lg-4 single-cell">
+    //             <div className="input-wrapper">
+    //               <span className="required-text">Project name</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="project_name"
+    //                 id="project_name"
+    //                 value={values.project_name}
+    //                 onChange={handleChange}
+    //                 placeholder="Project name"
+    //               />
+    //               {errors.project_name && (
+    //                 <span className="errormessage">{errors.project_name}</span>
+    //               )}
+    //             </div>
+    //             {/* <div className="input-wrapper">
+    //               <span className="required-text">Nr. of NFT to created</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="nft_number"
+    //                 id="nft_number"
+    //                 value={values.nft_number}
+    //                 onChange={handleChange}
+    //                 placeholder="Nft number"
+    //               />
+    //               {errors.nft_number && (
+    //                 <span className="errormessage">{errors.nft_number}</span>
+    //               )}
+    //             </div> */}
+    //             <div className="input-wrapper">
+    //               <span className="required-text">Email</span>
+    //               <input
+    //                 type="email"
+    //                 className="inputfield"
+    //                 name="email"
+    //                 id="email"
+    //                 value={values.email}
+    //                 onChange={handleChange}
+    //                 placeholder="Email"
+    //               />
+    //               {errors.email && (
+    //                 <span className="errormessage">{errors.email}</span>
+    //               )}
+    //             </div>
+    //           </div>
+    //           <div className="col-lg-4 single-cell">
+    //             <div className="input-wrapper">
+    //               <span className="required-text">Ticker symbol</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="ticker"
+    //                 id="ticker"
+    //                 value={values.ticker}
+    //                 onChange={handleChange}
+    //                 placeholder="Ticker"
+    //               />
+    //               {errors.ticker && (
+    //                 <span className="errormessage">{errors.ticker}</span>
+    //               )}
+    //             </div>
+    //             <div className="input-wrapper">
+    //               <span className="required-text">
+    //                 Uniswap pair contract list
+    //               </span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="contract_address"
+    //                 id="contract_address"
+    //                 value={values.contract_address}
+    //                 onChange={handleChange}
+    //                 placeholder="For multiple addresses, separate them by comma ','"
+    //               />
+    //               {errors.contract_address && (
+    //                 <span className="errormessage">
+    //                   {errors.contract_address}
+    //                 </span>
+    //               )}
+    //             </div>
+    //           </div>
+    //           <div className="col-lg-4">
+    //             <div className="input-wrapper">
+    //               <span className="required-text">About the project</span>
+
+    //               <textarea
+    //                 className="inputfield"
+    //                 style={{
+    //                   height: "auto",
+    //                   paddingTop: 10,
+    //                   paddingBottom: 10,
+    //                 }}
+    //                 id="inputAddress"
+    //                 placeholder="Enter project description and include information about the project's liquidity, team profiles, smart contract security efforts, project mission etc."
+    //                 name="about"
+    //                 rows="8"
+    //                 cols="2"
+    //                 onChange={handleChange}
+    //                 value={values.about}
+    //               />
+    //               {errors.about && (
+    //                 <span className="errormessage">{errors.about}</span>
+    //               )}
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <div style={{ borderBottom: "1px solid #D5D7E6" }}>
+    //         <h5>Smart contract details</h5>
+    //         <div className="row mt-3 mb-4">
+    //           <div className="col-lg-4 single-cell">
+    //             <div className="input-wrapper">
+    //               <span className="required-text">
+    //                 Smart contract audit information
+    //               </span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="audit_info"
+    //                 id="audit_info"
+    //                 value={values.audit_info}
+    //                 onChange={handleChange}
+    //                 placeholder="Smart contract audit information"
+    //               />
+    //               {errors.audit_info && (
+    //                 <span className="errormessage">{errors.audit_info}</span>
+    //               )}
+    //             </div>
+    //           </div>
+    //           <div className="col-lg-4 single-cell">
+    //             <div className="input-wrapper">
+    //               <span className="required-text">Smart contract audit</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="audit_link"
+    //                 id="audit_link"
+    //                 value={values.audit_link}
+    //                 onChange={handleChange}
+    //                 placeholder="URL"
+    //               />
+    //               {errors.audit_link && (
+    //                 <span className="errormessage">{errors.audit_link}</span>
+    //               )}
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <div>
+    //         <h5>Additional links</h5>
+    //         <div className="row mt-3 mb-4">
+    //           <div className="col-lg-4 single-cell">
+    //             <div className="input-wrapper">
+    //               <span className="required-text">Website</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="website_link"
+    //                 id="website_link"
+    //                 value={values.website_link}
+    //                 onChange={handleChange}
+    //                 placeholder="URL"
+    //               />
+    //               {errors.website_link && (
+    //                 <span className="errormessage">{errors.website_link}</span>
+    //               )}
+    //             </div>
+    //             <div className="input-wrapper">
+    //               <span className="required-text">Transparent logo image</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="logo_link"
+    //                 id="logo_link"
+    //                 value={values.logo_link}
+    //                 onChange={handleChange}
+    //                 placeholder="URL"
+    //               />
+    //               {errors.logo_link && (
+    //                 <span className="errormessage">{errors.logo_link}</span>
+    //               )}
+    //             </div>
+    //           </div>
+    //           <div className="col-lg-4 single-cell">
+    //             <div className="input-wrapper">
+    //               <span className="required-text">CoinMarketCap</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="coinmarket"
+    //                 id="coinmarket"
+    //                 value={values.coinmarket}
+    //                 onChange={handleChange}
+    //                 placeholder="URL"
+    //               />
+    //               {errors.coinmarket && (
+    //                 <span className="errormessage">{errors.coinmarket}</span>
+    //               )}
+    //             </div>
+    //             <div className="input-wrapper">
+    //               <span className="required-text">Telegram</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="telegram"
+    //                 id="telegram"
+    //                 value={values.telegram}
+    //                 onChange={handleChange}
+    //                 placeholder="URL"
+    //               />
+    //               {errors.telegram && (
+    //                 <span className="errormessage">{errors.telegram}</span>
+    //               )}
+    //             </div>
+    //           </div>
+    //           <div className="col-lg-4 single-cell">
+    //             <div className="input-wrapper">
+    //               <span className="required-text">CoinGecko</span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="coingecko"
+    //                 id="coingecko"
+    //                 value={values.coingecko}
+    //                 onChange={handleChange}
+    //                 placeholder="URL"
+    //               />
+    //               {errors.coingecko && (
+    //                 <span className="errormessage">{errors.coingecko}</span>
+    //               )}
+    //             </div>
+    //             <div className="input-wrapper">
+    //               <span className="required-text">Twitter </span>
+    //               <input
+    //                 type="text"
+    //                 className="inputfield"
+    //                 name="twitter"
+    //                 id="twitter"
+    //                 value={values.twitter}
+    //                 onChange={handleChange}
+    //                 placeholder="URL"
+    //               />
+    //               {errors.twitter && (
+    //                 <span className="errormessage">{errors.twitter}</span>
+    //               )}
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </div>
+    //       <div className="row mt-3 buttons-wrapper">
+    //         <div className="col-lg-4 single-cell">
+    //           <div className="submitbtn" onClick={handleSubmit}>
+    //             <span className="submit-text">Submit</span>
+    //           </div>
+    //         </div>
+    //         <div className="col-lg-4 single-cell">
+    //           <div
+    //             className="clearbtn"
+    //             onClick={() => {
+    //               setValues({ ...initialState });
+    //             }}
+    //           >
+    //             <span className="clear-text">Clear form</span>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </form>{" "}
+    //   </div>
+    // </div>
   );
 };
 

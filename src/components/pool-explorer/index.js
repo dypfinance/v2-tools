@@ -408,7 +408,7 @@ export default class PoolExplorer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="container-lg">
                 <div className="row px-3 table-title poolexp-wrapper">
                     <div className="col-md-6 pl-0">
                         {this.state.screen === "pool" ? (

@@ -16,6 +16,7 @@ import logoutimg from "./assets/logout.svg";
 import walletIcon from "./assets/walletIcon.svg";
 import WalletModal from "../WalletModal";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
+import { NavLink } from "react-router-dom";
 
 const Header = ({
   toggleMobileSidebar,
@@ -59,21 +60,15 @@ const Header = ({
   const [avatar, setAvatar] = useState("../../assets/img/person.svg");
 
   const handleEthPool = () => {
-    handleSwitchNetworkhook("0x1")
+    handleSwitchNetworkhook("0x1");
   };
 
   const handleBnbPool = () => {
-    setAvaxState(false);
-    setBnbState(true);
-    setEthState(false);
-
-    // handleSwitchNetworkhook("0x38").then(() => {
-    //   handleSwitchNetwork(56);
-    // });
+    handleSwitchNetworkhook("0x38");
   };
 
   const handleAvaxPool = () => {
-    handleSwitchNetworkhook("0xa86a")
+    handleSwitchNetworkhook("0xa86a");
   };
 
   const fetchData = async () => {
@@ -172,19 +167,19 @@ const Header = ({
         const bscWeb3 = new Web3(window.config.bsc_endpoint);
         const avaxWeb3 = new Web3(window.config.avax_endpoint);
 
-        if(chainId === 1) {
+        if (chainId === 1) {
           const stringBalance = infuraWeb3.utils.hexToNumberString(balance);
           const amount = infuraWeb3.utils.fromWei(stringBalance, "ether");
           setCurrencyAmount(amount.slice(0, 7));
         }
 
-        if(chainId === 43114) {
+        if (chainId === 43114) {
           const stringBalance = avaxWeb3.utils.hexToNumberString(balance);
           const amount = avaxWeb3.utils.fromWei(stringBalance, "ether");
           setCurrencyAmount(amount.slice(0, 7));
         }
 
-        if(chainId === 56) {
+        if (chainId === 56) {
           const stringBalance = bscWeb3.utils.hexToNumberString(balance);
           const amount = bscWeb3.utils.fromWei(stringBalance, "ether");
           setCurrencyAmount(amount.slice(0, 7));
@@ -195,8 +190,8 @@ const Header = ({
 
   useEffect(() => {
     getEthBalance();
-  },[chainId]);
-  
+  }, [chainId]);
+
   useEffect(() => {
     fetchData().then();
     refreshHotPairs().then();
@@ -211,6 +206,10 @@ const Header = ({
     } else if (chainId === 43114) {
       setAvaxState(true);
       setBnbState(false);
+      setEthState(false);
+    } else if (chainId === 56) {
+      setAvaxState(false);
+      setBnbState(true);
       setEthState(false);
     }
   }, [chainId]);
@@ -238,18 +237,12 @@ const Header = ({
             </span>
           </div>
           <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
-            <a
+            <NavLink
               className="buydyp-btn btn"
-              href={
-                chainId === 1
-                  ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                  : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-              }
-              target={"_blank"}
-              rel="noreferrer"
+              to="/buydyp"
             >
               <img src={coin} alt="" /> Buy DYP
-            </a>
+            </NavLink>
             <div className="d-flex justify-content-between gap-3 align-items-center">
               <DropdownButton
                 id="dropdown-basic-button"
