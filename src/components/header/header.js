@@ -223,8 +223,9 @@ const Header = ({
       <header className="header-wrap" style={{ zIndex: 5 }}>
         <div
           className="container-lg d-flex justify-content-between gap-3 align-items-center w-100"
-          style={{ marginLeft: "240px" }}
+          // style={{ maxWidth: "calc(100% - 215px)"}}
         >
+          {/* marginLeft: "240px" */}
           <div className="d-flex flex-column gap-2 text-start">
             <h4
               className="text-white"

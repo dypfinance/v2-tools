@@ -343,7 +343,7 @@ class App extends React.Component {
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
       >
-        <img src={navRadius} className="nav-radius" alt="" />
+        {/* <img src={navRadius} className="nav-radius" alt="" /> */}
 
         <Route component={GoogleAnalyticsReporter} />
 

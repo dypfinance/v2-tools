@@ -41,8 +41,8 @@ export default class Locker extends React.Component {
       amount: 0,
       selectedBaseToken: "",
       selectedBaseTokenTicker: "Token",
-      loadspinner: false,
-      loadspinnerLock: false,
+      loadspinner: "initial",
+      loadspinnerLock: "initial",
 
       pair_address: this.props.match.params.pair_id || "",
       lpBalance: "",
@@ -420,7 +420,7 @@ export default class Locker extends React.Component {
       return;
     }
 
-    this.setState({ loadspinner: true });
+    this.setState({ loadspinner: "loading" });
     let amountWei = new window.BigNumber(this.state.amount);
 
     let tokenContract = await window.getContract({
@@ -439,12 +439,19 @@ export default class Locker extends React.Component {
       .send()
       .then(() => {
         this.setState({ lockActive: true });
-        this.setState({ loadspinner: false });
+        this.setState({ loadspinner: "success" });
       })
       .catch((e) => {
-        this.setState({ loadspinner: false });
+        this.setState({ loadspinner: "failed" });
+        this.setState({ lockActive: false });
+
         this.setState({ status: "An error occurred, please try again later" });
         console.error(e);
+        setTimeout(() => {
+          this.setState({ loadspinner: "initial" });
+        this.setState({ status: "" });
+
+        }, 2000);
       });
   };
 
@@ -471,7 +478,7 @@ export default class Locker extends React.Component {
         estimatedValue = new window.BigNumber(estimatedValue)
           .times(1.1)
           .toFixed(0);
-        this.setState({ loadspinnerLock: true });
+        this.setState({ loadspinnerLock: "loading" });
 
         await lockerContract.methods
           .createLock(
@@ -482,13 +489,18 @@ export default class Locker extends React.Component {
           )
           .send({ value: estimatedValue, from: await window.getCoinbase() })
           .then(() => {
-            this.setState({ loadspinnerLock: false });
+            this.setState({ loadspinnerLock: "success" });
             this.setState({ lockActive: false });
           })
           .catch((e) => {
             console.error(e);
-            this.setState({ loadspinnerLock: false });
+            this.setState({ loadspinnerLock: "fail" });
             this.setState({ status: "An error occurred, please try again" });
+            setTimeout(() => {
+              this.setState({ loadspinnerLock: "initial" });
+              this.setState({ status: "" });
+  
+            }, 2000);
           });
       }
 
@@ -2055,12 +2067,7 @@ export default class Locker extends React.Component {
                           type="text"
                           id="pair_address"
                           name="pair_address"
-                          value={this.state.pair_address}
                           placeholder=" "
-                          onChange={(e) => {
-                            this.handlePairChange(e);
-                            this.selectBaseToken(e);
-                          }}
                           className="text-input"
                           style={{ width: "100%" }}
                           disabled={this.props.match.params.pair_id}
@@ -2311,18 +2318,52 @@ export default class Locker extends React.Component {
               <hr className="form-divider my-4" />
               <div className="d-flex align-items-center justify-content-between mx-3">
                 <button
-                  className="btn filledbtn px-5"
+                  className={`btn filledbtn px-5 ${this.state.loadspinner === "success" ? "success-button" : this.state.loadspinner === "fail" ? "fail-button" : null}`}
                   onClick={this.handleApprove}
                 >
-                  Approve
+                  {this.state.loadspinner === "initial" ? (
+                    <>Approve</>
+                  ) : this.state.loadspinner === "loading" ? (
+                    <div
+                      class="spinner-border spinner-border-sm text-light"
+                      role="status"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  ) : this.state.loadspinner === "success" ? (
+                    <>Success</>
+                  ) : (
+                    <>Failed</>
+                  )}
                 </button>
                 <button
-                  className="btn disabled-btn px-5"
+                disabled={!this.state.lockActive}
+                  className={`btn disabled-btn px-5 ${this.state.loadspinnerLock === "success" ? "success-button" : this.state.loadspinnerLock === "fail" ? "fail-button" : null}`}
                   onClick={this.handleLockSubmit}
                 >
-                  Lock
+                  {this.state.loadspinnerLock  === "initial" ? 
+                  <>Lock</>
+                  :
+                  this.state.loadspinnerLock === "success" ?
+                  <>Success</>
+                  :
+                  this.state.loadspinnerLock === "fail" ?
+                  <>Fail</>
+                  :
+                  <div
+                  class="spinner-border spinner-border-sm text-light"
+                  role="status"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                }
                 </button>
               </div>
+                {this.state.status !== "" && 
+                <div className="mt-3 ms-3">
+                <span className="required-star">{this.state.status}</span>
+                </div>
+}
             </div>
           </div>
           <div className="col-5 position-relative pe-0">
@@ -2374,11 +2415,14 @@ export default class Locker extends React.Component {
                 <div className="d-flex flex-column gap-3">
                   <div className="d-flex align-items-center justify-content-between">
                     <span className="create-loxk-title">ID</span>
-                    <span className="create-loxk-title fw-bold"> {this.state.recipientLocksLength
-                            ? this.state.recipientLocks[
-                                this.state.recipientLocksLength - 1
-                              ].id
-                            : ""}</span>
+                    <span className="create-loxk-title fw-bold">
+                      {" "}
+                      {this.state.recipientLocksLength
+                        ? this.state.recipientLocks[
+                            this.state.recipientLocksLength - 1
+                          ].id
+                        : ""}
+                    </span>
                   </div>
                   <div className="d-flex align-items-center justify-content-between">
                     <span className="create-loxk-title">Pair address</span>

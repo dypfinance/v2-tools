@@ -33,7 +33,7 @@ const Sidebar = (props) => {
   const [hover, setHover] = useState(null);
   const [location, setlocation] = useState("news");
   // const [networkId, setNetworkId] = useState(1);
-  const [activeSidebar, setActiveSidebar] = useState(true);
+  const [activeSidebar, setActiveSidebar] = useState(false);
 
   let chainId = parseInt(props.network);
 
@@ -151,8 +151,8 @@ const Sidebar = (props) => {
   const closeSidebar = () => {
     setActiveSidebar(false);
   };
-  // sidebar?.addEventListener("mouseover", openSidebar);
-  // sidebar?.addEventListener("mouseleave", closeSidebar);
+  sidebar?.addEventListener("mouseover", openSidebar);
+  sidebar?.addEventListener("mouseleave", closeSidebar);
 
   return (
 
@@ -164,7 +164,7 @@ const Sidebar = (props) => {
         activeSidebar ? "testbar-open" : null
       } d-flex flex-column justify-content-between align-items-start`}
     >
-      {/* <img src={navRadius} className="nav-radius" alt="" /> */}
+      <img src={navRadius} className={`nav-radius ${activeSidebar && 'nav-radius-open'}`} alt="" />
      <div className="w-100">
      <div className="d-flex w-100 justify-content-center align-items-center pb-5">
         <NavLink to='/'

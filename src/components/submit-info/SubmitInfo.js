@@ -16,9 +16,10 @@ const SubmitInfo = () => {
     audit_link: "",
     website_link: "",
     twitter: "",
-    logo_link: "",
+    project_logo: "",
     coinmarket: "",
     telegram: "",
+    telegram_channel: "",
     coingecko: "",
   };
 
@@ -28,6 +29,44 @@ const SubmitInfo = () => {
 
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
+  const [imageError, setImageError] = useState(false);
+
+
+  const convert2base64 = (e) => {
+    const fileTypes = ["image/jpg", "image/png", "image/jpeg"];
+
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    const testImage = new Image();
+
+    reader.onload = function () {
+      if (reader !== null && typeof reader.result == "string") {
+        testImage.src = reader.result;
+      }
+    };
+    reader.readAsDataURL(file);
+
+    testImage.onload = async function () {
+      const width = testImage.width;
+      const height = testImage.height;
+      if (fileTypes.includes(file.type)) {
+        if (
+          width > 250 ||
+          height > 250 ||
+          height !== width ||
+          file.size > 150000
+        ) {
+          setImageError(true);
+        } else {
+          console.log(reader.result);
+          setValues({ ...values, project_logo: reader.result });
+          setImageError(false);
+        }
+      } else {
+        setImageError(true);
+      }
+    };
+  };
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
@@ -46,7 +85,7 @@ const SubmitInfo = () => {
       const data = {
         project_name: values.project_name,
         email: values.email,
-        logo_link: values.logo_link,
+        project_logo: values.project_logo,
         ticker: values.ticker,
         contract_address: values.contract_address,
         about: values.about,
@@ -56,24 +95,26 @@ const SubmitInfo = () => {
         twitter: values.twitter,
         coinmarket: values.coinmarket,
         telegram: values.telegram,
+        telegram: values.telegram_channel,
         coingecko: values.coingecko,
       };
 
       if (
         values.project_name !== "" &&
         values.ticker !== "" &&
-        errors.project_name === "" &&
-        errors.email === "" &&
-        errors.ticker === "" &&
-        errors.contract_address === "" &&
-        errors.about === "" &&
-        errors.audit_info === "" &&
-        errors.audit_link === "" &&
-        errors.website_link === "" &&
-        errors.twitter === "" &&
-        errors.coinmarket === "" &&
-        errors.telegram === "" &&
-        errors.coingecko === ""
+        values.project_logo === "" &&
+        values.email === "" &&
+        values.ticker === "" &&
+        values.contract_address === "" &&
+        values.about === "" &&
+        values.audit_info === "" &&
+        values.audit_link === "" &&
+        values.website_link === "" &&
+        values.twitter === "" &&
+        values.coinmarket === "" &&
+        values.telegram === "" &&
+        values.telegram_channel === "" &&
+        values.coingecko === ""
       ) {
         const send = await axios
           .post("https://api-mail.dyp.finance/api/submit_form", data)
@@ -173,7 +214,7 @@ const SubmitInfo = () => {
                 className="label"
                 onClick={() => focusInput("ticker")}
               >
-                Project name<span className="required-star">*</span>
+                Ticker symbol<span className="required-star">*</span>
               </label>
               {errors.ticker && (
                 <span className="error-text">{errors.ticker}</span>
@@ -235,7 +276,9 @@ const SubmitInfo = () => {
                     id="about"
                     name="about"
                     placeholder=" "
-                    className="text-input"
+                    className={`text-input ${
+                      errors.about && "error-border"
+                    }`}
                     style={{ width: "100%" }}
                     rows="7"
                     value={values.about}
@@ -320,8 +363,20 @@ const SubmitInfo = () => {
                 <input
                   type="file"
                   id="file-upload"
+                  onChange={(e) => convert2base64(e)}
                 />
+                   {values.project_logo !== "" ? (
+                  <img
+                    src={values.project_logo}
+                    alt=""
+                    style={{ maxHeight: "110px", maxWidth: "110px" }}
+                  />
+                ) : (
                   <img src={uploadLogo} alt="" />
+                )}
+              {errors.project_logo && (
+                <span className="error-text">{errors.project_logo}</span>
+              )}
               </div>
           </div>
           <div className="col-9 ps-3 d-grid additional-grid">
@@ -433,26 +488,26 @@ const SubmitInfo = () => {
               <img src={require('./assets/telegramIcon.svg').default} alt="" className="input-icon" />
               <input
                 type="text"
-                id="telegram"
-                name="telegram"
+                id="telegram_channel"
+                name="telegram_channel"
                 placeholder=" "
                 className={`text-input ${
-                  errors.telegram && "error-border"
+                  errors.telegram_channel && "error-border"
                 }`}
                 style={{ width: "100%" }}
-                value={values.telegram}
+                value={values.telegram_channel}
                 onChange={(e) => handleChange(e)}
               />
               <label
                 htmlFor="usd"
                 className="label"
                 style={{left: '30px'}}
-                onClick={() => focusInput("telegram")}
+                onClick={() => focusInput("telegram_channel")}
               >
                 Telegram official channel<span className="required-star">*</span>
               </label>
-              {errors.telegram && (
-                <span className="error-text">{errors.telegram}</span>
+              {errors.telegram_channel && (
+                <span className="error-text">{errors.telegram_channel}</span>
               )}
             </div>
           <div className="input-container px-0" style={{ width: "100%" }}>
@@ -483,7 +538,7 @@ const SubmitInfo = () => {
             </div>
           </div>
         </div>
-        <h6 className="image-tip mt-3">*Logo dimensions must be 250px x 250px and max 150kb - jpeg, png.</h6>
+        <h6 className={`image-tip mt-4 ${imageError && "required-star"}`}>*Logo dimensions must be 250px x 250px and max 150kb - jpeg, png.</h6>
         <div className="d-flex align-items-center justify-content-between mt-5">
           <div className="d-flex align-items-center gap-2 cursor-pointer">
             <img src={clearFieldsIcon} alt="" />

@@ -12,14 +12,18 @@ export default function validateInfo(values) {
     errors.project_name = "Project Name is Invalid";
   }
 
-  if(!values.logo_link) {
-    errors.logo_link = "This field is required";
-  } else if(!/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/i.test(values.logo_link)) {
-    errors.logo_link = "URL is invalid";
-  }
+  // if(!values.logo_link) {
+  //   errors.logo_link = "This field is required";
+  // } else if(!/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/i.test(values.logo_link)) {
+  //   errors.logo_link = "URL is invalid";
+  // }
 
   if (!values.ticker.trim()) {
     errors.ticker = "This field is required";
+  }
+
+  if (!values.project_logo.trim()) {
+    errors.project_logo = "Logo is required";
   }
 
   if (!values.contract_address.trim()) {
@@ -64,6 +68,11 @@ export default function validateInfo(values) {
     errors.telegram = "This field is required";
   } else if(!/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/i.test(values.telegram)) {
     errors.telegram = "URL is invalid";
+  }
+  if (!values.telegram_channel.trim()) {
+    errors.telegram_channel = "This field is required";
+  } else if(!/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/i.test(values.telegram_channel)) {
+    errors.telegram_channel = "URL is invalid";
   }
 
   if (!values.coingecko.trim()) {
