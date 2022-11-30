@@ -12,6 +12,22 @@ const UpcomingProjects = () => {
     slidesToScroll: 4,
     arrows: false,
     dotsClass: "button__bar",
+    responsive: [
+      {
+        breakpoint: 1415,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3
+        }
+      },
+      {
+        breakpoint: 1065,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      }
+    ]
   };
 
   return (

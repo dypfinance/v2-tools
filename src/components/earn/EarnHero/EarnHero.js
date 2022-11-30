@@ -79,7 +79,7 @@ const EarnHero = () => {
             </h4>
           </div>
         </div>
-        <div className="position-relative">
+        <div className="position-relative d-none d-xxl-block">
           <img src={coin} alt="" className="coin" />
           <img src={coinBackground} alt="" className="coin" />
         </div>

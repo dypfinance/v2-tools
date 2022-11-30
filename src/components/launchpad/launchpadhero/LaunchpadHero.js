@@ -71,7 +71,7 @@ const LaunchpadHero = () => {
         </div>
     </div>
     <h6 className="launchpad-hero-title" style={{marginTop: '85px'}}>Key features</h6>
-    <div className="d-flex align-items-center justify-content-between my-5" style={{width: '90%'}}>
+    <div className="features-wrapper d-flex align-items-center justify-content-between my-5">
      {keyFeatures.map((item) => (
       <KeyFeaturesCard icon={item.icon} content={item.content} /> 
      ))}

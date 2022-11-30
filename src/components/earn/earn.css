@@ -375,6 +375,13 @@ hr {
   padding: 6px 24px;
 }
 
+
+@media screen and (max-width: 1300px) {
+  .top-picks-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);

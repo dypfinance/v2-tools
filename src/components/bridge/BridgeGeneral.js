@@ -128,7 +128,7 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
           }}
         />
       </div>
-      <div className="bigseparator mt-5 mb-5 col-5 "></div>
+      <div className="bigseparator mt-5 mb-5 col-6 col-xxl-5"></div>
       <div>
         <h3 className="text-white mb-4">
           <img src={idyp} alt="" /> iDYP Bridge

@@ -436,7 +436,7 @@ export default function initBridgeidyp({
 
       return (
         <div className="d-flex gap-4 justify-content-between">
-          <div className="token-staking col-5">
+          <div className="token-staking col-6 col-xxl-5">
             <div className="purplediv"></div>
             <div className="row">
               <div>

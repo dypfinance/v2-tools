@@ -40,6 +40,7 @@ const LaunchpadProjects = () => {
                     <span className="project-date">12.06.2022</span>
                   </div>
                 </div>
+                <div className="d-flex justify-content-between align-items-end">
                 <div className="active-project-info p-3">
                   <div className="d-flex align-items-center gap-5">
                     <div className="d-flex flex-column gap-2">
@@ -59,6 +60,8 @@ const LaunchpadProjects = () => {
                       <span className="project-date">260,343</span>
                     </div>
                   </div>
+                </div>
+                <button className="btn filledbtn">View More</button>
                 </div>
               </div>
             </div>

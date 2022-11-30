@@ -176,7 +176,7 @@ const SubmitInfo = () => {
         </div>
         <h6 className="mt-3 form-sub-title">Your details</h6>
         <div className="row px-0 w-100 mt-3">
-          <div className="col-6 d-grid form-grid">
+          <div className="col-7 col-xl-6 d-grid form-grid">
             <div className="input-container px-0" style={{ width: "100%" }}>
               <input
                 type="text"
@@ -274,7 +274,7 @@ const SubmitInfo = () => {
               )}
             </div>
           </div>
-          <div className="col-6">
+          <div className="col-5 col-xl-5">
           <div className="input-container px-0" style={{ width: "100%" }}>
                   <textarea
                     type="text"
@@ -306,7 +306,7 @@ const SubmitInfo = () => {
         <h6 className="form-sub-title">Smart contract details</h6>
 
         <div className="row px-0 w-100 mt-4">
-          <div className="col-6 d-grid form-grid">
+          <div className="col-7 col-xl-5 d-grid form-grid">
           <div className="input-container px-0" style={{ width: "100%" }}>
               <input
                 type="text"
@@ -363,7 +363,7 @@ const SubmitInfo = () => {
         <h6 className="form-sub-title">Additional links</h6>
         <h6 className="form-title mt-3">Media links</h6>
         <div className="row px-0 w-100 mt-2">
-          <div className="col-3">
+          <div className="col-2 col-xl-3">
           <div className="upload-container d-flex justify-content-center align-items-center position-relative">
                 <input
                   type="file"
@@ -384,7 +384,7 @@ const SubmitInfo = () => {
               )}
               </div>
           </div>
-          <div className="col-9 ps-3 d-grid additional-grid">
+          <div className="col-10 col-xl-9 ps-3 d-grid additional-grid">
           <div className="input-container px-0" style={{ width: "100%" }}>
               <img src={require('./assets/webIcon.svg').default} alt="" className="input-icon" />
               <input

@@ -143,10 +143,10 @@ const EarnContent = ({
               />
             </div>
           </div>
-          <div className="col-8 row d-flex gap-3 justify-content-center p-2">
+          <div className="col-8 row d-flex gap-0 gap-xl-3 justify-content-center p-2">
             {options.map((item, index) => (
               <div
-                className={`earn-option col-2 d-flex align-items-center justify-content-center ${
+                className={`earn-option col-3 col-xl-2 d-flex align-items-center justify-content-center ${
                   option === item.title ? "earn-option-active" : null
                 }`}
                 key={index}
@@ -180,12 +180,12 @@ const EarnContent = ({
             >
               <div className="pill"></div>
             </div>
-            <h5 className="text-white" style={{fontSize: '16px' }}>My investments</h5>
+            <h5 className="text-white" style={{fontSize: '16px', whiteSpace: 'nowrap' }}>My pools</h5>
           </div>
         </div> 
 
         <div className="row align-items-center justify-content-between px-0" style={{minHeight: '52px'}}>
-          <div className="col-3 px-0">
+          <div className="col-4 col-xl-3 px-0">
             <div className="total-value-locked-container p-2 d-flex justify-content-between align-items-center">
               <span style={{ fontWeight: "300", fontSize: "13px" }}>
                 Total value locked
@@ -198,7 +198,7 @@ const EarnContent = ({
               </h6>
             </div>
           </div>
-          <div className="col-6 d-flex gap-3 justify-content-center">
+          <div className="col-8 col-xl-6 d-flex gap-3 justify-content-end justify-content-xl-center px-0 px-xl-2">
             {option !== "Vault" && (
               <>
                 <div
