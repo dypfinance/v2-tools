@@ -1,9 +1,10 @@
 .testbar{
     position: fixed;
     left: 0;
+    top: 0;
     height: 100vh;
     background: #2A2859;
-    width: 100px;
+    width: 85px;
     z-index: 11;
     transition: all .25s ease-in-out;
     overflow: hidden;

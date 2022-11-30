@@ -22,6 +22,7 @@ import accordionIndicator from "../../assets/sidebarIcons/accordionIndicator.svg
 import sidebarDypius from '../../assets/sidebarDypius.svg'
 import './sidebar.css'
 import navRadius from '../../assets/navRadius.svg'
+import useWindowSize from "../../functions/useWindowSize";
 
 const activateLasers = () => {
   window.$.alert("Coming Soon!");
@@ -33,7 +34,7 @@ const Sidebar = (props) => {
   const [hover, setHover] = useState(null);
   const [location, setlocation] = useState("news");
   // const [networkId, setNetworkId] = useState(1);
-  const [activeSidebar, setActiveSidebar] = useState(true);
+  const [activeSidebar, setActiveSidebar] = useState(false);
 
   let chainId = parseInt(props.network);
 
@@ -67,12 +68,21 @@ const Sidebar = (props) => {
     }
   }, [account]);
 
+  const windowSize = useWindowSize()
+
+
   useEffect(() => {
     const fetchInterval = setInterval(
       () => setlocation(window.location.pathname),
       1000
     );
-  });
+    if(windowSize.width > 1800){
+      setActiveSidebar(true)
+    }else{
+      setActiveSidebar(false)
+    }
+  }, [windowSize]);
+
 
   const sidebarItems = [
     {
@@ -145,14 +155,16 @@ const Sidebar = (props) => {
   const sidebarItem = document.querySelectorAll(".sidebar-item");
 
   const openSidebar = () => {
-    setActiveSidebar(true);
+    windowSize.width < 1800 && setActiveSidebar(true);
+
+
   };
 
   const closeSidebar = () => {
-    setActiveSidebar(false);
+    windowSize.width < 1800 && setActiveSidebar(false);
   };
-  // sidebar?.addEventListener("mouseover", openSidebar);
-  // sidebar?.addEventListener("mouseleave", closeSidebar);
+  sidebar?.addEventListener("mouseover", openSidebar);
+  sidebar?.addEventListener("mouseleave", closeSidebar);
 
   return (
 
@@ -164,7 +176,7 @@ const Sidebar = (props) => {
         activeSidebar ? "testbar-open" : null
       } d-flex flex-column justify-content-between align-items-start`}
     >
-      {/* <img src={navRadius} className="nav-radius" alt="" /> */}
+      <img src={navRadius} className={`nav-radius ${activeSidebar && 'nav-radius-open'}`} alt="" />
      <div className="w-100">
      <div className="d-flex w-100 justify-content-center align-items-center pb-5">
         <NavLink to='/'
