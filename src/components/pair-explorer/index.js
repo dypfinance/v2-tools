@@ -1141,15 +1141,26 @@ export default class PairExplorer extends React.Component {
                       >
                         View pair locker
                       </NavLink>
-                      <NavLink
-                        to={`/locker/${this.props.match.params.pair_id}`}
-                      >
-                        <img
-                          src={PairLocker}
-                          alt=""
-                          style={{cursor: "pointer" }}
-                        />
-                      </NavLink>
+                      <div className="d-flex gap-2">
+                        <NavLink
+                          to={`/locker/${this.props.match.params.pair_id}`}
+                        >
+                          <img
+                            src={PairLocker}
+                            alt=""
+                            style={{cursor: "pointer" }}
+                          />
+                        </NavLink>
+                        <NavLink
+                          to={`/locker/${this.props.match.params.pair_id}`}
+                        >
+                          <img
+                            src="/assets/img/arrow.svg"
+                            alt=""
+                            style={{cursor: "pointer" }}
+                          />
+                        </NavLink>
+                      </div>
                     </div>
                   </div>
                   <div>
@@ -1577,6 +1588,7 @@ export default class PairExplorer extends React.Component {
               </div>
 
               <div className="form-container p-3 position-relative">
+                <div style={{ marginBottom: "10px", fontSize: "20px", color: "#F7F7FC", fontWeight: "500", lineHeight: "30px" }}>Statistics score</div>
                 <div>
                   {false && !isNaN(this.state.pairInfo?.ts_score_avg) ? (
                     <div className="graph-progress">
@@ -1685,8 +1697,8 @@ export default class PairExplorer extends React.Component {
                               styles={buildStyles({
                                 rotation: 1 / 2 + 1 / 8,
                                 strokeLinecap: "butt",
-                                trailColor: "#D6D8E7",
-                                pathColor: "#E30613",
+                                trailColor: "#FBB59C",
+                                pathColor: "#4ED5D2",
                               })}
                             />
                           )}
