@@ -386,8 +386,64 @@ export default class Subscription extends React.Component {
     // this.handleCheckIfAlreadyApproved()
     return (
       <div>
-        <h4 className="d-block mb-3">Subscribe to DYP Tools Premium</h4>
         <form onSubmit={this.handleSubscribe}>
+          <div className={this.state.coinbase ? "mb-3" : "d-none"}>
+            <h4 className="d-block mb-3"> Avatar profile</h4>
+
+            <div className={this.state.coinbase ? "inputfile-wrapper" : ""}>
+              <img
+                src={this.state.image}
+                alt="your image"
+                className="avatarimg"
+                style={{
+                  border:
+                    this.state.image === Placeholder
+                      ? "none"
+                      : "3px solid #E30613",
+                }}
+              />
+              <input
+                type="file"
+                id="group_image"
+                onChange={this.onImageChange}
+              />
+              {this.state.showSavebtn === true ? (
+                <div
+                  className="savebtn"
+                  type=""
+                  onClick={this.handleSubmission}
+                >
+                  {this.state.loadspinnerSave === true ? (
+                    <div
+                      className="spinner-border "
+                      role="status"
+                      style={{ height: "1.5rem", width: "1.5rem" }}
+                    ></div>
+                  ) : (
+                    "Save"
+                  )}
+                </div>
+              ) : (
+                <></>
+              )}
+              {this.state.showRemovebtn === true ||
+              this.state.image !== Placeholder ? (
+                <div className="removebtn" type="" onClick={this.deleteAvatar}>
+                  {this.state.loadspinnerRemove === true ? (
+                    <div
+                      className="spinner-border "
+                      role="status"
+                      style={{ height: "1.5rem", width: "1.5rem" }}
+                    ></div>
+                  ) : (
+                    "Remove"
+                  )}
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
           <div>
             {!this.props.appState.isPremium ? (
               <table className="w-100">
@@ -766,63 +822,6 @@ export default class Subscription extends React.Component {
               </div>
             </>
           )}
-          <div className={this.state.coinbase ? "mt-3 mb-3" : "d-none"}>
-            <h4 className="d-block mb-3 mt-5"> Avatar profile</h4>
-
-            <div className={this.state.coinbase ? "inputfile-wrapper" : ""}>
-              <img
-                src={this.state.image}
-                alt="your image"
-                className="avatarimg"
-                style={{
-                  border:
-                    this.state.image === Placeholder
-                      ? "none"
-                      : "3px solid #E30613",
-                }}
-              />
-              <input
-                type="file"
-                id="group_image"
-                onChange={this.onImageChange}
-              />
-              {this.state.showSavebtn === true ? (
-                <div
-                  className="savebtn"
-                  type=""
-                  onClick={this.handleSubmission}
-                >
-                  {this.state.loadspinnerSave === true ? (
-                    <div
-                      className="spinner-border "
-                      role="status"
-                      style={{ height: "1.5rem", width: "1.5rem" }}
-                    ></div>
-                  ) : (
-                    "Save"
-                  )}
-                </div>
-              ) : (
-                <></>
-              )}
-              {this.state.showRemovebtn === true ||
-              this.state.image !== Placeholder ? (
-                <div className="removebtn" type="" onClick={this.deleteAvatar}>
-                  {this.state.loadspinnerRemove === true ? (
-                    <div
-                      className="spinner-border "
-                      role="status"
-                      style={{ height: "1.5rem", width: "1.5rem" }}
-                    ></div>
-                  ) : (
-                    "Remove"
-                  )}
-                </div>
-              ) : (
-                <></>
-              )}
-            </div>
-          </div>
         </form>
 
         <h4 className="d-block mb-5 mt-5" id="my-fav">
@@ -986,13 +985,6 @@ export default class Subscription extends React.Component {
   render() {
     return (
       <div className="locker">
-        <div className="table-title px-3">
-          <h2 style={{ display: "block", color: `var(--preloader-clr)` }}>
-            Account &amp; Premium Subscription
-          </h2>
-
-          <p>Get DYP Tools Premium Subscription</p>
-        </div>
         <div>
           <div className="mb-4">{this.GetSubscriptionForm()}</div>
         </div>
