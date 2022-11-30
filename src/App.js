@@ -29,6 +29,7 @@ import NftMinting from "./components/caws/NftMinting/index";
 import Bridge from "./components/bridge/BridgeGeneral";
 import Footer from "./components/Footer/footer";
 import BuyDyp from "./components/buydyp/BuyDyp";
+import initBscBuyback from "./components/FARMINNG/bscBuyback";
 
 class App extends React.Component {
   constructor(props) {
@@ -48,6 +49,9 @@ class App extends React.Component {
       the_graph_result_AVAX_V2: JSON.parse(
         JSON.stringify(window.the_graph_result_avax_v2)
       ),
+      the_graph_result_BSC_V2: JSON.parse(
+        JSON.stringify(window.the_graph_result_bsc_v2)
+      ),
       windowWidth: 0,
       windowHeight: 0,
       subscribedPlatformTokenAmount: "...",
@@ -57,6 +61,7 @@ class App extends React.Component {
       explorerNetworkId: 1,
       show: false,
       referrer: "",
+
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -229,6 +234,8 @@ class App extends React.Component {
 
       let the_graph_result_AVAX_V2 = await window.get_the_graph_avax_v2();
 
+      let the_graph_result_BSC_V2 = await window.get_the_graph_bsc_v2();
+
       this.setState({
         the_graph_result_ETH_V2: JSON.parse(
           JSON.stringify(the_graph_result_ETH_V2)
@@ -239,6 +246,12 @@ class App extends React.Component {
           JSON.stringify(the_graph_result_AVAX_V2)
         ),
       });
+
+      this.setState({
+        the_graph_result_BSC_V2: JSON.parse(
+          JSON.stringify(the_graph_result_BSC_V2)
+        ),
+      });
     } catch (e) {
       // window.alertify.error("Cannot fetch TVL");
       console.error("TVL ETH V2 error: " + e);
@@ -247,6 +260,8 @@ class App extends React.Component {
     try {
       let the_graph_result = await window.refresh_the_graph_result();
       let the_graph_resultavax = await window.refresh_the_graph_resultavax();
+      let the_graph_resultbsc = await window.refresh_the_graph_resultavax();
+
 
       this.setState({
         the_graph_result: JSON.parse(JSON.stringify(the_graph_result)),
@@ -254,6 +269,10 @@ class App extends React.Component {
 
       this.setState({
         the_graph_resultavax: JSON.parse(JSON.stringify(the_graph_resultavax)),
+      });
+
+      this.setState({
+        the_graph_resultbsc: JSON.parse(JSON.stringify(the_graph_resultbsc)),
       });
     } catch (e) {
       // window.alertify.error("Cannot fetch TVL");
@@ -354,13 +373,14 @@ class App extends React.Component {
     ];
 
     document.addEventListener("touchstart", { passive: true });
-
-    // const Bridge = initBridge({
-    //   bridgeETH: window.bridge_bsceth,
-    //   bridgeBSC: window.bridge_bscbsc,
-    //   tokenETH: window.token_dyp_bsceth,
-    //   tokenBSC: window.token_dyp_bscbsc,
-    // });
+    //Buyback New
+    const BuybackStaking1 = initBscBuyback({
+      staking: window.buyback_stakingbsc1_1,
+      constant: window.constant_stakingbsc_new3,
+      apr: 30,
+      expiration_time: "17 November 2022",
+      fee: 1,
+    });
 
     return (
       <div
@@ -496,6 +516,23 @@ class App extends React.Component {
                         network={this.state.networkId}
                         handleConnection={this.handleConnection}
                         referrer={this.state.referrer}
+                      />
+                    )}
+                  />
+
+                  <Route
+                    exact
+                    path="/staking-buyback-1"
+                    render={(props) => (
+                      <BuybackStaking1
+                        is_wallet_connected={this.state.isConnected}
+                        coinbase={this.state.coinbase}
+                        handleConnection={this.handleConnection}
+                        handleConnectionWalletConnect={
+                          this.handleConnection
+                        }
+                        the_graph_result={this.state.the_graph_result_BSC_V2}
+                        {...props}
                       />
                     )}
                   />

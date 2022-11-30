@@ -350,6 +350,11 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                     <h6 className="amount-txt">Amount 1/{myNFTs.length}</h6>
                     <input
                       type={"number"}
+                      disabled={
+                        myNFTs.length === 0 && mystakes.length === 0
+                          ? true
+                          : false
+                      }
                       className="styledinput"
                       placeholder="0.0"
                       style={{ width: "100%" }}
