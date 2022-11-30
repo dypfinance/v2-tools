@@ -508,7 +508,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 width={25}
                 height={25}
                 onClick={onClose}
-                style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer" }}
               />
             )}
           </div>
@@ -691,8 +691,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             </h6> */}
           <div className="row w-100 mx-0 align-items-center justify-content-between mt-5">
             <div className="ethereum-chain-wrapper">
-              <div className="chain-content d-flex flex-column justify-content-center gap-4 p-2">
-                <div className="d-flex flex-column gap-1">
+              <div className="chain-content gap-4 p-2">
+                <div className="values-wrapper align-items-start d-flex flex-column gap-1">
                   <div className="usd-value">
                     ${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}
                   </div>
@@ -719,8 +719,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 activeMethod === "Vault" ? "usdc-wrapper" : `bnb-chain-wrapper`
               }
             >
-              <div className="chain-content d-flex flex-column justify-content-center gap-4 p-2">
-                <div className="d-flex flex-column gap-1">
+              <div className="chain-content gap-4 p-2">
+                <div className="values-wrapper d-flex flex-column gap-1">
                   <div className="usd-value">
                     $
                     {calculateApproxUSDBNB === "NaN"
@@ -757,8 +757,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 activeMethod === "Vault" ? "usdt-wrapper" : "avax-chain-wrapper"
               }
             >
-              <div className="chain-content d-flex flex-column justify-content-center gap-4 p-2">
-                <div className="d-flex flex-column gap-1">
+              <div className="chain-content  gap-4 p-2">
+                <div className="d-flex values-wrapper flex-column gap-1">
                   <div className="usd-value">
                     $
                     {calculateApproxUSDAVAX === "NaN"

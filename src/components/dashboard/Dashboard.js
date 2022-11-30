@@ -128,7 +128,7 @@ import initVaultNew from "../FARMINNG/vault-new";
   
   return (
     <div className="container-lg dashboardwrapper px-0">
-      <div className="d-flex m-0 justify-content-between gap-4">
+      <div className="d-flex m-0 flex-column flex-xxl-row justify-content-between gap-4">
         <div className="d-flex flex-column gap-4 justify-content-between">
           <div className="d-flex m-0 gap-3 justify-content-between">
             <Calculator />
@@ -236,20 +236,22 @@ import initVaultNew from "../FARMINNG/vault-new";
           </div>
           </div>
         </div>
-        <div className="d-flex flex-column gap-4">
-          <div className="d-flex flex-column gap-2">
+        <div className="right-side-wrapper d-flex flex-row flex-xxl-column gap-4">
+          <div className="launchpad-section-wrapper d-flex flex-column gap-3 gap-xxl-2">
             <h6 className="header">Launchpad</h6>
             <LaunchpadCard />
           </div>
           <ChainlinkCard />
-          <div className="d-flex flex-column" style={{gap: '11px'}}>
+          <div className="faq-items-wrapper d-flex flex-column" style={{gap: '11px'}}>
             <h6 className="header">FAQs</h6>
+            <div className="faq-grid">
             <FaqCard />
             <FaqCard />
             <FaqCard />
             <FaqCard />
             <FaqCard />
             <FaqCard />
+            </div>
           </div>
         </div>
       </div>

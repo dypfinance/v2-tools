@@ -1,6 +1,6 @@
 import React from "react";
 import filledArrow from './assets/filledArrow.svg'
-import newsShadow from './assets/newsShadow.png'
+import newsShadow from './assets/newsShadow2.png'
 import calendar from './assets/calendar.svg'
 import './newscard.css'
 

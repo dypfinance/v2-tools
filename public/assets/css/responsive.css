@@ -41,9 +41,9 @@
         font-size: 12px;
     }
 
-    .right-content {
+    /* .right-content {
         padding: 100px 20px 0 0;
-    }
+    } */
 
     .header-right ul li a {
         font-size: 12px;
@@ -165,11 +165,11 @@
         /* max-width: 60px; */
     }
 
-    .right-content {
+    /* .right-content {
         width: 100%;
         margin: 120px 0 0;
         padding: 0;
-    }
+    } */
 
     .graph-wrap {
         padding: 25px 15px;
