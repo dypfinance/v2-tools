@@ -24,6 +24,14 @@
   left: -1px;
 }
 
+.rewardstxtCaws {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.018em;
+  color: #f7f7fc;
+}
+
 .myaddrtext {
   font-weight: 400;
   font-size: 8px;
@@ -111,7 +119,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
-  color: #4ED5D2;
+  color: #4ed5d2;
 }
 
 .referraldesc {
@@ -120,7 +128,7 @@
   font-size: 12px;
   line-height: 18px;
   letter-spacing: -0.018em;
-  color: #4ED5D2;
+  color: #4ed5d2;
 }
 
 .tvl-text {
@@ -246,7 +254,7 @@
   /* border: 1px solid #7770df; */
   padding: 0 12px 12px 12px;
   gap: 5px;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .leftside2 {
@@ -315,7 +323,7 @@
   position: relative;
   transition: all 0.25s;
 }
-.claimreward-header{
+.claimreward-header {
   border: 1px solid #565891;
   border-radius: 8px;
 }
@@ -469,7 +477,7 @@
   font-size: 12px;
   line-height: 14px;
   letter-spacing: -0.018em;
-  color: #C0C9FF;
+  color: #c0c9ff;
 }
 
 .withtitle {
@@ -546,7 +554,7 @@
 }
 
 .styledinput {
-  background: #312F69 !important;
+  background: #312f69 !important;
   border: 1px solid #8e97cd !important;
   border-radius: 8px !important;
   padding: 9px 12px;
@@ -580,7 +588,7 @@
   letter-spacing: 0.4px;
   color: #8e97cd;
   position: absolute;
-  background: #312F69;
+  background: #312f69;
   padding: 0 3px;
   top: -8px;
   left: 15px;
@@ -606,7 +614,7 @@
 }
 
 .filledbtn {
-  background: linear-gradient(to left, #7770E0, #3E3AA5, #554FD8, #7770E0);
+  background: linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0);
   background-size: 300%;
   background-position: 0 0;
   border-radius: 8px;
@@ -636,9 +644,7 @@
   color: white !important;
   background-position: 100% 0 !important;
   box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.09) !important;
-
 }
-
 
 .outline-btn {
   background: #312f69;
@@ -654,11 +660,10 @@
   -webkit-transition: all ease 0.4s;
 }
 
-.outline-btn:hover{
+.outline-btn:hover {
   color: #fff;
   background: #857dfa;
 }
-
 
 .pool-coins {
   height: 30px;
@@ -692,5 +697,3 @@
   transform: translateX(-40px);
   /* z-index: 2; */
 }
-
-

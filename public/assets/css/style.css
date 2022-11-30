@@ -39,14 +39,10 @@ iframe {
   pointer-events: none;
 }
 
-/* .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
-  max-width: calc(100% - 85px);
-} */
-/* 
-.dashboardwrapper{
-  max-width: calc(100% - 85px);
+.container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+  max-width: 1320;
+}
 
-} */
 
 .form-control:focus {
   -webkit-box-shadow: none;
@@ -1387,7 +1383,6 @@ a:hover {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  padding: 40px;
   gap: 20px;
 }
 
@@ -1688,7 +1683,6 @@ body.theme-dark img.graph-two {
 .progress {
   border-radius: 20px;
   position: relative;
-  margin: 0 0 10px 0;
   height: 10px;
   width: 100%;
 }
@@ -2501,7 +2495,7 @@ border: 1px solid #3B3C68 !important;
   .modal-dialog {
     max-width: 1190px;
     margin: 1.75rem auto;
-    height: 900px;
+    height: inherit;
     overflow-y: auto;
     /* height: auto; */
     pointer-events: auto;
@@ -3082,13 +3076,34 @@ input[type="radio"] {
 /*---------------------------------
         Content Footer CSS
 --------------------------------*/
+.footer {
+  width: 100%;
+  background: #2A2859;
+}
+
+body.theme-dark .content-footer {
+  background: #2A2859 !important;
+}
 
 .content-footer {
-  margin: 30px 0;
+  margin-top: 30px;
+  padding: 20px 0;
+  padding-left: 30px;
+  width: calc(100% - 250px);
+  margin-right: 0;
+  background: #2A2859;
+}
+
+.footer-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .footer-menu {
-  padding: 20px 0;
+  border: 0 !important;
 }
 
 .footer-menu ul {
@@ -3103,17 +3118,9 @@ input[type="radio"] {
   line-height: 24px;
   text-transform: capitalize;
   /* font-family: "Calibre Regular"; */
-  font-weight: 600;
-  padding: 0 25px;
-  border-right: 1px solid #f9656e;
-}
-
-.footer-menu ul li:last-child a {
-  border-right: none;
-}
-
-.social-profile {
-  padding: 20px 0;
+  font-weight: 400;
+  padding: 0 10px;
+  color: #F7F7FC;
 }
 
 .social-profile ul {

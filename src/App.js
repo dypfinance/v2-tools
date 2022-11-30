@@ -27,6 +27,7 @@ import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadD
 import TierLevels from "./components/launchpad/tierlevels/TierLevels";
 import NftMinting from "./components/caws/NftMinting/index";
 import Bridge from "./components/bridge/BridgeGeneral";
+import Footer from "./components/Footer/footer";
 import BuyDyp from "./components/buydyp/BuyDyp";
 
 class App extends React.Component {
@@ -420,7 +421,17 @@ class App extends React.Component {
                 )}
               />
 
-              <Route exact path="/caws" render={() => <NftMinting />} />
+              <Route
+                exact
+                path="/caws"
+                render={() => (
+                  <NftMinting
+                    isConnected={this.state.isConnected}
+                    coinbase={this.state.coinbase}
+                    handleConnection={this.handleConnection}
+                  />
+                )}
+              />
 
               <Route
                 exact
@@ -615,6 +626,7 @@ class App extends React.Component {
           </div>
           
         </div>
+        <Footer></Footer>
       </div>
     );
   }

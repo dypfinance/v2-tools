@@ -10,8 +10,12 @@ import StakeChart from "./stakechart.svg";
 // import Tooltip from "../../../../elements/ToolTip";
 import { formattedNum } from "../../../../../../functions/formatUSD";
 import axios from "axios";
-import getFormattedNumber from '../../../../../../functions/get-formatted-number'
-import './_myStakes.scss'
+import getFormattedNumber from "../../../../../../functions/get-formatted-number";
+import "./_myStakes.scss";
+
+
+
+
 let settings = {
   dots: true,
   infinite: false,
@@ -21,9 +25,7 @@ let settings = {
   nextArrow: (
     <div>
       <img
-        src={
-          require("../../../../../../assets/ArrowIcons/arrow.svg").default
-        }
+        src={require("../../../../../../assets/ArrowIcons/arrow.svg").default}
         alt=""
       />
     </div>
@@ -31,9 +33,7 @@ let settings = {
   prevArrow: (
     <div>
       <img
-        src={
-          require("../../../../../../assets/ArrowIcons/arrow.svg").default
-        }
+        src={require("../../../../../../assets/ArrowIcons/arrow.svg").default}
         alt=""
       />
     </div>
@@ -50,10 +50,10 @@ let settings = {
     {
       breakpoint: 768,
       settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-      }
-  },
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
     {
       breakpoint: 500,
       settings: {
@@ -81,11 +81,12 @@ const MyStakes = ({
   onStakeNFTClick,
   onClaimAllRewards,
   ETHrewards,
+  isConnected,
+  coinbase,
 }) => {
   const [showAll, setsShowAll] = useState(false);
 
   const [id, setId] = useState(0);
-  const [isconnectedWallet, setisConnectedWallet] = useState(false);
   const [ethToUSD, setethToUSD] = useState(0);
 
   const convertEthToUsd = async () => {
@@ -101,23 +102,14 @@ const MyStakes = ({
     const ethprice = await convertEthToUsd();
     setethToUSD(Number(ethprice) * Number(ETHrewards));
   };
-  const checkConnection = async () => {
-    let test = await window.web3.eth?.getAccounts().then((data) => {
-      data.length === 0
-        ? setisConnectedWallet(false)
-        : setisConnectedWallet(true);
-    });
-  };
 
   useEffect(() => {
-    checkConnection().then();
-
-    if (isconnectedWallet) {
+    if (isConnected) {
       const interval = setInterval(() => {}, 5000);
       setUSDPrice().then();
       return () => clearInterval(interval);
     }
-  }, [checkConnection, id]);
+  }, [isConnected, id]);
 
   if (window.innerWidth < 768 && showAll) {
     settings = { ...settings, rows: 2, slidesPerRow: 2, slidesToShow: 1 };
@@ -137,7 +129,8 @@ const MyStakes = ({
               action={onItemClick}
               modalId="#NftUnstake"
               id={itemId}
-              isconnectedWallet={isconnectedWallet}
+              isconnectedWallet={isConnected}
+              coinbase={coinbase}
             />
           </div>
         );
@@ -171,7 +164,10 @@ const MyStakes = ({
             <div className="graphic-container d-none d-sm-flex">
               <div
                 className="graph-inner-wrapper"
-                style={{ display: "grid", marginRight: devicewidth < 1517 ? 0 : 95 }}
+                style={{
+                  display: "grid",
+                  marginRight: devicewidth < 1517 ? 0 : 95,
+                }}
               >
                 <img
                   src={require("./stakegraph.png")}
@@ -179,7 +175,7 @@ const MyStakes = ({
                   style={{ height: 100 }}
                 />
                 <span id="staking">Staking</span>
-                {isconnectedWallet === true ? (
+                {isConnected === true ? (
                   <button className="stakeNowBtn" onClick={onStakeNFTClick}>
                     Stake NFT
                   </button>
@@ -191,19 +187,18 @@ const MyStakes = ({
               <div
                 className="startStake"
                 style={{
-                  display:
-                    isconnectedWallet && numberOfNfts > 0 ? "none" : "flex",
+                  display: isConnected && numberOfNfts > 0 ? "none" : "flex",
                 }}
               >
                 <div className="startStake-text">
-                  <img src={isconnectedWallet === true ? StakeChart : Info} alt=''/>
+                  <img src={isConnected === true ? StakeChart : Info} alt="" />
 
                   <p>
-                    {isconnectedWallet === true && numberOfNfts < 4
+                    {isConnected === true && numberOfNfts < 4
                       ? "Increase your CAWS benefits! Stake your NFTs and begin earning rewards in Ethereum."
-                      : isconnectedWallet === false
+                      : isConnected === false
                       ? "Please connect your wallet to view the NFTs you’ve staked."
-                      : isconnectedWallet === true && numberOfNfts > 1
+                      : isConnected === true && numberOfNfts > 1
                       ? ""
                       : ""}
                   </p>
@@ -211,12 +206,12 @@ const MyStakes = ({
               </div>{" "}
             </div>
             {showAll && renderCards()}
-            {!showAll && isconnectedWallet && numberOfNfts !== 0 && (
+            {!showAll && isConnected && numberOfNfts !== 0 && (
               <div className={["slider", showAll ? "d-none" : ""].join(" ")}>
-                <Slider {...settings}>{renderCards()}</Slider>
+                <div>{renderCards()}</div>
               </div>
             )}
-            {isconnectedWallet === true ? (
+            {isConnected === true ? (
               <div className="withdraw-wrapper">
                 {/* <Tooltip title={"Total Rewards"} icon={'?'} color={"#1D91D0"} borderColor={"#fff"}/> */}
                 <div className="upperSection">
@@ -287,6 +282,8 @@ MyStakes.propTypes = {
   onStakeNFTClick: PropTypes.func,
   onClaimAllRewards: PropTypes.func,
   ETHrewards: PropTypes.number,
+  coinbase: PropTypes.string,
+  isConnected: PropTypes.bool,
 };
 
 export default MyStakes;

@@ -409,14 +409,14 @@ export default class PoolExplorer extends React.Component {
     render() {
         return (
             <div className="container-lg">
-                <div className="row px-3 table-title poolexp-wrapper">
-                    <div className="col-md-6 pl-0">
+                <div className="d-flex flex-row gap-3 justify-content-between align-items-center mb-4">
+                    <div className="d-flex flex-column gap-3">
                         {this.state.screen === "pool" ? (
                             <>
-                                <h2 style={{display: "block", color: `var(--preloader-clr)`}}>
-                                    Explorer
+                                <h2 className="launchpad-hero-title">
+                                    Pool Explorer
                                 </h2>
-                                <p className="d-block">
+                                <p className="launchpad-hero-desc">
                                     Search for new pools, add or remove liquidity in a pair.
                                 </p>
                             </>
@@ -457,7 +457,7 @@ export default class PoolExplorer extends React.Component {
 
                     </div>
                     <div className="col-md-6 p-0">
-                        <div className="search-box">
+                        <div className="search-box" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
                             <form id="searchform">
                                 <input
                                     value={this.state.filteredByTokenSymbol}
@@ -467,30 +467,23 @@ export default class PoolExplorer extends React.Component {
                                     }}
                                     type="text"
                                     id="search-bar"
-                                    style={{paddingBottom: "10px"}}
+                                    style={{paddingBottom: "10px", background: "transparent", border: "1px solid #8E97CD", color: "#fff", borderRadius: "8px"}}
                                     autoComplete="off"
-                                    placeholder="Filter by Token"
-                                    className="l-border-black"
+                                    placeholder="Filter for Token"
                                 />
                                 <button type="submit" id="submit">
-                                    <img src="/assets/img/search-2.png" alt="Image"/>
+                                    <img src="/assets/img/search.svg" alt="Image"/>
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div className="table-box">
-                    <div className="table-title">
-                        {this.state.screen === "pool" ? (
-                            <h4>
-                                {this.props.networkId === 1
-                                    ? "Uniswap Pools Activity"
-                                    : "Pangolin Pools Activity"}
-                            </h4>
-                        ) : <></>}
-                    </div>
                     {this.state.screen === "pool" ? (
-                        <div className="l-table-wrapper-div">{this.GetDataTable()}</div>
+                        <div className="form-container p-3 position-relative">
+                            <div className="tablepurplediv" style={{background: "#8E97CD", left: "0px" }}></div>
+                            {this.GetDataTable()}
+                        </div>
                     ) : this.state.screen === "swap" ? (
                         <BigSwapExplorer
                             theme={this.props.theme}

@@ -57,7 +57,6 @@ body.theme-dark .form-control {
 body.theme-dark .header-wrap,
 body.theme-dark .sidebar,
 body.theme-dark .graph-wrap,
-body.theme-dark .content-footer,
 body.theme-dark .table-title,
 body.theme-dark .footer-container,
 body.theme-dark .news-wrapper,
@@ -181,10 +180,6 @@ body.theme-dark .graph-header-left h2 {
   color: var(--white);
 }
 
-body.theme-dark .content-title-top h2 {
-  color: var(--preloader-clr);
-}
-
 body.theme-dark .content-title p {
   color: var(--black2);
 }
@@ -208,11 +203,11 @@ body.theme-dark .suggest-item h2 {
 }
 
 body.theme-dark .suggest-item h2 span.wh_txt {
-  color: var(--black2);
+  color: var(--white);
 }
 
 body.theme-dark .progress {
-  background-color: #27212b;
+  background-color: #F7F7FC;
 }
 
 body.theme-dark .progress.v1 .progress-done-one {
@@ -229,7 +224,7 @@ body.theme-dark .progress-done-two,
 body.theme-dark .progress-done-three,
 body.theme-dark .progress-done-four,
 body.theme-dark .progress-done-five {
-  background:  linear-gradient(90deg, #E30613 2.37%, #F84531 98.62%);
+  background: linear-gradient(269.82deg, #594ED5 4.32%, #4ED5D2 97.42%);
   color: var(--white);
 }
 
@@ -274,9 +269,6 @@ body.theme-dark .page-nav ul li a {
   border: 1px solid var(--white);
 }
 
-body.theme-dark .footer-menu {
-  border-bottom: 2px solid var(--grey);
-}
 
 body.theme-dark .hamburger-menu {
   background-color: var(--white);

@@ -18,6 +18,7 @@ import GearProgress from "./GearProgress";
 import axios from "axios";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import './pair-explorer.css';
 
 
 async function getTokenInformation(address, network) {
@@ -591,7 +592,7 @@ export default class PairExplorer extends React.Component {
         minWidth: "80px",
         textAlign: "right",
         cell: (txn) => (
-          <span className={`l-clr-${txn.type == "sell" ? "red" : "purple"}`}>
+          <span className={`${txn.type == "sell" ? "text-red" : "text-green"}`}>
             {" "}
             {txn.type}{" "}
           </span>
@@ -956,17 +957,17 @@ export default class PairExplorer extends React.Component {
     }
 
     return (
-      <div className="l-pair-explorer">
+      <div>
         <div>
-          <div className="graph-wrap">
+          <div className="graph-wrap container-lg">
             <div className="leftside">
               <div
                 className="row m-0 w-100 justify-content-between flex-column"
                 style={{ gap: 20 }}
               >
-                <div className="graph-right2">
+                <div className="graph-right2" style={{ padding: "0px" }}>
                   <div className="search-box">
-                    <form id="searchform">
+                    <form id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
                       <input
                         value={this.state.query}
                         onChange={(e) => this.handleQuery(e.target.value)}
@@ -974,6 +975,7 @@ export default class PairExplorer extends React.Component {
                         id="search-bar"
                         autoComplete="off"
                         placeholder="Search Pairs"
+                        style={{background: "transparent", border: "1px solid #8E97CD", color: "#fff", borderRadius: "8px"}}
                       />
                       <ul
                         className="output"
@@ -985,6 +987,8 @@ export default class PairExplorer extends React.Component {
                           zIndex: 9,
                           maxHeight: "300px",
                           overflowY: "auto",
+                          borderRadius: "8px",
+                          marginLeft: "-10px"
                         }}
                       >
                         {this.state.searchResults.map((p) => (
@@ -997,6 +1001,7 @@ export default class PairExplorer extends React.Component {
                                   style={{
                                     fontSize: "1.2rem",
                                     fontWeight: 500,
+                                    color: "#FCFCF7"
                                   }}
                                 >
                                   <span className="wh_txt">
@@ -1010,6 +1015,7 @@ export default class PairExplorer extends React.Component {
                                   style={{
                                     fontSize: ".85rem",
                                     fontWeight: 400,
+                                    marginBottom: "5px"
                                   }}
                                 >
                                   Token: ...
@@ -1019,31 +1025,25 @@ export default class PairExplorer extends React.Component {
                                   - Pair: ...
                                   {p.pair.address.toLowerCase().slice(34)}
                                 </p>
-                                <p>Total liquidity:</p>
-                                <span>
-                                  ${getFormattedNumber(p.pair.reserve, 2)}
-                                </span>
+                                <div className="d-flex gap-1 align-items-center">
+                                  <p style={{ opacity: "1", color: "#4ED5D2", fontSize: "12px", lineHeight: "18px", fontWeight: "400" }}>Total liquidity:</p>
+                                  <span style={{ opacity: "1", color: "#4ED5D2", fontSize: "12px", lineHeight: "18px", fontWeight: "400" }}>
+                                    ${getFormattedNumber(p.pair.reserve, 2)}
+                                  </span>
+                                </div>
                               </div>
                             </li>
                           </NavLink>
                         ))}
                       </ul>
                       <button type="submit" id="submit">
-                        {/* <img src="/assets/img/search-2.png" alt="Image" /> */}
-                        <i
-                          style={{ color: "var(--red)" }}
-                          className={`fas fa-${
-                            !this.state.isSearching
-                              ? "search"
-                              : "spinner fa-spin"
-                          }`}
-                        ></i>
+                        <img src="/assets/img/search-purple.svg" alt="Image" style={{ marginTop: "11px" }} />
                       </button>
                     </form>
                   </div>
                 </div>
 
-                <div className="secondbox-wrapper">
+                <div className="form-container p-3 position-relative">
                   <div className="content-title">
                     <div className="content-title-top">
                       <h2>
@@ -1056,26 +1056,18 @@ export default class PairExplorer extends React.Component {
                               position: "relative",
                               top: "-3px",
                             }}
-                            src={this.state.cgInfo?.link_logo}
+                            src="/assets/img/icon.svg"
                           />
                         )}{" "}
                         {this.state.pair?.token0.symbol || "..."} /{" "}
                         {this.state.pair?.token1.symbol || "..."}{" "}
                         <button
                           onClick={this.toggleFavorite}
-                          className={`btn v2 p-0 ${
+                          className={`btn btn-favorite v2 p-0 ${
                             this.state.isFavorite ? "is-favorite" : ""
                           }`}
                         >
-                          <i
-                            style={{
-                              color: this.state.starColor,
-                              marginBottom: "18px",
-                            }}
-                            className={`fa${
-                              this.state.isFavorite ? "s" : "r"
-                            } fa-star`}
-                          ></i>
+                          <img src="/assets/img/star.svg"></img>
                         </button>
                       </h2>
                       <h2>
@@ -1086,13 +1078,14 @@ export default class PairExplorer extends React.Component {
                       </h2>
                     </div>
                     <div className="d-flex justify-content-between">
-                      <p style={{ fontSize: ".8rem" }}>
+                      <p style={{ fontSize: ".8rem", color: "#fff", opacity: "1" }}>
                         ({this.state.mainToken?.name || "..."})
                         <br />
                         Token contract:{" "}
                         <a
                           rel="noopener noreferrer"
                           target="_blank"
+                          style={{ color: "#70B8E0" }}
                           href={
                             this.props.networkId === 1
                               ? `https://etherscan.io/token/${this.state.mainToken?.id}`
@@ -1108,6 +1101,7 @@ export default class PairExplorer extends React.Component {
                           flexDirection: "column",
                           fontSize: 12,
                           alignItems: "flex-end",
+                          color: "#fff"
                         }}
                       >
                         {this.state[
@@ -1138,11 +1132,30 @@ export default class PairExplorer extends React.Component {
                         {this.props.networkId === 1 ? "ETH" : "AVAX"}
                       </p>
                     </div>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <NavLink
+                        title="DYP Locker"
+                        to={`/locker/${this.props.match.params.pair_id}`}
+                        className={"w-auto"}
+                        style={{ color: "#857DFA" }}
+                      >
+                        View pair locker
+                      </NavLink>
+                      <NavLink
+                        to={`/locker/${this.props.match.params.pair_id}`}
+                      >
+                        <img
+                          src={PairLocker}
+                          alt=""
+                          style={{cursor: "pointer" }}
+                        />
+                      </NavLink>
+                    </div>
                   </div>
-                  <div className="graph-header" style={{ gap: 5 }}>
-                    <div className="graph-header-left">
+                  <div>
+                    <div style={{ background: "#2B2A59", borderRadius: "6px", border: "1px solid #565891", padding: "8px" }}>
                       <ul
-                        className="l-social-icons-list d-flex"
+                        className="d-flex justify-content-between align-items-center"
                         style={{ gap: 4, alignItems: "baseline" }}
                       >
                         <li>
@@ -1153,11 +1166,8 @@ export default class PairExplorer extends React.Component {
                               position: "relative",
                             }}
                           >
-                            <button className="btn v3 p-0">
-                              <i
-                                className="fas fa-share-alt"
-                                style={{ color: "#71757E" }}
-                              ></i>
+                            <button className="btn v3 p-0 btn-share">
+                             <img src="/assets/img/share-alt.svg"></img>
                             </button>
 
                             <div className="social-share-wrapper-div">
@@ -1244,7 +1254,7 @@ export default class PairExplorer extends React.Component {
                                 : `https://app.pangolin.exchange/#/swap?outputCurrency/${this.props.match.params.pair_id}`
                             }
                           >
-                            <img
+                            <img className="icon-bg-white-rounded"
                               src={
                                 this.props.networkId === 1
                                   ? "/images/uniswap-logo-home.png"
@@ -1264,7 +1274,7 @@ export default class PairExplorer extends React.Component {
                               href={this.state.pairInfo?.link_coinmarketcap}
                             >
                               <img
-                                src="/images/coinmarketcap.jpeg"
+                                src="/assets/img/coinmarketcap.svg"
                                 width="18"
                                 alt=""
                               />
@@ -1284,28 +1294,8 @@ export default class PairExplorer extends React.Component {
                               }
                             >
                               <img
-                                src="/images/coingecko.webp"
+                                src="/assets/img/coingecko-logo.svg"
                                 width="18"
-                                alt=""
-                              />
-                            </a>
-                          </li>
-                        )}
-                        {(this.state.pairInfo?.link_website ||
-                          this.state.cgInfo?.link_website) && (
-                          <li>
-                            <a
-                              rel="noopener noreferrer"
-                              target="_blank"
-                              title="Website"
-                              href={
-                                this.state.pairInfo?.link_website ||
-                                this.state.cgInfo?.link_website
-                              }
-                            >
-                              <i
-                                style={{ color: `var(--red)` }}
-                                className="fas fa-external-link-alt"
                                 alt=""
                               />
                             </a>
@@ -1323,11 +1313,7 @@ export default class PairExplorer extends React.Component {
                                 this.state.cgInfo?.link_twitter
                               }
                             >
-                              <i
-                                style={{ color: "rgba(29,161,242,1.00)" }}
-                                className="fab fa-twitter"
-                                alt=""
-                              />
+                              <img src="/assets/img/twitter-color.svg"></img>
                             </a>
                           </li>
                         )}
@@ -1343,11 +1329,7 @@ export default class PairExplorer extends React.Component {
                                 this.state.cgInfo.link_telegram
                               }
                             >
-                              <i
-                                style={{ color: "#0088cc" }}
-                                className="fab fa-telegram"
-                                alt=""
-                              />
+                              <img src="/assets/img/telegram-color.svg"></img>
                             </a>
                           </li>
                         )}
@@ -1374,6 +1356,22 @@ export default class PairExplorer extends React.Component {
                             />
                           </a>
                         </li>
+                        {(this.state.pairInfo?.link_website ||
+                          this.state.cgInfo?.link_website) && (
+                          <li>
+                            <a
+                              rel="noopener noreferrer"
+                              target="_blank"
+                              title="Website"
+                              href={
+                                this.state.pairInfo?.link_website ||
+                                this.state.cgInfo?.link_website
+                              }
+                            >
+                              <img src="/assets/img/external-link.svg"></img>
+                            </a>
+                          </li>
+                        )}
 
                         {this.state.pairInfo?.link_audit && (
                           <li>
@@ -1383,122 +1381,105 @@ export default class PairExplorer extends React.Component {
                               title="Audit"
                               href={this.state.pairInfo?.link_audit}
                             >
-                              <i
-                                style={{ color: "var(--red)" }}
-                                className="far fa-file-pdf"
-                                alt=""
-                              />
+                              <img src="/assets/img/file-pdf.svg"></img>
                             </a>
                           </li>
                         )}
                       </ul>
                     </div>
-                    <div className="graph-header-right">
-                      <NavLink
-                        title="DYP Locker"
-                        to={`/locker/${this.props.match.params.pair_id}`}
-                        className={"tradebtn w-auto"}
-                      >
-                        View pair locker
-                      </NavLink>
-                      <NavLink
-                        to={`/locker/${this.props.match.params.pair_id}`}
-                      >
-                        <img
-                          src={PairLocker}
-                          alt=""
-                          style={{ marginLeft: 10, cursor: "pointer" }}
-                        />
-                      </NavLink>
-                    </div>
-                  </div>
-                </div>
-                <div className="secondbox-wrapper favorites">
-                  <div
-                    className="content-title m-0 p-0"
-                    style={{ borderBottom: "none" }}
-                  >
-                    <div className="content-title-top">
-                      <h2>FAVORITES</h2>
-                      {this.state.favorites.length > 0 && (
-                        <NavLink
-                          className="tradebtn m-0 w-auto"
-                          style={{ gap: 5 }}
-                          
-                            to="/account#my-fav"
-                          
-                        >
-                          <svg
-                            width="10"
-                            height="10"
-                            viewBox="0 0 10 10"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M4.32229 10C3.23685 10 2.14862 10 1.06318 10C0.423045 10 0 9.57696 0 8.93683C0 6.75759 0 4.57557 0 2.39633C0 1.76177 0.423045 1.33594 1.05483 1.33594C2.36014 1.33594 3.66546 1.33594 4.97078 1.33594C5.22683 1.33594 5.39382 1.55581 5.31033 1.78125C5.26023 1.91484 5.14055 1.99834 4.98748 2.00112C4.801 2.0039 4.61174 2.00112 4.42527 2.00112C3.30365 2.00112 2.18202 2.00112 1.0604 2.00112C0.793209 2.00112 0.667965 2.12636 0.667965 2.39355C0.667965 4.57835 0.667965 6.76037 0.667965 8.94518C0.667965 9.2068 0.795992 9.33482 1.05761 9.33482C3.24242 9.33482 5.42444 9.33482 7.60924 9.33482C7.87364 9.33482 7.99889 9.20958 7.99889 8.94518C7.99889 7.65378 7.99889 6.36238 7.99889 5.07098C7.99889 5.01531 8.00167 4.95965 8.01559 4.90677C8.06012 4.75091 8.20484 4.6535 8.36348 4.6702C8.52213 4.68411 8.65015 4.81771 8.66407 4.97913C8.66685 4.99862 8.66407 5.02088 8.66407 5.04036C8.66407 6.35403 8.66407 7.66491 8.66407 8.97858C8.66407 9.45728 8.37183 9.84415 7.92096 9.96383C7.81798 9.99166 7.70943 10 7.60089 10C6.50988 10 5.41609 10 4.32229 10Z"
-                              fill="white"
-                            />
-                            <path
-                              d="M8.83322 0.667966C8.57995 0.667966 8.32668 0.667966 8.07341 0.667966C7.60583 0.667966 7.13547 0.670749 6.66789 0.667966C6.49255 0.667966 6.35339 0.537156 6.33391 0.370164C6.31721 0.205956 6.42297 0.0528806 6.58718 0.0111328C6.62336 0.00278319 6.66233 0 6.70129 0C7.67541 0 8.65231 0 9.62642 0C9.86578 0 9.99937 0.133593 9.99937 0.375731C9.99937 1.34706 9.99937 2.3184 9.99937 3.29251C9.99937 3.51517 9.86578 3.66546 9.66817 3.66824C9.46778 3.67103 9.33141 3.51795 9.33141 3.28695C9.33141 2.6162 9.33141 1.94823 9.33141 1.27748C9.33141 1.2413 9.33141 1.20234 9.33141 1.14667C9.28966 1.18564 9.26183 1.21069 9.23678 1.23574C7.69489 2.77762 6.153 4.31673 4.6139 5.8614C4.50536 5.96994 4.38846 6.03396 4.2326 5.98664C4.00995 5.91706 3.92645 5.64709 4.07396 5.4634C4.09901 5.43 4.13241 5.40217 4.16024 5.37434C5.69099 3.84359 7.22453 2.31005 8.75529 0.779293C8.78312 0.751461 8.82208 0.729196 8.85548 0.704147C8.84713 0.687448 8.83878 0.679098 8.83322 0.667966Z"
-                              fill="white"
-                            />
-                          </svg>
-                          View all
-                        </NavLink>
-                      )}
-                    </div>
-                  </div>
-                  <div className="d-flex flex-column" style={{ gap: 10 }}>
-                    {this.state.favorites.length === 0 ? (
-                      <div className="firstbox-inner">
-                        <p className="d-flex justify-content-between">
-                          Add a favorite pair{" "}
-                          <button
-                            className="tradebtn m-0 w-auto"
-                            onClick={this.toggleFavorite}
-                          >
-                            Add pair
-                          </button>
-                        </p>
-                      </div>
-                    ) : (
-                      this.state.favorites
-                        .slice(
-                          this.state.favorites.length > 3
-                            ? this.state.favorites.length - 3
-                            : 0,
-                          this.state.favorites.length
-                        )
-                        .map((lock, index) => {
-                          return (
-                            <NavLink
-                              key={index}
-                              className="favRow"
-                              to={`/pair-explorer/${lock.id}`}
-                            >
-                              <div
-                                className="row m-0 justify-content-between align-items-center"
-                                style={{ gap: 20 }}
-                              >
-                                <h2 className="favpair">
-                                  {lock.token0.symbol}/{lock.token1.symbol}
-                                </h2>
-
-                                <span className="favliq">
-                                  ...{lock.id.slice(35)}
-                                </span>
-                              </div>
-                            </NavLink>
-                          );
-                        })
-                    )}{" "}
                   </div>
                 </div>
               </div>
 
-              <div className="firstbox-wrapper">
-                <div className="firstbox-inner pb-0">
+              <div className="form-container p-3 position-relative">
+                <div
+                  className="content-title mb-3 p-0"
+                  style={{ borderBottom: "none" }}
+                >
+                  <div className="purplediv" style={{ background: "#8E97CD", left: "0px" }}></div>
+                  <div className="content-title-top">
+                    <div className="d-flex gap-2 align-items-center">
+                      <img src="/assets/img/star.svg"></img>
+                      <h2>FAVORITES</h2>
+                    </div>
+                    {this.state.favorites.length > 0 && (
+                      <NavLink
+                        className="outline-btn btn m-0 w-auto d-flex align-items-center"
+                        style={{ gap: 5 }}
+                        
+                          to="/account#my-fav"
+                        
+                      >
+                        <svg
+                          width="10"
+                          height="10"
+                          viewBox="0 0 10 10"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4.32229 10C3.23685 10 2.14862 10 1.06318 10C0.423045 10 0 9.57696 0 8.93683C0 6.75759 0 4.57557 0 2.39633C0 1.76177 0.423045 1.33594 1.05483 1.33594C2.36014 1.33594 3.66546 1.33594 4.97078 1.33594C5.22683 1.33594 5.39382 1.55581 5.31033 1.78125C5.26023 1.91484 5.14055 1.99834 4.98748 2.00112C4.801 2.0039 4.61174 2.00112 4.42527 2.00112C3.30365 2.00112 2.18202 2.00112 1.0604 2.00112C0.793209 2.00112 0.667965 2.12636 0.667965 2.39355C0.667965 4.57835 0.667965 6.76037 0.667965 8.94518C0.667965 9.2068 0.795992 9.33482 1.05761 9.33482C3.24242 9.33482 5.42444 9.33482 7.60924 9.33482C7.87364 9.33482 7.99889 9.20958 7.99889 8.94518C7.99889 7.65378 7.99889 6.36238 7.99889 5.07098C7.99889 5.01531 8.00167 4.95965 8.01559 4.90677C8.06012 4.75091 8.20484 4.6535 8.36348 4.6702C8.52213 4.68411 8.65015 4.81771 8.66407 4.97913C8.66685 4.99862 8.66407 5.02088 8.66407 5.04036C8.66407 6.35403 8.66407 7.66491 8.66407 8.97858C8.66407 9.45728 8.37183 9.84415 7.92096 9.96383C7.81798 9.99166 7.70943 10 7.60089 10C6.50988 10 5.41609 10 4.32229 10Z"
+                            fill="#857DFA"
+                          />
+                          <path
+                            d="M8.83322 0.667966C8.57995 0.667966 8.32668 0.667966 8.07341 0.667966C7.60583 0.667966 7.13547 0.670749 6.66789 0.667966C6.49255 0.667966 6.35339 0.537156 6.33391 0.370164C6.31721 0.205956 6.42297 0.0528806 6.58718 0.0111328C6.62336 0.00278319 6.66233 0 6.70129 0C7.67541 0 8.65231 0 9.62642 0C9.86578 0 9.99937 0.133593 9.99937 0.375731C9.99937 1.34706 9.99937 2.3184 9.99937 3.29251C9.99937 3.51517 9.86578 3.66546 9.66817 3.66824C9.46778 3.67103 9.33141 3.51795 9.33141 3.28695C9.33141 2.6162 9.33141 1.94823 9.33141 1.27748C9.33141 1.2413 9.33141 1.20234 9.33141 1.14667C9.28966 1.18564 9.26183 1.21069 9.23678 1.23574C7.69489 2.77762 6.153 4.31673 4.6139 5.8614C4.50536 5.96994 4.38846 6.03396 4.2326 5.98664C4.00995 5.91706 3.92645 5.64709 4.07396 5.4634C4.09901 5.43 4.13241 5.40217 4.16024 5.37434C5.69099 3.84359 7.22453 2.31005 8.75529 0.779293C8.78312 0.751461 8.82208 0.729196 8.85548 0.704147C8.84713 0.687448 8.83878 0.679098 8.83322 0.667966Z"
+                            fill="#857DFA"
+                          />
+                        </svg>
+                        View all
+                      </NavLink>
+                    )}
+                  </div>
+                </div>
+                <div className="d-flex flex-column" style={{ gap: 10 }}>
+                  {this.state.favorites.length === 0 ? (
+                    <div className="box-inner">
+                      <p className="d-flex justify-content-between align-items-center">
+                        Add a favorite pair{" "}
+                        <button
+                          className="outline-btn btn m-0 w-auto d-flex align-items-center"
+                          onClick={this.toggleFavorite}
+                        >
+                          Add pair
+                        </button>
+                      </p>
+                    </div>
+                  ) : (
+                    this.state.favorites
+                      .slice(
+                        this.state.favorites.length > 3
+                          ? this.state.favorites.length - 3
+                          : 0,
+                        this.state.favorites.length
+                      )
+                      .map((lock, index) => {
+                        return (
+                          <NavLink
+                            key={index}
+                            className="favRow"
+                            to={`/pair-explorer/${lock.id}`}
+                          >
+                            <div
+                              className="d-flex m-0 justify-content-between align-items-center"
+                              style={{ gap: 20 }}
+                            >
+                              <h2 className="favpair">
+                                {lock.token0.symbol}/{lock.token1.symbol}
+                              </h2>
+
+                              <span className="favliq">
+                                ...{lock.id.slice(35)}
+                              </span>
+                            </div>
+                          </NavLink>
+                        );
+                      })
+                  )}{" "}
+                </div>
+              </div>
+
+              <div className="form-container p-3 position-relative">
+                <div className="box-inner pb-0">
                   <div className="graph-header">
                     <div className="graph-header-left">
                       <h2 className="firstbox-title">
@@ -1518,7 +1499,7 @@ export default class PairExplorer extends React.Component {
                             : `https://app.pangolin.exchange/#/swap?outputCurrency=${this.state.mainToken?.id}`
                         }
                       >
-                        <button className="tradebtn">
+                        <button className="outline-btn btn d-flex align-items-center" style={{ gap: 5 }}>
                           <svg
                             width="12"
                             height="10"
@@ -1528,7 +1509,7 @@ export default class PairExplorer extends React.Component {
                           >
                             <path
                               d="M2.66 4.3335L0 7.00016L2.66 9.66683V7.66683H7.33333V6.3335H2.66V4.3335ZM12 3.00016L9.34 0.333496V2.3335H4.66667V3.66683H9.34V5.66683L12 3.00016Z"
-                              fill="white"
+                              fill="#857DFA"
                             />
                           </svg>
                           Trade
@@ -1536,7 +1517,7 @@ export default class PairExplorer extends React.Component {
                       </a>
                     </div>
                   </div>
-                  <div className="graph-data mb-0">
+                  <div className="graph-data mb-2">
                     <div className="graph-data-item">
                       <p className="firstbox-text">Total liquidity:</p>
                       <span className="firstbox-text">
@@ -1583,18 +1564,20 @@ export default class PairExplorer extends React.Component {
                     <br />
                   </div>
                 </div>{" "}
-                <a
-                  onClick={this.toggleModal}
-                  style={{ fontSize: ".7rem" }}
-                  className="popup-btn "
-                  href="javascript:void(0)"
-                >
-                  <i className="fas fa-info-circle"></i> View More Info
-                </a>
+                <div style={{ textAlign: "center" }}>
+                  <a
+                    onClick={this.toggleModal}
+                    style={{ fontSize: ".7rem" }}
+                    className="btn-popup btn filledbtn px-5"
+                    href="javascript:void(0)"
+                  >
+                    View More Info
+                  </a>
+                </div>
               </div>
 
-              <div className="firstbox-wrapper">
-                <div className="firstbox-inner">
+              <div className="form-container p-3 position-relative">
+                <div>
                   {false && !isNaN(this.state.pairInfo?.ts_score_avg) ? (
                     <div className="graph-progress">
                       <div className="progress-title">
@@ -1710,7 +1693,7 @@ export default class PairExplorer extends React.Component {
                         </GearProgress>
                       </div>
                       <div
-                        className="row m-0 justify-content-between"
+                        className="box-inner row m-0 justify-content-between"
                         style={{ gap: 12, width: "60%" }}
                       >
                         <table className="w-100">
@@ -1719,12 +1702,15 @@ export default class PairExplorer extends React.Component {
                               <td>
                                 {" "}
                                 <div className="score-wrapper" key={i}>
+                                  <span className="score-title">
+                                    {score.name}
+                                  </span>
                                   <div className="d-flex" style={{ gap: 5 }}>
                                     <div
                                       className="color-indicator"
                                       style={{ background: colors[i] }}
                                     ></div>
-                                    <span className="score-title">
+                                    <span className="score-title-points">
                                       {`${
                                         getFormattedNumber(score.score, 2) ===
                                         "100.00"
@@ -1733,9 +1719,6 @@ export default class PairExplorer extends React.Component {
                                       }%`}{" "}
                                     </span>
                                   </div>
-                                  <span className="score-title">
-                                    {score.name}
-                                  </span>
                                 </div>
                               </td>
                             ))}
@@ -1746,12 +1729,15 @@ export default class PairExplorer extends React.Component {
                               .map((score, i) => (
                                 <td>
                                   <div className="score-wrapper" key={i}>
+                                    <span className="score-title">
+                                      {score.name}
+                                    </span>
                                     <div className="d-flex" style={{ gap: 5 }}>
                                       <div
                                         className="color-indicator"
                                         style={{ background: colors[i + 2] }}
                                       ></div>
-                                      <span className="score-title">
+                                      <span className="score-title-points">
                                         {`${
                                           getFormattedNumber(score.score, 2) ===
                                           "100.00"
@@ -1760,9 +1746,6 @@ export default class PairExplorer extends React.Component {
                                         }%`}{" "}
                                       </span>
                                     </div>
-                                    <span className="score-title">
-                                      {score.name}
-                                    </span>
                                   </div>
                                 </td>
                               ))}
@@ -1773,6 +1756,9 @@ export default class PairExplorer extends React.Component {
                               .map((score, i) => (
                                 <td>
                                   <div className="score-wrapper" key={i}>
+                                    <span className="score-title">
+                                      {score.name}
+                                    </span>
                                     <div className="d-flex" style={{ gap: 5 }}>
                                       <div
                                         className="color-indicator"
@@ -1780,7 +1766,7 @@ export default class PairExplorer extends React.Component {
                                           background: colors[scores.length - 1],
                                         }}
                                       ></div>
-                                      <span className="score-title">
+                                      <span className="score-title-points">
                                         {`${
                                           getFormattedNumber(score.score, 2) ===
                                           "100.00"
@@ -1789,9 +1775,6 @@ export default class PairExplorer extends React.Component {
                                         }%`}{" "}
                                       </span>
                                     </div>
-                                    <span className="score-title">
-                                      {score.name}
-                                    </span>
                                   </div>
                                 </td>
                               ))}
@@ -1809,9 +1792,9 @@ export default class PairExplorer extends React.Component {
                       justifyContent: "space-between",
                     }}
                   >
-                    <p>
+                    <p className="community">
                       Community Trust{" "}
-                      <span>
+                      <span style={{ color: "#4ED5D2" }}>
                         {(
                           (this.state.upvoteCount /
                             (this.state.voteCount || 1)) *
@@ -1822,22 +1805,26 @@ export default class PairExplorer extends React.Component {
                     </p>
                     <p>{this.state.voteCount} votes</p>
                   </div>
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-1 pl-0 pr-0">
+                  <div className="progress-container">
+                    <div className="d-flex flex-col justify-content-between align-items-center gap-2">
+                      <div>
                         <span
                           onClick={() => this.registerVote(true)}
                           style={{
                             position: "relative",
                             cursor: "pointer",
-                            top: "-3px",
+                            width: "30px",
+                            height: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "#1E1C40",
+                            borderRadius: "8px"
                           }}
-                          className={`fa${
-                            this.state.coinbaseVote === true ? "s" : "r"
-                          } fa-thumbs-up`}
-                        ></span>
+                         
+                        ><img src="/assets/img/thumbsup.svg"></img></span>
                       </div>
-                      <div className="col-10 pl-0 pr-0">
+                      <div className="w-100">
                         <div className="progress">
                           <div
                             style={{
@@ -1852,18 +1839,21 @@ export default class PairExplorer extends React.Component {
                           ></div>
                         </div>
                       </div>
-                      <div className="col-1 pl-0 pr-0 text-right">
+                      <div>
                         <span
                           onClick={() => this.registerVote(false)}
                           style={{
                             position: "relative",
                             cursor: "pointer",
-                            top: "-3px",
+                            width: "30px",
+                            height: "30px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "#1E1C40",
+                            borderRadius: "8px"
                           }}
-                          className={`fa${
-                            this.state.coinbaseVote === false ? "s" : "r"
-                          } fa-thumbs-down`}
-                        ></span>
+                        ><img src="/assets/img/thumbsdown.svg"></img></span>
                       </div>
                     </div>
                   </div>
@@ -1873,7 +1863,7 @@ export default class PairExplorer extends React.Component {
             <div className="rightside">
               <div className="graph-right">
                 <div className="search-box">
-                  <form id="searchform">
+                  <form id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
                     <input
                       value={this.state.query}
                       onChange={(e) => this.handleQuery(e.target.value)}
@@ -1881,6 +1871,7 @@ export default class PairExplorer extends React.Component {
                       id="search-bar"
                       autoComplete="off"
                       placeholder="Search Pairs"
+                      style={{background: "transparent", border: "1px solid #8E97CD", color: "#fff", borderRadius: "8px"}}
                     />
                     <ul
                       className="output"
@@ -1892,6 +1883,8 @@ export default class PairExplorer extends React.Component {
                         zIndex: 9,
                         maxHeight: "300px",
                         overflowY: "auto",
+                        borderRadius: "8px",
+                        marginLeft: "-10px"
                       }}
                     >
                       {this.state.searchResults.map((p) => (
@@ -1901,7 +1894,7 @@ export default class PairExplorer extends React.Component {
                           <li key={p.id} className="prediction-item">
                             <div className="suggest-item">
                               <h2
-                                style={{ fontSize: "1.2rem", fontWeight: 500 }}
+                                style={{ fontSize: "1rem", fontWeight: 500, color: "#FCFCF7"}}
                               >
                                 <span className="wh_txt">
                                   {p.pair.token_1.symbol}
@@ -1911,7 +1904,7 @@ export default class PairExplorer extends React.Component {
                                 {p.pair.token_0.name})
                               </h2>
                               <p
-                                style={{ fontSize: ".85rem", fontWeight: 400 }}
+                                style={{ fontSize: ".85rem", fontWeight: 400, marginBottom: "5px" }}
                               >
                                 Token: ...
                                 {p.pair.token_0.address
@@ -1920,23 +1913,19 @@ export default class PairExplorer extends React.Component {
                                 - Pair: ...
                                 {p.pair.address.toLowerCase().slice(34)}
                               </p>
-                              <p>Total liquidity:</p>
-                              <span>
-                                ${getFormattedNumber(p.pair.reserve, 2)}
-                              </span>
+                              <div className="d-flex gap-1 align-items-center">
+                                <p style={{ opacity: "1", color: "#4ED5D2", fontSize: "12px", lineHeight: "18px", fontWeight: "400" }}>Total liquidity:</p>
+                                <span style={{ opacity: "1", color: "#4ED5D2", fontSize: "12px", lineHeight: "18px", fontWeight: "400" }}>
+                                  ${getFormattedNumber(p.pair.reserve, 2)}
+                                </span>
+                              </div>
                             </div>
                           </li>
                         </NavLink>
                       ))}
                     </ul>
                     <button type="submit" id="submit">
-                      {/* <img src="/assets/img/search-2.png" alt="Image" /> */}
-                      <i
-                        style={{ color: "var(--red)" }}
-                        className={`fas fa-${
-                          !this.state.isSearching ? "search" : "spinner fa-spin"
-                        }`}
-                      ></i>
+                      <img src="/assets/img/search-purple.svg" alt="Image" style={{ marginTop: "11px" }}/>
                     </button>
                   </form>
                 </div>
@@ -1959,7 +1948,10 @@ export default class PairExplorer extends React.Component {
                   </div>
                 </div>
 
-                <div className="l-table-wrapper-div">{this.GetDataTable()}</div>
+                <div className="form-container p-3 position-relative">
+                  <div className="purplediv" style={{ background: "#8E97CD", left: "0px" }}></div>
+                  {this.GetDataTable()}
+                </div>
               </div>
             </div>
           </div>
