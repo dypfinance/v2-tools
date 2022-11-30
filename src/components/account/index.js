@@ -819,23 +819,23 @@ export default class Subscription extends React.Component {
           </div>
         </form>
 
-        <h4 className="d-block mb-3 mt-5" id="my-fav">
-          My favorites
+        <h4 className="d-block mb-5 mt-5" id="my-fav">
+          My favourites
         </h4>
-        <div className="row m-0" style={{ gap: 30 }}>
+        <div className="row p-0 m-0" style={{ gap: 10, display: "grid", gridTemplateColumns: '1fr 1fr 1fr 1fr' }}>
           {this.state.favorites.map((lock, index) => {
             return (
               <NavLink
                 key={index}
-                className="l-clr-purple"
+                className="p-0"
                 to={`/pair-explorer/${lock.id}`}
               >
-                <div style={{ position: "relative", width: "260px" }}>
+                <div style={{ position: "relative", width: "300px" }}>
                   <div
-                    className="d-flex table-wrapper avax"
+                    className="d-flex avax"
                     style={{
-                      background:
-                        "linear-gradient(30.97deg, #E30613 18.87%, #FC4F36 90.15%)",
+                      border: "2px solid #565891",
+                      borderRadius: "12px"
                     }}
                   >
                     <div className="pair-locks-wrapper">
@@ -899,18 +899,22 @@ export default class Subscription extends React.Component {
             return (
               <NavLink
                 key={index}
-                className="l-clr-purple"
+                className="p-0"
                 to={`/pair-explorer/${lock.id}`}
                 onClick={()=>{this.props.handleSwitchNetwork(1)}}
               >
-                <div style={{ position: "relative", width: "260px" }}>
+                <div style={{ position: "relative", width: "300px" }}>
                   <div
-                    className="d-flex table-wrapper eth"
+                    className="d-flex"
                     style={{
-                      background:
-                        "linear-gradient(30.97deg, #E30613 18.87%, #FC4F36 90.15%)",
+                      border: "2px solid #565891",
+                      borderRadius: "12px"
                     }}
                   >
+                    <div className="d-flex justify-content-center align-items-center" style={{ position: "absolute", top: "-17px",  left: "50%", width: "106px", height: "34px", transform: "translateX(-50%)", borderRadius: "50px", background: "linear-gradient(93.99deg, #4ED5CD 0%, #524FD8 100%)", gap: "5px" }}>
+                      <img src="/assets/img/ethereum.svg"></img>
+                      <div style={{ color: "#F7F7FC" }}>Ethereum</div>
+                    </div>
                     <div className="pair-locks-wrapper">
                       <div className="row-wrapper">
                         <span className="left-info-text">ID</span>
@@ -983,7 +987,7 @@ export default class Subscription extends React.Component {
 
           <p>Get DYP Tools Premium Subscription</p>
         </div>
-        <div className="l-table-wrapper-div p-4">
+        <div>
           <div className="mb-4">{this.GetSubscriptionForm()}</div>
         </div>
       </div>

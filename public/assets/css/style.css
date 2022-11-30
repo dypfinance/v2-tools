@@ -3587,19 +3587,19 @@ body.theme-dark select.form-control {
 }
 
 .left-info-text {
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
   letter-spacing: -0.018em;
-  color: #1e2029 !important;
+  color: #D6D8E7 !important;
 }
 
 .right-info-text {
   font-weight: 600;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 21px;
   text-align: right;
-  color: #a4a4a4 !important;
+  color: #F7F7FC !important;
 }
 
 .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {

@@ -41,7 +41,7 @@ body.theme-dark .CircularProgressbar .CircularProgressbar-text {
 body.theme-dark .copylink-wrapper,
 body.theme-dark .info-wrappers,
 body.theme-dark .pair-locks-wrapper {
-  background: rgba(239, 240, 246, 0.3) !important;
+  background: #312F69 !important;
 }
 
 body.theme-dark,

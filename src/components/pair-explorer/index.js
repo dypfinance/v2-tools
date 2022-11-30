@@ -1971,7 +1971,7 @@ export default class PairExplorer extends React.Component {
         <Modal show={this.state.show} onHide={this.toggleModal}>
           <Modal.Header>
             <Modal.Title>More Info</Modal.Title>
-            <img onClick={this.toggleModal} src="/assets/img/xMark.svg"></img>
+            <img onClick={this.toggleModal} src="/assets/img/xMark.svg" style={{ cursor: "pointer" }}></img>
           </Modal.Header>
           <Modal.Body>
             <div className="my-4">
