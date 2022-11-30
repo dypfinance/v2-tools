@@ -26,12 +26,11 @@ import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import xMark from "../calculator/assets/xMark.svg";
 import weth from "./assets/weth.svg";
-
 import NftStakeCheckListModal from "../caws/NftMinting/components/NftMinting/NftStakeChecklistModal/NftStakeChecklistModal";
 
 const CawsDetails = ({ coinbase, isConnected, listType }) => {
   const [myNFTs, setMyNFTs] = useState([]);
-  const [amountToStake, setamountToStake] = useState('');
+  const [amountToStake, setamountToStake] = useState("");
   const [mystakes, setMystakes] = useState([]);
   const [color, setColor] = useState("#F13227");
   const [status, setStatus] = useState("");
@@ -133,6 +132,23 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
     setEthRewards(result);
   };
 
+  const claimRewards = async () => {
+    let myStakes = await getStakesIds();
+    let staking_contract = await window.getContractNFT("NFTSTAKING");
+    // setclaimAllStatus("Claiming all rewards, please wait...");
+    await staking_contract.methods
+      .claimRewards(myStakes)
+      .send()
+      .then(() => {
+        setEthRewards(0);
+        // setclaimAllStatus("Claimed All Rewards!");
+      })
+      .catch((err) => {
+        // window.alertify.error(err?.message);
+        // setclaimAllStatus("An error occurred, please try again");
+      });
+  };
+
   const convertEthToUsd = async () => {
     const res = axios
       .get("https://api.coinbase.com/v2/prices/ETH-USD/spot")
@@ -202,7 +218,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
   return (
     <div className="container-lg p-0">
       <div
-        className={`allwrapper ${listType === "table" && "my-4"}`}
+        className={`allwrappercaws ${listType === "table" && "my-4"}`}
         style={{
           border: listType !== "table" && "none",
           borderRadius: listType !== "table" && "0px",
@@ -333,7 +349,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                       onChange={(e) => {
                         setamountToStake(e.target.value);
                         setshowChecklistModal(true);
-                      setOpenStakeChecklist(true);
+                        setOpenStakeChecklist(true);
                       }}
                     />
                   </div>
@@ -347,9 +363,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                     disabled={
                       amountToStake !== "" && myNFTs.length > 0 ? false : true
                     }
-                    onClick={() => {
-                      
-                    }}
+                    onClick={() => {}}
                   >
                     {showApprove === false ? "Deposit" : "Approve"}
                   </button>
@@ -394,55 +408,13 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                   <button
                     className={`btn filledbtn d-flex justify-content-center align-items-center`}
                     style={{ height: "fit-content" }}
-                    onClick={() => {}}
+                    onClick={() => {
+                      claimRewards();
+                    }}
                   >
-                    {/* {this.state.claimLoading || this.state.claimidypLoading ? (
-                      <div
-                        class="spinner-border spinner-border-sm text-light"
-                        role="status"
-                      >
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                    ) : this.state.claimStatus === "failed" ||
-                      this.state.claimidypStatus === "failed" ? (
-                      <>
-                        <img src={failMark} alt="" />
-                        Failed
-                      </>
-                    ) : this.state.claimStatus === "success" ||
-                      this.state.claimidypStatus === "success" ? (
-                      <>Success</>
-                    ) : this.state.claimStatus === "initial" ||
-                      this.state.claimidypStatus === "initial" ? ( */}
                     <>Claim</>
-                    {/* ) : (
-                      <></>
-                    )} */}
                   </button>
                 </div>
-                {/* {this.state.errorMsg2 && (
-                  <h6 className="errormsg">{this.state.errorMsg2}</h6>
-                )} */}
-                {/* <button
-                            title={claimTitle}
-                            disabled={!is_connected}
-                            className="btn  btn-primary btn-block l-outline-btn"
-                            type="submit"
-                          >
-                            CLAIM
-                          </button> */}
-                {/* <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            this.handleClaimDyp();
-                          }}
-                          title={claimTitle}
-                          disabled={!is_connected}
-                          className="btn  btn-primary btn-block l-outline-btn"
-                          type="submit"
-                        >
-                          CLAIM
-                        </button> */}
               </div>
             </div>
 
@@ -466,7 +438,8 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
               <button
                 className="btn outline-btn"
                 onClick={() => {
-                  //   this.setState({ showWithdrawModal: true });
+                  setshowChecklistModal(true);
+                  setOpenStakeChecklist(true);
                 }}
               >
                 Withdraw

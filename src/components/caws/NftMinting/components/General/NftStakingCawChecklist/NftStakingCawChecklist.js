@@ -195,7 +195,7 @@ const NftStakingCawChecklist = ({
             >
               CAWS {checklistItemID}
             </p>
-            <div className="footer" style={{ flexDirection: "column" }}>
+            <div className="d-flex" style={{ flexDirection: "column" }}>
               <div className="d-flex w-100 justify-content-between align-baseline">
                 <p
                   className="nft-id"
@@ -251,15 +251,21 @@ const NftStakingCawChecklist = ({
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
+                        flexDirection: 'column'
                       }}
                     >
-                      <p id="earnedText">Pending</p>
-                      <div>
+                      <p id="earnedText" color="#C0C9FF">Earned</p>
+                      <h6 className="rewardstxtCaws d-flex align-items-center gap-2 mb-2" style={{fontSize: 16}}>
+                        <img src={require("./weth.svg").default} alt="" style={{height: 20, width: 20}}/>{" "}
+                       {getFormattedNumber(EthRewards, 2)} ETH 
+                      </h6>
+
+                      {/* <div>
                         <p id="ethPrice">
                           {getFormattedNumber(EthRewards, 2)}ETH
                         </p>
                         <p id="fiatPrice">{formattedNum(ethToUSD, true)}</p>
-                      </div>
+                      </div> */}
                       {/* <img
                         src={EthLogo}
                         alt=""
@@ -275,9 +281,9 @@ const NftStakingCawChecklist = ({
                     }}
                     style={{
                       pointerEvents: EthRewards == 0 ? "none" : "auto",
-                      borderColor: EthRewards == 0 ? "#C4C4C4" : "#857DFA",
-                      color: EthRewards == 0 ? "#857DFA" : "#fff",
-                      background: EthRewards == 0 ? "#312F69" : "#857DFA",
+                      borderColor: EthRewards == 0 ? "#14142A" : "#857DFA",
+                      color: EthRewards == 0 ? "Unstake" : "#857DFA",
+                      background: EthRewards == 0 ? "#14142A" : "#312F69",
                       padding: 5, borderRadius: 8, width: '100%'
                     }}
                   >
@@ -298,7 +304,7 @@ const NftStakingCawChecklist = ({
                   background:
                     checkPassiveBtn === true
                       ? "linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0)"
-                      : "#C4C4C4",
+                      : "#14142A",
                   pointerEvents: checkPassiveBtn === true ? "auto" : "none",
                 }}
               >

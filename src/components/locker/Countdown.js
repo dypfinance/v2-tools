@@ -10,18 +10,18 @@ const renderer = ({
   completed,
 }) => {
   if (completed) {
-    return <span style={{color: '#fff'}}>00:00:00:00</span>;
+    return <span style={{color: '#4ED5D2'}}>00:00:00:00</span>;
   } else
     return (
       <div className="d-flex justify-content-between flex-column">
         <div className="countdown-indicators">
-          <span style={{color: '#fff'}}>{days < 10 ? "0" + days : days}</span>
-          <span style={{color: '#fff'}}>:</span>
-          <span style={{color: '#fff'}}>{hours < 10 ? "0" + hours : hours}</span>
-          <span style={{color: '#fff'}}>:</span>
-          <span style={{color: '#fff'}}>{minutes < 10 ? "0" + minutes : minutes}</span>
-          <span style={{color: '#fff'}}>:</span>
-          <span style={{color: '#fff'}}>{seconds < 10 ? "0" + seconds : seconds}</span>
+          <span style={{color: '#F36D46'}}>{days < 10 ? "0" + days : days}</span>
+          <span style={{color: '#F36D46'}}>:</span>
+          <span style={{color: '#F36D46'}}>{hours < 10 ? "0" + hours : hours}</span>
+          <span style={{color: '#F36D46'}}>:</span>
+          <span style={{color: '#F36D46'}}>{minutes < 10 ? "0" + minutes : minutes}</span>
+          <span style={{color: '#F36D46'}}>:</span>
+          <span style={{color: '#F36D46'}}>{seconds < 10 ? "0" + seconds : seconds}</span>
         </div>
       </div>
     );

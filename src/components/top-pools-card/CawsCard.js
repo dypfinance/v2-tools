@@ -53,9 +53,9 @@ const CawsCard = ({
     <>
       <div
         className={`poolscardwrapper cursor-pointer position-relative ${
-          details && "pools-card-open"
+          details && "pools-cardcaws-open"
         }  ${
-          renderedPage === "dashboard" && !details ? "pools-card-hover" : ""
+          renderedPage === "dashboard" && !details ? "pools-cardcaws-hover" : ""
         }`}
         onClick={() => handleDetails()}
       >
