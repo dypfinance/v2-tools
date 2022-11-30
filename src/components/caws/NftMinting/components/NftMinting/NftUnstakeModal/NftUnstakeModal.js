@@ -10,6 +10,7 @@ import { formattedNum } from "../../../../../../functions/formatUSD";
 import axios from "axios";
 import getFormattedNumber from "../../../../../../functions/get-formatted-number";
 // import ToolTip from "../../../../elements/ToolTip";
+import CountDownTimerUnstake from '../../../../../locker/Countdown'
 
 const NftUnstakeModal = ({
   nftItem,
@@ -416,12 +417,12 @@ const NftUnstakeModal = ({
                       /> */}
                       <p className="claim-timer-subtitle m-0">Cooldown</p>
                     </div>
-                    {/* <CountDownTimerUnstake
+                    <CountDownTimerUnstake
                       date={Date.now() + countDownLeft}
                       onComplete={() => {
                         setunstake(true);
                       }}
-                    /> */}
+                    />
                   </div>
                 </div>
               </div>

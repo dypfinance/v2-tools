@@ -142,13 +142,28 @@ const NftStakingCawChecklist = ({
   return (
     <>
       <div
-        className="nft-caw-card"
+        className="nft-caw-card sub-container p-0"
         data-toggle="modal"
         data-target={modalId}
-        style={{ width: 195 }}
         onClick={() => {
           handleCawClick(checklistItemID);
         }}
+        style={{
+          width: 195 ,
+              border: isStake
+                ? checked === true
+                  ? Unstakebtn === true
+                    ? "2px solid #4ED5D2"
+                    : "none"
+                  : Unstakebtn === true
+                  ? "2px solid #4ED5D2"
+                  : "none"
+                : checked === true && checkbtn === true
+                ? "2px solid #4ED5D2"
+                : checked === false && checkbtn === true
+                ? "2px solid #4ED5D2"
+                : "none",
+            }}
       >
         <div
           className="elevated-stake-container"
@@ -160,23 +175,9 @@ const NftStakingCawChecklist = ({
           }}
         >
           <div
-            style={{
-              background: "white",
-              border: isStake
-                ? checked === true
-                  ? Unstakebtn === true
-                    ? "2px solid #E30613"
-                    : "none"
-                  : Unstakebtn === true
-                  ? "2px solid #E30613"
-                  : "none"
-                : checked === true && checkbtn === true
-                ? "2px solid #E30613"
-                : checked === false && checkbtn === true
-                ? "2px solid #E30613"
-                : "none",
-            }}
-            className="sub-container"
+            
+            className="sub-container p-0"
+            style={{boxShadow: 'none'}}
           >
             <img
               src={nft.image.replace("images", "thumbs")}
@@ -274,9 +275,10 @@ const NftStakingCawChecklist = ({
                     }}
                     style={{
                       pointerEvents: EthRewards == 0 ? "none" : "auto",
-                      borderColor: EthRewards == 0 ? "#C4C4C4" : "#FF0000",
-                      color: EthRewards == 0 ? "#fff" : "#FF0000",
-                      background: EthRewards == 0 ? "#C4C4C4" : "#fff",
+                      borderColor: EthRewards == 0 ? "#C4C4C4" : "#857DFA",
+                      color: EthRewards == 0 ? "#857DFA" : "#fff",
+                      background: EthRewards == 0 ? "#312F69" : "#857DFA",
+                      padding: 5, borderRadius: 8, width: '100%'
                     }}
                   >
                     Claim reward
@@ -295,7 +297,7 @@ const NftStakingCawChecklist = ({
                 style={{
                   background:
                     checkPassiveBtn === true
-                      ? "linear-gradient(51.32deg, #e30613 -12.3%, #fa4a33 50.14%)"
+                      ? "linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0)"
                       : "#C4C4C4",
                   pointerEvents: checkPassiveBtn === true ? "auto" : "none",
                 }}

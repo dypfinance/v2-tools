@@ -161,9 +161,9 @@ const NftMinting = ({ isConnected, coinbase, handleConnection }) => {
 
   useEffect(() => {
     // const interval = setInterval(async () => {
-    //   if (isConnected) {
+      if (isConnected) {
     calculateCountdown().then();
-    //   }
+      }
     // }, 1000);
     // return () => clearInterval(interval);
   }, [isConnected]);
@@ -183,7 +183,6 @@ const NftMinting = ({ isConnected, coinbase, handleConnection }) => {
           // window.alertify.error(err?.message);
         });
 
-      console.log(staking_contract);
       let lockup_time = await staking_contract.methods
         .LOCKUP_TIME()
         .call()

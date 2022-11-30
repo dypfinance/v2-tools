@@ -65,8 +65,14 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
-  color: #939393;
+  max-width: 100% !important;
+    width: 100%;
+    margin: auto;
   gap: 5px;
+  background: #26264F;
+border: 1px solid #565891;
+border-radius: 8px;
+padding: 10px;
 }
 
 .to-stake-title {
@@ -96,7 +102,7 @@
 }
 
 .sub-container {
-  background: white;
+  background: #26264F;
   margin-bottom: 0 !important;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
@@ -155,8 +161,8 @@
   padding: 16.5px 0;
   border-radius: 8px;
   // background: linear-gradient(209.67deg, #ff4229 1.51%, #e30613 98.12%);
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   justify-content: center;
 
   @media screen and (max-width: 500px) {

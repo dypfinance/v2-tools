@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
+import axios from "axios";
 import moment from "moment";
 import getFormattedNumber from "../../functions/get-formatted-number";
+import { formattedNum } from "../../functions/formatUSD";
+
 import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
@@ -28,13 +31,20 @@ import NftStakeCheckListModal from "../caws/NftMinting/components/NftMinting/Nft
 
 const CawsDetails = ({ coinbase, isConnected, listType }) => {
   const [myNFTs, setMyNFTs] = useState([]);
-  const [amountToStake, setamountToStake] = useState(0);
+  const [amountToStake, setamountToStake] = useState('');
   const [mystakes, setMystakes] = useState([]);
   const [color, setColor] = useState("#F13227");
   const [status, setStatus] = useState("");
   const [showApprove, setshowApprove] = useState(true);
-  const [showChecklistModal, setshowChecklistModal] = useState(true);
+  const [showChecklistModal, setshowChecklistModal] = useState(false);
   const [EthRewards, setEthRewards] = useState(0);
+  const [showStaked, setshowStaked] = useState(true);
+  const [showToStake, setshowToStake] = useState(false);
+  const [ethToUSD, setethToUSD] = useState(0);
+  const [openStakeChecklist, setOpenStakeChecklist] = useState(false);
+  const [showUnstakeModal, setShowUnstakeModal] = useState(false);
+  const [showClaimAllModal, setShowClaimAllModal] = useState(false);
+  const [countDownLeft, setCountDownLeft] = useState(59000);
 
   const checkApproval = async () => {
     const address = coinbase;
@@ -123,12 +133,69 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
     setEthRewards(result);
   };
 
+  const convertEthToUsd = async () => {
+    const res = axios
+      .get("https://api.coinbase.com/v2/prices/ETH-USD/spot")
+      .then((data) => {
+        return data.data.data.amount;
+      });
+    return res;
+  };
+
+  const setUSDPrice = async () => {
+    const ethprice = await convertEthToUsd();
+    setethToUSD(Number(ethprice) * Number(EthRewards));
+  };
+
+  const handleShowUnstake = () => {
+    setShowUnstakeModal(true);
+    setOpenStakeChecklist(false);
+  };
+
+  const handleShowClaimAll = () => {
+    setShowClaimAllModal(true);
+    setOpenStakeChecklist(false);
+  };
+
+  const calculateCountdown = async () => {
+    const address = coinbase;
+
+    let staking_contract = await window.getContractNFT("NFTSTAKING");
+    if (address !== null) {
+      let finalDay = await staking_contract.methods
+        .stakingTime(address)
+        .call()
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          // window.alertify.error(err?.message);
+        });
+
+      let lockup_time = await staking_contract.methods
+        .LOCKUP_TIME()
+        .call()
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          // window.alertify.error(err?.message);
+        });
+
+      finalDay = parseInt(finalDay) + parseInt(lockup_time);
+
+      setCountDownLeft(parseInt(finalDay * 1000) - Date.now());
+    }
+  };
+
   useEffect(() => {
     if (isConnected) {
       myNft().then();
       myStakes().then();
       checkApproval().then();
       handleClaimAll();
+      setUSDPrice().then();
+      calculateCountdown().then();
     }
   }, [isConnected]);
 
@@ -265,20 +332,24 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                       value={amountToStake}
                       onChange={(e) => {
                         setamountToStake(e.target.value);
+                        setshowChecklistModal(true);
+                      setOpenStakeChecklist(true);
                       }}
                     />
                   </div>
 
                   <button
                     className={`btn ${
-                      amountToStake !== 0 && myNFTs.length > 0
+                      amountToStake !== "" && myNFTs.length > 0
                         ? "filledbtn"
                         : "disabled-btn"
                     } d-flex justify-content-center align-items-center gap-2`}
-                    onClick={() => {}}
                     disabled={
-                      amountToStake !== 0 && myNFTs.length > 0 ? false : true
+                      amountToStake !== "" && myNFTs.length > 0 ? false : true
                     }
+                    onClick={() => {
+                      
+                    }}
                   >
                     {showApprove === false ? "Deposit" : "Approve"}
                   </button>
@@ -317,7 +388,8 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                 <div className="d-flex align-items-center justify-content-between gap-2"></div>
                 <div className="form-row d-flex gap-2 align-items-end justify-content-between">
                   <h6 className="rewardstxtCaws d-flex align-items-center gap-2">
-                    <img src={weth} alt="" /> {EthRewards} ETH
+                    <img src={weth} alt="" /> {EthRewards} ETH (
+                    {formattedNum(ethToUSD, true)})
                   </h6>
                   <button
                     className={`btn filledbtn d-flex justify-content-center align-items-center`}
@@ -403,171 +475,31 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
           </div>
         </div>
       </div>
-      {/* {this.state.popup && (
-        <Modal
-          visible={this.state.popup}
-          modalId="tymodal"
-          title="stats"
-          setIsVisible={() => {
-            this.setState({ popup: false });
+      {showChecklistModal === true && (
+        <NftStakeCheckListModal
+          onClose={() => {
+            setshowChecklistModal(false);
           }}
-          width="fit-content"
-        >
-          <div className="earn-hero-content p4token-wrapper">
-            <div className="l-box pl-3 pr-3"> */}
-      {/* <div className="table-responsive container">
-                    <div className="row" style={{ marginLeft: "0px" }}>
-                      <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext">
-                          <img src={stats} alt="" />
-                          Stats
-                        </h6>
-                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
-                          My address
-                          <a
-                            href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
-                            target={"_blank"}
-                            rel="noreferrer"
-                          >
-                            <h6 className="addresstxt">
-                              {this.props.coinbase?.slice(0, 10) + "..."}
-                            </h6>
-                          </a>
-                          <img src={arrowup} alt="" />
-                        </h6>
-                      </div>
-                    </div>
-                    <table className="table-stats table table-sm table-borderless mt-2">
-                      <tbody>
-                        <tr>
-                          <td className="text-right">
-                            <th>My DYP Balance</th>
-                            <div>
-                              <strong>{token_balance}</strong>{" "}
-                              <small>DYP</small>
-                            </div>
-                          </td>
-                          <td className="text-right">
-                            <th>My Deposit Value</th>
-                            <div>
-                              <strong>{depositedTokens}</strong>{" "}
-                              <small>USD</small>
-                            </div>
-                          </td>
-                          <td className="text-right">
-                            <th>Total Earned</th>
-                            <div>
-                              <strong> ${totalEarnedTokens}</strong>{" "}
-                              <small>USD</small>
-                            </div>{" "}
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className="text-right">
-                            <th>TVL USD</th>
-                            <div>
-                              <strong>${tvl_usd}</strong> <small>USD</small>
-                            </div>
-                          </td>
-
-                          <td className="text-right">
-                            <th>Contract Address</th>
-                            <small>
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{
-                                  color: "#f7f7fc",
-                                  textDecoration: "underline",
-                                }}
-                                href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
-                              >
-                                {reward_token._address?.slice(0, 10) + "..."}
-                              </a>
-                            </small>
-                          </td>
-
-                          <td className="text-right">
-                            <th>Contract Expiration</th>
-                            <small>{expiration_time}</small>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-
-                    <div className="d-flex align-items-center gap-2">
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`https://github.com/dypfinance/Buyback-Farm-Stake-Governance-V2/tree/main/Audit`}
-                        className="maxbtn d-flex align-items-center"
-                        style={{ height: "25px" }}
-                      >
-                        Audit
-                        <img src={arrowup} alt="" />
-                      </a>
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${this.props.coinbase}`}
-                        className="text-white mb-0"
-                        style={{ fontSize: "9px", textDecoration: "underline" }}
-                      >
-                        View on Etherscan
-                        <img src={whiteArrowUp} alt="" className="ms-1" />
-                      </a>
-                    </div>
-                  </div> */}
-      {/* <div className="stats-container my-4">
-                <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                  <span className="stats-card-title">My DYP Balance</span>
-                 <h6 className="stats-card-content">{token_balance} DYP</h6>
-                </div> */}
-      {/* <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                  <span className="stats-card-title">My Deposit Value</span>
-                 <h6 className="stats-card-content">{depositedTokens} USD</h6>
-                </div> */}
-      {/*<div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                  <span className="stats-card-title">Total Earned</span>
-                  <h6 className="stats-card-content">
-                    {totalEarnedTokens} USD 
-                  </h6>
-                </div>*/}
-      {/*<div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                  <span className="stats-card-title">TVL USD</span>
-                   <h6 className="stats-card-content">{tvl_usd} USD</h6>
-                </div> */}
-      {/*<div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                  <span className="stats-card-title">Contract Expiration</span>
-                 <h6 className="stats-card-content">{expiration_time} DYP</h6>
-                </div> */}
-      {/* <div className="d-flex flex-column gap-1">
-                  <span
-                    style={{
-                      fontWeight: "400",
-                      fontSize: "12px",
-                      lineHeight: "18px",
-                      color: "#C0C9FF",
-                    }}
-                  >
-                    My address
-                  </span>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`${window.config.snowtrace_baseURL}/address/${coinbase}`}
-                    className="stats-link"
-                  >
-                    {shortAddress(coinbase)} <img src={statsLinkIcon} alt="" />
-                  </a>
-                 
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      )} */}
+          nftItem={showStaked ? mystakes : showToStake ? myNFTs : showStaked}
+          onshowStaked={() => {
+            setshowStaked(true);
+            setshowToStake(false);
+          }}
+          onshowToStake={() => {
+            setshowStaked(false);
+            setshowToStake(true);
+          }}
+          onClaimAll={() => {
+            handleShowClaimAll();
+          }}
+          onUnstake={() => handleShowUnstake()}
+          isConnected={isConnected}
+          coinbase={coinbase}
+          ETHrewards={EthRewards}
+          countDownLeft={countDownLeft}
+          open={openStakeChecklist ? true : false}
+        />
+      )}
     </div>
   );
 };
