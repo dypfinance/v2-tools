@@ -262,7 +262,7 @@ const LaunchpadForm = () => {
         </div>
         <form>
           <div className="row align-items-center justify-content-between first-form mt-5">
-            <div className="col-1 d-flex flex-column gap-3">
+            <div className="col-2 d-flex flex-column gap-3">
               <div className="form-title">Project logo</div>
               <div className="upload-container d-flex justify-content-center align-items-center position-relative">
                 <input
@@ -447,7 +447,7 @@ const LaunchpadForm = () => {
             >
               Funding details
             </h6>
-            <div className="funding-grid d-grid col-7">
+            <div className="funding-grid d-grid col-9 col-xl-7">
               <div class="dropdown position relative">
                 <button
                   class={`btn launchpad-dropdown d-flex justify-content-between align-items-center dropdown-toggle w-100 ${errors.project_status && 'error-border'}`}
@@ -648,7 +648,7 @@ const LaunchpadForm = () => {
 
               </div>
             </div>
-            <div className="input-container col-5">
+            <div className="input-container col-3 col-xl-5">
               <textarea
                 type="text"
                 id="funding_description"

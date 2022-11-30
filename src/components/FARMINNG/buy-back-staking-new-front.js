@@ -2459,7 +2459,7 @@ export default function initBuybackStakingNew({
                             </div>
                           </div>
                           <h6 className="withsubtitle d-flex justify-content-start w-100 mt-3">
-                            *Total DYP Deposited
+                            *Total DYP staked
                           </h6>
                         </div>
                         <div className="w-100">

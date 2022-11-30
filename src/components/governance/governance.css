@@ -154,3 +154,10 @@ background: #7770E0;
 .pool-item:hover{
   background: #7770E0;
 }
+
+
+@media screen and (max-width: 1399px) {
+  .submit-proposal-wrapper {
+    width: 78% !important;
+  }
+}

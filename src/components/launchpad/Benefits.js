@@ -27,8 +27,8 @@ const Benefits = () => {
 
   return (
     <div className="row px-3 mt-5">
-      <div className="col-6 d-flex flex-column launch-project justify-content-end align-items-end p-4 gap-5">
-        <h6 className="launch-project-title w-50">
+      <div className="col-6 d-flex flex-column launch-project justify-content-start justify-content-xl-end align-items-end p-4 gap-5">
+        <h6 className="launch-project-title">
           Launch your project with Dypius now!
         </h6>
         <NavLink to='/launchpad/form'  className="btn success-button d-flex align-items-center gap-2" style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px'}}>
@@ -40,7 +40,7 @@ const Benefits = () => {
         <div className="d-flex align-items-center justify-content-end">
           <h6 className="launchpad-hero-title">Benefits</h6>
         </div>
-        <div className="benefits-card-container mt-5">
+        <div className="benefits-card-container mt-0 mt-xxl-5">
         {benefits.map((item) => (
           <BenefitsCard title={item.title} icon={item.icon} />
         ))}

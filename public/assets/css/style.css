@@ -3086,7 +3086,7 @@ body.theme-dark .content-footer {
 }
 
 .content-footer {
-  margin-top: 30px;
+  /* margin-top: 30px; */
   padding: 20px 0;
   padding-left: 30px;
   width: calc(100% - 250px);
@@ -3726,7 +3726,7 @@ color: #4ED5D2 !important;
 }
 
 .first-value{
-  left: -6% !important;
+  left: -7% !important;
 }
 
 .second-value{

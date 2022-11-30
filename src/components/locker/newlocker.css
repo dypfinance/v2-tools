@@ -288,3 +288,9 @@ color: #14142A !important;
   top: -30px;
   right: 0;
 }
+
+@media screen and (max-width: 1199px) {
+  .pair-locker-wrapper{
+    grid-template-columns: repeat(2,1fr);
+  }
+}

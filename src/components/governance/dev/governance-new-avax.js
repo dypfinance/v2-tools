@@ -27,8 +27,10 @@ import failMark from "../../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import ellipse from "../assets/ellipse.svg";
 import tyHero from "../assets/tyhero.png";
+import totalVotesIcon from '../assets/totalVotesIcon.svg'
 
 import { shortAddress } from "../../../functions/shortAddress";
+import axios from "axios";
 
 const { new_governanceavax: governance, reward_token, BigNumber } = window;
 
@@ -468,6 +470,7 @@ export default class Governance extends React.Component {
       proposalId: undefined,
       showModal: false,
       submitLoading: false,
+      proposalData: "",
       submitStatius: "initial",
       showTYModal: false,
     };
@@ -550,6 +553,15 @@ export default class Governance extends React.Component {
     }
   };
 
+
+  fetchProposals = async () => {
+    await axios.get(`https://api.dyp.finance/api/gov-stats`).then((res) => {
+      this.setState({proposalData: res.data})
+    }).catch((err) => {
+      console.error(err);
+    })
+  }
+
   getProposal = async (_proposalId) => {
     if (this.state.is_wallet_connected === true) {
       let p = await governance.getProposal(_proposalId);
@@ -573,6 +585,7 @@ export default class Governance extends React.Component {
   componentDidMount() {
     this.refreshBalance();
     this.refreshDYPBalance();
+    this.fetchProposals();
     const logout = localStorage.getItem("logout");
 
     if (this.state.proposals.length == 0 && logout === "false") {
@@ -697,8 +710,8 @@ export default class Governance extends React.Component {
             deviceWidth < 500 ? "container-lg" : "container-lg p-0"
           }
         >
-          <div className="d-flex justify-content-between gap-2 align-items-center">
-            <div className="col-7">
+          <div className="d-flex flex-column flex-xl-row justify-content-between gap-2 align-items-center">
+            <div className="col-12 col-xl-7">
               <h6 className="govtitle mb-3">Dypius Governance</h6>
               <h6 className="govdesc mb-3">
                 DYP tokens represent voting shares in Dypius Governance. The
@@ -712,12 +725,13 @@ export default class Governance extends React.Component {
               </h6>
             </div>
 
-            <div className="col-4 d-flex justify-content-between gap-2">
+            <div className="col-12 col-xl-4 flex-column d-flex justify-content-between gap-2">
+              <div className="d-flex  w-100 justify-content-center gap-2">
               <div className="totalproposals col-4">
                 <img src={eth} alt="" className="chainlogo" />
                 <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
                   <h6 className="chaintitle">Ethereum</h6>
-                  <h6 className="totalpoolsnr">52</h6>
+                  <h6 className="totalpoolsnr">{this.state.proposalData.proposals?.eth}</h6>
                   <h6 className="totalproposals-text">Total proposals</h6>
                 </div>
               </div>
@@ -725,7 +739,7 @@ export default class Governance extends React.Component {
                 <img src={bnb} alt="" className="chainlogo" />
                 <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
                   <h6 className="chaintitle">BNB Chain</h6>
-                  <h6 className="totalpoolsnr">64</h6>
+                  <h6 className="totalpoolsnr">{this.state.proposalData.proposals?.bsc}</h6>
                   <h6 className="totalproposals-text">Total proposals</h6>
                 </div>
               </div>
@@ -733,9 +747,21 @@ export default class Governance extends React.Component {
                 <img src={avax} alt="" className="chainlogo" />
                 <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
                   <h6 className="chaintitle">Avalanche</h6>
-                  <h6 className="totalpoolsnr">52</h6>
+                  <h6 className="totalpoolsnr">{this.state.proposalData.proposals?.avax}</h6>
                   <h6 className="totalproposals-text">Total proposals</h6>
                 </div>
+              </div>
+              </div>
+              <div className="col-6 col-xl-12 mt-5 d-flex justify-content-between align-items-center total-proposals-wrapper position-relative p-3">
+                <div className="purplediv" style={{left: '0'}}></div>
+                <div className="d-flex align-items-center gap-2">
+                    <img src={totalVotesIcon} alt="" />
+                   <div className="d-flex flex-column gap-1">
+                   <span className="total-gov-votes">Total</span>
+                    <span className="total-gov-votes">Governance Votes</span>
+                   </div>
+                </div>
+                <div className="total-votes">{getFormattedNumber(this.state.proposalData?.totalVotes)}</div>
               </div>
             </div>
           </div>
