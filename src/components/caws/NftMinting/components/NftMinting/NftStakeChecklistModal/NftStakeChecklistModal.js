@@ -3,7 +3,7 @@ import axios from "axios";
 import _ from "lodash";
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Box from "@mui/material/Box";
+
 // import ToolTip from "../../../../elements/ToolTip";
 // import X from "../../../../../assets/images/x_close.png";
 import NftPlaceHolder from "../../General/NftPlaceHolder/NftPlaceHolder";
@@ -334,7 +334,7 @@ const NftStakeCheckListModal = ({
       modalId="stakechecklist"
       width="fit-content"
     >
-      <div className="left-col mt-5">
+      <div className="left-col">
         <div className="d-flex align-items-center justify-content-between width-100">
           <div
             className="rarity-rank mt-6"
@@ -657,7 +657,7 @@ const NftStakeCheckListModal = ({
             </div>
 
             <div
-              className="mt-4 row justify-content-center"
+              className="mt-4 row justify-content-between gap-3"
               style={{
                 gap: 20,
                 display: showStaked === false ? "" : "none",
@@ -671,8 +671,8 @@ const NftStakeCheckListModal = ({
                 style={{
                   background:
                     active && nftItem.length > 0
-                      ? "linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0)"
-                      : "#C4C4C4",
+                      ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
+                      : "#14142A",
                   pointerEvents: active && nftItem.length > 0 ? "auto" : "none",
                   display: showApprove === true ? "block" : "none",
                 }}
@@ -694,8 +694,8 @@ const NftStakeCheckListModal = ({
                       nftItem.length > 0 &&
                       selectNftIds.length != 0 &&
                       selectNftIds.length < 51)
-                      ? "linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0)"
-                      : "#C4C4C4",
+                      ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
+                      : "#14142A",
                   pointerEvents:
                     !active || (!showApprove && nftItem.length > 0)
                       ? "auto"
@@ -742,7 +742,7 @@ const NftStakeCheckListModal = ({
             >
               <div className="row m-0 claimAll-wrapper">
                 <div
-                  className="earn-checklist-container d-block mb-0 w-100"
+                  className="earn-checklist-container d-flex align-items-start justify-content-between mb-0 w-100"
                   style={{
                     boxShadow: "none",
                     borderTop: "none",
@@ -751,10 +751,8 @@ const NftStakeCheckListModal = ({
                   }}
                 >
                   <div
+                  className="d-flex align-items-start justify-content-between mb-3 w-100"
                     style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
                       gap: 10,
                     }}
                   >
@@ -805,10 +803,13 @@ const NftStakeCheckListModal = ({
                   style={{
                     background:
                       ETHrewards != 0
-                        ? "linear-gradient(51.32deg, #57aeaa -12.3%, #94e0dc 50.14%)"
-                        : "#C4C4C4",
+                        ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
+                        : "#14142A",
                     pointerEvents: ETHrewards != 0 ? "auto" : "none",
-                    maxWidth: "none",
+                    width: "50%",
+                    borderRadius: "8px",
+                    color: ETHrewards != 0 ? "#FFFFFF" : "#C0C9FF",
+                    margin: "auto",
                   }}
                 >
                   {loadingClaim ? (
@@ -820,17 +821,14 @@ const NftStakeCheckListModal = ({
                   )}
                 </button>
               </div>
-              <div
-                className="row claimAll-wrapper m-0"
-                style={{ background: "rgba(153, 153, 153, 0.1)" }}
-              >
+              <div className="row claimAll-wrapper m-0">
                 <div
                   className="earn-checklist-container d-block mb-0 w-100"
                   style={{
                     boxShadow: "none",
                     borderTop: "none",
-                    paddingLeft: 18,
-                    paddingRight: 18,
+                    paddingLeft: 0,
+                    paddingRight: 0,
                   }}
                 >
                   <div
@@ -842,12 +840,8 @@ const NftStakeCheckListModal = ({
                     }}
                   >
                     <div
-                      className="d-flex"
+                      className="d-flex justify-content-between align-items-baseline flex-column"
                       style={{
-                        justifyContent: "space-between",
-                        alignItems: "baseline",
-                        paddingLeft: 16,
-                        gap: 20,
                       }}
                     >
                       <div
@@ -878,7 +872,11 @@ const NftStakeCheckListModal = ({
                         <span
                           id="ethPrice"
                           className="mb-0"
-                          style={{ alignItems: "end", display: "flex", color:'#4CD0CD' }}
+                          style={{
+                            alignItems: "end",
+                            display: "flex",
+                            color: "#4CD0CD",
+                          }}
                         >
                           {countDownLeft < 0 ? selectNftIds.length : 0}
                           /50
@@ -896,12 +894,12 @@ const NftStakeCheckListModal = ({
                         </span>
 
                         <img
-                  src={require("./catlogo.svg").default}
-                  alt=""
-                  style={{ width: 24, height: 24 }}
-                />
+                          src={require("./catlogo.svg").default}
+                          alt=""
+                          style={{ width: 24, height: 24 }}
+                        />
                       </div>
-                      <span style={{ fontSize: 9, color: "#939393" }}>
+                      <span style={{ fontSize: 10, color: "#C0C9FF" }} className="mt-1">
                         Maximum of 50 NFTs selectable
                       </span>
                     </div>
@@ -929,13 +927,13 @@ const NftStakeCheckListModal = ({
                       selectNftIds.length !== 0 &&
                       countDownLeft < 0 &&
                       selectNftIds.length < 51
-                        ? "linear-gradient(51.32deg, #E30613 -12.3%, #FA4A33 50.14%)"
+                        ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
                         : nftItem.length !== 0 &&
                           selectNftIds.length != 0 &&
                           selectNftIds.length < 51 &&
                           countDownLeft < 0
-                        ? "linear-gradient(51.32deg, #E30613 -12.3%, #FA4A33 50.14%)"
-                        : "#C4C4C4",
+                        ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
+                        : "#14142A",
                     pointerEvents:
                       active && selectNftIds.length !== 0
                         ? "auto"
@@ -944,7 +942,10 @@ const NftStakeCheckListModal = ({
                           selectNftIds.length == 0
                         ? "auto"
                         : "none",
-                    maxWidth: "none",
+                    width: "50%",
+                    borderRadius: "8px",
+                    color: ETHrewards != 0 ? "#FFFFFF" : "#C0C9FF",
+                    margin: "auto",
                   }}
                 >
                   {loading ? (

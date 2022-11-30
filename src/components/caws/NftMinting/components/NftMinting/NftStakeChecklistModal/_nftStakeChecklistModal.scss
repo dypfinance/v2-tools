@@ -10,7 +10,7 @@
   //   flex-direction: row;
   //   padding: 0 40px 40px 40px;
 
-    // padding-top: 78px;
+  // padding-top: 78px;
   // }
 
   .left-col {
@@ -115,11 +115,11 @@
     }
 
     input[type="radio"]:checked {
-      accent-color: #4ED5D2;
+      accent-color: #4ed5d2;
     }
 
     input[type="checkbox"]:checked {
-      accent-color: #4ED5D2;
+      accent-color: #4ed5d2;
     }
 
     .caw-card2 {
@@ -360,11 +360,11 @@
   }
 }
 input[type="radio"]:checked {
-  accent-color: #4ED5D2;
+  accent-color: #4ed5d2;
 }
 
 input[type="checkbox"]:checked {
-  accent-color: #4ED5D2;
+  accent-color: #4ed5d2;
 }
 .dark {
   .details-modal-content {
@@ -406,4 +406,10 @@ input[type="checkbox"]:checked {
   .radioDesc {
     color: white;
   }
+}
+
+.claimAll-wrapper {
+  background: #26264f;
+  border-radius: 8px;
+  padding: 10px;
 }

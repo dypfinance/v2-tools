@@ -9,6 +9,7 @@
   transition: all .25s;
 }
 
+
 .pools-card-hover:hover{
   border: 2px solid rgb(142, 151, 205);
 }

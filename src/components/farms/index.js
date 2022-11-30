@@ -3,7 +3,9 @@ import moment from "moment";
 import DataTable, { createTheme } from "react-data-table-component";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { NavLink } from "react-router-dom";
-
+import ethlogo from "../../assets/ethlogo.svg";
+import bnblogo from "../../assets/bnblogo.svg";
+import avaxlogo from "../../assets/avaxlogo.svg";
 import getFormattedNumber from "../../functions/get-formatted-number";
 
 const Circular = () => (
@@ -71,7 +73,7 @@ export default class Farms extends React.Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if(prevProps.networkId != this.props.networkId){
+    if (prevProps.networkId != this.props.networkId) {
       this.setState({
         isLoading: true,
         ethPrice: "...",
@@ -84,7 +86,7 @@ export default class Farms extends React.Component {
 
   fetchFarms = async () => {
     try {
-      let network = this.props.networkId
+      let network = this.props.networkId;
       let farms = await window.$.get(
         network == 1
           ? `${window.config.farm_api}/api/farm-info/eth/`
@@ -144,23 +146,17 @@ export default class Farms extends React.Component {
         sortable: true,
         cell: (row) => (
           <div class="token">
-            <img
-                src="/assets/img/icon.svg"
-                alt=""
-            />
+            <img src="/assets/img/icon.svg" alt="" />
             <a
-                className="token-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                href={row.link_pair}
+              className="token-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={row.link_pair}
             >
-                {" "}
-                {row.pair_name}{" "}
+              {" "}
+              {row.pair_name}{" "}
             </a>
-            <img
-                src="/assets/img/link.svg"
-                alt=""
-            />
+            <img src="/assets/img/link.svg" alt="" />
           </div>
         ),
       },
@@ -208,17 +204,29 @@ export default class Farms extends React.Component {
   render() {
     return (
       <div className="container-lg">
-        <div className="row px-3">
-          <div className="col-md-6">
-            {/* <h2 style={{display: 'block', color: `var(--preloader-clr)`}}>Yields</h2>
-                        <p className='d-block' style={{fontSize: '11px'}}>
-                            This list does not imply endorsement by DeFi Yield Protocol.
-                            There might be Smart Contract risk and IL risk. Please Do Your Own Research
-                            before investing on any project.
-                        </p> */}
+        <div className="d-flex flex-row gap-3 justify-content-between align-items-center mb-4">
+          <div className="d-flex flex-column gap-3">
+            <h2 className="launchpad-hero-title">Yields</h2>
+            <p className="launchpad-hero-desc">
+              This list does not imply endorsement by DeFi Yield Protocol. There
+              might be Smart Contract risk and IL risk.
+              <br />
+              <b>
+                Please conduct your own research before dealing with any
+                project!
+              </b>
+            </p>
           </div>
-          <div className="col-md-6">
-            {/* <div className="search-box">
+          <div className="col-md-6 p-0 d-flex justify-content-between gap-2 align-items-center">
+            <div
+              className="search-box col-md-6 p-0 "
+              style={{
+                background: "#312F69",
+                padding: "10px",
+                borderRadius: "12px",
+                boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)",
+              }}
+            >
               <form id="searchform">
                 <input
                   value={this.state.filteredByName}
@@ -228,21 +236,83 @@ export default class Farms extends React.Component {
                   }}
                   type="text"
                   id="search-bar"
-                  style={{ paddingBottom: "3px" }}
+                  style={{
+                    paddingBottom: "10px",
+                    background: "transparent",
+                    border: "1px solid #8E97CD",
+                    color: "#fff",
+                    borderRadius: "8px",
+                  }}
                   autoComplete="off"
                   placeholder="Filter by Name"
-                  className="l-border-black"
                 />
                 <button type="submit" id="submit">
-                  <img src="/assets/img/search-2.png" alt="Image" />
+                  <img src="/assets/img/search.svg" alt="Image" />
                 </button>
               </form>
-            </div> */}
+            </div>
+            <div className="position-relative">
+              <p className="launchpad-hero-desc position-absolute" style={{ fontSize: 12, top: '-27px' }}>
+                Change network
+              </p>
+              <div className="d-flex gap-3" style={{
+                background: "#312F69",
+                padding: "10px",
+                borderRadius: "12px",
+                boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)",
+              }}>
+                <div
+                  className={
+                    this.props.networkId === 1
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.props.onSelectChain("eth");
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={ethlogo} alt="" /> Ethereum
+                  </h6>
+                </div>
+                <div
+                  className={
+                    this.props.networkId === 56
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.props.onSelectChain("bnb");
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={bnblogo} alt="" /> BNB Chain
+                  </h6>
+                </div>
+                <div
+                  className={
+                    this.props.networkId === 43114
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.props.onSelectChain("avax");
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={avaxlogo} alt="" /> Avalanche
+                  </h6>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="table-box">
           <div className="form-container p-3 position-relative">
-            <div className="tablepurplediv" style={{background: "#8E97CD", left: "0px" }}></div>
+            <div
+              className="tablepurplediv"
+              style={{ background: "#8E97CD", left: "0px" }}
+            ></div>
             {this.GetDataTable()}
           </div>
           {/* <div className="page-nav">
