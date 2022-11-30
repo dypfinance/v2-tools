@@ -2489,7 +2489,7 @@ border: 1px solid #3B3C68 !important;
   .modal-dialog {
     max-width: 1190px;
     margin: 1.75rem auto;
-    height: 900px;
+    height: inherit;
     overflow-y: auto;
     /* height: auto; */
     pointer-events: auto;
