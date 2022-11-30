@@ -1588,7 +1588,7 @@ export default class PairExplorer extends React.Component {
               </div>
 
               <div className="form-container p-3 position-relative">
-                <div style={{ marginBottom: "10px", fontSize: "20px", color: "#F7F7FC", fontWeight: "500", lineHeight: "30px" }}>Statistics score</div>
+                <div style={{ marginBottom: "14px", fontSize: "20px", color: "#F7F7FC", fontWeight: "500", lineHeight: "30px" }}>Statistics score</div>
                 <div>
                   {false && !isNaN(this.state.pairInfo?.ts_score_avg) ? (
                     <div className="graph-progress">
@@ -1682,8 +1682,8 @@ export default class PairExplorer extends React.Component {
                   ) : (
                     <div className="graph-progress">
                       <div
-                        className="progress-title m-0 pb-4"
-                        style={{ width: "35%" }}
+                        className="progress-title m-0 pb-2"
+                        style={{ width: "48%", background: "#2B2A59", borderRadius: "8px", padding: "10px" }}
                       >
                         <p style={{ fontSize: 16 }}>DYP Score</p>
                         <GearProgress
@@ -1706,7 +1706,7 @@ export default class PairExplorer extends React.Component {
                       </div>
                       <div
                         className="box-inner row m-0 justify-content-between"
-                        style={{ gap: 12, width: "60%" }}
+                        style={{ gap: 12, width: "48%" }}
                       >
                         <table className="w-100">
                           <tr>
