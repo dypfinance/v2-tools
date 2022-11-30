@@ -163,16 +163,6 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
     setethToUSD(Number(ethprice) * Number(EthRewards));
   };
 
-  const handleShowUnstake = () => {
-    setShowUnstakeModal(true);
-    setOpenStakeChecklist(false);
-  };
-
-  const handleShowClaimAll = () => {
-    setShowClaimAllModal(true);
-    setOpenStakeChecklist(false);
-  };
-
   const calculateCountdown = async () => {
     const address = coinbase;
 
@@ -202,6 +192,24 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
 
       setCountDownLeft(parseInt(finalDay * 1000) - Date.now());
     }
+  };
+
+  const handleUnstakeAll = async () => {
+    let myStakes = await getStakesIds();
+    let stake_contract = await window.getContractNFT("NFTSTAKING");
+    // setunstakeAllStatus("Unstaking all please wait...");
+
+    await stake_contract.methods
+      .withdraw(myStakes)
+      .send()
+      .then(() => {
+        // setunstakeAllStatus("Successfully unstaked all!");
+      })
+      .catch((err) => {
+        window.alertify.error(err?.message);
+        // setunstakeAllStatus("An error occurred, please try again");
+        setShowUnstakeModal(false);
+      });
   };
 
   useEffect(() => {
@@ -452,6 +460,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
         <NftStakeCheckListModal
           onClose={() => {
             setshowChecklistModal(false);
+            setamountToStake("");
           }}
           nftItem={showStaked ? mystakes : showToStake ? myNFTs : showStaked}
           onshowStaked={() => {
@@ -463,9 +472,9 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
             setshowToStake(true);
           }}
           onClaimAll={() => {
-            handleShowClaimAll();
+            claimRewards();
           }}
-          onUnstake={() => handleShowUnstake()}
+          onUnstake={() => handleUnstakeAll()}
           isConnected={isConnected}
           coinbase={coinbase}
           ETHrewards={EthRewards}

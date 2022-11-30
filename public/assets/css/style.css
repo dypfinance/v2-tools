@@ -4264,22 +4264,17 @@ right: -8% !important;
 .theme-dark .modal-content {
   background-color: #1a1a36;
   color: #fff;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .modal-content {
   border-radius: 8px;
   padding: 20px;
-  /* background: url('../img/modalbg.png');
-background-position: center;
-background-repeat: no-repeat;
-background-size: cover; */
   background: #312f69 !important;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  /* width: fit-content; */
-  /* min-height: 396px; */
+  max-height: 800px;
   height: fit-content;
   margin: auto;
   position: absolute;

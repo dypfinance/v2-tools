@@ -282,7 +282,7 @@ const NftStakingCawChecklist = ({
                     style={{
                       pointerEvents: EthRewards == 0 ? "none" : "auto",
                       borderColor: EthRewards == 0 ? "#14142A" : "#857DFA",
-                      color: EthRewards == 0 ? "Unstake" : "#857DFA",
+                      color: EthRewards == 0 ? "#C0C9FF" : "#857DFA",
                       background: EthRewards == 0 ? "#14142A" : "#312F69",
                       padding: 5, borderRadius: 8, width: '100%'
                     }}
@@ -303,7 +303,7 @@ const NftStakingCawChecklist = ({
                 style={{
                   background:
                     checkPassiveBtn === true
-                      ? "linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0)"
+                      ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
                       : "#14142A",
                   pointerEvents: checkPassiveBtn === true ? "auto" : "none",
                 }}

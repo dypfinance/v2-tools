@@ -334,7 +334,7 @@ const NftStakeCheckListModal = ({
       modalId="stakechecklist"
       width="fit-content"
     >
-      <div className="left-col mt-5">
+      <div className="left-col">
         <div className="d-flex align-items-center justify-content-between width-100">
           <div
             className="rarity-rank mt-6"
@@ -657,7 +657,7 @@ const NftStakeCheckListModal = ({
             </div>
 
             <div
-              className="mt-4 row justify-content-center"
+              className="mt-4 row justify-content-between gap-3"
               style={{
                 gap: 20,
                 display: showStaked === false ? "" : "none",
@@ -671,7 +671,7 @@ const NftStakeCheckListModal = ({
                 style={{
                   background:
                     active && nftItem.length > 0
-                      ? "linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0)"
+                      ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
                       : "#14142A",
                   pointerEvents: active && nftItem.length > 0 ? "auto" : "none",
                   display: showApprove === true ? "block" : "none",
@@ -694,7 +694,7 @@ const NftStakeCheckListModal = ({
                       nftItem.length > 0 &&
                       selectNftIds.length != 0 &&
                       selectNftIds.length < 51)
-                      ? "linear-gradient(to left, #7770e0, #3e3aa5, #554fd8, #7770e0)"
+                      ? "linear-gradient(90.74deg, #7770E0 0%, #554FD8 100%)"
                       : "#14142A",
                   pointerEvents:
                     !active || (!showApprove && nftItem.length > 0)
@@ -827,8 +827,8 @@ const NftStakeCheckListModal = ({
                   style={{
                     boxShadow: "none",
                     borderTop: "none",
-                    paddingLeft: 18,
-                    paddingRight: 18,
+                    paddingLeft: 0,
+                    paddingRight: 0,
                   }}
                 >
                   <div
