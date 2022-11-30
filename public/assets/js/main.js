@@ -24,7 +24,7 @@
     //     $(this).toggleClass('open')
     // });
     //Open popup
-    $('.popup-btn').on('click', function() {
+    $('.btn-popup').on('click', function() {
         $('.popup-modal').addClass('open');
         $('.body_overlay').addClass('open');
     });

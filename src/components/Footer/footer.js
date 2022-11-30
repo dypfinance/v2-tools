@@ -20,6 +20,8 @@ const Footer = () => (
         </div>
         <div className="footer-menu">
             <ul>
+                <li><a target={'_blank'} href="https://www.coingecko.com/en/coins/defi-yield-protocol"><img src="/assets/img/coingecko-logo.svg" alt="Coingecko"></img></a></li>
+                <li><a target={'_blank'} href="https://coinmarketcap.com/currencies/defi-yield-protocol/"><img src="/assets/img/coinmarketcap.svg" alt="Coinmarketcap"></img></a></li>
                 <li><a target={'_blank'} href="https://etherscan.io/address/0x961C8c0B1aaD0c0b10a51FeF6a867E3091BCef17#code">Token Contract</a></li>
                 <li><a target={'_blank'} href="https://lorenadev.dyp.finance/about#security">Security</a></li>
                 <li><a target={'_blank'} href="https://lorenadev.dyp.finance/disclaimer">Disclaimer</a></li>

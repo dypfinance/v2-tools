@@ -77,3 +77,12 @@ td.red-text {
     color:#4ED5D2 !important;
     text-transform: capitalize;
 }
+
+.tablepurplediv {
+    width: 4px;
+    height: 50px;
+    position: absolute;
+    border-radius: 0px 100px 100px 0px;
+    left: -1px;
+    background: #7770c0;
+}
