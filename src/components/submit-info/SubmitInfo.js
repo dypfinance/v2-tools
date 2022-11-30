@@ -341,7 +341,7 @@ const SubmitInfo = () => {
                 className={`text-input ${
                   errors.audit_link && "error-border"
                 }`}
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingLeft: '30px' }}
                 value={values.audit_link}
                 onChange={(e) => handleChange(e)}
               />
@@ -395,7 +395,7 @@ const SubmitInfo = () => {
                 className={`text-input ${
                   errors.website_link && "error-border"
                 }`}
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingLeft: '30px' }}
                 value={values.website_link}
                 onChange={(e) => handleChange(e)}
               />
@@ -421,7 +421,7 @@ const SubmitInfo = () => {
                 className={`text-input ${
                   errors.coinmarket && "error-border"
                 }`}
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingLeft: '30px' }}
                 value={values.coinmarket}
                 onChange={(e) => handleChange(e)}
               />
@@ -447,7 +447,7 @@ const SubmitInfo = () => {
                 className={`text-input ${
                   errors.coingecko && "error-border"
                 }`}
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingLeft: '30px' }}
                 value={values.coingecko}
                 onChange={(e) => handleChange(e)}
               />
@@ -473,7 +473,7 @@ const SubmitInfo = () => {
                 className={`text-input ${
                   errors.telegram && "error-border"
                 }`}
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingLeft: '30px' }}
                 value={values.telegram}
                 onChange={(e) => handleChange(e)}
               />
@@ -499,7 +499,7 @@ const SubmitInfo = () => {
                 className={`text-input ${
                   errors.telegram_channel && "error-border"
                 }`}
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingLeft: '30px' }}
                 value={values.telegram_channel}
                 onChange={(e) => handleChange(e)}
               />
@@ -525,7 +525,7 @@ const SubmitInfo = () => {
                 className={`text-input ${
                   errors.twitter && "error-border"
                 }`}
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingLeft: '30px' }}
                 value={values.twitter}
                 onChange={(e) => handleChange(e)}
               />
