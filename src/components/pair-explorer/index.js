@@ -13,6 +13,9 @@ import { get24hEarlierBlock } from "../../functions/get-block-from-timestamp";
 import fetchGql from "../../functions/fetch-gql";
 import { getPairCandles } from "../../functions/datafeed";
 import PairLocker from "./pairlocker.svg";
+
+
+
 import { Modal, Button } from "react-bootstrap";
 import GearProgress from "./GearProgress";
 import axios from "axios";
