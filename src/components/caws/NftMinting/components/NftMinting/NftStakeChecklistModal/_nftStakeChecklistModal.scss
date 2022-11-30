@@ -115,19 +115,19 @@
     }
 
     input[type="radio"]:checked {
-      accent-color: #e30613;
+      accent-color: #4ED5D2;
     }
 
     input[type="checkbox"]:checked {
-      accent-color: #e30613;
+      accent-color: #4ED5D2;
     }
 
     .caw-card2 {
       padding: 16.5px;
       border-radius: 8px;
       background: linear-gradient(209.67deg, #ff4229 1.51%, #e30613 98.12%);
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       justify-content: center;
       .nft-img {
         width: 100%;
@@ -360,11 +360,11 @@
   }
 }
 input[type="radio"]:checked {
-  accent-color: #e30613;
+  accent-color: #4ED5D2;
 }
 
 input[type="checkbox"]:checked {
-  accent-color: #e30613;
+  accent-color: #4ED5D2;
 }
 .dark {
   .details-modal-content {

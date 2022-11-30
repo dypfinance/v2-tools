@@ -1,4 +1,4 @@
-import Modal from "../../General/Modal";
+import Modal from "../../../../../Modal/Modal";
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -8,10 +8,10 @@ import { shortAddress } from "../../../../../../functions/shortAddress";
 // import CountDownTimerUnstake from "../../../../elements/CountDownUnstake";
 import OutsideClickHandler from "react-outside-click-handler";
 import { formattedNum } from "../../../../../../functions/formatUSD";
-import getFormattedNumber from '../../../../../../functions/get-formatted-number'
+import getFormattedNumber from "../../../../../../functions/get-formatted-number";
 // import ToolTip from "../../../../elements/ToolTip";
-
-
+import Web3 from "web3";
+import CountDownTimerUnstake from '../../../../../locker/Countdown'
 
 const NftStakeModal = ({
   nftItem,
@@ -23,6 +23,8 @@ const NftStakeModal = ({
   score,
   rarity,
   countDownLeft,
+  coinbase,
+  isConnected,
 }) => {
   const copyAddress = () => {
     navigator.clipboard.writeText(nftItem.address);
@@ -41,42 +43,29 @@ const NftStakeModal = ({
   const [EthRewards, setEthRewards] = useState(0);
   const [ethToUSD, setethToUSD] = useState(0);
 
-  const [connectedWallet, setConnectedWallet] = useState(false);
-
   const [unstake, setunstake] = useState(false);
   const [isconnectedWallet, setisConnectedWallet] = useState(false);
   const [color, setColor] = useState("#F13227");
 
-  const checkConnection = async () => {
-    let test = await window.web3.eth?.getAccounts().then((data) => {
-      data.length === 0
-        ? setisConnectedWallet(false)
-        : setisConnectedWallet(true);
-    });
-  };
   const checkApproval = async () => {
-    const address = await window.web3.eth?.getAccounts().then((data) => {
-      return data[0];
-    });
+    const address = coinbase;
 
-    if (address) {
-      setConnectedWallet(true);
-    } else setConnectedWallet(false);
+    if (address !== null) {
+      const stakeApr50 = await window.config.nftstaking_address50;
+      if (apr == 50) {
+        const result = await window.nft
+          .checkapproveStake(address, stakeApr50)
+          .then((data) => {
+            return data;
+          });
 
-    const stakeApr50 = await window.config.nftstaking_address50;
-    if (apr == 50) {
-      const result = await window.nft
-        .checkapproveStake(address, stakeApr50)
-        .then((data) => {
-          return data;
-        });
-
-      if (result === true) {
-        setshowApprove(false);
-        setActive(true);
-      } else {
-        setshowApprove(true);
-        setActive(false);
+        if (result === true) {
+          setshowApprove(false);
+          setActive(true);
+        } else {
+          setshowApprove(true);
+          setActive(false);
+        }
       }
     }
   };
@@ -109,7 +98,7 @@ const NftStakeModal = ({
   };
 
   const handleDeposit = async (currentId) => {
-    let stake_contract = await window.getContract("NFTSTAKING");
+    let stake_contract = await window.getContractNFT("NFTSTAKING");
     setloadingdeposit(true);
 
     setStatus("*Processing deposit");
@@ -143,30 +132,30 @@ const NftStakeModal = ({
   };
 
   const calculateReward = async (currentId) => {
-    const address = await window.web3.eth?.getAccounts().then((data) => {
-      return data[0];
-    });
+    const address = coinbase;
 
-    let calculateRewards;
-    let staking_contract = await window.getContract("NFTSTAKING");
-    calculateRewards = await staking_contract.methods
-      .calculateReward(address, parseInt(currentId))
-      .call()
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => {
-        // window.alertify.error(err?.message);
-      });
-
-    let a = await window.web3.utils.fromWei(calculateRewards, "ether");
-    const ethprice = await convertEthToUsd();
-    setethToUSD(Number(ethprice) * Number(a));
-    setEthRewards(Number(a));
+    if (address !== null && currentId) {
+      let calculateRewards;
+      let staking_contract = await window.getContractNFT("NFTSTAKING");
+      calculateRewards = await staking_contract.methods
+        .calculateReward(address, parseInt(currentId))
+        .call()
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          // window.alertify.error(err?.message);
+        });
+      const infuraWeb3 = new Web3(window.config.infura_endpoint);
+      let a = infuraWeb3.utils.fromWei(calculateRewards, "ether");
+      const ethprice = await convertEthToUsd();
+      setethToUSD(Number(ethprice) * Number(a));
+      setEthRewards(Number(a));
+    }
   };
 
   const handleClaim = async (itemId) => {
-    let staking_contract = await window.getContract("NFTSTAKING");
+    let staking_contract = await window.getContractNFT("NFTSTAKING");
 
     setloadingClaim(true);
     setActive(false);
@@ -190,7 +179,7 @@ const NftStakeModal = ({
   };
 
   const handleUnstake = async (itemId) => {
-    let stake_contract = await window.getContract("NFTSTAKING");
+    let stake_contract = await window.getContractNFT("NFTSTAKING");
     setloading(true);
     setStatus("*Processing unstake");
     setColor("#F13227");
@@ -215,16 +204,15 @@ const NftStakeModal = ({
 
   useEffect(() => {
     checkApproval().then();
-    checkConnection().then();
 
     const interval = setInterval(async () => {
-      if (connectedWallet) {
+      if (isConnected && itemId) {
         calculateReward(itemId).then();
       }
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [apr, EthRewards, itemId, isconnectedWallet]);
+  }, [apr, EthRewards, itemId, isConnected]);
 
   const devicewidth = window.innerWidth;
 
@@ -395,7 +383,7 @@ const NftStakeModal = ({
                   }}
                   style={{
                     background:
-                     ( active === false && showApprove === true)
+                      active === false && showApprove === true
                         ? "linear-gradient(51.32deg, #E30613 -12.3%, #FA4A33 50.14%)"
                         : "#C4C4C4",
                     pointerEvents: active === false ? "auto" : "none",
@@ -586,12 +574,12 @@ const NftStakeModal = ({
                           /> */}
                           <p className="claim-timer-subtitle m-0">Cooldown</p>
                         </div>
-                        {/* <CountDownTimerUnstake
+                        <CountDownTimerUnstake
                           date={Date.now() + countDownLeft}
                           onComplete={() => {
                             setunstake(true);
                           }}
-                        /> */}
+                        />
                       </div>
                     </div>
                   </div>

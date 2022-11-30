@@ -56,7 +56,7 @@ body.theme-dark .form-control {
 
 body.theme-dark .header-wrap,
 body.theme-dark .sidebar,
-body.theme-dark .content-footer,
+body.theme-dark .graph-wrap,
 body.theme-dark .table-title,
 body.theme-dark .footer-container,
 body.theme-dark .news-wrapper,
@@ -269,9 +269,6 @@ body.theme-dark .page-nav ul li a {
   border: 1px solid var(--white);
 }
 
-body.theme-dark .footer-menu {
-  border-bottom: 2px solid var(--grey);
-}
 
 body.theme-dark .hamburger-menu {
   background-color: var(--white);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TopPoolsCard from "../../top-pools-card/TopPoolsCard";
+import CawsCard from "../../top-pools-card/CawsCard";
 import TopPoolsListCard from "../../top-pools-card/TopPoolsListCard";
-import noPoolsIcon from "../../../assets/earnAssets/noPoolsIcon.svg";
 import axios from "axios";
 import getFormattedNumber from "../../../functions/getFormattedNumber2";
 import initStakingNew from "../../FARMINNG/staking-new-front";
@@ -12,13 +12,11 @@ import initVaultNew from "../../FARMINNG/vault-new";
 import initFarmAvax from "../../FARMINNG/farmAvax";
 import stakeAvax from "../../FARMINNG/stakeAvax";
 import avaxBuyback from "../../FARMINNG/avaxBuyback";
-
 import stakeAvax30 from "../../FARMINNG/stakeAvax30";
 import stakeAvax3 from "../../FARMINNG/stakeAvax3";
 import stakeAvaxiDyp from "../../FARMINNG/stakeAvaxiDyp";
-
+import CawsDetails from "../../FARMINNG/caws";
 import { FadeLoader } from "react-spinners";
-import PoolsCalculator from "../../pools-calculator/PoolsCalculator";
 
 const EarnTopPicks = ({
   topList,
@@ -33,7 +31,6 @@ const EarnTopPicks = ({
   the_graph_resultavax,
   referrer,
 }) => {
-  
   const stake = [
     {
       icon: "dyplogo.svg",
@@ -276,6 +273,7 @@ const EarnTopPicks = ({
   };
 
   const [activeCard, setActiveCard] = useState();
+  const [activeCardNFT, setActiveCardNFT] = useState();
   const [activeCard2, setActiveCard2] = useState();
   const [activeCard3, setActiveCard3] = useState();
   const [activeCard4, setActiveCard4] = useState();
@@ -283,7 +281,7 @@ const EarnTopPicks = ({
   const [cardIndexiDyp, setcardIndexiDyp] = useState();
   const [cardIndexavax30, setcardIndexavax30] = useState();
   const [cardIndexavaxiDyp, setcardIndexavaxiDyp] = useState();
-  const [details, setDetails] = useState()
+  const [details, setDetails] = useState();
 
   const eth_address = "ETH";
   const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
@@ -360,7 +358,7 @@ const EarnTopPicks = ({
     fee: feeArray[cardIndex],
     handleConnection: handleConnection,
     lockTime: lockarrayFarm[cardIndex],
-    listType: listType
+    listType: listType,
   });
 
   const lockarrayFarmAvax = ["No Lock", 3, 30, 60, 90];
@@ -405,7 +403,7 @@ const EarnTopPicks = ({
     fee: feearrayFarmAvax[cardIndex],
     coinbase: coinbase,
     lockTime: lockarrayFarm[cardIndex],
-    listType: listType
+    listType: listType,
   });
 
   const lockarrayBuyback = ["No Lock", 90];
@@ -421,7 +419,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayBuyback[cardIndex],
-    listType: listType
+    listType: listType,
   });
 
   const stakeArrayBuyBackAvax = [
@@ -445,7 +443,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayBuyback[cardIndex],
-    listType: listType
+    listType: listType,
   });
 
   const aprarrayStakeAvax = [30, 10];
@@ -485,7 +483,7 @@ const EarnTopPicks = ({
     chainId: chainId,
     referrer: referrer,
     lockTime: lockarrayStakeAvax[cardIndex],
-    listType: listType
+    listType: listType,
   });
 
   const StakeAvax30 = stakeAvax30({
@@ -497,7 +495,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
-    listType: listType
+    listType: listType,
   });
 
   const StakeAvax3 = stakeAvax3({
@@ -508,7 +506,7 @@ const EarnTopPicks = ({
     coinbase: coinbase,
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
-    listType: listType
+    listType: listType,
   });
 
   const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
@@ -538,7 +536,7 @@ const EarnTopPicks = ({
     other_info: otherinfoarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
-    listType: listType
+    listType: listType,
   });
 
   const lockarray = ["No Lock", 90];
@@ -556,7 +554,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarray[cardIndex],
-    listType: listType
+    listType: listType,
   });
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
@@ -571,7 +569,7 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarrayiDyp[cardIndexiDyp],
-    listType: listType
+    listType: listType,
   });
 
   const vaultArray = [
@@ -586,11 +584,11 @@ const EarnTopPicks = ({
     window.token_wbtc,
     window.token_usdc,
     window.token_usdt,
-    window. token_dai,
+    window.token_dai,
   ];
   const vaultplatformArray = [10, 10, 15, 15, 15];
   const vaultdecimalsArray = [18, 8, 6, 6, 18];
-  const vaultsymbolArray = ["WETH", "WBTC", "USDC", "USDT",  "DAI"];
+  const vaultsymbolArray = ["WETH", "WBTC", "USDC", "USDT", "DAI"];
   const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
 
   const VaultCard = initVaultNew({
@@ -604,11 +602,11 @@ const EarnTopPicks = ({
     lockTime: "No Lock",
     handleConnection: handleConnection,
     chainId: chainId,
-    listType: listType
+    listType: listType,
   });
 
   useEffect(() => {
-    setDetails()
+    setDetails();
     if (topList === "Staking") {
       setTopPools([]);
       if (chain === "avax") {
@@ -699,7 +697,23 @@ const EarnTopPicks = ({
       {listing === "table" ? (
         <div className="px-0">
           <div className="top-picks-container">
-            {topPools.slice(0, 3).map((pool, index) => (
+            <CawsCard
+              onShowDetailsClick={() => {
+                setActiveCardNFT(true);
+                setActiveCard(null);
+                setActiveCard2(null);
+                setActiveCard3(null);
+                setActiveCard4(null);
+              }}
+              onHideDetailsClick={() => {
+                setActiveCardNFT(false);
+                setDetails();
+              }}
+              cardType={topList}
+              details={activeCardNFT === true ? true : false}
+            />
+
+            {topPools.slice(0, 2).map((pool, index) => (
               <TopPoolsCard
                 key={index}
                 chain={chain}
@@ -711,17 +725,17 @@ const EarnTopPicks = ({
                 tokenLogo={pool.icon}
                 onShowDetailsClick={() => {
                   setActiveCard(topPools[index]);
-                  setActiveCard2(null)
-                  setActiveCard3(null)
-                  setActiveCard4(null)
+                  setActiveCard2(null);
+                  setActiveCard3(null);
+                  setActiveCard4(null);
                   handleCardIndexStake(index);
                   handleCardIndexStake30(index);
                   handleCardIndexStakeiDyp(index);
-                    setDetails(index)
+                  setDetails(index);
                 }}
                 onHideDetailsClick={() => {
                   setActiveCard(null);
-                  setDetails()
+                  setDetails();
                 }}
                 cardType={topList}
                 details={details === index ? true : false}
@@ -853,10 +867,12 @@ const EarnTopPicks = ({
               the_graph_result={the_graph_result}
             />
           ) : (
-            <></>
+            activeCardNFT && (
+              <CawsDetails coinbase={coinbase} isConnected={isConnected} />
+            )
           )}
-          <div className="top-picks-container" style={{marginTop: '25px'}}>
-            {topPools.slice(3, 6).map((pool, index) => (
+          <div className="top-picks-container" style={{ marginTop: "25px" }}>
+            {topPools.slice(2, 5).map((pool, index) => (
               <TopPoolsCard
                 key={index}
                 chain={chain}
@@ -864,23 +880,25 @@ const EarnTopPicks = ({
                 tokenName={pool.tokenName}
                 apr={pool.apy + "%"}
                 tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                lockTime={pool.lockTime ? pool.lockTime : locktimeFarm[index + 3]}
+                lockTime={
+                  pool.lockTime ? pool.lockTime : locktimeFarm[index + 2]
+                }
                 tokenLogo={pool.icon}
                 onShowDetailsClick={() => {
-                  setActiveCard(null)
-                  setActiveCard2(topPools[index + 3]);
-                  setActiveCard3(null)
-                  handleCardIndexStake(index + 3);
-                  handleCardIndexStake30(index + 3);
-                  handleCardIndexStakeiDyp(index + 3);
-                    setDetails(index + 3)
+                  setActiveCard(null);
+                  setActiveCard2(topPools[index + 2]);
+                  setActiveCard3(null);
+                  handleCardIndexStake(index + 2);
+                  handleCardIndexStake30(index + 2);
+                  handleCardIndexStakeiDyp(index + 2);
+                  setDetails(index + 2);
                 }}
                 onHideDetailsClick={() => {
                   setActiveCard2(null);
-                  setDetails()
+                  setDetails();
                 }}
                 cardType={topList}
-                details={details === index + 3 ? true : false}
+                details={details === index + 2 ? true : false}
               />
             ))}
           </div>
@@ -1010,8 +1028,8 @@ const EarnTopPicks = ({
           ) : (
             <></>
           )}
-          <div className="top-picks-container" style={{marginTop: '25px'}}>
-            {topPools.slice(6, 9).map((pool, index) => (
+          <div className="top-picks-container" style={{ marginTop: "25px" }}>
+            {topPools.slice(5, 8).map((pool, index) => (
               <TopPoolsCard
                 key={index}
                 chain={chain}
@@ -1019,23 +1037,25 @@ const EarnTopPicks = ({
                 tokenName={pool.tokenName}
                 apr={pool.apy + "%"}
                 tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                lockTime={pool.lockTime ? pool.lockTime : locktimeFarm[index + 6]}
+                lockTime={
+                  pool.lockTime ? pool.lockTime : locktimeFarm[index + 5]
+                }
                 tokenLogo={pool.icon}
                 onShowDetailsClick={() => {
-                  setActiveCard(null)
+                  setActiveCard(null);
                   setActiveCard2(null);
-                  setActiveCard3(topPools[index + 6]);
-                  handleCardIndexStake(index + 6);
-                  handleCardIndexStake30(index + 6);
-                  handleCardIndexStakeiDyp(index + 6);
-                    setDetails(index + 6)
+                  setActiveCard3(topPools[index + 5]);
+                  handleCardIndexStake(index + 5);
+                  handleCardIndexStake30(index + 5);
+                  handleCardIndexStakeiDyp(index + 5);
+                  setDetails(index + 5);
                 }}
                 onHideDetailsClick={() => {
                   setActiveCard3(null);
-                  setDetails()
+                  setDetails();
                 }}
                 cardType={topList}
-                details={details === index + 6 ? true : false}
+                details={details === index + 5 ? true : false}
               />
             ))}
           </div>
@@ -1165,8 +1185,8 @@ const EarnTopPicks = ({
           ) : (
             <></>
           )}
-          <div className="top-picks-container" style={{marginTop: '25px'}}>
-            {topPools.slice(9, 12).map((pool, index) => (
+          <div className="top-picks-container" style={{ marginTop: "25px" }}>
+            {topPools.slice(8, 11).map((pool, index) => (
               <TopPoolsCard
                 key={index}
                 chain={chain}
@@ -1174,24 +1194,26 @@ const EarnTopPicks = ({
                 tokenName={pool.tokenName}
                 apr={pool.apy + "%"}
                 tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                lockTime={pool.lockTime ? pool.lockTime : locktimeFarm[index + 9]}
+                lockTime={
+                  pool.lockTime ? pool.lockTime : locktimeFarm[index + 8]
+                }
                 tokenLogo={pool.icon}
                 onShowDetailsClick={() => {
-                  setActiveCard(null)
+                  setActiveCard(null);
                   setActiveCard2(null);
                   setActiveCard3(null);
-                  setActiveCard4(topPools[index + 9]);
-                  handleCardIndexStake(index + 9);
-                  handleCardIndexStake30(index + 9);
-                  handleCardIndexStakeiDyp(index + 9);
-                    setDetails(index + 9)
+                  setActiveCard4(topPools[index + 8]);
+                  handleCardIndexStake(index + 8);
+                  handleCardIndexStake30(index + 8);
+                  handleCardIndexStakeiDyp(index + 8);
+                  setDetails(index + 8);
                 }}
                 onHideDetailsClick={() => {
                   setActiveCard4(null);
-                  setDetails()
+                  setDetails();
                 }}
                 cardType={topList}
-                details={details === index + 9 ? true : false}
+                details={details === index + 8 ? true : false}
               />
             ))}
           </div>

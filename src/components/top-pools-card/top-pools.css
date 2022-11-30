@@ -20,6 +20,12 @@
   background-size: cover;
 }
 
+.cawstoppick {
+  position: absolute;
+  top: -8px;
+  left: 44%;
+}
+
 .purplediv {
   width: 4px;
   height: 40px;

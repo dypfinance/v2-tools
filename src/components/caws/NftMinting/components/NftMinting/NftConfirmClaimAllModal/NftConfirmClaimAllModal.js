@@ -1,4 +1,4 @@
-import Modal from '../../General/Modal'
+import Modal from "../../../../../Modal/Modal";
 import React from 'react'
 import PropTypes from "prop-types"
 
