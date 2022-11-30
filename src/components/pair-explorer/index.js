@@ -13,9 +13,9 @@ import { get24hEarlierBlock } from "../../functions/get-block-from-timestamp";
 import fetchGql from "../../functions/fetch-gql";
 import { getPairCandles } from "../../functions/datafeed";
 import PairLocker from "./pairlocker.svg";
-
-
-
+import ethlogo from "../../assets/ethlogo.svg";
+import bnblogo from "../../assets/bnblogo.svg";
+import avaxlogo from "../../assets/avaxlogo.svg";
 import { Modal, Button } from "react-bootstrap";
 import GearProgress from "./GearProgress";
 import axios from "axios";
@@ -1044,6 +1044,7 @@ export default class PairExplorer extends React.Component {
                       </button>
                     </form>
                   </div>
+                  
                 </div>
 
                 <div className="form-container p-3 position-relative">
@@ -1865,8 +1866,8 @@ export default class PairExplorer extends React.Component {
             </div>
             <div className="rightside">
               <div className="graph-right">
-                <div className="search-box">
-                  <form id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
+                <div className="search-box d-flex gap-2 justify-content-between align-items-center">
+                  <form className="col-7" id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
                     <input
                       value={this.state.query}
                       onChange={(e) => this.handleQuery(e.target.value)}
@@ -1931,6 +1932,69 @@ export default class PairExplorer extends React.Component {
                       <img src="/assets/img/search-purple.svg" alt="Image" style={{ marginTop: "11px" }}/>
                     </button>
                   </form>
+                  <div className="position-relative">
+              <p
+                className="launchpad-hero-desc position-absolute"
+                style={{ fontSize: 12, top: "-27px" }}
+              >
+                Change network
+              </p>
+              <div
+                className="d-flex gap-3 align-items-center"
+                style={{
+                  background: "#312F69",
+                  padding: "10px",
+                  borderRadius: "12px",
+                  boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)",
+                }}
+              >
+                <div
+                  className={
+                    this.props.networkId === 1
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.setState({
+                      destinationChain: "eth",
+                    });
+                    this.props.onSelectChain("eth");
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={ethlogo} alt="" /> Ethereum
+                  </h6>
+                </div>
+                <div
+                  className={
+                    this.props.networkId === 56
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.props.onSelectChain("bnb");
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={bnblogo} alt="" /> BNB Chain
+                  </h6>
+                </div>
+                <div
+                  className={
+                    this.props.networkId === 43114
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.props.onSelectChain("avax");
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={avaxlogo} alt="" /> Avalanche
+                  </h6>
+                </div>
+              </div>
+            </div>
                 </div>
               </div>
               <div className="table-box d-flex flex-column" style={{ gap: 20 }}>

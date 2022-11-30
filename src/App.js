@@ -71,20 +71,15 @@ class App extends React.Component {
     this.setState({ show: false });
   };
 
-  onSelectChain = (chainText) =>{
-    if(chainText === 'eth') {
-      this.setState({explorerNetworkId: 1})
+  onSelectChain = (chainText) => {
+    if (chainText === "eth") {
+      this.setState({ explorerNetworkId: 1 });
+    } else if (chainText === "bnb") {
+      this.setState({ explorerNetworkId: 56 });
+    } else if (chainText === "avax") {
+      this.setState({ explorerNetworkId: 43114 });
     }
-
-   else if(chainText === 'bnb') {
-      this.setState({explorerNetworkId: 56})
-    }
-
-    else if(chainText === 'avax') {
-      this.setState({explorerNetworkId: 43114})
-    }
-
-  }
+  };
 
   checkNetworkId() {
     if (window.ethereum) {
@@ -439,7 +434,6 @@ class App extends React.Component {
                         isConnected={this.state.isConnected}
                         appState={this.state}
                         onSelectChain={this.onSelectChain}
-
                       />
                     )}
                   />
@@ -453,7 +447,8 @@ class App extends React.Component {
                         isPremium={this.state.isPremium}
                         key={props.match.params.pair_id}
                         theme={this.state.theme}
-                        networkId={parseInt(this.state.networkId)}
+                        networkId={parseInt(this.state.explorerNetworkId)}
+                        onSelectChain={this.onSelectChain}
                         {...props}
                       />
                     )}
@@ -468,13 +463,11 @@ class App extends React.Component {
                         networkId={parseInt(this.state.explorerNetworkId)}
                         isConnected={this.state.isConnected}
                         onSelectChain={this.onSelectChain}
-
                       />
                     )}
                   />
 
-
-<Route
+                  <Route
                     exact
                     path="/farms"
                     render={(props) => (
