@@ -17,6 +17,7 @@ import walletIcon from "./assets/walletIcon.svg";
 import WalletModal from "../WalletModal";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
 import { NavLink } from "react-router-dom";
+import useWindowSize from '../../functions/useWindowSize'
 
 const Header = ({
   toggleMobileSidebar,
@@ -52,6 +53,7 @@ const Header = ({
   //     }
   // }
 
+  const windowSize = useWindowSize()
   const [hotpairs, setHotpairs] = useState([]);
 
   const [ethState, setEthState] = useState(true);
@@ -188,6 +190,9 @@ const Header = ({
     }
   };
 
+
+  
+
   useEffect(() => {
     getEthBalance();
   }, [chainId]);
@@ -224,7 +229,7 @@ const Header = ({
         <div className="container-fluid">
           <div className="row w-100">
             <div className="col-1"></div>
-            <div className="col-10">
+            <div className={`${windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
             <div
           className="container-lg px-0 d-flex justify-content-between gap-3 align-items-center w-100"
           // style={{ maxWidth: "calc(100% - 215px)"}}

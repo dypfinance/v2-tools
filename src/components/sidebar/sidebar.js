@@ -105,7 +105,11 @@ const Sidebar = (props) => {
       icon: "explorerIcon",
       children: [
         {
-          title: 'Pool',
+          title: 'Pair explorer',
+          link: '/pair-explorer'
+        },
+        {
+          title: 'Pool explorer',
           link: '/pool-explorer'
         },
         {
@@ -113,16 +117,12 @@ const Sidebar = (props) => {
           link: '/big-swap-explorer'
         },
         {
-          title: 'Top Token',
+          title: 'Top Tokens',
           link: '/top-tokens'
         },
         {
           title: 'Yields',
           link: '/farms'
-        },
-        {
-          title: 'Pair Explorer',
-          link: '/pair-explorer'
         },
         {
           title: 'Submit Form',

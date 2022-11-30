@@ -17,6 +17,7 @@ import stakeAvax3 from "../../FARMINNG/stakeAvax3";
 import stakeAvaxiDyp from "../../FARMINNG/stakeAvaxiDyp";
 import CawsDetails from "../../FARMINNG/caws";
 import { FadeLoader } from "react-spinners";
+import useWindowSize from '../../../functions/useWindowSize'
 
 const EarnTopPicks = ({
   topList,
@@ -282,6 +283,7 @@ const EarnTopPicks = ({
   const [cardIndexavax30, setcardIndexavax30] = useState();
   const [cardIndexavaxiDyp, setcardIndexavaxiDyp] = useState();
   const [details, setDetails] = useState();
+  const windowSize = useWindowSize()
 
   const eth_address = "ETH";
   const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
@@ -704,6 +706,8 @@ const EarnTopPicks = ({
                 setActiveCard2(null);
                 setActiveCard3(null);
                 setActiveCard4(null);
+                setDetails();
+
               }}
               onHideDetailsClick={() => {
                 setActiveCardNFT(false);
@@ -711,6 +715,7 @@ const EarnTopPicks = ({
               }}
               cardType={topList}
               details={activeCardNFT === true ? true : false}
+              listType={listType}
             />
 
             {topPools.slice(0, 2).map((pool, index) => (
@@ -728,6 +733,7 @@ const EarnTopPicks = ({
                   setActiveCard2(null);
                   setActiveCard3(null);
                   setActiveCard4(null);
+                setActiveCardNFT(false);
                   handleCardIndexStake(index);
                   handleCardIndexStake30(index);
                   handleCardIndexStakeiDyp(index);
@@ -868,7 +874,7 @@ const EarnTopPicks = ({
             />
           ) : (
             activeCardNFT && (
-              <CawsDetails coinbase={coinbase} isConnected={isConnected} />
+              <CawsDetails coinbase={coinbase} isConnected={isConnected} listType={listType} />
             )
           )}
           <div className="top-picks-container" style={{ marginTop: "25px" }}>
@@ -888,6 +894,7 @@ const EarnTopPicks = ({
                   setActiveCard(null);
                   setActiveCard2(topPools[index + 2]);
                   setActiveCard3(null);
+                setActiveCardNFT(false);
                   handleCardIndexStake(index + 2);
                   handleCardIndexStake30(index + 2);
                   handleCardIndexStakeiDyp(index + 2);
@@ -1045,6 +1052,7 @@ const EarnTopPicks = ({
                   setActiveCard(null);
                   setActiveCard2(null);
                   setActiveCard3(topPools[index + 5]);
+                setActiveCardNFT(false);
                   handleCardIndexStake(index + 5);
                   handleCardIndexStake30(index + 5);
                   handleCardIndexStakeiDyp(index + 5);
@@ -1203,6 +1211,7 @@ const EarnTopPicks = ({
                   setActiveCard2(null);
                   setActiveCard3(null);
                   setActiveCard4(topPools[index + 8]);
+                setActiveCardNFT(false);
                   handleCardIndexStake(index + 8);
                   handleCardIndexStake30(index + 8);
                   handleCardIndexStakeiDyp(index + 8);

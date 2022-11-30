@@ -257,6 +257,9 @@
 .chain-content {
   background: #26264f;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .usd-value {
@@ -288,3 +291,30 @@
   right: -25px;
 }
 
+@media screen and (max-width: 1200px) {
+  .bnb-chain-wrapper{
+    width: 100%;
+  }
+  .ethereum-chain-wrapper{
+    width: 100%;
+  }
+  .avax-chain-wrapper{
+    width: 100%;
+  }
+  .usdc-wrapper{
+    width: 100%;
+  }
+  .usdt-wrapper{
+    width: 100%;
+  }
+
+  .chain-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .values-wrapper{
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+  
+}

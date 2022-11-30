@@ -4328,9 +4328,9 @@ body.theme-dark span.l-return-type {
   .header-right {
     display: none;
   }
-  .right-content {
+  /* .right-content {
     margin-top: 80px !important;
-  }
+  } */
 }
 
 .disabled-btn {

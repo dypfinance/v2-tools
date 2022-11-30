@@ -42,3 +42,31 @@
   color: #f7f7fc;
   opacity: 0.8;
 }
+
+.faq-grid{
+  display: grid;
+  grid-template-columns: auto;
+  gap: 11px;
+}
+
+@media screen and (max-width: 1399px) {
+  .faq-grid{
+    grid-template-columns: auto auto;
+  }
+
+  .right-side-wrapper{
+    align-items: flex-end;
+  }
+
+  .faq-items-wrapper{
+    width: 49%;
+  }
+
+  .chainlink-wrapper{
+    width: 24%;
+  }
+
+  .launchpad-section-wrapper{
+    width: 24%;
+  }
+}

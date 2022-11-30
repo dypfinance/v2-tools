@@ -14,6 +14,7 @@ const CawsCard = ({
   cardType,
   renderedPage,
   details,
+  listType
   // showDetails,
 }) => {
   const [showDetails, setShowDetails] = useState(false);

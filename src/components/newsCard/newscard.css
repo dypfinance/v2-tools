@@ -20,7 +20,7 @@
   position: absolute;
   width: 100%;
   object-fit: none;
-  top: 63%;
+  bottom: 0;
 }
 
 .news-date{
