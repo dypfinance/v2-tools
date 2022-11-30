@@ -521,44 +521,50 @@ export default class Subscription extends React.Component {
             )}
 
             {!this.props.appState.isPremium ? (
-              <div className="premiumbanner">
-                <div className="row m-0 justify-content-between">
-                  <div
-                    style={{
-                      maxWidth: 335,
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 10,
-                    }}
-                  >
-                    <h3 className="subscr-title">Lifetime subscription </h3>
-                    <p className="subscr-subtitle">
-                      The subscription tokens will be used to buy and lock DYP
-                    </p>
-                    {/* <p className="subscr-note">
-                      *When you unsubscribe the DYP will be unlocked and sent to
-                      your wallet
-                    </p> */}
-                  </div>
-                  <div>
-                    <h3 className="subscr-price">75 USD</h3>
-                    <p className="subscr-note">*Exclusive offer</p>
+              <>
+                <div className="premiumbanner">
+                  <div className="d-flex align-items-center justify-content-between">
                     <div
-                      className="subscribebtn w-auto mt-2"
-                      type=""
-                      onClick={() => {
-                        this.setState({ subscribe_now: true });
-                        this.handleSubscriptionTokenChange(
-                          this.state.selectedSubscriptionToken
-                        );
-                        this.handleCheckIfAlreadyApproved();
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 5,
                       }}
                     >
-                      Subscribe now
+                      <h3 className="subscr-title">Lifetime subscription </h3>
+                      <p className="subscr-subtitle">
+                        The subscription tokens will be used to buy and lock DYP
+                      </p>
+                      {/* <p className="subscr-note">
+                        *When you unsubscribe the DYP will be unlocked and sent to
+                        your wallet
+                      </p> */}
+                    </div>
+                    <div>
+                      <div className="d-flex gap-2">
+                        <img src="/assets/img/usdt.svg"></img>
+                        <h3 className="subscr-price">75 USDT</h3>
+                      </div>
+                      <p className="subscr-note">*Exclusive offer</p>
                     </div>
                   </div>
                 </div>
-              </div>
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div style={{ color: "#F7F7FC", fontSize: "14px", fontWeight: "500", lineHeight: "20px" }}>Subscribe <br></br> to the Premium plan</div>
+                  <div className="btn filledbtn px-5" type=""
+                        onClick={() => {
+                          this.setState({ subscribe_now: true });
+                          this.handleSubscriptionTokenChange(
+                            this.state.selectedSubscriptionToken
+                          );
+                          this.handleCheckIfAlreadyApproved();
+                        }}
+                  >
+                    Subscribe now
+                  </div>
+                </div>
+              </>
+              
             ) : (
               <></>
             )}
