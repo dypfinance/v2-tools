@@ -174,6 +174,7 @@ export default function initBscBuyback({
         disburseDuration: "",
         show: false,
         popup: false,
+        showCalculator: false,
         is_wallet_connected: false,
       };
 

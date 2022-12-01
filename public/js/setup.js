@@ -242,8 +242,6 @@ class STAKINGAVAX {
   }
 }
 
-
-
 class STAKINGBSC {
   constructor(ticker = "STAKINGBSC", token = "TOKEN") {
     this.ticker = ticker;
@@ -270,14 +268,14 @@ class STAKINGBSC {
       "disburseDuration",
     ].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         return await contract.methods[fn_name](...args).call();
       };
     });
 
     ["deposit", "withdraw", "claim", "claimAs"].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         let value = 0;
         console.log(value);
         let gas = window.config.default_gas_amount;
@@ -290,12 +288,11 @@ class STAKINGBSC {
         });
       };
     });
-
   }
 
   async depositTOKEN(amount) {
-    let token_contract = await getContract({key: this.token});
-    let staking_contract = await getContract({key: this.ticker});
+    let token_contract = await getContract({ key: this.token });
+    let staking_contract = await getContract({ key: this.ticker });
     let batch = new window.web3.eth.BatchRequest();
     batch.add(
       token_contract.methods
@@ -307,19 +304,15 @@ class STAKINGBSC {
         })
     );
     batch.add(
-      staking_contract.methods
-        .deposit(amount)
-        .send.request({
-          gas: window.config.default_gas_amount,
-          from: await getCoinbase(),
-          gasPrice: window.config.default_gasprice_gwei * 1e9,
-        })
+      staking_contract.methods.deposit(amount).send.request({
+        gas: window.config.default_gas_amount,
+        from: await getCoinbase(),
+        gasPrice: window.config.default_gasprice_gwei * 1e9,
+      })
     );
     return batch.execute();
   }
 }
-
-
 
 class TOKEN {
   constructor(key = "TOKEN") {
@@ -418,6 +411,71 @@ class TOKENAVAX {
   }
   async balanceOf(address) {
     let contract = await getContract({ key: this.key });
+    return await contract.methods.balanceOf(address).call();
+  }
+}
+
+
+class TOKENBSC {
+  constructor(key = "TOKENBSC") {
+    this.key = key;
+    let address = window.config[key.toLowerCase() + "_address"];
+    this._address = address;
+  }
+
+  async transfer(to, amount) {
+    let contract = await getContract({key: this.key});
+
+    let gas = window.config.default_gas_amount;
+    try {
+      let estimatedGas = await contract.methods["transfer"](
+        to,
+        amount
+      ).estimateGas({ gas });
+      if (estimatedGas) {
+        gas = Math.min(estimatedGas, gas);
+        //console.log('TRANSFER '+gas)
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+    return await contract.methods
+      .transfer(to, amount)
+      .send({
+        gas,
+        from: await getCoinbase(),
+        gasPrice: window.config.default_gasprice_gwei * 1e9,
+      });
+  }
+  async totalSupply() {
+    let contract = await getContract({key: this.key});
+    return await contract.methods.totalSupply().call();
+  }
+  async approve(spender, amount) {
+    let contract = await getContract({key: this.key});
+    let gas = window.config.default_gas_amount;
+    try {
+      let estimatedGas = await contract.methods["approve"](
+        spender,
+        amount
+      ).estimateGas({ gas });
+      if (estimatedGas) {
+        gas = Math.min(estimatedGas, gas);
+        //console.log('estimatedgas'+gas)
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+    return await contract.methods
+      .approve(spender, amount)
+      .send({
+        gas,
+        from: await getCoinbase(),
+        gasPrice: window.config.default_gasprice_gwei * 1e9,
+      });
+  }
+  async balanceOf(address) {
+    let contract = await getContract({key: this.key});
     return await contract.methods.balanceOf(address).call();
   }
 }
@@ -763,7 +821,6 @@ class CONSTANT_STAKINGAVAX {
   }
 }
 
-
 class CONSTANT_STAKINGBSC_NEW {
   constructor(ticker = "CONSTANT_STAKINGBSC_30", token = "REWARD_TOKEN") {
     this.ticker = ticker;
@@ -792,7 +849,7 @@ class CONSTANT_STAKINGBSC_NEW {
       "ADMIN_CAN_CLAIM_AFTER",
     ].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         return await contract.methods[fn_name](...args).call();
       };
     });
@@ -800,11 +857,11 @@ class CONSTANT_STAKINGBSC_NEW {
     ["stake", "unstake", "claim", "reInvest", "stakeExternal"].forEach(
       (fn_name) => {
         this[fn_name] = async function (...args) {
-          let contract = await getContract({key: this.ticker});
+          let contract = await getContract({ key: this.ticker });
           let value = 0;
-          
+
           let gas = window.config.default_gas_amount;
-          
+
           return await contract.methods[fn_name](...args).send({
             value,
             gas,
@@ -817,8 +874,8 @@ class CONSTANT_STAKINGBSC_NEW {
   }
 
   async depositTOKEN(amount, referrer) {
-    let token_contract = await getContract({key: this.token});
-    let staking_contract = await getContract({key:this.ticker});
+    let token_contract = await getContract({ key: this.token });
+    let staking_contract = await getContract({ key: this.ticker });
     let batch = new window.web3.eth.BatchRequest();
     batch.add(
       token_contract.methods
@@ -830,18 +887,15 @@ class CONSTANT_STAKINGBSC_NEW {
         })
     );
     batch.add(
-      staking_contract.methods
-        .deposit(amount, referrer)
-        .send.request({
-          gas: window.config.default_gas_amount,
-          from: await getCoinbase(),
-          gasPrice: window.config.default_gasprice_gwei * 1e9,
-        })
+      staking_contract.methods.deposit(amount, referrer).send.request({
+        gas: window.config.default_gas_amount,
+        from: await getCoinbase(),
+        gasPrice: window.config.default_gasprice_gwei * 1e9,
+      })
     );
     return batch.execute();
   }
 }
- 
 
 class CONSTANT_STAKING_NEWAVAX {
   constructor(ticker = "CONSTANT_STAKINGAVAX_30", token = "REWARD_TOKENAVAX") {
@@ -1016,7 +1070,6 @@ class BUYBACK_STAKINGAVAX {
   }
 }
 
-
 class BUYBACK_STAKINGBSC {
   constructor(ticker = "BUYBACK_STAKINGBSC", token = "REWARD_TOKEN") {
     this.ticker = ticker;
@@ -1038,18 +1091,18 @@ class BUYBACK_STAKINGBSC {
       "REWARD_INTERVAL",
     ].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         return await contract.methods[fn_name](...args).call();
       };
     });
 
     ["stake", "unstake", "reInvest", "claim"].forEach((fn_name) => {
       this[fn_name] = async function (...args) {
-        let contract = await getContract({key: this.ticker});
+        let contract = await getContract({ key: this.ticker });
         let value = 0;
         console.log(value);
         let gas = window.config.default_gas_amount;
-        
+
         return await contract.methods[fn_name](...args).send({
           value,
           gas,
@@ -1060,8 +1113,6 @@ class BUYBACK_STAKINGBSC {
     });
   }
 }
-
-
 
 class VAULT {
   constructor(vaultAddress, tokenAddress) {
@@ -1436,6 +1487,8 @@ window.config = {
   token_weth_address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2", //vault weth
 
   wethavax_address: "0xf20d962a6c8f70c731bd838a3a388d7d48fa6e15",
+  wethbsc_address: "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+
 
   // WBNB !! weth_address: '0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c', // LOWERCASE!
 
@@ -1636,11 +1689,12 @@ window.config = {
   reward_token_dypsavax_address: "0x4689545A1389E7778Fd4e66F854C91Bf8aBacBA9",
   reward_token_dypsbsc_address: "0x4B2dfB131B0AE1D6d5D0c9a3a09c028a5cD10554",
 
-
   //Constant Staking DYP -> DAI
   constant_stakingdai_address: "0x44bEd8ea3296bda44870d0Da98575520De1735d4",
   reward_token_dai_address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
   reward_token_daiavax_address: "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70",
+  reward_token_daibsc_address: "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
+
 
   token_wbtc_address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
   token_usdt_address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
@@ -1872,28 +1926,45 @@ window.config = {
 
   constant_stakingnewbsc_new3_address:
     "0x9af074cE714FE1Eb32448052a38D274E93C5dc28",
-    constant_stakingnewbsc_new4_address:
+  constant_stakingnewbsc_new4_address:
     "0xDBfb96e2899d52B469C1a1C35eD71fBBa228d2cC",
 
-    reward_tokenbsc_address2: "0xbd100d061e120b2c67a24453cf6368e63f1be056",
+  reward_tokenbsc_address2: "0xbd100d061e120b2c67a24453cf6368e63f1be056",
 
-
-
-    //farming bsc
+  //farming bsc
 
   farming_newbsc_1_address: "0x537dc4fee298ea79a7f65676735415f1e2882f92",
-  constant_stakingnewbsc_new5_address: "0xc794cdb8d6ac5eb42d5aba9c1e641ae17c239c8c",
+  constant_stakingnewbsc_new5_address:
+    "0xc794cdb8d6ac5eb42d5aba9c1e641ae17c239c8c",
   farming_newbsc_2_address: "0x219717bf0bc33b2764a6c1a772f75305458bda3d",
-  constant_stakingnewbsc_new6_address: "0x23609b1f5274160564e4afc5eb9329a8bf81c744",
+  constant_stakingnewbsc_new6_address:
+    "0x23609b1f5274160564e4afc5eb9329a8bf81c744",
 
   farming_newbsc_3_address: "0xd1151a2434931f34bcfa6c27639b67c1a23d93af",
-  constant_stakingnewbsc_new7_address: "0x264922696b9972687522b6e98bf78a0430e2163c",
+  constant_stakingnewbsc_new7_address:
+    "0x264922696b9972687522b6e98bf78a0430e2163c",
 
   farming_newbsc_4_address: "0xed869ba773c3f1a1adcc87930ca36ee2dc73435d",
-  constant_stakingnewbsc_new8_address: "0x9df0a645beb6f7adfadc56f3689e79405337efe2",
+  constant_stakingnewbsc_new8_address:
+    "0x9df0a645beb6f7adfadc56f3689e79405337efe2",
 
   farming_newbsc_5_address: "0x415b1624710296717fa96cad84f53454e8f02d18",
-  constant_stakingnewbsc_new9_address: "0xbd574278febad04b7a0694c37def4f2ecfa9354a",
+  constant_stakingnewbsc_new9_address:
+    "0xbd574278febad04b7a0694c37def4f2ecfa9354a",
+
+
+
+
+    //staking bsc
+
+    constant_stakingbsc_new10_address: "0xef9e50A19358CCC8816d9BC2c2355aea596efd06",
+    constant_stakingbsc_new11_address: "0xfc4493e85fd5424456f22135db6864dd4e4ed662",
+
+    constant_stakingbsc_new12_address: "0xf13aDbEb27ea9d9469D95e925e56a1CF79c06E90",
+    constant_stakingbsc_new13_address: "0xaF411BF994dA1435A3150B874395B86376C5f2d5",
+
+
+
 
 
 };
@@ -1928,7 +1999,6 @@ window.TOKEN_NEW_ABI = window.TOKEN_ABI;
 window.TOKEN_NEWAVAX_ABI = window.TOKEN_ABI;
 window.TOKEN_NEWBSC_ABI = window.TOKENBSC_ABI;
 
-
 window.farmweth = new TOKEN("FARMWETH");
 
 //DYP-ETH
@@ -1937,6 +2007,9 @@ window.staking = new STAKING();
 
 window.wethavax = new TOKENAVAX("WETHAVAX");
 window.WETHAVAX_ABI = window.TOKEN_ABI;
+
+window.wethbsc = new TOKENBSC("WETHBSC");
+window.WETHBSC_ABI = window.TOKENBSC_ABI;
 
 window.token_dyp_30 = new TOKEN("TOKEN_DYP30");
 window.staking_dyp_30 = new STAKING("STAKING_DYP30", "TOKEN_DYP30");
@@ -1966,31 +2039,61 @@ window.farming_newbsc_3 = new STAKINGBSC("FARMING_NEWBSC_3");
 window.farming_newbsc_4 = new STAKINGBSC("FARMING_NEWBSC_4");
 window.farming_newbsc_5 = new STAKINGBSC("FARMING_NEWBSC_5");
 
+window.FARMING_NEWBSC_1_ABI = window.FARMING_NEWBSC_ABI;
+window.FARMING_NEWBSC_2_ABI = window.FARMING_NEWBSC_ABI;
+window.FARMING_NEWBSC_3_ABI = window.FARMING_NEWBSC_ABI;
+window.FARMING_NEWBSC_4_ABI = window.FARMING_NEWBSC_ABI;
+window.FARMING_NEWBSC_5_ABI = window.FARMING_NEWBSC_ABI;
 
 window.constant_stakingnewbsc_new5 = new CONSTANT_STAKINGBSC_NEW(
-  "CONSTANT_STAKINGNEW_NEW5"
+  "CONSTANT_STAKINGNEWBSC_NEW5"
 );
-
 
 window.constant_stakingnewbsc_new6 = new CONSTANT_STAKINGBSC_NEW(
-  "CONSTANT_STAKINGNEW_NEW6"
+  "CONSTANT_STAKINGNEWBSC_NEW6"
 );
-
 
 window.constant_stakingnewbsc_new7 = new CONSTANT_STAKINGBSC_NEW(
-  "CONSTANT_STAKINGNEW_NEW7"
+  "CONSTANT_STAKINGNEWBSC_NEW7"
 );
-
 
 window.constant_stakingnewbsc_new8 = new CONSTANT_STAKINGBSC_NEW(
-  "CONSTANT_STAKINGNEW_NEW8"
+  "CONSTANT_STAKINGNEWBSC_NEW8"
 );
-
 
 window.constant_stakingnewbsc_new9 = new CONSTANT_STAKINGBSC_NEW(
-  "CONSTANT_STAKINGNEW_NEW9"
+  "CONSTANT_STAKINGNEWBSC_NEW9"
 );
 
+window.CONSTANT_STAKINGNEWBSC_NEW5_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGNEWBSC_NEW6_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGNEWBSC_NEW7_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGNEWBSC_NEW8_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGNEWBSC_NEW9_ABI = window.CONSTANT_STAKINGBSC_NEW;
+
+
+
+//staking bsc
+
+window.constant_stakingbsc_new10 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGBSC_NEW10"
+);
+window.constant_stakingbsc_new11 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGBSC_NEW11"
+);
+
+window.constant_stakingbsc_new12 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGBSC_NEW12"
+);
+window.constant_stakingbsc_new13 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGBSC_NEW13"
+);
+
+
+window.CONSTANT_STAKINGBSC_NEW10_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGBSC_NEW11_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGBSC_NEW12_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGBSC_NEW13_ABI = window.CONSTANT_STAKINGBSC_NEW;
 
 //DYP-USDC
 window.token_usdc_3 = new TOKEN("TOKEN_USDC3");
@@ -2048,12 +2151,12 @@ window.constant_stakingbsc_new3 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEWBSC_NEW3"
 );
 
-window.constant_stakingbsc_new4 = new CONSTANT_STAKING_NEW("CONSTANT_STAKINGNEWBSC_NEW4")
-
+window.constant_stakingbsc_new4 = new CONSTANT_STAKING_NEW(
+  "CONSTANT_STAKINGNEWBSC_NEW4"
+);
 
 window.CONSTANT_STAKINGNEWBSC_NEW3_ABI = window.CONSTANT_STAKINGNEW_ABI;
 window.CONSTANT_STAKINGNEWBSC_NEW4_ABI = window.CONSTANT_STAKINGNEW_ABI;
-
 
 // window.token_dyps = new TOKEN(window.config.reward_token_dyps_address)
 //constant staking NEW CONTRACTS
@@ -2098,6 +2201,9 @@ window.reward_token_dai = new TOKEN("REWARD_TOKEN_DAI");
 
 window.reward_token_daiavax = new TOKENAVAX("REWARD_TOKEN_DAIAVAX");
 window.REWARD_TOKEN_DAIAVAX_ABI = window.TOKENAVAX_ABI;
+
+window.reward_token_daibsc = new TOKENAVAX("REWARD_TOKEN_DAIBSC");
+window.REWARD_TOKEN_DAIBSC_ABI = window.TOKENBSC_ABI;
 
 window.constant_stakingdai = new CONSTANT_STAKING_NEW("CONSTANT_STAKINGDAI");
 
@@ -2624,14 +2730,11 @@ window.bridge_idypbscbsc = new BRIDGE(
   window.config.token_idyp_bscbsc_address
 );
 
-
 window.buyback_stakingbsc1_1 = new BUYBACK_STAKINGBSC("BUYBACK_STAKINGBSC1_1");
 window.buyback_stakingbsc1_2 = new BUYBACK_STAKINGBSC("BUYBACK_STAKINGBSC1_2");
 
-
 window.BUYBACK_STAKINGBSC1_1_ABI = window.BUYBACK_STAKINGBSC1_1_ABI;
 window.BUYBACK_STAKINGBSC1_1_ABI = window.BUYBACK_STAKINGBSC1_2_ABI;
-
 
 async function getTokenHolderBalanceAll(holder, token_address, network) {
   if (network == 1) {
@@ -14155,6 +14258,756 @@ window.CONSTANT_STAKINGNEW_ABI = [
   },
 ];
 
+window.CONSTANT_STAKINGNEWBSC_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_uniswapV2RouterAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_feeRecipientAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "trustedDepositTokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "trustedRewardTokenAddress",
+        type: "address",
+      },
+      { internalType: "uint256", name: "referralFeeRateX100", type: "uint256" },
+      { internalType: "uint256", name: "stakingFeeRateX100", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "unstakingFeeRateX100",
+        type: "uint256",
+      },
+      { internalType: "uint256", name: "rewardRateX100", type: "uint256" },
+      { internalType: "uint256", name: "rewardInterval", type: "uint256" },
+      { internalType: "uint256", name: "lockupTime", type: "uint256" },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "EmergencyDeclared",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newAddress",
+        type: "address",
+      },
+    ],
+    name: "FeeRecipientAddressChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_newLockupTime",
+        type: "uint256",
+      },
+    ],
+    name: "LockupTimeChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newFee",
+        type: "uint256",
+      },
+    ],
+    name: "ReferralFeeChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "referrer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "ReferralFeeTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "holder",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "Reinvest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "holder",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "RewardsTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "Stake",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newFee",
+        type: "uint256",
+      },
+    ],
+    name: "StakingFeeChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "contractAddress",
+        type: "address",
+      },
+    ],
+    name: "TrustedDepositContractAdded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "contractAddress",
+        type: "address",
+      },
+    ],
+    name: "TrustedDepositContractRemoved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "router",
+        type: "address",
+      },
+    ],
+    name: "UniswapV2RouterChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "Unstake",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newFee",
+        type: "uint256",
+      },
+    ],
+    name: "UnstakingFeeChanged",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "EMERGENCY_WAIT_TIME",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "LOCKUP_TIME",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "REFERRAL_FEE_RATE_X_100",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "REWARD_INTERVAL",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "REWARD_RATE_X_100",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "STAKING_FEE_RATE_X_100",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRUSTED_DEPOSIT_TOKEN_ADDRESS",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRUSTED_REWARD_TOKEN_ADDRESS",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "UNSTAKING_FEE_RATE_X_100",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_address", type: "address" }],
+    name: "addTrustedDepositContractAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "adminCanClaimAfter",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "adminClaimableTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_referralFee",
+        type: "uint256",
+      },
+      { internalType: "uint256", name: "_amountOutMin_claim", type: "uint256" },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "claim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "token", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "claimAnyToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractStartTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "declareEmergency",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "account", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_stakingReferralFee",
+        type: "uint256",
+      },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "depositByContract",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "depositedTokens",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "feeRecipientAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "account", type: "address" },
+      { internalType: "uint256", name: "i", type: "uint256" },
+    ],
+    name: "getActiveReferredStaker",
+    outputs: [
+      { internalType: "address", name: "_staker", type: "address" },
+      { internalType: "uint256", name: "_totalEarned", type: "uint256" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getNumberOfHolders",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "referrer", type: "address" }],
+    name: "getNumberOfReferredStakers",
+    outputs: [
+      { internalType: "uint256", name: "_activeStakers", type: "uint256" },
+      { internalType: "uint256", name: "_totalStakers", type: "uint256" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_holder", type: "address" }],
+    name: "getPendingDivs",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "account", type: "address" },
+      { internalType: "uint256", name: "i", type: "uint256" },
+    ],
+    name: "getReferredStaker",
+    outputs: [
+      { internalType: "address", name: "_staker", type: "address" },
+      { internalType: "uint256", name: "_totalEarned", type: "uint256" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "startIndex", type: "uint256" },
+      { internalType: "uint256", name: "endIndex", type: "uint256" },
+    ],
+    name: "getStakersList",
+    outputs: [
+      { internalType: "address[]", name: "stakers", type: "address[]" },
+      {
+        internalType: "uint256[]",
+        name: "stakingTimestamps",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "lastClaimedTimeStamps",
+        type: "uint256[]",
+      },
+      { internalType: "uint256[]", name: "stakedTokens", type: "uint256[]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_holder", type: "address" }],
+    name: "getTotalPendingDivs",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isEmergency",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "isTrustedDepositContract",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "lastClaimedTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_referralFee",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_reinvest",
+        type: "uint256",
+      },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "reInvest",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "referrals",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_address", type: "address" }],
+    name: "removeTrustedDepositContractAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "rewardsPendingClaim",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "lockupTime", type: "uint256" },
+      { internalType: "uint256", name: "referralFeeRateX100", type: "uint256" },
+      { internalType: "uint256", name: "stakingFeeRateX100", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "unstakingFeeRateX100",
+        type: "uint256",
+      },
+      { internalType: "address", name: "router", type: "address" },
+      {
+        internalType: "address",
+        name: "_feeRecipientAddress",
+        type: "address",
+      },
+    ],
+    name: "setContractVariables",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newFeeRecipientAddress",
+        type: "address",
+      },
+    ],
+    name: "setFeeRecipientAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_newLockupTime", type: "uint256" },
+    ],
+    name: "setLockupTime",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_newReferralFeeRateX100",
+        type: "uint256",
+      },
+    ],
+    name: "setReferralFeeRateX100",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_newStakingFeeRateX100",
+        type: "uint256",
+      },
+    ],
+    name: "setStakingFeeRateX100",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "contract IUniswapV2Router",
+        name: "_newUniswapV2Router",
+        type: "address",
+      },
+    ],
+    name: "setUniswapV2Router",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_newUnstakingFeeRateX100",
+        type: "uint256",
+      },
+    ],
+    name: "setUnstakingFeeRateX100",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "amountToStake", type: "uint256" },
+      { internalType: "address", name: "referrer", type: "address" },
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_referralFee",
+        type: "uint256",
+      },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "stake",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "stakingTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalClaimedReferralFee",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalClaimedRewards",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "totalEarnedTokens",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "totalReferralFeeEarned",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "uniswapV2Router",
+    outputs: [
+      { internalType: "contract IUniswapV2Router", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "amountToWithdraw", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_referralFee",
+        type: "uint256",
+      },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "unstake",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
 window.BUYBACK_STAKINGBSC1_1_ABI = [
   {
     inputs: [
@@ -15424,6 +16277,822 @@ window.BUYBACK_STAKINGBSC1_2_ABI = [
 ];
 
 window.FARMING_NEW_ABI = [
+  {
+    inputs: [
+      { internalType: "address[]", name: "swapPath", type: "address[]" },
+      {
+        internalType: "address",
+        name: "_uniswapV2RouterAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_feeRecipientAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+    ],
+    name: "ClaimableTokenAdded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+    ],
+    name: "ClaimableTokenRemoved",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "EmergencyDeclared",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "EthRewardsDisbursed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "holder",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "EthRewardsTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newAddress",
+        type: "address",
+      },
+    ],
+    name: "FeeRecipientAddressChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "lockupTime",
+        type: "uint256",
+      },
+    ],
+    name: "LockupTimeChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newMagicNumber",
+        type: "uint256",
+      },
+    ],
+    name: "MagicNumberChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "RewardsDisbursed",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "holder",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "RewardsTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "uint256", name: "fee", type: "uint256" },
+    ],
+    name: "StakingFeeChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "router",
+        type: "address",
+      },
+    ],
+    name: "UniswapV2RouterChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "uint256", name: "fee", type: "uint256" },
+    ],
+    name: "UnstakingFeeChanged",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "BURN_ADDRESS",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "EMERGENCY_WAIT_TIME",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "MAGIC_NUMBER",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "STAKING_FEE_RATE_X_100",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    name: "SWAP_PATH",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "UNSTAKING_FEE_RATE_X_100",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    name: "addContractBalance",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "trustedClaimableTokenAddress",
+        type: "address",
+      },
+    ],
+    name: "addTrustedClaimableToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "adminCanClaimAfter",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "adminClaimableTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "burnOrDisburseTokensPeriod",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "burnRewardTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_claimAsToken_dyp",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_attemptSwap",
+        type: "uint256",
+      },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "claim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "token", type: "address" },
+      { internalType: "address", name: "recipient", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+    ],
+    name: "claimAnyToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "claimAsToken", type: "address" },
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_claimAsToken_weth",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_claimAsToken_dyp",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amountOutMin_attemptSwap",
+        type: "uint256",
+      },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "claimAs",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "cliffTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractBalance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractDeployTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "declareEmergency",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "depositToken", type: "address" },
+      { internalType: "uint256", name: "amountToStake", type: "uint256" },
+      { internalType: "uint256[]", name: "minAmounts", type: "uint256[]" },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "deposit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "depositTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "depositedTokens",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "disburseAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "disburseDuration",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "disbursePercentX100",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "disburseRewardTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "feeRecipientAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "startIndex", type: "uint256" },
+      { internalType: "uint256", name: "endIndex", type: "uint256" },
+    ],
+    name: "getDepositorsList",
+    outputs: [
+      { internalType: "address[]", name: "stakers", type: "address[]" },
+      {
+        internalType: "uint256[]",
+        name: "stakingTimestamps",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "lastClaimedTimeStamps",
+        type: "uint256[]",
+      },
+      { internalType: "uint256[]", name: "stakedTokens", type: "uint256[]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getMaxSwappableAmount",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getNumberOfHolders",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getPendingDisbursement",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_holder", type: "address" }],
+    name: "getPendingDivs",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "_holder", type: "address" }],
+    name: "getPendingDivsEth",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isEmergency",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastBurnOrTokenDistributeTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "lastClaimedTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastDisburseTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "lastDivPoints",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "lastEthDivPoints",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastSwapExecutionTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "trustedClaimableTokenAddress",
+        type: "address",
+      },
+    ],
+    name: "removeTrustedClaimableToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "newMagicNumber", type: "uint256" },
+      { internalType: "uint256", name: "lockupTime", type: "uint256" },
+      { internalType: "uint256", name: "stakingFeeRateX100", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "unstakingFeeRateX100",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_uniswapV2RouterAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "newFeeRecipientAddress",
+        type: "address",
+      },
+    ],
+    name: "setContractVariables",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newFeeRecipientAddress",
+        type: "address",
+      },
+    ],
+    name: "setFeeRecipientAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_newLockupTime", type: "uint256" },
+    ],
+    name: "setLockupTime",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "newMagicNumber", type: "uint256" },
+    ],
+    name: "setMagicNumber",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newStakingFeeRateX100",
+        type: "uint256",
+      },
+    ],
+    name: "setStakingFeeRateX100",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "contract IUniswapV2Router",
+        name: "router",
+        type: "address",
+      },
+    ],
+    name: "setUniswapV2Router",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newUnstakingFeeRateX100",
+        type: "uint256",
+      },
+    ],
+    name: "setUnstakingFeeRateX100",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "swapAttemptPeriod",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "tokensToBeDisbursedOrBurnt",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "tokensToBeSwapped",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalClaimedRewards",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalClaimedRewardsEth",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalDivPoints",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "totalEarnedEth",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "totalEarnedTokens",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalEthDivPoints",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalTokens",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "trustedBaseTokenAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "trustedClaimableTokens",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "trustedDepositTokenAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "trustedPlatformTokenAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "trustedRewardTokenAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "trustedStakingContractAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "uniswapRouterV2",
+    outputs: [
+      { internalType: "contract IUniswapV2Router", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "uniswapV2Pair",
+    outputs: [
+      { internalType: "contract IUniswapV2Pair", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "withdrawAsToken", type: "address" },
+      { internalType: "uint256", name: "amountToWithdraw", type: "uint256" },
+      { internalType: "uint256[]", name: "minAmounts", type: "uint256[]" },
+      { internalType: "uint256", name: "_deadline", type: "uint256" },
+    ],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+window.FARMING_NEWBSC_ABI = [
   {
     inputs: [
       { internalType: "address[]", name: "swapPath", type: "address[]" },
@@ -18626,822 +20295,6 @@ window.STAKINGAVAX_ABI = [
   },
 ];
 
-window.FARMING_NEW_ABI = [
-  {
-    inputs: [
-      { internalType: "address[]", name: "swapPath", type: "address[]" },
-      {
-        internalType: "address",
-        name: "_uniswapV2RouterAddress",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_feeRecipientAddress",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "tokenAddress",
-        type: "address",
-      },
-    ],
-    name: "ClaimableTokenAdded",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "tokenAddress",
-        type: "address",
-      },
-    ],
-    name: "ClaimableTokenRemoved",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-    ],
-    name: "EmergencyDeclared",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "EthRewardsDisbursed",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "holder",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "EthRewardsTransferred",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "newAddress",
-        type: "address",
-      },
-    ],
-    name: "FeeRecipientAddressChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "lockupTime",
-        type: "uint256",
-      },
-    ],
-    name: "LockupTimeChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "newMagicNumber",
-        type: "uint256",
-      },
-    ],
-    name: "MagicNumberChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "OwnershipTransferred",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "RewardsDisbursed",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "holder",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "RewardsTransferred",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: false, internalType: "uint256", name: "fee", type: "uint256" },
-    ],
-    name: "StakingFeeChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "router",
-        type: "address",
-      },
-    ],
-    name: "UniswapV2RouterChanged",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      { indexed: false, internalType: "uint256", name: "fee", type: "uint256" },
-    ],
-    name: "UnstakingFeeChanged",
-    type: "event",
-  },
-  {
-    inputs: [],
-    name: "BURN_ADDRESS",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "EMERGENCY_WAIT_TIME",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "MAGIC_NUMBER",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "STAKING_FEE_RATE_X_100",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    name: "SWAP_PATH",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "UNSTAKING_FEE_RATE_X_100",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
-    name: "addContractBalance",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "trustedClaimableTokenAddress",
-        type: "address",
-      },
-    ],
-    name: "addTrustedClaimableToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "adminCanClaimAfter",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "adminClaimableTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "burnOrDisburseTokensPeriod",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "burnRewardTokens",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_amountOutMin_claimAsToken_dyp",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_amountOutMin_attemptSwap",
-        type: "uint256",
-      },
-      { internalType: "uint256", name: "_deadline", type: "uint256" },
-    ],
-    name: "claim",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "token", type: "address" },
-      { internalType: "address", name: "recipient", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
-    name: "claimAnyToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "claimAsToken", type: "address" },
-      {
-        internalType: "uint256",
-        name: "_amountOutMin_claimAsToken_weth",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_amountOutMin_claimAsToken_dyp",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_amountOutMin_attemptSwap",
-        type: "uint256",
-      },
-      { internalType: "uint256", name: "_deadline", type: "uint256" },
-    ],
-    name: "claimAs",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "cliffTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "contractBalance",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "contractDeployTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "declareEmergency",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "depositToken", type: "address" },
-      { internalType: "uint256", name: "amountToStake", type: "uint256" },
-      { internalType: "uint256[]", name: "minAmounts", type: "uint256[]" },
-      { internalType: "uint256", name: "_deadline", type: "uint256" },
-    ],
-    name: "deposit",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "depositTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "depositedTokens",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "disburseAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "disburseDuration",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "disbursePercentX100",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "disburseRewardTokens",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "feeRecipientAddress",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "startIndex", type: "uint256" },
-      { internalType: "uint256", name: "endIndex", type: "uint256" },
-    ],
-    name: "getDepositorsList",
-    outputs: [
-      { internalType: "address[]", name: "stakers", type: "address[]" },
-      {
-        internalType: "uint256[]",
-        name: "stakingTimestamps",
-        type: "uint256[]",
-      },
-      {
-        internalType: "uint256[]",
-        name: "lastClaimedTimeStamps",
-        type: "uint256[]",
-      },
-      { internalType: "uint256[]", name: "stakedTokens", type: "uint256[]" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getMaxSwappableAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getNumberOfHolders",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getPendingDisbursement",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "_holder", type: "address" }],
-    name: "getPendingDivs",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "_holder", type: "address" }],
-    name: "getPendingDivsEth",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "isEmergency",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "lastBurnOrTokenDistributeTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "lastClaimedTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "lastDisburseTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "lastDivPoints",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "lastEthDivPoints",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "lastSwapExecutionTime",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "trustedClaimableTokenAddress",
-        type: "address",
-      },
-    ],
-    name: "removeTrustedClaimableToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "newMagicNumber", type: "uint256" },
-      { internalType: "uint256", name: "lockupTime", type: "uint256" },
-      { internalType: "uint256", name: "stakingFeeRateX100", type: "uint256" },
-      {
-        internalType: "uint256",
-        name: "unstakingFeeRateX100",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "_uniswapV2RouterAddress",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "newFeeRecipientAddress",
-        type: "address",
-      },
-    ],
-    name: "setContractVariables",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "newFeeRecipientAddress",
-        type: "address",
-      },
-    ],
-    name: "setFeeRecipientAddress",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "_newLockupTime", type: "uint256" },
-    ],
-    name: "setLockupTime",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "newMagicNumber", type: "uint256" },
-    ],
-    name: "setMagicNumber",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "newStakingFeeRateX100",
-        type: "uint256",
-      },
-    ],
-    name: "setStakingFeeRateX100",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "contract IUniswapV2Router",
-        name: "router",
-        type: "address",
-      },
-    ],
-    name: "setUniswapV2Router",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "newUnstakingFeeRateX100",
-        type: "uint256",
-      },
-    ],
-    name: "setUnstakingFeeRateX100",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "swapAttemptPeriod",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "tokensToBeDisbursedOrBurnt",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "tokensToBeSwapped",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalClaimedRewards",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalClaimedRewardsEth",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalDivPoints",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "totalEarnedEth",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "totalEarnedTokens",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalEthDivPoints",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalTokens",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "trustedBaseTokenAddress",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "trustedClaimableTokens",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "trustedDepositTokenAddress",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "trustedPlatformTokenAddress",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "trustedRewardTokenAddress",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "trustedStakingContractAddress",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "uniswapRouterV2",
-    outputs: [
-      { internalType: "contract IUniswapV2Router", name: "", type: "address" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "uniswapV2Pair",
-    outputs: [
-      { internalType: "contract IUniswapV2Pair", name: "", type: "address" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "withdrawAsToken", type: "address" },
-      { internalType: "uint256", name: "amountToWithdraw", type: "uint256" },
-      { internalType: "uint256[]", name: "minAmounts", type: "uint256[]" },
-      { internalType: "uint256", name: "_deadline", type: "uint256" },
-    ],
-    name: "withdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-];
-
 window.BUYBACK_STAKINGAVAX_ABI = [
   {
     inputs: [],
@@ -22341,8 +23194,6 @@ window.TOKENAVAX_ABI = [
   },
 ];
 
-
-
 window.TOKENBSC_ABI = [
   {
     inputs: [],
@@ -22763,7 +23614,6 @@ window.TOKENBSC_ABI = [
     type: "function",
   },
 ];
-
 
 window.CONSTANT_STAKING_IDYP_ABI = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -23894,8 +24744,6 @@ window.rebase_factors = [
 
 window.rebase_factorsavax = [1, 1, 1, 1, 1, 1, 1, 1, 1];
 
-
-
 window.rebase_factorsbsc = [
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 
@@ -24204,7 +25052,6 @@ window.buyback_tokens_farmingavax = {
   },
 };
 
-
 window.buyback_tokensbsc = {
   "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c": {
     symbol: "WBNB",
@@ -24227,7 +25074,6 @@ window.buyback_tokensbsc = {
     decimals: 18,
   },
 };
-
 
 const LP_IDs_V2 = {
   weth: [
@@ -24255,12 +25101,31 @@ const LP_IDs_V2Avax = {
   ],
 };
 
+const LP_IDs_V2BNB = {
+  wbnb: [
+    "0x1bc61d08a300892e784ed37b2d0e63c85d1d57fb-0x537dc4fee298ea79a7f65676735415f1e2882f92",
+    "0x1bc61d08a300892e784ed37b2d0e63c85d1d57fb-0x219717bf0bc33b2764a6c1a772f75305458bda3d",
+    "0x1bc61d08a300892e784ed37b2d0e63c85d1d57fb-0xd1151a2434931f34bcfa6c27639b67c1a23d93af",
+    "0x1bc61d08a300892e784ed37b2d0e63c85d1d57fb-0xed869ba773c3f1a1adcc87930ca36ee2dc73435d",
+    "0x1bc61d08a300892e784ed37b2d0e63c85d1d57fb-0x415b1624710296717fa96cad84f53454e8f02d18",
+  ],
+};
+
+
 window.LP_IDs_V2Avax = LP_IDs_V2Avax;
+window.LP_IDs_V2BNB = LP_IDs_V2BNB;
+
 
 const LP_ID_LIST_V2Avax = Object.keys(LP_IDs_V2Avax)
   .map((key) => LP_IDs_V2Avax[key])
   .flat();
 window.LP_ID_LIST_V2Avax = LP_ID_LIST_V2Avax;
+
+const LP_ID_LIST_V2BNB = Object.keys(LP_IDs_V2BNB)
+  .map((key) => LP_IDs_V2BNB[key])
+  .flat();
+window.LP_ID_LIST_V2BNB = LP_ID_LIST_V2BNB;
+
 
 window.LP_ID_LIST_V2 = LP_ID_LIST_V2;
 
@@ -24292,9 +25157,6 @@ async function get_the_graph_eth_v2() {
 
 window.get_the_graph_eth_v2 = get_the_graph_eth_v2;
 
-
-
-
 window.the_graph_result_bsc_v2 = {};
 
 async function get_the_graph_bsc_v2() {
@@ -24308,7 +25170,6 @@ async function get_the_graph_bsc_v2() {
 }
 
 window.get_the_graph_bsc_v2 = get_the_graph_bsc_v2;
-
 
 async function get_apy_and_tvl(usd_values) {
   let { token_data, lp_data, usd_per_eth } = usd_values;
@@ -24369,6 +25230,11 @@ Object.keys(window.config)
       k.startsWith("farming_newavax_3") ||
       k.startsWith("farming_newavax_4") ||
       k.startsWith("farming_newavax_5") ||
+      k.startsWith("farming_newbsc_1") ||
+      k.startsWith("farming_newbsc_2") ||
+      k.startsWith("farming_newbsc_3") ||
+      k.startsWith("farming_newbsc_4") ||
+      k.startsWith("farming_newbsc_5") ||
       k.startsWith("constant_stakingnew_new1") ||
       k.startsWith("constant_stakingnew_new2") ||
       k.startsWith("constant_stakingidypavax_3") ||
@@ -24376,10 +25242,21 @@ Object.keys(window.config)
       k.startsWith("constant_stakingnew_newavax1") ||
       k.startsWith("constant_stakingnewbsc_new3") ||
       k.startsWith("constant_stakingnewbsc_new4") ||
+      k.startsWith("constant_stakingnewbsc_new5") ||
+      k.startsWith("constant_stakingnewbsc_new6") ||
+      k.startsWith("constant_stakingnewbsc_new7") ||
+      k.startsWith("constant_stakingnewbsc_new8") ||
+      k.startsWith("constant_stakingnewbsc_new9") ||
+      k.startsWith("constant_stakingbsc_new10") ||
+      k.startsWith("constant_stakingbsc_new11") ||
+      k.startsWith("constant_stakingbsc_new12") ||
+      k.startsWith("constant_stakingbsc_new13") ||
 
       k.startsWith("constant_stakingnew_newavax2") ||
       k.startsWith("constant_stakingdaiavax") ||
       k.startsWith("reward_token_daiavax") ||
+      k.startsWith("reward_token_daibsc") ||
+
       k.startsWith("constant_staking_") ||
       k.startsWith("constant_stakingnew_") ||
       k.startsWith("buyback_staking1_1_") ||
@@ -24401,6 +25278,7 @@ Object.keys(window.config)
       k.startsWith("farmweth") ||
       k.startsWith("weth") ||
       k.startsWith("wethavax") ||
+      k.startsWith("wethbsc") ||
       k.startsWith("farming_new_") ||
       k.startsWith("constant_stakingdai_") ||
       k.startsWith("constant_stakingidypavax_1") ||
@@ -24424,7 +25302,6 @@ Object.keys(window.config)
       ? window.BUYBACK_STAKINGBSC1_1_ABI
       : k.startsWith("buyback_stakingbsc1_2")
       ? window.BUYBACK_STAKINGBSC1_2_ABI
-
       : k.startsWith("stakingavax_")
       ? window.STAKINGAVAX_ABI
       : k.startsWith("reward_token_dyps")
@@ -24451,12 +25328,16 @@ Object.keys(window.config)
       ? window.TOKENBSC_ABI
       : k.startsWith("farmweth")
       ? window.TOKEN_ABI
-      : k.includes("weth") && !k.includes("wethavax")
+      : k.includes("weth") && !k.includes("wethavax") && !k.includes("wethbsc")
       ? window.VAULT_ABI
       : k.includes("wethavax")
       ? window.TOKENAVAX_ABI
+      : k.includes("wethbsc")
+      ? window.TOKENBSC_ABI
       : k.includes("reward_token_daiavax")
       ? window.TOKENAVAX_ABI
+      : k.includes("reward_token_daibsc")
+      ? window.TOKENBSC_ABI
       : k.includes("reward_tokenavax")
       ? window.TOKENAVAX_ABI
       : k.includes("farming_newavax_1")
@@ -24469,6 +25350,16 @@ Object.keys(window.config)
       ? window.FARMING_NEW_ABI
       : k.includes("farming_newavax_5")
       ? window.FARMING_NEW_ABI
+      : k.includes("farming_newbsc_1")
+      ? window.FARMING_NEWBSC_ABI
+      : k.includes("farming_newbsc_2")
+      ? window.FARMING_NEWBSC_ABI
+      : k.includes("farming_newbsc_3")
+      ? window.FARMING_NEWBSC_ABI
+      : k.includes("farming_newbsc_4")
+      ? window.FARMING_NEWBSC_ABI
+      : k.includes("farming_newbsc_5")
+      ? window.FARMING_NEWBSC_ABI
       : k.startsWith("constant_staking_")
       ? window.CONSTANT_STAKING_ABI
       : k.startsWith("constant_stakingnew_")
@@ -24499,6 +25390,26 @@ Object.keys(window.config)
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingnewbsc_new4")
       ? window.CONSTANT_STAKINGNEW_ABI
+      : k.startsWith("constant_stakingnewbsc_new5")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingnewbsc_new6")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingnewbsc_new7")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingnewbsc_new8")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingnewbsc_new9")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingbsc_new10")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingbsc_new11")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingbsc_new12")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingbsc_new13")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      : k.startsWith("constant_stakingbsc_new14")
+      ? window.CONSTANT_STAKINGNEWBSC_ABI
       : k.startsWith("constant_stakingnew_newavax2")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingdaiavax")

@@ -29,7 +29,7 @@ import NftMinting from "./components/caws/NftMinting/index";
 import Bridge from "./components/bridge/BridgeGeneral";
 import Footer from "./components/Footer/footer";
 import BuyDyp from "./components/buydyp/BuyDyp";
-import initBscBuyback from "./components/FARMINNG/bscBuyback";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -501,9 +501,7 @@ class App extends React.Component {
                         the_graph_resultavax={
                           this.state.the_graph_result_AVAX_V2
                         }
-                        the_graph_resultbsc={
-                          this.state.the_graph_result_BSC_V2
-                        }
+                        the_graph_resultbsc={this.state.the_graph_result_BSC_V2}
                         lp_id={LP_ID_Array}
                         isConnected={this.state.isConnected}
                         network={this.state.networkId}
@@ -512,8 +510,6 @@ class App extends React.Component {
                       />
                     )}
                   />
-
-
 
                   <Route
                     exact
