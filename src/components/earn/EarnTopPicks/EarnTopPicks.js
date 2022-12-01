@@ -19,6 +19,9 @@ import CawsDetails from "../../FARMINNG/caws";
 import { FadeLoader } from "react-spinners";
 import useWindowSize from "../../../functions/useWindowSize";
 import initBscBuyback from "../../FARMINNG/bscBuyback";
+import initBscFarming from "../../FARMINNG/bscFarming";
+import initbscConstantStaking from "../../FARMINNG/bscConstantStake";
+import initbscConstantStaking2 from "../../FARMINNG/bscConstantStake2";
 
 const EarnTopPicks = ({
   topList,
@@ -37,11 +40,13 @@ const EarnTopPicks = ({
   const stake = [
     {
       icon: "dyplogo.svg",
-      top_pick: true,
+      top_pick: false,
       tokenName: "DYP",
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "dyplogo.svg",
@@ -50,6 +55,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 Days",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "idypius.svg",
@@ -58,6 +65,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "idypius.svg",
@@ -66,6 +75,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 days",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "idypius.svg",
@@ -74,6 +85,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "idypius.svg",
@@ -82,6 +95,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 days",
+      isNewPool: false,
+      isStaked: false,
     },
   ];
 
@@ -93,6 +108,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "180 Days",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "dyplogo.svg",
@@ -101,6 +118,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "30 Days",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "dyplogo.svg",
@@ -109,6 +128,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "dyplogo.svg",
@@ -117,6 +138,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 Days",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "dyplogo.svg",
@@ -125,6 +148,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 Days",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "idypius.svg",
@@ -133,6 +158,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "idypius.svg",
@@ -141,6 +168,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 Days",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "idypius.svg",
@@ -149,6 +178,8 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
+      isNewPool: false,
+      isStaked: false,
     },
     {
       icon: "idypius.svg",
@@ -157,6 +188,101 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 Days",
+      isNewPool: false,
+      isStaked: false,
+    },
+  ];
+
+  const stakebsc = [
+    {
+      icon: "dyplogo.svg",
+      top_pick: true,
+      tokenName: "DYP",
+      apy: "30",
+      tvl_usd: "48543.20",
+      lockTime: "180 Days",
+      isNewPool: true,
+      isStaked: false,
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apy: "1.08",
+      tvl_usd: "48543.204",
+      lockTime: "30 Days",
+      isNewPool: true,
+      isStaked: false,
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apy: "0.20",
+      tvl_usd: "48543.20",
+      lockTime: "No Lock",
+      isNewPool: false,
+      isStaked: false,
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apy: "20",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
+      isNewPool: false,
+      isStaked: false,
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
+      isNewPool: false,
+      isStaked: false,
+    },
+    {
+      icon: "idypius.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "15",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
+      isNewPool: true,
+      isStaked: false,
+    },
+    {
+      icon: "idypius.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
+      isNewPool: true,
+      isStaked: false,
+    },
+    {
+      icon: "idypius.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "No lock",
+      isNewPool: false,
+      isStaked: false,
+    },
+    {
+      icon: "idypius.svg",
+      top_pick: false,
+      tokenName: "iDYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
+      isNewPool: false,
+      isStaked: false,
     },
   ];
 
@@ -291,11 +417,11 @@ const EarnTopPicks = ({
 
   const eth_address = "ETH";
   const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
-const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
+  const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
 
   const avax_address = "AVAX";
 
-  const { rebase_factors, rebase_factorsavax,  rebase_factorsbsc} = window;
+  const { rebase_factors, rebase_factorsavax, rebase_factorsbsc } = window;
 
   const stakeArray = [
     window.farming_new_1,
@@ -369,6 +495,39 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
     listType: listType,
   });
 
+  const bscFarmArrayStake = [
+    window.farming_newbsc_1,
+    window.farming_newbsc_2,
+    window.farming_newbsc_3,
+    window.farming_newbsc_4,
+    window.farming_newbsc_5,
+  ];
+  const bscFarmArrayConst = [
+    window.constant_stakingnewbsc_new5,
+    window.constant_stakingnewbsc_new6,
+    window.constant_stakingnewbsc_new7,
+    window.constant_stakingnewbsc_new8,
+    window.constant_stakingnewbsc_new9,
+  ];
+  const bscFarmArrayFee = [0.3, 0.3, 0.4, 0.8, 1.2];
+
+  const BscFarming = initBscFarming({
+    token: window.token_newbsc,
+    staking: bscFarmArrayStake[cardIndex],
+    chainId: chainId,
+    constant: bscFarmArrayConst[cardIndex],
+    liquidity: wbsc_address,
+    lp_symbol: "USD",
+    reward: "30,000",
+    lock: "3 Days",
+    rebase_factor: rebase_factorsbsc[0],
+    expiration_time: "19 November 2022",
+    fee: bscFarmArrayFee[cardIndex],
+    handleConnection: handleConnection,
+    lockTime: 3,
+    listType: listType,
+  });
+
   const lockarrayFarmAvax = ["No Lock", 3, 30, 60, 90];
   const feearrayFarmAvax = [0.3, 0.3, 0.4, 0.8, 1.2];
 
@@ -388,7 +547,7 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
     window.farming_newavax_5,
   ];
 
-  const { LP_IDs_V2Avax } = window;
+  const { LP_IDs_V2Avax, LP_IDs_V2BNB } = window;
 
   const LP_IDAVAX_Array = [
     LP_IDs_V2Avax.wavax[0],
@@ -396,6 +555,14 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
     LP_IDs_V2Avax.wavax[2],
     LP_IDs_V2Avax.wavax[3],
     LP_IDs_V2Avax.wavax[4],
+  ];
+
+  const LP_IDBNB_Array = [
+    LP_IDs_V2BNB.wbnb[0],
+    LP_IDs_V2BNB.wbnb[1],
+    LP_IDs_V2BNB.wbnb[2],
+    LP_IDs_V2BNB.wbnb[3],
+    LP_IDs_V2BNB.wbnb[4],
   ];
 
   const FarmAvax = initFarmAvax({
@@ -517,6 +684,43 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
     referrer: referrer,
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
+  });
+
+  const feearrayStakeBsc = [3.5, 1,0.25, 0.5];
+  const expirearrayStakeBsc = ["14 July 2023", "5 August 2023","17 November 2022","17 November 2022"];
+  const aprarrayStakeBsc = [30, 10,25, 50];
+  const stakearrayStakeBsc = [
+    window.constant_stakingbsc_new10,
+    window.constant_stakingbsc_new11,
+    window.constant_stakingbsc_new12,
+    window.constant_stakingbsc_new13,
+  ];
+
+  const BscConstantStake = initbscConstantStaking({
+    staking: stakearrayStakeBsc[cardIndex],
+    apr: aprarrayStakeBsc[cardIndex],
+    liquidity: wbsc_address,
+    expiration_time: expirearrayStakeBsc[cardIndex],
+    fee: feearrayStakeBsc[cardIndex],
+    coinbase: coinbase,
+    chainId: chainId,
+    lockTime: lockarrayStakeAvax[cardIndex],
+    listType: listType,
+    other_info: false,
+  });
+
+
+  const BscConstantStake2 = initbscConstantStaking2({
+    staking: stakearrayStakeBsc[cardIndex],
+    apr: aprarrayStakeBsc[cardIndex],
+    liquidity: wbsc_address,
+    expiration_time: "17 November 2022",
+    fee: feearrayStakeBsc[cardIndex],
+    coinbase: coinbase,
+    chainId: chainId,
+    lockTime: lockarrayStakeAvax[cardIndex],
+    listType: listType,
+    other_info: false,
   });
 
   const StakeAvax30 = stakeAvax30({
@@ -655,7 +859,7 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
 
       if (chain === "bnb") {
         setTimeout(() => {
-          setTopPools([]);
+          setTopPools(stakebsc);
         }, 500);
       }
     } else if (topList === "Buyback") {
@@ -758,6 +962,8 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   }}
                   cardType={topList}
                   details={details === index ? true : false}
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
                 />
               ))}
             </div>
@@ -773,7 +979,14 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -823,6 +1036,18 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                 handleConnection={handleConnection}
               />
             ) : activeCard &&
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "bnb" ? (
+              <BscConstantStake
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard &&
               cardIndex >= 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
@@ -835,6 +1060,18 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                 handleConnection={handleConnection}
               />
             ) : activeCard &&
+            cardIndex >= 2 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStake2
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+               lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+            />
+          )  : activeCard &&
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex < 2 ? (
@@ -921,6 +1158,9 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   }}
                   cardType={topList}
                   details={details === index + 3 ? true : false}
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+
                 />
               ))}
             </div>
@@ -935,7 +1175,14 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -978,7 +1225,19 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
-            ) : activeCard2 &&
+            ) :activeCard2 &&
+            topList === "Staking" &&
+            cardIndex < 2 &&
+            chain === "bnb" ? (
+              <BscConstantStake2
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+            />
+          ) : activeCard2 &&
               cardIndex >= 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
@@ -990,7 +1249,20 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
-            ) : activeCard2 &&
+            ) :activeCard2 &&
+            cardIndex >= 2 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStake2
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+            />
+          ) :
+           activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex < 2 ? (
@@ -1078,7 +1350,10 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 6 ? true : false}
+                  details={details === index + 6 ? true : false
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+
                 />
               ))}
             </div>
@@ -1093,7 +1368,14 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -1238,6 +1520,9 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   }}
                   cardType={topList}
                   details={details === index + 9 ? true : false}
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+
                 />
               ))}
                {topList === "Staking" && chain === "eth" && (
@@ -1271,7 +1556,14 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -1427,6 +1719,8 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   }}
                   cardType={topList}
                   details={details === index ? true : false}
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
                 />
               ))}
             </div>
@@ -1587,6 +1881,10 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   }}
                   cardType={topList}
                   details={details === index + 2 ? true : false}
+
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+
                 />
               ))}
             </div>
@@ -1748,6 +2046,10 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   }}
                   cardType={topList}
                   details={details === index + 4 ? true : false}
+
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+
                 />
               ))}
             </div>
@@ -1908,7 +2210,12 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                     setDetails();
                   }}
                   cardType={topList}
+
                   details={details === index + 6 ? true : false}
+
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+
                 />
               ))}
             </div>
@@ -2070,6 +2377,10 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   }}
                   cardType={topList}
                   details={details === index + 8 ? true : false}
+
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+
                 />
               ))}
             </div>
@@ -2231,6 +2542,9 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   }}
                   cardType={topList}
                   details={details === index + 10 ? true : false}
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+
                 />
               ))}
                {topList === "Staking" && chain === "eth" && (

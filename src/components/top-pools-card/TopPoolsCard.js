@@ -20,7 +20,9 @@ const TopPoolsCard = ({
   cardType,
   chain,
   renderedPage,
-  details
+  details,
+  isStaked,
+  isNewPool,
   // showDetails,
 }) => {
   
@@ -30,11 +32,6 @@ const TopPoolsCard = ({
   
   const [showDetails, setShowDetails] = useState(false);
   const [coins, setCoins] = useState(ethCoins)
-
-
-  const isNewPool = false
-  const isStaked = false
-  
 
   const handleDetails = () => {
     if(details === false) {

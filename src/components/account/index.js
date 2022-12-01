@@ -386,8 +386,64 @@ export default class Subscription extends React.Component {
     // this.handleCheckIfAlreadyApproved()
     return (
       <div>
-        <h4 className="d-block mb-3">Subscribe to DYP Tools Premium</h4>
         <form onSubmit={this.handleSubscribe}>
+          <div className={this.state.coinbase ? "mb-3" : "d-none"}>
+            <h4 className="d-block mb-3"> Avatar profile</h4>
+
+            <div className={this.state.coinbase ? "inputfile-wrapper" : ""}>
+              <img
+                src={this.state.image}
+                alt="your image"
+                className="avatarimg"
+                style={{
+                  border:
+                    this.state.image === Placeholder
+                      ? "none"
+                      : "3px solid #E30613",
+                }}
+              />
+              <input
+                type="file"
+                id="group_image"
+                onChange={this.onImageChange}
+              />
+              {this.state.showSavebtn === true ? (
+                <div
+                  className="savebtn"
+                  type=""
+                  onClick={this.handleSubmission}
+                >
+                  {this.state.loadspinnerSave === true ? (
+                    <div
+                      className="spinner-border "
+                      role="status"
+                      style={{ height: "1.5rem", width: "1.5rem" }}
+                    ></div>
+                  ) : (
+                    "Save"
+                  )}
+                </div>
+              ) : (
+                <></>
+              )}
+              {this.state.showRemovebtn === true ||
+              this.state.image !== Placeholder ? (
+                <div className="removebtn" type="" onClick={this.deleteAvatar}>
+                  {this.state.loadspinnerRemove === true ? (
+                    <div
+                      className="spinner-border "
+                      role="status"
+                      style={{ height: "1.5rem", width: "1.5rem" }}
+                    ></div>
+                  ) : (
+                    "Remove"
+                  )}
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
           <div>
             {!this.props.appState.isPremium ? (
               <table className="w-100">
@@ -521,44 +577,50 @@ export default class Subscription extends React.Component {
             )}
 
             {!this.props.appState.isPremium ? (
-              <div className="premiumbanner">
-                <div className="row m-0 justify-content-between">
-                  <div
-                    style={{
-                      maxWidth: 335,
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 10,
-                    }}
-                  >
-                    <h3 className="subscr-title">Lifetime subscription </h3>
-                    <p className="subscr-subtitle">
-                      The subscription tokens will be used to buy and lock DYP
-                    </p>
-                    {/* <p className="subscr-note">
-                      *When you unsubscribe the DYP will be unlocked and sent to
-                      your wallet
-                    </p> */}
-                  </div>
-                  <div>
-                    <h3 className="subscr-price">75 USD</h3>
-                    <p className="subscr-note">*Exclusive offer</p>
+              <>
+                <div className="premiumbanner">
+                  <div className="d-flex align-items-center justify-content-between">
                     <div
-                      className="subscribebtn w-auto mt-2"
-                      type=""
-                      onClick={() => {
-                        this.setState({ subscribe_now: true });
-                        this.handleSubscriptionTokenChange(
-                          this.state.selectedSubscriptionToken
-                        );
-                        this.handleCheckIfAlreadyApproved();
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 5,
                       }}
                     >
-                      Subscribe now
+                      <h3 className="subscr-title">Lifetime subscription </h3>
+                      <p className="subscr-subtitle">
+                        The subscription tokens will be used to buy and lock DYP
+                      </p>
+                      {/* <p className="subscr-note">
+                        *When you unsubscribe the DYP will be unlocked and sent to
+                        your wallet
+                      </p> */}
+                    </div>
+                    <div>
+                      <div className="d-flex gap-2">
+                        <img src="/assets/img/usdt.svg"></img>
+                        <h3 className="subscr-price">75 USDT</h3>
+                      </div>
+                      <p className="subscr-note">*Exclusive offer</p>
                     </div>
                   </div>
                 </div>
-              </div>
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div style={{ color: "#F7F7FC", fontSize: "14px", fontWeight: "500", lineHeight: "20px" }}>Subscribe <br></br> to the Premium plan</div>
+                  <div className="btn filledbtn px-5" type=""
+                        onClick={() => {
+                          this.setState({ subscribe_now: true });
+                          this.handleSubscriptionTokenChange(
+                            this.state.selectedSubscriptionToken
+                          );
+                          this.handleCheckIfAlreadyApproved();
+                        }}
+                  >
+                    Subscribe now
+                  </div>
+                </div>
+              </>
+              
             ) : (
               <></>
             )}
@@ -760,82 +822,25 @@ export default class Subscription extends React.Component {
               </div>
             </>
           )}
-          <div className={this.state.coinbase ? "mt-3 mb-3" : "d-none"}>
-            <h4 className="d-block mb-3 mt-5"> Avatar profile</h4>
-
-            <div className={this.state.coinbase ? "inputfile-wrapper" : ""}>
-              <img
-                src={this.state.image}
-                alt="your image"
-                className="avatarimg"
-                style={{
-                  border:
-                    this.state.image === Placeholder
-                      ? "none"
-                      : "3px solid #E30613",
-                }}
-              />
-              <input
-                type="file"
-                id="group_image"
-                onChange={this.onImageChange}
-              />
-              {this.state.showSavebtn === true ? (
-                <div
-                  className="savebtn"
-                  type=""
-                  onClick={this.handleSubmission}
-                >
-                  {this.state.loadspinnerSave === true ? (
-                    <div
-                      className="spinner-border "
-                      role="status"
-                      style={{ height: "1.5rem", width: "1.5rem" }}
-                    ></div>
-                  ) : (
-                    "Save"
-                  )}
-                </div>
-              ) : (
-                <></>
-              )}
-              {this.state.showRemovebtn === true ||
-              this.state.image !== Placeholder ? (
-                <div className="removebtn" type="" onClick={this.deleteAvatar}>
-                  {this.state.loadspinnerRemove === true ? (
-                    <div
-                      className="spinner-border "
-                      role="status"
-                      style={{ height: "1.5rem", width: "1.5rem" }}
-                    ></div>
-                  ) : (
-                    "Remove"
-                  )}
-                </div>
-              ) : (
-                <></>
-              )}
-            </div>
-          </div>
         </form>
 
-        <h4 className="d-block mb-3 mt-5" id="my-fav">
-          My favorites
+        <h4 className="d-block mb-5 mt-5" id="my-fav">
+          My favourites
         </h4>
-        <div className="row m-0" style={{ gap: 30 }}>
+        <div className="row p-0 m-0" style={{ gap: 10, display: "grid", gridTemplateColumns: '1fr 1fr 1fr 1fr' }}>
           {this.state.favorites.map((lock, index) => {
             return (
               <NavLink
                 key={index}
-                className="l-clr-purple"
+                className="p-0"
                 to={`/pair-explorer/${lock.id}`}
               >
-                <div style={{ position: "relative", width: "260px" }}>
+                <div style={{ position: "relative", width: "300px" }}>
                   <div
-                    className="d-flex table-wrapper avax"
+                    className="d-flex avax"
                     style={{
-                      background:
-                        "linear-gradient(30.97deg, #E30613 18.87%, #FC4F36 90.15%)",
+                      border: "2px solid #565891",
+                      borderRadius: "12px"
                     }}
                   >
                     <div className="pair-locks-wrapper">
@@ -899,18 +904,22 @@ export default class Subscription extends React.Component {
             return (
               <NavLink
                 key={index}
-                className="l-clr-purple"
+                className="p-0"
                 to={`/pair-explorer/${lock.id}`}
                 onClick={()=>{this.props.handleSwitchNetwork(1)}}
               >
-                <div style={{ position: "relative", width: "260px" }}>
+                <div style={{ position: "relative", width: "300px" }}>
                   <div
-                    className="d-flex table-wrapper eth"
+                    className="d-flex"
                     style={{
-                      background:
-                        "linear-gradient(30.97deg, #E30613 18.87%, #FC4F36 90.15%)",
+                      border: "2px solid #565891",
+                      borderRadius: "12px"
                     }}
                   >
+                    <div className="d-flex justify-content-center align-items-center" style={{ position: "absolute", top: "-17px",  left: "50%", width: "106px", height: "34px", transform: "translateX(-50%)", borderRadius: "50px", background: "linear-gradient(93.99deg, #4ED5CD 0%, #524FD8 100%)", gap: "5px" }}>
+                      <img src="/assets/img/ethereum.svg"></img>
+                      <div style={{ color: "#F7F7FC" }}>Ethereum</div>
+                    </div>
                     <div className="pair-locks-wrapper">
                       <div className="row-wrapper">
                         <span className="left-info-text">ID</span>
@@ -976,14 +985,7 @@ export default class Subscription extends React.Component {
   render() {
     return (
       <div className="locker">
-        <div className="table-title px-3">
-          <h2 style={{ display: "block", color: `var(--preloader-clr)` }}>
-            Account &amp; Premium Subscription
-          </h2>
-
-          <p>Get DYP Tools Premium Subscription</p>
-        </div>
-        <div className="l-table-wrapper-div p-4">
+        <div>
           <div className="mb-4">{this.GetSubscriptionForm()}</div>
         </div>
       </div>

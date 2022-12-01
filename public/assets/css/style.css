@@ -1662,7 +1662,6 @@ body.theme-dark img.graph-two {
   font-size: 20px;
   line-height: 24px;
   letter-spacing: -0.018em;
-  fill: #303134 !important;
 }
 
 .score-title {
@@ -1901,13 +1900,10 @@ body.theme-dark img.graph-two {
 }
 
 .premiumbanner {
-  background: url(../img/dyp_banner_sub.png) no-repeat;
-  background-position: center;
-  background-size: cover;
-  min-height: 170px;
-  height: 100%;
-  margin-top: 2rem;
-  padding: 63px;
+  background: linear-gradient(92.82deg, #50AF95 -22.06%, #2B2A59 70.49%);
+  border-radius: 8px;
+  border: 1px solid #565891;
+  padding: 20px;
 }
 
 .premiumbanner2 {
@@ -1944,7 +1940,7 @@ body.theme-dark img.graph-two {
 
 @media only screen and (max-width: 500px) {
   .premiumbanner {
-    padding: 71px 20px !important;
+    padding: 20px !important;
   }
   .lock-text-wrapper {
     width: 100% !important;
@@ -1960,16 +1956,16 @@ body.theme-dark img.graph-two {
 }
 
 .subscr-title {
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: 500;
+  font-size: 18px;
   line-height: 24px;
   letter-spacing: -0.018em;
   color: #ffffff !important;
 }
 
 .subscr-subtitle {
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 400;
+  font-size: 12px;
   line-height: 24px;
   letter-spacing: -0.018em;
   color: #ffffff !important;
@@ -1980,13 +1976,14 @@ body.theme-dark img.graph-two {
   font-size: 10px;
   line-height: 16px;
   letter-spacing: -0.018em;
-  color: rgba(255, 255, 255, 1) !important;
+  color: #D6D8E7 !important;
+  text-align: right;
 }
 
 .subscr-price {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 28px;
-  line-height: 34px;
+  line-height: 42px;
   letter-spacing: -0.018em;
   color: #ffffff !important;
   text-shadow: 0px 4px 24px rgba(0, 0, 0, 0.25);
@@ -3750,19 +3747,19 @@ body.theme-dark select.form-control {
 }
 
 .left-info-text {
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 15px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
   letter-spacing: -0.018em;
-  color: #1e2029 !important;
+  color: #D6D8E7 !important;
 }
 
 .right-info-text {
   font-weight: 600;
   font-size: 14px;
-  line-height: 18px;
+  line-height: 21px;
   text-align: right;
-  color: #a4a4a4 !important;
+  color: #F7F7FC !important;
 }
 
 .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {

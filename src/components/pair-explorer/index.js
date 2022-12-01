@@ -1145,15 +1145,26 @@ export default class PairExplorer extends React.Component {
                       >
                         View pair locker
                       </NavLink>
-                      <NavLink
-                        to={`/locker/${this.props.match.params.pair_id}`}
-                      >
-                        <img
-                          src={PairLocker}
-                          alt=""
-                          style={{cursor: "pointer" }}
-                        />
-                      </NavLink>
+                      <div className="d-flex gap-2">
+                        <NavLink
+                          to={`/locker/${this.props.match.params.pair_id}`}
+                        >
+                          <img
+                            src={PairLocker}
+                            alt=""
+                            style={{cursor: "pointer" }}
+                          />
+                        </NavLink>
+                        <NavLink
+                          to={`/locker/${this.props.match.params.pair_id}`}
+                        >
+                          <img
+                            src="/assets/img/arrow.svg"
+                            alt=""
+                            style={{cursor: "pointer" }}
+                          />
+                        </NavLink>
+                      </div>
                     </div>
                   </div>
                   <div>
@@ -1581,6 +1592,7 @@ export default class PairExplorer extends React.Component {
               </div>
 
               <div className="form-container p-3 position-relative">
+                <div style={{ marginBottom: "14px", fontSize: "20px", color: "#F7F7FC", fontWeight: "500", lineHeight: "30px" }}>Statistics score</div>
                 <div>
                   {false && !isNaN(this.state.pairInfo?.ts_score_avg) ? (
                     <div className="graph-progress">
@@ -1674,8 +1686,8 @@ export default class PairExplorer extends React.Component {
                   ) : (
                     <div className="graph-progress">
                       <div
-                        className="progress-title m-0 pb-4"
-                        style={{ width: "35%" }}
+                        className="progress-title m-0 pb-2"
+                        style={{ width: "48%", background: "#2B2A59", borderRadius: "8px", padding: "10px" }}
                       >
                         <p style={{ fontSize: 16 }}>DYP Score</p>
                         <GearProgress
@@ -1689,8 +1701,8 @@ export default class PairExplorer extends React.Component {
                               styles={buildStyles({
                                 rotation: 1 / 2 + 1 / 8,
                                 strokeLinecap: "butt",
-                                trailColor: "#D6D8E7",
-                                pathColor: "#E30613",
+                                trailColor: "#FBB59C",
+                                pathColor: "#4ED5D2",
                               })}
                             />
                           )}
@@ -1698,7 +1710,7 @@ export default class PairExplorer extends React.Component {
                       </div>
                       <div
                         className="box-inner row m-0 justify-content-between"
-                        style={{ gap: 12, width: "60%" }}
+                        style={{ gap: 12, width: "48%" }}
                       >
                         <table className="w-100">
                           <tr>
@@ -2024,61 +2036,66 @@ export default class PairExplorer extends React.Component {
           </div>
         </div>
         <Modal show={this.state.show} onHide={this.toggleModal}>
-          <Modal.Header closeButton>
+          <Modal.Header>
             <Modal.Title>More Info</Modal.Title>
+            <img onClick={this.toggleModal} src="/assets/img/xMark.svg" style={{ cursor: "pointer" }}></img>
           </Modal.Header>
           <Modal.Body>
-            <table className="table">
-              <tbody>
-                <tr>
-                  <td> Market Cap</td>
-                  <td className="text-right">
+            <div className="my-4">
+              <div className="row gap-4 m-0 mb-4">
+                <div className="col" style={{ background: "#26264F", borderRadius: "8px", padding: "20px" }}>
+                  <div className="mb-3" style={{ color: "#857DFA", fontSize: "12px" }}>Market Cap</div>
+                  <div>
                     {" "}
                     {getFormattedNumber(
                       this.state.cgInfo?.market_cap_usd,
                       2
                     )}{" "}
                     USD{" "}
-                  </td>
-                </tr>
-                <tr>
-                  <td> Fully Diluted Valuation</td>
-                  <td className="text-right">
+                  </div>
+                </div>
+                <div className="col" style={{ background: "#26264F", borderRadius: "8px", padding: "20px" }}>
+                  <div className="mb-3" style={{ color: "#857DFA", fontSize: "12px" }}> Fully Diluted Valuation</div>
+                  <div >
                     {" "}
                     {getFormattedNumber(this.state.cgInfo?.fdv_usd, 2)} USD{" "}
-                  </td>
-                </tr>
+                  </div>
+                </div>
 
-                <tr>
-                  <td> Total Supply</td>
-                  <td className="text-right">
+                <div className="col" style={{ background: "#26264F", borderRadius: "8px", padding: "20px" }}>
+                  <div className="mb-3" style={{ color: "#857DFA", fontSize: "12px" }}> Total Supply</div>
+                  <div >
                     {" "}
                     {getFormattedNumber(
                       this.state.mainTokenTotalSupply,
                       6
                     )}{" "}
                     {this.state.mainToken?.symbol}{" "}
-                  </td>
-                </tr>
-                <tr>
-                  <td> Circulating Supply</td>
-                  <td className="text-right">
+                  </div>
+                </div>
+
+                <div className="col" style={{ background: "#26264F", borderRadius: "8px", padding: "20px" }}>
+                  <div className="mb-3" style={{ color: "#857DFA", fontSize: "12px" }}> Circulating Supply</div>
+                  <div>
                     {" "}
                     {getFormattedNumber(
                       this.state.cgInfo?.circulating_supply,
                       6
                     )}{" "}
                     {this.state.mainToken?.symbol}{" "}
-                  </td>
-                </tr>
-                <tr style={{ borderTop: "none" }}>
-                  <td>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="row gap-4 m-0 mb-4">
+                <div className="col" style={{ background: "#26264F", borderRadius: "8px", padding: "20px" }}>
+                  <div className="mb-3" style={{ color: "#857DFA", fontSize: "12px" }}>
                     {" "}
                     1{" "}
                     {this.state.pair &&
                       this.state.pair[`token${baseTokenKey}`].symbol}{" "}
-                  </td>
-                  <td className="text-right">
+                  </div>
+                  <div >
                     {" "}
                     {this.state.pair &&
                       getFormattedNumber(
@@ -2087,11 +2104,11 @@ export default class PairExplorer extends React.Component {
                         6
                       )}{" "}
                     {this.state.mainToken?.symbol}{" "}
-                  </td>
-                </tr>
-                <tr>
-                  <td> Pooled {this.state.mainToken?.symbol} </td>
-                  <td className="text-right">
+                  </div>
+                </div>
+                <div className="col" style={{ background: "#26264F", borderRadius: "8px", padding: "20px" }}>
+                  <div className="mb-3" style={{ color: "#857DFA", fontSize: "12px" }}> Pooled {this.state.mainToken?.symbol} </div>
+                  <div>
                     {" "}
                     {getFormattedNumber(
                       this.state.pair &&
@@ -2106,33 +2123,35 @@ export default class PairExplorer extends React.Component {
                       100
                     ).toFixed(4)}
                     %)
-                  </td>
-                </tr>
-                <tr>
-                  <td> Pool Created</td>
-                  <td className="text-right">
+                  </div>
+                </div>
+                <div className="col" style={{ background: "#26264F", borderRadius: "8px", padding: "20px" }}>
+                  <div className="mb-3" style={{ color: "#857DFA", fontSize: "12px" }}> Pool Created</div>
+                  <div>
                     {" "}
                     {moment(this.state.pair?.createdAtTimestamp * 1e3).format(
                       "YYYY-MM-DD HH:mm"
                     )}{" "}
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    {" "}
-                    <NavLink to={`/locker/${this.props.match.params.pair_id}`}>
-                      <strong style={{ color: `var(--preloader-clr)` }}>
-                        LP On DYP Locker <i className="fas fa-lock"></i>{" "}
-                      </strong>
-                    </NavLink>
-                  </td>
-                  <td className="text-right">
-                    {" "}
-                    ${getFormattedNumber(this.state.usdValueOfLP, 2)}{" "}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  </div>
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-between align-items-center" style={{ background: "#26264F", borderRadius: "8px", padding: "10px 15px 10px 15px", border: "1px solid #565891"}}>
+                <div>
+                  {" "}
+                  <NavLink to={`/locker/${this.props.match.params.pair_id}`}>
+                    <strong style={{ color: "#857DFA", textDecoration: "underline" }}>
+                      LP On DYP Locker <img style={{ marginLeft: "20px" }} src={PairLocker}></img>{" "}
+                    </strong>
+                  </NavLink>
+                </div>
+                <div>
+                  {" "}
+                  ${getFormattedNumber(this.state.usdValueOfLP, 2)}{" "}
+                </div>
+              </div>
+
+            </div>
             {(this.state.pairInfo?.project_comment_public ||
               this.state.pairInfo?.ts_comment_public) &&
               this.props.isPremium && (
@@ -2147,11 +2166,6 @@ export default class PairExplorer extends React.Component {
                 </div>
               )}
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.toggleModal}>
-              Close
-            </Button>
-          </Modal.Footer>
         </Modal>
       </div>
     );
