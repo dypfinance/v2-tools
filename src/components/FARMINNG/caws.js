@@ -419,11 +419,12 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                     {formattedNum(ethToUSD, true)})
                   </h6>
                   <button
-                    className={`btn filledbtn d-flex justify-content-center align-items-center`}
+                    className={`btn ${EthRewards === 0? 'disabled-btn' : 'filledbtn'} d-flex justify-content-center align-items-center`}
                     style={{ height: "fit-content" }}
                     onClick={() => {
                       claimRewards();
                     }}
+                    disabled={EthRewards === 0? true : false}
                   >
                     <>Claim</>
                   </button>
