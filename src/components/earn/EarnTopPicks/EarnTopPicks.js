@@ -1350,7 +1350,7 @@ const EarnTopPicks = ({
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 6 ? true : false
+                  details={details === index + 6 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
 
