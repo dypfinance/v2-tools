@@ -13,16 +13,17 @@ import Carousel from "better-react-carousel";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Slider from "react-slick";
+import pressReleaseNext from './assets/pressReleaseNext.svg'
 
 const News = ({ theme, isPremium, coinbase }) => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 2,
-    arrows: true,
-    autoplay: true,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    arrows: false,
+    autoplay: false,
     responsive: [
       {
         breakpoint: 1138,
@@ -42,7 +43,35 @@ const News = ({ theme, isPremium, coinbase }) => {
     ],
   };
 
-  const carousel = useRef();
+  const mainSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: false,
+    dotsClass : "news__dots",
+    responsive: [
+      {
+        breakpoint: 1138,
+        settings: {
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          fade: false,
+          arrows: false,
+        },
+      },
+    ],
+  };
+
+
 
   const newsPerRow = 8;
   const [activeClass, setActiveClass] = useState("latestnews");
@@ -503,10 +532,32 @@ const News = ({ theme, isPremium, coinbase }) => {
     }
   };
 
+
+  const slider = useRef()
+  const carousel = useRef();
+
+
+
+  const nextMain = () => {
+    carousel.current.slickNext();
+  }
+
+  const prevMain = () => {
+    carousel.current.slickPrev();
+  }
+
+  const nextSlide = () => {
+    slider.current.slickNext();
+  };
+  const prevSlide = () => {
+    slider.current.slickPrev();
+  };
+
+
+
   return (
-    <div onScroll={onScroll} ref={listInnerRef} id="header">
-      <div className="news-wrapper">
-        {!showModal ? <h1 className="news-title">Popular News</h1> : ""}
+    <div onScroll={onScroll} ref={listInnerRef} className="container-lg" id="header">
+        {/* {!showModal ? <h1 className="news-title">Popular News</h1> : ""} */}
         <div className="row m-0 main-news-content-wrapper">
           {showModal === true ? (
             <NewsModal
@@ -563,26 +614,18 @@ const News = ({ theme, isPremium, coinbase }) => {
             />
           ) : newsData.length > 0 ? (
             <>
-              <div className="brand-wrapper banner-wrapper news-left-wrapper">
-                <Carousel
-                  cols={1}
-                  rows={1}
-                  gap={10}
-                  loop
-                  showDots={true}
-                  autoplay={4000}
-                  scrollSnap={true}
-                >
-                  {popularNewsData.length > 0 &&
+              <div className="col-8 ps-0">
+              <div className="position-relative p-3 featured-slider-wrapper">
+              <Slider {...mainSettings} ref={carousel}>
+                {popularNewsData.length > 0 &&
                     popularNewsData.slice(0, 5).map((item, key) => {
                       return (
-                        <Carousel.Item key={key}>
                           <div className="">
                             <MainNews
                               image={item.image}
                               title={item.title}
                               link={item.link}
-                              day={item.date.slice(0, 10)}
+                              day={item.date}
                               theme={theme}
                               coinbase={coinbase}
                               upvotes={
@@ -608,19 +651,25 @@ const News = ({ theme, isPremium, coinbase }) => {
                               isPremium={isPremium}
                             />
                           </div>
-                        </Carousel.Item>
                       );
                     })}
-                </Carousel>
+                </Slider>
+                <div className="d-flex align-items-center gap-2 featured-slider-arrows">
+          <img src={pressReleaseNext} height={40} width={40}  alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevMain} />
+          <img src={pressReleaseNext} height={40} width={40}  alt="prev-button" onClick={nextMain} />
+
+                </div>
+              </div>
+               
               </div>
               <div
-                className="singlenews-side"
+                className=" col-4 pe-0"
                 style={{
-                  width: showModal ? "20%" : "43%",
                   display: !showModal ? "flex" : "none",
                 }}
               >
-                <div className="button-wrapper">
+               <div className="singlenews-side p-3">
+               <div className="button-wrapper">
                   <h6
                     className={
                       activeClass === "latestnews"
@@ -648,7 +697,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                 </div>
                 {popularNewsData.length > 0 &&
                   activeClass === "latestnews" &&
-                  popularNewsData.slice(0, 5).map((item, key) => {
+                  popularNewsData.slice(0, 3).map((item, key) => {
                     return (
                       <div className="banner-item pl-0" key={key}>
                         <SingleNews
@@ -658,6 +707,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                           year={item.year}
                           month={item.month}
                           day={item.date.slice(0, 10)}
+                          fullDate={item.date}
                           theme={theme}
                           newsId={item.id}
                           upvotes={
@@ -689,7 +739,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                 {topVotes(votes).length > 0 && //todo
                 activeClass === "toprated" ? (
                   topVotes(votes)
-                    .slice(0, 5)
+                    .slice(0, 3)
                     .map((item, key) => {
                       return (
                         <div className="banner-item pl-0" key={key}>
@@ -728,6 +778,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                 ) : (
                   <></>
                 )}
+               </div>
               </div>
             </>
           ) : (
@@ -743,7 +794,6 @@ const News = ({ theme, isPremium, coinbase }) => {
             </div>
           )}
         </div>
-      </div>
       <div className="press-release-wrapper">
         <h1 className="news-title" style={{ paddingLeft: 20 }}>
           Press Release
@@ -766,15 +816,16 @@ const News = ({ theme, isPremium, coinbase }) => {
           </Carousel>
         </div> */}
         <div
-          className="brand-wrapper banner-wrapper "
-          style={{ width: "96%", margin: "auto", background: "none" }}
+          className="press-release-container d-flex justify-content-center position-relative  p-3"
+          // style={{ width: "96%", margin: "auto", background: "none" }}
         >
-          <Slider {...settings}>
+          <img src={pressReleaseNext} className="press-prev-btn" alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevSlide} />
+         <div style={{width: '93%'}}>
+         <Slider {...settings} ref={slider}>
             {pressNewsData.length > 0 &&
               pressNewsData.slice(0, 8).map((item, key) => {
                 return (
                   <div
-                    className="banner-item"
                     style={{ background: "none" }}
                     key={key}
                     onDragEnd={(e) => {
@@ -786,7 +837,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                       image={item.image}
                       title={item.title}
                       link={item.link}
-                      date={item.date.slice(0, 10)}
+                      date={item.date}
                       isPremium={isPremium}
                       isConnected={isConnected}
                       onVotesFetch={fetchVotingdata}
@@ -815,6 +866,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                 );
               })}
           </Slider>
+         </div>
+          <img src={pressReleaseNext} alt="next-button" className="press-next-btn" onClick={nextSlide} />
+
         </div>
       </div>
       <div className="press-release-wrapper" style={{ paddingTop: 0 }}>
@@ -824,12 +878,12 @@ const News = ({ theme, isPremium, coinbase }) => {
         >
           Other News
         </h1>
-        <div className="row m-0 othernews-row-wrapper" style={{ gap: 10 }}>
+        <div className="row m-0 othernews-row-wrapper" >
           {bigNewsSorted.length > 0 &&
             bigNewsSorted?.slice(0, next)?.map((item, key) => {
               return (
                 <div
-                  className="banner-item"
+                  className="banner-item col-4 py-3"
                   key={key}
                   style={{ background: "none" }}
                 >
@@ -838,6 +892,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                     title={item.title}
                     link={item.link}
                     date={item.date.slice(0, 10)}
+                    fulldate={item.date}
                     month={item.month}
                     year={item.year}
                     theme={theme}

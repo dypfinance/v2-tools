@@ -7,6 +7,11 @@ import Downvote from "./assets/downvote.svg";
 import ToolTip from "./ToolTip";
 import Clock from "./assets/clock.svg";
 import OutsideClickHandler from "react-outside-click-handler";
+import passiveUpvote from './assets/passiveUpvote.svg'
+import passiveDownvote from './assets/passiveDownvote.svg'
+import activeUpvote from './assets/activeUpvote.svg'
+import activeDownvote from './assets/activeDownvote.svg'
+import calendar from '../newsCard/assets/calendar.svg'
 
 const OtherNews = ({
   image,
@@ -27,7 +32,8 @@ const OtherNews = ({
   onVotesFetch,
   onHandlePressUpvote,
   isPremium,
-  coinbase
+  coinbase,
+  fulldate
 }) => {
   const [likeIndicator, setLikeIndicator] = useState(false);
   const [dislikeIndicator, setDislikeIndicator] = useState(false);
@@ -154,9 +160,15 @@ const OtherNews = ({
       .catch(console.error);
   };
 
+
+  var options = { year: "numeric", month: "short", day: "numeric" };
+
+  const formattedDate = new Date(fulldate)
+
+
   return (
     <div
-      className="other-news-singlewrapper"
+      className="other-news-singlewrapper w-100"
       onClick={() => {
         onOtherNewsClick(newsId);
         setLikeIndicator(false);
@@ -166,8 +178,8 @@ const OtherNews = ({
       <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <img src={image} alt="" className="other-news-image" />
         <div
-          style={{ padding: 12, gap: 10, height: "40%" }}
-          className="d-flex flex-column justify-content-between"
+          // style={{ padding: 12, gap: 10, height: "40%" }}
+          className="d-flex othernews-content flex-column justify-content-between p-3 gap-4"
         >
           {/* <a href={link} target={"_blank"}> */}
           <h4 className="singlenews-title">{title}</h4>
@@ -176,14 +188,14 @@ const OtherNews = ({
             className="news-bottom-wrapper"
             style={{ justifyContent: "space-between" }}
           >
-            <div className="like-wrapper">
+            <div className="d-flex align-items-center justify-content-center gap-2">
               <img
                 src={
                   likeIndicator === false && dislikeIndicator === false
-                    ? VotePassive
+                    ? passiveUpvote
                     : likeIndicator === true
-                    ? Upvote
-                    : VotePassive
+                    ? activeUpvote
+                    : passiveUpvote
                 }
                 alt=""
                 className="like-indicator"
@@ -213,14 +225,15 @@ const OtherNews = ({
               ) : (
                 <></>
               )}
-              <span> {Number(upvotes) - Number(downvotes)}</span>
+              <span className="votes-amount"> {Number(upvotes) - Number(downvotes)}</span>
               <img
+              style={{transform: 'rotate(0deg)'}}
                 src={
                   likeIndicator === false && dislikeIndicator === false
-                    ? VotePassive
+                    ? passiveDownvote
                     : dislikeIndicator === true
-                    ? Downvote
-                    : VotePassive
+                    ? activeDownvote
+                    : passiveDownvote
                 }
                 alt=""
                 className="like-indicator"
@@ -237,10 +250,10 @@ const OtherNews = ({
               style={{ width: "auto" }}
             /> */}
             <div className="date-wrapper">
-              <img src={Clock} alt="" style={{ width: "auto" }} />
-              <h6 className="date-content">
-                {date} {month} {year}
-              </h6>
+              <img src={calendar} alt="calendar" />
+              <span className="news-date-text">
+                {formattedDate.toLocaleDateString("en-US", options)}
+              </span>
             </div>
           </div>
         </div>

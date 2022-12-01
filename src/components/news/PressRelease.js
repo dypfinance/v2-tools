@@ -6,6 +6,11 @@ import Downvote from "./assets/downvote.svg";
 import ToolTip from "./ToolTip";
 import Clock from "./assets/clock-white.svg";
 import OutsideClickHandler from "react-outside-click-handler";
+import passiveUpvote from './assets/passiveUpvote.svg'
+import passiveDownvote from './assets/passiveDownvote.svg'
+import activeUpvote from './assets/activeUpvote.svg'
+import activeDownvote from './assets/activeDownvote.svg'
+import calendar from '../newsCard/assets/calendar.svg'
 
 const PressRealease = ({
   title,
@@ -148,11 +153,15 @@ coinbase
       .catch(console.error);
   };
 
+  var options = { year: "numeric", month: "short", day: "numeric" };
+
+  const formattedDate = new Date(date)
+
   return (
     <div className="single-press-wrapper" onClick={onSinglePressHighlightClick}>
       <div
-        className="row m-0 singlepress-inner"
-        style={{ gap: 20, height: "100%", width: "100%" }}
+        className="d-flex justify-content-center  gap-3"
+        // style={{ gap: 20, height: "100%", width: "100%" }}
       >
         <img src={image} alt="" className="press-image" />
         <div className="date-wrapper-press">
@@ -161,17 +170,16 @@ coinbase
           {/* </a> */}
 
           <div
-            className="news-bottom-wrapper"
-            style={{ justifyContent: "space-between" }}
+            className="d-flex align-items-center gap-3"
           >
-            <div className="like-wrapper">
+            <div className="d-flex align-items-center justify-content-center gap-2">
               <img
                 src={
                   likeIndicator === false && dislikeIndicator === false
-                  ? VotePassive
+                  ? passiveUpvote
                   : likeIndicator === true
-                  ? Upvote
-                  : VotePassive
+                  ? activeUpvote
+                  : passiveUpvote
                 }
                 alt=""
                 className="like-indicator"
@@ -202,16 +210,17 @@ coinbase
               ) : (
                 <></>
               )}
-              <span style={{ color: "white" }}>
+              <span className="votes-amount">
                 {Number(upvotes) - Number(downvotes)}
               </span>
               <img
+              style={{transform: 'rotate(0deg)'}}
                 src={
                   likeIndicator === false && dislikeIndicator === false
-                    ? VotePassive
+                    ? passiveDownvote
                     : dislikeIndicator === true
-                    ? Downvote
-                    : VotePassive
+                    ? activeDownvote
+                    : passiveDownvote
                 }
                 alt=""
                 className="like-indicator"
@@ -228,10 +237,10 @@ coinbase
               style={{ width: "auto" }}
             /> */}
             <div className="date-wrapper">
-              <img src={Clock} alt="" style={{ width: "auto" }} />
-              <h6 className="press-date-content" style={{ color: "white" }}>
-                {date}
-              </h6>
+              <img src={calendar} alt="calendar"  />
+              <span className="news-date-text">
+              {formattedDate.toLocaleDateString("en-US", options)}
+              </span>
             </div>
           </div>
         </div>
