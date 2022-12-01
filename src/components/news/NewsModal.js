@@ -9,6 +9,17 @@ import Upvote from "./assets/upvote.svg";
 import Downvote from "./assets/downvote.svg";
 import Clock from "./assets/clock.svg";
 import ToolTip from "./ToolTip";
+import goBackArrow from "./assets/goBackArrow.svg";
+import passiveUpvote from "./assets/passiveUpvote.svg";
+import passiveDownvote from "./assets/passiveDownvote.svg";
+import activeUpvote from "./assets/activeUpvote.svg";
+import activeDownvote from "./assets/activeDownvote.svg";
+import calendar from "../newsCard/assets/calendar.svg";
+import newsReddit from "./assets/newsReddit.svg";
+import newsShare from "./assets/newsShare.svg";
+import newsTelegram from "./assets/newsTelegram.svg";
+import newsTwitter from "./assets/newsTwitter.svg";
+import sourceLinkIcon from './assets/sourceLinkIcon.svg'
 
 import { useState } from "react";
 
@@ -35,6 +46,7 @@ const NewsModal = ({
   onModalClose,
   isPremium,
   coinbase,
+  fullDate,
 }) => {
   const getItemsWithoutCurrentItem = (currentItemId, arrayOfItems) => {
     return arrayOfItems.filter((item) => item?.id !== currentItemId);
@@ -49,7 +61,6 @@ const NewsModal = ({
   const [canVote, setCanVote] = useState(false);
   const [newContent, setnewContent] = useState(content);
 
-
   useEffect(() => {
     if (elementRef.current.clientHeight !== 0) {
       setHeight(elementRef.current.clientHeight);
@@ -57,8 +68,8 @@ const NewsModal = ({
       setLikeIndicator(false);
     }
 
-    if(content!==undefined && content.includes('&nbsp')) {
-     setnewContent(content.replace(/&nbsp;/g, ' ') ) 
+    if (content !== undefined && content.includes("&nbsp")) {
+      setnewContent(content.replace(/&nbsp;/g, " "));
     }
   }, [newsId, content]);
 
@@ -66,7 +77,6 @@ const NewsModal = ({
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
 
-  
   useEffect(() => {
     if (bal1 === 0 && bal2 === 0 && isPremium === true) {
       setCanVote(true);
@@ -82,10 +92,14 @@ const NewsModal = ({
   }, [alreadyVoted, bal1, bal2, isPremium]);
 
   const handleLikeStates = () => {
-    if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
+    if (
+      logout === "false" &&
+      (bal1 !== 0 || bal2 !== 0 || isPremium !== false)
+    ) {
       checkUpVoting(newsId);
+    } else {
+      setShowTooltip(true);
     }
-    else {setShowTooltip(true);}
     if (
       (bal1 === 0 && bal2 === 0 && isPremium === false) ||
       logout === "true" ||
@@ -107,10 +121,14 @@ const NewsModal = ({
   };
 
   const handleDisLikeStates = () => {
-    if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
+    if (
+      logout === "false" &&
+      (bal1 !== 0 || bal2 !== 0 || isPremium !== false)
+    ) {
       checkDownVoting(newsId);
+    } else {
+      setShowTooltip(true);
     }
-    else {setShowTooltip(true);}
     if (
       (bal1 === 0 && bal2 === 0 && isPremium === false) ||
       logout === "true" ||
@@ -184,14 +202,34 @@ const NewsModal = ({
     fetchVotingdata();
   }, []);
 
+  var options = { year: "numeric", month: "short", day: "numeric" };
+
+  const formattedDate = new Date(fullDate);
+
   return (
-    <div className="newmodal">
-      <div>
+    <>
+    <div className="newmodal col-8 ps-0">
+      <div className="news-modal">
         <div className="details-modal-content">
           <div className="left-col" ref={elementRef}>
-            <div className="d-flex justify-content-start align-items-center">
+            <div className="d-flex flex-column justify-content-start align-items-start gap-3">
               <div className="backbtn" onClick={onModalClose}>
                 <i className="fas fa-arrow-left" style={{ color: "white" }}></i>
+              </div>
+              <div className="d-flex align-items-center justify-content-between w-100">
+                <button
+                  className="btn go-back-btn d-flex align-items-center gap-2"
+                  onClick={onModalClose}
+                >
+                  <img src={goBackArrow} alt="goback" />
+                  <span className="go-back-text">Go Back</span>
+                </button>
+                <div className="date-wrapper">
+                  <img src={calendar} alt="calendar" />
+                  <span className="news-date-text">
+                    {formattedDate.toLocaleDateString("en-US", options)}
+                  </span>
+                </div>
               </div>
               <h2 className="left-col-title" style={{ fontSize: 20 }}>
                 {title}
@@ -225,7 +263,81 @@ const NewsModal = ({
               style={{ padding: "20px 0" }}
             />
             <div className="news-bottom-wrapper mb-3 justify-content-between">
-              <div
+              <div className="d-flex">
+                <a
+                  className="resp-sharing-button__link"
+                  href={`https://twitter.com/intent/tweet/?text=${title}&url=${`https://tools.dyp.finance/news/${newsId}`}`}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label=""
+                >
+                  <img src={newsTwitter} alt="twitter share" />
+                </a>
+
+                <a
+                  className="resp-sharing-button__link"
+                  href={`https://reddit.com/submit/?&url=${`https://tools.dyp.finance/news/${newsId}`}&resubmit=true&title=${title}`}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label=""
+                >
+                  {/* <div className="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small">
+                    <div
+                      aria-hidden="true"
+                      className="resp-sharing-button__icon resp-sharing-button__icon--solid"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z" />
+                      </svg>
+                    </div>
+                  </div> */}
+                  <img src={newsReddit} alt="reddit share" />
+                </a>
+
+                <a
+                  className="resp-sharing-button__link"
+                  href={`https://telegram.me/share/url?text=${title}&url=${`https://tools.dyp.finance/news/${newsId}`}`}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label=""
+                >
+                  {/* <div className="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small">
+                    <div
+                      aria-hidden="true"
+                      className="resp-sharing-button__icon resp-sharing-button__icon--solid"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z" />
+                      </svg>
+                    </div>
+                  </div> */}
+                  <img src={newsTelegram} alt="telegram share" />
+                </a>
+                <img
+                  src={newsShare}
+                  alt="share news"
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `https://tools.dyp.finance/news/${newsId}`
+                    )
+                  }
+                  style={{ margin: "0.5em" }}
+                />
+              </div>
+            </div>
+
+            <p
+              // style={{ maxWidth: 520 }}
+              className="left-col-content"
+              dangerouslySetInnerHTML={{ __html: newContent }}
+            ></p>
+            {/* <div
                 className="d-flex w-100 align-items-center"
                 style={{ gap: 20 }}
               >
@@ -294,95 +406,96 @@ const NewsModal = ({
                     {month} {day} {year}
                   </h6>
                 </div>
-              </div>
-              <div className="d-flex">
-                <a
-                  className="resp-sharing-button__link"
-                  href={`https://twitter.com/intent/tweet/?text=${title}&url=${`https://tools.dyp.finance/news/${newsId}`}`}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label=""
-                >
-                  <div className="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small">
-                    <div
-                      aria-hidden="true"
-                      className="resp-sharing-button__icon resp-sharing-button__icon--solid"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z" />
-                      </svg>
-                    </div>
-                  </div>
-                </a>
+              </div> */}
 
-                <a
-                  className="resp-sharing-button__link"
-                  href={`https://reddit.com/submit/?&url=${`https://tools.dyp.finance/news/${newsId}`}&resubmit=true&title=${title}`}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label=""
+            <div className="d-flex align-items-center justify-content-between mt-5">
+            <div className="d-flex align-items-center justify-content-center gap-2 position-relative">
+              <img
+                src={
+                  likeIndicator === false && dislikeIndicator === false
+                    ? passiveUpvote
+                    : likeIndicator === true
+                    ? activeUpvote
+                    : passiveUpvote
+                }
+                alt=""
+                className="like-indicator"
+                onClick={(e) => {
+                  handleLikeStates();
+                  e.stopPropagation();
+                }}
+              />
+              {showTooltip === true ? (
+                <OutsideClickHandler
+                  onOutsideClick={() => {
+                    setShowTooltip(false);
+                  }}
                 >
-                  <div className="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small">
-                    <div
-                      aria-hidden="true"
-                      className="resp-sharing-button__icon resp-sharing-button__icon--solid"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M24 11.5c0-1.65-1.35-3-3-3-.96 0-1.86.48-2.42 1.24-1.64-1-3.75-1.64-6.07-1.72.08-1.1.4-3.05 1.52-3.7.72-.4 1.73-.24 3 .5C17.2 6.3 18.46 7.5 20 7.5c1.65 0 3-1.35 3-3s-1.35-3-3-3c-1.38 0-2.54.94-2.88 2.22-1.43-.72-2.64-.8-3.6-.25-1.64.94-1.95 3.47-2 4.55-2.33.08-4.45.7-6.1 1.72C4.86 8.98 3.96 8.5 3 8.5c-1.65 0-3 1.35-3 3 0 1.32.84 2.44 2.05 2.84-.03.22-.05.44-.05.66 0 3.86 4.5 7 10 7s10-3.14 10-7c0-.22-.02-.44-.05-.66 1.2-.4 2.05-1.54 2.05-2.84zM2.3 13.37C1.5 13.07 1 12.35 1 11.5c0-1.1.9-2 2-2 .64 0 1.22.32 1.6.82-1.1.85-1.92 1.9-2.3 3.05zm3.7.13c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9.8 4.8c-1.08.63-2.42.96-3.8.96-1.4 0-2.74-.34-3.8-.95-.24-.13-.32-.44-.2-.68.15-.24.46-.32.7-.18 1.83 1.06 4.76 1.06 6.6 0 .23-.13.53-.05.67.2.14.23.06.54-.18.67zm.2-2.8c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5.7-2.13c-.38-1.16-1.2-2.2-2.3-3.05.38-.5.97-.82 1.6-.82 1.1 0 2 .9 2 2 0 .84-.53 1.57-1.3 1.87z" />
-                      </svg>
-                    </div>
-                  </div>
-                </a>
-
-                <a
-                  className="resp-sharing-button__link"
-                  href={`https://telegram.me/share/url?text=${title}&url=${`https://tools.dyp.finance/news/${newsId}`}`}
-                  target="_blank"
-                  rel="noopener"
-                  aria-label=""
-                >
-                  <div className="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small">
-                    <div
-                      aria-hidden="true"
-                      className="resp-sharing-button__icon resp-sharing-button__icon--solid"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M.707 8.475C.275 8.64 0 9.508 0 9.508s.284.867.718 1.03l5.09 1.897 1.986 6.38a1.102 1.102 0 0 0 1.75.527l2.96-2.41a.405.405 0 0 1 .494-.013l5.34 3.87a1.1 1.1 0 0 0 1.046.135 1.1 1.1 0 0 0 .682-.803l3.91-18.795A1.102 1.102 0 0 0 22.5.075L.706 8.475z" />
-                      </svg>
-                    </div>
-                  </div>
-                </a>
-              </div>
+                  <ToolTip
+                    status={
+                      logout === "false" && canVote === false
+                        ? "You need to be holding DYP to vote"
+                        : logout === "true"
+                        ? "Please connect your wallet"
+                        : alreadyVoted === true && canVote === true
+                        ? "You have already voted"
+                        : "You have already voted"
+                    }
+                  />
+                </OutsideClickHandler>
+              ) : (
+                <></>
+              )}
+              <span className="votes-amount">
+                {/* {Number(upvotes) - Number(downvotes)} */}
+                {Number(votes.find((obj) => obj.id === newsId)?.up) -
+                  Number(votes.find((obj) => obj.id === newsId)?.down)}
+              </span>
+              <img
+                style={{ transform: "rotate(0deg)" }}
+                src={
+                  likeIndicator === false && dislikeIndicator === false
+                    ? passiveDownvote
+                    : dislikeIndicator === true
+                    ? activeDownvote
+                    : passiveDownvote
+                }
+                alt=""
+                className="like-indicator"
+                id="dislike"
+                onClick={(e) => {
+                  handleDisLikeStates();
+                  e.stopPropagation();
+                }}
+              />
             </div>
-
-            <p
-              // style={{ maxWidth: 520 }}
-              className="left-col-content"
-              dangerouslySetInnerHTML={{ __html: newContent }}
-            ></p>
-            <p>
+            {/* <p>
               Source:{" "}
               <a href={link} target="_blank">
                 <u>click here</u>
               </a>
-            </p>
+            </p> */}
+            <div className="d-flex align-items-center gap-2">
+              <img src={sourceLinkIcon} alt="source link" />
+            <a href={link} target="_blank" className="source-link">Source link: {link?.slice(0, 30) + '...'}</a>
+            </div>
+            </div>
           </div>
-
-          <div className="right-col">
-            <h3 className="related-news-side-title">Top voted news</h3>
+        </div>
+      </div>
+    </div>
+    <div className="col-4 pe-0">
+    <div className="right-col position-relative">
+      <div className="purplediv" style={{left: '0px', top: '20px', background: '#8E97CD'}}></div>
+      <div className="d-flex align-items-center gap-2 mt-2">
+        <img src={require(`./assets/relatedNewsIcon.svg`).default} alt="" />
+      <h3 className="related-news-side-title">Top voted news</h3>
+      </div>
             <div className="related-news-wrapper">
               {latestNewsData.length > 0 &&
                 getItemsWithoutCurrentItem(newsId, latestNewsData)
-                  .slice(0, parseInt(height / 100))
+                .slice(0,5)
+                  // .slice(0, parseInt(height / 100))
                   .map((item, key) => {
                     if (item !== undefined) {
                       return (
@@ -396,20 +509,25 @@ const NewsModal = ({
                             newsId={item.id}
                             theme={theme}
                             title={item.title}
-                            date={item.date.slice(0, 10)}
+                            date={item.date}
                             month={item.month}
                             year={item.year}
                             link={item.link}
                             // alreadyVoted={alreadyVoted}
                             upvotes={
                               votes.length !== 0
-                                ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                                ? votes.find((obj) => obj.id === item.id)
+                                    ?.up !== undefined
+                                  ? votes.find((obj) => obj.id === item.id)?.up
+                                  : 0
                                 : 0
                             }
                             downvotes={
                               votes.length !== 0
-                                ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                                  ? votes.find((obj) => obj.id === item.id)?.down
+                                ? votes.find((obj) => obj.id === item.id)
+                                    ?.down !== undefined
+                                  ? votes.find((obj) => obj.id === item.id)
+                                      ?.down
                                   : 0
                                 : 0
                             }
@@ -428,9 +546,8 @@ const NewsModal = ({
                   })}
             </div>
           </div>
-        </div>
-      </div>
     </div>
+    </>
   );
 };
 NewsModal.propTypes = {
