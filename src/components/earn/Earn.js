@@ -11,6 +11,7 @@ const Earn = ({
   network,
   handleConnection,
   the_graph_resultavax,
+  the_graph_resultbsc,
   referrer
 }) => {
   const [showCalculator, setShowCalculator] = useState(false);
@@ -35,6 +36,7 @@ const Earn = ({
         chainId={network}
         handleConnection={handleConnection}
         the_graph_resultavax={the_graph_resultavax}
+        the_graph_resultbsc={the_graph_resultbsc}
         referrer={referrer}
       />
     </div>
