@@ -6,6 +6,9 @@ import Downvote from "./assets/downvote.svg";
 import Clock from "./assets/clock.svg";
 import ToolTip from "./ToolTip";
 import OutsideClickHandler from "react-outside-click-handler";
+import featuredNewsShadow from './assets/featuredNewsShadow.svg'
+import calendar from '../newsCard/assets/calendar.svg'
+
 
 const MainNews = ({
   link,
@@ -145,11 +148,21 @@ const MainNews = ({
     }
   };
 
+  var options = { year: "numeric", month: "short", day: "numeric" };
+
+  const formattedDate = new Date(day)
+
   return (
     <div className="main-news-image" key={newsId}>
+      
       <div className="banner-item">
         {/* <a target="_blank" href={link}> */}
-        <div className="main-image">
+        <div className="main-image position-relative">
+        <div className="d-flex align-items-center gap-2 main-date-item">
+                <img src={calendar} alt="calendar" />
+                <span className="news-date-text">{formattedDate.toLocaleDateString("en-US", options)}</span>
+            </div>
+          <img src={featuredNewsShadow} alt="" className="featured-shadow w-100" />
           <img
             src={image}
             alt="Image not found"
@@ -171,12 +184,11 @@ const MainNews = ({
                 {title}
               </h2>
             </div>
+            
           </div>
-        </div>
-
-        {/* </a> */}
-
-        <div className="news-bottom-wrapper mt-3 justify-content-between">
+            
+           
+          {/* <div className="news-bottom-wrapper mt-3 justify-content-between">
           <div className="like-wrapper">
             <img
               src={
@@ -239,7 +251,12 @@ const MainNews = ({
               {month} {day} {year}
             </h6>
           </div>
+        </div> */}
         </div>
+
+        {/* </a> */}
+
+       
       </div>
     </div>
   );

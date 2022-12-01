@@ -731,27 +731,7 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
         windowSize.width > 1300 ? (
           <div className="px-0">
             <div className="top-picks-container">
-              {topList === "Staking" && chain === "eth" && (
-                <CawsCard
-                  onShowDetailsClick={() => {
-                    setActiveCardNFT(true);
-                    setActiveCard(null);
-                    setActiveCard2(null);
-                    setActiveCard3(null);
-                    setActiveCard4(null);
-                    setDetails();
-                  }}
-                  onHideDetailsClick={() => {
-                    setActiveCardNFT(false);
-                    setDetails();
-                  }}
-                  cardType={topList}
-                  details={activeCardNFT === true ? true : false}
-                  listType={listType}
-                />
-              )}
-
-              {topPools.slice(0, 2).map((pool, index) => (
+              {topPools.slice(0, 3).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -911,17 +891,9 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
               />
-            ) : (
-              activeCardNFT && (
-                <CawsDetails
-                  coinbase={coinbase}
-                  isConnected={isConnected}
-                  listType={listType}
-                />
-              )
-            )}
+            ) : <></>}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(2, 5).map((pool, index) => (
+              {topPools.slice(3, 6).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -930,25 +902,25 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 2]
+                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 3]
                   }
                   tokenLogo={pool.icon}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
-                    setActiveCard2(topPools[index + 2]);
+                    setActiveCard2(topPools[index + 3]);
                     setActiveCard3(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 2);
-                    handleCardIndexStake30(index + 2);
-                    handleCardIndexStakeiDyp(index + 2);
-                    setDetails(index + 2);
+                    handleCardIndexStake(index + 3);
+                    handleCardIndexStake30(index + 3);
+                    handleCardIndexStakeiDyp(index + 3);
+                    setDetails(index + 3);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard2(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 2 ? true : false}
+                  details={details === index + 3 ? true : false}
                 />
               ))}
             </div>
@@ -1079,7 +1051,7 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(5, 8).map((pool, index) => (
+              {topPools.slice(6, 9).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -1088,25 +1060,25 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 5]
+                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 6]
                   }
                   tokenLogo={pool.icon}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(null);
-                    setActiveCard3(topPools[index + 5]);
+                    setActiveCard3(topPools[index + 6]);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 5);
-                    handleCardIndexStake30(index + 5);
-                    handleCardIndexStakeiDyp(index + 5);
-                    setDetails(index + 5);
+                    handleCardIndexStake(index + 6);
+                    handleCardIndexStake30(index + 6);
+                    handleCardIndexStakeiDyp(index + 6);
+                    setDetails(index + 6);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard3(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 5 ? true : false}
+                  details={details === index + 6 ? true : false}
                 />
               ))}
             </div>
@@ -1236,8 +1208,8 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
             ) : (
               <></>
             )}
-            <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(8, 11).map((pool, index) => (
+            <div className="top-picks-container" style={{  marginTop: topPools.length > 9 && '25px' }}>
+              {topPools.slice(9, topPools.length).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -1246,28 +1218,47 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 8]
+                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 9]
                   }
                   tokenLogo={pool.icon}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(null);
                     setActiveCard3(null);
-                    setActiveCard4(topPools[index + 8]);
+                    setActiveCard4(topPools[index + 9]);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 8);
-                    handleCardIndexStake30(index + 8);
-                    handleCardIndexStakeiDyp(index + 8);
-                    setDetails(index + 8);
+                    handleCardIndexStake(index + 9);
+                    handleCardIndexStake30(index + 9);
+                    handleCardIndexStakeiDyp(index + 9);
+                    setDetails(index + 9);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard4(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 8 ? true : false}
+                  details={details === index + 9 ? true : false}
                 />
               ))}
+               {topList === "Staking" && chain === "eth" && (
+                <CawsCard
+                  onShowDetailsClick={() => {
+                    setActiveCardNFT(true);
+                    setActiveCard(null);
+                    setActiveCard2(null);
+                    setActiveCard3(null);
+                    setActiveCard4(null);
+                    setDetails();
+                  }}
+                  onHideDetailsClick={() => {
+                    setActiveCardNFT(false);
+                    setDetails();
+                  }}
+                  cardType={topList}
+                  details={activeCardNFT === true ? true : false}
+                  listType={listType}
+                />
+              )}
             </div>
             {activeCard4 && topList === "Farming" ? (
               chain === "eth" ? (
@@ -1393,33 +1384,21 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                 the_graph_result={the_graph_result}
               />
             ) : (
-              <></>
+              activeCardNFT && (
+                <CawsDetails
+                  coinbase={coinbase}
+                  isConnected={isConnected}
+                  listType={listType}
+                />
+              )
             )}
           </div>
         ) : (
           <div className="px-0">
             <div className="top-picks-container">
-              <CawsCard
-                onShowDetailsClick={() => {
-                  setActiveCardNFT(true);
-                  setActiveCard(null);
-                  setActiveCard2(null);
-                  setActiveCard3(null);
-                  setActiveCard4(null);
-                  setActiveCard5(null);
-                  setActiveCard6(null);
-                  setDetails();
-                }}
-                onHideDetailsClick={() => {
-                  setActiveCardNFT(false);
-                  setDetails();
-                }}
-                cardType={topList}
-                details={activeCardNFT === true ? true : false}
-                listType={listType}
-              />
+              
 
-              {topPools.slice(0, 1).map((pool, index) => (
+              {topPools.slice(0, 2).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -1575,17 +1554,9 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
               />
-            ) : (
-              activeCardNFT && (
-                <CawsDetails
-                  coinbase={coinbase}
-                  isConnected={isConnected}
-                  listType={listType}
-                />
-              )
-            )}
+            ) : <></>}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(1, 3).map((pool, index) => (
+              {topPools.slice(2, 4).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -1599,23 +1570,23 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   tokenLogo={pool.icon}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
-                    setActiveCard2(topPools[index + 1]);
+                    setActiveCard2(topPools[index + 2]);
                     setActiveCard3(null);
                     setActiveCard4(null);
                     setActiveCard5(null);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 1);
-                    handleCardIndexStake30(index + 1);
-                    handleCardIndexStakeiDyp(index + 1);
-                    setDetails(index + 1);
+                    handleCardIndexStake(index + 2);
+                    handleCardIndexStake30(index + 2);
+                    handleCardIndexStakeiDyp(index + 2);
+                    setDetails(index + 2);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard2(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 1 ? true : false}
+                  details={details === index + 2 ? true : false}
                 />
               ))}
             </div>
@@ -1746,7 +1717,7 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(3, 5).map((pool, index) => (
+              {topPools.slice(4, 6).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -1755,28 +1726,28 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 3]
+                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 4]
                   }
                   tokenLogo={pool.icon}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(null);
-                    setActiveCard3(topPools[index + 3]);
+                    setActiveCard3(topPools[index + 4]);
                     setActiveCard4(null);
                     setActiveCard5(null);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 3);
-                    handleCardIndexStake30(index + 3);
-                    handleCardIndexStakeiDyp(index + 3);
-                    setDetails(index + 3);
+                    handleCardIndexStake(index + 4);
+                    handleCardIndexStake30(index + 4);
+                    handleCardIndexStakeiDyp(index + 4);
+                    setDetails(index + 4);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard3(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 3 ? true : false}
+                  details={details === index + 4 ? true : false}
                 />
               ))}
             </div>
@@ -1907,7 +1878,7 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(5, 7).map((pool, index) => (
+              {topPools.slice(6, 8).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -1916,28 +1887,28 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 5]
+                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 6]
                   }
                   tokenLogo={pool.icon}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(null);
                     setActiveCard3(null);
-                    setActiveCard4(topPools[index + 5]);
+                    setActiveCard4(topPools[index + 6]);
                     setActiveCard5(null);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 5);
-                    handleCardIndexStake30(index + 5);
-                    handleCardIndexStakeiDyp(index + 5);
-                    setDetails(index + 5);
+                    handleCardIndexStake(index + 6);
+                    handleCardIndexStake30(index + 6);
+                    handleCardIndexStakeiDyp(index + 6);
+                    setDetails(index + 6);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard4(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 5 ? true : false}
+                  details={details === index + 6 ? true : false}
                 />
               ))}
             </div>
@@ -2067,8 +2038,8 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
             ) : (
               <></>
             )}
-            <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(7, 9).map((pool, index) => (
+            <div className="top-picks-container" style={{  marginTop: topPools.length > 8 && '25px' }}>
+              {topPools.slice(8, 10).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -2077,7 +2048,7 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 7]
+                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 8]
                   }
                   tokenLogo={pool.icon}
                   onShowDetailsClick={() => {
@@ -2085,20 +2056,20 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                     setActiveCard2(null);
                     setActiveCard3(null);
                     setActiveCard4(null);
-                    setActiveCard5(topPools[index + 7]);
+                    setActiveCard5(topPools[index + 8]);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 7);
-                    handleCardIndexStake30(index + 7);
-                    handleCardIndexStakeiDyp(index + 7);
-                    setDetails(index + 7);
+                    handleCardIndexStake(index + 8);
+                    handleCardIndexStake30(index + 8);
+                    handleCardIndexStakeiDyp(index + 8);
+                    setDetails(index + 8);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard4(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 7 ? true : false}
+                  details={details === index + 8 ? true : false}
                 />
               ))}
             </div>
@@ -2228,8 +2199,8 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
             ) : (
               <></>
             )}
-            <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(9, 11).map((pool, index) => (
+            <div className="top-picks-container" style={{ marginTop: topPools.length > 10 && '25px' }}>
+              {topPools.slice(10, topPools.length).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
@@ -2238,7 +2209,7 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 9]
+                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 10]
                   }
                   tokenLogo={pool.icon}
                   onShowDetailsClick={() => {
@@ -2247,21 +2218,40 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                     setActiveCard3(null);
                     setActiveCard4(null);
                     setActiveCard5(null);
-                    setActiveCard6(topPools[index + 9]);
+                    setActiveCard6(topPools[index + 10]);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 9);
-                    handleCardIndexStake30(index + 9);
-                    handleCardIndexStakeiDyp(index + 9);
-                    setDetails(index + 9);
+                    handleCardIndexStake(index + 10);
+                    handleCardIndexStake30(index + 10);
+                    handleCardIndexStakeiDyp(index + 10);
+                    setDetails(index + 10);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard4(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 9 ? true : false}
+                  details={details === index + 10 ? true : false}
                 />
               ))}
+               {topList === "Staking" && chain === "eth" && (
+                <CawsCard
+                  onShowDetailsClick={() => {
+                    setActiveCardNFT(true);
+                    setActiveCard(null);
+                    setActiveCard2(null);
+                    setActiveCard3(null);
+                    setActiveCard4(null);
+                    setDetails();
+                  }}
+                  onHideDetailsClick={() => {
+                    setActiveCardNFT(false);
+                    setDetails();
+                  }}
+                  cardType={topList}
+                  details={activeCardNFT === true ? true : false}
+                  listType={listType}
+                />
+              )}
             </div>
             {activeCard6 && topList === "Farming" ? (
               chain === "eth" ? (
@@ -2387,7 +2377,13 @@ const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
                 the_graph_result={the_graph_result}
               />
             ) : (
-              <></>
+                activeCardNFT && (
+                  <CawsDetails
+                    coinbase={coinbase}
+                    isConnected={isConnected}
+                    listType={listType}
+                  />
+              )
             )}
           </div>
         )

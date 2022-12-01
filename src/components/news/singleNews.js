@@ -6,6 +6,11 @@ import Downvote from "./assets/downvote.svg";
 import ToolTip from "./ToolTip";
 import OutsideClickHandler from "react-outside-click-handler";
 import Clock from "./assets/clock.svg";
+import passiveUpvote from './assets/passiveUpvote.svg'
+import passiveDownvote from './assets/passiveDownvote.svg'
+import activeUpvote from './assets/activeUpvote.svg'
+import activeDownvote from './assets/activeDownvote.svg'
+import calendar from '../newsCard/assets/calendar.svg'
 
 const SingleNews = ({
   title,
@@ -21,6 +26,7 @@ const SingleNews = ({
   isConnected,
   onSingleUpVoteClick,
   onSingleDownVoteClick,
+  fullDate,
   isPremium,
   newsId,
 onVotesFetch,
@@ -143,15 +149,19 @@ coinbase
   };
 
 
+  var options = { year: "numeric", month: "short", day: "numeric" };
+
+  const formattedDate = new Date(fullDate)
+
   return (
     <div className="singlenews-body">
       <div className="row m-0 justify-content-between" style={{ gap: 20 }}>
         <div className="singlenews-wrapper">
           {/* <a href={link} target={"_blank"}> */}
-          <h4 className="singlenews-title" onClick={onNewsClick}>{title}</h4>
+          <h4 className="rightside-news-title" onClick={onNewsClick}>{title}</h4>
           {/* </a> */}
 
-          <div className="news-bottom-wrapper justify-content-between">
+          {/* <div className="news-bottom-wrapper justify-content-between">
             <div className="like-wrapper">
               <img
                 src={
@@ -206,16 +216,84 @@ coinbase
                 }}
               />
             </div>
+           
+            <div className="date-wrapper">
+              <img src={Clock} alt="" style={{ width: "auto" }} />
+              <h6 className="date-content">
+                {month} {day} {year}
+              </h6>
+            </div>
+          </div> */}
+           <div
+            className="news-bottom-wrapper"
+            style={{ justifyContent: "space-between" }}
+          >
+            <div className="d-flex align-items-center justify-content-center gap-2">
+              <img
+                src={
+                  likeIndicator === false && dislikeIndicator === false
+                    ? passiveUpvote
+                    : likeIndicator === true
+                    ? activeUpvote
+                    : passiveUpvote
+                }
+                alt=""
+                className="like-indicator"
+                onClick={(e) => {
+                  handleLikeStates();
+                  e.stopPropagation();
+                }}
+              />
+              {showTooltip === true ? (
+                <OutsideClickHandler
+                  onOutsideClick={() => {
+                    setShowTooltip(false);
+                  }}
+                >
+                  <ToolTip
+                    status={
+                      logout === "false" && canVote === false
+                      ? "You need to be holding DYP to vote"
+                      : logout === 'true'
+                     ? "Please connect your wallet"
+                     :   alreadyVoted === true && canVote === true
+                     ? "You have already voted"
+                     : "You have already voted"
+                    }
+                  />
+                </OutsideClickHandler>
+              ) : (
+                <></>
+              )}
+              <span className="votes-amount"> {Number(upvotes) - Number(downvotes)}</span>
+              <img
+              style={{transform: 'rotate(0deg)'}}
+                src={
+                  likeIndicator === false && dislikeIndicator === false
+                    ? passiveDownvote
+                    : dislikeIndicator === true
+                    ? activeDownvote
+                    : passiveDownvote
+                }
+                alt=""
+                className="like-indicator"
+                id="dislike"
+                onClick={(e) => {
+                  handleDisLikeStates();
+                  e.stopPropagation();
+                }}
+              />
+            </div>
             {/* <img
               src={theme === "theme-dark" ? WhiteDots : Dots}
               alt=""
               style={{ width: "auto" }}
             /> */}
             <div className="date-wrapper">
-              <img src={Clock} alt="" style={{ width: "auto" }} />
-              <h6 className="date-content">
-                {month} {day} {year}
-              </h6>
+              <img src={calendar} alt="calendar" />
+              <span className="news-date-text">
+                {formattedDate.toLocaleDateString("en-US", options)}
+              </span>
             </div>
           </div>
         </div>
