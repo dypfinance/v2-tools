@@ -242,6 +242,85 @@ class STAKINGAVAX {
   }
 }
 
+
+
+class STAKINGBSC {
+  constructor(ticker = "STAKINGBSC", token = "TOKEN") {
+    this.ticker = ticker;
+    this.token = token;
+    let address = window.config[ticker.toLowerCase() + "_address"];
+    this._address = address;
+    [
+      "owner",
+      "depositedTokens",
+      "depositTime",
+      "cliffTime",
+      "lastClaimedTime",
+      "totalEarnedTokens",
+      "totalEarnedEth",
+      "getPendingDivs",
+      "getPendingDivsEth",
+      "tokensToBeDisbursedOrBurnt",
+      "tokensToBeSwapped",
+      "getNumberOfHolders",
+      "getDepositorsList",
+      "swapAttemptPeriod",
+      "lastSwapExecutionTime",
+      "contractDeployTime",
+      "disburseDuration",
+    ].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({key: this.ticker});
+        return await contract.methods[fn_name](...args).call();
+      };
+    });
+
+    ["deposit", "withdraw", "claim", "claimAs"].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({key: this.ticker});
+        let value = 0;
+        console.log(value);
+        let gas = window.config.default_gas_amount;
+
+        return await contract.methods[fn_name](...args).send({
+          value,
+          gas,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        });
+      };
+    });
+
+  }
+
+  async depositTOKEN(amount) {
+    let token_contract = await getContract({key: this.token});
+    let staking_contract = await getContract({key: this.ticker});
+    let batch = new window.web3.eth.BatchRequest();
+    batch.add(
+      token_contract.methods
+        .approve(staking_contract._address, amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    batch.add(
+      staking_contract.methods
+        .deposit(amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    return batch.execute();
+  }
+}
+
+
+
 class TOKEN {
   constructor(key = "TOKEN") {
     this.key = key;
@@ -683,6 +762,86 @@ class CONSTANT_STAKINGAVAX {
     return batch.execute();
   }
 }
+
+
+class CONSTANT_STAKINGBSC_NEW {
+  constructor(ticker = "CONSTANT_STAKINGBSC_30", token = "REWARD_TOKEN") {
+    this.ticker = ticker;
+    this.token = token;
+    let address = window.config[ticker.toLowerCase() + "_address"];
+    this._address = address;
+    [
+      "owner",
+      "depositedTokens",
+      "stakingTime",
+      "LOCKUP_TIME",
+      "lastClaimedTime",
+      "totalEarnedTokens",
+      "getPendingDivs",
+      "totalReferralFeeEarned",
+      "getNumberOfHolders",
+      "getStakersList",
+      "getTotalPendingDivs",
+      "getNumberOfReferredStakers",
+      "getReferredStaker",
+      "getActiveReferredStaker",
+      "contractStartTime",
+      "REWARD_INTERVAL",
+      "rewardsPendingClaim",
+      "getPendingDivs",
+      "ADMIN_CAN_CLAIM_AFTER",
+    ].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({key: this.ticker});
+        return await contract.methods[fn_name](...args).call();
+      };
+    });
+
+    ["stake", "unstake", "claim", "reInvest", "stakeExternal"].forEach(
+      (fn_name) => {
+        this[fn_name] = async function (...args) {
+          let contract = await getContract({key: this.ticker});
+          let value = 0;
+          
+          let gas = window.config.default_gas_amount;
+          
+          return await contract.methods[fn_name](...args).send({
+            value,
+            gas,
+            from: await getCoinbase(),
+            gasPrice: window.config.default_gasprice_gwei * 1e9,
+          });
+        };
+      }
+    );
+  }
+
+  async depositTOKEN(amount, referrer) {
+    let token_contract = await getContract({key: this.token});
+    let staking_contract = await getContract({key:this.ticker});
+    let batch = new window.web3.eth.BatchRequest();
+    batch.add(
+      token_contract.methods
+        .approve(staking_contract._address, amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    batch.add(
+      staking_contract.methods
+        .deposit(amount, referrer)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    return batch.execute();
+  }
+}
+ 
 
 class CONSTANT_STAKING_NEWAVAX {
   constructor(ticker = "CONSTANT_STAKINGAVAX_30", token = "REWARD_TOKENAVAX") {
@@ -1416,6 +1575,8 @@ window.config = {
   //Farming new
   token_new_address: "0x7463286a379f6f128058bb92b355e3d6e8bdb219",
   token_newavax_address: "0x66eecc97203704d9e2db4a431cb0e9ce92539d5a",
+  token_newbsc_address: "0x1bC61d08A300892e784eD37b2d0E63C85D1d57fb",
+
   constant_stakingnew_newavax5_address:
     "0x1cA9Fc98f3b997E08bC04691414e33B1835aa7e5",
   constant_stakingnew_newavax9_address:
@@ -1707,10 +1868,33 @@ window.config = {
 
   //buyback bsc
   buyback_stakingbsc1_1_address: "0x94b1a7b57c441890b7a0f64291b39ad6f7e14804",
+  buyback_stakingbsc1_2_address: "0x4ef782e66244a0cf002016aa1db3019448c670ae",
+
   constant_stakingnewbsc_new3_address:
     "0x9af074cE714FE1Eb32448052a38D274E93C5dc28",
+    constant_stakingnewbsc_new4_address:
+    "0xDBfb96e2899d52B469C1a1C35eD71fBBa228d2cC",
 
     reward_tokenbsc_address2: "0xbd100d061e120b2c67a24453cf6368e63f1be056",
+
+
+
+    //farming bsc
+
+  farming_newbsc_1_address: "0x537dc4fee298ea79a7f65676735415f1e2882f92",
+  constant_stakingnewbsc_new5_address: "0xc794cdb8d6ac5eb42d5aba9c1e641ae17c239c8c",
+  farming_newbsc_2_address: "0x219717bf0bc33b2764a6c1a772f75305458bda3d",
+  constant_stakingnewbsc_new6_address: "0x23609b1f5274160564e4afc5eb9329a8bf81c744",
+
+  farming_newbsc_3_address: "0xd1151a2434931f34bcfa6c27639b67c1a23d93af",
+  constant_stakingnewbsc_new7_address: "0x264922696b9972687522b6e98bf78a0430e2163c",
+
+  farming_newbsc_4_address: "0xed869ba773c3f1a1adcc87930ca36ee2dc73435d",
+  constant_stakingnewbsc_new8_address: "0x9df0a645beb6f7adfadc56f3689e79405337efe2",
+
+  farming_newbsc_5_address: "0x415b1624710296717fa96cad84f53454e8f02d18",
+  constant_stakingnewbsc_new9_address: "0xbd574278febad04b7a0694c37def4f2ecfa9354a",
+
 
 };
 
@@ -1742,6 +1926,8 @@ window.FARMING_NEWAVAX_5_ABI = window.FARMING_NEW_ABI;
 window.FARMWETH_ABI = window.TOKEN_ABI;
 window.TOKEN_NEW_ABI = window.TOKEN_ABI;
 window.TOKEN_NEWAVAX_ABI = window.TOKEN_ABI;
+window.TOKEN_NEWBSC_ABI = window.TOKENBSC_ABI;
+
 
 window.farmweth = new TOKEN("FARMWETH");
 
@@ -1773,6 +1959,38 @@ window.staking_wbtc_60 = new STAKING("STAKING_WBTC60", "TOKEN_WBTC60");
 
 window.token_wbtc_90 = new TOKEN("TOKEN_WBTC90");
 window.staking_wbtc_90 = new STAKING("STAKING_WBTC90", "TOKEN_WBTC90");
+
+window.farming_newbsc_1 = new STAKINGBSC("FARMING_NEWBSC_1");
+window.farming_newbsc_2 = new STAKINGBSC("FARMING_NEWBSC_2");
+window.farming_newbsc_3 = new STAKINGBSC("FARMING_NEWBSC_3");
+window.farming_newbsc_4 = new STAKINGBSC("FARMING_NEWBSC_4");
+window.farming_newbsc_5 = new STAKINGBSC("FARMING_NEWBSC_5");
+
+
+window.constant_stakingnewbsc_new5 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGNEW_NEW5"
+);
+
+
+window.constant_stakingnewbsc_new6 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGNEW_NEW6"
+);
+
+
+window.constant_stakingnewbsc_new7 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGNEW_NEW7"
+);
+
+
+window.constant_stakingnewbsc_new8 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGNEW_NEW8"
+);
+
+
+window.constant_stakingnewbsc_new9 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGNEW_NEW9"
+);
+
 
 //DYP-USDC
 window.token_usdc_3 = new TOKEN("TOKEN_USDC3");
@@ -1830,7 +2048,12 @@ window.constant_stakingbsc_new3 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEWBSC_NEW3"
 );
 
+window.constant_stakingbsc_new4 = new CONSTANT_STAKING_NEW("CONSTANT_STAKINGNEWBSC_NEW4")
+
+
 window.CONSTANT_STAKINGNEWBSC_NEW3_ABI = window.CONSTANT_STAKINGNEW_ABI;
+window.CONSTANT_STAKINGNEWBSC_NEW4_ABI = window.CONSTANT_STAKINGNEW_ABI;
+
 
 // window.token_dyps = new TOKEN(window.config.reward_token_dyps_address)
 //constant staking NEW CONTRACTS
@@ -1909,6 +2132,8 @@ window.CONSTANT_STAKINGNEW_NEWAVAX4_ABI = window.CONSTANT_STAKINGAVAX_ABI;
 /* Farming New */
 window.token_new = new TOKEN("TOKEN_NEW");
 window.token_newavax = new TOKENAVAX("TOKEN_NEWAVAX");
+window.token_newbsc = new TOKENAVAX("TOKEN_NEWBSC");
+
 window.farming_new_1 = new STAKING("FARMING_NEW_1");
 
 window.constant_staking_new5 = new CONSTANT_STAKING_NEW(
@@ -23669,6 +23894,14 @@ window.rebase_factors = [
 
 window.rebase_factorsavax = [1, 1, 1, 1, 1, 1, 1, 1, 1];
 
+
+
+window.rebase_factorsbsc = [
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+
+  1, 1, 1, 1, 1,
+];
+
 /* Farming New */
 window.token_new = new TOKEN("TOKEN_NEW");
 
@@ -24142,6 +24375,8 @@ Object.keys(window.config)
       k.startsWith("constant_stakingidypavax_4") ||
       k.startsWith("constant_stakingnew_newavax1") ||
       k.startsWith("constant_stakingnewbsc_new3") ||
+      k.startsWith("constant_stakingnewbsc_new4") ||
+
       k.startsWith("constant_stakingnew_newavax2") ||
       k.startsWith("constant_stakingdaiavax") ||
       k.startsWith("reward_token_daiavax") ||
@@ -24261,6 +24496,8 @@ Object.keys(window.config)
       : k.startsWith("constant_stakingnew_newavax1")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingnewbsc_new3")
+      ? window.CONSTANT_STAKINGNEW_ABI
+      : k.startsWith("constant_stakingnewbsc_new4")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingnew_newavax2")
       ? window.CONSTANT_STAKINGNEW_ABI

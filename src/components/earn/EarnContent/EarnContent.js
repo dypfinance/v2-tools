@@ -24,6 +24,7 @@ const EarnContent = ({
   chainId,
   handleConnection,
   the_graph_resultavax,
+  the_graph_resultbsc,
   referrer,
 }) => {
   const options = [
@@ -332,6 +333,7 @@ const EarnContent = ({
         chainId={chainId}
         handleConnection={handleConnection}
         the_graph_resultavax={the_graph_resultavax}
+        the_graph_resultbsc={the_graph_resultbsc}
         referrer={referrer}
       />
       <EarnFaq faqTypes={option} />

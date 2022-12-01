@@ -61,7 +61,6 @@ class App extends React.Component {
       explorerNetworkId: 1,
       show: false,
       referrer: "",
-
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
@@ -262,7 +261,6 @@ class App extends React.Component {
       let the_graph_resultavax = await window.refresh_the_graph_resultavax();
       let the_graph_resultbsc = await window.refresh_the_graph_resultavax();
 
-
       this.setState({
         the_graph_result: JSON.parse(JSON.stringify(the_graph_result)),
       });
@@ -373,14 +371,6 @@ class App extends React.Component {
     ];
 
     document.addEventListener("touchstart", { passive: true });
-    //Buyback New
-    const BuybackStaking1 = initBscBuyback({
-      staking: window.buyback_stakingbsc1_1,
-      constant: window.constant_stakingbsc_new3,
-      apr: 30,
-      expiration_time: "17 November 2022",
-      fee: 1,
-    });
 
     return (
       <div
@@ -511,6 +501,9 @@ class App extends React.Component {
                         the_graph_resultavax={
                           this.state.the_graph_result_AVAX_V2
                         }
+                        the_graph_resultbsc={
+                          this.state.the_graph_result_BSC_V2
+                        }
                         lp_id={LP_ID_Array}
                         isConnected={this.state.isConnected}
                         network={this.state.networkId}
@@ -520,22 +513,7 @@ class App extends React.Component {
                     )}
                   />
 
-                  <Route
-                    exact
-                    path="/staking-buyback-1"
-                    render={(props) => (
-                      <BuybackStaking1
-                        is_wallet_connected={this.state.isConnected}
-                        coinbase={this.state.coinbase}
-                        handleConnection={this.handleConnection}
-                        handleConnectionWalletConnect={
-                          this.handleConnection
-                        }
-                        the_graph_result={this.state.the_graph_result_BSC_V2}
-                        {...props}
-                      />
-                    )}
-                  />
+
 
                   <Route
                     exact

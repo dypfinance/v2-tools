@@ -586,13 +586,14 @@ const NftStakeCheckListModal = ({
         </div>
       </div>{" "}
       <div style={{ display: "block" }} className="bottom-static-wrapper">
+        
         <p className="d-flex info-text align-items-start gap-3">
           <img src={require("./more-info.svg").default} alt="" />
           {!showStaked
-            ? "Please select which NFTs to Stake. Once selected, you need to approve the process and then proceed to deposit in order to start receiving rewards."
+            ? "Please select which NFTs to Stake."
             : "Please select your NFTs to Claim or to Unstake"}
         </p>
-
+ 
         <div className="mt-2">
           <div style={{ display: showStaked === false ? "block" : "none" }}>
             <h5
