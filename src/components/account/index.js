@@ -43,11 +43,10 @@ export default class Subscription extends React.Component {
   }
 
   fetchfavData() {
-    
     window
       .getFavoritesETH()
       .then((favorites) => {
-        this.setState({favoritesETH: favorites});
+        this.setState({ favoritesETH: favorites });
       })
       .catch(console.error);
     if (this.props.networkId === 1) {
@@ -61,7 +60,7 @@ export default class Subscription extends React.Component {
     window
       .getFavorites()
       .then((favorites) => {
-        this.setState({favorites: favorites});
+        this.setState({ favorites: favorites });
       })
       .catch(console.error);
     if (this.props.networkId !== 1) {
@@ -71,8 +70,6 @@ export default class Subscription extends React.Component {
         )[0],
       });
     }
-
-  
   }
 
   checkConnection() {
@@ -606,21 +603,31 @@ export default class Subscription extends React.Component {
                   </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center mt-3">
-                  <div style={{ color: "#F7F7FC", fontSize: "14px", fontWeight: "500", lineHeight: "20px" }}>Subscribe <br></br> to the Premium plan</div>
-                  <div className="btn filledbtn px-5" type=""
-                        onClick={() => {
-                          this.setState({ subscribe_now: true });
-                          this.handleSubscriptionTokenChange(
-                            this.state.selectedSubscriptionToken
-                          );
-                          this.handleCheckIfAlreadyApproved();
-                        }}
+                  <div
+                    style={{
+                      color: "#F7F7FC",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      lineHeight: "20px",
+                    }}
+                  >
+                    Subscribe <br></br> to the Premium plan
+                  </div>
+                  <div
+                    className="btn filledbtn px-5"
+                    type=""
+                    onClick={() => {
+                      this.setState({ subscribe_now: true });
+                      this.handleSubscriptionTokenChange(
+                        this.state.selectedSubscriptionToken
+                      );
+                      this.handleCheckIfAlreadyApproved();
+                    }}
                   >
                     Subscribe now
                   </div>
                 </div>
               </>
-              
             ) : (
               <></>
             )}
@@ -827,7 +834,14 @@ export default class Subscription extends React.Component {
         <h4 className="d-block mb-5 mt-5" id="my-fav">
           My favourites
         </h4>
-        <div className="row p-0 m-0" style={{ gap: 10, display: "grid", gridTemplateColumns: '1fr 1fr 1fr 1fr' }}>
+        <div
+          className="row p-0 m-0"
+          style={{
+            gap: 10,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr 1fr",
+          }}
+        >
           {this.state.favorites.map((lock, index) => {
             return (
               <NavLink
@@ -840,7 +854,7 @@ export default class Subscription extends React.Component {
                     className="d-flex avax"
                     style={{
                       border: "2px solid #565891",
-                      borderRadius: "12px"
+                      borderRadius: "12px",
                     }}
                   >
                     <div className="pair-locks-wrapper">
@@ -900,23 +914,39 @@ export default class Subscription extends React.Component {
               </NavLink>
             );
           })}
-        {this.state.favoritesETH.map((lock, index) => {
+          {this.state.favoritesETH.map((lock, index) => {
             return (
               <NavLink
                 key={index}
                 className="p-0"
                 to={`/pair-explorer/${lock.id}`}
-                onClick={()=>{this.props.handleSwitchNetwork(1)}}
+                onClick={() => {
+                  this.props.handleSwitchNetwork(1);
+                }}
               >
                 <div style={{ position: "relative", width: "300px" }}>
                   <div
                     className="d-flex"
                     style={{
                       border: "2px solid #565891",
-                      borderRadius: "12px"
+                      borderRadius: "12px",
                     }}
                   >
-                    <div className="d-flex justify-content-center align-items-center" style={{ position: "absolute", top: "-17px",  left: "50%", width: "106px", height: "34px", transform: "translateX(-50%)", borderRadius: "50px", background: "linear-gradient(93.99deg, #4ED5CD 0%, #524FD8 100%)", gap: "5px" }}>
+                    <div
+                      className="d-flex justify-content-center align-items-center"
+                      style={{
+                        position: "absolute",
+                        top: "-17px",
+                        left: "50%",
+                        width: "106px",
+                        height: "34px",
+                        transform: "translateX(-50%)",
+                        borderRadius: "50px",
+                        background:
+                          "linear-gradient(93.99deg, #4ED5CD 0%, #524FD8 100%)",
+                        gap: "5px",
+                      }}
+                    >
                       <img src="/assets/img/ethereum.svg"></img>
                       <div style={{ color: "#F7F7FC" }}>Ethereum</div>
                     </div>
@@ -984,7 +1014,7 @@ export default class Subscription extends React.Component {
 
   render() {
     return (
-      <div className="locker">
+      <div className="locker container-lg">
         <div>
           <div className="mb-4">{this.GetSubscriptionForm()}</div>
         </div>

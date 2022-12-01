@@ -146,7 +146,7 @@ export default class Farms extends React.Component {
         sortable: true,
         cell: (row) => (
           <div class="token">
-            <img src="/assets/img/icon.svg" alt="" />
+            {/* <img src="/assets/img/icon.svg" alt="" /> */}
             <a
               className="token-link"
               target="_blank"
