@@ -920,7 +920,7 @@ console.log(mycaws)
                 })}
              
             </div>
-            <button className="outline-btn" style={{ height: "fit-content", display: this.state.viewall === false ? 'block' : 'none' }} onClick={()=>{this.setState({viewall: true})}}>
+            <button className="outline-btn" style={{ height: "fit-content", display: this.state.viewall === false && mycaws.length>0 ? 'block' : 'none' }} onClick={()=>{this.setState({viewall: true})}}>
               View all
             </button>
           </div>
