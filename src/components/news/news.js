@@ -47,6 +47,7 @@ const News = ({ theme, isPremium, coinbase }) => {
     dots: true,
     infinite: true,
     speed: 500,
+    fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
@@ -589,6 +590,7 @@ const News = ({ theme, isPremium, coinbase }) => {
               day={activeNews.date?.slice(0, 10)}
               month={activeNews.month}
               year={activeNews.year}
+              fullDate={activeNews.date}
               latestNewsData={topVotes(votes)}
               newsId={activeNews.id}
               pressData={pressNewsData}
@@ -618,9 +620,9 @@ const News = ({ theme, isPremium, coinbase }) => {
               <div className="position-relative p-3 featured-slider-wrapper">
               <Slider {...mainSettings} ref={carousel}>
                 {popularNewsData.length > 0 &&
-                    popularNewsData.slice(0, 5).map((item, key) => {
+                    popularNewsData.slice(0, 5).map((item, index) => {
                       return (
-                          <div className="">
+                          <div className="" key={index}>
                             <MainNews
                               image={item.image}
                               title={item.title}
@@ -643,8 +645,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                               newsId={item.id}
                               onShowModalClick={() => {
                                 setShowModal(true);
-                                setActiveNews(popularNewsData[key]);
+                                setActiveNews(popularNewsData[index]);
                                 handleFetchNewsContent("popular", item.id);
+                                console.log(index);
                               }}
                               onVotesFetch={fetchVotingdata}
                               isConnected={isConnected}
@@ -655,8 +658,8 @@ const News = ({ theme, isPremium, coinbase }) => {
                     })}
                 </Slider>
                 <div className="d-flex align-items-center gap-2 featured-slider-arrows">
-          <img src={pressReleaseNext} height={40} width={40}  alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevMain} />
-          <img src={pressReleaseNext} height={40} width={40}  alt="prev-button" onClick={nextMain} />
+          <img src={pressReleaseNext} height={40} width={40} className="cursor-pointer"  alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevMain} />
+          <img src={pressReleaseNext} height={40} width={40} className="cursor-pointer"  alt="prev-button" onClick={nextMain} />
 
                 </div>
               </div>
@@ -750,6 +753,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                             year={item.year}
                             month={item.month}
                             day={item.date.slice(0, 10)}
+                            fullDate={item.date}
                             theme={theme}
                             onVotesFetch={fetchVotingdata}
                             coinbase={coinbase}
@@ -795,7 +799,7 @@ const News = ({ theme, isPremium, coinbase }) => {
           )}
         </div>
       <div className="press-release-wrapper">
-        <h1 className="news-title" style={{ paddingLeft: 20 }}>
+        <h1 className="news-title" style={{paddingBottom: '20px'}}>
           Press Release
         </h1>
         {/* <div
@@ -846,6 +850,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                         setActiveNews(pressNewsData[key]);
                         handleFetchNewsContent("press", item.id);
                         setShowModal(true);
+                        console.log(key);
                         window.scrollTo(0, 0);
                       }}
                       upvotes={
@@ -874,16 +879,16 @@ const News = ({ theme, isPremium, coinbase }) => {
       <div className="press-release-wrapper" style={{ paddingTop: 0 }}>
         <h1
           className="news-title"
-          style={{ paddingLeft: 20, paddingBottom: 20 }}
+          style={{paddingBottom: '20px'}}
         >
           Other News
         </h1>
-        <div className="row m-0 othernews-row-wrapper" >
+        <div className="row m-0 othernews-row-wrapper">
           {bigNewsSorted.length > 0 &&
             bigNewsSorted?.slice(0, next)?.map((item, key) => {
               return (
                 <div
-                  className="banner-item col-4 py-3"
+                  className="banner-item  p-0"
                   key={key}
                   style={{ background: "none" }}
                 >

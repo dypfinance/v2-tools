@@ -13,12 +13,10 @@ const ToolTip = ({bottom, left, status}) => {
           className="d-flex"
           style={{
             gap: 10,
-            background: "rgba(219, 39, 40, 0.1)",
             borderRadius: 8,
             padding: 10,
           }}
         >
-          <img src={DypLogo} alt="" style={{ width: 16 }} />
           <h6 className="tooltip-text">{status}</h6>
         </div>
       </div>

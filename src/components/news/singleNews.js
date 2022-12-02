@@ -228,7 +228,7 @@ coinbase
             className="news-bottom-wrapper"
             style={{ justifyContent: "space-between" }}
           >
-            <div className="d-flex align-items-center justify-content-center gap-2">
+            <div className="d-flex align-items-center justify-content-center gap-2 position-relative">
               <img
                 src={
                   likeIndicator === false && dislikeIndicator === false
