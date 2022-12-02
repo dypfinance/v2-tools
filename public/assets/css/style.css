@@ -2090,7 +2090,7 @@ body.theme-dark img.graph-two {
   padding: 5px 10px 5px 0;
 }
 
-.avax::after {
+/* .avax::after {
   content: "";
   position: absolute;
   width: 30px;
@@ -2101,7 +2101,7 @@ body.theme-dark img.graph-two {
   background-repeat: no-repeat;
   border-radius: 6px 0px;
   padding: 5px 10px 5px 0;
-}
+} */
 
 .news-title {
   font-weight: 600;

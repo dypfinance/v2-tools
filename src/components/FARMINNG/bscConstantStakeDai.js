@@ -46,19 +46,26 @@ const renderer = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-export default function initbscConstantStaking2({
+export default function initbscConstantStakingDai({
   staking,
   apr,
   liquidity = "ETH",
   lock,
   expiration_time,
-  fee,
+  other_info,
   renderedPage,
   listType,
   lockTime,
+  fee,
 }) {
-  let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsbsc } =
-    window;
+  let {
+    reward_token,
+    BigNumber,
+    alertify,
+    reward_token_idyp,
+    token_dypsbsc,
+    reward_token_daibsc,
+  } = window;
   let token_symbol = "DYP";
 
   // token, staking
@@ -119,7 +126,7 @@ export default function initbscConstantStaking2({
     }
   };
 
-  class BscConstantStaking extends React.Component {
+  class BscConstantStakingDai extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -154,12 +161,8 @@ export default function initbscConstantStaking2({
         showCalculator: false,
         contractDeployTime: "",
         disburseDuration: "",
+
         apy: 0,
-        show: false,
-        popup: false,
-        is_wallet_connected: false,
-        apy1: 0,
-        apy2: 0,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -224,46 +227,14 @@ export default function initbscConstantStaking2({
 
     componentDidMount() {
       this.refreshBalance();
+      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
-      // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
-
       this.getPriceDYP();
     }
-
-    getTotalTvl = async () => {
-      let { the_graph_result } = this.props;
-      let usd_per_token = the_graph_result.token_data
-        ? the_graph_result.token_data[
-            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-          ].token_price_usd
-        : 1;
-      let usd_per_idyp = the_graph_result.token_data
-        ? the_graph_result.token_data[
-            "0xbd100d061e120b2c67a24453cf6368e63f1be056"
-          ].token_price_usd
-        : 1;
-
-      let apr1 = 25;
-      let apr2 = 50;
-      let apy1 = new BigNumber(apr1)
-        .div(1e2)
-        .times(usd_per_idyp)
-        .div(usd_per_token)
-        .times(1e2)
-        .toFixed(2);
-
-      let apy2 = new BigNumber(apr2)
-        .div(1e2)
-        .times(usd_per_idyp)
-        .div(usd_per_token)
-        .times(1e2)
-        .toFixed(2);
-
-      this.setState({ apy1, apy2 });
-    };
 
     getPriceDYP = async () => {
       let usdPerToken = await window.getPrice("defi-yield-protocol");
@@ -271,13 +242,11 @@ export default function initbscConstantStaking2({
     };
 
     componentWillUnmount() {
-
-      // clearInterval(window._refreshBalInterval);
+      //   clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
-      //   e.preventDefault();
-
+      e.preventDefault();
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
       staking.depositTOKEN(amount);
@@ -286,6 +255,13 @@ export default function initbscConstantStaking2({
     handleApprove = (e) => {
       //   e.preventDefault();
       this.setState({ depositLoading: true });
+
+      if (other_info) {
+        window.$.alert("This pool no longer accepts deposits!");
+      this.setState({ depositLoading: false });
+
+        return;
+      }
 
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
@@ -311,61 +287,22 @@ export default function initbscConstantStaking2({
       //   e.preventDefault();
       this.setState({ depositLoading: true });
 
+      if (other_info) {
+        window.$.alert("This pool no longer accepts deposits!");
+        this.setState({ depositLoading: false });
+
+        return;
+      }
+
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
-      let referrer = this.props.referrer;
-
-      if (referrer) {
-        referrer = String(referrer).trim().toLowerCase();
-      }
-
-      if (!window.web3.utils.isAddress(referrer)) {
-        referrer = window.config.ZERO_ADDRESS;
-      }
-
-      let referralFee = new BigNumber(amount).times(500).div(1e4).toFixed(0);
-      //console.log({referralFee})
-      //let selectedBuybackToken = this.state.selectedBuybackToken
+      let referrer = window.config.ZERO_ADDRESS;
 
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
-      let router = await window.getPancakeswapRouterContract();
-      let WETH = await router.methods.WETH().call();
-      let platformTokenAddress = window.config.reward_token_address;
-      let rewardTokenAddress = window.config.reward_tokenbsc_address2;
-      let path = [
-        ...new Set(
-          [rewardTokenAddress, WETH, platformTokenAddress].map((a) =>
-            a.toLowerCase()
-          )
-        ),
-      ];
-      let _amountOutMin_referralFee = await router.methods
-        .getAmountsOut(referralFee, path)
-        .call()
-        .catch((e) => {
-          this.setState({ depositLoading: false, depositStatus: "fail" });
-          this.setState({ errorMsg: e?.message });
-          setTimeout(() => {
-            this.setState({
-              depositStatus: "initial",
-              depositAmount: "",
-              errorMsg: "",
-            });
-          }, 10000);
-        });
-      //console.log({_amountOutMin_referralFee})
-      _amountOutMin_referralFee =
-        _amountOutMin_referralFee[_amountOutMin_referralFee.length - 1];
-      _amountOutMin_referralFee = new BigNumber(_amountOutMin_referralFee)
-        .times(100 - window.config.slippage_tolerance_percent)
-        .div(100)
-        .toFixed(0);
-      referralFee = referralFee - _amountOutMin_referralFee;
-      referralFee = referralFee.toString();
 
-      console.log({ amount, referrer, referralFee, deadline });
+      //NO REFERRER HERE
 
       staking
         .stake(amount, referrer, 0, deadline)
@@ -420,19 +357,27 @@ export default function initbscConstantStaking2({
       //   e.preventDefault();
       this.setState({ claimLoading: true });
 
+      if (
+        this.state.stakingTime != 0 &&
+        Date.now() - this.state.stakingTime >= this.state.cliffTime
+      ) {
+        window.$.alert(
+          "Contract Expired! Your lock time ended so please withdraw your funds and move to a new pool."
+        );
+        this.setState({ claimLoading: false });
+
+        return;
+      }
+
       let address = this.state.coinbase;
       let amount = await staking.getTotalPendingDivs(address);
 
       let router = await window.getPancakeswapRouterContract();
       let WETH = await router.methods.WETH().call();
-      let platformTokenAddress = window.config.reward_token_address;
-      let rewardTokenAddress = window.config.reward_tokenbsc_address2;
+      // let platformTokenAddress = window.config.reward_token_address
+      let rewardTokenAddress = window.config.reward_token_daibsc_address;
       let path = [
-        ...new Set(
-          [rewardTokenAddress, WETH, platformTokenAddress].map((a) =>
-            a.toLowerCase()
-          )
-        ),
+        ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
@@ -455,17 +400,11 @@ export default function initbscConstantStaking2({
         .div(100)
         .toFixed(0);
 
-      let referralFee = new BigNumber(_amountOutMin)
-        .times(500)
-        .div(1e4)
-        .toFixed(0);
-      referralFee = referralFee.toString();
-
       let deadline = Math.floor(
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      console.log({ referralFee, _amountOutMin, deadline });
+      console.log({ amount, _amountOutMin, deadline });
 
       staking
         .claim(0, _amountOutMin, deadline)
@@ -516,8 +455,6 @@ export default function initbscConstantStaking2({
         this.setState({ coinbase });
       }
 
-      this.getTotalTvl();
-
       let lp_data = this.props.the_graph_result.token_data;
       //console.log({lp_data})
 
@@ -528,62 +465,29 @@ export default function initbscConstantStaking2({
             "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
           ].token_price_usd
         : 1;
-      let usd_per_idyp = the_graph_result.token_data
-        ? the_graph_result.token_data[
-            "0xbd100d061e120b2c67a24453cf6368e63f1be056"
-          ].token_price_usd
-        : 1;
-      let apy = new BigNumber(apr)
-        .minus(fee)
-        .div(1e2)
-        .times(usd_per_idyp)
-        .div(usd_per_token)
-        .times(1e2)
-        .toFixed(2);
-
-      // let usd_per_dyps = this.props.the_graph_result.price_DYPS ? this.props.the_graph_result.price_DYPS : 1
-      let usd_per_dyps = 0;
-
+      // let usd_per_idyp = the_graph_result.token_data ? the_graph_result.token_data["0xbd100d061e120b2c67a24453cf6368e63f1be056"].token_price_usd : 1
+      let apy = apr;
       this.setState({ apy });
 
-      try {
-        let amount = new BigNumber(1000000000000000000).toFixed(0);
-        let router = await window.getPancakeswapRouterContract();
-        let WETH = await router.methods.WETH().call();
-        let platformTokenAddress = window.config.BUSD_address;
-        let rewardTokenAddress = window.config.reward_tokenbsc_address2;
-        let path = [
-          ...new Set(
-            [rewardTokenAddress, WETH, platformTokenAddress].map((a) =>
-              a.toLowerCase()
-            )
-          ),
-        ];
-        let _amountOutMin = await router.methods
-          .getAmountsOut(amount, path)
-          .call();
-        _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
-        _amountOutMin = new BigNumber(_amountOutMin).div(1e18).toFixed(18);
+      let usd_per_dyps = this.props.the_graph_result.price_DYPS
+        ? this.props.the_graph_result.price_DYPS
+        : 1;
 
+      try {
         let _bal = reward_token.balanceOf(coinbase);
         let _pDivs = staking.getTotalPendingDivs(coinbase);
-
         let _tEarned = staking.totalEarnedTokens(coinbase);
-
         let _stakingTime = staking.stakingTime(coinbase);
-
         let _dTokens = staking.depositedTokens(coinbase);
         let _lClaimTime = staking.lastClaimedTime(coinbase);
         let _tvl = reward_token.balanceOf(staking._address);
-
         let _rFeeEarned = staking.totalReferralFeeEarned(coinbase);
-
         let tStakers = staking.getNumberOfHolders();
 
-        //Take iDYP Balance on Staking
-        let _tvlConstantiDYP = reward_token_idyp.balanceOf(
+        //Take DAI Balance on Staking
+        let _tvlConstantDAI = reward_token_daibsc.balanceOf(
           staking._address
-        ); /* TVL of iDYP on Staking */
+        ); /* TVL of DAI on Staking */
 
         //Take DYPS Balance
         let _tvlDYPS = token_dypsbsc.balanceOf(
@@ -600,7 +504,7 @@ export default function initbscConstantStaking2({
           tvl,
           referralFeeEarned,
           total_stakers,
-          tvlConstantiDYP,
+          tvlConstantDAI,
           tvlDYPS,
         ] = await Promise.all([
           _bal,
@@ -612,21 +516,19 @@ export default function initbscConstantStaking2({
           _tvl,
           _rFeeEarned,
           tStakers,
-          _tvlConstantiDYP,
+          _tvlConstantDAI,
           _tvlDYPS,
         ]);
 
         //console.log({tvl, tvlConstantiDYP, _amountOutMin})
 
-        let usdValueiDYP = new BigNumber(tvlConstantiDYP)
-          .times(_amountOutMin)
-          .toFixed(18);
+        let usdValueDAI = new BigNumber(tvlConstantDAI).toFixed(18);
         let usd_per_lp = lp_data
           ? lp_data[window.reward_token["_address"]].token_price_usd
           : 0;
         let tvlUSD = new BigNumber(tvl)
           .times(usd_per_lp)
-          .plus(usdValueiDYP)
+          .plus(usdValueDAI)
           .toFixed(18);
         //console.log({tvlUSD})
 
@@ -675,7 +577,22 @@ export default function initbscConstantStaking2({
       let approxDays = this.state.approxDays;
       let approxDeposit = this.state.approxDeposit;
 
-      return ((approxDeposit * this.state.apy) / 100 / 365) * approxDays;
+      let usd_per_token = this.props.the_graph_result.token_data
+        ? this.props.the_graph_result.token_data[
+            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+          ].token_price_usd
+        : 1;
+      let usd_per_eth = this.props.the_graph_result.token_data
+        ? this.props.the_graph_result.usd_per_eth
+        : 1;
+
+      return (
+        ((approxDeposit * usd_per_token * this.state.apy) /
+          usd_per_eth /
+          100 /
+          365) *
+        approxDays
+      );
     };
 
     getReferralLink = () => {
@@ -688,33 +605,46 @@ export default function initbscConstantStaking2({
     };
 
     handleReinvest = async (e) => {
-      // e.preventDefault();
+      //   e.preventDefault();
       this.setState({ reInvestStatus: "invest", reInvestLoading: true });
+
+      if (
+        this.state.stakingTime != 0 &&
+        Date.now() - this.state.stakingTime >= this.state.cliffTime
+      ) {
+        window.$.alert(
+          "Contract Expired! Your lock time ended so please withdraw your funds and move " +
+            "to a new pool. Any unclaimed rewards will be automatically distributed to your wallet within 24 hours!"
+        );
+        this.setState({ reInvestLoading: false });
+
+        return;
+      }
 
       let address = this.state.coinbase;
       let amount = await staking.getTotalPendingDivs(address);
 
       let router = await window.getPancakeswapRouterContract();
       let WETH = await router.methods.WETH().call();
-      let platformTokenAddress = window.config.reward_token_address;
-      let rewardTokenAddress = window.config.reward_tokenbsc_address2;
+      // let platformTokenAddress = window.config.reward_token_address
+      let rewardTokenAddress = window.config.reward_token_daibsc_address;
       let path = [
-        ...new Set(
-          [rewardTokenAddress, WETH, platformTokenAddress].map((a) =>
-            a.toLowerCase()
-          )
-        ),
+        ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call().catch((e) => {
+        .call()
+        .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
+            this.setState({
+              reInvestStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
           }, 10000);
-
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -735,20 +665,26 @@ export default function initbscConstantStaking2({
         Date.now() / 1e3 + window.config.tx_max_wait_seconds
       );
 
-      console.log({ referralFee, _amountOutMin, deadline });
+      console.log({ amount, _amountOutMin, deadline });
 
-      staking.reInvest(0, _amountOutMin, deadline).then(() => {
-        this.setState({ reInvestStatus: "success" });
-        this.setState({ reInvestLoading: false });
-      })
-      .catch((e) => {
-        this.setState({ reInvestStatus: "failed" });
-        this.setState({ reInvestLoading: false });
-        this.setState({ errorMsg2: e?.message });
-        setTimeout(() => {
-          this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
-        }, 10000);
-      });
+      staking
+        .reInvest(0, _amountOutMin, deadline)
+        .then(() => {
+          this.setState({ reInvestStatus: "success" });
+          this.setState({ reInvestLoading: false });
+        })
+        .catch((e) => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({
+              reInvestStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
+          }, 10000);
+        });
     };
 
     convertTimestampToDate = (timestamp) => {
@@ -780,21 +716,13 @@ export default function initbscConstantStaking2({
 
       let { the_graph_result } = this.props;
 
-      let usd_per_token = the_graph_result.token_data
-        ? the_graph_result.token_data[
-            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-          ].token_price_usd
-        : 1;
-      let usd_per_idyp = the_graph_result.token_data
-        ? the_graph_result.token_data[
-            "0xbd100d061e120b2c67a24453cf6368e63f1be056"
-          ].token_price_usd
+      let usd_per_bnb = the_graph_result.token_data
+        ? the_graph_result.usd_per_eth
         : 1;
 
       pendingDivs = new BigNumber(pendingDivs)
         .div(10 ** TOKEN_DECIMALS)
-        .times(usd_per_idyp)
-        .div(usd_per_token)
+        .div(usd_per_bnb)
         .toString(10);
       pendingDivs = getFormattedNumber(pendingDivs, 6);
 
@@ -888,14 +816,14 @@ export default function initbscConstantStaking2({
                       className="position-relative"
                       style={{ top: 3 }}
                     />
-                    Active status
+                    Expired
                   </h6>
                   {/* <div className="d-flex align-items-center justify-content-between gap-2">
-                <h6 className="earnrewards-text">Earn rewards in:</h6>
-                <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                  DYP
-                </h6>
-              </div> */}
+              <h6 className="earnrewards-text">Earn rewards in:</h6>
+              <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                DYP
+              </h6>
+            </div> */}
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Performance fee:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
@@ -998,10 +926,10 @@ export default function initbscConstantStaking2({
                   >
                     <h6 className="start-title">Start Staking</h6>
                     {/* <h6 className="start-desc">
-                  {this.props.coinbase === null
-                    ? "Connect wallet to view and interact with deposits and withdraws"
-                    : "Interact with deposits and withdraws"}
-                </h6> */}
+                {this.props.coinbase === null
+                  ? "Connect wallet to view and interact with deposits and withdraws"
+                  : "Interact with deposits and withdraws"}
+              </h6> */}
                     {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn d-flex align-items-center gap-2"
@@ -1022,27 +950,27 @@ export default function initbscConstantStaking2({
                   </div>
                 </div>
                 {/* <div className="otherside">
-          <button className="btn green-btn">
-            TBD Claim reward 0.01 ETH
-          </button>
-        </div> */}
+        <button className="btn green-btn">
+          TBD Claim reward 0.01 ETH
+        </button>
+      </div> */}
                 <div className="otherside-border col-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
                       {/* <div className="d-flex gap-2 align-items-center">
-                    <img
-                      src={require(`./assets/dyp.svg`).default}
-                      alt=""
-                      style={{ width: 15, height: 15 }}
-                    />
-                    <h6
-                      className="text-white"
-                      style={{ fontSize: "11px", fontWeight: "600" }}
-                    >
-                      DYP
-                    </h6>
-                  </div> */}
+                  <img
+                    src={require(`./assets/dyp.svg`).default}
+                    alt=""
+                    style={{ width: 15, height: 15 }}
+                  />
+                  <h6
+                    className="text-white"
+                    style={{ fontSize: "11px", fontWeight: "600" }}
+                  >
+                    DYP
+                  </h6>
+                </div> */}
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
@@ -1088,31 +1016,31 @@ export default function initbscConstantStaking2({
                         />
                       </div>
                       {/* <div
-                    className="input-container px-0"
-                    style={{ width: "32%" }}
+                  className="input-container px-0"
+                  style={{ width: "32%" }}
+                >
+                  <input
+                    type="number"
+                    min={1}
+                    id="amount"
+                    name="amount"
+                    value={ Number(this.state.depositAmount) > 0
+                      ? this.state.depositAmount
+                      : this.state.depositAmount
+                    }
+                    placeholder=" "
+                    className="text-input"
+                    onChange={(e) => this.setState({depositAmount: e.target.value})}
+                    style={{ width: "100%" }}
+                  />
+                  <label
+                    htmlFor="usd"
+                    className="label"
+                    onClick={() => focusInput("amount")}
                   >
-                    <input
-                      type="number"
-                      min={1}
-                      id="amount"
-                      name="amount"
-                      value={ Number(this.state.depositAmount) > 0
-                        ? this.state.depositAmount
-                        : this.state.depositAmount
-                      }
-                      placeholder=" "
-                      className="text-input"
-                      onChange={(e) => this.setState({depositAmount: e.target.value})}
-                      style={{ width: "100%" }}
-                    />
-                    <label
-                      htmlFor="usd"
-                      className="label"
-                      onClick={() => focusInput("amount")}
-                    >
-                      DYP Amount
-                    </label>
-                  </div> */}
+                    DYP Amount
+                  </label>
+                </div> */}
                       <button
                         className="btn maxbtn"
                         onClick={this.handleSetMaxDeposit}
@@ -1120,11 +1048,11 @@ export default function initbscConstantStaking2({
                         Max
                       </button>
                       {/* <button
-                  className="btn filledbtn"
-                  onClick={this.handleApprove}
-                >
-                  Approve
-                </button> */}
+                className="btn filledbtn"
+                onClick={this.handleApprove}
+              >
+                Approve
+              </button> */}
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
@@ -1223,25 +1151,25 @@ export default function initbscConstantStaking2({
                             : getFormattedNumber(0, 6)}
                         </span>
                         {/* <input
-                      disabled
-                      value={
-                        Number(pendingDivs) > 0
-                          ? `${pendingDivs}`
-                          : `${pendingDivs}`
-                      }
-                      onChange={(e) =>
-                        this.setState({
-                          pendingDivs:
-                            Number(e.target.value) > 0
-                              ? e.target.value
-                              : e.target.value,
-                        })
-                      }
-                      className=" left-radius inputfarming styledinput2"
-                      placeholder="0"
-                      type="text"
-                      style={{ fontSize: "14px", width: renderedPage === "dashboard" && '120px', padding: 0 }}
-                    /> */}
+                    disabled
+                    value={
+                      Number(pendingDivs) > 0
+                        ? `${pendingDivs}`
+                        : `${pendingDivs}`
+                    }
+                    onChange={(e) =>
+                      this.setState({
+                        pendingDivs:
+                          Number(e.target.value) > 0
+                            ? e.target.value
+                            : e.target.value,
+                      })
+                    }
+                    className=" left-radius inputfarming styledinput2"
+                    placeholder="0"
+                    type="text"
+                    style={{ fontSize: "14px", width: renderedPage === "dashboard" && '120px', padding: 0 }}
+                  /> */}
                       </div>
                       <div className="d-flex align-items-center gap-3">
                         <button
@@ -1375,76 +1303,76 @@ export default function initbscConstantStaking2({
                 <div className="l-box pl-3 pr-3">
                   <div className="container px-0">
                     {/* <div className="row" style={{ marginLeft: "0px" }}>
-                  <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                    <h6 className="d-flex gap-2 align-items-center statstext">
-                      <img src={stats} alt="" />
-                      Stats
-                    </h6>
-                    <h6 className="d-flex gap-2 align-items-center myaddrtext">
-                      My address
-                      <a
-                        href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
-                        target={"_blank"}
-                        rel="noreferrer"
-                      >
-                        <h6 className="addresstxt">
-                          {this.props.coinbase?.slice(0, 10) + "..."}
-                        </h6>
-                      </a>
-                      <img src={arrowup} alt="" />
-                    </h6>
-                  </div>
-                </div> */}
+                <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                  <h6 className="d-flex gap-2 align-items-center statstext">
+                    <img src={stats} alt="" />
+                    Stats
+                  </h6>
+                  <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                    My address
+                    <a
+                      href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
+                      target={"_blank"}
+                      rel="noreferrer"
+                    >
+                      <h6 className="addresstxt">
+                        {this.props.coinbase?.slice(0, 10) + "..."}
+                      </h6>
+                    </a>
+                    <img src={arrowup} alt="" />
+                  </h6>
+                </div>
+              </div> */}
                     {/* <table className="table-stats table table-sm table-borderless mt-2">
-                  <tbody>
-                    <tr>
-                      <td className="text-right">
-                        <th>My DYP Deposit</th>
-                        <div>
-                          <strong>{depositedTokens}</strong>{" "}
-                          <small>DYP</small>
-                        </div>
-                      </td>
+                <tbody>
+                  <tr>
+                    <td className="text-right">
+                      <th>My DYP Deposit</th>
+                      <div>
+                        <strong>{depositedTokens}</strong>{" "}
+                        <small>DYP</small>
+                      </div>
+                    </td>
 
-                      <td className="text-right">
-                        <th>My DYP Balance</th>
-                        <div>
-                          <strong>{token_balance}</strong>{" "}
-                          <small>DYP</small>
-                        </div>
-                      </td>
-                      <td className="text-right">
-                        <th>Referral Fee Earned</th>
-                        <div>
-                          <strong>{referralFeeEarned}</strong>{" "}
-                          <small>DYP</small>
-                        </div>
-                      </td>
+                    <td className="text-right">
+                      <th>My DYP Balance</th>
+                      <div>
+                        <strong>{token_balance}</strong>{" "}
+                        <small>DYP</small>
+                      </div>
+                    </td>
+                    <td className="text-right">
+                      <th>Referral Fee Earned</th>
+                      <div>
+                        <strong>{referralFeeEarned}</strong>{" "}
+                        <small>DYP</small>
+                      </div>
+                    </td>
 
-                    
-                    </tr>
+                  
+                  </tr>
 
-                    <tr>
-                      <td className="text-right">
-                        <th>Total DYP Locked</th>
-                        <div>
-                          <strong>{tvl}</strong> <small>DYP</small>
-                        </div>
-                      </td>
-                      <td className="text-right">
-                        <th>TVL USD</th>
-                        <div>
-                          <strong>${tvl_usd}</strong> <small>USD</small>
-                        </div>
-                      </td>
+                  <tr>
+                    <td className="text-right">
+                      <th>Total DYP Locked</th>
+                      <div>
+                        <strong>{tvl}</strong> <small>DYP</small>
+                      </div>
+                    </td>
+                    <td className="text-right">
+                      <th>TVL USD</th>
+                      <div>
+                        <strong>${tvl_usd}</strong> <small>USD</small>
+                      </div>
+                    </td>
 
-                      <td className="text-right">
-                        <th>Contract Expiration</th>
-                        <small>{expiration_time}</small>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table> */}
+                    <td className="text-right">
+                      <th>Contract Expiration</th>
+                      <small>{expiration_time}</small>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> */}
                     <div className="stats-container my-4">
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">My DYP Deposit</span>
@@ -1525,12 +1453,12 @@ export default function initbscConstantStaking2({
                                 </h6>
                                 <br />
                                 {/* <a
-                            className="text-muted small"
-                            href={this.getReferralLink()}
-                          >
-                            {" "}
-                            {this.getReferralLink()}{" "}
-                          </a> */}
+                          className="text-muted small"
+                          href={this.getReferralLink()}
+                        >
+                          {" "}
+                          {this.getReferralLink()}{" "}
+                        </a> */}
                               </span>
                             </div>
 
@@ -1597,17 +1525,17 @@ export default function initbscConstantStaking2({
                       </div>
                     </div>
                     {/* <div className="mt-4">
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
-                    className="maxbtn"
-                    style={{ color: "#7770e0" }}
-                  >
-                    Etherscan
-                    <img src={arrowup} alt="" />
-                  </a>
-                </div> */}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                  className="maxbtn"
+                  style={{ color: "#7770e0" }}
+                >
+                  Etherscan
+                  <img src={arrowup} alt="" />
+                </a>
+              </div> */}
                   </div>
                 </div>
               </div>
@@ -1629,11 +1557,11 @@ export default function initbscConstantStaking2({
                   <div className="container px-0">
                     <div className="row" style={{ marginLeft: "0px" }}>
                       {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                    <h6 className="d-flex gap-2 align-items-center statstext">
-                      <img src={stats} alt="" />
-                      Withdraw
-                    </h6>
-                  </div> */}
+                  <h6 className="d-flex gap-2 align-items-center statstext">
+                    <img src={stats} alt="" />
+                    Withdraw
+                  </h6>
+                </div> */}
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
@@ -1750,54 +1678,54 @@ export default function initbscConstantStaking2({
                           *No withdrawal fee
                         </span>
                         {/* <button
-                      className="btn filledbtn w-100"
-                      onClick={(e) => {
-                        // e.preventDefault();
-                        this.handleWithdraw();
-                      }}
-                      title={
-                        canWithdraw
-                          ? ""
-                          : `You recently staked, you can unstake ${cliffTimeInWords}`
-                      }
-                    >
-                      Withdraw
-                    </button> */}
+                    className="btn filledbtn w-100"
+                    onClick={(e) => {
+                      // e.preventDefault();
+                      this.handleWithdraw();
+                    }}
+                    title={
+                      canWithdraw
+                        ? ""
+                        : `You recently staked, you can unstake ${cliffTimeInWords}`
+                    }
+                  >
+                    Withdraw
+                  </button> */}
 
                         {/* <div className="form-row">
-                          <div className="col-6">
-                            <button
-                              title={
-                                canWithdraw
-                                  ? ""
-                                  : `You recently staked, you can unstake ${cliffTimeInWords}`
-                              }
-                              disabled={!canWithdraw || !is_connected}
-                              className="btn  btn-primary btn-block l-outline-btn"
-                              type="submit"
-                            >
-                              WITHDRAW
-                            </button>
-                          </div>
-                          <div className="col-6">
-                            <button
-                              onClick={(e) => {
-                                e.preventDefault();
-                                this.handleWithdrawDyp();
-                              }}
-                              title={
-                                canWithdraw
-                                  ? ""
-                                  : `You recently staked, you can unstake ${cliffTimeInWords}`
-                              }
-                              disabled={!canWithdraw || !is_connected}
-                              className="btn  btn-primary btn-block l-outline-btn"
-                              type="submit"
-                            >
-                              WITHDRAW
-                            </button>
-                          </div>
-                        </div> */}
+                        <div className="col-6">
+                          <button
+                            title={
+                              canWithdraw
+                                ? ""
+                                : `You recently staked, you can unstake ${cliffTimeInWords}`
+                            }
+                            disabled={!canWithdraw || !is_connected}
+                            className="btn  btn-primary btn-block l-outline-btn"
+                            type="submit"
+                          >
+                            WITHDRAW
+                          </button>
+                        </div>
+                        <div className="col-6">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              this.handleWithdrawDyp();
+                            }}
+                            title={
+                              canWithdraw
+                                ? ""
+                                : `You recently staked, you can unstake ${cliffTimeInWords}`
+                            }
+                            disabled={!canWithdraw || !is_connected}
+                            className="btn  btn-primary btn-block l-outline-btn"
+                            type="submit"
+                          >
+                            WITHDRAW
+                          </button>
+                        </div>
+                      </div> */}
                       </div>
                       {this.state.errorMsg3 && (
                         <h6 className="errormsg">{this.state.errorMsg3}</h6>
@@ -1817,16 +1745,16 @@ export default function initbscConstantStaking2({
             />
           )}
           {/* <div
-        className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
-        onClick={() => this.setState({ showCalculator: true })}
-      >
-        <img
-          src={calculatorIcon}
-          alt=""
-          style={{ width: 30, height: 30 }}
-        />{" "}
-        Calculator
-      </div> */}
+      className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+      onClick={() => this.setState({ showCalculator: true })}
+    >
+      <img
+        src={calculatorIcon}
+        alt=""
+        style={{ width: 30, height: 30 }}
+      />{" "}
+      Calculator
+    </div> */}
 
           {this.state.showCalculator && (
             <div className="pools-calculator p-3">
@@ -1922,6 +1850,7 @@ export default function initbscConstantStaking2({
             </div>
           )}
         </div>
+
         // <div>
         //   <div className="row">
         //     <div className="col-12 header-image-staking-new">
@@ -1932,31 +1861,12 @@ export default function initbscConstantStaking2({
         //               <b>DYP Staking</b>
         //             </p>
         //             <p>
-        //               Stake your DYP tokens and earn{" "}
-        //               {this.state.apy2 == 0 ? (
-        //                 <Dots />
-        //               ) : (
-        //                 getFormattedNumber(this.state.apy2, 0)
-        //               )}
-        //               % APR with no Impermanent Loss.
+        //               Stake your DYP tokens and earn 25% APR in BNB with no
+        //               Impermanent Loss.
         //             </p>
         //             <p>
         //               To start earning, all you need is to deposit DYP tokens
-        //               into the Staking contract. You can choose from two
-        //               different staking options, with rewards starting from{" "}
-        //               {this.state.apy1 == 0 ? (
-        //                 <Dots />
-        //               ) : (
-        //                 getFormattedNumber(this.state.apy1, 0)
-        //               )}
-        //               % APR up to{" "}
-        //               {this.state.apy2 == 0 ? (
-        //                 <Dots />
-        //               ) : (
-        //                 getFormattedNumber(this.state.apy2, 0)
-        //               )}
-        //               % APR, depending on the lock time from a minimum of
-        //               zero-days up to a maximum of 90 days.
+        //               into the Staking contract and earn BNB as rewards.
         //             </p>
         //             <p>
         //               The staking pools have the REINVEST function integrated,
@@ -1999,6 +1909,7 @@ export default function initbscConstantStaking2({
         //               </div>
         //               <div className="col-11 col-md-5 mb-4">
         //                 <button
+        //                   className
         //                   onClick={() =>
         //                     window.open(
         //                       "https://www.youtube.com/watch?v=sYkoxGbpBi4",
@@ -2028,7 +1939,7 @@ export default function initbscConstantStaking2({
         //         <div className="row p-3 p-sm-0 p-md-0">
         //           <div className="col-12">
         //             <div className="row">
-        //               <div className="col-lg-6">
+        //               <div className="col-lg-6 col-xs-12">
         //                 <div className="row token-staking-form">
         //                   <div className="col-12">
         //                     <div
@@ -2213,7 +2124,6 @@ export default function initbscConstantStaking2({
         //                         </div>
         //                         <div className="input-group ">
         //                           <input
-        //                             disabled={!is_connected}
         //                             value={
         //                               Number(this.state.depositAmount) > 0
         //                                 ? this.state.depositAmount
@@ -2272,10 +2182,9 @@ export default function initbscConstantStaking2({
         //                         style={{ fontSize: ".8rem" }}
         //                         className="mt-1 text-center mb-0 text-muted mt-3"
         //                       >
-        //                         Please approve before staking. PERFORMANCE FEE{" "}
-        //                         {fee}%<br />
-        //                         Performance fees are already subtracted from the
-        //                         displayed APR.
+        //                         {/* Some info text here.<br /> */}
+        //                         Please approve before staking. 0% fee for
+        //                         deposit.
         //                       </p>
         //                     </form>
         //                   ) : (
@@ -2316,7 +2225,6 @@ export default function initbscConstantStaking2({
         //                       </label>
         //                       <div className="input-group ">
         //                         <input
-        //                           disabled={!is_connected}
         //                           value={this.state.withdrawAmount}
         //                           onChange={(e) =>
         //                             this.setState({
@@ -2370,12 +2278,14 @@ export default function initbscConstantStaking2({
         //                         REWARDS
         //                       </label>
         //                       <div className="form-row">
+
         //                         <div className="col-md-12">
+
         //                           <input
         //                             value={
         //                               Number(pendingDivs) > 0
-        //                                 ? `${pendingDivs} DYP`
-        //                                 : `${pendingDivs} DYP`
+        //                                 ? `${pendingDivs} WBNB`
+        //                                 : `${pendingDivs} WBNB`
         //                             }
         //                             onChange={(e) =>
         //                               this.setState({
@@ -2474,14 +2384,26 @@ export default function initbscConstantStaking2({
         //                     <p>
         //                       Approx.{" "}
         //                       {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
-        //                       DYP
+        //                       WBNB
         //                     </p>
-        //                   </form>
+        //                    </form>
         //                 </div>
         //               </div>
         //             </div>
         //           </div>
         //           <div className="col-lg-6">
+        //             <Boxes
+        //               items={[
+        //                 {
+        //                   title: "TVL USD",
+        //                   number: "$" + tvl_usd,
+        //                 },
+        //                 {
+        //                   title: `APR`,
+        //                   number: getFormattedNumber(this.state.apy, 2) + "%",
+        //                 },
+        //               ]}
+        //             />
         //             <div className="l-box">
         //               <div className="table-responsive">
         //                 <h3
@@ -2495,6 +2417,7 @@ export default function initbscConstantStaking2({
         //                 </h3>
         //                 <table className="table-stats table table-sm table-borderless">
         //                   <tbody>
+
         //                     <tr>
         //                       <th>Contract Expiration</th>
         //                       <td className="text-right">
@@ -2524,13 +2447,7 @@ export default function initbscConstantStaking2({
         //                         <small>{token_symbol}</small>
         //                       </td>
         //                     </tr>
-        //                     <tr>
-        //                       <th>Referral Fee Earned</th>
-        //                       <td className="text-right">
-        //                         <strong>{referralFeeEarned}</strong>{" "}
-        //                         <small>DYP</small>
-        //                       </td>
-        //                     </tr>
+
         //                     <tr>
         //                       <th>TVL USD</th>
         //                       <td className="text-right">
@@ -2538,7 +2455,7 @@ export default function initbscConstantStaking2({
         //                       </td>
         //                     </tr>
 
-        //                     {is_connected && (
+        //                     {is_connected ? (
         //                       <tr>
         //                         <td
         //                           style={{
@@ -2562,51 +2479,8 @@ export default function initbscConstantStaking2({
         //                           ></i>
         //                         </td>
         //                       </tr>
-        //                     )}
-
-        //                     {is_connected && (
-        //                       <tr>
-        //                         <td colSpan="2">
-        //                           <div>
-        //                             <span style={{ fontSize: ".8rem" }}>
-        //                               <span style={{ cursor: "pointer" }}>
-        //                                 <Clipboard
-        //                                   component="span"
-        //                                   onSuccess={(e) => {
-        //                                     setTimeout(
-        //                                       () => ReactTooltip.hide(),
-        //                                       2000
-        //                                     );
-        //                                   }}
-        //                                   data-event="click"
-        //                                   data-for={id}
-        //                                   data-tip="Copied To Clipboard!"
-        //                                   data-clipboard-text={this.getReferralLink()}
-        //                                 >
-        //                                   Referral Link: &nbsp;{" "}
-        //                                   <span
-        //                                     title="Copy link to clipboard"
-        //                                     style={{
-        //                                       cursor: "pointer",
-        //                                     }}
-        //                                     className="fas fa-paste"
-        //                                   ></span>
-        //                                 </Clipboard>
-        //                                 <ReactTooltip id={id} effect="solid" />
-        //                               </span>
-
-        //                               <br />
-        //                               <a
-        //                                 className="text-muted small"
-        //                                 href={this.getReferralLink()}
-        //                               >
-        //                                 {" "}
-        //                                 {this.getReferralLink()}{" "}
-        //                               </a>
-        //                             </span>
-        //                           </div>
-        //                         </td>
-        //                       </tr>
+        //                     ) : (
+        //                       ""
         //                     )}
 
         //                     <tr></tr>
@@ -2646,5 +2520,5 @@ export default function initbscConstantStaking2({
     }
   }
 
-  return BscConstantStaking;
+  return BscConstantStakingDai;
 }

@@ -18,6 +18,7 @@ const TierLevels = ({
   the_graph_result,
   isConnected,
   lp_id,
+  display,
 }) => {
   const stake = [
     {
@@ -124,7 +125,7 @@ const TierLevels = ({
     <div className="container-lg px-0">
       <div className="d-flex flex-column gap-3">
         <h6 className="launchpad-hero-title">My tier level</h6>
-        <span className="launchpad-hero-desc w-50">
+        <span className="launchpad-hero-desc w-50"  style={{display: display}}>
           Discover your Launchpad tier and check how much you are eligible to
           benefit. Increase your tier by depositing assets to Launchpools.
         </span>
@@ -205,6 +206,7 @@ const TierLevels = ({
           <h6 className="tier-dyp-amount">1,000,000 DYP</h6>
         </div>
       </div>
+      <div style={{display: display}}>
       <h6 className="launchpad-hero-title mt-5">Launchpools</h6>
       <div className="row w-100 mx-0 active-projects-container d-flex align-items-center justify-content-between mt-4 p-3">
         <div className="col-4 d-flex flex-column gap-5">
@@ -355,7 +357,7 @@ const TierLevels = ({
             </div>
           </div>
         </div>
-      </div>
+      </div></div>
       {activeCard && (
         <ConstantStaking1
           is_wallet_connected={isConnected}

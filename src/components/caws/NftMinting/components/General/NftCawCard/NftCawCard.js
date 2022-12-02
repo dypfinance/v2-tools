@@ -24,11 +24,11 @@ const NftCawCard = ({ modalId, action, nft, coinbase }) => {
             alt=""
           />
           <p>CAWS</p>
-          <div className="footer">
+          <div className="d-flex w-100 justify-content-between align-items-center">
             <p className="nft-id">#{String(nft.name).replace("CAWS #", "")}</p>
-            <div className="img">
+            {/* <div className="img">
               <SvgEyeIcon />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

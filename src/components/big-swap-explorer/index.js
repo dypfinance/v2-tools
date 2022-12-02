@@ -152,7 +152,7 @@ export default class BigSwapExplorer extends React.Component {
         // minWidth: '145px',
         cell: (txn) => (
           <div class="token">
-            <img src="/assets/img/icon.svg" alt="" />
+            {/* <img src="/assets/img/icon.svg" alt="" /> */}
             <NavLink
               className="token-link"
               to={`/pair-explorer/${txn.pair.id}`}

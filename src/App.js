@@ -622,6 +622,8 @@ class App extends React.Component {
                         theme={this.state.theme}
                         networkId={parseInt(this.state.networkId)}
                         handleSwitchNetwork={this.handleSwitchNetwork}
+                        coinbase={this.state.coinbase}
+                        isConnected={this.state.isConnected}
                       />
                     )}
                   />

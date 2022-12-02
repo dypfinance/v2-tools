@@ -1642,6 +1642,8 @@ window.config = {
     "0x6a258Bd17456e057A7c6102177EC2f9d64D5F9e4",
 
   constant_stakingdaiavax_address: "0x16429e51A64B7f88D4C018fbf66266A693df64b3",
+  constant_stakingdaibsc_address: "0xa9efab22cCbfeAbB6dc4583d81421e76342faf8b",
+
 
   farming_new_1_address: "0xa68BBe793ad52d0E62bBf34A67F02235bA69E737",
   farming_newavax_1_address: "0x035d65babF595758D7A439D5870BAdc44218D028",
@@ -1757,6 +1759,15 @@ window.config = {
     "0xaf411bf994da1435a3150b874395b86376c5f2d5",
   constant_stakingidypavax_6_address:
     "0xd13bdc0c9a9931cf959739631b1290b6bee0c018",
+
+
+      //Constant Staking iDYP bsc
+  constant_stakingidyp_1_address: "0x58366902082b90fca01be07d929478bd48acfb19",
+  constant_stakingidyp_2_address: "0x160ff3c4a6e9aa8e4271aa71226cc811bfef7ed9",
+  constant_stakingidyp_5_address: "0x7e766f7005c7a9e74123b156697b582eecb8d2d7",
+  constant_stakingidyp_6_address: "0x4c04e53f9aaa17fc2c914694b4aae57a9d1be445",
+
+
 
   submission_form_link: "https://forms.gle/SFX1DyUh8TcNeysz6",
 
@@ -1911,14 +1922,14 @@ window.config = {
   SIGNATURE_API_URLBSCiDYP: "https://ibridge-api.dyp.finance",
 
   /* MINT NFT Rinkeby */
-  // nft_address: "0x3B7E527eFd16cC9E8bEF0F4d3BCD7cCDbb7d6EC4",
-  // nftstaking_address: "0x971D729274fD5856E23A0DEB8C7ECB52A5ac6F8f",
-  // nftstaking_address50: "0x971D729274fD5856E23A0DEB8C7ECB52A5ac6F8f",
+  nft_address: "0x3B7E527eFd16cC9E8bEF0F4d3BCD7cCDbb7d6EC4",
+  nftstaking_address: "0x971D729274fD5856E23A0DEB8C7ECB52A5ac6F8f",
+  nftstaking_address50: "0x971D729274fD5856E23A0DEB8C7ECB52A5ac6F8f",
 
   /* MINT NFT */
-  nft_address: "0xd06cf9e1189feab09c844c597abc3767bc12608c",
-  nftstaking_address: "0xEe425BbbEC5e9Bf4a59a1c19eFff522AD8b7A47A",
-  nftstaking_address50: "0xEe425BbbEC5e9Bf4a59a1c19eFff522AD8b7A47A",
+  // nft_address: "0xd06cf9e1189feab09c844c597abc3767bc12608c",
+  // nftstaking_address: "0xEe425BbbEC5e9Bf4a59a1c19eFff522AD8b7A47A",
+  // nftstaking_address50: "0xEe425BbbEC5e9Bf4a59a1c19eFff522AD8b7A47A",
 
   //buyback bsc
   buyback_stakingbsc1_1_address: "0x94b1a7b57c441890b7a0f64291b39ad6f7e14804",
@@ -2171,6 +2182,38 @@ window.constant_stakingdaiavax = new CONSTANT_STAKING_NEWAVAX(
 );
 
 window.CONSTANT_STAKINGDAIAVAX_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+
+
+
+
+window.constant_stakingdaibsc = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGDAIBSC"
+);
+
+window.CONSTANT_STAKINGDAIBSC_ABI = window.CONSTANT_STAKING_DAI_ABI;
+
+
+/* Constant Staking iDYP */
+window.constant_stakingidyp_1 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGIDYP_1"
+);
+window.constant_stakingidyp_2 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGIDYP_2"
+);
+window.constant_stakingidyp_5 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGIDYP_5"
+);
+window.constant_stakingidyp_6 = new CONSTANT_STAKINGBSC_NEW(
+  "CONSTANT_STAKINGIDYP_6"
+);
+
+window.CONSTANT_STAKINGIDYP_1_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+window.CONSTANT_STAKINGIDYP_2_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+window.CONSTANT_STAKINGIDYP_5_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+window.CONSTANT_STAKINGIDYP_6_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+
+
+
 
 window.constant_staking_new1 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW1"
@@ -2573,9 +2616,9 @@ async function getContractNFT(key) {
       //     : key === 'NFTSTAKING50' ? '0xEe425BbbEC5e9Bf4a59a1c19eFff522AD8b7A47A'
       //     : address,
       key === "NFTSTAKING"
-        ? "0xEe425BbbEC5e9Bf4a59a1c19eFff522AD8b7A47A"
+        ? "0x971D729274fD5856E23A0DEB8C7ECB52A5ac6F8f"
         : key === "NFTSTAKING50"
-        ? "0xEe425BbbEC5e9Bf4a59a1c19eFff522AD8b7A47A"
+        ? "0x971D729274fD5856E23A0DEB8C7ECB52A5ac6F8f"
         : address,
       {
         from: await getCoinbase(),
@@ -25236,6 +25279,13 @@ Object.keys(window.config)
       k.startsWith("farming_newbsc_4") ||
       k.startsWith("farming_newbsc_5") ||
       k.startsWith("constant_stakingnew_new1") ||
+
+      k.startsWith("constant_stakingidyp_6") ||
+      k.startsWith("constant_stakingidyp_5") ||
+      k.startsWith("constant_stakingidyp_2") ||
+      k.startsWith("constant_stakingidyp_1") ||
+
+
       k.startsWith("constant_stakingnew_new2") ||
       k.startsWith("constant_stakingidypavax_3") ||
       k.startsWith("constant_stakingidypavax_4") ||
@@ -25254,6 +25304,8 @@ Object.keys(window.config)
 
       k.startsWith("constant_stakingnew_newavax2") ||
       k.startsWith("constant_stakingdaiavax") ||
+      k.startsWith("constant_stakingdaibsc") ||
+
       k.startsWith("reward_token_daiavax") ||
       k.startsWith("reward_token_daibsc") ||
 
@@ -25380,6 +25432,16 @@ Object.keys(window.config)
       ? window.CONSTANT_STAKING_IDYP_ABI
       : k.startsWith("constant_stakingnew_new1")
       ? window.CONSTANT_STAKINGNEW_ABI
+
+      : k.startsWith("constant_stakingidyp_6")
+      ? window.CONSTANT_STAKING_IDYP_ABI
+      : k.startsWith("constant_stakingidyp_5")
+      ? window.CONSTANT_STAKING_IDYP_ABI
+      : k.startsWith("constant_stakingidyp_2")
+      ? window.CONSTANT_STAKING_IDYP_ABI
+      : k.startsWith("constant_stakingidyp_1")
+      ? window.CONSTANT_STAKING_IDYP_ABI
+
       : k.startsWith("constant_stakingnew_new2")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingidypavax_4")
@@ -25413,6 +25475,8 @@ Object.keys(window.config)
       : k.startsWith("constant_stakingnew_newavax2")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingdaiavax")
+      ? window.CONSTANT_STAKING_DAI_ABI
+      : k.startsWith("constant_stakingdaibsc")
       ? window.CONSTANT_STAKING_DAI_ABI
       : k.startsWith("constant_stakingidypavax_1")
       ? window.CONSTANT_STAKING_IDYP_ABI

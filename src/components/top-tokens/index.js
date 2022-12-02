@@ -134,7 +134,7 @@ export default class TopTokens extends React.Component {
         // minWidth: '145px',
         cell: (txn) => (
           <div class="token">
-            <img src="/assets/img/icon.svg" alt="" />
+            {/* <img src="/assets/img/icon.svg" alt="" /> */}
             <a
               target="_blank"
               className="token-link"
