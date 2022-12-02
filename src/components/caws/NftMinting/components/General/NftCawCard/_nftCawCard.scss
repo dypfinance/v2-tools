@@ -37,18 +37,18 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .nft-id {
-        font-weight: 700;
-        font-size: 18px;
-        line-height: 23px;
-        color: black;
-        margin: 0;
-      }
+     
       .img {
         cursor: pointer;
       }
     }
-  }
+  } .nft-id {
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 23px;
+        color: #F7F7FC !important;
+        margin: 0;
+      }
 }
 .checklist-subtitle {
   font-size: 16px;

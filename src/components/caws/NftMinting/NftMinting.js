@@ -242,13 +242,10 @@ const NftMinting = ({ isConnected, coinbase, handleConnection }) => {
   };
 
   const myNft = async () => {
-    // let myNft = await window.myNftList(connectedWallet)
-
+    
     let myNft = await window.myNftListContract(coinbase);
-    // console.log(myNft)
 
     let nfts = myNft.map((nft) => window.getNft(nft));
-    // console.log(nfts)
 
     nfts = await Promise.all(nfts);
 

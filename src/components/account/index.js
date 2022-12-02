@@ -4,13 +4,16 @@ import getFormattedNumber from "../../functions/get-formatted-number";
 import { NavLink } from "react-router-dom";
 import Error from "../../assets/error.svg";
 import Placeholder from "../../assets/person.svg";
-import { benefits } from "./benefits";
-import Check from "./check.svg";
-import Cross from "./cross.svg";
-import Free from "./free.svg";
-import Premium from "./premium.svg";
-import FreeWhite from "./free-white.svg";
-import Collapsible from "react-collapsible";
+import "./account.css";
+import NftCawCard from "../caws/NftMinting/components/General/NftCawCard/NftCawCard";
+import TierLevels from "../launchpad/tierlevels/TierLevels";
+// import { benefits } from "./benefits";
+// import Check from "./check.svg";
+// import Cross from "./cross.svg";
+// import Free from "./free.svg";
+// import Premium from "./premium.svg";
+// import FreeWhite from "./free-white.svg";
+// import Collapsible from "react-collapsible";
 
 const { BigNumber } = window;
 
@@ -39,6 +42,9 @@ export default class Subscription extends React.Component {
       showRemovebtn: false,
       subscribe_now: false,
       triggerText: "See more V",
+      myNFTs: [],
+      myStakess: [],
+      viewall: false,
     };
   }
 
@@ -72,38 +78,44 @@ export default class Subscription extends React.Component {
     }
   }
 
-  checkConnection() {
-    const logout = localStorage.getItem("logout");
-    if (logout !== "true") {
-      if (window.ethereum) {
-        window.ethereum
-          .request({ method: "eth_accounts" })
-          .then((data) => {
-            this.setState({
-              coinbase: data.length === 0 ? undefined : data[0],
-            });
-            this.fetchAvatar().then();
-          })
-          .catch(console.error);
-      } else {
-        this.setState({
-          networkId: "1",
-        });
-      }
-    } else {
-      this.setState({
-        coinbase: undefined,
-      });
-      this.setState({ image: Placeholder });
-    }
-  }
+  // checkConnection() {
+  //   const logout = localStorage.getItem("logout");
+  //   if (logout !== "true") {
+  //     if (window.ethereum) {
+  //       window.ethereum
+  //         .request({ method: "eth_accounts" })
+  //         .then((data) => {
+  //           this.setState({
+  //             coinbase: this.props.coinbase,
+  //           });
+  //           this.fetchAvatar().then();
+  //         })
+  //         .catch(console.error);
+  //     } else {
+  //       this.setState({
+  //         networkId: "1",
+  //       });
+  //     }
+  //   } else {
+  //     this.setState({
+  //       coinbase: undefined,
+  //     });
+  //     this.setState({ image: Placeholder });
+  //   }
+  // }
 
   componentDidMount() {
     this.fetchfavData();
+    this.myNft().then();
+    this.myStakes().then();
+    window._refreshBalInterval = setInterval(this.myNft, 1000);
+    window._refreshBalInterval2 = setInterval(this.myStakes, 1000);
+
+    this.setState({ coinbase: this.props.coinbase });
 
     this.handleCheckIfAlreadyApproved();
     window.scrollTo(0, 0);
-    this.checkConnection();
+    // this.checkConnection();
 
     if (window.isConnectedOneTime) {
       this.onComponentMount();
@@ -112,16 +124,18 @@ export default class Subscription extends React.Component {
     }
   }
   componentWillUnmount() {
+    clearInterval(window._refreshBalInterval);
+    clearInterval(window._refreshBalInterval2);
+
     window.removeOneTimeWalletConnectionListener(this.onComponentMount);
   }
 
   onComponentMount = async () => {
-    this.setState({ coinbase: await window.getCoinbase() });
     this.handleSubscriptionTokenChange(this.state.selectedSubscriptionToken);
     // this.checkNetworkId();
 
     // this.fetchAvatar().then();
-    this.checkConnection();
+    // this.checkConnection();
   };
 
   handleSubscriptionTokenChange = async (tokenAddress) => {
@@ -147,9 +161,48 @@ export default class Subscription extends React.Component {
     );
     let tokenBalance = await window.getTokenHolderBalance(
       tokenAddress,
-      this.state.coinbase
+      this.props.coinbase
     );
     this.setState({ price, formattedPrice, tokenBalance });
+  };
+
+  myNft = async () => {
+    if (this.props.coinbase !== null) {
+      let myNft = await window.myNftListContract(this.props.coinbase);
+
+      let nfts = myNft.map((nft) => window.getNft(nft));
+
+      nfts = await Promise.all(nfts);
+
+      nfts.reverse();
+      this.setState({ myNFTs: nfts });
+    }
+  };
+
+  getStakesIds = async () => {
+    const address = this.props.coinbase;
+    if (address !== null) {
+      let staking_contract = await window.getContractNFT("NFTSTAKING");
+      let stakenft = [];
+      let myStakes = await staking_contract.methods
+        .depositsOf(address)
+        .call()
+        .then((result) => {
+          for (let i = 0; i < result.length; i++)
+            stakenft.push(parseInt(result[i]));
+          return stakenft;
+        });
+
+      return myStakes;
+    }
+  };
+
+  myStakes = async () => {
+    let myStakes = await this.getStakesIds();
+    let stakes = myStakes.map((stake) => window.getNft(stake));
+    stakes = await Promise.all(stakes);
+    stakes.reverse();
+    this.setState({ myStakess: stakes });
   };
 
   handleApprove = async (e) => {
@@ -192,10 +245,10 @@ export default class Subscription extends React.Component {
       subscribeToken
     );
 
-    if (this.state.coinbase) {
+    if (this.props.coinbase) {
       if (this.props.networkId === 1) {
         const result = await subscribeTokencontract.methods
-          .allowance(this.state.coinbase, ethsubscribeAddress)
+          .allowance(this.props.coinbase, ethsubscribeAddress)
           .call()
           .then();
 
@@ -208,7 +261,7 @@ export default class Subscription extends React.Component {
         }
       } else {
         const result = await subscribeTokencontract.methods
-          .allowance(this.state.coinbase, avaxsubscribeAddress)
+          .allowance(this.props.coinbase, avaxsubscribeAddress)
           .call()
           .then();
 
@@ -294,7 +347,7 @@ export default class Subscription extends React.Component {
   handleSubmission = async () => {
     const formData = new FormData();
     formData.append("image", this.state.selectedFile);
-    let coinbase = await window.getCoinbase();
+    let coinbase = this.props.coinbase;
     this.setState({ loadspinnerSave: true });
     if (!coinbase) {
       await window.connectWallet();
@@ -343,7 +396,7 @@ export default class Subscription extends React.Component {
 
   fetchAvatar = async () => {
     const response = await fetch(
-      `https://api-image.dyp.finance/api/v1/avatar/${this.state.coinbase}`
+      `https://api-image.dyp.finance/api/v1/avatar/${this.props.coinbase}`
     )
       .then((res) => {
         return res.json();
@@ -358,7 +411,7 @@ export default class Subscription extends React.Component {
 
   deleteAvatar = async () => {
     const response = await fetch(
-      `https://api-image.dyp.finance/api/v1/avatar/${this.state.coinbase}/delete`
+      `https://api-image.dyp.finance/api/v1/avatar/${this.props.coinbase}/delete`
     )
       .then((res) => {
         return res.json();
@@ -381,6 +434,9 @@ export default class Subscription extends React.Component {
             this.state.selectedSubscriptionToken
           ]?.decimals;
     // this.handleCheckIfAlreadyApproved()
+let mycaws = [...this.state.myNFTs, ...this.state.myStakess]
+
+console.log(mycaws)
     return (
       <div>
         <form onSubmit={this.handleSubscribe}>
@@ -442,7 +498,7 @@ export default class Subscription extends React.Component {
             </div>
           </div>
           <div>
-            {!this.props.appState.isPremium ? (
+            {/* {!this.props.appState.isPremium ? (
               <table className="w-100">
                 <tr
                   className="tablerow"
@@ -571,7 +627,7 @@ export default class Subscription extends React.Component {
                   </table>
                 </Collapsible>
               </>
-            )}
+            )} */}
 
             {!this.props.appState.isPremium ? (
               <>
@@ -832,6 +888,46 @@ export default class Subscription extends React.Component {
         </form>
 
         <h4 className="d-block mb-5 mt-5" id="my-fav">
+          My Earnings
+        </h4>
+        <div
+          className="row p-0 m-0"
+          style={{
+            gap: 10,
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr 1fr",
+          }}
+        ></div>
+
+        <div className="mycawsCollection position-relative mb-5">
+          <div className="d-flex gap-2 justify-content-between align-items-center">
+            <div className="col-2">
+              <h6 className="mycawscollection-title">My Caws Collection</h6>
+            </div>
+            <div className="cawscontaier">
+              {mycaws.length > 0 &&
+                this.props.coinbase !== null &&
+                mycaws.slice(0, this.state.viewall === false ? 4 : mycaws.length).map((item, id) => {
+                  return (
+                    <NftCawCard
+                      key={id}
+                      nft={item}
+                      action={() => {}}
+                      modalId="#newNftStake"
+                      coinbase={this.props.coinbase}
+                    />
+                  );
+                })}
+             
+            </div>
+            <button className="outline-btn" style={{ height: "fit-content" }} onClick={()=>{this.setState({viewall: true})}}>
+              View all
+            </button>
+          </div>
+        </div>
+
+<TierLevels display={'none'}/>
+        <h4 className="d-block mb-5 mt-5" id="my-fav">
           My favourites
         </h4>
         <div
@@ -857,6 +953,26 @@ export default class Subscription extends React.Component {
                       borderRadius: "12px",
                     }}
                   >
+
+<div
+                      className="d-flex justify-content-center align-items-center"
+                      style={{
+                        position: "absolute",
+                        top: "-17px",
+                        left: "50%",
+                        width: "106px",
+                        height: "34px",
+                        transform: "translateX(-50%)",
+                        borderRadius: "50px",
+                        background:
+                          "linear-gradient(93.99deg, #4ED5CD 0%, #524FD8 100%)",
+                        gap: "5px",
+                      }}
+                    >
+                      <img src={require("../../assets/wavax.svg").default} alt='' style={{height: 20, width: 20}}></img>
+                      <div style={{ color: "#F7F7FC" }}>Avalanche</div>
+                    </div>
+
                     <div className="pair-locks-wrapper">
                       <div className="row-wrapper">
                         <span className="left-info-text">ID</span>
