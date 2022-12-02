@@ -34,7 +34,7 @@ const MainNews = ({
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-
+  const [bannerShadow, setBannerShadow] = useState(false)
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
@@ -162,11 +162,12 @@ const MainNews = ({
                 <img src={calendar} alt="calendar" />
                 <span className="news-date-text">{formattedDate.toLocaleDateString("en-US", options)}</span>
             </div>
-          <img src={featuredNewsShadow} alt="" className="featured-shadow w-100" />
+          <img src={featuredNewsShadow} alt="" className={`featured-shadow w-100 ${bannerShadow && 'featured-shadow-hover'}`}  />
           <img
             src={image}
             alt="Image not found"
             className="news-image"
+            onMouseEnter={() => setBannerShadow(true)} onMouseLeave={() => setBannerShadow(false)}
             onClick={(e) => {
               e.preventDefault();
               onShowModalClick();

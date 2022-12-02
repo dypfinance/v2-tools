@@ -425,27 +425,6 @@ const NewsModal = ({
                   e.stopPropagation();
                 }}
               />
-              {showTooltip === true ? (
-                <OutsideClickHandler
-                  onOutsideClick={() => {
-                    setShowTooltip(false);
-                  }}
-                >
-                  <ToolTip
-                    status={
-                      logout === "false" && canVote === false
-                        ? "You need to be holding DYP to vote"
-                        : logout === "true"
-                        ? "Please connect your wallet"
-                        : alreadyVoted === true && canVote === true
-                        ? "You have already voted"
-                        : "You have already voted"
-                    }
-                  />
-                </OutsideClickHandler>
-              ) : (
-                <></>
-              )}
               <span className="votes-amount">
                 {/* {Number(upvotes) - Number(downvotes)} */}
                 {Number(votes.find((obj) => obj.id === newsId)?.up) -
@@ -468,6 +447,27 @@ const NewsModal = ({
                   e.stopPropagation();
                 }}
               />
+               {showTooltip === true ? (
+                <OutsideClickHandler
+                  onOutsideClick={() => {
+                    setShowTooltip(false);
+                  }}
+                >
+                  <ToolTip
+                    status={
+                      logout === "false" && canVote === false
+                        ? "You need to be holding DYP to vote"
+                        : logout === "true"
+                        ? "Please connect your wallet"
+                        : alreadyVoted === true && canVote === true
+                        ? "You have already voted"
+                        : "You have already voted"
+                    }
+                  />
+                </OutsideClickHandler>
+              ) : (
+                <></>
+              )}
             </div>
             {/* <p>
               Source:{" "}
@@ -494,8 +494,8 @@ const NewsModal = ({
             <div className="related-news-wrapper">
               {latestNewsData.length > 0 &&
                 getItemsWithoutCurrentItem(newsId, latestNewsData)
-                .slice(0,5)
-                  // .slice(0, parseInt(height / 100))
+                // .slice(0,5)
+                  .slice(0, parseInt(height / 130))
                   .map((item, key) => {
                     if (item !== undefined) {
                       return (

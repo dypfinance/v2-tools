@@ -5,7 +5,7 @@
   position: relative;
   padding: 10px;
   /* width: 400px; */
-  border: 1px solid #312F69;
+  border: 2px solid #312F69;
   transition: all .25s;
 }
 
@@ -19,6 +19,7 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  border: 2px solid #7770df;
 }
 
 .cawstoppick {
@@ -182,14 +183,14 @@
   justify-content: space-between;
 }
 
-.activewrapper {
+/* .activewrapper {
   background: #26264f;
   border-radius: 500px;
   padding: 0 5px;
   display: flex;
   justify-content: center;
   width: fit-content;
-}
+} */
 
 .activetxt {
   font-style: normal;

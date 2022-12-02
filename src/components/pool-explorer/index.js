@@ -187,7 +187,7 @@ export default class PoolExplorer extends React.Component {
         cell: (txn) => (
           <div class="token">
             
-            {/* <img src="/assets/img/icon.svg" alt="" /> */}
+            {/* <img src="/assets/img/icon.svg" alt="" /> */}            
             <a
               className="token-link"
               rel="noopener noreferrer"

@@ -1,7 +1,17 @@
-const Footer = () => (
-  <div className="footer">
-    <div className="content-footer container-fluid d-flex justify-content-between gap-3 align-items-center">
-      <div className="footer-logo">
+import React from 'react'
+import useWindowSize from '../../functions/useWindowSize'
+
+const Footer = () => {
+
+  const windowSize = useWindowSize();
+
+  return (
+    <div className="footer container-fluid d-flex">
+    <div className="row w-100">
+    <div className="col-1"></div>
+    <div className={`${windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
+    <div className="py-4 px-0 container-lg d-flex justify-content-between gap-3 align-items-center">
+      <div className="footer-logo flex-column flex-xxl-row">
         <a target={"_blank"} href="https://lorenadev.dyp.finance/">
           <img src="/assets/img/logo-footer.svg" alt="Dypius"></img>
         </a>
@@ -9,6 +19,7 @@ const Footer = () => (
           <img src="/assets/img/metaverse.svg" alt="METAVERSE"></img>
         </a>
       </div>
+      <div className="social-and-links d-flex align-items-center justify-content-center gap-3">
       <div className="social-profile">
         <ul>
           <li>
@@ -119,8 +130,13 @@ const Footer = () => (
           </li>
         </ul>
       </div>
+      </div>
+    </div>
+    </div>
+    <div className="col-1"></div>
     </div>
   </div>
-);
+  )
+}
 
-export default Footer;
+export default Footer

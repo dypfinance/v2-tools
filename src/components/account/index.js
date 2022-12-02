@@ -7,6 +7,7 @@ import Placeholder from "../../assets/person.svg";
 import "./account.css";
 import NftCawCard from "../caws/NftMinting/components/General/NftCawCard/NftCawCard";
 import TierLevels from "../launchpad/tierlevels/TierLevels";
+import coinStackIcon from "../launchpad/assets/coinStackIcon.svg";
 // import { benefits } from "./benefits";
 // import Check from "./check.svg";
 // import Cross from "./cross.svg";
@@ -27,7 +28,7 @@ export default class Subscription extends React.Component {
       )[0],
       tokenBalance: "",
       price: "",
-      formattedPrice: "",
+      formattedPrice: 0.000000,
       favorites: [],
       favoritesETH: [],
       selectedFile: null,
@@ -41,13 +42,17 @@ export default class Subscription extends React.Component {
       showSavebtn: false,
       showRemovebtn: false,
       subscribe_now: false,
+      usdtAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
       triggerText: "See more V",
       myNFTs: [],
       myStakess: [],
       viewall: false,
+      username: "",
     };
   }
 
+
+  
   fetchfavData() {
     window
       .getFavoritesETH()
@@ -105,6 +110,8 @@ export default class Subscription extends React.Component {
   // }
 
   componentDidMount() {
+    this.handleSubscriptionTokenChange(this.state.usdtAddress)
+    this.fetchAvatar();
     this.fetchfavData();
     this.myNft().then();
     this.myStakes().then();
@@ -137,6 +144,8 @@ export default class Subscription extends React.Component {
     // this.fetchAvatar().then();
     // this.checkConnection();
   };
+
+  
 
   handleSubscriptionTokenChange = async (tokenAddress) => {
     let tokenDecimals =
@@ -225,6 +234,7 @@ export default class Subscription extends React.Component {
       .then(() => {
         this.setState({ lockActive: true });
         this.setState({ loadspinner: false });
+        this.handleSubscribe();
       })
       .catch((e) => {
         this.setState({ status: "An error occurred. Please try again" });
@@ -336,6 +346,7 @@ export default class Subscription extends React.Component {
         let reader = new FileReader();
         reader.onload = (e) => {
           this.setState({ image: e.target.result });
+          this.handleSubmission();
         };
         reader.readAsDataURL(event.target.files[0]);
       }
@@ -436,31 +447,101 @@ export default class Subscription extends React.Component {
     // this.handleCheckIfAlreadyApproved()
 let mycaws = [...this.state.myNFTs, ...this.state.myStakess]
 
-console.log(mycaws)
+const focusInput = (input) => {
+  document.getElementById(input).focus()
+} 
+
+const clearField = () => {
+  this.setState({username: ""})
+}
+
+const freePlanItems = [
+  'Real time DYP Tools',
+  'Pair Explorer',
+  'Big Swap Explorer',
+  'Top Tokens',
+  'Yields',
+  'News Section',
+  'DYP Locker',
+  'Community Trust Vote',
+  'dApps access',
+]
+
+const paidPlanItems = [
+  'All free features included',
+  'Manual research info for projects',
+  'Full access to Community Trust Vote',
+  'Perform any votes on the News section',
+  'Early access to new features released in the future',
+  'Guaranteed allocation to presales of new projects launched using our Launchpad',
+]
+
+// console.log(mycaws)
     return (
       <div>
-        <form onSubmit={this.handleSubscribe}>
-          <div className={this.state.coinbase ? "mb-3" : "d-none"}>
-            <h4 className="d-block mb-3"> Avatar profile</h4>
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex flex-column gap-2">
+            <div className="d-flex align-items-center gap-3">
+              <h6 className="account-username">Username: Dypian</h6>
+              <div
+                    className="input-container px-0"
+                    style={{ width: "100%" }}
+                  >
+              <input
+                      type="text"
+                      min={1}
+                      max={365}
+                      id="username"
+                      name="username"
+                      placeholder=" "
+                      className="text-input"
+                      style={{ width: "100%" }}
+                      value={this.state.username}
+                      onChange={(e) => this.setState({username : e.target.value})}
+                    />
+                    <label
+                      htmlFor="username"
+                      className="label"
+                      onClick={() => focusInput("username")}
+                    >
+                      Input new name
+                    </label>
+                    <img src={require(`./assets/clearFieldIcon.svg`).default} className="clear-icon" alt="clear field" onClick={clearField} />
+                    </div>
+            </div>
+            <div className="d-flex align-items-center gap-2">
+              <img src={require(`./assets/metamask.png`).default} alt="" />
+              <div className="d-flex flex-column gap-1">
+                <span className="address-span">Wallet address:</span>
+                <div className="d-flex align-items-center gap-2">
+                <span className="account-wallet-address">{this.props.coinbase}</span>
+                <img src={require('./assets/clipboardIcon.svg').default} alt="clipboard" onClick={() => navigator.clipboard.writeText(this.props.coinbase)} />
+                </div>
+              </div>
+            </div>
+            </div>  
+            <div className={this.props.coinbase ? "mb-3" : "d-none"}>
 
-            <div className={this.state.coinbase ? "inputfile-wrapper" : ""}>
+            <div className="d-flex align-items-center gap-2">
+              <div className="d-flex flex-column">
+              <span className="dyp-amount-placeholder">Balance:</span>
+              <h6 className="account-dyp-amount">0.00000 DYP</h6>
+              </div>
+            <div className="position-relative">
+              <div className="avatar-border"></div>
+              <img src={require('./assets/changeImage.svg').default} alt="" className="add-image" />
               <img
                 src={this.state.image}
                 alt="your image"
                 className="avatarimg"
-                style={{
-                  border:
-                    this.state.image === Placeholder
-                      ? "none"
-                      : "3px solid #E30613",
-                }}
+                
               />
               <input
                 type="file"
                 id="group_image"
                 onChange={this.onImageChange}
               />
-              {this.state.showSavebtn === true ? (
+              {/* {this.state.showSavebtn === true ? (
                 <div
                   className="savebtn"
                   type=""
@@ -494,11 +575,239 @@ console.log(mycaws)
                 </div>
               ) : (
                 <></>
-              )}
+              )} */}
+            </div>
+            </div>
+          </div>                       
+        </div>
+        <div className="row mt-5">
+          <div className="col-6 position-relative d-flex justify-content-center">
+              <div className="purplediv" style={{top: '15px', zIndex: 1, left: '12px', background: '#8E97CD' }}></div>
+            <div className="row free-plan-container p-3 position-relative w-100">
+              <div className="col-6">
+                <div className="d-flex align-items-center gap-2">
+                  <img src={require('./assets/freePlanIcon.svg').default} alt="" />
+                  <h6 className="free-plan-title">Free plan</h6>
+                </div>
+                <div className="d-flex flex-column gap-1 mt-3">
+                {freePlanItems.map((item, index) => (
+                  <div key={index} className="free-plan-item d-flex align-items-center justify-content-between p-2">
+                    <span className="free-plain-item-text">{item}</span>
+                    <img src={require('./assets/freeCheck.svg').default} alt="" />
+                  </div>
+                ))}
+              </div>
+              </div>
+              <div className="col-6 free-plan-image">
+              </div>
+            <div className="col-12">
+            <hr className="form-divider my-4" style={{height: '2px'}} />
+            <div className="d-flex flex-column">
+              <span className="inactive-plan">Active</span>
+              <span className="inactive-plan">Free plan bundle</span>
+            </div>
+            </div>
+            </div>
+           
+          </div>
+          <div className="col-6 position-relative d-flex justify-content-center">
+              <div className="purplediv" style={{top: '15px', zIndex: 1, left: '12px', background: '#8E97CD' }}></div>
+            <div className="row free-plan-container p-3 position-relative w-100">
+              <div className="col-6">
+                <div className="d-flex align-items-center gap-2">
+                  <img src={require('./assets/paidPlanIcon.svg').default} alt="" />
+                  <h6 className="free-plan-title">Dypian plan</h6>
+                </div>
+                <div className="d-flex flex-column gap-1 mt-3">
+                {paidPlanItems.map((item, index) => (
+                  <div key={index} className="free-plan-item d-flex align-items-center justify-content-between p-2">
+                    <span className="free-plain-item-text">{item}</span>
+                    <img src={require('./assets/freeCheck.svg').default} alt="" />
+                  </div>
+                ))}
+              </div>
+              </div>
+              
+              <div className="col-6 paid-plan-image">
+              </div>
+              <div className="col-12">
+              {!this.props.appState.isPremium ? (
+              <>
+                <div className="premiumbanner">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 5,
+                      }}
+                    >
+                      <h3 className="subscr-title">Lifetime subscription </h3>
+                      <p className="subscr-subtitle">
+                        The subscription tokens will be used to buy and lock DYP
+                      </p>
+                      {/* <p className="subscr-note">
+                        *When you unsubscribe the DYP will be unlocked and sent to
+                        your wallet
+                      </p> */}
+                    </div>
+                    <div>
+                      <div className="d-flex gap-2">
+                        <img src="/assets/img/usdt.svg"></img>
+                        <h3 className="subscr-price">75 USDT</h3>
+                      </div>
+                      <p className="subscr-note">*Exclusive offer</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div
+                    style={{
+                      color: "#F7F7FC",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      lineHeight: "20px",
+                    }}
+                  >
+                    Subscribe <br></br> to the Premium plan
+                  </div>
+                  <div
+                    className="btn filledbtn px-5"
+                    type=""
+                    onClick={() => {
+                      this.setState({ subscribe_now: !this.state.subscribe_now });
+                      this.handleSubscriptionTokenChange(
+                        this.state.usdtAddress
+                      );
+                      this.handleCheckIfAlreadyApproved();
+                    }}
+                  >
+                    Subscribe now
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                 <div className="premiumbanner">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 5,
+                      }}
+                    >
+                      <h3 className="subscr-title">Welcome premium user</h3>
+                      <p className="subscr-subtitle">
+                      *When you unsubscribe the DYP will be unlocked and sent to your wallet
+                      </p>
+                      {/* <p className="subscr-note">
+                        *When you unsubscribe the DYP will be unlocked and sent to
+                        your wallet
+                      </p> */}
+                    </div>
+                    {/* <div>
+                      <div className="d-flex gap-2">
+                        <img src="/assets/img/usdt.svg"></img>
+                        <h3 className="subscr-price">75 USDT</h3>
+                      </div>
+                      <p className="subscr-note">*Exclusive offer</p>
+                    </div> */}
+                  </div>
+                </div>
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                  <div
+                    style={{
+                      color: "#4FAD93",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                      lineHeight: "20px",
+                    }}
+                  >
+                    Active <br></br> Premium plan
+                  </div>
+                  <div
+                    className="btn outline-btn px-5"
+                    type=""
+                    onClick={this.handleUnsubscribe}
+                  >
+                    Unsubscribe
+                  </div>
+                </div>
+              </>
+            )}
+              </div>
             </div>
           </div>
+        </div>
+        {this.state.subscribe_now === true ? 
+        <div className="row mt-4 justify-content-end">
+        <div className="col-6">
+          <div className="subscribe-container p-3 position-relative">
+          <div className="purplediv" style={{ background: '#8E97CD' }}></div>
+           <div className="d-flex justify-content-between align-items-center">
+           <div className="d-flex align-items-center gap-2">
+              <img src={coinStackIcon} alt="coin stack" />
+              <h6 className="free-plan-title">DYP Tools Premium Subscription</h6>
+            </div>
+            <img src={require(`./assets/clearFieldIcon.svg`).default} height={28} width={28} className="cursor-pointer" onClick={() => this.setState({subscribe_now: false})}  alt="close subscription"/>
+           </div>
+           <div className="d-flex mt-4 align-items-end justify-content-between w-100">
+            <div className="d-flex flex-column gap-3 " style={{width: '40%'}}>
+            <span className="token-amount-placeholder">Token Amount</span>
+            <div
+                className="input-container px-0"
+                style={{ width: "100%" }}
+              >
+          <input
+                  type="number"
+                  disabled
+                  min={1}
+                  max={365}
+                  id="token_amount"
+                  name="token_amount"
+                  placeholder=" "
+                  className="text-input"
+                  value={this.state.formattedPrice}
+                  style={{ width: "100%" }}
+                />
+                <label
+                  htmlFor="token_amount"
+                  className="label"
+                  onClick={() => focusInput("token_amount")}
+                >
+                  Subscription Token Amount
+                </label>
+                </div>
+            </div>
+            <div className="d-flex flex-column align-items-end justify-content-end">
+              <span className="token-balance-placeholder">USDT Balance</span>
+              <h6 className="account-token-amount"> {getFormattedNumber(
+                            this.state.tokenBalance / 10 ** tokenDecimals,
+                            6
+                          )}</h6>
+            </div>
+           </div>
+           <hr className="form-divider my-4" />
+           <div className="d-flex justify-content-between align-items-center">
+            <div className="subscription-token-wrapper  p-2 d-flex align-items-center justify-content-between " style={{width: '40%'}}>
+                <span className="token-amount-placeholder">Subscription token:</span>
+                <div className="d-flex align-items-center gap-2">
+                <img src="/assets/img/usdt.svg" height={24} width={24} alt="usdt"/>
+                <span className="usdt-text">USDT</span>
+                </div>
+            </div>
+            <button className="btn success-button px-4" onClick={(e) => this.handleApprove(e)}>Subscribe</button>
+           </div>
+          </div>
+        </div>
+    </div>
+    :
+    <></>
+        }
+        {/* <form onSubmit={this.handleSubscribe}>     
           <div>
-            {/* {!this.props.appState.isPremium ? (
+            {!this.props.appState.isPremium ? (
               <table className="w-100">
                 <tr
                   className="tablerow"
@@ -627,68 +936,11 @@ console.log(mycaws)
                   </table>
                 </Collapsible>
               </>
-            )} */}
-
-            {!this.props.appState.isPremium ? (
-              <>
-                <div className="premiumbanner">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 5,
-                      }}
-                    >
-                      <h3 className="subscr-title">Lifetime subscription </h3>
-                      <p className="subscr-subtitle">
-                        The subscription tokens will be used to buy and lock DYP
-                      </p>
-                      {/* <p className="subscr-note">
-                        *When you unsubscribe the DYP will be unlocked and sent to
-                        your wallet
-                      </p> */}
-                    </div>
-                    <div>
-                      <div className="d-flex gap-2">
-                        <img src="/assets/img/usdt.svg"></img>
-                        <h3 className="subscr-price">75 USDT</h3>
-                      </div>
-                      <p className="subscr-note">*Exclusive offer</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between align-items-center mt-3">
-                  <div
-                    style={{
-                      color: "#F7F7FC",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      lineHeight: "20px",
-                    }}
-                  >
-                    Subscribe <br></br> to the Premium plan
-                  </div>
-                  <div
-                    className="btn filledbtn px-5"
-                    type=""
-                    onClick={() => {
-                      this.setState({ subscribe_now: true });
-                      this.handleSubscriptionTokenChange(
-                        this.state.selectedSubscriptionToken
-                      );
-                      this.handleCheckIfAlreadyApproved();
-                    }}
-                  >
-                    Subscribe now
-                  </div>
-                </div>
-              </>
-            ) : (
-              <></>
             )}
+
+           
           </div>
-          {!this.props.appState.isPremium ? (
+          {!this.props.appState.isPremium ? (   
             this.state.subscribe_now === true ? (
               <>
                 <div className="mt-4 ml-0">
@@ -719,9 +971,10 @@ console.log(mycaws)
                                     e.target.value
                                   );
                                   this.handleCheckIfAlreadyApproved();
+                                console.log(e.target.value);
+
                                 }
 
-                                // console.log(e.target)
                               }
                             />
                             {this.props.networkId === 1
@@ -840,7 +1093,7 @@ console.log(mycaws)
             )
           ) : (
             <>
-              {/* <div>
+              <div>
               <p>
                 <i className="fas fa-check-circle"></i> Premium Member 
               </p>
@@ -853,7 +1106,7 @@ console.log(mycaws)
                 DYP
               </p>
               
-            </div> */}
+            </div>
               <div className="premiumbanner2">
                 <div className="row m-0 justify-content-between">
                   <div
@@ -885,7 +1138,7 @@ console.log(mycaws)
               </div>
             </>
           )}
-        </form>
+        </form> */}
 
         <h4 className="d-block mb-5 mt-5" id="my-fav">
           My Earnings

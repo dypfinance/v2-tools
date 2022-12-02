@@ -244,7 +244,26 @@ coinbase
                   e.stopPropagation();
                 }}
               />
-              {showTooltip === true ? (
+           
+              <span className="votes-amount"> {Number(upvotes) - Number(downvotes)}</span>
+              <img
+              style={{transform: 'rotate(0deg)'}}
+                src={
+                  likeIndicator === false && dislikeIndicator === false
+                    ? passiveDownvote
+                    : dislikeIndicator === true
+                    ? activeDownvote
+                    : passiveDownvote
+                }
+                alt=""
+                className="like-indicator"
+                id="dislike"
+                onClick={(e) => {
+                  handleDisLikeStates();
+                  e.stopPropagation();
+                }}
+              />
+                 {showTooltip === true ? (
                 <OutsideClickHandler
                   onOutsideClick={() => {
                     setShowTooltip(false);
@@ -265,24 +284,6 @@ coinbase
               ) : (
                 <></>
               )}
-              <span className="votes-amount"> {Number(upvotes) - Number(downvotes)}</span>
-              <img
-              style={{transform: 'rotate(0deg)'}}
-                src={
-                  likeIndicator === false && dislikeIndicator === false
-                    ? passiveDownvote
-                    : dislikeIndicator === true
-                    ? activeDownvote
-                    : passiveDownvote
-                }
-                alt=""
-                className="like-indicator"
-                id="dislike"
-                onClick={(e) => {
-                  handleDisLikeStates();
-                  e.stopPropagation();
-                }}
-              />
             </div>
             {/* <img
               src={theme === "theme-dark" ? WhiteDots : Dots}

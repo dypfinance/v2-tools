@@ -170,9 +170,9 @@ coinbase
           {/* </a> */}
 
           <div
-            className="d-flex align-items-center gap-3"
+            className="d-flex align-items-center gap-3 position-relative"
           >
-            <div className="d-flex align-items-center justify-content-center gap-2 position-relative">
+            <div className="d-flex align-items-center justify-content-center gap-2 ">
               <img
                 src={
                   likeIndicator === false && dislikeIndicator === false
@@ -188,7 +188,41 @@ coinbase
                   e.stopPropagation();
                 }}
               />
-              {showTooltip === true ? (
+             
+              <span className="votes-amount">
+                {Number(upvotes) - Number(downvotes)}
+              </span>
+              <img
+              style={{transform: 'rotate(0deg)'}}
+                src={
+                  likeIndicator === false && dislikeIndicator === false
+                    ? passiveDownvote
+                    : dislikeIndicator === true
+                    ? activeDownvote
+                    : passiveDownvote
+                }
+                alt=""
+                className="like-indicator"
+                id="dislike"
+                onClick={(e) => {
+                  handleDisLikeStates();
+                  e.stopPropagation();
+                }}
+              />
+               
+            </div>
+            {/* <img
+              src={theme === "theme-dark" ? WhiteDots : Dots}
+              alt=""
+              style={{ width: "auto" }}
+            /> */}
+            <div className="date-wrapper">
+              <img src={calendar} alt="calendar"  />
+              <span className="news-date-text">
+              {formattedDate.toLocaleDateString("en-US", options)}
+              </span>
+            </div>
+            {showTooltip === true ? (
                 <OutsideClickHandler
                   onOutsideClick={() => {
                     setShowTooltip(false);
@@ -210,38 +244,6 @@ coinbase
               ) : (
                 <></>
               )}
-              <span className="votes-amount">
-                {Number(upvotes) - Number(downvotes)}
-              </span>
-              <img
-              style={{transform: 'rotate(0deg)'}}
-                src={
-                  likeIndicator === false && dislikeIndicator === false
-                    ? passiveDownvote
-                    : dislikeIndicator === true
-                    ? activeDownvote
-                    : passiveDownvote
-                }
-                alt=""
-                className="like-indicator"
-                id="dislike"
-                onClick={(e) => {
-                  handleDisLikeStates();
-                  e.stopPropagation();
-                }}
-              />
-            </div>
-            {/* <img
-              src={theme === "theme-dark" ? WhiteDots : Dots}
-              alt=""
-              style={{ width: "auto" }}
-            /> */}
-            <div className="date-wrapper">
-              <img src={calendar} alt="calendar"  />
-              <span className="news-date-text">
-              {formattedDate.toLocaleDateString("en-US", options)}
-              </span>
-            </div>
           </div>
         </div>
       </div>

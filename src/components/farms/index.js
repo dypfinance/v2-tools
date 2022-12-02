@@ -147,6 +147,7 @@ export default class Farms extends React.Component {
         cell: (row) => (
           <div class="token">
             {/* <img src="/assets/img/icon.svg" alt="" /> */}
+            <img src={row.link_logo} height={40} width={40} alt="" />
             <a
               className="token-link"
               target="_blank"
