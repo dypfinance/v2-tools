@@ -449,8 +449,7 @@ export default class Locker extends React.Component {
         console.error(e);
         setTimeout(() => {
           this.setState({ loadspinner: "initial" });
-        this.setState({ status: "" });
-
+          this.setState({ status: "" });
         }, 2000);
       });
   };
@@ -499,7 +498,6 @@ export default class Locker extends React.Component {
             setTimeout(() => {
               this.setState({ loadspinnerLock: "initial" });
               this.setState({ status: "" });
-  
             }, 2000);
           });
       }
@@ -1973,6 +1971,15 @@ export default class Locker extends React.Component {
   };
 
   render() {
+
+    const convertTimestampToDate = (timestamp) => {
+      const result = new Intl.DateTimeFormat("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(timestamp * 1000);
+      return result;
+    };
     return (
       <div className="container-lg px-0">
         <div className="d-flex flex-column gap-3">
@@ -2149,7 +2156,11 @@ export default class Locker extends React.Component {
                       </span>
                       <div className="d-flex align-items-center gap-2">
                         <img
-                          src={this.state.selectedBaseTokenTicker === "WETH" ? ethStakeActive : avaxStakeActive}
+                          src={
+                            this.state.selectedBaseTokenTicker === "WETH"
+                              ? ethStakeActive
+                              : avaxStakeActive
+                          }
                           alt=""
                           height={24}
                           width={24}
@@ -2318,7 +2329,13 @@ export default class Locker extends React.Component {
               <hr className="form-divider my-4" />
               <div className="d-flex align-items-center justify-content-between mx-3">
                 <button
-                  className={`btn filledbtn px-5 ${this.state.loadspinner === "success" ? "success-button" : this.state.loadspinner === "fail" ? "fail-button" : null}`}
+                  className={`btn filledbtn px-5 ${
+                    this.state.loadspinner === "success"
+                      ? "success-button"
+                      : this.state.loadspinner === "fail"
+                      ? "fail-button"
+                      : null
+                  }`}
                   onClick={this.handleApprove}
                 >
                   {this.state.loadspinner === "initial" ? (
@@ -2337,33 +2354,37 @@ export default class Locker extends React.Component {
                   )}
                 </button>
                 <button
-                disabled={!this.state.lockActive}
-                  className={`btn disabled-btn px-5 ${this.state.loadspinnerLock === "success" ? "success-button" : this.state.loadspinnerLock === "fail" ? "fail-button" : null}`}
+                  disabled={!this.state.lockActive}
+                  className={`btn disabled-btn px-5 ${
+                    this.state.loadspinnerLock === "success"
+                      ? "success-button"
+                      : this.state.loadspinnerLock === "fail"
+                      ? "fail-button"
+                      : null
+                  }`}
                   onClick={this.handleLockSubmit}
                 >
-                  {this.state.loadspinnerLock  === "initial" ? 
-                  <>Lock</>
-                  :
-                  this.state.loadspinnerLock === "success" ?
-                  <>Success</>
-                  :
-                  this.state.loadspinnerLock === "fail" ?
-                  <>Fail</>
-                  :
-                  <div
-                  class="spinner-border spinner-border-sm text-light"
-                  role="status"
-                >
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                }
+                  {this.state.loadspinnerLock === "initial" ? (
+                    <>Lock</>
+                  ) : this.state.loadspinnerLock === "success" ? (
+                    <>Success</>
+                  ) : this.state.loadspinnerLock === "fail" ? (
+                    <>Fail</>
+                  ) : (
+                    <div
+                      class="spinner-border spinner-border-sm text-light"
+                      role="status"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  )}
                 </button>
               </div>
-                {this.state.status !== "" && 
+              {this.state.status !== "" && (
                 <div className="mt-3 ms-3">
-                <span className="required-star">{this.state.status}</span>
+                  <span className="required-star">{this.state.status}</span>
                 </div>
-}
+              )}
             </div>
           </div>
           <div className="col-5 position-relative pe-0">
@@ -2378,7 +2399,10 @@ export default class Locker extends React.Component {
               <div className="locker-liquidity-wrapper p-3 d-flex align-items-center justify-content-between">
                 <img src={purpleLiquidityLocker} alt="" />
                 <div className="d-flex flex-column justify-content-center gap-2 align-items-end">
-                  <div className="d-flex align-items-center gap-2 cursor-pointer" onClick={() => this.setState({showModal: true})}>
+                  <div
+                    className="d-flex align-items-center gap-2 cursor-pointer"
+                    onClick={() => this.setState({ showModal: true })}
+                  >
                     <span className="locker-indicator">DYP locker status</span>
                     <img src={moreInfo} alt="" height={20} width={20} />
                   </div>
@@ -2452,33 +2476,107 @@ export default class Locker extends React.Component {
           </div>
         </div>
         <h6 className="locker-title mt-5">Pair locks</h6>
-        <span className="total-dyp-locked">Total DYP-USDT locked: <b> {getFormattedNumber(this.state.totalLpLocked / 1e18, 18)} (
+        <span className="total-dyp-locked">
+          Total DYP-USDT locked:{" "}
+          <b>
+            {" "}
+            {getFormattedNumber(this.state.totalLpLocked / 1e18, 18)} (
             {getFormattedNumber(
               (this.state.totalLpLocked / this.state.lpTotalSupply) * 100,
               2
             )}
-            %)</b></span>
+            %)
+          </b>
+        </span>
         <div className="row mx-0 w-100 mt-2">
           <div className="pair-locker-wrapper px-0 mt-3">
-            <PairLockerCard completed={true} active={true} />
+            {/* <PairLockerCard completed={true} active={true} topLocked={true} />
             <PairLockerCard completed={false} active={true} />
-            <PairLockerCard completed={false} active={false} />
+            <PairLockerCard completed={false} active={false} /> */}
+            {this.state.tokenLocks &&
+              this.state.tokenLocks
+                .filter((lock) => lock.id === this.state.maxLpID)
+                .map((lock) => (
+                  <PairLockerCard
+                  completed={lock.claimed === false
+                    ? Date.now() < lock.unlockTimestamp * 1e3
+                      ? true
+                      : false
+                    : false}
+                  active={
+                    lock.claimed === false
+                      ? Date.now() < lock.unlockTimestamp * 1e3
+                        ? true
+                        : true
+                      : false
+                  }
+                  topLocked={this.state.maxLpID === lock.id ? true : false}
+                  id={lock.id}
+                  pair_address={lock.token.slice(35)}
+                  lpAmount={getFormattedNumber(lock.amount / 1e18, 6)}
+                  dyp={getFormattedNumber(
+                    lock.platformTokensLocked / 1e18,
+                    6
+                  )}
+                  recipent={lock.recipient.slice(35)}
+                  unlock={convertTimestampToDate(lock.unlockTimestamp)}
+                  endsIn={convertTimestampToDate(lock.unlockTimestamp)}
+                  startsIn={convertTimestampToDate(lock.unlockTimestamp)}
+                />
+                ))}
+            {this.state.tokenLocks &&
+              this.state.tokenLocks
+                .filter((lock) => lock.id !== this.state.maxLpID)
+                .map((lock) => (
+                  <PairLockerCard
+                    completed={lock.claimed === false
+                      ? Date.now() < lock.unlockTimestamp * 1e3
+                        ? true
+                        : false
+                      : false}
+                    active={
+                      lock.claimed === false
+                        ? Date.now() < lock.unlockTimestamp * 1e3
+                          ? true
+                          : true
+                        : false
+                    }
+                    topLocked={this.state.maxLpID === lock.id ? true : false}
+                    id={lock.id}
+                    pair_address={lock.token.slice(35)}
+                    lpAmount={getFormattedNumber(lock.amount / 1e18, 6)}
+                    dyp={getFormattedNumber(
+                      lock.platformTokensLocked / 1e18,
+                      6
+                    )}
+                    recipent={lock.recipient.slice(35)}
+                    unlock={convertTimestampToDate(lock.unlockTimestamp)}
+                    endsIn={convertTimestampToDate(lock.unlockTimestamp)}
+                    startsIn={convertTimestampToDate(lock.unlockTimestamp)}
+                  />
+                ))}
+                {this.state.tokenLocks.length === 0 && 
+                  <>
+                   <Skeleton theme={this.props.theme}/>
+              <Skeleton theme={this.props.theme}/>
+              <Skeleton theme={this.props.theme}/>
+                  </>
+                }
           </div>
         </div>
         <h6 className="locker-title mt-5">My locks</h6>
         {this.state.showModal === true ? (
-            <InfoModal
-              visible={this.state.showModal}
-              modalId="infomodal"
-              onModalClose={() => {
-                this.setState({ showModal: false });
-              }}
-            />
-          ) : (
-            <></>
-          )}
+          <InfoModal
+            visible={this.state.showModal}
+            modalId="infomodal"
+            onModalClose={() => {
+              this.setState({ showModal: false });
+            }}
+          />
+        ) : (
+          <></>
+        )}
       </div>
-      
 
       // <div className="locker">
       //   <div className="table-title">

@@ -15,6 +15,8 @@ import EarnFaq from "../EarnFaq/EarnFaq";
 import axios from "axios";
 import { useEffect } from "react";
 import getFormattedNumber from "../../../functions/getFormattedNumber2";
+import e from "cors";
+import { useRef } from "react";
 
 const EarnContent = ({
   coinbase,
@@ -26,6 +28,9 @@ const EarnContent = ({
   the_graph_resultavax,
   the_graph_resultbsc,
   referrer,
+  routeOption, 
+  routeChain, 
+  routeSection
 }) => {
   const options = [
     {
@@ -53,14 +58,16 @@ const EarnContent = ({
     },
   ];
 
-  const [stake, setStake] = useState("eth");
-  const [option, setOption] = useState("Staking");
+  const [stake, setStake] = useState(routeChain);
+  const [option, setOption] = useState(routeOption);
   const [content, setContent] = useState(options[0].content);
   const [listStyle, setListStyle] = useState("table");
   const [myStakes, setMyStakes] = useState(false);
   const [tvl, setTvl] = useState(options[0].tvl);
   var tempTvl = 0;
   var farming = [];
+
+
 
   const fetchEthTvl = async () => {
     await axios
@@ -98,6 +105,22 @@ const EarnContent = ({
       .catch((err) => console.error(err));
   };
 
+  // useEffect(() => {
+  //   if(routeOption === null){
+  //     setOption("Staking")
+  //   }else{
+  //     setOption(routeOption)
+  //   }
+  
+  //   if(routeChain === null){
+  //     setStake("eth")
+  //   }else{
+  //     setStake(routeChain)
+  //   }
+  
+  // }, [])
+  
+
   const fetchAvaxTvl = async () => {
     await axios
       .get(`https://api.dyp.finance/api/the_graph_avax_v2`)
@@ -115,6 +138,8 @@ const EarnContent = ({
       })
       .catch((err) => console.error(err));
   };
+
+ 
 
   return (
     <>
@@ -336,7 +361,7 @@ const EarnContent = ({
         the_graph_resultbsc={the_graph_resultbsc}
         referrer={referrer}
       />
-      <EarnFaq faqTypes={option} />
+      <EarnFaq faqTypes={option}  />
     </>
   );
 };

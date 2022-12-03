@@ -5,6 +5,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import ethlogo from "../../assets/ethlogo.svg";
 import bnblogo from "../../assets/bnblogo.svg";
 import avaxlogo from "../../assets/avaxlogo.svg";
+import ethPools from '../../assets/ethPools.png'
+import bnbPools from '../../assets/bnbPools.png'
+import avaxPools from '../../assets/avaxPools.png'
 // import { NavLink as a } from 'react-router-dom'
 
 // import getProcessedSwaps from '../../functions/get-processed-swaps'
@@ -69,6 +72,7 @@ export default class TopTokens extends React.Component {
       isLoading: true,
       filteredByTokenId: "",
       filteredByTxnType: "", // 'burn' | 'mint' | ''
+      destinationChain: ""
     };
   }
 
@@ -280,17 +284,21 @@ export default class TopTokens extends React.Component {
   render() {
     return (
       <div className="container-lg">
-        <div className="d-flex flex-row gap-3 justify-content-between align-items-center mb-4">
-          <div className="d-flex flex-column gap-3">
+        <div className="d-flex flex-column gap-3">
             <h2 className="launchpad-hero-title">Top Tokens</h2>
             <p className="launchpad-hero-desc">
               {this.props.networkId === 1
                 ? "List of Uniswap Top Tokens"
+                : this.props.networkId === 56 ? 
+                "List of Pancakeswap Top Tokens"
                 : "List of Pangolin Top Tokens"}
             </p>
           </div>
-          <div className="col-md-6 p-0 d-flex justify-content-between gap-2 align-items-center">
-            <div className="col-md-6 p-0">
+        <div className="row justify-content-between align-items-center my-4">
+        <div className="col-4">
+          <img src={this.state.destinationChain === "eth"? ethPools : this.state.destinationChain === 'bnb' ? bnbPools : this.state.destinationChain === "avax" ? avaxPools : ethPools} alt="" />
+          </div>
+            <div className="col-4 p-0">
               <div
                 className="search-box"
                 style={{
@@ -325,7 +333,7 @@ export default class TopTokens extends React.Component {
                 </form>
               </div>
             </div>
-            <div className="position-relative">
+            <div className="col-4 position-relative">
               <p
                 className="launchpad-hero-desc position-absolute"
                 style={{ fontSize: 12, top: "-27px" }}
@@ -333,7 +341,7 @@ export default class TopTokens extends React.Component {
                 Change network
               </p>
               <div
-                className="d-flex gap-3 align-items-center"
+                className="d-flex justify-content-around align-items-center"
                 style={{
                   background: "#312F69",
                   padding: "10px",
@@ -366,6 +374,9 @@ export default class TopTokens extends React.Component {
                   }
                   onClick={() => {
                     this.props.onSelectChain("bnb");
+                    this.setState({
+                      destinationChain: "bnb",
+                    });
                   }}
                 >
                   <h6 className="optiontext">
@@ -380,6 +391,9 @@ export default class TopTokens extends React.Component {
                   }
                   onClick={() => {
                     this.props.onSelectChain("avax");
+                    this.setState({
+                      destinationChain: "avax",
+                    });
                   }}
                 >
                   <h6 className="optiontext">
@@ -388,7 +402,6 @@ export default class TopTokens extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
         </div>
         <div className="table-box">
           <div className="form-container p-3 position-relative">

@@ -911,7 +911,7 @@ export default function initBridge({
                                 alt=""
                               />
                               <h6 className="bottominfotxt">
-                                You connot Bridge from BNB Chain to Avalanche directly, you
+                                You cannot Bridge from BNB Chain to Avalanche directly, you
                                 need to go first to Ethereum and then to Avalanche, the
                                 same will happen if you want to bridge from Avalanche
                                 to BNB Chain, you need first to bridge to Ethereum and then

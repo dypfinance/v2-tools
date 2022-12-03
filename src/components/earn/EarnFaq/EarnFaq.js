@@ -31,6 +31,7 @@ const EarnFaq = ({ faqTypes }) => {
       icon: "farm",
     },
   ];
+  
 
   const [faqItems, setFaqItems] = useState([]);
   const [faqTitle, setFaqTitle] = useState("");
@@ -59,7 +60,7 @@ const EarnFaq = ({ faqTypes }) => {
   }, [faqTypes]);
 
   return (
-    <div className="row w-100 my-5 p-0 faq-container justify-content-between">
+    <div id="earnfaq" className="row w-100 my-5 p-0 faq-container justify-content-between">
       <div className="col-7 ps-0">
         <h3 className="mb-3" style={{ color: "#f7f7fc" }}>
           {faqTitle} FAQs

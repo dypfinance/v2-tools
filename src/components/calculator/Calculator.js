@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { isMobile } from "react-device-detect";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import calculator from "./assets/calculator.svg";
@@ -690,7 +690,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               yields assume that prices of the deposited assets don't change.
             </h6> */}
           <div className="row w-100 mx-0 align-items-center justify-content-between mt-5">
-            <div className="ethereum-chain-wrapper">
+            <NavLink to={{pathname: 'earn', state: {chain: 'eth', option: activeMethod}}} className="ethereum-chain-wrapper">
               <div className="chain-content gap-4 p-2">
                 <div className="values-wrapper align-items-start d-flex flex-column gap-1">
                   <div className="usd-value">
@@ -713,8 +713,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                   <img src={filledArrow} alt="" />
                 </div>
               </div>
-            </div>
-            <div
+            </NavLink>
+            <NavLink to={{pathname: 'earn', state: {chain: activeMethod === "Vault" ? "eth" : "bnb", option: activeMethod} }}
               className={
                 activeMethod === "Vault" ? "usdc-wrapper" : `bnb-chain-wrapper`
               }
@@ -751,8 +751,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                   <img src={filledArrow} alt="" />
                 </div>
               </div>
-            </div>
-            <div
+            </NavLink>
+            <NavLink to={{pathname: 'earn', state: {chain: activeMethod === "Vault" ? "eth" : "avax", option: activeMethod} }}
               className={
                 activeMethod === "Vault" ? "usdt-wrapper" : "avax-chain-wrapper"
               }
@@ -789,7 +789,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                   <img src={filledArrow} alt="" />
                 </div>
               </div>
-            </div>
+            </NavLink>
           </div>
         </div>
       </form>

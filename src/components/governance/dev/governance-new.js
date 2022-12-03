@@ -536,7 +536,7 @@ export default class Governance extends React.Component {
             deviceWidth < 500 ? "container-lg" : "container-lg p-0"
           }
         >
-          <div className="d-flex flex-column flex-xl-row justify-content-between gap-2 align-items-center">
+          <div className="d-flex flex-column flex-xl-row justify-content-between gap-2 align-items-start">
             <div className="col-12 col-xl-7">
               <h6 className="govtitle mb-3">Dypius Governance</h6>
               <h6 className="govdesc mb-3">

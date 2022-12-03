@@ -36,7 +36,7 @@ const BridgeFAQ = () => {
   }, []);
 
   return (
-    <div className="row w-100 my-5 p-0 faq-container justify-content-between">
+    <div id="bridgeFaq" className="row w-100 my-5 p-0 faq-container justify-content-between">
       <div className="col-7 ps-0">
         <h3 className="mb-3" style={{ color: "#f7f7fc" }}>
           {faqTitle} FAQs

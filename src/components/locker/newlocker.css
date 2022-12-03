@@ -367,6 +367,12 @@ color: #F7F7FC !important;
 
 }
 
+.top-locked-locker{
+  position: absolute;
+  top: -8px;
+  left: 30px;
+}
+
 @media screen and (max-width: 1199px) {
   .pair-locker-wrapper{
     grid-template-columns: repeat(2,1fr);

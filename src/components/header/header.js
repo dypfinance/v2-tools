@@ -243,7 +243,7 @@ const Header = ({
               Good morning, James
             </h4>
             <span className="text-white headerdesc">
-              Discover the latest trends, breaking news and immersive dApps
+            Discover the latest trends, breaking news and gain access to powerful dApps.
             </span>
           </div>
           <div className="d-flex m-0 justify-content-between gap-3 align-items-center">

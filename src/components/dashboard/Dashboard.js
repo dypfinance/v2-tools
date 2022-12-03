@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./dashboard.css";
 import TopPoolsCard from "../top-pools-card/TopPoolsCard";
 import NewsCard from "../newsCard/NewsCard";
@@ -42,6 +42,7 @@ import initVaultNew from "../FARMINNG/vault-new";
   const [activeCard, setActiveCard] = useState();
   const [cardIndex, setcardIndex] = useState();
   const [details, setDetails] = useState()
+  const [popularNewsData, setPopularNewsData] = useState([])
 
   const eth_address = "ETH";
   const { rebase_factors } = window;
@@ -125,7 +126,64 @@ import initVaultNew from "../FARMINNG/vault-new";
     chainId: network,
     listType: "table"
   });
+
+  const faqItems = [
+    {
+    title: 'What is Dypius Stake?',
+    option: 'Staking',
+    pathName: '/earn',
+    section: 'earnFaq',
+    },
+    {
+    title: 'What is the Reinvest function?',
+    option: 'Staking',
+    pathName: '/earn',
+    section: 'earnFaq',
+    },
+    {
+    title: 'What is APR?',
+    option: 'Farming',
+    pathName: '/earn',
+    section: 'earnFaq',
+    },
+    {
+    title: 'What is Dypius Vault?',
+    option: 'Vault',
+    pathName: '/earn'
+    },
+    {
+    title: 'What is Dypius Bridge?',
+    option: 'Bridge',
+    pathName: '/bridge',
+    section: 'earnFaq',
+    },
+    {
+    title: 'Will my lock period reset if I deposit ad...',
+    option: 'Farming',
+    pathName: '/earn',
+    section: 'earnFaq',
+    }
+]
+
+
+const fetchPopularNewsData = async () => {
+  const result = await fetch(`https://news-manage.dyp.finance/api/populars`)
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      setPopularNewsData(data);
+    })
+    .catch(console.error);
+
+  return result;
+};
   
+useEffect(() => {
+  fetchPopularNewsData();
+}, [])
+  console.log(popularNewsData);
+
   return (
     <div className="container-lg dashboardwrapper px-0">
       <div className="d-flex m-0 flex-column flex-xxl-row justify-content-between gap-4">
@@ -218,21 +276,26 @@ import initVaultNew from "../FARMINNG/vault-new";
             View all <img src={rightarrow} alt="" /> 
           </NavLink>
           <div className="d-flex gap-3 justify-content-between px-0">
-            <TrendingNews
-              image={"news1.png"}
-              title={
-                "We are excited to announce our partnership with @ANKR 👉🏽 one of the world leaders in Web3 infrastructure. "
-              }
-              date={"Sept 10, 2022"}
-            />
-            <NewsCard
-              image={"news2.png"}
-              title={"Check out the new and improved #DYP TOOLS!"}
-            />
-            <NewsCard
-              image={"news3.png"}
-              title={"Check out the new and improved #DYP TOOLS!"}
-            />
+           {popularNewsData !== [] &&
+           <> <TrendingNews
+           image={popularNewsData[0]?.image}
+           title={popularNewsData[0]?.title}
+           date={popularNewsData[0]?.date}
+           link={popularNewsData[0]?.id}
+         />
+         <NewsCard
+           image={popularNewsData[1]?.image}
+           title={popularNewsData[1]?.title}
+           date={popularNewsData[1]?.date}
+           link={popularNewsData[1]?.id}
+         />
+         <NewsCard
+          image={popularNewsData[2]?.image}
+          title={popularNewsData[2]?.title}
+          date={popularNewsData[2]?.date}
+          link={popularNewsData[2]?.id}
+         /></>
+           }
           </div>
           </div>
         </div>
@@ -245,12 +308,10 @@ import initVaultNew from "../FARMINNG/vault-new";
           <div className="faq-items-wrapper d-flex flex-column" style={{gap: '11px'}}>
             <h6 className="header">FAQs</h6>
             <div className="faq-grid">
-            <FaqCard />
-            <FaqCard />
-            <FaqCard />
-            <FaqCard />
-            <FaqCard />
-            <FaqCard />
+            {faqItems.map((faq) => (
+              <FaqCard title={faq.title} option={faq.option} pathName={faq.pathName} section={faq.section} />
+            ))}
+         
             </div>
           </div>
         </div>

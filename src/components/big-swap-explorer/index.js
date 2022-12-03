@@ -8,6 +8,9 @@ import bnblogo from "../../assets/bnblogo.svg";
 import avaxlogo from "../../assets/avaxlogo.svg";
 import getProcessedSwaps from "../../functions/get-processed-swaps";
 import getFormattedNumber from "../../functions/get-formatted-number";
+import ethPools from '../../assets/ethPools.png'
+import bnbPools from '../../assets/bnbPools.png'
+import avaxPools from '../../assets/avaxPools.png'
 
 const Circular = () => (
   // we need to add some padding to circular progress to keep it from activating our scrollbar
@@ -66,6 +69,7 @@ export default class BigSwapExplorer extends React.Component {
       isLoading: true,
       filteredByTokenId: "",
       filteredByTxnType: "", // 'burn' | 'mint' | ''
+      destinationChain: ""
     };
   }
 
@@ -309,8 +313,7 @@ export default class BigSwapExplorer extends React.Component {
   render() {
     return (
       <div className="container-lg">
-        <div className="d-flex flex-row gap-3 justify-content-between align-items-center mb-4">
-          <div className="d-flex flex-column gap-3">
+        <div className="d-flex flex-column gap-3">
             <h2 className="launchpad-hero-title">Big Swap Explorer</h2>
             <p className="launchpad-hero-desc">
               {this.props.networkId === 1
@@ -318,8 +321,12 @@ export default class BigSwapExplorer extends React.Component {
                 : " Search for Big Swaps on Pangolin with useful information"}
             </p>
           </div>
-          <div className="col-md-6 p-0 d-flex justify-content-between gap-2 align-items-center">
-            <div className="col-md-6 p-0">
+        <div className="row justify-content-between align-items-center my-4">
+              <div className="col-4">
+          <img src={this.state.destinationChain === "eth"? ethPools : this.state.destinationChain === 'bnb' ? bnbPools : this.state.destinationChain === "avax" ? avaxPools : ethPools} alt="" />
+                
+              </div>
+            <div className="col-4 p-0">
               <div
                 className="search-box"
                 style={{
@@ -354,7 +361,7 @@ export default class BigSwapExplorer extends React.Component {
                 </form>
               </div>
             </div>
-            <div className="position-relative">
+            <div className="position-relative col-4">
               <p
                 className="launchpad-hero-desc position-absolute"
                 style={{ fontSize: 12, top: "-27px" }}
@@ -362,7 +369,7 @@ export default class BigSwapExplorer extends React.Component {
                 Change network
               </p>
               <div
-                className="d-flex gap-3 align-items-center"
+                className="d-flex justify-content-around align-items-center"
                 style={{
                   background: "#312F69",
                   padding: "10px",
@@ -395,6 +402,9 @@ export default class BigSwapExplorer extends React.Component {
                   }
                   onClick={() => {
                     this.props.onSelectChain("bnb");
+                    this.setState({
+                      destinationChain: "bnb",
+                    });
                   }}
                 >
                   <h6 className="optiontext">
@@ -409,6 +419,9 @@ export default class BigSwapExplorer extends React.Component {
                   }
                   onClick={() => {
                     this.props.onSelectChain("avax");
+                    this.setState({
+                      destinationChain: "avax",
+                    });
                   }}
                 >
                   <h6 className="optiontext">
@@ -417,7 +430,6 @@ export default class BigSwapExplorer extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
         </div>
         <div className="table-box">
           <div className="form-container p-3 position-relative">
