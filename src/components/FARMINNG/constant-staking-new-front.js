@@ -1035,11 +1035,11 @@ export default function initConstantStakingNew({
                 </div>
               </div>
             </div>
-            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="row w-100 justify-content-between">
-                <div className="firstblockwrapper col-2">
+            <div className="pools-details-wrapper d-flex m-0  container-lg border-0">
+              <div className="row w-100 flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between">
+                <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                   <div
-                    className="d-flex flex-column justify-content-between gap-4"
+                    className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
                     style={{ height: "100%" }}
                   >
                     <h6 className="start-title">Start Staking</h6>
@@ -1072,7 +1072,7 @@ export default function initConstantStakingNew({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1225,7 +1225,7 @@ export default function initConstantStakingNew({
                     )}
                   </div>
                 </div>
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6
@@ -1372,7 +1372,7 @@ export default function initConstantStakingNew({
                   </div>
                 </div>
 
-                <div className="otherside-border col-2">
+                <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <Tooltip

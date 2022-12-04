@@ -81,6 +81,7 @@ const Sidebar = (props) => {
     }else{
       setActiveSidebar(false)
     }
+    console.log(windowSize.width);
   }, [windowSize]);
 
 
@@ -174,7 +175,7 @@ const Sidebar = (props) => {
       style={{padding: '2.5rem 0'}}
       className={`testbar ${
         activeSidebar ? "testbar-open" : null
-      } d-flex flex-column justify-content-between align-items-start`}
+      } d-none d-lg-flex flex-column justify-content-between align-items-start`}
     >
       <img src={navRadius} className={`nav-radius ${activeSidebar && 'nav-radius-open'}`} alt="" />
      <div className="w-100">

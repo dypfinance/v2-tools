@@ -33,6 +33,20 @@
   height: 34px;
 }
 
+.buy-dyp-text{
+  font-weight: 500;
+font-size: 12px;
+line-height: 18px;
+color: #2A2859 !important;
+}
+
+.change-chain-text{
+  font-weight: 500;
+font-size: 12px;
+line-height: 18px;
+color: #F7F7FC !important;
+}
+
 .dropdown-toggle {
   background: #3A377A;
   border-radius: 8px;

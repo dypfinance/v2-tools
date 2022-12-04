@@ -1879,7 +1879,7 @@ export default class PairExplorer extends React.Component {
             <div className="rightside">
               <div className="graph-right">
                 <div className="search-box d-flex gap-2 justify-content-between align-items-center">
-                  <form className="col-7" id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
+                  <form className="col-6" id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
                     <input
                       value={this.state.query}
                       onChange={(e) => this.handleQuery(e.target.value)}
@@ -1944,7 +1944,7 @@ export default class PairExplorer extends React.Component {
                       <img src="/assets/img/search-purple.svg" alt="Image" style={{ marginTop: "11px" }}/>
                     </button>
                   </form>
-                  <div className="position-relative">
+                  <div className="position-relative col-6">
               <p
                 className="launchpad-hero-desc position-absolute"
                 style={{ fontSize: 12, top: "-27px" }}
@@ -1952,7 +1952,7 @@ export default class PairExplorer extends React.Component {
                 Change network
               </p>
               <div
-                className="d-flex gap-3 align-items-center"
+                className="d-flex justify-content-around align-items-center"
                 style={{
                   background: "#312F69",
                   padding: "10px",

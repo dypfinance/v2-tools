@@ -16,6 +16,7 @@ import initStakingNew from "../FARMINNG/staking-new-front";
 import { NavLink } from "react-router-dom";
 import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
 import initVaultNew from "../FARMINNG/vault-new";
+import useWindowSize from "../../functions/useWindowSize";
 
  const Dashboard = ({ isConnected, coinbase, the_graph_result, lp_id, network, handleConnection  }) => {
   const cards = [
@@ -43,6 +44,7 @@ import initVaultNew from "../FARMINNG/vault-new";
   const [cardIndex, setcardIndex] = useState();
   const [details, setDetails] = useState()
   const [popularNewsData, setPopularNewsData] = useState([])
+  const [activeCard2, setActiveCard2] = useState()
 
   const eth_address = "ETH";
   const { rebase_factors } = window;
@@ -184,18 +186,20 @@ useEffect(() => {
 }, [])
   console.log(popularNewsData);
 
+  const windowSize = useWindowSize();
+
   return (
     <div className="container-lg dashboardwrapper px-0">
       <div className="d-flex m-0 flex-column flex-xxl-row justify-content-between gap-4">
         <div className="d-flex flex-column gap-4 justify-content-between">
-          <div className="d-flex m-0 gap-3 justify-content-between">
+          <div className="d-flex flex-column flex-lg-row m-0 gap-3 justify-content-between">
             <Calculator />
             <div
-              className="d-flex flex-column gap-4 justify-content-between"
-              style={{ width: "49%" }}
+              className="d-flex flex-column gap-4 justify-content-between dashboard-cards-wrapper"
+              
             >
               <ExplorerCard />
-              <div className="d-flex justify-content-between gap-3">
+              <div className="d-flex flex-column flex-lg-row justify-content-between gap-3">
                 <GovCard />
                 <BridgeCard />
               </div>
@@ -209,73 +213,190 @@ useEffect(() => {
 
               </NavLink>
             </div>
-            <div>
-              <div className="row m-0 gap-4 toppool-allwrapper">
-                {cards.length > 0 &&
-                  cards.map((item, index) => {
-                    return (
-                      <TopPoolsCard
-                      renderedPage="dashboard"
-                        cardId={item.tokenName}
-                        key={index}
-                        cardType={item.cardType}
-                        top_pick={item.top_pick}
-                        tokenName={item.tokenName}
-                        apr={item.apr}
-                        tvl={item.tvl}
-                        lockTime={item.lockTime}
-                        tokenLogo={item.tokenLogo}
-                        onShowDetailsClick={() => {
-                          setActiveCard(cards[index]);
-                          setcardIndex(index);
-                          setDetails(index)
-                        }}
-                        onHideDetailsClick={() => {
-                          setActiveCard(null);
-                          setDetails()
-                        }}
-                        details={details === index ? true : false}
+            {windowSize.width > 786 ?
+                  <div>
+                  <div className="row m-0 gap-4 toppool-allwrapper">
+                      {cards.length > 0 &&
+                        cards.map((item, index) => {
+                          return (
+                            <TopPoolsCard
+                            renderedPage="dashboard"
+                              cardId={item.tokenName}
+                              key={index}
+                              cardType={item.cardType}
+                              top_pick={item.top_pick}
+                              tokenName={item.tokenName}
+                              apr={item.apr}
+                              tvl={item.tvl}
+                              lockTime={item.lockTime}
+                              tokenLogo={item.tokenLogo}
+                              onShowDetailsClick={() => {
+                                setActiveCard(cards[index]);
+                                setcardIndex(index);
+                                setDetails(index)
+                              }}
+                              onHideDetailsClick={() => {
+                                setActiveCard(null);
+                                setDetails()
+                              }}
+                              details={details === index ? true : false}
+                            />
+                          );
+                        })}
+                    </div>
+                    {activeCard ?
+                    activeCard?.cardType === "Staking" ? (
+                      <ConstantStaking1
+                        is_wallet_connected={isConnected}
+                        coinbase={coinbase}
+                        the_graph_result={the_graph_result}
+                        lp_id={lp_id[cardIndex]}
+                        chainId={network}
+                        handleConnection = {handleConnection}
                       />
-                    );
-                  })}
-              </div>
-              {activeCard ?
-              activeCard?.cardType === "Staking" ? (
-                <ConstantStaking1
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={network}
-                  handleConnection = {handleConnection}
-                />
-              )
-              : 
-              (
-                <VaultCard
-              is_wallet_connected={isConnected}
-              handleConnection={handleConnection}
-              chainId={network}
-              coinbase={coinbase}
-              the_graph_result={the_graph_result}
-              
-            />
-              )
-            
-              :
-              <></>
-            
-            }
-              {/* {showDetails && <TopPoolsDetails />} */}
-
-            </div>
+                    )
+                    : 
+                    (
+                      <VaultCard
+                    is_wallet_connected={isConnected}
+                    handleConnection={handleConnection}
+                    chainId={network}
+                    coinbase={coinbase}
+                    the_graph_result={the_graph_result}
+                    
+                  />
+                    )
+                  
+                    :
+                    <></>
+                  
+                  }
+                  </div>
+                  :
+                  <div className="d-flex flex-column gap-4">
+                  <div className="row m-0 gap-4 toppool-allwrapper">
+                      {cards.length > 0 &&
+                        cards.slice(0, 1).map((item, index) => {
+                          return (
+                            <TopPoolsCard
+                            renderedPage="dashboard"
+                              cardId={item.tokenName}
+                              key={index}
+                              cardType={item.cardType}
+                              top_pick={item.top_pick}
+                              tokenName={item.tokenName}
+                              apr={item.apr}
+                              tvl={item.tvl}
+                              lockTime={item.lockTime}
+                              tokenLogo={item.tokenLogo}
+                              onShowDetailsClick={() => {
+                                setActiveCard(cards[index]);
+                                setActiveCard2(null)
+                                setcardIndex(index);
+                                setDetails(index)
+                              }}
+                              onHideDetailsClick={() => {
+                                setActiveCard(null);
+                                setDetails()
+                              }}
+                              details={details === index ? true : false}
+                            />
+                          );
+                        })}
+                    </div>
+                    {activeCard ?
+                    activeCard?.cardType === "Staking" ? (
+                      <ConstantStaking1
+                        is_wallet_connected={isConnected}
+                        coinbase={coinbase}
+                        the_graph_result={the_graph_result}
+                        lp_id={lp_id[cardIndex]}
+                        chainId={network}
+                        handleConnection = {handleConnection}
+                      />
+                    )
+                    : 
+                    (
+                      <VaultCard
+                    is_wallet_connected={isConnected}
+                    handleConnection={handleConnection}
+                    chainId={network}
+                    coinbase={coinbase}
+                    the_graph_result={the_graph_result}
+                    
+                  />
+                    )
+                  
+                    :
+                    <></>
+                  
+                  }
+                    <div className="row m-0 gap-4 toppool-allwrapper">
+                      {cards.length > 0 &&
+                        cards.slice(1, cards.length).map((item, index) => {
+                          return (
+                            <TopPoolsCard
+                            renderedPage="dashboard"
+                              cardId={item.tokenName}
+                              key={index}
+                              cardType={item.cardType}
+                              top_pick={item.top_pick}
+                              tokenName={item.tokenName}
+                              apr={item.apr}
+                              tvl={item.tvl}
+                              lockTime={item.lockTime}
+                              tokenLogo={item.tokenLogo}
+                              onShowDetailsClick={() => {
+                                setActiveCard2(cards[index + 1]);
+                                setActiveCard(null)
+                                setcardIndex(index + 1);
+                                setDetails(index + 1)
+                              }}
+                              onHideDetailsClick={() => {
+                                setActiveCard2(null);
+                                setDetails()
+                              }}
+                              details={details === index + 1 ? true : false}
+                            />
+                          );
+                        })}
+                    </div>
+                    {activeCard2 ?
+                    activeCard2?.cardType === "Staking" ? (
+                      <ConstantStaking1
+                        is_wallet_connected={isConnected}
+                        coinbase={coinbase}
+                        the_graph_result={the_graph_result}
+                        lp_id={lp_id[cardIndex]}
+                        chainId={network}
+                        handleConnection = {handleConnection}
+                      />
+                    )
+                    : 
+                    (
+                      <VaultCard
+                    is_wallet_connected={isConnected}
+                    handleConnection={handleConnection}
+                    chainId={network}
+                    coinbase={coinbase}
+                    the_graph_result={the_graph_result}
+                    
+                  />
+                    )
+                  
+                    :
+                    <></>
+                  
+                  }
+                  </div>  
+          }
           </div>
           <div className="row m-0 align-items-center justify-content-between gap-2 w-100">
             <h6 className="top-pools-title">News</h6>
             <NavLink className="view-more-title d-flex justify-content-center align-items-center gap-1" to='/news'>
             View all <img src={rightarrow} alt="" /> 
           </NavLink>
-          <div className="d-flex gap-3 justify-content-between px-0">
+          <div className="d-flex flex-column flex-lg-row gap-3 justify-content-between px-0">
            {popularNewsData !== [] &&
            <> <TrendingNews
            image={popularNewsData[0]?.image}
@@ -299,7 +420,7 @@ useEffect(() => {
           </div>
           </div>
         </div>
-        <div className="right-side-wrapper d-flex flex-row flex-xxl-column gap-4">
+        <div className="right-side-wrapper d-flex flex-column flex-lg-row flex-xxl-column gap-4">
           <div className="launchpad-section-wrapper d-flex flex-column gap-3 gap-xxl-2">
             <h6 className="header">Launchpad</h6>
             <LaunchpadCard />

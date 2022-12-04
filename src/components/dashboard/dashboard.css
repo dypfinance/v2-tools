@@ -70,3 +70,26 @@
     width: 24%;
   }
 }
+
+@media screen and (max-width: 786px) {
+  .faq-items-wrapper{
+    width: 100% !important;
+  }
+
+  .chainlink-wrapper{
+    width: 100% !important;
+  }
+
+  .launchpad-section-wrapper{
+    width: 100% !important;
+  }
+
+  .faq-grid{
+    grid-template-columns: auto;
+  }
+ 
+  .toppool-allwrapper{
+    grid-template-columns: auto;
+  }
+  
+}

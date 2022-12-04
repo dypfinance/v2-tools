@@ -18,6 +18,7 @@ import WalletModal from "../WalletModal";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
 import { NavLink } from "react-router-dom";
 import useWindowSize from '../../functions/useWindowSize'
+import toolsLogo from '../../assets/sidebarIcons/toolsLogo.svg'
 
 const Header = ({
   toggleMobileSidebar,
@@ -226,16 +227,16 @@ const Header = ({
   return (
     <>
       <header className="header-wrap" style={{ zIndex: 5 }}>
-        <div className="container-fluid">
+        <div className="container-fluid d-flex justify-content-center justify-content-lg-start">
           <div className="row w-100">
             <div className="col-1"></div>
-            <div className={`${windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
+            <div className={`${windowSize.width < 786 ?'col-12' : windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
             <div
           className="container-lg px-0 d-flex justify-content-between gap-3 align-items-center w-100"
           // style={{ maxWidth: "calc(100% - 215px)"}}
         >
           {/* marginLeft: "240px" */}
-          <div className="d-flex flex-column gap-2 text-start">
+          <div className="d-none d-lg-flex flex-column gap-2 text-start">
             <h4
               className="text-white"
               style={{ fontSize: "23px", fontWeight: "600" }}
@@ -246,12 +247,14 @@ const Header = ({
             Discover the latest trends, breaking news and gain access to powerful dApps.
             </span>
           </div>
+          <img src={toolsLogo} className="d-flex d-lg-none" alt="" />
           <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
             <NavLink
               className="buydyp-btn btn"
               to="/buydyp"
             >
-              <img src={coin} alt="" /> Buy DYP
+              <img src={coin} alt="" /> 
+              <span className="buy-dyp-text d-none d-lg-flex">Buy DYP</span>
             </NavLink>
             <div className="d-flex justify-content-between gap-3 align-items-center">
               <DropdownButton
@@ -264,11 +267,14 @@ const Header = ({
                       }
                       alt=""
                     />
+                    <span className="change-chain-text d-none d-lg-flex">
                     {ethState === true
                       ? "Ethereum"
                       : bnbState === true
                       ? "BNB Chain"
                       : "Avalanche"}
+                    </span>
+
                     <img src={dropdown} alt="" />
                   </span>
                 }
@@ -377,8 +383,8 @@ const Header = ({
                   onClick={checklogout === "true" && showModal}
                   id="dropdown-basic-button2"
                   title={
-                    <span
-                      className="d-flex align-items-center gap-2 connecttitle position-relative"
+                    <div
+                      className="d-flex align-items-center gap-2  position-relative"
                       style={{ bottom: "5px", fontSize: "12px" }}
                     >
                       <img
@@ -387,8 +393,8 @@ const Header = ({
                         className="position-relative"
                         // style={{ top: 4 }}
                       />
-                      Connect Wallet
-                    </span>
+                      <span className="connecttitle d-none d-lg-flex">Connect Wallet</span>
+                    </div>
                   }
                 ></DropdownButton>
               )}

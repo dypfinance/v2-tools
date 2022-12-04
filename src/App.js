@@ -395,7 +395,7 @@ class App extends React.Component {
           show={this.state.show}
           isConnected={this.state.isConnected}
         />
-        <div className="content-wrapper container-fluid">
+        <div className="content-wrapper container-fluid d-flex justify-content-center justify-content-lg-start">
           <div className="row w-100">
             <div className="col-1">
               <Sidebar
@@ -413,9 +413,7 @@ class App extends React.Component {
               />
             </div>
             <div
-              className={`${
-                this.state.windowWidth < 1490 ? "col-11" : "col-10"
-              }`}
+              className={`${this.state.windowWidth < 786 ?'col-12' : this.state.windowWidth < 1490 ? 'col-11' : 'col-10'}`}
             >
               <div className="right-content pr-0 my-5">
                 <Switch>

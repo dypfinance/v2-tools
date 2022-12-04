@@ -714,3 +714,12 @@
   transform: translateX(-40px);
   /* z-index: 2; */
 }
+
+@media screen and (max-width: 786px) {
+  .firstblockwrapper{
+    width: 100% !important;
+  }
+  .connectbtn{
+    width: 40% !important;
+  }
+}

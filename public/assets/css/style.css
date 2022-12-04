@@ -3572,6 +3572,10 @@ form p {
   margin-bottom: 0rem;
 }
 
+.dashboard-cards-wrapper{
+  width: 49%;
+}
+
 .menu-cat-one ul li,
 .menu-cat-two ul li {
   margin: 0;
@@ -3599,6 +3603,29 @@ form p {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #26264F; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8E97CD; 
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
 
 .header-left {
   width: auto;
@@ -4760,4 +4787,10 @@ input[type=number] {
 .text-input:focus::placeholder{
   opacity: 1;
   animation-delay: 0.2s;
+}
+
+@media screen and (max-width: 786px) {
+  .dashboard-cards-wrapper{
+    width: 100%;
+  }
 }

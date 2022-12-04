@@ -2,6 +2,7 @@ import React from "react";
 import filledArrow from './assets/filledArrow.svg'
 import sparkle from './assets/sparkle.svg'
 import calendar from './assets/calendar.svg'
+import './newscard.css'
 
 
 import './newscard.css'
@@ -12,7 +13,7 @@ const TrendingNews = ({image, title, date, link}) => {
   const formattedDate = new Date(date)
   return (
     <a href={`https://tools.dyp.finance/news/${link}`} className="newscard-wrapper d-flex" style={{width: '49%'}}>
-      <div className="d-flex justify-content-between align-items-center gap-2 position-relative">
+      <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-2 position-relative">
         <img src={image} alt='' className="newsimg2"/>
         <div className="d-flex flex-column gap-4 justify-content-between">
             <h6 className="nc-hot-trend"> <img src={sparkle} alt='' /> Hot Trending</h6>

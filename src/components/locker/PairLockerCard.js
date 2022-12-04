@@ -1,13 +1,13 @@
 import React from "react";
 import moreInfo from "../FARMINNG/assets/more-info.svg";
-import topLocked from './assets/topLocked.svg'
+import topLockedImage from './assets/topLocked.svg'
 
 
 
 const PairLockerCard = ({ completed, active, topLocked, id, pair_address, lpAmount, dyp, recipent, unlock, endsIn, startsIn }) => {
   return (
     <div className="pair-locker-card d-flex position-relative">
-      {topLocked && <img src={topLocked} alt='top locked' className="top-locked-locker" />}
+      {topLocked && <img src={topLockedImage} alt='top locked' className="top-locked-locker" />}
       <div className="col-7 pair-locker-left p-2 d-flex flex-column gap-2 position-relative">
         <div className="d-flex justify-content-between align-items-center">
           <span className="pair-indicator">ID</span>

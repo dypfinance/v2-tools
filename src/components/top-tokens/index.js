@@ -298,7 +298,7 @@ export default class TopTokens extends React.Component {
         <div className="col-4">
           <img src={this.state.destinationChain === "eth"? ethPools : this.state.destinationChain === 'bnb' ? bnbPools : this.state.destinationChain === "avax" ? avaxPools : ethPools} alt="" />
           </div>
-            <div className="col-4 p-0">
+            <div className="col-3 col-xl-4 p-0">
               <div
                 className="search-box"
                 style={{
@@ -333,7 +333,7 @@ export default class TopTokens extends React.Component {
                 </form>
               </div>
             </div>
-            <div className="col-4 position-relative">
+            <div className="col-5 col-xl-4 position-relative">
               <p
                 className="launchpad-hero-desc position-absolute"
                 style={{ fontSize: 12, top: "-27px" }}

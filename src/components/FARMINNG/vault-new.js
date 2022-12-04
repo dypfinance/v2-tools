@@ -986,8 +986,9 @@ export default function initVaultNew({
                 </div>
               </div>
             </div>
-            <div className="pools-details-wrapper justify-content-between d-flex m-0 container-lg border-0">
-              <div className="firstblockwrapper col-2">
+            <div className="pools-details-wrapper justify-conent-center justify-content-lg-between d-flex m-0 container-lg border-0">
+                    <div className="row w-100 flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between">
+                    <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                 <div
                   className="d-flex flex-column justify-content-between gap-4"
                   style={{ height: "100%" }}
@@ -1015,7 +1016,7 @@ export default function initVaultNew({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-              <div className="otherside-border col-4">
+              <div className="otherside-border col-12 col-md-6 col-lg-4">
                 <div className="d-flex justify-content-between align-items-center gap-2">
                   <div className="d-flex align-items-center gap-2">
                     <h6 className="deposit-txt">Deposit</h6>
@@ -1140,7 +1141,7 @@ export default function initVaultNew({
                   )}
                 </div>
               </div>
-              <div className="otherside-border col-4">
+              <div className="otherside-border col-12 col-md-6 col-lg-4">
                 <div className="d-flex justify-content-between gap-2 ">
                   <h6 className="withdraw-txt">Rewards</h6>
                   <h6 className="withdraw-littletxt d-flex align-items-center gap-1">
@@ -1242,7 +1243,7 @@ export default function initVaultNew({
                 )}
               </div>
 
-              <div className="otherside-border col-2">
+              <div className="otherside-border col-12 col-md-6 col-lg-2">
                 <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                   WITHDRAW
                   <Tooltip
@@ -1274,6 +1275,7 @@ export default function initVaultNew({
                   Withdraw
                 </button>
               </div>
+                    </div>
             </div>
           </div>
           {this.state.popup && (
