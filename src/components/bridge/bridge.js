@@ -11,7 +11,7 @@ import switchicon from "./assets/switch.svg";
 import failMark from "../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineItem, {timelineItemClasses} from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
@@ -952,9 +952,10 @@ export default function initBridge({
               </h6>
               <div className="separator"></div>
               <Timeline 
-                 sx={{
-                  [`& .${timelineOppositeContentClasses.root}`]: {
+                sx={{
+                  [`& .${timelineItemClasses.root}:before`]: {
                     flex: 0,
+                    padding: 0,
                   },
                 }}
                 >
