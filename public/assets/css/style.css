@@ -4608,7 +4608,7 @@ right: -8% !important;
 }
 
 .MuiTimelineItem-missingOppositeContent:before { 
-  content: none 
+  content: none;
 }
 
 span.l-return-type {

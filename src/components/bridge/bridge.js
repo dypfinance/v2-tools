@@ -44,6 +44,8 @@ const getRenderer =
     }
   };
 
+ 
+
 export default function initBridge({
   bridgeETH,
   bridgeBSC,
@@ -949,7 +951,13 @@ export default function initBridge({
                 Bridge process guide
               </h6>
               <div className="separator"></div>
-              <Timeline >
+              <Timeline 
+                 sx={{
+                  [`& .${timelineOppositeContentClasses.root}`]: {
+                    flex: 0,
+                  },
+                }}
+                >
                 <TimelineItem>
                   <TimelineSeparator>
                     <TimelineDot
