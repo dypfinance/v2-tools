@@ -702,7 +702,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                 </div>
                 {popularNewsData.length > 0 &&
                   activeClass === "latestnews" &&
-                  popularNewsData.slice(0, 3).map((item, key) => {
+                  popularNewsData.slice(0, 4).map((item, key) => {
                     return (
                       <div className="banner-item pl-0" key={key}>
                         <SingleNews

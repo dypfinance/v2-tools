@@ -135,35 +135,42 @@ import useWindowSize from "../../functions/useWindowSize";
     option: 'Staking',
     pathName: '/earn',
     section: 'earnFaq',
+    pool: null
     },
     {
     title: 'What is the Reinvest function?',
     option: 'Staking',
     pathName: '/earn',
     section: 'earnFaq',
+    pool: null
     },
     {
     title: 'What is APR?',
     option: 'Farming',
     pathName: '/earn',
     section: 'earnFaq',
+    pool: null
     },
     {
     title: 'What is Dypius Vault?',
     option: 'Vault',
-    pathName: '/earn'
+    pathName: '/earn',
+    section: 'earnFaq',
+    pool: null
     },
     {
     title: 'What is Dypius Bridge?',
     option: 'Bridge',
     pathName: '/bridge',
     section: 'earnFaq',
+    pool: null
     },
     {
     title: 'Will my lock period reset if I deposit ad...',
     option: 'Farming',
     pathName: '/earn',
     section: 'earnFaq',
+    pool: null
     }
 ]
 
@@ -430,7 +437,7 @@ useEffect(() => {
             <h6 className="header">FAQs</h6>
             <div className="faq-grid">
             {faqItems.map((faq) => (
-              <FaqCard title={faq.title} option={faq.option} pathName={faq.pathName} section={faq.section} />
+              <FaqCard title={faq.title} option={faq.option} pathName={faq.pathName} section={faq.section} pool={faq.pool} />
             ))}
          
             </div>

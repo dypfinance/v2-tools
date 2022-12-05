@@ -367,6 +367,7 @@ const slider = useRef()
                 logo={vendor.logo}
                 videoAmount={vendor.totalvids}
                 title={vendor.title}
+                link={vendor.link}
                 onSelect={() => {
                   setVideoList(vendor.videos);
                   setActiveVendor(index);

@@ -30,7 +30,8 @@ const EarnContent = ({
   referrer,
   routeOption, 
   routeChain, 
-  routeSection
+  routeSection,
+  pool
 }) => {
   const options = [
     {
@@ -139,7 +140,11 @@ const EarnContent = ({
       .catch((err) => console.error(err));
   };
 
- 
+  const setVaultEth = (vault) => {
+    if(vault === "Vault"){
+      setStake("eth")
+    }
+ }
 
   return (
     <>
@@ -179,6 +184,7 @@ const EarnContent = ({
                 onClick={() => {
                   setOption(item.title);
                   setContent(item.content);
+                  setVaultEth(item.title)
                   item.tvl
                     ? setTvl(item.tvl)
                     : stake === "eth"
@@ -186,6 +192,7 @@ const EarnContent = ({
                     : stake === "bnb"
                     ? fetchBscTvl()
                     : fetchAvaxTvl();
+                    
                 }}
               >
                 <img
@@ -225,7 +232,7 @@ const EarnContent = ({
             </div>
           </div>
           <div className="col-8 col-xl-6 d-flex gap-3 justify-content-end justify-content-xl-center px-0 px-xl-2">
-            {option !== "Vault" && (
+            {option !== "Vault" ? (
               <>
                 <div
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
@@ -341,7 +348,128 @@ const EarnContent = ({
                   </div>
                 </div>
               </>
-            )}
+            )
+                    :
+
+                    <>
+                <div
+                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                    stake === "eth" ? "eth-item-active" : null
+                  }`}
+                  onClick={() => {
+                    setStake("eth");
+                    fetchEthTvl();
+                  }}
+                >
+                  <img
+                    src={stake === "eth" ? ethStakeActive : ethStake}
+                    alt=""
+                  />
+                  <div className="d-flex flex-column">
+                    <p
+                      className="text-white"
+                      style={{ fontSize: "12px", fontWeight: "300" }}
+                    >
+                      Ethereum
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "500",
+                        color: "#f7f7fc",
+                      }}
+                    >
+                      25% APR
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                    stake === "bnb" ? "bsc-item-active" : null
+                  }`}
+                  // onClick={() => {
+                  //   setStake("bnb");
+                  //   fetchBscTvl();
+                  // }}
+                  style={{opacity: '0.5'}}
+                >
+                  <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
+                    <img
+                      src={addNewPools}
+                      alt=""
+                      style={{ width: "15px", height: "15px" }}
+                    />
+                    <span className="text-white" style={{ fontSize: "11px" }}>
+                      New Pools
+                    </span>
+                  </div>
+                  <img
+                    src={stake === "bnb" ? bnbStakeActive : bnbStake}
+                    alt=""
+                  />
+                  <div className="d-flex flex-column">
+                    <p
+                      className="text-white"
+                      style={{ fontSize: "12px", fontWeight: "300" }}
+                    >
+                      BNB Chain
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "500",
+                        color: "#f7f7fc",
+                      }}
+                    >
+                      25% APR
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                    stake === "avax" ? "avax-item-active" : null
+                  }`}
+                  // onClick={() => {
+                  //   setStake("avax");
+                  //   fetchAvaxTvl();
+                  // }}
+                  style={{opacity: '0.5'}}
+                >
+                  <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
+                    <img
+                      src={addNewPools}
+                      alt=""
+                      style={{ width: "15px", height: "15px" }}
+                    />
+                    <span className="text-white" style={{ fontSize: "11px" }}>
+                      New Pools
+                    </span>
+                  </div>
+                  <img
+                    src={stake === "avax" ? avaxStakeActive : avaxStake}
+                    alt=""
+                  />
+                  <div className="d-flex flex-column">
+                    <p
+                      className="text-white"
+                      style={{ fontSize: "12px", fontWeight: "300" }}
+                    >
+                      Avalanche
+                    </p>
+                    <p
+                      style={{
+                        fontSize: "12px",
+                        fontWeight: "500",
+                        color: "#f7f7fc",
+                      }}
+                    >
+                      25% APR
+                    </p>
+                  </div>
+                </div>
+              </>
+                    
+          }
           </div>
           <div className="col-3"></div>
         </div>
@@ -360,6 +488,7 @@ const EarnContent = ({
         the_graph_resultavax={the_graph_resultavax}
         the_graph_resultbsc={the_graph_resultbsc}
         referrer={referrer}
+        pool={pool}
       />
       <EarnFaq faqTypes={option}  />
     </>

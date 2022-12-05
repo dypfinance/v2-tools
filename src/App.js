@@ -539,11 +539,11 @@ class App extends React.Component {
                     render={() => <SubmitInfo theme={this.state.theme} />}
                   />
 
-                  <Route
+                  {/* <Route
                     exact
                     path="/governance"
                     render={() => <Governance />}
-                  />
+                  /> */}
                   <Route exact path="/launchpad" render={() => <Launchpad />} />
                   <Route
                     exact
@@ -572,7 +572,7 @@ class App extends React.Component {
                   <Route exact path="/buydyp" render={() => <BuyDyp />} />
                   <Route
                     exact
-                    path="/governancedev"
+                    path="/governance"
                     render={() => (
                       <Governancedev
                         coinbase={this.state.coinbase}

@@ -306,7 +306,7 @@ const SubmitInfo = () => {
         <h6 className="form-sub-title">Smart contract details</h6>
 
         <div className="row px-0 w-100 mt-4">
-          <div className="col-7 col-xl-5 d-grid form-grid">
+          <div className="col-7 col-xl-6 d-grid form-grid">
           <div className="input-container px-0" style={{ width: "100%" }}>
               <input
                 type="text"
@@ -351,7 +351,7 @@ const SubmitInfo = () => {
                 style={{left: '30px'}}
                 onClick={() => focusInput("audit_link")}
               >
-                Smart contracct audit URL<span className="required-star">*</span>
+                Smart contract audit URL<span className="required-star">*</span>
               </label>
               {errors.audit_link && (
                 <span className="error-text">{errors.audit_link}</span>

@@ -5,9 +5,9 @@ import './faqcard.css'
 import { HashLink } from 'react-router-hash-link';
 
 
-const FaqCard = ({option, pathName, title, section}) => {
+const FaqCard = ({option, pathName, title, section, pool}) => {
   return (
-    <HashLink to={{pathname: pathName, state: {option: option, chain: 'eth', section: section}}} className="faq-wrapper">
+    <HashLink to={{pathname: pathName, state: {option: option, chain: 'eth', section: section, pool: pool}}} className="faq-wrapper">
       <div className="d-flex gap-2 align-items-center justify-content-between">
         <div className="d-flex align-items-center gap-2">
         <img src={faqlogo} alt=''/>

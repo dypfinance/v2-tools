@@ -20,9 +20,10 @@ import calculatorChart from "./assets/calculatorChart.png";
 import usdt from "./assets/usdt.svg";
 import usdc from "./assets/usdc.svg";
 import { abbreviateNumber } from "js-abbreviation-number";
+import moreinfo from "../FARMINNG/assets/more-info.svg";
 
 import "./calculator.css";
-import { createTheme, TextField } from "@material-ui/core";
+import { createTheme, TextField, Tooltip } from "@material-ui/core";
 import useWindowSize from "../../functions/useWindowSize";
 
 const Calculator = ({ earnClass, onClose, ref }) => {
@@ -212,7 +213,9 @@ const Calculator = ({ earnClass, onClose, ref }) => {
 
         vaultWeth
           .getTvlUsdAndApyPercent(18)
-          .then((apy_percent) => {  setVaultApy(apy_percent.apy_percent)})
+          .then((apy_percent) => {
+            setVaultApy(apy_percent.apy_percent);
+          })
           .catch(console.error);
 
         vaultusdc
@@ -222,7 +225,9 @@ const Calculator = ({ earnClass, onClose, ref }) => {
 
         vaultusdt
           .getTvlUsdAndApyPercent(6)
-          .then((apy_percent) => {setVaultUSDT(apy_percent.apy_percent)})
+          .then((apy_percent) => {
+            setVaultUSDT(apy_percent.apy_percent);
+          })
           .catch(console.error);
       }
     }
@@ -429,7 +434,6 @@ const Calculator = ({ earnClass, onClose, ref }) => {
     }
 
     console.log(calculateApproxUSDBNB);
-
   }, [
     activeMethod,
     farmApy,
@@ -459,7 +463,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
   };
 
   const handleInputDays = (e) => {
-    setDays(e);
+    setDays(e.slice(0, 5));
     if (parseInt(e) <= 30) {
       setActiveTime(timePillsArray[0]);
       setActiveTimePill(timePillsArray[0]);
@@ -508,9 +512,13 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             <h6 className="d-flex gap-2 align-items-center calc-title">
               <img src={calculator} alt="" /> Calculator
             </h6>
-            <img src={calculatorChart} className="calculator-chart d-flex d-lg-none" alt="" />
-           
-            {earnClass === "earn-calculator" && (
+            <img
+              src={calculatorChart}
+              className="calculator-chart d-flex d-lg-none"
+              alt=""
+            />
+
+            {/* {earnClass === "earn-calculator" && (
               <img
                 src={xMark}
                 width={25}
@@ -518,7 +526,19 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 onClick={onClose}
               style={{ cursor: "pointer" }}
               />
-            )}
+            )} */}
+            <Tooltip
+              placement="top"
+              title={
+                <div className="tooltip-text">
+                  {
+                    "This calculator is for informational purposes only. Calculated yields assume that prices of the deposited assets don't change."
+                  }
+                </div>
+              }
+            >
+              <img src={moreinfo} width={24} height={24} alt="" />
+            </Tooltip>
           </div>
           <div className="pills-container d-flex justify-content-center row m-0 w-100">
             {pillsNames &&
@@ -549,7 +569,15 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                     }
                     alt=""
                   />
-                 <span className={`pill-item-text ${activePill  !== item && windowSize.width < 786 ? 'd-none' : 'd-flex'}`}>{item}</span>
+                  <span
+                    className={`pill-item-text ${
+                      activePill !== item && windowSize.width < 786
+                        ? "d-none"
+                        : "d-flex"
+                    }`}
+                  >
+                    {item}
+                  </span>
                 </p>
               ))}
           </div>
@@ -663,7 +691,11 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 ))}
             </div> */}
 
-            <img src={calculatorChart} className="calculator-chart d-none d-lg-flex" alt="" />
+            <img
+              src={calculatorChart}
+              className="calculator-chart d-none d-lg-flex"
+              alt=""
+            />
           </div>
 
           {/* <div className="d-flex justify-content-between gap-2 align-items-end mt-3">
@@ -701,11 +733,20 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               yields assume that prices of the deposited assets don't change.
             </h6> */}
           <div className="row w-100 gap-2 gap-xl-0 mx-0 align-items-center justify-content-between mt-5">
-            <NavLink to={{pathname: 'earn', state: {chain: 'eth', option: activeMethod}}} className="ethereum-chain-wrapper">
+            <NavLink
+              to={{
+                pathname: "earn",
+                state: { chain: "eth", option: activeMethod, pool: 0 },
+              }}
+              className="ethereum-chain-wrapper"
+            >
               <div className="chain-content gap-4 p-2">
                 <div className="values-wrapper align-items-start d-flex flex-column gap-1">
                   <div className="usd-value">
-                    ${calculateApproxUSD === "NaN" ? "0.0" : abbreviateNumber(calculateApproxUSD)}
+                    $
+                    {calculateApproxUSD === "NaN"
+                      ? "0.0"
+                      : abbreviateNumber(calculateApproxUSD)}
                   </div>
                   <div className="approx-value">
                     Approx (
@@ -725,7 +766,15 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 </div>
               </div>
             </NavLink>
-            <NavLink to={{pathname: 'earn', state: {chain: activeMethod === "Vault" ? "eth" : "bnb", option: activeMethod} }}
+            <NavLink
+              to={{
+                pathname: "earn",
+                state: {
+                  chain: activeMethod === "Vault" ? "eth" : "bnb",
+                  option: activeMethod,
+                  pool: 0,
+                },
+              }}
               className={
                 activeMethod === "Vault" ? "usdc-wrapper" : `bnb-chain-wrapper`
               }
@@ -763,7 +812,15 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 </div>
               </div>
             </NavLink>
-            <NavLink to={{pathname: 'earn', state: {chain: activeMethod === "Vault" ? "eth" : "avax", option: activeMethod} }}
+            <NavLink
+              to={{
+                pathname: "earn",
+                state: {
+                  chain: activeMethod === "Vault" ? "eth" : "avax",
+                  option: activeMethod,
+                  pool: 0,
+                },
+              }}
               className={
                 activeMethod === "Vault" ? "usdt-wrapper" : "avax-chain-wrapper"
               }

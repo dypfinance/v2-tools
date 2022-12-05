@@ -2632,8 +2632,14 @@ export default function initBuybackStakingNew({
             />
           )}
            {this.state.showCalculator && (
-            <div className="pools-calculator p-3">
-              <div className="d-flex align-items-center justify-content-between">
+            <Modal
+            visible={this.state.showCalculator}
+            title="calculator"
+            modalId="calculatormodal"
+            setIsVisible={() => this.setState({showCalculator: false})}
+            >
+              <div className="pools-calculator">
+              {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -2654,7 +2660,7 @@ export default function initBuybackStakingNew({
                   }}
                   className="cursor-pointer"
                 />
-              </div>
+              </div> */}
               <hr />
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex flex-column gap-3 w-50 me-5">
@@ -2722,6 +2728,8 @@ export default function initBuybackStakingNew({
                 </p>
               </div>
             </div>
+
+            </Modal>
           )}
         </div>
 

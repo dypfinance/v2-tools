@@ -1404,9 +1404,7 @@ export default class PairExplorer extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="form-container p-3 position-relative">
+                <div className="form-container p-3 position-relative" style={{height: '216px'}}>
                 <div
                   className="content-title mb-3 p-0"
                   style={{ borderBottom: "none" }}
@@ -1492,8 +1490,11 @@ export default class PairExplorer extends React.Component {
                   )}{" "}
                 </div>
               </div>
+              </div>
 
-              <div className="form-container p-3 position-relative">
+              
+
+              <div className="form-container p-3 position-relative" style={{height: '296px'}}>
                 <div className="box-inner pb-0">
                   <div className="graph-header">
                     <div className="graph-header-left">
@@ -1591,7 +1592,7 @@ export default class PairExplorer extends React.Component {
                 </div>
               </div>
 
-              <div className="form-container p-3 position-relative">
+              <div className="form-container p-3 position-relative" style={{height: '331px'}}>
                 <div style={{ marginBottom: "14px", fontSize: "20px", color: "#F7F7FC", fontWeight: "500", lineHeight: "30px" }}>Statistics score</div>
                 <div>
                   {false && !isNaN(this.state.pairInfo?.ts_score_avg) ? (

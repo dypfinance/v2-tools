@@ -462,42 +462,7 @@ export default class PoolExplorer extends React.Component {
           <img src={this.state.destinationChain === "eth"? ethPools : this.state.destinationChain === 'bnb' ? bnbPools : this.state.destinationChain === "avax" ? avaxPools : ethPools} alt="" />
 
           </div>
-            <div className="col-3 col-xl-4 p-0">
-              <div
-                className="search-box"
-                style={{
-                  background: "#312F69",
-                  padding: "10px",
-                  borderRadius: "12px",
-                  boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)",
-                }}
-              >
-                <form id="searchform">
-                  <input
-                    value={this.state.filteredByTokenSymbol}
-                    onChange={(e) => {
-                      this.setState({ filteredByTokenSymbol: e.target.value });
-                      this.filterByTokenSymbol(e.target.value);
-                    }}
-                    type="text"
-                    id="search-bar"
-                    style={{
-                      paddingBottom: "10px",
-                      background: "transparent",
-                      border: "1px solid #8E97CD",
-                      color: "#fff",
-                      borderRadius: "8px",
-                    }}
-                    autoComplete="off"
-                    placeholder="Filter for Token"
-                  />
-                  <button type="submit" id="submit">
-                    <img src="/assets/img/search.svg" alt="Image" />
-                  </button>
-                </form>
-              </div>
-            </div>
-            <div className="col-5 col-xl-4 position-relative">
+          <div className="col-5 col-xl-4 position-relative">
               <p
                 className="launchpad-hero-desc position-absolute"
                 style={{ fontSize: 12, top: "-27px" }}
@@ -505,7 +470,7 @@ export default class PoolExplorer extends React.Component {
                 Change network
               </p>
               <div
-                className="d-flex justify-content-evenly align-items-center"
+                className="d-flex justify-content-around align-items-center"
                 style={{
                   background: "#312F69",
                   padding: "10px",
@@ -571,6 +536,42 @@ export default class PoolExplorer extends React.Component {
                 </div>
               </div>
             </div>
+            <div className="col-3 col-xl-4">
+              <div
+                className="search-box"
+                style={{
+                  background: "#312F69",
+                  padding: "10px",
+                  borderRadius: "12px",
+                  boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)",
+                }}
+              >
+                <form id="searchform">
+                  <input
+                    value={this.state.filteredByTokenSymbol}
+                    onChange={(e) => {
+                      this.setState({ filteredByTokenSymbol: e.target.value });
+                      this.filterByTokenSymbol(e.target.value);
+                    }}
+                    type="text"
+                    id="search-bar"
+                    style={{
+                      paddingBottom: "10px",
+                      background: "transparent",
+                      border: "1px solid #8E97CD",
+                      color: "#fff",
+                      borderRadius: "8px",
+                    }}
+                    autoComplete="off"
+                    placeholder="Filter for Token"
+                  />
+                  <button type="submit" id="submit">
+                    <img src="/assets/img/search.svg" alt="Image" />
+                  </button>
+                </form>
+              </div>
+            </div>
+            
         </div>
         <div className="table-box">
           {this.state.screen === "pool" ? (

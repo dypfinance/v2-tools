@@ -986,7 +986,7 @@ export default function initVaultNew({
                 </div>
               </div>
             </div>
-            <div className="pools-details-wrapper justify-conent-center justify-content-lg-between d-flex m-0 container-lg border-0">
+            <div className="pools-details-wrapper justify-content-center  d-flex m-0 container-lg border-0">
                     <div className="row w-100 flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between">
                     <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                 <div
@@ -1731,8 +1731,14 @@ export default function initVaultNew({
             />
           )}
           {this.state.showCalculator && (
-            <div className="pools-calculator p-3">
-              <div className="d-flex align-items-center justify-content-between">
+            <Modal
+            visible={this.state.showCalculator}
+            title="calculator"
+            modalId="calculatormodal"
+            setIsVisible={() => this.setState({showCalculator: false})}
+            >
+              <div className="pools-calculator">
+              {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -1753,7 +1759,7 @@ export default function initVaultNew({
                   }}
                   className="cursor-pointer"
                 />
-              </div>
+              </div> */}
               <hr />
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex flex-column gap-3 w-50 me-5">
@@ -1822,6 +1828,7 @@ export default function initVaultNew({
                 </p>
               </div>
             </div>
+            </Modal>
           )}
         </div>
 

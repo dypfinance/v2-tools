@@ -95,3 +95,18 @@
 .prev-arrow{
     transform: rotate(180deg);
 }
+
+.tier-info-wrapper{
+  background: #2B2A59;
+border: 1px solid #565891;
+border-radius: 8px;
+}
+
+.tier-info-text{
+  font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+
+color: #F7F7FC !important;
+
+}

@@ -38,6 +38,7 @@ const EarnTopPicks = ({
   the_graph_resultavax,
   the_graph_resultbsc,
   referrer,
+  pool,
 }) => {
   const stake = [
     {
@@ -403,19 +404,35 @@ const EarnTopPicks = ({
       .catch((err) => console.error(err));
   };
 
-  const [activeCard, setActiveCard] = useState();
+  const [customPool, setCustomPool] = useState(pool)
+  const [activeCard, setActiveCard] = useState(topPools[0]);
   const [activeCardNFT, setActiveCardNFT] = useState();
   const [activeCard2, setActiveCard2] = useState();
   const [activeCard3, setActiveCard3] = useState();
   const [activeCard4, setActiveCard4] = useState();
   const [activeCard5, setActiveCard5] = useState();
   const [activeCard6, setActiveCard6] = useState();
-  const [cardIndex, setcardIndex] = useState();
-  const [cardIndexiDyp, setcardIndexiDyp] = useState();
-  const [cardIndexavax30, setcardIndexavax30] = useState();
-  const [cardIndexavaxiDyp, setcardIndexavaxiDyp] = useState();
-  const [details, setDetails] = useState();
+  const [cardIndex, setcardIndex] = useState(0);
+  const [cardIndexiDyp, setcardIndexiDyp] = useState(0);
+  const [cardIndexavax30, setcardIndexavax30] = useState(0);
+  const [cardIndexavaxiDyp, setcardIndexavaxiDyp] = useState(0);
+  const [details, setDetails] = useState(0);
   const windowSize = useWindowSize();
+
+  // useEffect(() => {
+  //   console.log(pool);
+  //   if (pool === 0) {
+  //     setActiveCard(topPools[0]);
+  //     setActiveCard2(null);
+  //     setActiveCard3(null);
+  //     setActiveCard4(null);
+  //     setActiveCardNFT(false);
+  //     handleCardIndexStake(0);
+  //     handleCardIndexStake30(0);
+  //     handleCardIndexStakeiDyp(0);
+  //     setDetails(0);
+  //   }
+  // }, []);
 
   const eth_address = "ETH";
   const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
@@ -700,7 +717,7 @@ const EarnTopPicks = ({
     "15 August 2023",
     "15 August 2023",
   ];
-  const aprarrayStakeBsc = [30, 10, 25, 50, 25, 20, 45, 15,30];
+  const aprarrayStakeBsc = [30, 10, 25, 50, 25, 20, 45, 15, 30];
 
   const stakearrayStakeBsc = [
     window.constant_stakingbsc_new10,
@@ -711,11 +728,20 @@ const EarnTopPicks = ({
     window.constant_stakingidyp_1,
     window.constant_stakingidyp_2,
     window.constant_stakingidyp_5,
-    window.constant_stakingidyp_6
-
+    window.constant_stakingidyp_6,
   ];
 
-  const otherInfoarrayStakeBsc = [false, false, false, false, true, true, true, false,false];
+  const otherInfoarrayStakeBsc = [
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    true,
+    false,
+    false,
+  ];
 
   const BscConstantStake = initbscConstantStaking({
     staking: stakearrayStakeBsc[cardIndex],
@@ -756,8 +782,6 @@ const EarnTopPicks = ({
     other_info: otherInfoarrayStakeBsc[cardIndex],
   });
 
-
-
   const BscConstantStakingiDyp = initbscConstantStakingiDyp({
     staking: stakearrayStakeBsc[cardIndex],
     apr: aprarrayStakeBsc[cardIndex],
@@ -770,7 +794,6 @@ const EarnTopPicks = ({
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
   });
-
 
   const StakeAvax30 = stakeAvax30({
     staking: stakingarrayStakeAvax30[cardIndexavax30],
@@ -892,7 +915,17 @@ const EarnTopPicks = ({
   });
 
   useEffect(() => {
-    setDetails();
+  
+    if(customPool !== null){
+      setDetails(0);
+    setActiveCard(topPools[0]);
+    }else{
+      setDetails();
+    setActiveCard(null);
+    }
+
+    setCustomPool(null)
+
     if (topList === "Staking") {
       setTopPools([]);
       if (chain === "avax") {
@@ -943,7 +976,6 @@ const EarnTopPicks = ({
     } else if (chain === "avax") {
       fetchAvaxFarming();
     }
-    setActiveCard(null);
     setShowDetails(false);
     setListing(listType);
   }, [topList, listType, chain]);
@@ -977,7 +1009,6 @@ const EarnTopPicks = ({
       } else setcardIndex(index);
     } else setcardIndex(index);
   };
-  
 
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
@@ -1005,6 +1036,7 @@ const EarnTopPicks = ({
                     handleCardIndexStake30(index);
                     handleCardIndexStakeiDyp(index);
                     setDetails(index);
+                    console.log(details, activeCard, cardIndex);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard(null);
@@ -1110,7 +1142,8 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard &&
-              cardIndex >= 2 && cardIndex < 4 &&
+              cardIndex >= 2 &&
+              cardIndex < 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
               <BscConstantStake2
@@ -1134,9 +1167,8 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
                 referrer={referrer}
               />
-            ) :
-            activeCard &&
-              cardIndex >=5 &&
+            ) : activeCard &&
+              cardIndex >= 5 &&
               topList === "Staking" &&
               chain === "bnb" ? (
               <BscConstantStakingiDyp
@@ -1147,8 +1179,7 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
                 referrer={referrer}
               />
-            ) :
-             activeCard &&
+            ) : activeCard &&
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex < 2 ? (
@@ -1341,7 +1372,8 @@ const EarnTopPicks = ({
                 referrer={referrer}
               />
             ) : activeCard2 &&
-            cardIndex >= 2 && cardIndex < 4 &&
+              cardIndex >= 2 &&
+              cardIndex < 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
               <BscConstantStake2
@@ -1352,8 +1384,7 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
-            ) :
-            activeCard2 &&
+            ) : activeCard2 &&
               (cardIndex === 5 || cardIndex > 5) &&
               topList === "Staking" &&
               chain === "bnb" ? (
@@ -1365,8 +1396,7 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
-            ) :
-             activeCard2 &&
+            ) : activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex < 2 ? (
@@ -1533,19 +1563,19 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
-            ) :  activeCard3 &&
-            cardIndex >= 5 &&
-            topList === "Staking" &&
-            chain === "bnb" ? (
-            <BscConstantStakingiDyp
-              is_wallet_connected={isConnected}
-              coinbase={coinbase}
-              the_graph_result={the_graph_resultbsc}
-              referrer={referrer}
-              chainId={chainId}
-              handleConnection={handleConnection}
-            />
-          ) :activeCard3 &&
+            ) : activeCard3 &&
+              cardIndex >= 5 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                referrer={referrer}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard3 &&
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex < 2 ? (
@@ -1735,20 +1765,19 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
-            ) :  activeCard4 &&
-            cardIndex >= 5 &&
-            topList === "Staking" &&
-            chain === "bnb" ? (
-            <BscConstantStakingiDyp
-              is_wallet_connected={isConnected}
-              coinbase={coinbase}
-              the_graph_result={the_graph_resultbsc}
-              referrer={referrer}
-              chainId={chainId}
-              handleConnection={handleConnection}
-            />
-          ) :
-          activeCard4 &&
+            ) : activeCard4 &&
+              cardIndex >= 5 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                referrer={referrer}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard4 &&
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex < 2 ? (

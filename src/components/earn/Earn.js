@@ -54,7 +54,8 @@ const Earn = ({
         the_graph_resultbsc={the_graph_resultbsc}
         referrer={referrer}
         routeOption={routeData.state ? routeData.state.option : 'Staking'}
-        routeChain={routeData.state? routeData.state.chain : "eth"}
+        routeChain={routeData.state ? routeData.state.chain : "eth"}
+        pool={routeData.state ? routeData.state.pool : null}
       />
     </div>
   );

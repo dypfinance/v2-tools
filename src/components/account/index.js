@@ -515,7 +515,7 @@ const paidPlanItems = [
                 <span className="address-span">Wallet address:</span>
                 <div className="d-flex align-items-center gap-2">
                 <span className="account-wallet-address">{this.props.coinbase}</span>
-                <img src={require('./assets/clipboardIcon.svg').default} alt="clipboard" onClick={() => navigator.clipboard.writeText(this.props.coinbase)} />
+                <img src={require('./assets/clipboardIcon.svg').default} className="cursor-pointer" alt="clipboard" onClick={() => navigator.clipboard.writeText(this.props.coinbase)} />
                 </div>
               </div>
             </div>
@@ -1140,7 +1140,7 @@ const paidPlanItems = [
           )}
         </form> */}
 
-        <h4 className="d-block mb-5 mt-5" id="my-fav">
+        {/* <h4 className="d-block mb-5 mt-5" id="my-fav">
           My Earnings
         </h4>
         <div
@@ -1150,7 +1150,7 @@ const paidPlanItems = [
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr 1fr",
           }}
-        ></div>
+        ></div> */}
 
         <div className="mycawsCollection position-relative mb-5">
           <div className="d-flex gap-2 justify-content-between align-items-center">
@@ -1173,13 +1173,13 @@ const paidPlanItems = [
                 })}
              
             </div>
-            <button className="outline-btn" style={{ height: "fit-content", display: this.state.viewall === false && mycaws.length>0 ? 'block' : 'none' }} onClick={()=>{this.setState({viewall: true})}}>
+            <button className="outline-btn" style={{ height: "fit-content", display: this.state.viewall === false && mycaws.length>4 ? 'block' : 'none' }} onClick={()=>{this.setState({viewall: true})}}>
               View all
             </button>
           </div>
         </div>
 
-<TierLevels display={'none'}/>
+<TierLevels display={'none'} infoDisplay={'flex'}/>
         <h4 className="d-block mb-5 mt-5" id="my-fav">
           My favourites
         </h4>

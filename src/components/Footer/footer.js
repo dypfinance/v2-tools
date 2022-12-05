@@ -39,7 +39,7 @@ const Footer = () => {
           </li>
           <li>
             <a target={"_blank"} href="https://www.instagram.com/dyp.finance/">
-              <img src="/assets/img/Social/instagram.svg" alt="Instagram"></img>
+              <img src="/assets/img/Social/instagram.svg" style={{height: 23, width: 23}} alt="Instagram"></img>
             </a>
           </li>
           <li>
@@ -113,7 +113,7 @@ const Footer = () => {
             </a>
           </li>
           <li>
-            <a
+            <a 
               target={"_blank"}
               href="https://lorenadev.dyp.finance/disclaimer"
             >
@@ -125,7 +125,7 @@ const Footer = () => {
               target={"_blank"}
               href="https://lorenadev.dyp.finance/about#contactus"
             >
-              Contact us
+             Support
             </a>
           </li>
         </ul>

@@ -37,6 +37,7 @@ coinbase
   const [showTooltip, setShowTooltip] = useState(false);
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
+  const [votes, setVotes] = useState([])
 
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
@@ -148,6 +149,26 @@ coinbase
       .catch(console.error);
   };
 
+
+  const fetchVotingdata = async () => {
+    const result = await fetch(
+      `https://news-manage.dyp.finance/api/v1/votes/all`
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setVotes(data.Data);
+      })
+      .catch(console.error);
+
+    return result;
+  };
+
+
+  useEffect(() => {
+    fetchVotingdata();
+  }, []);
 
   var options = { year: "numeric", month: "short", day: "numeric" };
 

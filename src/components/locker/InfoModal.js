@@ -67,7 +67,7 @@ const InfoModal = ({ modalId, visible, onModalClose }) => {
               <div className="d-flex p-3 locker-modal-item justify-content-center gap-2 align-items-start">
                 <img src={pairGrey} className="locker-modal-icon" alt="" />
                 <div className="d-flex flex-column align-items-start gap-2">
-                  <span className="modal-locker-active-tag">Active</span>
+                  <span className="modal-locker-active-tag">Inactive</span>
                   <h6 className="modal-locker-liquidity">Liquidity Unlocked</h6>
                   <p className="modal-locker-paragraph">
                     This badge means that lockin time ended and liquidity pool

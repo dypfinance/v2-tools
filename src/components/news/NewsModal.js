@@ -494,7 +494,6 @@ const NewsModal = ({
             <div className="related-news-wrapper">
               {latestNewsData.length > 0 &&
                 getItemsWithoutCurrentItem(newsId, latestNewsData)
-                // .slice(0,5)
                   .slice(0, parseInt(height / 130))
                   .map((item, key) => {
                     if (item !== undefined) {
