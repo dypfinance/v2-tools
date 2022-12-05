@@ -942,14 +942,14 @@ export default function initBridge({
             />
           )}
           <div className="col-6 guidewrapper">
-            <div className="purplediv"> </div>
+            <div className="purplediv" style={{left: '0px'}}> </div>
             <div>
               <h6 className="guidetitle">
                 <img src={routeIcon} alt="" />
                 Bridge process guide
               </h6>
               <div className="separator"></div>
-              <Timeline>
+              <Timeline >
                 <TimelineItem>
                   <TimelineSeparator>
                     <TimelineDot

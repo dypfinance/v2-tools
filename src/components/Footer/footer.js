@@ -73,16 +73,12 @@ const Footer = () => {
               <img src="/assets/img/Social/email.svg" alt="Mail"></img>
             </a>
           </li>
-        </ul>
-      </div>
-      <div className="footer-menu">
-        <ul>
           <li>
             <a
               target={"_blank"}
               href="https://www.coingecko.com/en/coins/defi-yield-protocol"
             >
-              <img src="/assets/img/coingecko-logo.svg" alt="Coingecko"></img>
+              <img src="/assets/img/coingecko-logo.svg" alt="Coingecko" style={{width: 24, height: 24}}></img>
             </a>
           </li>
           <li>
@@ -93,9 +89,14 @@ const Footer = () => {
               <img
                 src="/assets/img/coinmarketcap.svg"
                 alt="Coinmarketcap"
+                 style={{width: 24, height: 24}}
               ></img>
             </a>
           </li>
+        </ul>
+      </div>
+      <div className="footer-menu">
+        <ul>
           <li>
             <a
               target={"_blank"}

@@ -4313,6 +4313,7 @@ right: -8% !important;
 @media only screen and (max-width: 1492px) {
   .social-and-links{
     flex-direction: column !important;
+    align-items: flex-end !important;
   }
 
   .leftside {
@@ -4604,6 +4605,10 @@ right: -8% !important;
 
 .theme-dark .modal-body {
   padding: 0 !important;
+}
+
+.MuiTimelineItem-missingOppositeContent:before { 
+  content: none 
 }
 
 span.l-return-type {

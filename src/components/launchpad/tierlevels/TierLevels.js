@@ -134,7 +134,7 @@ const TierLevels = ({
       </div>
       <div className="active-projects-container px-5 pt-5 mt-4">
       <div className={`tier-info-wrapper ${infoDisplay === 'flex' ? 'd-flex' : 'd-none'} align-items-center justify-content-between p-3 mx-3`} >
-          <span className="tier-info-text w-50">In order to get increase the current tier and benefit more of the Launchpad projects, participants need to stake DYP in a staking pool.</span>
+          <span className="tier-info-text w-50">In order to increase the current tier and benefit more of the Launchpad projects, participants need to stake DYP in a staking pool.</span>
           <NavLink to='/launchpad/tiers'>
             <button className="btn filledbtn px-4">Go view</button>
           </NavLink>

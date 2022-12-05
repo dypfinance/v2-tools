@@ -370,7 +370,7 @@ const Header = ({
                       onClick={() => window.location.assign("/account")}
                     >
                       <img src={user} alt="" />
-                      Your account
+                      My account
                     </Dropdown.Item>
                     <Dropdown.Item onClick={() => logout()}>
                       <img src={logoutimg} alt="" />

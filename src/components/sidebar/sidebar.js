@@ -94,7 +94,7 @@ const Sidebar = (props) => {
     {
       label: "Governance",
       icon: "governanceIcon",
-      link: '/governancedev'
+      link: '/governance'
     },
     {
       label: "Bridge",
