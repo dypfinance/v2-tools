@@ -8,6 +8,8 @@ import "./account.css";
 import NftCawCard from "../caws/NftMinting/components/General/NftCawCard/NftCawCard";
 import TierLevels from "../launchpad/tierlevels/TierLevels";
 import coinStackIcon from "../launchpad/assets/coinStackIcon.svg";
+import axios from "axios";
+import openNameChange from './assets/openNameChange.svg'
 // import { benefits } from "./benefits";
 // import Check from "./check.svg";
 // import Cross from "./cross.svg";
@@ -48,6 +50,8 @@ export default class Subscription extends React.Component {
       myStakess: [],
       viewall: false,
       username: "",
+      userNameInput: "",
+      showInput: false 
     };
   }
 
@@ -109,9 +113,39 @@ export default class Subscription extends React.Component {
   //   }
   // }
 
+  fetchUsername = async() => {
+    await axios.get(`https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`).then((res) => {
+      if(res.data?.username){
+        this.setState({username: res.data?.username})
+      }else{
+        this.setState({username: "Dypian"})
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+  postUsername = async(userInput) => {
+    const usernameData = {
+      username: userInput
+    }
+
+    await axios.post(`https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`, usernameData).then((res) => {
+      this.setState({username: res.data?.username})
+      this.fetchUsername()
+      this.setState({userNameInput: "", showInput: false})
+    
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
   componentDidMount() {
     this.handleSubscriptionTokenChange(this.state.usdtAddress)
-    this.fetchAvatar();
+    setTimeout(() => {
+      this.fetchAvatar();
+      this.fetchUsername();
+    }, 300);
     this.fetchfavData();
     this.myNft().then();
     this.myStakes().then();
@@ -145,7 +179,7 @@ export default class Subscription extends React.Component {
     // this.checkConnection();
   };
 
-  
+
 
   handleSubscriptionTokenChange = async (tokenAddress) => {
     let tokenDecimals =
@@ -451,9 +485,6 @@ const focusInput = (input) => {
   document.getElementById(input).focus()
 } 
 
-const clearField = () => {
-  this.setState({username: ""})
-}
 
 const freePlanItems = [
   'Real time DYP Tools',
@@ -481,33 +512,38 @@ const paidPlanItems = [
       <div>
         <div className="d-flex align-items-center justify-content-between">
           <div className="d-flex flex-column gap-2">
-            <div className="d-flex align-items-center gap-3">
-              <h6 className="account-username">Username: Dypian</h6>
-              <div
-                    className="input-container px-0"
-                    style={{ width: "100%" }}
-                  >
-              <input
-                      type="text"
-                      min={1}
-                      max={365}
-                      id="username"
-                      name="username"
-                      placeholder=" "
-                      className="text-input"
-                      style={{ width: "100%" }}
-                      value={this.state.username}
-                      onChange={(e) => this.setState({username : e.target.value})}
-                    />
-                    <label
-                      htmlFor="username"
-                      className="label"
-                      onClick={() => focusInput("username")}
-                    >
-                      Input new name
-                    </label>
-                    <img src={require(`./assets/clearFieldIcon.svg`).default} className="clear-icon" alt="clear field" onClick={clearField} />
-                    </div>
+            <div className="d-flex align-items-center gap-3" style={{height: 38}}>
+              <h6 className="account-username">Username:  {this.state.username}</h6>
+            {this.state.showInput ?
+            <>  <div
+            className="input-container px-0"
+            style={{ width: "100%" }}
+          >
+      <input
+              type="text"
+              min={1}
+              max={365}
+              id="username"
+              name="username"
+              placeholder=" "
+              className="text-input"
+              style={{ width: "100%" }}
+              value={this.state.userNameInput}
+              onChange={(e) => this.setState({userNameInput : e.target.value})}
+            />
+            <label
+              htmlFor="username"
+              className="label"
+              onClick={() => focusInput("username")}
+            >
+              Input new name
+            </label>
+            <img src={require(`./assets/clearFieldIcon.svg`).default} className="clear-icon cursor-pointer" alt="clear field" onClick={() => this.setState({showInput: false})}  />
+      </div>
+      <button className="btn outline-btn py-2" onClick={() => this.postUsername(this.state.userNameInput)}>Submit</button></>
+      :
+      <img src={openNameChange}  className="cursor-pointer" alt="" onClick={() => this.setState({showInput: true})} />  
+          }
             </div>
             <div className="d-flex align-items-center gap-2">
               <img src={require(`./assets/metamask.png`).default} alt="" />
@@ -525,7 +561,7 @@ const paidPlanItems = [
             <div className="d-flex align-items-center gap-2">
               <div className="d-flex flex-column">
               <span className="dyp-amount-placeholder">Balance:</span>
-              <h6 className="account-dyp-amount">0.00000 DYP</h6>
+              <h6 className="account-dyp-amount">0.00000 DYP </h6>
               </div>
             <div className="position-relative">
               <div className="avatar-border"></div>

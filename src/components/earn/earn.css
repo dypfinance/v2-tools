@@ -230,7 +230,7 @@ hr {
   letter-spacing: -0.018em !important;
   color: #f0f0f5 !important;
   padding: 10px;
-  background: #26264f;
+  background: #1e1c40;
   border: 1px solid #565891;
   border-top: none;
 
@@ -379,6 +379,12 @@ hr {
 @media screen and (max-width: 1300px) {
   .top-picks-container {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .top-picks-container{
+    grid-template-columns: auto;
   }
 }
 

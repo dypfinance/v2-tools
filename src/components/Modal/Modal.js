@@ -30,7 +30,7 @@ const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
       <div className="modal-dialog tymodal">
         <div
           className="modal-content"
-          style={{ width: title === "withdraw" ? "37%" : width }}
+          style={{ width: title === "withdraw" ? "fit-content" : width }}
         >
           <div className="modal-header justify-content-between align-items-center">
             <div className="d-flex align-items-center gap-2">

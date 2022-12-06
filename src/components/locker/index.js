@@ -2050,7 +2050,7 @@ export default class Locker extends React.Component {
                   <img src={greySecurityIcon} alt="" />
                   <h6 className="locker-function-title">Create lock</h6>
                 </div>
-                <img src={moreInfo} alt="" height={24} width={24} />
+                {/* <img src={moreInfo} alt="" height={24} width={24} /> */}
               </div>
               <hr className="form-divider my-4" style={{ height: "3px" }} />
               <div className="d-flex align-items-center justify-content-between gap-5">

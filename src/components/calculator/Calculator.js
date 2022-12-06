@@ -23,7 +23,7 @@ import { abbreviateNumber } from "js-abbreviation-number";
 import moreinfo from "../FARMINNG/assets/more-info.svg";
 
 import "./calculator.css";
-import { createTheme, TextField, Tooltip } from "@material-ui/core";
+import { ClickAwayListener, createTheme, TextField, Tooltip } from "@material-ui/core";
 import useWindowSize from "../../functions/useWindowSize";
 
 const Calculator = ({ earnClass, onClose, ref }) => {
@@ -500,6 +500,16 @@ const Calculator = ({ earnClass, onClose, ref }) => {
 
   const windowSize = useWindowSize();
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <div
       id="calculator"
@@ -512,11 +522,11 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             <h6 className="d-flex gap-2 align-items-center calc-title">
               <img src={calculator} alt="" /> Calculator
             </h6>
-            <img
+            {/* <img
               src={calculatorChart}
               className="calculator-chart d-flex d-lg-none"
               alt=""
-            />
+            /> */}
 
             {/* {earnClass === "earn-calculator" && (
               <img
@@ -527,7 +537,16 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               style={{ cursor: "pointer" }}
               />
             )} */}
-            <Tooltip
+           <ClickAwayListener onClickAway={handleTooltipClose}>
+           <Tooltip
+              PopperProps={{
+                disablePortal: true,
+              }}
+              onClose={handleTooltipClose}
+              open={open}
+              disableFocusListener
+              disableHoverListener
+              disableTouchListener
               placement="top"
               title={
                 <div className="tooltip-text">
@@ -537,8 +556,9 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 </div>
               }
             >
-              <img src={moreinfo} width={24} height={24} alt="" />
+              <img src={moreinfo} width={24} height={24} className="cursor-pointer" alt="tooltip" onClick={handleTooltipOpen} />
             </Tooltip>
+           </ClickAwayListener>
           </div>
           <div className="pills-container d-flex justify-content-center row m-0 w-100">
             {pillsNames &&

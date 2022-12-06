@@ -177,7 +177,7 @@ coinbase
   return (
     <div className="singlenews-body">
       <div className="row m-0 justify-content-between" style={{ gap: 20 }}>
-        <div className="singlenews-wrapper">
+        <div className="singlenews-wrapper px-0">
           {/* <a href={link} target={"_blank"}> */}
           <h4 className="rightside-news-title" onClick={onNewsClick}>{title}</h4>
           {/* </a> */}

@@ -7,7 +7,7 @@ import customSliderArrow from '../launchpad/assets/customSliderArrow.svg'
 
 const BuyDyp = () => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 4,
@@ -346,6 +346,14 @@ const slider = useRef()
   const [activeVendor, setActiveVendor] = useState(0);
   const [activeVideoCard, setactiveVideoCard] = useState(0)
 
+  const emptyVideos = [
+    '1',
+    '2',
+    '3',
+    '4',
+  ]
+
+
   return (
     <div className="container-lg px-0">
       <div className="d-flex flex-column gap-2">
@@ -453,6 +461,11 @@ const slider = useRef()
                  active={activeVideoCard === index ? true : false}
                />
              ))}
+             {videoList?.length < 4 &&
+             emptyVideos.slice(0, 4 - videoList.length).map((item) => (
+             <img src={require('./assets/noVideo.svg').default} alt="" />
+             ))
+             }
          </Slider>
           }
             </div>

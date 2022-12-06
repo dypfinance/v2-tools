@@ -2183,7 +2183,7 @@ export default function initFarmAvax({
                           href={`${window.config.snowtrace_baseURL}/token/${reward_token._address}?a=${coinbase}`}
                           className="stats-link"
                         >
-                          View on SnowTrace <img src={statsLinkIcon} alt="" />
+                          View transaction <img src={statsLinkIcon} alt="" />
                         </a>
                   </div>
                     </div>

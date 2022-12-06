@@ -319,7 +319,7 @@
   font-size: 12px;
   line-height: 16px;
   color: #4ed5d2;
-  width: 145px;
+  width: 145px !important;
 }
 
 .claimreward-wrapper {
@@ -721,5 +721,25 @@
   }
   .connectbtn{
     width: 40% !important;
+  }
+
+  .firstblockwrapper{
+    padding: 10px 0;
+  }
+
+  .claim-reinvest-container{
+    width: 100%;
+  }
+
+  .otherside-border{
+    gap: 20px !important;
+  }
+
+  .activewrapper-vault{
+    padding-top: 0px !important;
+  }
+
+  .activetxt-vault{
+    top: 15px;
   }
 }

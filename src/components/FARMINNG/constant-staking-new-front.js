@@ -923,7 +923,7 @@ export default function initConstantStakingNew({
             <div className="leftside2 w-100">
               <div className="activewrapper">
                 <div
-                  className={`d-flex align-items-center justify-content-between ${
+                  className={`d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between ${
                     renderedPage === "dashboard" ? "gap-4" : "gap-5"
                   }`}
                 >
@@ -942,11 +942,14 @@ export default function initConstantStakingNew({
                       DYP
                     </h6>
                   </div> */}
-                  <div className="d-flex align-items-center justify-content-between gap-2">
+                 <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
+                 <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Performance fee:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {fee}%
                       <Tooltip
+                        enterTouchDelay={0}
                         placement="top"
                         title={
                           <div className="tooltip-text">
@@ -966,6 +969,7 @@ export default function initConstantStakingNew({
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {getFormattedNumber(this.state.apy, 2)}%{" "}
                       <Tooltip
+                        enterTouchDelay={0}
                         placement="top"
                         title={
                           <div className="tooltip-text">
@@ -984,6 +988,7 @@ export default function initConstantStakingNew({
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
                       <Tooltip
+                        enterTouchDelay={0}
                         placement="top"
                         title={
                           <div className="tooltip-text">
@@ -998,8 +1003,7 @@ export default function initConstantStakingNew({
                     </h6>
                   </div>
                 </div>
-
-                <div className="d-flex align-items-center justify-content-between gap-3">
+                <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
                   <h6
                     className="bottomitems"
                     onClick={() => this.setState({ showCalculator: true })}
@@ -1033,6 +1037,10 @@ export default function initConstantStakingNew({
                     </h6>
                   </div>
                 </div>
+                 </div>
+
+                
+                 </div>
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0  container-lg border-0">
@@ -1100,6 +1108,7 @@ export default function initConstantStakingNew({
                       </h6>
                     </div>
                     <Tooltip
+                      enterTouchDelay={0}
                       placement="top"
                       title={
                         <div className="tooltip-text">
@@ -1113,8 +1122,9 @@ export default function initConstantStakingNew({
                     </Tooltip>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="position-relative">
+                    <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
+                     <div className="d-flex align-items-center justify-content-between justify-content-lg-center w-100 gap-2">
+                     <div className="position-relative">
                         <h6 className="amount-txt">Amount</h6>
                         <input
                           type={"number"}
@@ -1165,6 +1175,7 @@ export default function initConstantStakingNew({
                       >
                         Max
                       </button>
+                     </div>
                       {/* <button
                       className="btn filledbtn"
                       onClick={this.handleApprove}
@@ -1236,6 +1247,7 @@ export default function initConstantStakingNew({
                     >
                       Rewards are displayed in real-time
                       <Tooltip
+                        enterTouchDelay={0}
                         placement="top"
                         title={
                           <div className="tooltip-text">
@@ -1251,7 +1263,7 @@ export default function initConstantStakingNew({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex  align-items-center justify-content-between">
+                    <div className="form-row flex-column flex-lg-row gap-2 d-flex  align-items-start align-items-lg-center justify-content-between">
                       <div className="position-relative d-flex flex-column">
                         <span
                           style={{
@@ -1289,7 +1301,7 @@ export default function initConstantStakingNew({
                           style={{ fontSize: "14px", width: renderedPage === "dashboard" && '120px', padding: 0 }}
                         /> */}
                       </div>
-                      <div className="d-flex align-items-center gap-3">
+                      <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                         <button
                           disabled={
                             this.state.claimStatus === "claimed" ||
@@ -1376,6 +1388,7 @@ export default function initConstantStakingNew({
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <Tooltip
+                      enterTouchDelay={0}
                       placement="top"
                       title={
                         <div className="tooltip-text">
@@ -1532,8 +1545,8 @@ export default function initConstantStakingNew({
                         </h6>
                       </div>
                     </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="referralwrapper col-8">
+                    <div className="d-flex flex-column flex-lg-row gap-3 gap-lg-0 align-items-center justify-content-between">
+                      <div className="referralwrapper col-12 col-lg-8">
                         <div className="d-flex gap-2 align-items-start justify-content-between">
                           <img src={referralimg} alt="" />
                           <div
@@ -1605,7 +1618,7 @@ export default function initConstantStakingNew({
                           &nbsp;{" "}
                         </div>
                       </div>
-                      <div className="col-3 d-flex flex-column gap-1">
+                      <div className="col-12 col-lg-3 d-flex flex-column gap-1">
                         <span
                           style={{
                             fontWeight: "400",
@@ -1639,7 +1652,7 @@ export default function initConstantStakingNew({
                           href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
                           className="stats-link"
                         >
-                          View on Etherscan <img src={statsLinkIcon} alt="" />
+                          View transaction <img src={statsLinkIcon} alt="" />
                         </a>
                       </div>
                     </div>

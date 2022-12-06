@@ -576,7 +576,7 @@
   font-size: 12px;
   line-height: 16px;
   color: #4ed5d2;
-  width: 145px;
+  width: 145px !important;
 }
 
 .optionbtn-active {

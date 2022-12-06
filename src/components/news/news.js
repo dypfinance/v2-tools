@@ -673,8 +673,8 @@ const News = ({ theme, isPremium, coinbase }) => {
                   display: !showModal ? "flex" : "none",
                 }}
               >
-               <div className="singlenews-side p-3">
-               <div className="button-wrapper">
+               <div className="singlenews-side px-3 py-2">
+               <div className="button-wrapper px-0">
                   <h6
                     className={
                       activeClass === "latestnews"
@@ -704,7 +704,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                   activeClass === "latestnews" &&
                   popularNewsData.slice(0, 4).map((item, key) => {
                     return (
-                      <div className="banner-item pl-0" key={key}>
+                      <div className="banner-item top-rated-news pl-0" key={key}>
                         <SingleNews
                           image={item.image}
                           title={item.title}
@@ -746,10 +746,10 @@ const News = ({ theme, isPremium, coinbase }) => {
                 {topVotes(votes).length > 0 && //todo
                 activeClass === "toprated" ? (
                   topVotes(votes)
-                    .slice(0, 3)
+                    .slice(0, 4)
                     .map((item, key) => {
                       return (
-                        <div className="banner-item pl-0" key={key}>
+                        <div className="banner-item top-rated-news pl-0" key={key}>
                           <SingleNews
                             image={item.image}
                             title={item.title}

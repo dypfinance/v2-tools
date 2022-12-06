@@ -2147,7 +2147,7 @@ export default function initBscFarming({
                           href={`${window.config.etherscan_baseURL}/token/${token._address}?a=${coinbase}`}
                           className="stats-link"
                         >
-                          View on Etherscan <img src={statsLinkIcon} alt="" />
+                          View transaction <img src={statsLinkIcon} alt="" />
                         </a>
                       </div>
                     </div>

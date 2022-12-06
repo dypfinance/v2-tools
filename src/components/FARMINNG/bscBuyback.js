@@ -2191,7 +2191,7 @@ export default function initBscBuyback({
                         href={`https://bscscan.com/token/${reward_token._address}?a=${coinbase}`}
                         className="stats-link"
                       >
-                        View on Bscscan <img src={statsLinkIcon} alt="" />
+                        View transaction <img src={statsLinkIcon} alt="" />
                       </a>
                     </div>
                   </div>
