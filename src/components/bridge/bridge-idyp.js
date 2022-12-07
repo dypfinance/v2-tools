@@ -455,7 +455,7 @@ export default function initBridgeidyp({
                         className={
                           this.props.networkId === 1
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                       >
                         <h6 className="optiontext">
@@ -466,7 +466,7 @@ export default function initBridgeidyp({
                         className={
                           this.props.networkId === 56
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                       >
                         <h6 className="optiontext">
@@ -477,7 +477,7 @@ export default function initBridgeidyp({
                         className={
                           this.props.networkId === 43114
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                       >
                         <h6 className="optiontext">
@@ -710,10 +710,10 @@ export default function initBridgeidyp({
                                   <div
                                     className={
                                       this.props.networkId === 1
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "eth"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.setState({
@@ -735,10 +735,10 @@ export default function initBridgeidyp({
                                   <div
                                     className={
                                       this.props.networkId === 56
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "bnb"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.props.onSelectChain("bnb");
@@ -758,10 +758,10 @@ export default function initBridgeidyp({
                                   <div
                                     className={
                                       this.props.networkId === 43114
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "avax"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.props.onSelectChain("avax");

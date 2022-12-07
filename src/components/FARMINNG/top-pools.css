@@ -18,11 +18,11 @@
 
 
 .pools-cardcaws-open {
-  background-image: url("./assets/caws-bg.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 2px solid #4FBDD3;
+  background-image: url("./assets/caws-bg.svg") !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  border: 2px solid #4FBDD3 !important;
 }
 
 .purplediv {

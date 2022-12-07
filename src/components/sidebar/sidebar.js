@@ -81,8 +81,15 @@ const Sidebar = (props) => {
     }else{
       setActiveSidebar(false)
     }
+
+    if(windowSize.width < 1800){
+      sidebar?.addEventListener("mouseover", openSidebar);
+      sidebar?.addEventListener("mouseleave", closeSidebar);
+    }else{
+      setActiveSidebar(true)
+    }
     console.log(windowSize.width);
-  }, [windowSize]);
+  }, [windowSize, activeSidebar]);
 
 
   const sidebarItems = [
@@ -169,8 +176,8 @@ const Sidebar = (props) => {
   const closeSidebar = () => {
     windowSize.width < 1800 && setActiveSidebar(false);
   };
-  sidebar?.addEventListener("mouseover", openSidebar);
-  sidebar?.addEventListener("mouseleave", closeSidebar);
+
+  const windowUrl = window.location.href;
 
   return (
 
@@ -200,11 +207,14 @@ const Sidebar = (props) => {
         } d-flex flex-column gap-4`}
         style={{ gap: 35 }}
       >
+         <div className={`sidebar-container w-100 accordion justify-content-center ${
+          activeSidebar ? "align-items-start" : "align-items-center"
+        } d-flex flex-column gap-4`} id="accordionExample2" 
+            >
         {sidebarItems.map((sideItem, index) =>
           sideItem.children?.length > 0 ? (
-            <div className="accordion" id="accordionExample2" 
-            key={index}
-            >
+           
+              <>
               <div
                 data-bs-toggle="collapse"
                 data-bs-target={`#collapse${sideItem.label}`}
@@ -251,12 +261,12 @@ const Sidebar = (props) => {
               </div>
               <div
                 id={`collapse${sideItem.label}`}
-                className="accordion-collapse collapse"
+                className={`accordion-collapse collapse ${sideItem.children.filter(obj => {return windowUrl.includes(obj.link)}) ? 'open' : null}`}
                 aria-labelledby={`heading${sideItem.label}`}
                 data-bs-parent="#accordionExample2"
               >
                 {activeSidebar ? (
-                  <div className="accordion-container d-flex flex-column ms-5 py-3">
+                  <div className="accordion-container d-flex flex-column gap-2 ms-5">
                     {sideItem.children.map((child, index) => (
                      <NavLink key={index} to={child.link}  className={isActive => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
                       {child.title}
@@ -265,7 +275,7 @@ const Sidebar = (props) => {
                   </div>
                 ) : null}
               </div>
-            </div>
+              </>
           ) : (
            sideItem.link?.length > 0 &&
            <NavLink to={sideItem.link}>
@@ -309,6 +319,8 @@ const Sidebar = (props) => {
            </NavLink>
           )
         )}
+            </div>
+
       </div>
      </div>
     </div>

@@ -380,6 +380,7 @@ const slider = useRef()
                   setVideoList(vendor.videos);
                   setActiveVendor(index);
                   setActiveVideo(vendor.videos[0]);
+                  window.scrollTo(0,0);
                 }}
                 active={activeVendor === index ? true : false}
               />

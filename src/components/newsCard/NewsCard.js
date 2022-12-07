@@ -11,7 +11,7 @@ const NewsCard = ({image, title, link, date}) => {
 
   const formattedDate = new Date(date)
   return (
-    <a href={`https://tools.dyp.finance/news/${link}`} className="newscard-wrapper d-flex p-0">
+    <a href={`https://betatools.dyp.finance/news/${link}`} className="newscard-wrapper d-flex p-0">
       <div className="d-flex flex-column gap-3 position-relative w-100">
         <div className="position-relative">
         <img src={newsShadow} className="news-shadow d-none d-xxl-flex" alt="" />

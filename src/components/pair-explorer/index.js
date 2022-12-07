@@ -1470,7 +1470,7 @@ export default class PairExplorer extends React.Component {
                           <NavLink
                             key={index}
                             className="favRow"
-                            to={`/pair-explorer/${lock.id}`}
+                            to={`/locker/${this.props.match.params.pair_id}`}
                           >
                             <div
                               className="d-flex m-0 justify-content-between align-items-center"

@@ -418,7 +418,7 @@
 .change-chain-text {
   font-style: normal;
   font-weight: 400;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 13px;
   letter-spacing: -0.018em;
   color: #c0c9ff;
@@ -614,6 +614,10 @@
 .optionbtn-passive{
   padding: 10px;
   border: 1px solid transparent;
+}
+
+.bridge-passive{
+  opacity: 0.6;
 }
 
 .optionbtn-passive .optiontext {

@@ -46,9 +46,9 @@
 .faq-grid{
   display: grid;
   grid-template-columns: auto;
-  gap: 11px;
+  gap: 13px;
 }
-
+w
 @media screen and (max-width: 1399px) {
   .faq-grid{
     grid-template-columns: auto auto;

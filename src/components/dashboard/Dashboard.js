@@ -11,7 +11,6 @@ import LaunchpadCard from "../launchpad-card/LaunchpadCard";
 import ChainlinkCard from "../chainlink-card/ChainlinkCard";
 import TrendingNews from "../newsCard/TrendingNews";
 import rightarrow from "./assets/right-arrow.svg";
-import TopPoolsDetails from "../top-pools-card/TopPoolsDetails";
 import initStakingNew from "../FARMINNG/staking-new-front";
 import { NavLink } from "react-router-dom";
 import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
@@ -45,6 +44,8 @@ import useWindowSize from "../../functions/useWindowSize";
   const [details, setDetails] = useState()
   const [popularNewsData, setPopularNewsData] = useState([])
   const [activeCard2, setActiveCard2] = useState()
+
+  let networkId = parseInt(network);
 
   const eth_address = "ETH";
   const { rebase_factors } = window;
@@ -135,21 +136,26 @@ import useWindowSize from "../../functions/useWindowSize";
     option: 'Staking',
     pathName: '/earn',
     section: 'earnFaq',
-    pool: null
+    pool: null,
+    faqIndex: 1,
     },
     {
     title: 'What is the Reinvest function?',
     option: 'Staking',
     pathName: '/earn',
     section: 'earnFaq',
-    pool: null
+    pool: null,
+    faqIndex: 14,
+
     },
     {
     title: 'What is APR?',
     option: 'Farming',
     pathName: '/earn',
     section: 'earnFaq',
-    pool: null
+    pool: null,
+    faqIndex: 6,
+
     },
     {
     title: 'What is Dypius Vault?',
@@ -190,8 +196,8 @@ const fetchPopularNewsData = async () => {
   
 useEffect(() => {
   fetchPopularNewsData();
+ 
 }, [])
-  console.log(popularNewsData);
 
   const windowSize = useWindowSize();
 

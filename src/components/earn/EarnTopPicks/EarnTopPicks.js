@@ -39,6 +39,8 @@ const EarnTopPicks = ({
   the_graph_resultbsc,
   referrer,
   pool,
+  routeOption,
+  customChain,
 }) => {
   const stake = [
     {
@@ -405,7 +407,7 @@ const EarnTopPicks = ({
   };
 
   const [customPool, setCustomPool] = useState(pool);
-  const [activeCard, setActiveCard] = useState(topPools[0]);
+  const [activeCard, setActiveCard] = useState();
   const [activeCardNFT, setActiveCardNFT] = useState();
   const [activeCard2, setActiveCard2] = useState();
   const [activeCard3, setActiveCard3] = useState();
@@ -424,21 +426,6 @@ const EarnTopPicks = ({
   const [cardIndexavaxiDyp, setcardIndexavaxiDyp] = useState(0);
   const [details, setDetails] = useState(0);
   const windowSize = useWindowSize();
-
-  // useEffect(() => {
-  //   console.log(pool);
-  //   if (pool === 0) {
-  //     setActiveCard(topPools[0]);
-  //     setActiveCard2(null);
-  //     setActiveCard3(null);
-  //     setActiveCard4(null);
-  //     setActiveCardNFT(false);
-  //     handleCardIndexStake(0);
-  //     handleCardIndexStake30(0);
-  //     handleCardIndexStakeiDyp(0);
-  //     setDetails(0);
-  //   }
-  // }, []);
 
   const eth_address = "ETH";
   const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
@@ -921,16 +908,7 @@ const EarnTopPicks = ({
   });
 
   useEffect(() => {
-    if (customPool !== null) {
-      setDetails(0);
-      setActiveCard(topPools[0]);
-    } else {
-      setDetails();
-      setActiveCard(null);
-    }
-
-    setCustomPool(null);
-
+    setActiveCard();
     if (topList === "Staking") {
       setTopPools([]);
       if (chain === "avax") {
@@ -973,6 +951,87 @@ const EarnTopPicks = ({
         setTopPools(farming);
       }, 500);
     }
+
+    if (customPool !== null) {
+      if (routeOption === "Staking" && chain === "eth") {
+        setDetails(0);
+        setActiveCard(topPools[0]);
+        handleCardIndexStake(0);
+        handleCardIndexStake30(0);
+        handleCardIndexStakeiDyp(0);
+      } else if (routeOption === "Staking" && chain === "bnb") {
+        setDetails(1);
+        setActiveCard(topPools[1]);
+        handleCardIndexStake(1);
+        handleCardIndexStake30(1);
+        handleCardIndexStakeiDyp(1);
+      } else if (routeOption === "Staking" && chain === "avax") {
+        setDetails(2);
+        setActiveCard(topPools[2]);
+        handleCardIndexStake(2);
+        handleCardIndexStake30(2);
+        handleCardIndexStakeiDyp(2);
+      } else if (routeOption === "BuyBack" && chain === "eth") {
+        setDetails(1);
+        setActiveCard(topPools[1]);
+        handleCardIndexStake(1);
+        handleCardIndexStake30(1);
+        handleCardIndexStakeiDyp(1);
+      } else if (routeOption === "BuyBack" && chain === "bnb") {
+        setDetails(0);
+        setActiveCard(topPools[0]);
+        handleCardIndexStake(0);
+        handleCardIndexStake30(0);
+        handleCardIndexStakeiDyp(0);
+      } else if (routeOption === "BuyBack" && chain === "avax") {
+        setDetails(0);
+        setActiveCard(topPools[0]);
+        handleCardIndexStake(0);
+        handleCardIndexStake30(0);
+        handleCardIndexStakeiDyp(0);
+      } else if (routeOption === "Vault" && customChain === "eth") {
+        setDetails(0);
+        setActiveCard(topPools[0]);
+        handleCardIndexStake(0);
+        handleCardIndexStake30(0);
+        handleCardIndexStakeiDyp(0);
+      } else if (routeOption === "Vault" && customChain === "bnb") {
+        setDetails(2);
+        setActiveCard(topPools[2]);
+        handleCardIndexStake(2);
+        handleCardIndexStake30(2);
+        handleCardIndexStakeiDyp(2);
+      } else if (routeOption === "Vault" && customChain === "avax") {
+        setDetails(3);
+        setActiveCard2(topPools[3]);
+        handleCardIndexStake(3);
+        handleCardIndexStake30(3);
+        handleCardIndexStakeiDyp(3);
+      } else if (routeOption === "Farming" && chain === "eth") {
+        setDetails(4);
+        setActiveCard2(topPools[4]);
+        handleCardIndexStake(4);
+        handleCardIndexStake30(4);
+        handleCardIndexStakeiDyp(4);
+      } else if (routeOption === "Farming" && chain === "bnb") {
+        setDetails(3);
+        setActiveCard2(topPools[3]);
+        handleCardIndexStake(3);
+        handleCardIndexStake30(3);
+        handleCardIndexStakeiDyp(3);
+      } else if (routeOption === "Farming" && chain === "avax") {
+        setDetails(4);
+        setActiveCard2(topPools[4]);
+        handleCardIndexStake(4);
+        handleCardIndexStake30(4);
+        handleCardIndexStakeiDyp(4);
+      }
+    } else {
+      setDetails();
+      setActiveCard(null);
+    }
+
+    setCustomPool(null);
 
     if (chain === "eth") {
       fetchEthFarming();
@@ -4296,7 +4355,7 @@ const EarnTopPicks = ({
             <>
               <div
                 className="top-picks-container"
-                style={{ marginTop: "25px" }}
+                style={{ marginTop: topPools.length > 9 && "25px" }}
               >
                 {topPools.slice(7, 8).map((pool, index) => (
                   <TopPoolsCard
@@ -4314,15 +4373,15 @@ const EarnTopPicks = ({
                       setActiveCard(null);
                       setActiveCard2(null);
                       setActiveCard3(null);
-                      setActiveCard4(null)
-                      setActiveCard5(null)
-                      setActiveCard6(null)
-                      setActiveCard7(null)
-                      setActiveCard8(topPools[index + 7])
-                      setActiveCard9(null)
-                      setActiveCard10(null)
-                      setActiveCard11(null)
-                      setActiveCard12(null)
+                      setActiveCard4(null);
+                      setActiveCard5(null);
+                      setActiveCard6(null);
+                      setActiveCard7(null);
+                      setActiveCard8(topPools[index + 7]);
+                      setActiveCard9(null);
+                      setActiveCard10(null);
+                      setActiveCard11(null);
+                      setActiveCard12(null);
                       setActiveCardNFT(false);
                       handleCardIndexStake(index + 7);
                       handleCardIndexStake30(index + 7);
@@ -4489,7 +4548,7 @@ const EarnTopPicks = ({
             <>
               <div
                 className="top-picks-container"
-                style={{ marginTop: "25px" }}
+                style={{ marginTop: topPools.length > 9 && "25px" }}
               >
                 {topPools.slice(8, 9).map((pool, index) => (
                   <TopPoolsCard
@@ -4507,15 +4566,15 @@ const EarnTopPicks = ({
                       setActiveCard(null);
                       setActiveCard2(null);
                       setActiveCard3(null);
-                      setActiveCard4(null)
-                      setActiveCard5(null)
-                      setActiveCard6(null)
-                      setActiveCard7(null)
-                      setActiveCard8(null)
-                      setActiveCard9(topPools[index + 8])
-                      setActiveCard10(null)
-                      setActiveCard11(null)
-                      setActiveCard12(null)
+                      setActiveCard4(null);
+                      setActiveCard5(null);
+                      setActiveCard6(null);
+                      setActiveCard7(null);
+                      setActiveCard8(null);
+                      setActiveCard9(topPools[index + 8]);
+                      setActiveCard10(null);
+                      setActiveCard11(null);
+                      setActiveCard12(null);
                       setActiveCardNFT(false);
                       handleCardIndexStake(index + 8);
                       handleCardIndexStake30(index + 8);
@@ -4682,7 +4741,7 @@ const EarnTopPicks = ({
             <>
               <div
                 className="top-picks-container"
-                style={{ marginTop: "25px" }}
+                style={{ marginTop: topPools.length > 9 && "25px" }}
               >
                 {topPools.slice(9, 10).map((pool, index) => (
                   <TopPoolsCard
@@ -4700,15 +4759,15 @@ const EarnTopPicks = ({
                       setActiveCard(null);
                       setActiveCard2(null);
                       setActiveCard3(null);
-                      setActiveCard4(null)
-                      setActiveCard5(null)
-                      setActiveCard6(null)
-                      setActiveCard7(null)
-                      setActiveCard8(null)
-                      setActiveCard9(null)
-                      setActiveCard10(topPools[index + 9])
-                      setActiveCard11(null)
-                      setActiveCard12(null)
+                      setActiveCard4(null);
+                      setActiveCard5(null);
+                      setActiveCard6(null);
+                      setActiveCard7(null);
+                      setActiveCard8(null);
+                      setActiveCard9(null);
+                      setActiveCard10(topPools[index + 9]);
+                      setActiveCard11(null);
+                      setActiveCard12(null);
                       setActiveCardNFT(false);
                       handleCardIndexStake(index + 9);
                       handleCardIndexStake30(index + 9);
@@ -4875,7 +4934,7 @@ const EarnTopPicks = ({
             <>
               <div
                 className="top-picks-container"
-                style={{ marginTop: "25px" }}
+                style={{ marginTop: topPools.length > 9 && "25px" }}
               >
                 {topPools.slice(10, 11).map((pool, index) => (
                   <TopPoolsCard
@@ -4893,15 +4952,15 @@ const EarnTopPicks = ({
                       setActiveCard(null);
                       setActiveCard2(null);
                       setActiveCard3(null);
-                      setActiveCard4(null)
-                      setActiveCard5(null)
-                      setActiveCard6(null)
-                      setActiveCard7(null)
-                      setActiveCard8(null)
-                      setActiveCard9(null)
-                      setActiveCard10(null)
-                      setActiveCard11(topPools[index + 10])
-                      setActiveCard12(null)
+                      setActiveCard4(null);
+                      setActiveCard5(null);
+                      setActiveCard6(null);
+                      setActiveCard7(null);
+                      setActiveCard8(null);
+                      setActiveCard9(null);
+                      setActiveCard10(null);
+                      setActiveCard11(topPools[index + 10]);
+                      setActiveCard12(null);
                       setActiveCardNFT(false);
                       handleCardIndexStake(index + 10);
                       handleCardIndexStake30(index + 10);
@@ -5086,15 +5145,15 @@ const EarnTopPicks = ({
                       setActiveCard(null);
                       setActiveCard2(null);
                       setActiveCard3(null);
-                      setActiveCard4(null)
-                      setActiveCard5(null)
-                      setActiveCard6(null)
-                      setActiveCard7(null)
-                      setActiveCard8(null)
-                      setActiveCard9(null)
-                      setActiveCard10(null)
-                      setActiveCard11(null)
-                      setActiveCard12(topPools[index + 11])
+                      setActiveCard4(null);
+                      setActiveCard5(null);
+                      setActiveCard6(null);
+                      setActiveCard7(null);
+                      setActiveCard8(null);
+                      setActiveCard9(null);
+                      setActiveCard10(null);
+                      setActiveCard11(null);
+                      setActiveCard12(topPools[index + 11]);
                       setActiveCardNFT(false);
                       handleCardIndexStake(index + 11);
                       handleCardIndexStake30(index + 11);

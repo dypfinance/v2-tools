@@ -757,6 +757,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               to={{
                 pathname: "earn",
                 state: { chain: "eth", option: activeMethod, pool: 0 },
+                customChain: activeMethod === "Vault" && "eth"
+
               }}
               className="ethereum-chain-wrapper"
             >
@@ -793,6 +795,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                   chain: activeMethod === "Vault" ? "eth" : "bnb",
                   option: activeMethod,
                   pool: 0,
+                  customChain: activeMethod === "Vault" && "bnb"
                 },
               }}
               className={
@@ -838,6 +841,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 state: {
                   chain: activeMethod === "Vault" ? "eth" : "avax",
                   option: activeMethod,
+                  customChain: activeMethod === "Vault" && "avax",
                   pool: 0,
                 },
               }}

@@ -12,7 +12,7 @@ const TrendingNews = ({image, title, date, link}) => {
   var options = { year: "numeric", month: "short", day: "numeric" };
   const formattedDate = new Date(date)
   return (
-    <a href={`https://tools.dyp.finance/news/${link}`} className="newscard-wrapper d-flex" style={{width: '49%'}}>
+    <a href={`https://betatools.dyp.finance/news/${link}`} className="newscard-wrapper d-flex" style={{width: '49%'}}>
       <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-2 position-relative">
         <img src={image} alt='' className="newsimg2"/>
         <div className="d-flex flex-column gap-4 justify-content-between">

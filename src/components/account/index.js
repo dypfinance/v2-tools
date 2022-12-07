@@ -10,6 +10,7 @@ import TierLevels from "../launchpad/tierlevels/TierLevels";
 import coinStackIcon from "../launchpad/assets/coinStackIcon.svg";
 import axios from "axios";
 import openNameChange from './assets/openNameChange.svg'
+import { ClickAwayListener, Tooltip } from "@material-ui/core";
 // import { benefits } from "./benefits";
 // import Check from "./check.svg";
 // import Cross from "./cross.svg";
@@ -51,7 +52,8 @@ export default class Subscription extends React.Component {
       viewall: false,
       username: "",
       userNameInput: "",
-      showInput: false 
+      showInput: false,
+      openTooltip: false
     };
   }
 
@@ -507,6 +509,16 @@ const paidPlanItems = [
   'Guaranteed allocation to presales of new projects launched using our Launchpad',
 ]
 
+
+const handleTooltipClose = () => {
+  this.setState({openTooltip: false});
+
+};
+
+const handleTooltipOpen = () => {
+  this.setState({openTooltip: true});
+};
+
 // console.log(mycaws)
     return (
       <div>
@@ -551,7 +563,28 @@ const paidPlanItems = [
                 <span className="address-span">Wallet address:</span>
                 <div className="d-flex align-items-center gap-2">
                 <span className="account-wallet-address">{this.props.coinbase}</span>
-                <img src={require('./assets/clipboardIcon.svg').default} className="cursor-pointer" alt="clipboard" onClick={() => navigator.clipboard.writeText(this.props.coinbase)} />
+                <ClickAwayListener onClickAway={handleTooltipClose}>
+           <Tooltip
+              PopperProps={{
+                disablePortal: true,
+              }}
+              onClose={handleTooltipClose}
+              open={this.state.openTooltip}
+              disableFocusListener
+              disableHoverListener
+              disableTouchListener
+              placement="top"
+              title={
+                <div className="tooltip-text">
+                  {
+                    "Wallet address copied!"
+                  }
+                </div>
+              }
+            >
+             <img src={require('./assets/clipboardIcon.svg').default} className="cursor-pointer" alt="clipboard" onClick={() => {navigator.clipboard.writeText(this.props.coinbase); handleTooltipOpen();}} />
+            </Tooltip>
+           </ClickAwayListener>
                 </div>
               </div>
             </div>
@@ -1249,12 +1282,12 @@ const paidPlanItems = [
                         position: "absolute",
                         top: "-17px",
                         left: "50%",
-                        width: "106px",
+                        width: "115px",
                         height: "34px",
                         transform: "translateX(-50%)",
                         borderRadius: "50px",
                         background:
-                          "linear-gradient(93.99deg, #4ED5CD 0%, #524FD8 100%)",
+                          "linear-gradient(93.99deg, #DF2C2D 0%, #F86465 100%)",
                         gap: "5px",
                       }}
                     >

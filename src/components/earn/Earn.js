@@ -56,6 +56,7 @@ const Earn = ({
         routeOption={routeData.state ? routeData.state.option : 'Staking'}
         routeChain={routeData.state ? routeData.state.chain : "eth"}
         pool={routeData.state ? routeData.state.pool : null}
+        customChain={routeData.state ? routeData.state.customChain : "eth"}
       />
     </div>
   );

@@ -19,6 +19,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
 import { NavLink } from "react-router-dom";
 import useWindowSize from '../../functions/useWindowSize'
 import toolsLogo from '../../assets/sidebarIcons/toolsLogo.svg'
+import axios from "axios";
 
 const Header = ({
   toggleMobileSidebar,
@@ -33,9 +34,11 @@ const Header = ({
   hideModal,
   handleConnection,
   isConnected,
+
 }) => {
   const [gasPrice, setGasprice] = useState();
   const [ethPrice, setEthprice] = useState();
+  const [username, setUsername] = useState();
   // const [chainId, setChainId] = useState(1)
 
   let chainId = parseInt(network);
@@ -156,6 +159,22 @@ const Header = ({
     return response;
   };
 
+  const fetchUsername = async() => {
+   if(coinbase){
+    await axios.get(`https://api-image.dyp.finance/api/v1/username/${coinbase}`).then((res) => {
+      if(res.data.username){
+        setUsername(res.data.username)
+        console.log(res.data.username);
+      }else{
+        setUsername("Dypian")
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+   }else{
+    setUsername("Dypian")
+   }
+  }
   const [currencyAmount, setCurrencyAmount] = useState(0);
   const checklogout = localStorage.getItem("logout");
 
@@ -196,6 +215,7 @@ const Header = ({
 
   useEffect(() => {
     getEthBalance();
+   
   }, [chainId]);
 
   useEffect(() => {
@@ -222,6 +242,7 @@ const Header = ({
 
   useEffect(() => {
     fetchAvatar();
+    fetchUsername();
   }, [coinbase, checklogout]);
 
   return (
@@ -241,7 +262,7 @@ const Header = ({
               className="text-white"
               style={{ fontSize: "23px", fontWeight: "600" }}
             >
-              Good morning, James
+              Good morning, {username}
             </h4>
             <span className="text-white headerdesc">
             Discover the latest trends, breaking news and gain access to powerful dApps.

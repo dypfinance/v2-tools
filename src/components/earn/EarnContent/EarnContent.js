@@ -31,7 +31,8 @@ const EarnContent = ({
   routeOption, 
   routeChain, 
   routeSection,
-  pool
+  pool,
+  customChain
 }) => {
   const options = [
     {
@@ -393,7 +394,7 @@ const EarnContent = ({
                   // }}
                   style={{opacity: '0.5'}}
                 >
-                  <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
+                  {/* <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
                     <img
                       src={addNewPools}
                       alt=""
@@ -402,7 +403,7 @@ const EarnContent = ({
                     <span className="text-white" style={{ fontSize: "11px" }}>
                       New Pools
                     </span>
-                  </div>
+                  </div> */}
                   <img
                     src={stake === "bnb" ? bnbStakeActive : bnbStake}
                     alt=""
@@ -435,7 +436,7 @@ const EarnContent = ({
                   // }}
                   style={{opacity: '0.5'}}
                 >
-                  <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
+                  {/* <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
                     <img
                       src={addNewPools}
                       alt=""
@@ -444,7 +445,7 @@ const EarnContent = ({
                     <span className="text-white" style={{ fontSize: "11px" }}>
                       New Pools
                     </span>
-                  </div>
+                  </div> */}
                   <img
                     src={stake === "avax" ? avaxStakeActive : avaxStake}
                     alt=""
@@ -489,6 +490,8 @@ const EarnContent = ({
         the_graph_resultbsc={the_graph_resultbsc}
         referrer={referrer}
         pool={pool}
+        routeOption={routeOption}
+        customChain={customChain}
       />
       <EarnFaq faqTypes={option}  />
     </>
