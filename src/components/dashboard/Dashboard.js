@@ -162,21 +162,27 @@ import useWindowSize from "../../functions/useWindowSize";
     option: 'Vault',
     pathName: '/earn',
     section: 'earnFaq',
-    pool: null
+    pool: null,
+    faqIndex: 0,
+
     },
     {
     title: 'What is Dypius Bridge?',
     option: 'Bridge',
     pathName: '/bridge',
     section: 'earnFaq',
-    pool: null
+    pool: null,
+    faqIndex: 0,
+
     },
     {
     title: 'Will my lock period reset if I deposit ad...',
     option: 'Farming',
     pathName: '/earn',
     section: 'earnFaq',
-    pool: null
+    pool: null,
+    faqIndex: 4,
+
     }
 ]
 
@@ -443,7 +449,7 @@ useEffect(() => {
             <h6 className="header">FAQs</h6>
             <div className="faq-grid">
             {faqItems.map((faq) => (
-              <FaqCard title={faq.title} option={faq.option} pathName={faq.pathName} section={faq.section} pool={faq.pool} />
+              <FaqCard title={faq.title} option={faq.option} pathName={faq.pathName} section={faq.section} pool={faq.pool} faqIndex={faq.faqIndex} />
             ))}
          
             </div>

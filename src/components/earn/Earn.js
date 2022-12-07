@@ -57,6 +57,7 @@ const Earn = ({
         routeChain={routeData.state ? routeData.state.chain : "eth"}
         pool={routeData.state ? routeData.state.pool : null}
         customChain={routeData.state ? routeData.state.customChain : "eth"}
+        faqIndex={routeData.state ? routeData.state.faqIndex : -1}
       />
     </div>
   );

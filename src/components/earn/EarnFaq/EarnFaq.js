@@ -8,7 +8,7 @@ import arrowPassive from "./arrowPassive.svg";
 
 import Collapse from "react-bootstrap/Collapse";
 
-const EarnFaq = ({ faqTypes }) => {
+const EarnFaq = ({ faqTypes, faqIndex }) => {
   const categories = [
     {
       id: "63481594d7e11d6f1849f730",
@@ -35,7 +35,7 @@ const EarnFaq = ({ faqTypes }) => {
 
   const [faqItems, setFaqItems] = useState([]);
   const [faqTitle, setFaqTitle] = useState("");
-  const [open, setOpen] = useState(-1);
+  const [open, setOpen] = useState(faqIndex);
 
   const fetchFaq = async (category) => {
     await axios
@@ -48,6 +48,7 @@ const EarnFaq = ({ faqTypes }) => {
   };
 
   useEffect(() => {
+    console.log(faqIndex);
     if (faqTypes === "Staking") {
       fetchFaq(categories[0]);
     } else if (faqTypes === "Buyback") {

@@ -32,7 +32,8 @@ const EarnContent = ({
   routeChain, 
   routeSection,
   pool,
-  customChain
+  customChain,
+  faqIndex
 }) => {
   const options = [
     {
@@ -493,7 +494,7 @@ const EarnContent = ({
         routeOption={routeOption}
         customChain={customChain}
       />
-      <EarnFaq faqTypes={option}  />
+      <EarnFaq faqTypes={option} faqIndex={faqIndex}  />
     </>
   );
 };

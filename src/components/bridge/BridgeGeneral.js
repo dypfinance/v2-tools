@@ -157,7 +157,7 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
           }}
         />
       </div>
-      <BridgeFAQ />
+      <BridgeFAQ faqIndex={routeData.state ? routeData.state.faqIndex: -1} />
     </div>
   );
 };
