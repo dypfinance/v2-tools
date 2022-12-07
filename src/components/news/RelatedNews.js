@@ -32,14 +32,15 @@ const RelatedNews = ({
   isPremium,
   onVotesFetch,
   coinbase
-  
+
 }) => {
   const [likeIndicator, setLikeIndicator] = useState(false);
   const [dislikeIndicator, setDislikeIndicator] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
-
+  const [upvote, setUpvote] = useState(upvotes);
+  const [downvote, setDownvote] = useState(downvotes);
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
@@ -65,7 +66,7 @@ const RelatedNews = ({
     else if(logout === 'true') {
       setCanVote(false)
     }
-    
+
   }, [alreadyVoted, bal1, bal2, isPremium]);
 
 
@@ -124,15 +125,16 @@ const RelatedNews = ({
 
 
   const checkUpVoting = async (itemId) => {
-    
+
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/up`
       )
       .then((data) => {
-        
+
         if (data.data.status === "success") {
-          onVotesFetch()
+          // onVotesFetch()
+          setUpvote(upvote + 1)
         } else {
           setalreadyVoted(false);
           setShowTooltip(true)
@@ -143,15 +145,18 @@ const RelatedNews = ({
   };
 
   const checkDownVoting = async (itemId) => {
-    
+
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/down`
       )
       .then((data) => {
-        
+
         if (data.data.status === "success") {
-          onVotesFetch()
+          // onVotesFetch()
+
+          setDownvote(downvote + 1)
+
         } else {
           setalreadyVoted(false);
           setShowTooltip(true)
@@ -175,7 +180,7 @@ const RelatedNews = ({
   return (
     <div style={{ display: title?.includes("http") ? "none" : "block" }}>
       <div className="single-related-news-wrapper">
-    
+
         <div
           className="d-flex  justify-content-center gap-3"
           style={{ gap: 5 }}
@@ -257,7 +262,7 @@ const RelatedNews = ({
                   }}
                 />
               </div>
-          
+
               <div className="date-wrapper">
                 <img src={Clock} alt="" style={{ width: "auto" }} />
                 <h6 className="date-content">
@@ -341,8 +346,8 @@ const RelatedNews = ({
                   e.stopPropagation();
                 }}
               />
-              
-              <span className="votes-amount"> {Number(upvotes) - Number(downvotes)}</span>
+
+              <span className="votes-amount"> {Number(upvote) - Number(downvote)}</span>
               <img
               style={{transform: 'rotate(0deg)'}}
                 src={
@@ -396,7 +401,7 @@ const RelatedNews = ({
           </div>
           </div>
 
-          
+
         </div>
       </div>
     </div>

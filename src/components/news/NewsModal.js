@@ -57,6 +57,7 @@ const NewsModal = ({
   const [dislikeIndicator, setDislikeIndicator] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [votes, setVotes] = useState([]);
+
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
   const [newContent, setnewContent] = useState(content);
@@ -241,7 +242,7 @@ const NewsModal = ({
                   position: "relative",
                 }}
               >
-                
+
                 <button
                   className="btn v3"
                   style={{

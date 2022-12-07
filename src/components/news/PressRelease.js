@@ -33,6 +33,8 @@ coinbase
   const [showTooltip, setShowTooltip] = useState(false);
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
+  const [upvote, setUpvote] = useState(upvotes);
+  const [downvote, setDownvote] = useState(downvotes);
   const [votes, setVotes] = useState([])
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
@@ -57,7 +59,7 @@ coinbase
     else if(logout === 'true') {
       setCanVote(false)
     }
-    
+
   }, [alreadyVoted, bal1, bal2, isPremium]);
 
 
@@ -110,19 +112,21 @@ coinbase
   };
 
 
-  
+
   const checkUpVoting = async (itemId) => {
-    
+
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/up`
       )
       .then((data) => {
-        
+
         if (data.data.status === "success") {
-          
-          onVotesFetch()
-          
+
+          // onVotesFetch()
+
+          setUpvote(upvote + 1)
+
         } else {
           setalreadyVoted(false);
           setShowTooltip(true)
@@ -133,15 +137,18 @@ coinbase
   };
 
   const checkDownVoting = async (itemId) => {
-    
+
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/down`
       )
       .then((data) => {
-        
+
         if (data.data.status === "success") {
-          onVotesFetch()
+          // onVotesFetch()
+
+            setDownvote(downvote + 1)
+
         } else {
           setalreadyVoted(false);
           setShowTooltip(true)
@@ -207,9 +214,9 @@ coinbase
                   e.stopPropagation();
                 }}
               />
-             
+
               <span className="votes-amount">
-                {Number(upvotes) - Number(downvotes)}
+                {Number(upvote) - Number(downvote)}
               </span>
               <img
               style={{transform: 'rotate(0deg)'}}
@@ -228,7 +235,7 @@ coinbase
                   e.stopPropagation();
                 }}
               />
-               
+
             </div>
             {/* <img
               src={theme === "theme-dark" ? WhiteDots : Dots}
