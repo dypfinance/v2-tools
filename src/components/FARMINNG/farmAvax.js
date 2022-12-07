@@ -25,6 +25,7 @@ import { shortAddress } from "../../functions/shortAddress";
 import axios from "axios";
 import poolStatsIcon from './assets/poolStatsIcon.svg'
 import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+import { ClickAwayListener } from "@material-ui/core";
 
                         
 
@@ -192,6 +193,12 @@ export default function initFarmAvax({
         show: false,
         popup: false,
         is_wallet_connected: false,
+        performanceTooltip: false,
+        aprTooltip: false,
+        lockTooltip: false,
+        depositTooltip: false,
+        rewardsTooltip: false,
+        withdrawTooltip: false,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -1185,6 +1192,44 @@ export default function initFarmAvax({
       let infoItems2 = ["75% WAVAX/ETH rewards", "25% DYP rewards"];
       let tooltip2 = infoItems2.join("\n");
 
+
+      const performanceOpen = () => {
+        this.setState({ performanceTooltip: true });
+      };
+      const performanceClose = () => {
+        this.setState({ performanceTooltip: false });
+      };
+      const aprOpen = () => {
+        this.setState({ aprTooltip: true });
+      };
+      const aprClose = () => {
+        this.setState({ aprTooltip: false });
+      };
+      const lockOpen = () => {
+        this.setState({ lockTooltip: true });
+      };
+      const lockClose = () => {
+        this.setState({ lockTooltip: false });
+      };
+      const depositOpen = () => {
+        this.setState({ depositTooltip: true });
+      };
+      const depositClose = () => {
+        this.setState({ depositTooltip: false });
+      };
+      const rewardsOpen = () => {
+        this.setState({ rewardsTooltip: true });
+      };
+      const rewardsClose = () => {
+        this.setState({ rewardsTooltip: false });
+      };
+      const withdrawOpen = () => {
+        this.setState({ withdrawTooltip: true });
+      };
+      const withdrawClose = () => {
+        this.setState({ withdrawTooltip: false });
+      };
+
       return (
         <div className="container-lg p-0">
           <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
@@ -1210,18 +1255,28 @@ export default function initFarmAvax({
                     <h6 className="earnrewards-text">Performance fee:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {fee}%
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "Performance fee is subtracted from the displayed APR."
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={performanceClose}>
+                        <Tooltip
+                          open={this.state.performanceTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "Performance fee is subtracted from the displayed APR."
+                              }
+                            </div>
+                          }
+                        >
+                          <img
+                            src={moreinfo}
+                            alt=""
+                            onClick={performanceOpen}
+                          />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
 
@@ -1229,36 +1284,48 @@ export default function initFarmAvax({
                     <h6 className="earnrewards-text">APR:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {apy}%
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "APR reflects the interest rate of earnings on an account over the course of one year. "
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={aprClose}>
+                        <Tooltip
+                          open={this.state.aprTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={aprOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "The amount of time your deposited assets will be locked."
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={lockClose}>
+                        <Tooltip
+                          open={this.state.lockTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "The amount of time your deposited assets will be locked."
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={lockOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                 </div>
@@ -1396,16 +1463,24 @@ export default function initFarmAvax({
                         </b>
                       </h6>
                     </div>
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {"Deposit your assets to the farming smart contract. 75% of your assets goes for creation of LP tokens and 25% goes for buying DYP and depositing to staking smart contract to generate rewards."}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    <ClickAwayListener onClickAway={depositClose}>
+                        <Tooltip
+                          open={this.state.depositTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                                {
+                            "Deposit your assets to the farming smart contract. 75% of your assets goes for creation of LP tokens and 25% goes for buying DYP and depositing to staking smart contract to generate rewards."
+                          }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={depositOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1492,16 +1567,24 @@ export default function initFarmAvax({
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
                         Rewards are displayed in real-time
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {"Rewards earned by your deposit to the farming smart contract are distributed automatically and can be claimed every day. You need to select assets individually and claim them to your wallet."}
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                        <ClickAwayListener onClickAway={rewardsClose}>
+                        <Tooltip
+                          open={this.state.rewardsTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                           {
+                              "Rewards earned by your deposit to the farming smart contract are distributed automatically and can be claimed every day. You need to select assets individually and claim them to your wallet."
+                            }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={rewardsOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
@@ -1850,16 +1933,24 @@ export default function initFarmAvax({
                 <div className="otherside-border col-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {"Withdraw your deposited assets from the farming smart contract."}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    <ClickAwayListener onClickAway={withdrawClose}>
+                        <Tooltip
+                          open={this.state.withdrawTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                            {
+                            "Withdraw your deposited assets from the farming smart contract."
+                          }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                   </h6>
 
                   <button

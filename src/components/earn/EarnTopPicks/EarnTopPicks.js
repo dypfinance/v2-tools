@@ -209,7 +209,7 @@ const EarnTopPicks = ({
       isNewPool: true,
       isStaked: false,
     },
-    {
+    {  
       icon: "dyplogo.svg",
       top_pick: false,
       tokenName: "DYP",

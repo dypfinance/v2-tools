@@ -299,7 +299,7 @@ const NewsModal = ({
 
                 <a
                   className="resp-sharing-button__link"
-                  href={`https://telegram.me/share/url?text=${title}&url=${`https://tools.dyp.finance/news/${newsId}`}`}
+                  href={`https://telegram.me/share/url?url=${`https://tools.dyp.finance/news/${newsId}&text=${title}`}`}
                   target="_blank"
                   rel="noopener"
                   aria-label=""

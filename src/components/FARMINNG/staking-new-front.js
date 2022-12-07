@@ -26,6 +26,7 @@ import poolStatsIcon from "./assets/poolStatsIcon.svg";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
+import { ClickAwayListener } from "@material-ui/core";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -194,6 +195,12 @@ export default function initStakingNew({
         dypUSD: 0,
         popup: false,
         is_wallet_connected: false,
+        performanceTooltip: false,
+        aprTooltip: false,
+        lockTooltip: false,
+        depositTooltip: false,
+        rewardsTooltip: false,
+        withdrawTooltip: false,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -1242,6 +1249,43 @@ export default function initStakingNew({
       let infoItems2 = ["75% WETH/ETH rewards", "25% DYP rewards"];
       let tooltip2 = infoItems2.join("\n");
 
+      const performanceOpen = () => {
+        this.setState({ performanceTooltip: true });
+      };
+      const performanceClose = () => {
+        this.setState({ performanceTooltip: false });
+      };
+      const aprOpen = () => {
+        this.setState({ aprTooltip: true });
+      };
+      const aprClose = () => {
+        this.setState({ aprTooltip: false });
+      };
+      const lockOpen = () => {
+        this.setState({ lockTooltip: true });
+      };
+      const lockClose = () => {
+        this.setState({ lockTooltip: false });
+      };
+      const depositOpen = () => {
+        this.setState({ depositTooltip: true });
+      };
+      const depositClose = () => {
+        this.setState({ depositTooltip: false });
+      };
+      const rewardsOpen = () => {
+        this.setState({ rewardsTooltip: true });
+      };
+      const rewardsClose = () => {
+        this.setState({ rewardsTooltip: false });
+      };
+      const withdrawOpen = () => {
+        this.setState({ withdrawTooltip: true });
+      };
+      const withdrawClose = () => {
+        this.setState({ withdrawTooltip: false });
+      };
+
       return (
         <div className="container-lg p-0">
           <div
@@ -1273,18 +1317,28 @@ export default function initStakingNew({
                     <h6 className="earnrewards-text">Performance fee:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {fee}%
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "Performance fee is subtracted from the displayed APR."
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={performanceClose}>
+                        <Tooltip
+                          open={this.state.performanceTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "Performance fee is subtracted from the displayed APR."
+                              }
+                            </div>
+                          }
+                        >
+                          <img
+                            src={moreinfo}
+                            alt=""
+                            onClick={performanceOpen}
+                          />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
 
@@ -1292,36 +1346,49 @@ export default function initStakingNew({
                     <h6 className="earnrewards-text">APR:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {apy}%
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "APR reflects the interest rate of earnings on an account over the course of one year. "
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={aprClose}>
+                        <Tooltip
+                          open={this.state.aprTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={aprOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "The amount of time your deposited assets will be locked."
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                     
+                      <ClickAwayListener onClickAway={lockClose}>
+                        <Tooltip
+                          open={this.state.lockTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "The amount of time your deposited assets will be locked."
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={lockOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                 </div>
@@ -1465,18 +1532,26 @@ export default function initStakingNew({
                         </b>
                       </h6>
                     </div>
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {
+                   
+                    <ClickAwayListener onClickAway={depositClose}>
+                        <Tooltip
+                          open={this.state.depositTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                                {
                             "Deposit your assets to the farming smart contract. 75% of your assets goes for creation of LP tokens and 25% goes for buying DYP and depositing to staking smart contract to generate rewards."
                           }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={depositOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
+                    
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
@@ -1589,18 +1664,25 @@ export default function initStakingNew({
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
                       Rewards are displayed in real-time
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
+                     
+                      <ClickAwayListener onClickAway={rewardsClose}>
+                        <Tooltip
+                          open={this.state.rewardsTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                           {
                               "Rewards earned by your deposit to the farming smart contract are distributed automatically and can be claimed every day. You need to select assets individually and claim them to your wallet."
                             }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={rewardsOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
@@ -1903,18 +1985,25 @@ export default function initStakingNew({
                 <div className="otherside-border col-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {
+                   
+                    <ClickAwayListener onClickAway={withdrawClose}>
+                        <Tooltip
+                          open={this.state.withdrawTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                            {
                             "Withdraw your deposited assets from the farming smart contract."
                           }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                   </h6>
 
                   <button
@@ -2794,14 +2883,14 @@ export default function initStakingNew({
           </div> */}
 
           {this.state.showCalculator && (
-           <Modal
-           visible={this.state.showCalculator}
-           title="calculator"
-           modalId="calculatormodal"
-           setIsVisible={() => this.setState({showCalculator: false})}
-           >
-             <div className="pools-calculator">
-              {/* <div className="d-flex align-items-center justify-content-between">
+            <Modal
+              visible={this.state.showCalculator}
+              title="calculator"
+              modalId="calculatormodal"
+              setIsVisible={() => this.setState({ showCalculator: false })}
+            >
+              <div className="pools-calculator">
+                {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -2823,88 +2912,88 @@ export default function initStakingNew({
                   className="cursor-pointer"
                 />
               </div> */}
-              <hr />
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Days to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Days*"
-                    value={this.state.approxDays}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDays: e.target.value,
-                      })
-                    }
-                  />
+                <hr />
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Days to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Days*"
+                      value={this.state.approxDays}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDays: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Amount to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="USD to deposit*"
+                      value={
+                        Number(this.state.approxDeposit) > 0
+                          ? this.state.approxDeposit * LP_AMPLIFY_FACTOR
+                          : this.state.approxDeposit
+                      }
+                      onChange={(e) =>
+                        this.setState({
+                          approxDeposit:
+                            Number(e.target.value) > 0
+                              ? e.target.value / LP_AMPLIFY_FACTOR
+                              : e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Amount to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="USD to deposit*"
-                    value={
-                      Number(this.state.approxDeposit) > 0
-                        ? this.state.approxDeposit * LP_AMPLIFY_FACTOR
-                        : this.state.approxDeposit
-                    }
-                    onChange={(e) =>
-                      this.setState({
-                        approxDeposit:
-                          Number(e.target.value) > 0
-                            ? e.target.value / LP_AMPLIFY_FACTOR
-                            : e.target.value,
-                      })
-                    }
-                  />
+                <div className="d-flex flex-column gap-2 mt-4">
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                    ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
+                  </h3>
+                  <h6
+                    style={{
+                      fontWeight: "300",
+                      fontSize: "15px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Approx{" "}
+                    {getFormattedNumber(
+                      this.getApproxReturnUSD() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
+                    WETH
+                  </h6>
+                </div>
+                <div className="mt-4">
+                  <p
+                    style={{
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    *This calculator is for informational purposes only.
+                    Calculated yields assume that prices of the deposited assets
+                    don't change.
+                  </p>
                 </div>
               </div>
-              <div className="d-flex flex-column gap-2 mt-4">
-                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                  ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
-                </h3>
-                <h6
-                  style={{
-                    fontWeight: "300",
-                    fontSize: "15px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  Approx{" "}
-                  {getFormattedNumber(
-                    this.getApproxReturnUSD() / this.getUsdPerETH(),
-                    6
-                  )}{" "}
-                  WETH
-                </h6>
-              </div>
-              <div className="mt-4">
-                <p
-                  style={{
-                    fontWeight: "400",
-                    fontSize: "13px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  *This calculator is for informational purposes only.
-                  Calculated yields assume that prices of the deposited assets
-                  don't change.
-                </p>
-              </div>
-            </div>
-           </Modal>
+            </Modal>
           )}
         </div>
       );

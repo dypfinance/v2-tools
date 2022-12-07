@@ -593,12 +593,18 @@ class App extends React.Component {
                     path="/"
                     render={() => (
                       <Dashboard
+                      the_graph_resultavax={
+                        this.state.the_graph_result_AVAX_V2
+                      }
+                      the_graph_resultbsc={this.state.the_graph_result_BSC_V2}
                         coinbase={this.state.coinbase}
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_ID_Array}
                         isConnected={this.state.isConnected}
                         network={this.state.networkId}
                         handleConnection={this.handleConnection}
+                        referrer={this.state.referrer}
+
                       />
                     )}
                   />

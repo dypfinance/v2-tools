@@ -24,6 +24,7 @@ import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import poolStatsIcon from "./assets/poolStatsIcon.svg";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
+import { ClickAwayListener } from "@material-ui/core";
 
 export default function initVaultNew({
   vault,
@@ -156,6 +157,12 @@ export default function initVaultNew({
         show: false,
         popup: false,
         is_wallet_connected: false,
+        performanceTooltip: false,
+        aprTooltip: false,
+        lockTooltip: false,
+        depositTooltip: false,
+        rewardsTooltip: false,
+        withdrawTooltip: false,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -867,6 +874,44 @@ export default function initVaultNew({
 
       let id = Math.random().toString(36);
 
+
+      const performanceOpen = () => {
+        this.setState({ performanceTooltip: true });
+      };
+      const performanceClose = () => {
+        this.setState({ performanceTooltip: false });
+      };
+      const aprOpen = () => {
+        this.setState({ aprTooltip: true });
+      };
+      const aprClose = () => {
+        this.setState({ aprTooltip: false });
+      };
+      const lockOpen = () => {
+        this.setState({ lockTooltip: true });
+      };
+      const lockClose = () => {
+        this.setState({ lockTooltip: false });
+      };
+      const depositOpen = () => {
+        this.setState({ depositTooltip: true });
+      };
+      const depositClose = () => {
+        this.setState({ depositTooltip: false });
+      };
+      const rewardsOpen = () => {
+        this.setState({ rewardsTooltip: true });
+      };
+      const rewardsClose = () => {
+        this.setState({ rewardsTooltip: false });
+      };
+      const withdrawOpen = () => {
+        this.setState({ withdrawTooltip: true });
+      };
+      const withdrawClose = () => {
+        this.setState({ withdrawTooltip: false });
+      };
+
       return (
         <div className="container-lg p-0">
           <div
@@ -900,7 +945,12 @@ export default function initVaultNew({
                       <h6 className="earnrewards-text">Performance fee:</h6>
                       <h6 className="earnrewards-token d-flex align-items-center gap-1">
                         0.3%
+                        <ClickAwayListener onClickAway={performanceClose}>
                         <Tooltip
+                          open={this.state.performanceTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
                           placement="top"
                           title={
                             <div className="tooltip-text">
@@ -910,8 +960,13 @@ export default function initVaultNew({
                             </div>
                           }
                         >
-                          <img src={moreinfo} alt="" />
+                          <img
+                            src={moreinfo}
+                            alt=""
+                            onClick={performanceOpen}
+                          />
                         </Tooltip>
+                      </ClickAwayListener>
                       </h6>
                     </div>
 
@@ -919,7 +974,12 @@ export default function initVaultNew({
                       <h6 className="earnrewards-text">APR:</h6>
                       <h6 className="earnrewards-token d-flex align-items-center gap-1">
                         {getFormattedNumber(APY_TOTAL, 2)}%
+                        <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
+                          open={this.state.aprTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
                           placement="top"
                           title={
                             <div className="tooltip-text">
@@ -929,15 +989,21 @@ export default function initVaultNew({
                             </div>
                           }
                         >
-                          <img src={moreinfo} alt="" />
+                          <img src={moreinfo} alt="" onClick={aprOpen} />
                         </Tooltip>
+                      </ClickAwayListener>
                       </h6>
                     </div>
                     <div className="d-flex align-items-center justify-content-between gap-2">
                       <h6 className="earnrewards-text">Lock time:</h6>
                       <h6 className="earnrewards-token d-flex align-items-center gap-1">
                         {lockTime}
+                        <ClickAwayListener onClickAway={lockClose}>
                         <Tooltip
+                          open={this.state.lockTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
                           placement="top"
                           title={
                             <div className="tooltip-text">
@@ -947,8 +1013,9 @@ export default function initVaultNew({
                             </div>
                           }
                         >
-                          <img src={moreinfo} alt="" />
+                          <img src={moreinfo} alt="" onClick={lockOpen} />
                         </Tooltip>
+                      </ClickAwayListener>
                       </h6>
                     </div>
                   </div>
@@ -1053,16 +1120,23 @@ export default function initVaultNew({
                     /> */}
                       </h6>
                     </div>
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {"Deposit your assets to the vault smart contract."}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    
+                    <ClickAwayListener onClickAway={depositClose}>
+                        <Tooltip
+                          open={this.state.depositTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                            {"Deposit your assets to the vault smart contract."}
+                          </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={depositOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
@@ -1159,10 +1233,15 @@ export default function initVaultNew({
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-1">
                       You have 3 differents reward categories
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
+                      <ClickAwayListener onClickAway={rewardsClose}>
+                        <Tooltip
+                          open={this.state.rewardsTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
                             <h6 className="tvl-text mb-3">
                               Rewards earned by your deposit to the vault smart
                               contract are displayed in real-time. Rewards
@@ -1206,10 +1285,11 @@ export default function initVaultNew({
                             </h6>
                           </h6> */}
                           </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={rewardsOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
@@ -1271,18 +1351,22 @@ export default function initVaultNew({
                 <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {
-                            "Withdraw your deposited assets from the vault smart contract."
-                          }
+                    <ClickAwayListener onClickAway={withdrawClose}>
+                        <Tooltip
+                          open={this.state.withdrawTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                          {"Withdraw your deposited assets from the vault smart contract."}
                         </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                   </h6>
 
                   <button
