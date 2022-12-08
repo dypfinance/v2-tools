@@ -97,7 +97,7 @@ const News = ({ theme, isPremium, coinbase }) => {
   const [canVote, setCanVote] = useState(false);
 
   const loadMore = async () => {
-    
+
     setNext(next + newsPerRow);
   };
 
@@ -106,18 +106,18 @@ const News = ({ theme, isPremium, coinbase }) => {
     setShowModal(true);
   };
 
-  // const fetchVotingdata = async () => {
-  //   const response = await fetch(`https://news-manage.dyp.finance/api/v1/votes/all`)
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       setVotes(data.Data);
-  //     })
-  //     .catch(console.error);
-  //
-  //   return response;
-  // };
+  const fetchVotingdata = async () => {
+    const response = await fetch(`https://news-manage.dyp.finance/api/v1/votes/all`)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setVotes(data.Data);
+      })
+      .catch(console.error);
+
+    return response;
+  };
 
   const fetchNewsdata = async () => {
     const result = await fetch(`https://news-manage.dyp.finance/api/news`)
@@ -433,9 +433,9 @@ const News = ({ theme, isPremium, coinbase }) => {
     fetchOtherNewsData(page).then();
   }, [newsData.length, popularNewsData.length]);
 
-  // useEffect(() => {
-  //   fetchVotingdata().then();
-  // }, [newsItemId]);
+  useEffect(() => {
+    fetchVotingdata().then();
+  }, [newsItemId]);
 
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
@@ -474,7 +474,7 @@ const News = ({ theme, isPremium, coinbase }) => {
 
         if (response.data.status === "success") {
           setUserAlreadyVoted(false);
-          // fetchVotingdata().then((votes) => topVotes(votes));
+          fetchVotingdata().then((votes) => topVotes(votes));
           setnewsItemId(Number(itemId) + 1);
         } else {
           setUserAlreadyVoted(true);
