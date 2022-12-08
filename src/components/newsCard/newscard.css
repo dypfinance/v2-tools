@@ -79,3 +79,13 @@
   gap: 5px;
   align-items: center;
 }
+
+@media screen and (max-width: 786px) {
+  .newscard-wrapper{
+    width: 100% !important; 
+  }
+  
+  .newsimg2{
+    width: 100% !important;
+  }
+}

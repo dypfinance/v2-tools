@@ -76,6 +76,13 @@
   transition: all 0.25s;
 }
 
+.pill-item-text{
+  font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+color: #F7F7FC !important;
+}
+
 .pill-item:hover {
   background: #1e1c40 !important;
 }
@@ -262,6 +269,13 @@
   justify-content: center;
 }
 
+.usd-input{
+  width: 32%;
+}
+.days-input{
+  width: 32%;
+}
+
 .usd-value {
   font-weight: 500;
   font-size: 18px;
@@ -291,6 +305,24 @@
   right: -25px;
 }
 
+@media screen and (max-width: 786px) {
+  .calculator-wrapper{
+    width: 100%;
+  }
+
+  .usd-input{
+    width: 48%;
+  }
+  .days-input{
+    width: 48%;
+  }
+
+  .calculator-chart{
+    position: absolute;
+    width: 140px;
+    right: 0px;
+  }
+}
 @media screen and (max-width: 1200px) {
   .bnb-chain-wrapper{
     width: 100%;
@@ -317,4 +349,11 @@
     align-items: center !important;
   }
   
+}
+
+@media screen and (max-width: 786px) {
+  .values-wrapper{
+    flex-direction: column !important;
+    align-items: start !important;
+  }
 }

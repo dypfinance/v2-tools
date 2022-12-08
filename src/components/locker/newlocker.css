@@ -163,6 +163,16 @@ color: #857DFA !important;
   background: linear-gradient(92deg, #4ED5D2 1.66%, #1E9895 98.59%);
 border-radius: 4px;
 }
+.inactive-locker-status{
+  background: linear-gradient(92deg, #DEDEDE 1.66%, #8E97CD 98.59%);
+border-radius: 4px;
+}
+.potenial-locker-status{
+  background: linear-gradient(92deg, #F77F5A 1.66%, #672BB2 98.59%);
+border-radius: 4px;
+}
+
+
 
 .locker-status-text{
   font-weight: 500;
@@ -173,6 +183,15 @@ line-height: 18px;
 letter-spacing: -0.018em;
 
 color: #FFFFFF !important;
+
+}
+
+.inactive-locker-status-text{
+  font-weight: 500;
+font-size: 12px;
+line-height: 18px;
+letter-spacing: -0.018em;
+ color: #2B2A59 !important;
 
 }
 
@@ -289,8 +308,82 @@ color: #14142A !important;
   right: 0;
 }
 
+.total-dyp-locked{
+  font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+letter-spacing: -0.018em;
+color: #4CD0CD !important;
+
+}
+
+.locker-modal-desc{
+  font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+letter-spacing: -0.018em;
+color: #C0CBF7 !important;
+}
+
+.locker-modal-icon{
+  width: 73px !important;
+  height: 76px !important;
+}
+
+.locker-modal-item{
+  background: #26264F;
+border-radius: 8px;
+}
+
+.modal-locker-active-tag{
+  font-weight: 400;
+font-size: 14px;
+line-height: 21px;
+/* identical to box height */
+
+letter-spacing: -0.018em;
+
+color: #857DFA !important;
+
+}
+
+.modal-locker-liquidity{
+  font-weight: 500;
+font-size: 18px;
+line-height: 20px;
+/* identical to box height, or 111% */
+
+letter-spacing: -0.018em;
+
+color: #C0C9FF !important;
+}
+
+.modal-locker-paragraph{
+  font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: -0.018em;
+color: #F7F7FC !important;
+
+}
+
+.top-locked-locker{
+  position: absolute;
+  top: -13px;
+  left: 30px;
+}
+
 @media screen and (max-width: 1199px) {
   .pair-locker-wrapper{
     grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .pair-locker-wrapper{
+    grid-template-columns: auto;
+  }
+  .locker-status-text{
+    font-size: 9px;
   }
 }

@@ -33,7 +33,9 @@ coinbase
   const [showTooltip, setShowTooltip] = useState(false);
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
-
+  const [upvote, setUpvote] = useState(upvotes);
+  const [downvote, setDownvote] = useState(downvotes);
+  const [votes, setVotes] = useState([])
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
@@ -57,7 +59,7 @@ coinbase
     else if(logout === 'true') {
       setCanVote(false)
     }
-    
+
   }, [alreadyVoted, bal1, bal2, isPremium]);
 
 
@@ -110,19 +112,21 @@ coinbase
   };
 
 
-  
+
   const checkUpVoting = async (itemId) => {
-    
+
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/up`
       )
       .then((data) => {
-        
+
         if (data.data.status === "success") {
-          
-          onVotesFetch()
-          
+
+          // onVotesFetch()
+
+          setUpvote(upvote + 1)
+
         } else {
           setalreadyVoted(false);
           setShowTooltip(true)
@@ -133,15 +137,18 @@ coinbase
   };
 
   const checkDownVoting = async (itemId) => {
-    
+
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/down`
       )
       .then((data) => {
-        
+
         if (data.data.status === "success") {
-          onVotesFetch()
+          // onVotesFetch()
+
+            setDownvote(downvote + 1)
+
         } else {
           setalreadyVoted(false);
           setShowTooltip(true)
@@ -152,6 +159,25 @@ coinbase
       })
       .catch(console.error);
   };
+
+  const fetchVotingdata = async () => {
+    const result = await fetch(
+      `https://news-manage.dyp.finance/api/v1/votes/all`
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        setVotes(data.Data);
+      })
+      .catch(console.error);
+
+    return result;
+  };
+
+  useEffect(() => {
+    fetchVotingdata();
+  }, []);
 
   var options = { year: "numeric", month: "short", day: "numeric" };
 
@@ -170,9 +196,9 @@ coinbase
           {/* </a> */}
 
           <div
-            className="d-flex align-items-center gap-3"
+            className="d-flex align-items-center gap-3 position-relative"
           >
-            <div className="d-flex align-items-center justify-content-center gap-2 position-relative">
+            <div className="d-flex align-items-center justify-content-center gap-2 ">
               <img
                 src={
                   likeIndicator === false && dislikeIndicator === false
@@ -188,7 +214,41 @@ coinbase
                   e.stopPropagation();
                 }}
               />
-              {showTooltip === true ? (
+
+              <span className="votes-amount">
+                {Number(upvote) - Number(downvote)}
+              </span>
+              <img
+              style={{transform: 'rotate(0deg)'}}
+                src={
+                  likeIndicator === false && dislikeIndicator === false
+                    ? passiveDownvote
+                    : dislikeIndicator === true
+                    ? activeDownvote
+                    : passiveDownvote
+                }
+                alt=""
+                className="like-indicator"
+                id="dislike"
+                onClick={(e) => {
+                  handleDisLikeStates();
+                  e.stopPropagation();
+                }}
+              />
+
+            </div>
+            {/* <img
+              src={theme === "theme-dark" ? WhiteDots : Dots}
+              alt=""
+              style={{ width: "auto" }}
+            /> */}
+            <div className="date-wrapper">
+              <img src={calendar} alt="calendar"  />
+              <span className="news-date-text">
+              {formattedDate.toLocaleDateString("en-US", options)}
+              </span>
+            </div>
+            {showTooltip === true ? (
                 <OutsideClickHandler
                   onOutsideClick={() => {
                     setShowTooltip(false);
@@ -210,38 +270,6 @@ coinbase
               ) : (
                 <></>
               )}
-              <span className="votes-amount">
-                {Number(upvotes) - Number(downvotes)}
-              </span>
-              <img
-              style={{transform: 'rotate(0deg)'}}
-                src={
-                  likeIndicator === false && dislikeIndicator === false
-                    ? passiveDownvote
-                    : dislikeIndicator === true
-                    ? activeDownvote
-                    : passiveDownvote
-                }
-                alt=""
-                className="like-indicator"
-                id="dislike"
-                onClick={(e) => {
-                  handleDisLikeStates();
-                  e.stopPropagation();
-                }}
-              />
-            </div>
-            {/* <img
-              src={theme === "theme-dark" ? WhiteDots : Dots}
-              alt=""
-              style={{ width: "auto" }}
-            /> */}
-            <div className="date-wrapper">
-              <img src={calendar} alt="calendar"  />
-              <span className="news-date-text">
-              {formattedDate.toLocaleDateString("en-US", options)}
-              </span>
-            </div>
           </div>
         </div>
       </div>

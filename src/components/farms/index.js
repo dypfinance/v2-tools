@@ -7,6 +7,9 @@ import ethlogo from "../../assets/ethlogo.svg";
 import bnblogo from "../../assets/bnblogo.svg";
 import avaxlogo from "../../assets/avaxlogo.svg";
 import getFormattedNumber from "../../functions/get-formatted-number";
+import ethPools from '../../assets/ethPools.png'
+import bnbPools from '../../assets/bnbPools.png'
+import avaxPools from '../../assets/avaxPools.png'
 
 const Circular = () => (
   // we need to add some padding to circular progress to keep it from activating our scrollbar
@@ -64,6 +67,8 @@ export default class Farms extends React.Component {
       filteredFarms: [],
       isLoading: true,
       filteredByName: "",
+      destinationChain: ""
+
     };
   }
 
@@ -147,6 +152,7 @@ export default class Farms extends React.Component {
         cell: (row) => (
           <div class="token">
             {/* <img src="/assets/img/icon.svg" alt="" /> */}
+            <img src={row.link_logo} height={40} width={40} alt="" />
             <a
               className="token-link"
               target="_blank"
@@ -204,8 +210,7 @@ export default class Farms extends React.Component {
   render() {
     return (
       <div className="container-lg">
-        <div className="d-flex flex-row gap-3 justify-content-between align-items-center mb-4">
-          <div className="d-flex flex-column gap-3">
+           <div className="d-flex flex-column gap-3">
             <h2 className="launchpad-hero-title">Yields</h2>
             <p className="launchpad-hero-desc">
               This list does not imply endorsement by DeFi Yield Protocol. There
@@ -217,9 +222,73 @@ export default class Farms extends React.Component {
               </b>
             </p>
           </div>
-          <div className="col-md-6 p-0 d-flex justify-content-between gap-2 align-items-center">
+        <div className="row flex-column flex-lg-row gap-5 gap-lg-0 justify-content-between align-items-center my-4">
+        <div className="col-12 col-lg-4">
+          <img src={this.state.destinationChain === "eth"? ethPools : this.state.destinationChain === 'bnb' ? bnbPools : this.state.destinationChain === "avax" ? avaxPools : ethPools} alt="" />
+          </div>
+          <div className="position-relative col-12 col-lg-5 col-xl-4">
+              <p className="launchpad-hero-desc position-absolute" style={{ fontSize: 12, top: '-27px' }}>
+                Change network
+              </p>
+              <div className="d-flex justify-content-around align-items-center" style={{
+                background: "#312F69",
+                padding: "10px",
+                borderRadius: "12px",
+                boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)",
+              }}>
+                <div
+                  className={
+                    this.props.networkId === 1
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.props.onSelectChain("eth");
+                    this.setState({
+                      destinationChain: "eth",
+                    });
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={ethlogo} alt="" /> Ethereum
+                  </h6>
+                </div>
+                <div
+                  className={
+                    this.props.networkId === 56
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.props.onSelectChain("bnb");
+                    this.setState({
+                      destinationChain: "bnb",
+                    });
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={bnblogo} alt="" /> BNB Chain
+                  </h6>
+                </div>
+                <div
+                  className={
+                    this.props.networkId === 43114
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
+                  }
+                  onClick={() => {
+                    this.props.onSelectChain("avax");
+                  }}
+                >
+                  <h6 className="optiontext">
+                    <img src={avaxlogo} alt="" /> Avalanche
+                  </h6>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-lg-3 col-xl-4">
             <div
-              className="search-box col-md-6 p-0 "
+              className="search-box"
               style={{
                 background: "#312F69",
                 padding: "10px",
@@ -251,61 +320,8 @@ export default class Farms extends React.Component {
                 </button>
               </form>
             </div>
-            <div className="position-relative">
-              <p className="launchpad-hero-desc position-absolute" style={{ fontSize: 12, top: '-27px' }}>
-                Change network
-              </p>
-              <div className="d-flex gap-3" style={{
-                background: "#312F69",
-                padding: "10px",
-                borderRadius: "12px",
-                boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)",
-              }}>
-                <div
-                  className={
-                    this.props.networkId === 1
-                      ? "optionbtn-active"
-                      : "optionbtn-passive"
-                  }
-                  onClick={() => {
-                    this.props.onSelectChain("eth");
-                  }}
-                >
-                  <h6 className="optiontext">
-                    <img src={ethlogo} alt="" /> Ethereum
-                  </h6>
-                </div>
-                <div
-                  className={
-                    this.props.networkId === 56
-                      ? "optionbtn-active"
-                      : "optionbtn-passive"
-                  }
-                  onClick={() => {
-                    this.props.onSelectChain("bnb");
-                  }}
-                >
-                  <h6 className="optiontext">
-                    <img src={bnblogo} alt="" /> BNB Chain
-                  </h6>
-                </div>
-                <div
-                  className={
-                    this.props.networkId === 43114
-                      ? "optionbtn-active"
-                      : "optionbtn-passive"
-                  }
-                  onClick={() => {
-                    this.props.onSelectChain("avax");
-                  }}
-                >
-                  <h6 className="optiontext">
-                    <img src={avaxlogo} alt="" /> Avalanche
-                  </h6>
-                </div>
-              </div>
             </div>
-          </div>
+           
         </div>
         <div className="table-box">
           <div className="form-container p-3 position-relative">

@@ -1,35 +1,37 @@
 import React from "react";
 import moreInfo from "../FARMINNG/assets/more-info.svg";
+import topLockedImage from './assets/topLocked.svg'
 
 
 
-const PairLockerCard = ({ completed, active }) => {
+const PairLockerCard = ({ completed, active, topLocked, id, pair_address, lpAmount, dyp, recipent, unlock, endsIn, startsIn }) => {
   return (
-    <div className="pair-locker-card d-flex">
+    <div className="pair-locker-card d-flex position-relative">
+      {topLocked && <img src={topLockedImage} alt='top locked' className="top-locked-locker" />}
       <div className="col-7 pair-locker-left p-2 d-flex flex-column gap-2 position-relative">
         <div className="d-flex justify-content-between align-items-center">
           <span className="pair-indicator">ID</span>
-          <span className="pair-value">1</span>
+          <span className="pair-value">{id}</span>
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <span className="pair-indicator">Pair address</span>
-          <span className="pair-value">..2012765</span>
+          <span className="pair-value">...{pair_address}</span>
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <span className="pair-indicator">LP Amount</span>
-          <span className="pair-value">0.8664435</span>
+          <span className="pair-value">{lpAmount}</span>
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <span className="pair-indicator">DYP</span>
-          <span className="pair-value">..2021765</span>
+          <span className="pair-value">{dyp}</span>
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <span className="pair-indicator">Recipent</span>
-          <span className="pair-value">..44324</span>
+          <span className="pair-value">{recipent}</span>
         </div>
         <div className="d-flex justify-content-between align-items-center">
           <span className="pair-indicator">Unlock</span>
-          <span className="pair-value">6 months</span>
+          <span className="pair-value">{unlock}</span>
         </div>
         <img
           src={require(`./assets/${
@@ -84,11 +86,11 @@ const PairLockerCard = ({ completed, active }) => {
           <div className="d-flex flex-column gap-2">
             <div className="d-flex flex-column gap-2">
               <span className="pair-indicator">Ends in</span>
-              <span className="pair-value">12.05.2022</span>
+              <span className="pair-value">{endsIn}</span>
             </div>
             <div className="d-flex flex-column gap-2">
               <span className="pair-indicator">Created</span>
-              <span className="pair-value">12.05.2022</span>
+              <span className="pair-value">{startsIn}</span>
             </div>
           </div>
         </div>

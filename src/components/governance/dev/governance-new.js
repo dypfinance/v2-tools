@@ -536,8 +536,8 @@ export default class Governance extends React.Component {
             deviceWidth < 500 ? "container-lg" : "container-lg p-0"
           }
         >
-          <div className="d-flex flex-column flex-xl-row justify-content-between gap-2 align-items-center">
-            <div className="col-12 col-xl-7">
+          <div className="d-flex flex-column flex-xxl-row justify-content-between gap-2 align-items-start">
+            <div className="col-12 col-xxl-7">
               <h6 className="govtitle mb-3">Dypius Governance</h6>
               <h6 className="govdesc mb-3">
                 DYP tokens represent voting shares in Dypius Governance. The
@@ -551,7 +551,7 @@ export default class Governance extends React.Component {
               </h6>
             </div>
 
-            <div className="col-12 col-xl-4 flex-column d-flex justify-content-between gap-2">
+            <div className="col-12 col-xxl-4 flex-column d-flex justify-content-between gap-2">
               <div className="d-flex  w-100 justify-content-center gap-2">
               <div className="totalproposals col-4">
                 <img src={eth} alt="" className="chainlogo" />

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./earn.css";
 import EarnContent from "./EarnContent/EarnContent";
 import EarnHero from "./EarnHero/EarnHero";
@@ -17,12 +18,26 @@ const Earn = ({
   const [showCalculator, setShowCalculator] = useState(false);
   const html = document.querySelector("html");
 
+  const routeData = useLocation()
+
+ 
+
+
+
+
   useEffect(() => {
     if (showCalculator === true) {
       html.classList.add("hidescroll");
     } else {
       html.classList.remove("hidescroll");
     }
+
+    if(routeData.state?.section === 'earnFaq'){
+      setTimeout(() => {
+      window.scrollTo(0, 800)
+      }, 500);
+    }
+  
   }, [showCalculator]);
 
   return (
@@ -38,6 +53,11 @@ const Earn = ({
         the_graph_resultavax={the_graph_resultavax}
         the_graph_resultbsc={the_graph_resultbsc}
         referrer={referrer}
+        routeOption={routeData.state ? routeData.state.option : 'Staking'}
+        routeChain={routeData.state ? routeData.state.chain : "eth"}
+        pool={routeData.state ? routeData.state.pool : null}
+        customChain={routeData.state ? routeData.state.customChain : "eth"}
+        faqIndex={routeData.state ? routeData.state.faqIndex : -1}
       />
     </div>
   );

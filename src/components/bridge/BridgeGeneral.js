@@ -5,6 +5,7 @@ import initBridgeidyp from "./bridge-idyp";
 import dyp from "./assets/dyp.svg";
 import idyp from "./assets/idyp.svg";
 import './bridge.css'
+import { useLocation } from "react-router-dom";
 
 const Bridge = ({ networkId, isConnected, handleConnection }) => {
   const [destinationChain, setDestinationChain] = useState(
@@ -34,6 +35,10 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
   const [destinationTokeniDyp, setDestinationTokeniDyp] = useState(
     window.token_idyp_bsceth
   );
+
+
+  const routeData = useLocation()
+  const [faqSection, setFaqSection] = useState(routeData.state?.section)
 
   useEffect(() => {
     if (networkId === 1) {
@@ -89,6 +94,14 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
       setSourceTokeniDyp(window.token_idyp_eth);
       setDestinationTokeniDyp(window.token_idyp_bsc);
     }
+    
+    console.log(faqSection);
+    if(faqSection === 'earnFaq'){
+      setTimeout(() => {
+      window.scrollTo(0, 1500)
+      setFaqSection('none')
+      }, 500);
+    }
   }, [destinationChainiDyp, networkId]);
 
   const BridgeModal = initBridge({
@@ -107,7 +120,7 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
 
   return (
     <div className="container-lg">
-      <div className="col-5 d-flex flex-column justify-content-center gap-3 mb-4">
+      <div className="col-12 col-lg-5 d-flex flex-column justify-content-center gap-3 mb-4">
         <h3 className="text-white">Dypius Bridge</h3>
         <p className="text-white">
           Send tokens from Ethereum to BNB and Avalanche chains with ease.
@@ -144,7 +157,7 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
           }}
         />
       </div>
-      <BridgeFAQ />
+      <BridgeFAQ faqIndex={routeData.state ? routeData.state.faqIndex: -1} />
     </div>
   );
 };

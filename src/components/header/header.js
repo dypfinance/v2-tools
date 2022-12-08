@@ -18,6 +18,8 @@ import WalletModal from "../WalletModal";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
 import { NavLink } from "react-router-dom";
 import useWindowSize from '../../functions/useWindowSize'
+import toolsLogo from '../../assets/sidebarIcons/toolsLogo.svg'
+import axios from "axios";
 
 const Header = ({
   toggleMobileSidebar,
@@ -32,9 +34,11 @@ const Header = ({
   hideModal,
   handleConnection,
   isConnected,
+
 }) => {
   const [gasPrice, setGasprice] = useState();
   const [ethPrice, setEthprice] = useState();
+  const [username, setUsername] = useState();
   // const [chainId, setChainId] = useState(1)
 
   let chainId = parseInt(network);
@@ -155,6 +159,22 @@ const Header = ({
     return response;
   };
 
+  const fetchUsername = async() => {
+   if(coinbase){
+    await axios.get(`https://api-image.dyp.finance/api/v1/username/${coinbase}`).then((res) => {
+      if(res.data.username){
+        setUsername(res.data.username)
+        console.log(res.data.username);
+      }else{
+        setUsername("Dypian")
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+   }else{
+    setUsername("Dypian")
+   }
+  }
   const [currencyAmount, setCurrencyAmount] = useState(0);
   const checklogout = localStorage.getItem("logout");
 
@@ -195,6 +215,7 @@ const Header = ({
 
   useEffect(() => {
     getEthBalance();
+   
   }, [chainId]);
 
   useEffect(() => {
@@ -221,37 +242,40 @@ const Header = ({
 
   useEffect(() => {
     fetchAvatar();
+    fetchUsername();
   }, [coinbase, checklogout]);
 
   return (
     <>
       <header className="header-wrap" style={{ zIndex: 5 }}>
-        <div className="container-fluid">
+        <div className="container-fluid d-flex justify-content-center justify-content-lg-start">
           <div className="row w-100">
             <div className="col-1"></div>
-            <div className={`${windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
+            <div className={`${windowSize.width < 786 ?'col-12' : windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
             <div
           className="container-lg px-0 d-flex justify-content-between gap-3 align-items-center w-100"
           // style={{ maxWidth: "calc(100% - 215px)"}}
         >
           {/* marginLeft: "240px" */}
-          <div className="d-flex flex-column gap-2 text-start">
+          <div className="d-none d-lg-flex flex-column gap-2 text-start">
             <h4
               className="text-white"
               style={{ fontSize: "23px", fontWeight: "600" }}
             >
-              Good morning, James
+              Good morning, {username}
             </h4>
             <span className="text-white headerdesc">
-              Discover the latest trends, breaking news and immersive dApps
+            Discover the latest trends, breaking news and gain access to powerful dApps.
             </span>
           </div>
+          <img src={toolsLogo} className="d-flex d-lg-none" alt="" />
           <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
             <NavLink
               className="buydyp-btn btn"
               to="/buydyp"
             >
-              <img src={coin} alt="" /> Buy DYP
+              <img src={coin} alt="" /> 
+              <span className="buy-dyp-text d-none d-lg-flex">Buy DYP</span>
             </NavLink>
             <div className="d-flex justify-content-between gap-3 align-items-center">
               <DropdownButton
@@ -264,11 +288,14 @@ const Header = ({
                       }
                       alt=""
                     />
+                    <span className="change-chain-text d-none d-lg-flex">
                     {ethState === true
                       ? "Ethereum"
                       : bnbState === true
                       ? "BNB Chain"
                       : "Avalanche"}
+                    </span>
+
                     <img src={dropdown} alt="" />
                   </span>
                 }
@@ -364,7 +391,7 @@ const Header = ({
                       onClick={() => window.location.assign("/account")}
                     >
                       <img src={user} alt="" />
-                      Your account
+                      My account
                     </Dropdown.Item>
                     <Dropdown.Item onClick={() => logout()}>
                       <img src={logoutimg} alt="" />
@@ -377,8 +404,8 @@ const Header = ({
                   onClick={checklogout === "true" && showModal}
                   id="dropdown-basic-button2"
                   title={
-                    <span
-                      className="d-flex align-items-center gap-2 connecttitle position-relative"
+                    <div
+                      className="d-flex align-items-center gap-2  position-relative"
                       style={{ bottom: "5px", fontSize: "12px" }}
                     >
                       <img
@@ -387,8 +414,8 @@ const Header = ({
                         className="position-relative"
                         // style={{ top: 4 }}
                       />
-                      Connect Wallet
-                    </span>
+                      <span className="connecttitle d-none d-lg-flex">Connect Wallet</span>
+                    </div>
                   }
                 ></DropdownButton>
               )}

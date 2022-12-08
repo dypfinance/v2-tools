@@ -50,3 +50,9 @@
   line-height: 18px;
   color: #7770e0;
 }
+
+@media screen and (max-width: 786px) {
+  .govcard-wrapper{
+    width: 100%;
+  }
+}

@@ -12,6 +12,13 @@ import failMark from "../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Address from "../FARMINNG/address";
 import WalletModal from "../WalletModal";
+import Timeline from "@mui/lab/Timeline";
+import TimelineItem, {timelineItemClasses} from "@mui/lab/TimelineItem";
+import TimelineSeparator from "@mui/lab/TimelineSeparator";
+import TimelineConnector from "@mui/lab/TimelineConnector";
+import TimelineContent from "@mui/lab/TimelineContent";
+import TimelineDot from "@mui/lab/TimelineDot";
+import routeIcon from "./assets/route-icon.svg";
 
 // Renderer callback with condition
 const getRenderer =
@@ -448,7 +455,7 @@ export default function initBridgeidyp({
                         className={
                           this.props.networkId === 1
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                       >
                         <h6 className="optiontext">
@@ -459,7 +466,7 @@ export default function initBridgeidyp({
                         className={
                           this.props.networkId === 56
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                       >
                         <h6 className="optiontext">
@@ -470,7 +477,7 @@ export default function initBridgeidyp({
                         className={
                           this.props.networkId === 43114
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                       >
                         <h6 className="optiontext">
@@ -703,10 +710,10 @@ export default function initBridgeidyp({
                                   <div
                                     className={
                                       this.props.networkId === 1
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "eth"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.setState({
@@ -728,10 +735,10 @@ export default function initBridgeidyp({
                                   <div
                                     className={
                                       this.props.networkId === 56
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "bnb"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.props.onSelectChain("bnb");
@@ -751,10 +758,10 @@ export default function initBridgeidyp({
                                   <div
                                     className={
                                       this.props.networkId === 43114
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "avax"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.props.onSelectChain("avax");
@@ -941,6 +948,177 @@ export default function initBridgeidyp({
               handleConnection={this.props.handleConnection}
             />
           )}
+
+<div className="col-6 guidewrapper">
+            <div className="purplediv" style={{left: '0px'}}> </div>
+            <div>
+              <h6 className="guidetitle">
+                <img src={routeIcon} alt="" />
+                Bridge process guide
+              </h6>
+              <div className="separator"></div>
+              <Timeline 
+                sx={{
+                  [`& .${timelineItemClasses.root}:before`]: {
+                    flex: 0,
+                    padding: 0,
+                  },
+                }}
+                >
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot
+                      className={
+                        this.props.isConnected === true
+                          ? "greendot"
+                          : "passivedot"
+                      }
+                    />
+                    <TimelineConnector
+                      className={
+                        this.props.isConnected === true
+                          ? "greenline"
+                          : "passiveline"
+                      }
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <h6 className="content-text">
+                      <h6 className="content-title2">
+                        <b>Connect wallet</b>
+                      </h6>
+                      Connect your wallet in order to start using Dypius Bridge.
+                      Your wallet chain will be associated as default.
+                    </h6>
+                  </TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot
+                      className={
+                        this.state.destinationChain !== ""
+                          ? "greendot"
+                          : "passivedot"
+                      }
+                    />
+                    <TimelineConnector
+                      className={
+                        this.state.destinationChain !== ""
+                          ? "greenline"
+                          : "passiveline"
+                      }
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <h6 className="content-text">
+                      <h6 className="content-title2">
+                        <b>Select chains</b>
+                      </h6>
+                      Select desired bridge chains at “FROM” and “TO” sections.
+                      To change the “FROM” chain you need to change it to your
+                      wallet.
+                    </h6>
+                  </TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot
+                      className={
+                        this.state.depositAmount !== ""
+                          ? "greendot"
+                          : "passivedot"
+                      }
+                    />
+                    <TimelineConnector
+                      className={
+                        this.state.depositAmount !== ""
+                          ? "greenline"
+                          : "passiveline"
+                      }
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <h6 className="content-text">
+                      <h6 className="content-title2">
+                        <b>Fill in amount</b>
+                      </h6>
+                      Check your balance and fill in the desired amount you want
+                      to bridge. You can use “Max” button to fill in the maximum
+                      amount.
+                    </h6>
+                  </TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot
+                      className={
+                        this.state.depositStatus === "deposit"
+                          ? "greendot"
+                          : "passivedot"
+                      }
+                    />
+                    <TimelineConnector
+                      className={
+                        this.state.depositStatus === "deposit"
+                          ? "greenline"
+                          : "passiveline"
+                      }
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <h6 className="content-text">
+                      <h6 className="content-title2">
+                        <b>Approve deposit</b>
+                      </h6>
+                      Approve the transaction and then deposit the assets. These
+                      steps need confirmation in your wallet.
+                    </h6>
+                  </TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot
+                      className={
+                        this.state.txHash !== "" ? "greendot" : "passivedot"
+                      }
+                    />
+                    <TimelineConnector
+                      className={
+                        this.state.txHash !== "" ? "greenline" : "passiveline"
+                      }
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <h6 className="content-text">
+                      <h6 className="content-title2">
+                        <b>Fill in transaction hash</b>
+                      </h6>
+                      After successful deposit, fill in the transaction hash
+                      and switch your wallet to the chosen bridge network.
+                    </h6>
+                  </TimelineContent>
+                </TimelineItem>
+                <TimelineItem>
+                  <TimelineSeparator>
+                    <TimelineDot
+                      className={
+                        canWithdraw === true ? "greendot" : "passivedot"
+                      }
+                    />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <h6 className="content-text">
+                      <h6 className="content-title2">
+                        <b>{"Wait timer & withdraw"}</b>
+                      </h6>
+                      Wait for the timer to end and and click withdraw button to
+                      receive the assets in the desired chain.
+                    </h6>
+                  </TimelineContent>
+                </TimelineItem>
+              </Timeline>
+            </div>
+          </div>
         </div>
       );
     }

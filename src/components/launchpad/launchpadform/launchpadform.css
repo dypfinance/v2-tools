@@ -120,3 +120,16 @@ line-height: 18px !important;
   background: #1E1C40 !important;
   color: #F7F7FC !important;
 }
+
+@media screen and (max-width: 786px) {
+  .form-grid{
+    grid-template-columns: auto;
+  }
+
+  .additional-grid{
+    grid-template-columns: auto;
+  }
+  .submit-form-title{
+    width: 100% !important;
+  }
+}

@@ -6,6 +6,9 @@ import TopPoolsDetails from "./TopPoolsDetails";
 import newPool from './assets/newPool.png'
 import staked from './assets/staked.svg'
 import topPick from './assets/toppick.svg'
+import stakeTag from '../../assets/earnAssets/stakeTag.svg'
+import vaultTag from '../../assets/earnAssets/vaultTag.svg'
+import buybackTag from '../../assets/earnAssets/buybackTag.svg'
 
 const TopPoolsCard = ({
   tokenLogo,
@@ -23,6 +26,7 @@ const TopPoolsCard = ({
   details,
   isStaked,
   isNewPool,
+  tag
   // showDetails,
 }) => {
   
@@ -69,7 +73,8 @@ const TopPoolsCard = ({
         {isStaked && <img src={staked} className="staked" alt="staked" />}
         {top_pick === true && <img src={topPick} className="toppick" alt="top pick" />}
         {isNewPool && <img src={newPool} className='new-pool' alt="new pool" />}
-
+        {tag && <img src={tag === "stake" ? stakeTag : tag === "vault" ? vaultTag : buybackTag} alt="pool-tag" className="dashboard-pool-tag" />}
+ 
         <div
           className="purplediv"
           style={{ background: details ? "#7770e0" : "#8890C4", top: '12px' }}

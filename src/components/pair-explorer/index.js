@@ -1404,9 +1404,7 @@ export default class PairExplorer extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-
-              <div className="form-container p-3 position-relative">
+                <div className="form-container p-3 position-relative" style={{height: '216px'}}>
                 <div
                   className="content-title mb-3 p-0"
                   style={{ borderBottom: "none" }}
@@ -1472,7 +1470,7 @@ export default class PairExplorer extends React.Component {
                           <NavLink
                             key={index}
                             className="favRow"
-                            to={`/pair-explorer/${lock.id}`}
+                            to={`/locker/${this.props.match.params.pair_id}`}
                           >
                             <div
                               className="d-flex m-0 justify-content-between align-items-center"
@@ -1492,8 +1490,11 @@ export default class PairExplorer extends React.Component {
                   )}{" "}
                 </div>
               </div>
+              </div>
 
-              <div className="form-container p-3 position-relative">
+              
+
+              <div className="form-container p-3 position-relative" style={{height: '296px'}}>
                 <div className="box-inner pb-0">
                   <div className="graph-header">
                     <div className="graph-header-left">
@@ -1591,7 +1592,7 @@ export default class PairExplorer extends React.Component {
                 </div>
               </div>
 
-              <div className="form-container p-3 position-relative">
+              <div className="form-container p-3 position-relative" style={{height: '331px'}}>
                 <div style={{ marginBottom: "14px", fontSize: "20px", color: "#F7F7FC", fontWeight: "500", lineHeight: "30px" }}>Statistics score</div>
                 <div>
                   {false && !isNaN(this.state.pairInfo?.ts_score_avg) ? (
@@ -1879,7 +1880,7 @@ export default class PairExplorer extends React.Component {
             <div className="rightside">
               <div className="graph-right">
                 <div className="search-box d-flex gap-2 justify-content-between align-items-center">
-                  <form className="col-7" id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
+                  <form className="col-6" id="searchform" style={{ background: "#312F69", padding: "10px", borderRadius: "12px", boxShadow: "0px 32px 64px rgba(17, 17, 17, 0.12)" }}>
                     <input
                       value={this.state.query}
                       onChange={(e) => this.handleQuery(e.target.value)}
@@ -1944,7 +1945,7 @@ export default class PairExplorer extends React.Component {
                       <img src="/assets/img/search-purple.svg" alt="Image" style={{ marginTop: "11px" }}/>
                     </button>
                   </form>
-                  <div className="position-relative">
+                  <div className="position-relative col-6">
               <p
                 className="launchpad-hero-desc position-absolute"
                 style={{ fontSize: 12, top: "-27px" }}
@@ -1952,7 +1953,7 @@ export default class PairExplorer extends React.Component {
                 Change network
               </p>
               <div
-                className="d-flex gap-3 align-items-center"
+                className="d-flex justify-content-around align-items-center"
                 style={{
                   background: "#312F69",
                   padding: "10px",

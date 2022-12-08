@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 
 const ExplorerCard = () => {
   return (
-    <NavLink to="/pool-explorer" className="explorercard-wrapper d-flex position-relative">
+    <NavLink to="/pair-explorer" className="explorercard-wrapper d-flex position-relative">
       <div className="purplediv" style={{background: '#8890C4'}}></div>
       <div className="col-6 d-flex flex-column gap-3 justify-content-between">
         <div className=" d-flex justify-content-between gap-2 align-items-center">

@@ -1,7 +1,17 @@
-const Footer = () => (
-  <div className="footer">
-    <div className="content-footer container-fluid d-flex justify-content-between gap-3 align-items-center">
-      <div className="footer-logo">
+import React from 'react'
+import useWindowSize from '../../functions/useWindowSize'
+
+const Footer = () => {
+
+  const windowSize = useWindowSize();
+
+  return (
+    <div className="footer container-fluid d-flex">
+    <div className="row w-100">
+    <div className="col-1"></div>
+    <div className={`${windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
+    <div className="py-4 px-0 container-lg d-flex justify-content-between gap-3 align-items-center">
+      <div className="footer-logo flex-column flex-xxl-row">
         <a target={"_blank"} href="https://lorenadev.dyp.finance/">
           <img src="/assets/img/logo-footer.svg" alt="Dypius"></img>
         </a>
@@ -9,6 +19,7 @@ const Footer = () => (
           <img src="/assets/img/metaverse.svg" alt="METAVERSE"></img>
         </a>
       </div>
+      <div className="social-and-links d-flex align-items-center justify-content-center gap-3">
       <div className="social-profile">
         <ul>
           <li>
@@ -28,7 +39,7 @@ const Footer = () => (
           </li>
           <li>
             <a target={"_blank"} href="https://www.instagram.com/dyp.finance/">
-              <img src="/assets/img/Social/instagram.svg" alt="Instagram"></img>
+              <img src="/assets/img/Social/instagram.svg" style={{height: 23, width: 23}} alt="Instagram"></img>
             </a>
           </li>
           <li>
@@ -62,16 +73,12 @@ const Footer = () => (
               <img src="/assets/img/Social/email.svg" alt="Mail"></img>
             </a>
           </li>
-        </ul>
-      </div>
-      <div className="footer-menu">
-        <ul>
           <li>
             <a
               target={"_blank"}
               href="https://www.coingecko.com/en/coins/defi-yield-protocol"
             >
-              <img src="/assets/img/coingecko-logo.svg" alt="Coingecko"></img>
+              <img src="/assets/img/coingecko-logo.svg" alt="Coingecko" style={{width: 24, height: 24}}></img>
             </a>
           </li>
           <li>
@@ -82,9 +89,14 @@ const Footer = () => (
               <img
                 src="/assets/img/coinmarketcap.svg"
                 alt="Coinmarketcap"
+                 style={{width: 24, height: 24}}
               ></img>
             </a>
           </li>
+        </ul>
+      </div>
+      <div className="footer-menu">
+        <ul>
           <li>
             <a
               target={"_blank"}
@@ -102,7 +114,7 @@ const Footer = () => (
             </a>
           </li>
           <li>
-            <a
+            <a 
               target={"_blank"}
               href="https://lorenadev.dyp.finance/disclaimer"
             >
@@ -114,13 +126,18 @@ const Footer = () => (
               target={"_blank"}
               href="https://lorenadev.dyp.finance/about#contactus"
             >
-              Contact us
+             Support
             </a>
           </li>
         </ul>
       </div>
+      </div>
+    </div>
+    </div>
+    <div className="col-1"></div>
     </div>
   </div>
-);
+  )
+}
 
-export default Footer;
+export default Footer

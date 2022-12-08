@@ -2,6 +2,8 @@ import React from "react";
 import xMark from "./xMark.svg";
 import withdrawIcon from "./withdrawIcon.svg";
 import statsIcon from "./statsIcon.svg";
+import calculatorIcon from "../calculator/assets/calculator.svg";
+
 
 const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
   let className = "modal fade ";
@@ -14,6 +16,7 @@ const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
   const closeModal = () => {
     setIsVisible(false);
   };
+  console.log(title);
 
   return (
     <div
@@ -27,7 +30,7 @@ const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
       <div className="modal-dialog tymodal">
         <div
           className="modal-content"
-          style={{ width: title === "withdraw" ? "37%" : width }}
+          style={{ width: title === "withdraw" ? "fit-content" : width }}
         >
           <div className="modal-header justify-content-between align-items-center">
             <div className="d-flex align-items-center gap-2">
@@ -35,7 +38,7 @@ const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
                 title !== "withdraw" ||
                 (title !== "proposal" && (
                   <img
-                    src={title === "stats" ? statsIcon : withdrawIcon}
+                    src={title === "stats" ? statsIcon : title === "withdraw" ? withdrawIcon : title === "calculator" ? calculatorIcon : null}
                     height={25}
                     width={25}
                     alt=""
@@ -55,7 +58,9 @@ const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
                   ? "New proposal"
                   : title === "withdraw"
                   ? "Withdraw"
-                  : ""}
+                  : title === "calculator" ?
+                    "Calculator" : 
+                    ""}
               </h6>
             </div>
             <img

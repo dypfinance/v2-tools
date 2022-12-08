@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { isMobile } from "react-device-detect";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import calculator from "./assets/calculator.svg";
@@ -19,9 +19,12 @@ import filledArrow from "../bridgecard/assets/filledarrow.svg";
 import calculatorChart from "./assets/calculatorChart.png";
 import usdt from "./assets/usdt.svg";
 import usdc from "./assets/usdc.svg";
+import { abbreviateNumber } from "js-abbreviation-number";
+import moreinfo from "../FARMINNG/assets/more-info.svg";
 
 import "./calculator.css";
-import { createTheme, TextField } from "@material-ui/core";
+import { ClickAwayListener, createTheme, TextField, Tooltip } from "@material-ui/core";
+import useWindowSize from "../../functions/useWindowSize";
 
 const Calculator = ({ earnClass, onClose, ref }) => {
   const theme = createTheme({
@@ -210,7 +213,9 @@ const Calculator = ({ earnClass, onClose, ref }) => {
 
         vaultWeth
           .getTvlUsdAndApyPercent(18)
-          .then((apy_percent) => {  setVaultApy(apy_percent.apy_percent)})
+          .then((apy_percent) => {
+            setVaultApy(apy_percent.apy_percent);
+          })
           .catch(console.error);
 
         vaultusdc
@@ -220,7 +225,9 @@ const Calculator = ({ earnClass, onClose, ref }) => {
 
         vaultusdt
           .getTvlUsdAndApyPercent(6)
-          .then((apy_percent) => {setVaultUSDT(apy_percent.apy_percent)})
+          .then((apy_percent) => {
+            setVaultUSDT(apy_percent.apy_percent);
+          })
           .catch(console.error);
       }
     }
@@ -425,6 +432,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
         )
       );
     }
+
+    console.log(calculateApproxUSDBNB);
   }, [
     activeMethod,
     farmApy,
@@ -454,7 +463,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
   };
 
   const handleInputDays = (e) => {
-    setDays(e);
+    setDays(e.slice(0, 5));
     if (parseInt(e) <= 30) {
       setActiveTime(timePillsArray[0]);
       setActiveTimePill(timePillsArray[0]);
@@ -471,7 +480,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
   };
 
   const handleInputUSD = (e) => {
-    setUsdToDeposit(e);
+    setUsdToDeposit(e.slice(0, 7));
   };
   let navigate = useHistory();
   const gotoEarn = () => {
@@ -489,6 +498,18 @@ const Calculator = ({ earnClass, onClose, ref }) => {
     document.getElementById(field).focus();
   };
 
+  const windowSize = useWindowSize();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleTooltipClose = () => {
+    setOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <div
       id="calculator"
@@ -501,8 +522,13 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             <h6 className="d-flex gap-2 align-items-center calc-title">
               <img src={calculator} alt="" /> Calculator
             </h6>
-           
-            {earnClass === "earn-calculator" && (
+            {/* <img
+              src={calculatorChart}
+              className="calculator-chart d-flex d-lg-none"
+              alt=""
+            /> */}
+
+            {/* {earnClass === "earn-calculator" && (
               <img
                 src={xMark}
                 width={25}
@@ -510,7 +536,29 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 onClick={onClose}
               style={{ cursor: "pointer" }}
               />
-            )}
+            )} */}
+           <ClickAwayListener onClickAway={handleTooltipClose}>
+           <Tooltip
+              PopperProps={{
+                disablePortal: true,
+              }}
+              onClose={handleTooltipClose}
+              open={open}
+              disableFocusListener
+              disableHoverListener
+              disableTouchListener
+              placement="top"
+              title={
+                <div className="tooltip-text">
+                  {
+                    "This calculator is for informational purposes only. Calculated yields assume that prices of the deposited assets don't change."
+                  }
+                </div>
+              }
+            >
+              <img src={moreinfo} width={24} height={24} className="cursor-pointer" alt="tooltip" onClick={handleTooltipOpen} />
+            </Tooltip>
+           </ClickAwayListener>
           </div>
           <div className="pills-container d-flex justify-content-center row m-0 w-100">
             {pillsNames &&
@@ -522,7 +570,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                     setActivePill(item);
                     getActivePill(item);
                   }}
-                  className={`col-3 pill-item d-flex align-items-center gap-2 ${
+                  className={`col col-lg-3 pill-item d-flex align-items-center gap-2 ${
                     activePill == item ? "active-color" : ""
                   }`}
                   ref={(el) => (pillRef.current[id] = el)}
@@ -541,7 +589,15 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                     }
                     alt=""
                   />
-                  {item}
+                  <span
+                    className={`pill-item-text ${
+                      activePill !== item && windowSize.width < 786
+                        ? "d-none"
+                        : "d-flex"
+                    }`}
+                  >
+                    {item}
+                  </span>
                 </p>
               ))}
           </div>
@@ -568,10 +624,13 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 onChange={(e) => handleInputUSD(e.target.value)}
               />
             </div> */}
-            <div className="input-container px-0" style={{ width: "32%" }}>
+            <div className="input-container usd-input px-0">
               <input
                 type="number"
                 min={1}
+                max={999999}
+                maxLength={6}
+                autoComplete="off"
                 id="usd_to_deposit"
                 name="usd_to_deposit"
                 value={usdToDeposit}
@@ -588,7 +647,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 USD to deposit
               </label>
             </div>
-            <div className="input-container px-0" style={{ width: "32%" }}>
+            <div className="input-container days-input px-0">
               <input
                 type="number"
                 min={1}
@@ -627,7 +686,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 onChange={(e) => handleInputDays(e.target.value)}
               />
             </div> */}
-            {/* <div className="time-pills-container row m-0">
+            {/* <div className="time-pills-container row m-0">)
               {timePillsArray.length > 0 &&
                 timePillsArray.map((item, id) => (
                   <p
@@ -652,7 +711,11 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 ))}
             </div> */}
 
-            <img src={calculatorChart} className="calculator-chart" alt="" />
+            <img
+              src={calculatorChart}
+              className="calculator-chart d-none d-lg-flex"
+              alt=""
+            />
           </div>
 
           {/* <div className="d-flex justify-content-between gap-2 align-items-end mt-3">
@@ -689,23 +752,34 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               *This calculator is for informational purposes only. Calculated
               yields assume that prices of the deposited assets don't change.
             </h6> */}
-          <div className="row w-100 mx-0 align-items-center justify-content-between mt-5">
-            <div className="ethereum-chain-wrapper">
+          <div className="row w-100 gap-2 gap-xl-0 mx-0 align-items-center justify-content-between mt-5">
+            <NavLink
+              to={{
+                pathname: "earn",
+                state: { chain: "eth", option: activeMethod, pool: 0 },
+                customChain: activeMethod === "Vault" && "eth"
+
+              }}
+              className="ethereum-chain-wrapper"
+            >
               <div className="chain-content gap-4 p-2">
                 <div className="values-wrapper align-items-start d-flex flex-column gap-1">
                   <div className="usd-value">
-                    ${calculateApproxUSD === "NaN" ? "0.0" : calculateApproxUSD}
+                    $
+                    {calculateApproxUSD === "NaN"
+                      ? "0.0"
+                      : abbreviateNumber(calculateApproxUSD)}
                   </div>
                   <div className="approx-value">
                     Approx (
                     {calculateApproxWeth != "∞.undefined" &&
                     calculateApproxWeth != "..."
-                      ? calculateApproxWeth
+                      ? calculateApproxWeth.slice(0, 6)
                       : "0.0"}{" "}
                     WETH)
                   </div>
                 </div>
-                <div className="d-flex align-items-center justify-content-between gap-4">
+                <div className="d-flex align-items-center justify-content-between gap-2 gap-lg-4">
                   <div className="d-flex align-items-center gap-2">
                     <img src={ethStakeActive} width={20} height={20} alt="" />
                     <h6 className="chain-name">Ethereum</h6>
@@ -713,8 +787,17 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                   <img src={filledArrow} alt="" />
                 </div>
               </div>
-            </div>
-            <div
+            </NavLink>
+            <NavLink
+              to={{
+                pathname: "earn",
+                state: {
+                  chain: activeMethod === "Vault" ? "eth" : "bnb",
+                  option: activeMethod,
+                  pool: 0,
+                  customChain: activeMethod === "Vault" && "bnb"
+                },
+              }}
               className={
                 activeMethod === "Vault" ? "usdc-wrapper" : `bnb-chain-wrapper`
               }
@@ -725,18 +808,18 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                     $
                     {calculateApproxUSDBNB === "NaN"
                       ? "0.0"
-                      : calculateApproxUSDBNB}
+                      : abbreviateNumber(calculateApproxUSDBNB)}
                   </div>
                   <div className="approx-value">
                     Approx (
                     {calculateApproxWbnb != "∞.undefined" &&
                     calculateApproxWbnb != "..."
-                      ? calculateApproxWbnb
+                      ? calculateApproxWbnb.slice(0, 6)
                       : "0.0"}{" "}
-                    {activeMethod === "Vault" ? "USDC" : "WBNB"} )
+                    {activeMethod === "Vault" ? "USDC" : "WBNB"})
                   </div>
                 </div>
-                <div className="d-flex align-items-center justify-content-between gap-4">
+                <div className="d-flex align-items-center justify-content-between gap-2 gap-lg-4">
                   <div className="d-flex align-items-center gap-2">
                     <img
                       src={activeMethod === "Vault" ? usdc : bnbStakeActive}
@@ -751,8 +834,17 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                   <img src={filledArrow} alt="" />
                 </div>
               </div>
-            </div>
-            <div
+            </NavLink>
+            <NavLink
+              to={{
+                pathname: "earn",
+                state: {
+                  chain: activeMethod === "Vault" ? "eth" : "avax",
+                  option: activeMethod,
+                  customChain: activeMethod === "Vault" && "avax",
+                  pool: 0,
+                },
+              }}
               className={
                 activeMethod === "Vault" ? "usdt-wrapper" : "avax-chain-wrapper"
               }
@@ -763,18 +855,18 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                     $
                     {calculateApproxUSDAVAX === "NaN"
                       ? "0.0"
-                      : calculateApproxUSDAVAX}
+                      : abbreviateNumber(calculateApproxUSDAVAX)}
                   </div>
                   <div className="approx-value">
                     Approx (
                     {calculateApproxWavax != "∞.undefined" &&
                     calculateApproxWavax != "..."
-                      ? calculateApproxWavax
+                      ? calculateApproxWavax.slice(0, 6)
                       : "0.0"}{" "}
-                    {activeMethod === "Vault" ? "USDT" : "WAVAX"} )
+                    {activeMethod === "Vault" ? "USDT" : "WAVAX"})
                   </div>
                 </div>
-                <div className="d-flex align-items-center justify-content-between gap-4">
+                <div className="d-flex align-items-center justify-content-between gap-2 gap-lg-4">
                   <div className="d-flex align-items-center gap-2">
                     <img
                       src={activeMethod === "Vault" ? usdt : avaxStakeActive}
@@ -789,7 +881,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                   <img src={filledArrow} alt="" />
                 </div>
               </div>
-            </div>
+            </NavLink>
           </div>
         </div>
       </form>

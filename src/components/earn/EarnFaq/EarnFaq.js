@@ -8,7 +8,7 @@ import arrowPassive from "./arrowPassive.svg";
 
 import Collapse from "react-bootstrap/Collapse";
 
-const EarnFaq = ({ faqTypes }) => {
+const EarnFaq = ({ faqTypes, faqIndex }) => {
   const categories = [
     {
       id: "63481594d7e11d6f1849f730",
@@ -31,10 +31,11 @@ const EarnFaq = ({ faqTypes }) => {
       icon: "farm",
     },
   ];
+  
 
   const [faqItems, setFaqItems] = useState([]);
   const [faqTitle, setFaqTitle] = useState("");
-  const [open, setOpen] = useState(-1);
+  const [open, setOpen] = useState(faqIndex);
 
   const fetchFaq = async (category) => {
     await axios
@@ -47,6 +48,7 @@ const EarnFaq = ({ faqTypes }) => {
   };
 
   useEffect(() => {
+    console.log(faqIndex);
     if (faqTypes === "Staking") {
       fetchFaq(categories[0]);
     } else if (faqTypes === "Buyback") {
@@ -59,8 +61,8 @@ const EarnFaq = ({ faqTypes }) => {
   }, [faqTypes]);
 
   return (
-    <div className="row w-100 my-5 p-0 faq-container justify-content-between">
-      <div className="col-7 ps-0">
+    <div id="earnfaq" className="row flex-column-reverse gap-4 gap-lg-0 flex-lg-row w-100 my-5 p-0 faq-container justify-content-between">
+      <div className="col-12 col-lg-7 px-0 px-lg-2 ps-xl-0">
         <h3 className="mb-3" style={{ color: "#f7f7fc" }}>
           {faqTitle} FAQs
         </h3>
@@ -115,7 +117,7 @@ const EarnFaq = ({ faqTypes }) => {
           ))}
         </div>
       </div>
-      <div className="col-5 pe-0">
+      <div className="col-12 col-lg-5 px-0 px-lg-2 pe-xl-0">
         <h3 className="mb-3" style={{ color: "#f7f7fc" }}>
           Video guide
         </h3>

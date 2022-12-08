@@ -40,7 +40,8 @@ const OtherNews = ({
   const [showTooltip, setShowTooltip] = useState(false);
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
-
+  const [upvote, setUpvote] = useState(upvotes);
+  const [downvote, setDownvote] = useState(downvotes);
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
@@ -64,7 +65,7 @@ const OtherNews = ({
     else if(logout === 'true') {
       setCanVote(false)
     }
-    
+
   }, [alreadyVoted, bal1, bal2, isPremium]);
 
 
@@ -118,18 +119,20 @@ const OtherNews = ({
   };
 
   const checkUpVoting = async (itemId) => {
-    
+
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/up`
       )
       .then((data) => {
-        
-       
+
+
         if (data.data.status === "success") {
-          
-          onVotesFetch()
-          
+
+          // onVotesFetch()
+
+          setUpvote(upvote + 1);
+
         } else {
           setalreadyVoted(false);
           setShowTooltip(true)
@@ -140,15 +143,18 @@ const OtherNews = ({
   };
 
   const checkDownVoting = async (itemId) => {
-    
+
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/down`
       )
       .then((data) => {
-        
+
         if (data.data.status === "success") {
-          onVotesFetch()
+          // onVotesFetch()
+
+            setDownvote(downvote + 1);
+
         } else {
           setalreadyVoted(false);
           setShowTooltip(true)
@@ -202,6 +208,26 @@ const OtherNews = ({
                 onClick={(e) => {
                   handleLikeStates();
                   e.stopPropagation();
+                  // console.log(upvotes, downvotes);
+                }}
+              />
+
+              <span className="votes-amount"> {Number(upvote) - Number(downvote)}</span>
+              <img
+              style={{transform: 'rotate(0deg)'}}
+                src={
+                  likeIndicator === false && dislikeIndicator === false
+                    ? passiveDownvote
+                    : dislikeIndicator === true
+                    ? activeDownvote
+                    : passiveDownvote
+                }
+                alt=""
+                className="like-indicator"
+                id="dislike"
+                onClick={(e) => {
+                  handleDisLikeStates();
+                  e.stopPropagation();
                 }}
               />
               {showTooltip === true ? (
@@ -225,24 +251,6 @@ const OtherNews = ({
               ) : (
                 <></>
               )}
-              <span className="votes-amount"> {Number(upvotes) - Number(downvotes)}</span>
-              <img
-              style={{transform: 'rotate(0deg)'}}
-                src={
-                  likeIndicator === false && dislikeIndicator === false
-                    ? passiveDownvote
-                    : dislikeIndicator === true
-                    ? activeDownvote
-                    : passiveDownvote
-                }
-                alt=""
-                className="like-indicator"
-                id="dislike"
-                onClick={(e) => {
-                  handleDisLikeStates();
-                  e.stopPropagation();
-                }}
-              />
             </div>
             {/* <img
               src={theme === "theme-dark" ? WhiteDots : Dots}

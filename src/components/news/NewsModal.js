@@ -57,6 +57,7 @@ const NewsModal = ({
   const [dislikeIndicator, setDislikeIndicator] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [votes, setVotes] = useState([]);
+
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
   const [newContent, setnewContent] = useState(content);
@@ -241,7 +242,7 @@ const NewsModal = ({
                   position: "relative",
                 }}
               >
-                
+
                 <button
                   className="btn v3"
                   style={{
@@ -299,7 +300,7 @@ const NewsModal = ({
 
                 <a
                   className="resp-sharing-button__link"
-                  href={`https://telegram.me/share/url?text=${title}&url=${`https://tools.dyp.finance/news/${newsId}`}`}
+                  href={`https://telegram.me/share/url?url=${`https://tools.dyp.finance/news/${newsId}&text=${title}`}`}
                   target="_blank"
                   rel="noopener"
                   aria-label=""
@@ -425,27 +426,6 @@ const NewsModal = ({
                   e.stopPropagation();
                 }}
               />
-              {showTooltip === true ? (
-                <OutsideClickHandler
-                  onOutsideClick={() => {
-                    setShowTooltip(false);
-                  }}
-                >
-                  <ToolTip
-                    status={
-                      logout === "false" && canVote === false
-                        ? "You need to be holding DYP to vote"
-                        : logout === "true"
-                        ? "Please connect your wallet"
-                        : alreadyVoted === true && canVote === true
-                        ? "You have already voted"
-                        : "You have already voted"
-                    }
-                  />
-                </OutsideClickHandler>
-              ) : (
-                <></>
-              )}
               <span className="votes-amount">
                 {/* {Number(upvotes) - Number(downvotes)} */}
                 {Number(votes.find((obj) => obj.id === newsId)?.up) -
@@ -468,6 +448,27 @@ const NewsModal = ({
                   e.stopPropagation();
                 }}
               />
+               {showTooltip === true ? (
+                <OutsideClickHandler
+                  onOutsideClick={() => {
+                    setShowTooltip(false);
+                  }}
+                >
+                  <ToolTip
+                    status={
+                      logout === "false" && canVote === false
+                        ? "You need to be holding DYP to vote"
+                        : logout === "true"
+                        ? "Please connect your wallet"
+                        : alreadyVoted === true && canVote === true
+                        ? "You have already voted"
+                        : "You have already voted"
+                    }
+                  />
+                </OutsideClickHandler>
+              ) : (
+                <></>
+              )}
             </div>
             {/* <p>
               Source:{" "}
@@ -494,8 +495,7 @@ const NewsModal = ({
             <div className="related-news-wrapper">
               {latestNewsData.length > 0 &&
                 getItemsWithoutCurrentItem(newsId, latestNewsData)
-                .slice(0,5)
-                  // .slice(0, parseInt(height / 100))
+                  .slice(0, parseInt(height / 130))
                   .map((item, key) => {
                     if (item !== undefined) {
                       return (

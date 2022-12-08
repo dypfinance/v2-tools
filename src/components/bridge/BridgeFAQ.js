@@ -8,7 +8,7 @@ import arrowPassive from "./assets/arrowPassive.svg";
 
 import Collapse from "react-bootstrap/Collapse";
 
-const BridgeFAQ = () => {
+const BridgeFAQ = ({faqIndex}) => {
   const categories = [
     {
       id: "63488995062d4b709c4a2535",
@@ -19,7 +19,7 @@ const BridgeFAQ = () => {
 
   const [faqItems, setFaqItems] = useState([]);
   const [faqTitle, setFaqTitle] = useState("");
-  const [open, setOpen] = useState(-1);
+  const [open, setOpen] = useState(faqIndex);
 
   const fetchFaq = async (category) => {
     await axios
@@ -36,7 +36,7 @@ const BridgeFAQ = () => {
   }, []);
 
   return (
-    <div className="row w-100 my-5 p-0 faq-container justify-content-between">
+    <div id="bridgeFaq" className="row w-100 my-5 p-0 faq-container justify-content-between">
       <div className="col-7 ps-0">
         <h3 className="mb-3" style={{ color: "#f7f7fc" }}>
           {faqTitle} FAQs

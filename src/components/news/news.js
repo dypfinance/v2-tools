@@ -74,7 +74,7 @@ const News = ({ theme, isPremium, coinbase }) => {
 
 
 
-  const newsPerRow = 8;
+  const newsPerRow = 9;
   const [activeClass, setActiveClass] = useState("latestnews");
   const [showModal, setShowModal] = useState(false);
   const [newsItemId, setnewsItemId] = useState(-1);
@@ -575,18 +575,20 @@ const News = ({ theme, isPremium, coinbase }) => {
               content={newsContent}
               theme={theme}
               coinbase={coinbase}
-              upvotes={
-                votes.length !== 0
-                  ? votes.find((obj) => obj.id === activeNews.id)?.up !== undefined ? votes.find((obj) => obj.id === activeNews.id)?.up : 0
-                  : 0
-              }
-              downvotes={
-                votes.length !== 0
-                  ? votes.find((obj) => obj.id === activeNews.id)?.down !== undefined
-                    ? votes.find((obj) => obj.id === activeNews.id)?.down
-                    : 0
-                  : 0
-              }
+              // upvotes={
+              //   votes.length !== 0
+              //     ? votes.find((obj) => obj.id === activeNews.id)?.up !== undefined ? votes.find((obj) => obj.id === activeNews.id)?.up : 0
+              //     : 0
+              // }
+              // downvotes={
+              //   votes.length !== 0
+              //     ? votes.find((obj) => obj.id === activeNews.id)?.down !== undefined
+              //       ? votes.find((obj) => obj.id === activeNews.id)?.down
+              //       : 0
+              //     : 0
+              // }
+              upvotes={activeNews.vote.up}
+                            downvotes={activeNews.vote.down}
               day={activeNews.date?.slice(0, 10)}
               month={activeNews.month}
               year={activeNews.year}
@@ -671,8 +673,8 @@ const News = ({ theme, isPremium, coinbase }) => {
                   display: !showModal ? "flex" : "none",
                 }}
               >
-               <div className="singlenews-side p-3">
-               <div className="button-wrapper">
+               <div className="singlenews-side px-3 py-2">
+               <div className="button-wrapper px-0">
                   <h6
                     className={
                       activeClass === "latestnews"
@@ -700,9 +702,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                 </div>
                 {popularNewsData.length > 0 &&
                   activeClass === "latestnews" &&
-                  popularNewsData.slice(0, 3).map((item, key) => {
+                  popularNewsData.slice(0, 4).map((item, key) => {
                     return (
-                      <div className="banner-item pl-0" key={key}>
+                      <div className="banner-item top-rated-news pl-0" key={key}>
                         <SingleNews
                           image={item.image}
                           title={item.title}
@@ -713,18 +715,20 @@ const News = ({ theme, isPremium, coinbase }) => {
                           fullDate={item.date}
                           theme={theme}
                           newsId={item.id}
-                          upvotes={
-                            votes.length !== 0
-                              ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                              : 0
-                          }
-                          downvotes={
-                            votes.length !== 0
-                              ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                                ? votes.find((obj) => obj.id === item.id)?.down
-                                : 0
-                              : 0
-                          }
+                          // upvotes={
+                          //   votes.length !== 0
+                          //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                          //     : 0
+                          // }
+                          upvotes={item.vote.up}
+                          // downvotes={
+                          //   votes.length !== 0
+                          //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                          //       ? votes.find((obj) => obj.id === item.id)?.down
+                          //       : 0
+                          //     : 0
+                          // }
+                          downvotes={item.vote.down}
                           onVotesFetch={fetchVotingdata}
                           coinbase={coinbase}
                           onNewsClick={() => {
@@ -742,10 +746,10 @@ const News = ({ theme, isPremium, coinbase }) => {
                 {topVotes(votes).length > 0 && //todo
                 activeClass === "toprated" ? (
                   topVotes(votes)
-                    .slice(0, 3)
+                    .slice(0, 4)
                     .map((item, key) => {
                       return (
-                        <div className="banner-item pl-0" key={key}>
+                        <div className="banner-item top-rated-news pl-0" key={key}>
                           <SingleNews
                             image={item.image}
                             title={item.title}
@@ -757,18 +761,20 @@ const News = ({ theme, isPremium, coinbase }) => {
                             theme={theme}
                             onVotesFetch={fetchVotingdata}
                             coinbase={coinbase}
-                            upvotes={
-                              votes.length !== 0
-                                ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                                : 0
-                            }
-                            downvotes={
-                              votes.length !== 0
-                                ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                                  ? votes.find((obj) => obj.id === item.id)?.down
-                                  : 0
-                                : 0
-                            }
+                            // upvotes={
+                            //   votes.length !== 0
+                            //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                            //     : 0
+                            // }
+                            // downvotes={
+                            //   votes.length !== 0
+                            //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                            //       ? votes.find((obj) => obj.id === item.id)?.down
+                            //       : 0
+                            //     : 0
+                            // }
+                            upvotes={item.vote.up}
+                            downvotes={item.vote.down}
                             onNewsClick={() => {
                               setShowModal(true);
                               handleSelectTopVotedNews(item.id);
@@ -853,18 +859,20 @@ const News = ({ theme, isPremium, coinbase }) => {
                         console.log(key);
                         window.scrollTo(0, 0);
                       }}
-                      upvotes={
-                        votes.length !== 0
-                          ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                          : 0
-                      }
-                      downvotes={
-                        votes.length !== 0
-                          ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                            ? votes.find((obj) => obj.id === item.id)?.down
-                            : 0
-                          : 0
-                      }
+                      // upvotes={
+                      //   votes.length !== 0
+                      //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                      //     : 0
+                      // }
+                      // downvotes={
+                      //   votes.length !== 0
+                      //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                      //       ? votes.find((obj) => obj.id === item.id)?.down
+                      //       : 0
+                      //     : 0
+                      // }
+                      upvotes={item.vote.up}
+                            downvotes={item.vote.down}
                       coinbase={coinbase}
                     />
                   </div>
@@ -903,18 +911,20 @@ const News = ({ theme, isPremium, coinbase }) => {
                     theme={theme}
                     onVotesFetch={fetchVotingdata}
                     newsId={item.id}
-                    upvotes={
-                      votes.length !== 0
-                        ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                        : 0
-                    }
-                    downvotes={
-                      votes.length !== 0
-                        ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                          ? votes.find((obj) => obj.id === item.id)?.down
-                          : 0
-                        : 0
-                    }
+                    // upvotes={
+                    //   votes.length !== 0
+                    //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                    //     : 0
+                    // }
+                    // downvotes={
+                    //   votes.length !== 0
+                    //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                    //       ? votes.find((obj) => obj.id === item.id)?.down
+                    //       : 0
+                    //     : 0
+                    // }
+                    upvotes={item.vote.up}
+                    downvotes={item.vote.down}
                     onOtherNewsClick={() => {
                       setActiveNews(bigNewsSorted[key]);
                       handleFetchNewsContent("special", item.id);

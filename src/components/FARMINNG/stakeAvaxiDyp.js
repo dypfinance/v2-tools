@@ -23,6 +23,7 @@ import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+import { ClickAwayListener } from "@material-ui/core";
 
 
 const renderer = ({ days, hours, minutes, seconds }) => {
@@ -58,7 +59,7 @@ export default function stakeAvaxiDyp({
   chainId,
   coinbase,
   lockTime,
-  listType
+  listType,
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;
   let token_symbol = "iDYP";
@@ -169,6 +170,12 @@ export default function stakeAvaxiDyp({
         is_wallet_connected: false,
         apy1: 0,
         apy2: 0,
+        performanceTooltip: false,
+        aprTooltip: false,
+        lockTooltip: false,
+        depositTooltip: false,
+        rewardsTooltip: false,
+        withdrawTooltip: false,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -631,12 +638,51 @@ export default function stakeAvaxiDyp({
       let infoItems2 = ["75% WBNB/ETH rewards", "25% DYP rewards"];
       let tooltip2 = infoItems2.join("\n");
 
+
+      const performanceOpen = () => {
+        this.setState({ performanceTooltip: true });
+      };
+      const performanceClose = () => {
+        this.setState({ performanceTooltip: false });
+      };
+      const aprOpen = () => {
+        this.setState({ aprTooltip: true });
+      };
+      const aprClose = () => {
+        this.setState({ aprTooltip: false });
+      };
+      const lockOpen = () => {
+        this.setState({ lockTooltip: true });
+      };
+      const lockClose = () => {
+        this.setState({ lockTooltip: false });
+      };
+      const depositOpen = () => {
+        this.setState({ depositTooltip: true });
+      };
+      const depositClose = () => {
+        this.setState({ depositTooltip: false });
+      };
+      const rewardsOpen = () => {
+        this.setState({ rewardsTooltip: true });
+      };
+      const rewardsClose = () => {
+        this.setState({ rewardsTooltip: false });
+      };
+      const withdrawOpen = () => {
+        this.setState({ withdrawTooltip: true });
+      };
+      const withdrawClose = () => {
+        this.setState({ withdrawTooltip: false });
+      };
+
+
       return (
         <div className="container-lg p-0">
           <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
-              <div className="activewrapper">
-                <div className="d-flex align-items-center justify-content-between gap-5">
+            <div className="activewrapper">
+                <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between gap-3 gap-lg-5">
                   <h6 className="activetxt">
                     <img
                       src={ellipse}
@@ -652,56 +698,100 @@ export default function stakeAvaxiDyp({
                       iDYP
                     </h6>
                   </div> */}
+                  <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
+                    <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Performance fee:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      {fee_s}%
+                      <ClickAwayListener onClickAway={performanceClose}>
+                        <Tooltip
+                          open={this.state.performanceTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "Performance fee is subtracted from the displayed APR."
+                              }
+                            </div>
+                          }
+                        >
+                          <img
+                            src={moreinfo}
+                            alt=""
+                            onClick={performanceOpen}
+                          />
+                        </Tooltip>
+                      </ClickAwayListener>
+                    </h6>
+                  </div>
 
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">APR:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {apr == 0 ? "..." : getFormattedNumber(apr - fee_s, 0)} %
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "APR reflects the interest rate of earnings on an account over the course of one year. "
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      {getFormattedNumber(apr - fee_s, 2)}%
+                      <ClickAwayListener onClickAway={aprClose}>
+                        <Tooltip
+                          open={this.state.aprTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={aprOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "The amount of time your deposited assets will be locked."
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={lockClose}>
+                        <Tooltip
+                          open={this.state.lockTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "The amount of time your deposited assets will be locked."
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={lockOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
-                </div>
-
-                <div className="d-flex align-items-center justify-content-between gap-3">
-                <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
-                      <img src={poolsCalculatorIcon} alt="" />
-                      Calculator
-                    </h6>
+                    </div>
+                <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                  <h6
+                    className="bottomitems"
+                    onClick={() => this.setState({ showCalculator: true })}
+                  >
+                    <img src={poolsCalculatorIcon} alt="" />
+                    Calculator
+                  </h6>
                   <a
                     href={
                       // chainId === 1
-                        // ? "https://app.uniswap.org/#/swap?use=V2&inputCurrency=ETH&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
-                        // : 
-                        "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                      // ?
+                      "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                      // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
                     rel="noreferrer"
@@ -722,78 +812,111 @@ export default function stakeAvaxiDyp({
                     </h6>
                   </div>
                 </div>
+                  </div>
+                </div>
               </div>
             </div>
-              <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-                <div className="row w-100 justify-content-between">
-                  <div className="firstblockwrapper col-2">
-                    <div
-                      className="d-flex flex-column justify-content-between gap-4"
-                      style={{ height: "100%" }}
-                    >
-                      <h6 className="start-title">Start Staking</h6>
-                      {/* <h6 className="start-desc">
-                    {this.props.coinbase === null
-                      ? "Connect wallet to view and interact with deposits and withdraws"
-                      : "Interact with deposits and withdraws"}
-                  </h6> */}
-                      {this.props.coinbase === null ? (
-                        <button
-                          className="connectbtn btn"
-                          onClick={this.showModal}
-                        >
-                          {" "}
-                          <img src={wallet} alt="" /> Connect wallet
-                        </button>
-                      ) : (
-                        <div className="addressbtn btn">
-                          <Address a={this.props.coinbase}  chainId={43114}/>
-                        </div>
-                      )}
-                    </div>
-                    
+            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
+              <div className="row gap-4 gap-lg-0 w-100 justify-content-between">
+                <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
+                  <div
+                    className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
+                    style={{ height: "100%" }}
+                  >
+                    <h6 className="start-title">Start Staking</h6>
+                    {/* <h6 className="start-desc">
+                      {this.props.coinbase === null
+                        ? "Connect wallet to view and interact with deposits and withdraws"
+                        : "Interact with deposits and withdraws"}
+                    </h6> */}
+                    {this.props.coinbase === null ? (
+                      <button
+                        className="connectbtn btn"
+                        onClick={this.showModal}
+                      >
+                        {" "}
+                        <img src={wallet} alt="" /> Connect wallet
+                      </button>
+                    ) : (
+                      <div className="addressbtn btn">
+                        <Address a={this.props.coinbase} chainId={1} />
+                      </div>
+                    )}
                   </div>
-                  <div className="otherside-border col-4">
+                </div>
+                {/* <div className="otherside">
+              <button className="btn green-btn">
+                TBD Claim reward 0.01 ETH
+              </button>
+            </div> */}
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
-                      {/* <div className="d-flex gap-2 align-items-center">
+                      {/* <h6 className="deposit-txt d-flex align-items-center gap-2">
                         <img
-                          src={require(`./assets/idyp.svg`).default}
+                          src={
+                            require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                              .default
+                          }
                           alt=""
-                          style={{ width: 15, height: 15 }}
+                          style={{ width: 14, height: 14 }}
                         />
-                        <h6
-                          className="text-white"
-                          style={{ fontSize: "11px", fontWeight: "600" }}
-                        >
-                          iDYP
-                        </h6>
-                      </div> */}
+                        {token_symbol}
+                      </h6> */}
                       <h6 className="mybalance-text">
                         Balance:
-                        <b>{token_balance > 0 ? token_balance : getFormattedNumber(0, 6)} {token_symbol}</b>
+                        <b>
+                          {/* {getFormattedNumber(
+                      this.state.selectedTokenBalance /
+                        10 ** this.state.selectedTokenDecimals,
+                      6
+                    )} */}
+                          {token_balance} {token_symbol}
+                        </b>
+                        {/* <select
+                    disabled={!is_connected}
+                    value={this.state.selectedBuybackToken}
+                    onChange={(e) =>
+                      this.handleSelectedTokenChange(e.target.value)
+                    }
+                    className="inputfarming p-0"
+                    style={{ border: "none" }}
+                  >
+                    {Object.keys(window.buyback_tokens_farming).map((t) => (
+                      <option key={t} value={t}>
+                        {" "}
+                        {window.buyback_tokens_farming[t].symbol}{" "}
+                      </option>
+                    ))}
+                  </select> */}
                       </h6>
                     </div>
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {
-                            "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
-                          }
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    <ClickAwayListener onClickAway={depositClose}>
+                      <Tooltip
+                        open={this.state.depositTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={depositOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
                       <div className="position-relative">
                         <h6 className="amount-txt">Amount</h6>
                         <input
-                          type={"number"}
+                          type={"text"}
                           className="styledinput"
                           placeholder="0.0"
                           style={{ width: "100%" }}
@@ -807,6 +930,7 @@ export default function stakeAvaxiDyp({
                               depositAmount: e.target.value,
                             })
                           }
+                          // onChange={(e) => setDepositValue(e.target.value)}
                         />
                       </div>
                       <button
@@ -815,11 +939,17 @@ export default function stakeAvaxiDyp({
                       >
                         Max
                       </button>
-              
+                      {/* <button
+                      className="btn filledbtn"
+                      onClick={this.handleApprove}
+                    >
+                      Approve
+                    </button> */}
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
-                          this.state.depositLoading === true
+                          this.state.depositLoading === true ||
+                          this.state.depositStatus === "success"
                             ? true
                             : false
                         }
@@ -864,41 +994,59 @@ export default function stakeAvaxiDyp({
                           </>
                         )}
                       </button>
-                    </div>
-                  </div>
-                  {this.state.errorMsg && (
-                    <h6 className="errormsg">{this.state.errorMsg}</h6>
-                  )}
-                </div>
-              <div className="otherside-border col-4">
-                <div className="d-flex justify-content-between gap-2 ">
-                  <h6 className="withdraw-txt">Rewards</h6>
-                  <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                  Rewards are displayed in real-time
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
-                        </div>
-                      }
+                      {/* <button
+                      className="btn filledbtn"
+                      onClick={this.handleStake}
                     >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
-                  </h6>
-                </div>
-                <div className="d-flex flex-column gap-2 justify-content-between">
-                  <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                  <div className="form-row d-flex gap-2 align-items-center justify-content-between">
-                    <div className="position-relative d-flex flex-column">
-                    <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>iDYP</span>
-                      <span>{pendingDivs > 0 ?
-                              pendingDivs 
-                              : 
-                              getFormattedNumber(0, 6)
-                            }</span>
+                      Deposit
+                    </button> */}
                     </div>
-                    <div className="d-flex align-items-center gap-3">
+                    {this.state.errorMsg && (
+                      <h6 className="errormsg">{this.state.errorMsg}</h6>
+                    )}
+                  </div>
+                </div>
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
+                  <div className="d-flex justify-content-between gap-2">
+                    <h6 className="withdraw-txt">Rewards</h6>
+                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
+                      Rewards are displayed in real-time
+                      <ClickAwayListener onClickAway={rewardsClose}>
+                        <Tooltip
+                          open={this.state.rewardsTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={rewardsOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
+                    </h6>
+                  </div>
+                      
+                  <div className="form-row flex-column flex-lg-row d-flex gap-2 align-item-start align-items-lg-center justify-content-between">
+                    <div className="d-flex flex-column">
+                      <span
+                        style={{
+                          fontWeight: "500",
+                          fontSize: "12px",
+                          lineHeight: "18px",
+                          color: "#c0c9ff",
+                        }}
+                      >
+                        iDYP
+                      </span>
+                      <span>{pendingDivs}</span>
+                    </div>
+                    <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                       <button
                         disabled={
                           this.state.claimStatus === "claimed" ||
@@ -907,7 +1055,8 @@ export default function stakeAvaxiDyp({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed"
+                          this.state.claimStatus === "claimed" &&
+                          this.state.claimStatus === "initial"
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
@@ -918,8 +1067,7 @@ export default function stakeAvaxiDyp({
                         style={{ height: "fit-content" }}
                         onClick={this.handleClaimDivs}
                       >
-                        {this.state.claimLoading &&
-                        this.state.claimStatus === "initial" ? (
+                        {this.state.claimLoading ? (
                           <div
                             class="spinner-border spinner-border-sm text-light"
                             role="status"
@@ -937,72 +1085,93 @@ export default function stakeAvaxiDyp({
                           <>Claim</>
                         )}
                       </button>
-                      <button
-                          disabled={
-                            // this.state.claimStatus === "invest" ? true :
-                            false
-                          }
-                          className={`btn outline-btn ${
-                            this.state.reInvestStatus === "invest"
-                              ? "disabled-btn"
-                              : this.state.reInvestStatus === "failed"
-                              ? "fail-button"
-                              : this.state.reInvestStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content"}}
 
-                          onClick={this.handleReinvest}
-                        >
-                          {this.state.reInvestLoading   ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.reInvestStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.reInvestStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Reinvest</>
-                          )}
-                        </button>
+                      <button
+                        disabled={
+                          // this.state.reInvestStatus === "initial" ? true :
+                          false
+                        }
+                        className={`btn outline-btn ${
+                          this.state.reInvestStatus === "invest"
+                            ? "disabled-btn"
+                            : this.state.reInvestStatus === "failed"
+                            ? "fail-button"
+                            : this.state.reInvestStatus === "success"
+                            ? "success-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        style={{ height: "fit-content" }}
+                        onClick={this.handleReinvest}
+                      >
+                        {this.state.reInvestLoading ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.reInvestStatus === "failed" ? (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        ) : this.state.reInvestStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>Reinvest</>
+                        )}
+                      </button>
                     </div>
                   </div>
-                  {this.state.errorMsg && (
-                    <h6 className="errormsg">{this.state.errorMsg}</h6>
+                  {this.state.errorMsg2 && (
+                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
                   )}
+                  {/* <button
+                    title={claimTitle}
+                    disabled={!is_connected}
+                    className="btn  btn-primary btn-block l-outline-btn"
+                    type="submit"
+                  >
+                    CLAIM
+                  </button> */}
+                  {/* <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.handleClaimDyp();
+                  }}
+                  title={claimTitle}
+                  disabled={!is_connected}
+                  className="btn  btn-primary btn-block l-outline-btn"
+                  type="submit"
+                >
+                  CLAIM
+                </button> */}
                 </div>
-              </div>
-                <div className="otherside-border col-2">
+                <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {"Withdraw your deposited assets from the staking smart contract."}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    <ClickAwayListener onClickAway={withdrawClose}>
+                      <Tooltip
+                        open={this.state.withdrawTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Withdraw your deposited assets from the staking smart contract."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
-                    className={
-                      // this.state.depositStatus === "success" ?
-                      "outline-btn btn"
-                      // :
-                      //  "btn disabled-btn"
-                    }
+                    className="btn outline-btn"
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
                     }}
@@ -1011,7 +1180,7 @@ export default function stakeAvaxiDyp({
                   </button>
                 </div>
               </div>
-            </div>
+            </div>q
           </div>
 
           {/* </div> */}
@@ -1225,7 +1394,7 @@ export default function stakeAvaxiDyp({
                           href={`${window.config.snowtrace_baseURL}/token/${reward_token._address}?a=${coinbase}`}
                           className="stats-link"
                         >
-                          View on SnowTrace <img src={statsLinkIcon} alt="" />
+                          View transaction <img src={statsLinkIcon} alt="" />
                         </a>
                       </div>
                     </div>
@@ -1443,8 +1612,14 @@ export default function stakeAvaxiDyp({
           </div> */}
 
           {this.state.showCalculator && (
-            <div className="pools-calculator p-3">
-              <div className="d-flex align-items-center justify-content-between">
+            <Modal 
+            visible={this.state.showCalculator}
+            title="calculator"
+            modalId="calculatormodal"
+            setIsVisible={() => this.setState({showCalculator: false})}
+            >
+              <div className="pools-calculator">
+              {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -1465,7 +1640,7 @@ export default function stakeAvaxiDyp({
                   }}
                   className="cursor-pointer"
                 />
-              </div>
+              </div> */}
               <hr />
               <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex flex-column gap-3 w-50 me-5">
@@ -1536,6 +1711,7 @@ export default function stakeAvaxiDyp({
               </div>
             </div>
        
+            </Modal>
  )}
 
       </div>

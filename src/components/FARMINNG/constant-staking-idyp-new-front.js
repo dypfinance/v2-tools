@@ -21,9 +21,10 @@ import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
-import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
+import { ClickAwayListener } from "@material-ui/core";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -58,7 +59,7 @@ export default function initConstantStakingiDYP({
   chainId,
   handleConnection,
   lockTime,
-  listType
+  listType,
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dyps } = window;
   let token_symbol = "iDYP";
@@ -166,6 +167,12 @@ export default function initConstantStakingiDYP({
         is_wallet_connected: false,
         apy1: 0,
         apy2: 0,
+        performanceTooltip: false,
+        aprTooltip: false,
+        lockTooltip: false,
+        depositTooltip: false,
+        rewardsTooltip: false,
+        withdrawTooltip: false,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -614,12 +621,55 @@ export default function initConstantStakingiDYP({
 
       let is_connected = this.props.isConnected;
 
+      const performanceOpen = () => {
+        this.setState({ performanceTooltip: true });
+      };
+      const performanceClose = () => {
+        this.setState({ performanceTooltip: false });
+      };
+      const aprOpen = () => {
+        this.setState({ aprTooltip: true });
+      };
+      const aprClose = () => {
+        this.setState({ aprTooltip: false });
+      };
+      const lockOpen = () => {
+        this.setState({ lockTooltip: true });
+      };
+      const lockClose = () => {
+        this.setState({ lockTooltip: false });
+      };
+      const depositOpen = () => {
+        this.setState({ depositTooltip: true });
+      };
+      const depositClose = () => {
+        this.setState({ depositTooltip: false });
+      };
+      const rewardsOpen = () => {
+        this.setState({ rewardsTooltip: true });
+      };
+      const rewardsClose = () => {
+        this.setState({ rewardsTooltip: false });
+      };
+      const withdrawOpen = () => {
+        this.setState({ withdrawTooltip: true });
+      };
+      const withdrawClose = () => {
+        this.setState({ withdrawTooltip: false });
+      };
+
       return (
         <div className="container-lg p-0">
-          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
+          <div
+            className={`allwrapper ${listType === "table" && "my-4"}`}
+            style={{
+              border: listType !== "table" && "none",
+              borderRadius: listType !== "table" && "0px",
+            }}
+          >
             <div className="leftside2 w-100">
               <div className="activewrapper">
-                <div className="d-flex align-items-center justify-content-between gap-5">
+                <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between gap-3 gap-lg-5">
                   <h6 className="activetxt">
                     <img
                       src={ellipse}
@@ -635,22 +685,34 @@ export default function initConstantStakingiDYP({
                       iDYP
                     </h6>
                   </div> */}
-                  <div className="d-flex align-items-center justify-content-between gap-2">
+                  <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
+                    <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Performance fee:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {fee_s}%
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "Performance fee is subtracted from the displayed APR."
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={performanceClose}>
+                        <Tooltip
+                          open={this.state.performanceTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "Performance fee is subtracted from the displayed APR."
+                              }
+                            </div>
+                          }
+                        >
+                          <img
+                            src={moreinfo}
+                            alt=""
+                            onClick={performanceOpen}
+                          />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
 
@@ -658,44 +720,59 @@ export default function initConstantStakingiDYP({
                     <h6 className="earnrewards-text">APR:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {getFormattedNumber(apr - fee_s, 2)}%
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "APR reflects the interest rate of earnings on an account over the course of one year. "
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={aprClose}>
+                        <Tooltip
+                          open={this.state.aprTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={aprOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Lock time:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {
-                              "The amount of time your deposited assets will be locked."
-                            }
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      <ClickAwayListener onClickAway={lockClose}>
+                        <Tooltip
+                          open={this.state.lockTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "The amount of time your deposited assets will be locked."
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={lockOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
-                </div>
-                <div className="d-flex align-items-center justify-content-between gap-3">
-                <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
-                      <img src={poolsCalculatorIcon} alt="" />
-                      Calculator
-                    </h6>
+                    </div>
+                <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                  <h6
+                    className="bottomitems"
+                    onClick={() => this.setState({ showCalculator: true })}
+                  >
+                    <img src={poolsCalculatorIcon} alt="" />
+                    Calculator
+                  </h6>
                   <a
                     href={
                       // chainId === 1
@@ -722,13 +799,15 @@ export default function initConstantStakingiDYP({
                     </h6>
                   </div>
                 </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="row w-100 justify-content-between">
-                <div className="firstblockwrapper col-2">
+              <div className="row gap-4 gap-lg-0 w-100 justify-content-between">
+                <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                   <div
-                    className="d-flex flex-column justify-content-between gap-4"
+                    className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
                     style={{ height: "100%" }}
                   >
                     <h6 className="start-title">Start Staking</h6>
@@ -747,7 +826,7 @@ export default function initConstantStakingiDYP({
                       </button>
                     ) : (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={1}/>
+                        <Address a={this.props.coinbase} chainId={1} />
                       </div>
                     )}
                   </div>
@@ -757,9 +836,9 @@ export default function initConstantStakingiDYP({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
-                    <div className="d-flex align-items-center gap-3">
+                    <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
                       {/* <h6 className="deposit-txt d-flex align-items-center gap-2">
                         <img
@@ -800,16 +879,24 @@ export default function initConstantStakingiDYP({
                   </select> */}
                       </h6>
                     </div>
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    <ClickAwayListener onClickAway={depositClose}>
+                      <Tooltip
+                        open={this.state.depositTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={depositOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
@@ -906,30 +993,47 @@ export default function initConstantStakingiDYP({
                     )}
                   </div>
                 </div>
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between gap-2">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                    Rewards are displayed in real-time
-                      <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">
-                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
-                          </div>
-                        }
-                      >
-                        <img src={moreinfo} alt="" />
-                      </Tooltip>
+                      Rewards are displayed in real-time
+                      <ClickAwayListener onClickAway={rewardsClose}>
+                        <Tooltip
+                          open={this.state.rewardsTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={rewardsOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
                     </h6>
                   </div>
-
-                  <div className="form-row d-flex gap-2 align-items-center justify-content-between">
+                      
+                  <div className="form-row flex-column flex-lg-row d-flex gap-2 align-item-start align-items-lg-center justify-content-between">
                     <div className="d-flex flex-column">
-                      <span style={{fontWeight: '500', fontSize: '12px', lineHeight: '18px', color: '#c0c9ff'}}>iDYP</span>
+                      <span
+                        style={{
+                          fontWeight: "500",
+                          fontSize: "12px",
+                          lineHeight: "18px",
+                          color: "#c0c9ff",
+                        }}
+                      >
+                        iDYP
+                      </span>
                       <span>{pendingDivs}</span>
                     </div>
-                    <div className="d-flex align-items-center gap-3">
+                    <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                       <button
                         disabled={
                           this.state.claimStatus === "claimed" ||
@@ -939,8 +1043,8 @@ export default function initConstantStakingiDYP({
                         }
                         className={`btn filledbtn ${
                           this.state.claimStatus === "claimed" &&
-                            this.state.claimStatus === "initial"
-                            ? "disabled-btn" 
+                          this.state.claimStatus === "initial"
+                            ? "disabled-btn"
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
                             : this.state.claimStatus === "success"
@@ -950,7 +1054,7 @@ export default function initConstantStakingiDYP({
                         style={{ height: "fit-content" }}
                         onClick={this.handleClaimDivs}
                       >
-                        {this.state.claimLoading  ? (
+                        {this.state.claimLoading ? (
                           <div
                             class="spinner-border spinner-border-sm text-light"
                             role="status"
@@ -986,7 +1090,7 @@ export default function initConstantStakingiDYP({
                         style={{ height: "fit-content" }}
                         onClick={this.handleReinvest}
                       >
-                        {this.state.reInvestLoading   ? (
+                        {this.state.reInvestLoading ? (
                           <div
                             class="spinner-border spinner-border-sm text-light"
                             role="status"
@@ -1030,19 +1134,27 @@ export default function initConstantStakingiDYP({
                   CLAIM
                 </button> */}
                 </div>
-                <div className="otherside-border col-2">
+                <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
-                    <Tooltip
-                      placement="top"
-                      title={
-                        <div className="tooltip-text">
-                          {"Withdraw your deposited assets from the staking smart contract."}
-                        </div>
-                      }
-                    >
-                      <img src={moreinfo} alt="" />
-                    </Tooltip>
+                    <ClickAwayListener onClickAway={withdrawClose}>
+                      <Tooltip
+                        open={this.state.withdrawTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Withdraw your deposited assets from the staking smart contract."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </h6>
 
                   <button
@@ -1066,8 +1178,7 @@ export default function initConstantStakingiDYP({
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
-            width="fit-content"
-
+              width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -1292,7 +1403,7 @@ export default function initConstantStakingiDYP({
                           href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
                           className="stats-link"
                         >
-                          View on Etherscan <img src={statsLinkIcon} alt="" />
+                          View transaction <img src={statsLinkIcon} alt="" />
                         </a>
                       </div>
                     </div>
@@ -1322,8 +1433,7 @@ export default function initConstantStakingiDYP({
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
-            width="fit-content"
-
+              width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -1526,8 +1636,14 @@ export default function initConstantStakingiDYP({
           </div> */}
 
           {this.state.showCalculator && (
-            <div className="pools-calculator p-3">
-              <div className="d-flex align-items-center justify-content-between">
+            <Modal
+              visible={this.state.showCalculator}
+              title="calculator"
+              modalId="calculatormodal"
+              setIsVisible={() => this.setState({ showCalculator: false })}
+            >
+              <div className="pools-calculator">
+                {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -1548,76 +1664,77 @@ export default function initConstantStakingiDYP({
                   }}
                   className="cursor-pointer"
                 />
-              </div>
-              <hr />
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Days to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Days*"
-                    value={this.state.approxDays}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDays: e.target.value,
-                      })
-                    }
-                  />
+              </div> */}
+                <hr />
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Days to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Days*"
+                      value={this.state.approxDays}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDays: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      iDYP to Deposit
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="USD to deposit*"
+                      value={this.state.approxDeposit}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDeposit: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    iDYP to Deposit
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="USD to deposit*"
-                    value={this.state.approxDeposit}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDeposit: e.target.value,
-                      })
-                    }
-                  />
+                <div className="d-flex flex-column gap-2 mt-4">
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                    $tbd USD
+                  </h3>
+                  <h6
+                    style={{
+                      fontWeight: "300",
+                      fontSize: "15px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    {getFormattedNumber(this.getApproxReturn(), 6)} iDYP
+                  </h6>
+                </div>
+                <div className="mt-4">
+                  <p
+                    style={{
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    *This calculator is for informational purposes only.
+                    Calculated yields assume that prices of the deposited assets
+                    don't change.
+                  </p>
                 </div>
               </div>
-              <div className="d-flex flex-column gap-2 mt-4">
-                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                  $tbd USD
-                </h3>
-                <h6
-                  style={{
-                    fontWeight: "300",
-                    fontSize: "15px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  {getFormattedNumber(this.getApproxReturn(), 6)} iDYP
-                </h6>
-              </div>
-              <div className="mt-4">
-                <p
-                  style={{
-                    fontWeight: "400",
-                    fontSize: "13px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  *This calculator is for informational purposes only.
-                  Calculated yields assume that prices of the deposited assets
-                  don't change.
-                </p>
-              </div>
-            </div>
+            </Modal>
           )}
         </div>
 

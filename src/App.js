@@ -29,6 +29,7 @@ import NftMinting from "./components/caws/NftMinting/index";
 import Bridge from "./components/bridge/BridgeGeneral";
 import Footer from "./components/Footer/footer";
 import BuyDyp from "./components/buydyp/BuyDyp";
+import Swap from "./components/swap/Swap";
 
 
 class App extends React.Component {
@@ -395,7 +396,7 @@ class App extends React.Component {
           show={this.state.show}
           isConnected={this.state.isConnected}
         />
-        <div className="content-wrapper container-fluid">
+        <div className="content-wrapper container-fluid d-flex justify-content-center justify-content-lg-start">
           <div className="row w-100">
             <div className="col-1">
               <Sidebar
@@ -413,9 +414,7 @@ class App extends React.Component {
               />
             </div>
             <div
-              className={`${
-                this.state.windowWidth < 1490 ? "col-11" : "col-10"
-              }`}
+              className={`${this.state.windowWidth < 786 ?'col-12' : this.state.windowWidth < 1490 ? 'col-11' : 'col-10'}`}
             >
               <div className="right-content pr-0 my-5">
                 <Switch>
@@ -540,12 +539,17 @@ class App extends React.Component {
                     path="/submit-info"
                     render={() => <SubmitInfo theme={this.state.theme} />}
                   />
-
                   <Route
+                    exact
+                    path="/swap"
+                    render={() => <Swap/>}
+                  />
+
+                  {/* <Route
                     exact
                     path="/governance"
                     render={() => <Governance />}
-                  />
+                  /> */}
                   <Route exact path="/launchpad" render={() => <Launchpad />} />
                   <Route
                     exact
@@ -574,7 +578,7 @@ class App extends React.Component {
                   <Route exact path="/buydyp" render={() => <BuyDyp />} />
                   <Route
                     exact
-                    path="/governancedev"
+                    path="/governance"
                     render={() => (
                       <Governancedev
                         coinbase={this.state.coinbase}
@@ -589,12 +593,18 @@ class App extends React.Component {
                     path="/"
                     render={() => (
                       <Dashboard
+                      the_graph_resultavax={
+                        this.state.the_graph_result_AVAX_V2
+                      }
+                      the_graph_resultbsc={this.state.the_graph_result_BSC_V2}
                         coinbase={this.state.coinbase}
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_ID_Array}
                         isConnected={this.state.isConnected}
                         network={this.state.networkId}
                         handleConnection={this.handleConnection}
+                        referrer={this.state.referrer}
+
                       />
                     )}
                   />

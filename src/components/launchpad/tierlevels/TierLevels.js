@@ -10,6 +10,7 @@ import initConstantStakingNew from "../../FARMINNG/constant-staking-new-front";
 import getFormattedNumber from "../../../functions/get-formatted-number";
 import customSliderArrow from '../assets/customSliderArrow.svg'
 import { useRef } from "react";
+import { NavLink } from "react-router-dom";
 
 const TierLevels = ({
   coinbase,
@@ -19,6 +20,7 @@ const TierLevels = ({
   isConnected,
   lp_id,
   display,
+  infoDisplay
 }) => {
   const stake = [
     {
@@ -130,10 +132,18 @@ const TierLevels = ({
           benefit. Increase your tier by depositing assets to Launchpools.
         </span>
       </div>
+      <div className="active-projects-container px-5 pt-5 mt-4">
+      <div className={`tier-info-wrapper ${infoDisplay === 'flex' ? 'd-flex' : 'd-none'} align-items-center justify-content-between p-3 mx-3`} >
+          <span className="tier-info-text w-50">In order to increase the current tier and benefit more of the Launchpad projects, participants need to stake DYP in a staking pool.</span>
+          <NavLink to='/launchpad/tiers'>
+            <button className="btn filledbtn px-4">Go view</button>
+          </NavLink>
+        </div>
       <div
-        className="active-projects-container d-flex justify-content-center mt-4 px-5 pt-5 position-relative"
+        className=" d-flex justify-content-center mt-4  position-relative"
         style={{ gap: "100px", paddingBottom: "170px" }}
       >
+
         <hr className="tier-divider" />
         <div
           className="current-tier-wrapper selected-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
@@ -205,6 +215,7 @@ const TierLevels = ({
           />
           <h6 className="tier-dyp-amount">1,000,000 DYP</h6>
         </div>
+      </div>
       </div>
       <div style={{display: display}}>
       <h6 className="launchpad-hero-title mt-5">Launchpools</h6>

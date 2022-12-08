@@ -2,10 +2,11 @@ import React from "react";
 import filledArrow from "./assets/filledarrow.svg";
 import bridgeLogo from "./assets/bridge-logo.svg";
 import './bridgecard.css'
+import { NavLink } from "react-router-dom";
 
 const BridgeCard = () => {
   return (
-    <div className="bridgecard-wrapper">
+    <NavLink to="/bridge" className="bridgecard-wrapper">
       <div className="purplediv" style={{background: '#8890C4'}}></div>
       <div className="d-flex flex-column gap-3 justify-content-between">
         <div className="">
@@ -26,7 +27,7 @@ const BridgeCard = () => {
         </div>
        </div>
       </div>
-    </div>
+    </NavLink>
   );
 };
 

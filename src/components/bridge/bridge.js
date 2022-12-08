@@ -11,7 +11,7 @@ import switchicon from "./assets/switch.svg";
 import failMark from "../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineItem, {timelineItemClasses} from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
@@ -43,6 +43,8 @@ const getRenderer =
       );
     }
   };
+
+ 
 
 export default function initBridge({
   bridgeETH,
@@ -435,9 +437,9 @@ export default function initBridge({
       }
       
       return (
-        <div className="d-flex gap-4 justify-content-between">
+        <div className="row w-100 mx-0 gap-4 justify-content-between">
          
-          <div className="token-staking col-6 col-xxl-5">
+          <div className="token-staking col-12 col-lg-6 col-xxl-5">
             <div className="purplediv"></div>
             <div className="row">
               <div>
@@ -449,7 +451,7 @@ export default function initBridge({
                         className={
                           this.props.networkId === 1
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                         onClick={() => {}}
                       >
@@ -461,7 +463,7 @@ export default function initBridge({
                         className={
                           this.props.networkId === 56
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                       >
                         <h6 className="optiontext">
@@ -472,7 +474,7 @@ export default function initBridge({
                         className={
                           this.props.networkId === 43114
                             ? "optionbtn-active"
-                            : "optionbtn-passive"
+                            : "optionbtn-passive bridge-passive"
                         }
                       >
                         <h6 className="optiontext">
@@ -705,10 +707,10 @@ export default function initBridge({
                                   <div
                                     className={
                                       this.props.networkId === 1
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "eth"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.setState({
@@ -730,10 +732,10 @@ export default function initBridge({
                                   <div
                                     className={
                                       this.props.networkId === 56
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "bnb"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.props.onSelectChain("bnb");
@@ -753,10 +755,10 @@ export default function initBridge({
                                   <div
                                     className={
                                       this.props.networkId === 43114
-                                        ? "optionbtn-passive"
+                                        ? "optionbtn-passive bridge-passive"
                                         : this.state.destinationChain === "avax"
                                         ? "optionbtn-active"
-                                        : "optionbtn-passive"
+                                        : "optionbtn-passive bridge-passive"
                                     }
                                     onClick={() => {
                                       this.props.onSelectChain("avax");
@@ -911,7 +913,7 @@ export default function initBridge({
                                 alt=""
                               />
                               <h6 className="bottominfotxt">
-                                You connot Bridge from BNB Chain to Avalanche directly, you
+                                You cannot Bridge from BNB Chain to Avalanche directly, you
                                 need to go first to Ethereum and then to Avalanche, the
                                 same will happen if you want to bridge from Avalanche
                                 to BNB Chain, you need first to bridge to Ethereum and then
@@ -942,14 +944,21 @@ export default function initBridge({
             />
           )}
           <div className="col-6 guidewrapper">
-            <div className="purplediv"> </div>
+            <div className="purplediv" style={{left: '0px'}}> </div>
             <div>
               <h6 className="guidetitle">
                 <img src={routeIcon} alt="" />
                 Bridge process guide
               </h6>
               <div className="separator"></div>
-              <Timeline>
+              <Timeline 
+                sx={{
+                  [`& .${timelineItemClasses.root}:before`]: {
+                    flex: 0,
+                    padding: 0,
+                  },
+                }}
+                >
                 <TimelineItem>
                   <TimelineSeparator>
                     <TimelineDot

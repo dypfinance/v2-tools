@@ -22,11 +22,17 @@
 }
 
 .earn-hero {
+  background: #282A5C;
   background-image: url("../../assets/earnAssets/earnHeroBackground.webp");
   min-height: 150px;
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 16px;
+}
+
+.paid-rewards{
+  margin-left: 80px;
+  width: 150px;
 }
 
 .coin {
@@ -230,7 +236,7 @@ hr {
   letter-spacing: -0.018em !important;
   color: #f0f0f5 !important;
   padding: 10px;
-  background: #26264f;
+  background: #1e1c40;
   border: 1px solid #565891;
   border-top: none;
 
@@ -382,6 +388,21 @@ hr {
   }
 }
 
+@media screen and (max-width: 786px) {
+  .top-picks-container{
+    grid-template-columns: auto;
+  }
+
+  .paid-rewards{
+    margin-left: 0px;
+  }
+
+  .stake-item{
+    width: auto;
+    padding: 12px;
+  }
+}
+
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -389,4 +410,6 @@ hr {
   100% {
     transform: rotate(360deg);
   }
+
+
 }
