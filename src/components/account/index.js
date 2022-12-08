@@ -1255,7 +1255,7 @@ const handleTooltipOpen = () => {
         <div
           className="row p-0 m-0"
           style={{
-            gap: 10,
+            gap: 30,
             display: "grid",
             gridTemplateColumns: "1fr 1fr 1fr 1fr",
           }}

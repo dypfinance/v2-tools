@@ -1373,9 +1373,9 @@ export default function initBscBuyback({
             }}
           >
             <div className="leftside2 w-100">
-              <div className="activewrapper">
-                <div className="d-flex align-items-center justify-content-between gap-5">
-                  <h6 className="activetxt">
+            <div className="activewrapper activewrapper-vault">
+                <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between">
+                  <h6 className="activetxt position-relative activetxt-vault">
                     <img
                       src={ellipse}
                       alt=""
@@ -1385,16 +1385,18 @@ export default function initBscBuyback({
                     Active status
                   </h6>
                   {/* <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Earn rewards in:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    DYP
-                  </h6>
-                </div> */}
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Performance fee:</h6>
+                    <h6 className="earnrewards-text">Earn rewards in:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {fee}%
-                      <ClickAwayListener onClickAway={performanceClose}>
+                      {token_symbol}
+                    </h6>
+                  </div> */}
+                  <div className="d-flex flex-row-reverse flex-lg-row align-items-end justify-content-between earnrewards-container">
+                  <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">Performance fee:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {fee}%
+                        <ClickAwayListener onClickAway={performanceClose}>
                         <Tooltip
                           open={this.state.performanceTooltip}
                           disableFocusListener
@@ -1416,14 +1418,14 @@ export default function initBscBuyback({
                           />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
-                  </div>
+                      </h6>
+                    </div>
 
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">APR:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {apy}%
-                      <ClickAwayListener onClickAway={aprClose}>
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">APR:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {apy}%
+                        <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
                           open={this.state.aprTooltip}
                           disableFocusListener
@@ -1441,13 +1443,13 @@ export default function initBscBuyback({
                           <img src={moreinfo} alt="" onClick={aprOpen} />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Lock time:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <ClickAwayListener onClickAway={lockClose}>
+                      </h6>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">Lock time:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {lockTime}
+                        <ClickAwayListener onClickAway={lockClose}>
                         <Tooltip
                           open={this.state.lockTooltip}
                           disableFocusListener
@@ -1465,25 +1467,24 @@ export default function initBscBuyback({
                           <img src={moreinfo} alt="" onClick={lockOpen} />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
+                      </h6>
+                    </div>
                   </div>
-                </div>
-                <div className="d-flex align-items-center justify-content-between gap-3">
+                  <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
                   {/* <a
-                  href={
-                    // chainId === 1
-                    //   ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                    //   :
-                    "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                  }
-                  target={"_blank"}
-                  rel="noreferrer"
-                >
-                  <h6 className="bottomitems">
-                    <img src={arrowup} alt="" />
-                    Get DYP
-                  </h6>
-                </a> */}
+                    href={
+                      chainId === 1
+                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                    }
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <h6 className="bottomitems">
+                      <img src={arrowup} alt="" />
+                      Get DYP
+                    </h6>
+                  </a> */}
                   <h6
                     className="bottomitems"
                     onClick={() => this.setState({ showCalculator: true })}
@@ -1502,13 +1503,17 @@ export default function initBscBuyback({
                     </h6>
                   </div>
                 </div>
+                  </div>
+                </div>
+
+                
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="row w-100 justify-content-between">
-                <div className="firstblockwrapper col-2">
+              <div className="row w-100 gap-4 gap-lg-0 justify-content-between">
+                <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                   <div
-                    className="d-flex flex-column justify-content-between gap-4"
+                    className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
                     style={{ height: "100%" }}
                   >
                     <h6 className="start-title">Start Buyback</h6>
@@ -1537,7 +1542,7 @@ export default function initBscBuyback({
                       TBD Claim reward 0.01 ETH
                     </button>
                   </div> */}
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1635,7 +1640,7 @@ export default function initBscBuyback({
                         </Tooltip>
                       </ClickAwayListener>
                   </div>
-                  <div className="d-flex flex-column gap-2 justify-content-between">
+                  <div className="d-flex flex-column flex-lg-row gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
                       <div className="position-relative">
                         <h6 className="amount-txt">Amount</h6>
@@ -1699,6 +1704,7 @@ export default function initBscBuyback({
                       </>
                     )}
                   </button> */}
+                    </div>
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
@@ -1748,13 +1754,12 @@ export default function initBscBuyback({
                           </>
                         )}
                       </button>
-                    </div>
                     {this.state.errorMsg && (
                       <h6 className="errormsg">{this.state.errorMsg}</h6>
                     )}
                   </div>
                 </div>
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
@@ -1779,8 +1784,8 @@ export default function initBscBuyback({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-2 align-items-end">
-                      <div className="d-flex flex-column gap-2">
+                    <div className="form-row flex-column flex-lg-row d-flex gap-2 align-items-end">
+                      <div className="d-flex w-100 flex-row flex-lg-column gap-4 gap-lg-2">
                         <div
                           className="gap-1 claimreward-wrapper"
                           style={{
@@ -1932,6 +1937,8 @@ export default function initBscBuyback({
                     </div> */}
                         </div>
                       </div>
+                      <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
+
                       <button
                         disabled={
                           this.state.selectedPool === "" ||
@@ -2030,6 +2037,7 @@ export default function initBscBuyback({
                           <></>
                         )}
                       </button>
+                      </div>
                     </div>
                     {this.state.errorMsg2 && (
                       <h6 className="errormsg">{this.state.errorMsg2}</h6>
@@ -2057,7 +2065,7 @@ export default function initBscBuyback({
                   </div>
                 </div>
 
-                <div className="otherside-border col-2">
+                <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>

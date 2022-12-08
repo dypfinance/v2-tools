@@ -150,7 +150,7 @@ const SubmitInfo = () => {
 
   return (
     <div className="container-lg px-0">
-      <div className="d-flex flex-column gap-3" style={{ width: "65%" }}>
+      <div className="d-flex flex-column gap-3 submit-form-title" style={{ width: "65%" }}>
         <h6 className="launchpad-hero-title">Submit Form</h6>
         <p className="launchpad-hero-desc">
           Use this form to submit information about your project to DYP Tools.
@@ -175,8 +175,8 @@ const SubmitInfo = () => {
           </h6>
         </div>
         <h6 className="mt-3 form-sub-title">Your details</h6>
-        <div className="row px-0 w-100 mt-3">
-          <div className="col-7 col-xl-6 d-grid form-grid">
+        <div className="row px-0 gap-5 mx-0 gap-lg-0 w-100 mt-3">
+          <div className="col-12 col-lg-7 col-xl-6 d-grid form-grid">
             <div className="input-container px-0" style={{ width: "100%" }}>
               <input
                 type="text"
@@ -274,7 +274,7 @@ const SubmitInfo = () => {
               )}
             </div>
           </div>
-          <div className="col-5 col-xl-5">
+          <div className="col-12 col-lg-5 col-xl-5">
           <div className="input-container px-0" style={{ width: "100%" }}>
                   <textarea
                     type="text"
@@ -305,8 +305,8 @@ const SubmitInfo = () => {
         <hr className="form-divider my-4" style={{height: '2px'}} />
         <h6 className="form-sub-title">Smart contract details</h6>
 
-        <div className="row px-0 w-100 mt-4">
-          <div className="col-7 col-xl-6 d-grid form-grid">
+        <div className="row mx-0 px-0 w-100 mt-4">
+          <div className="col-12 col-lg-7 col-xl-6 d-grid form-grid">
           <div className="input-container px-0" style={{ width: "100%" }}>
               <input
                 type="text"
@@ -362,8 +362,8 @@ const SubmitInfo = () => {
         <hr className="form-divider my-4" style={{height: '2px'}} />
         <h6 className="form-sub-title">Additional links</h6>
         <h6 className="form-title mt-3">Media links</h6>
-        <div className="row px-0 w-100 mt-2">
-          <div className="col-2 col-xl-3">
+        <div className="row gap-4 gap-lg-0 mx-0 px-0 w-100 mt-2">
+          <div className="col-12 d-flex justify-content-center justify-content-lg-start col-lg-2 col-xl-3">
           <div className="upload-container d-flex justify-content-center align-items-center position-relative">
                 <input
                   type="file"
@@ -384,7 +384,7 @@ const SubmitInfo = () => {
               )}
               </div>
           </div>
-          <div className="col-10 col-xl-9 ps-3 d-grid additional-grid">
+          <div className="col-12 col-lg-10 col-xl-9 ps-3 d-grid additional-grid">
           <div className="input-container px-0" style={{ width: "100%" }}>
               <img src={require('./assets/webIcon.svg').default} alt="" className="input-icon" />
               <input

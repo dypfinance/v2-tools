@@ -1493,9 +1493,9 @@ export default function initBuybackStakingNew({
         <div className="container-lg p-0">
           <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
-              <div className="activewrapper">
-                <div className="d-flex align-items-center justify-content-between gap-5">
-                  <h6 className="activetxt">
+            <div className="activewrapper activewrapper-vault">
+                <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between">
+                  <h6 className="activetxt position-relative activetxt-vault">
                     <img
                       src={ellipse}
                       alt=""
@@ -1507,14 +1507,16 @@ export default function initBuybackStakingNew({
                   {/* <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Earn rewards in:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      DYP
+                      {token_symbol}
                     </h6>
                   </div> */}
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Performance fee:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {fee}%
-                      <ClickAwayListener onClickAway={performanceClose}>
+                  <div className="d-flex flex-row-reverse flex-lg-row align-items-end justify-content-between earnrewards-container">
+                  <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">Performance fee:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {fee}%
+                        <ClickAwayListener onClickAway={performanceClose}>
                         <Tooltip
                           open={this.state.performanceTooltip}
                           disableFocusListener
@@ -1536,14 +1538,14 @@ export default function initBuybackStakingNew({
                           />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
-                  </div>
+                      </h6>
+                    </div>
 
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">APR:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {apy}%
-                      <ClickAwayListener onClickAway={aprClose}>
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">APR:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {apy}%
+                        <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
                           open={this.state.aprTooltip}
                           disableFocusListener
@@ -1561,13 +1563,13 @@ export default function initBuybackStakingNew({
                           <img src={moreinfo} alt="" onClick={aprOpen} />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Lock time:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <ClickAwayListener onClickAway={lockClose}>
+                      </h6>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">Lock time:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {lockTime}
+                        <ClickAwayListener onClickAway={lockClose}>
                         <Tooltip
                           open={this.state.lockTooltip}
                           disableFocusListener
@@ -1585,16 +1587,15 @@ export default function initBuybackStakingNew({
                           <img src={moreinfo} alt="" onClick={lockOpen} />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
+                      </h6>
+                    </div>
                   </div>
-                </div>
-                <div className="d-flex align-items-center justify-content-between gap-3">
+                  <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
                   {/* <a
                     href={
-                      // chainId === 1
-                      //   ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                      //   :
-                      "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      chainId === 1
+                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
                     rel="noreferrer"
@@ -1604,10 +1605,13 @@ export default function initBuybackStakingNew({
                       Get DYP
                     </h6>
                   </a> */}
-                   <h6 className="bottomitems" onClick={() => this.setState({ showCalculator: true })}>
-                      <img src={poolsCalculatorIcon} alt="" />
-                      Calculator
-                    </h6>
+                  <h6
+                    className="bottomitems"
+                    onClick={() => this.setState({ showCalculator: true })}
+                  >
+                    <img src={poolsCalculatorIcon} alt="" />
+                    Calculator
+                  </h6>
                   <div
                     onClick={() => {
                       this.showPopup();
@@ -1619,13 +1623,17 @@ export default function initBuybackStakingNew({
                     </h6>
                   </div>
                 </div>
+                  </div>
+                </div>
+
+                
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="row w-100 justify-content-between">
-                <div className="firstblockwrapper col-2">
+              <div className="row w-100 gap-4 gap-lg-0 justify-content-between">
+                <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                   <div
-                    className="d-flex flex-column justify-content-between gap-4"
+                    className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
                     style={{ height: "100%" }}
                   >
                     <h6 className="start-title">Start Buyback</h6>
@@ -1644,30 +1652,30 @@ export default function initBuybackStakingNew({
                       </button>
                     ) : (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase}  chainId={1}/>
+                        <Address a={this.props.coinbase} chainId={43114} />
                       </div>
                     )}
                   </div>
                 </div>
                 {/* <div className="otherside">
-                      <button className="btn green-btn">
-                        TBD Claim reward 0.01 ETH
-                      </button>
-                    </div> */}
-                <div className="otherside-border col-4">
+                    <button className="btn green-btn">
+                      TBD Claim reward 0.01 ETH
+                    </button>
+                  </div> */}
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
-                      <div className="d-flex align-items-center gap-2">
-                        {/* <img
+                      <div className="d-flex align-items-center justify-content-center gap-1">
+                        {/*    <img
                       src={
-                        require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                        require(`./assets/bsc/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
                           .default
                       }
                       alt=""
                       style={{ width: 14, height: 14 }}
                     />
-                    <select
+                 <select
                       disabled={!is_connected}
                       value={this.state.selectedBuybackToken}
                       onChange={(e) =>
@@ -1676,11 +1684,13 @@ export default function initBuybackStakingNew({
                       className="inputfarming p-0"
                       style={{ border: "none" }}
                     >
-                      {Object.keys(window.buyback_tokens).map((t) => (
-                        <option key={t} value={t}>
-                          {window.buyback_tokens[t].symbol}
-                        </option>
-                      ))}
+                      {Object.keys(window.buyback_tokens_farmingavax).map(
+                        (t) => (
+                          <option key={t} value={t}>
+                            {window.buyback_tokens_farmingavax[t].symbol}
+                          </option>
+                        )
+                      )}
                     </select> */}
                         <div className="dropdown">
                           <button
@@ -1690,13 +1700,13 @@ export default function initBuybackStakingNew({
                             aria-expanded="false"
                           >
                             <img
-                              src={
-                                require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
-                                  .default
-                              }
-                              alt=""
-                              style={{ width: 14, height: 14 }}
-                            />
+                            src={
+                              require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                                .default
+                            }
+                            alt=""
+                            style={{ width: 14, height: 14 }}
+                          />
                             {this.state.selectedTokenLogo.toUpperCase()}
                             <img
                               src={dropdownVector}
@@ -1715,15 +1725,6 @@ export default function initBuybackStakingNew({
                                   this.handleSelectedTokenChange(t)
                                 }
                               >
-                                <img
-                                  src={
-                                    require(`./assets/${window.buyback_tokens[
-                                      t
-                                    ].symbol.toLowerCase()}.svg`).default
-                                  }
-                                  alt=""
-                                  style={{ width: 14, height: 14 }}
-                                />
                                 {window.buyback_tokens[t].symbol}
                               </span>
                             ))}
@@ -1737,7 +1738,8 @@ export default function initBuybackStakingNew({
                             this.state.selectedTokenBalance /
                               10 ** this.state.selectedTokenDecimals,
                             6
-                          )} {" "}{this.state.selectedTokenSymbol}
+                          )}{" "}
+                          {this.state.selectedTokenSymbol}
                         </b>
                       </h6>
                     </div>
@@ -1758,7 +1760,7 @@ export default function initBuybackStakingNew({
                         </Tooltip>
                       </ClickAwayListener>
                   </div>
-                  <div className="d-flex flex-column gap-2 justify-content-between">
+                  <div className="d-flex flex-column flex-lg-row gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
                       <div className="position-relative">
                         <h6 className="amount-txt">Amount</h6>
@@ -1787,41 +1789,42 @@ export default function initBuybackStakingNew({
                         Max
                       </button>
                       {/* <button
-                      disabled={
-                        this.state.depositAmount === "" ||
-                        this.state.depositLoading === true
-                          ? true
-                          : false
-                      }
-                      className={`btn filledbtn ${
-                        this.state.depositAmount === "" && "disabled-btn"
-                      } ${
-                        this.state.depositStatus === "deposit"
-                          ? "success-button"
-                          : this.state.depositStatus === "success"
-                          ? "fail-button"
-                          : null
-                      } d-flex justify-content-center align-items-center gap-2`}
-                      onClick={this.clickDeposit}
-                    >
-                      {this.state.depositLoading ? (
-                        <div
-                          class="spinner-border spinner-border-sm text-light"
-                          role="status"
-                        >
-                          <span class="visually-hidden">Loading...</span>
-                        </div>
-                      ) : this.state.depositStatus === "initial" ? (
-                        <>Approve</>
-                      ) : this.state.depositStatus === "deposit" ? (
-                        <>Deposit</>
-                      ) : (
-                        <>
-                          <img src={failMark} alt="" />
-                          Failed
-                        </>
-                      )}
-                    </button> */}
+                    disabled={
+                      this.state.depositAmount === "" ||
+                      this.state.depositLoading === true
+                        ? true
+                        : false
+                    }
+                    className={`btn filledbtn ${
+                      this.state.depositAmount === "" && "disabled-btn"
+                    } ${
+                      this.state.depositStatus === "deposit"
+                        ? "success-button"
+                        : this.state.depositStatus === "success"
+                        ? "fail-button"
+                        : null
+                    } d-flex justify-content-center align-items-center gap-2`}
+                    onClick={this.clickDeposit}
+                  >
+                    {this.state.depositLoading ? (
+                      <div
+                        class="spinner-border spinner-border-sm text-light"
+                        role="status"
+                      >
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    ) : this.state.depositStatus === "initial" ? (
+                      <>Approve</>
+                    ) : this.state.depositStatus === "deposit" ? (
+                      <>Deposit</>
+                    ) : (
+                      <>
+                        <img src={failMark} alt="" />
+                        Failed
+                      </>
+                    )}
+                  </button> */}
+                    </div>
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
@@ -1871,17 +1874,16 @@ export default function initBuybackStakingNew({
                           </>
                         )}
                       </button>
-                    </div>
                     {this.state.errorMsg && (
                       <h6 className="errormsg">{this.state.errorMsg}</h6>
                     )}
                   </div>
                 </div>
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                    Rewards are displayed in real-time
+                      Rewards are displayed in real-time
                       <ClickAwayListener onClickAway={rewardsClose}>
                         <Tooltip
                           open={this.state.rewardsTooltip}
@@ -1902,8 +1904,8 @@ export default function initBuybackStakingNew({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-2 align-items-end justify-content-between">
-                      <div className="d-flex flex-column gap-2">
+                    <div className="form-row flex-column flex-lg-row d-flex gap-2 align-items-end">
+                      <div className="d-flex w-100 flex-row flex-lg-column gap-4 gap-lg-2">
                         <div
                           className="gap-1 claimreward-wrapper"
                           style={{
@@ -1961,23 +1963,23 @@ export default function initBuybackStakingNew({
                           </div>
 
                           {/* <div className="d-flex align-items-center">
-                        <img
-                          src={
-                            require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
-                              .default
-                          }
-                          alt=""
-                          style={{ width: 14, height: 14 }}
-                        />
-                        <select
-                          disabled={!is_connected}
-                          defaultValue="DYP"
-                          className=" inputfarming"
-                          style={{ border: "none" }}
-                        >
-                          <option value="DYP"> DYP </option>
-                        </select>
-                      </div> */}
+                      <img
+                        src={
+                          require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                            .default
+                        }
+                        alt=""
+                        style={{ width: 14, height: 14 }}
+                      />
+                      <select
+                        disabled={!is_connected}
+                        defaultValue="DYP"
+                        className=" inputfarming"
+                        style={{ border: "none" }}
+                      >
+                        <option value="DYP"> DYP </option>
+                      </select>
+                    </div> */}
                         </div>
                         <div
                           className="gap-1 claimreward-wrapper"
@@ -2036,27 +2038,28 @@ export default function initBuybackStakingNew({
                           </div>
 
                           {/* <div className="d-flex align-items-center">
-                        <img
-                          src={
-                            require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
-                              .default
-                          }
-                          alt=""
-                          style={{ width: 14, height: 14 }}
-                        />
-                        <select
-                          disabled={!is_connected}
-                          defaultValue="DYP"
-                          className=" inputfarming"
-                          style={{ border: "none" }}
-                        >
-                          <option value="DYP"> DYP </option>
-                        </select>
-                      </div> */}
+                      <img
+                        src={
+                          require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                            .default
+                        }
+                        alt=""
+                        style={{ width: 14, height: 14 }}
+                      />
+                      <select
+                        disabled={!is_connected}
+                        defaultValue="DYP"
+                        className=" inputfarming"
+                        style={{ border: "none" }}
+                      >
+                        <option value="DYP"> DYP </option>
+                      </select>
+                    </div> */}
                         </div>
                       </div>
-                     <div className="d-flex align-items-center gap-2">
-                     <button
+                      <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
+
+                      <button
                         disabled={
                           this.state.selectedPool === "" ||
                           this.state.claimStatus === "claimed" ||
@@ -2080,9 +2083,9 @@ export default function initBuybackStakingNew({
                         style={{ height: "fit-content" }}
                         onClick={() =>
                           this.state.selectedPool === "dyp"
-                            ? this.handleClaimDivsConst()
+                            ? this.handleClaimDypConst()
                             : this.state.selectedPool === "idyp"
-                            ? this.handleClaimDivsStake()
+                            ? this.handleClaimDypStake()
                             : console.log("")
                         }
                       >
@@ -2112,9 +2115,13 @@ export default function initBuybackStakingNew({
                       </button>
 
                       <button
-                        disabled={false}
+                        disabled={
+                          // this.state.claimStatus === "invest" ? true :
+                          false
+                        }
                         className={`btn outline-btn ${
-                          this.state.reInvestStatus === "invest"
+                          this.state.reInvestStatus === "invest" &&
+                          this.state.selectedPool === ""
                             ? "disabled-btn"
                             : this.state.reInvestStatus === "failed"
                             ? "fail-button"
@@ -2144,28 +2151,18 @@ export default function initBuybackStakingNew({
                           </>
                         ) : this.state.reInvestStatus === "success" ? (
                           <>Success</>
-                        ) : (
+                        ) : this.state.reInvestStatus === "initial" ? (
                           <>Reinvest</>
+                        ) : (
+                          <></>
                         )}
                       </button>
-                     </div>
+                      </div>
                     </div>
                     {this.state.errorMsg2 && (
                       <h6 className="errormsg">{this.state.errorMsg2}</h6>
                     )}
                     {/* <button
-                            title={claimTitle}
-                            disabled={!is_connected}
-                            className="btn  btn-primary btn-block l-outline-btn"
-                            type="submit"
-                          >
-                            CLAIM
-                          </button> */}
-                    {/* <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            this.handleClaimDyp();
-                          }}
                           title={claimTitle}
                           disabled={!is_connected}
                           className="btn  btn-primary btn-block l-outline-btn"
@@ -2173,10 +2170,22 @@ export default function initBuybackStakingNew({
                         >
                           CLAIM
                         </button> */}
+                    {/* <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          this.handleClaimDyp();
+                        }}
+                        title={claimTitle}
+                        disabled={!is_connected}
+                        className="btn  btn-primary btn-block l-outline-btn"
+                        type="submit"
+                      >
+                        CLAIM
+                      </button> */}
                   </div>
                 </div>
 
-                <div className="otherside-border col-2">
+                <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>

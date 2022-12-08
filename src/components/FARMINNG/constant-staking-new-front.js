@@ -970,7 +970,7 @@ export default function initConstantStakingNew({
               <div className="activewrapper">
                 <div
                   className={`d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between ${
-                    renderedPage === "dashboard" ? "gap-4" : "gap-5"
+                    renderedPage === "dashboard" ? "gap-3 gap-lg-4" : "gap-3 gap-lg-5"
                   }`}
                 >
                   <h6 className="activetxt">
@@ -1191,7 +1191,7 @@ export default function initConstantStakingNew({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
-                     <div className="d-flex align-items-center justify-content-between justify-content-lg-center w-100 gap-2">
+                     <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
                      <div className="position-relative">
                         <h6 className="amount-txt">Amount</h6>
                         <input
@@ -1333,7 +1333,7 @@ export default function initConstantStakingNew({
                     </h6>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
-                    <div className="d-flex align-items-center justify-content-between gap-2"></div>
+                    {/* <div className="d-flex align-items-center justify-content-between gap-2"></div> */}
                     <div className="form-row flex-column flex-lg-row gap-2 d-flex  align-items-start align-items-lg-center justify-content-between">
                       <div className="position-relative d-flex flex-column">
                         <span

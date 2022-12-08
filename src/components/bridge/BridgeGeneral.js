@@ -120,7 +120,7 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
 
   return (
     <div className="container-lg">
-      <div className="col-5 d-flex flex-column justify-content-center gap-3 mb-4">
+      <div className="col-12 col-lg-5 d-flex flex-column justify-content-center gap-3 mb-4">
         <h3 className="text-white">Dypius Bridge</h3>
         <p className="text-white">
           Send tokens from Ethereum to BNB and Avalanche chains with ease.

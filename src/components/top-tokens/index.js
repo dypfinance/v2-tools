@@ -294,11 +294,11 @@ export default class TopTokens extends React.Component {
                 : "List of Pangolin Top Tokens"}
             </p>
           </div>
-        <div className="row justify-content-between align-items-center my-4">
-        <div className="col-4">
+        <div className="row flex-column flex-lg-row gap-5 gap-lg-0 justify-content-between align-items-center my-4">
+        <div className="col-12 col-lg-4">
           <img src={this.state.destinationChain === "eth"? ethPools : this.state.destinationChain === 'bnb' ? bnbPools : this.state.destinationChain === "avax" ? avaxPools : ethPools} alt="" />
           </div>
-          <div className="col-5 col-xl-4 position-relative">
+          <div className="col-12 col-lg-5 col-xl-4 position-relative">
               <p
                 className="launchpad-hero-desc position-absolute"
                 style={{ fontSize: 12, top: "-27px" }}
@@ -367,7 +367,7 @@ export default class TopTokens extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="col-3 col-xl-4">
+            <div className="col-12 col-lg-3 col-xl-4">
               <div
                 className="search-box"
                 style={{

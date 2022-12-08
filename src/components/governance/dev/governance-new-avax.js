@@ -76,9 +76,9 @@ const AddProposal = (props) => {
   let { isOwner, connected, coinbase, handleConnection } = props;
 
   return (
-    <div className="col-7">
-      <div className="d-flex flex-column justify-content-between h-100">
-        <div className="d-flex justify-content-center gap-2 align-items-center mb-3 col-6">
+    <div className="col-12 col-lg-7">
+      <div className="d-flex flex-column justify-content-between h-100 w-100">
+        <div className="d-flex justify-content-start justify-content-lg-center gap-2 align-items-center mb-3 col-12 col-lg-6">
           <h6
             className="submitnewproposal-title"
             style={{ paddingRight: "15px" }}
@@ -89,14 +89,14 @@ const AddProposal = (props) => {
         </div>
         <form className="h-100">
           <div className="d-flex flex-column gap-2 align-items-end justify-content-between h-100">
-            <h6 className="initialdesc col-11">
+            <h6 className="initialdesc col-12 col-lg-11">
               <b>Governed by the community</b>
               <br />
               Vote to add more pools, burn tokens, or allocate DYP toward
               grants, strategic partnerships, governance initiatives, and other
               programs.
             </h6>
-            <div className="d-flex justify-content-start col-11">
+            <div className="d-flex justify-content-start col-12 col-lg-11">
               <div
                 className={
                   connected === false ? "btn disabled-btn" : "btn filledbtn"
@@ -715,7 +715,7 @@ export default class Governance extends React.Component {
               <h6 className="govtitle mb-3">Dypius Governance</h6>
               <h6 className="govdesc mb-3">
                 DYP tokens represent voting shares in Dypius Governance. The
-                introduction of DYP tokens enables shared community ownership of
+                introduction of DYP tokens enables shared community ownership of 
                 a vibrant, diverse, and dedicated governance system which will
                 actively guide the protocol toward the future. <br />
                 <br />
@@ -752,13 +752,13 @@ export default class Governance extends React.Component {
                 </div>
               </div>
               </div>
-              <div className="col-6 col-xl-12 mt-5 d-flex justify-content-between align-items-center total-proposals-wrapper position-relative p-3">
+              <div className="col-12 col-lg-6 col-xl-12 flex-column flex-lg-row  mt-5 d-flex justify-content-start justify-content-lg-between align-items-center total-proposals-wrapper position-relative p-3">
                 <div className="purplediv" style={{left: '0'}}></div>
-                <div className="d-flex align-items-center gap-2">
+                <div className="d-flex flex-row align-items-center w-100 gap-2">
                     <img src={totalVotesIcon} alt="" />
-                   <div className="d-flex flex-column gap-1">
+                   <div className="d-flex flex-column  gap-1">
                    <span className="total-gov-votes">Total</span>
-                    <span className="total-gov-votes">Governance Votes</span>
+                    <span className="total-gov-votes w-100">Governance Votes</span>
                    </div>
                 </div>
                 <div className="total-votes">{getFormattedNumber(this.state.proposalData?.totalVotes)}</div>
@@ -766,8 +766,8 @@ export default class Governance extends React.Component {
             </div>
           </div>
 
-          <div className="d-flex justify-content-between gap-2 cardwrapper mt-4 mb-4">
-            <div className="govcard1 col-3">
+          <div className="d-flex flex-column flex-lg-row justify-content-between gap-4 gap-lg-2 cardwrapper mt-4 mb-4">
+            <div className="govcard1 col-12 col-lg-3">
               <div className="purplediv"></div>
               <div className="d-flex flex-column gap-2">
                 <img
@@ -785,7 +785,7 @@ export default class Governance extends React.Component {
                 </h6>
               </div>
             </div>
-            <div className="govcard2 col-3">
+            <div className="govcard2 col-12 col-lg-3">
               <div className="greendiv"></div>
               <div className="d-flex flex-column gap-2">
                 <img src={copy} alt="" style={{ width: 40, height: 40 }} />
@@ -799,7 +799,7 @@ export default class Governance extends React.Component {
                 </h6>
               </div>
             </div>
-            <div className="govcard3 col-3">
+            <div className="govcard3 col-12 col-lg-3">
               <div className="orangediv"></div>
               <div className="d-flex flex-column gap-2">
                 <img src={submit} alt="" style={{ width: 40, height: 40 }} />
@@ -817,17 +817,11 @@ export default class Governance extends React.Component {
 
           <div>
             <h6 className="myDetails-title mb-3">New proposal</h6>
-            <div className="d-flex justify-content-end mb-5 gap-5 align-items-center position-relative">
+            <div className="d-flex justify-content-center justify-content-lg-end mb-5 gap-5 align-items-center position-relative">
               <img src={govhero} alt="" className="project-banner2" />
               <div
-                className="submitproposal-wrapper"
+                className="row submitproposal-wrapper gap-4 gap-lg-0"
                 id="votingWrapper"
-                style={{
-                  display: "flex",
-                  justifyContent: "end",
-                  gap: 20,
-                  width: "83%",
-                }}
               >
                 <AddProposal
                   isOwner={isOwner}
@@ -841,8 +835,8 @@ export default class Governance extends React.Component {
                     this.props.handleConnection();
                   }}
                 />
-                <div className="mydetails-wrapper col-4">
-                  <div className="d-flex justify-content-between flex-column">
+                <div className="mydetails-wrapper col-12 col-lg-4">
+                  <div className="d-flex justify-content-between flex-column gap-4 gap-lg-0">
                     <div className="d-flex justify-content-end">
                       {this.state.is_wallet_connected === false ? (
                         <button
@@ -858,7 +852,7 @@ export default class Governance extends React.Component {
                           Connect wallet
                         </button>
                       ) : (
-                        <div className="d-flex gap-2 mb-2">
+                        <div className="d-flex w-100 gap-2 mb-2">
                           <h6 className="change-chain-text">
                             To change chain
                             <br />

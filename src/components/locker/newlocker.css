@@ -378,3 +378,12 @@ color: #F7F7FC !important;
     grid-template-columns: repeat(2,1fr);
   }
 }
+
+@media screen and (max-width: 786px) {
+  .pair-locker-wrapper{
+    grid-template-columns: auto;
+  }
+  .locker-status-text{
+    font-size: 9px;
+  }
+}

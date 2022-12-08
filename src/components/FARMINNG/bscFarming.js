@@ -1210,9 +1210,9 @@ export default function initBscFarming({
             }}
           >
             <div className="leftside2 w-100">
-              <div className="activewrapper">
-                <div className="d-flex align-items-center justify-content-between gap-5">
-                  <h6 className="activetxt">
+            <div className="activewrapper activewrapper-vault">
+                <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between">
+                  <h6 className="activetxt position-relative activetxt-vault">
                     <img
                       src={ellipse}
                       alt=""
@@ -1221,17 +1221,19 @@ export default function initBscFarming({
                     />
                     Active status
                   </h6>
-                  {/* <div className="d-flex align-items-center justify-content-between gap-3">
+                  {/* <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Earn rewards in:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      WETH & DYP
+                      {token_symbol}
                     </h6>
                   </div> */}
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Performance fee:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {fee}%
-                      <ClickAwayListener onClickAway={performanceClose}>
+                  <div className="d-flex flex-row-reverse flex-lg-row align-items-end justify-content-between earnrewards-container">
+                  <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">Performance fee:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {fee}%
+                        <ClickAwayListener onClickAway={performanceClose}>
                         <Tooltip
                           open={this.state.performanceTooltip}
                           disableFocusListener
@@ -1253,14 +1255,14 @@ export default function initBscFarming({
                           />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
-                  </div>
+                      </h6>
+                    </div>
 
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">APR:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {apy}%
-                      <ClickAwayListener onClickAway={aprClose}>
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">APR:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {apy}%
+                        <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
                           open={this.state.aprTooltip}
                           disableFocusListener
@@ -1278,13 +1280,13 @@ export default function initBscFarming({
                           <img src={moreinfo} alt="" onClick={aprOpen} />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Lock time:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <ClickAwayListener onClickAway={lockClose}>
+                      </h6>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <h6 className="earnrewards-text">Lock time:</h6>
+                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                        {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
+                        <ClickAwayListener onClickAway={lockClose}>
                         <Tooltip
                           open={this.state.lockTooltip}
                           disableFocusListener
@@ -1302,16 +1304,15 @@ export default function initBscFarming({
                           <img src={moreinfo} alt="" onClick={lockOpen} />
                         </Tooltip>
                       </ClickAwayListener>
-                    </h6>
+                      </h6>
+                    </div>
                   </div>
-                </div>
-                <div className="d-flex align-items-center justify-content-between gap-3">
+                  <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
                   {/* <a
                     href={
-                      // chainId === 1
-                        // ? 
-                        "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                        // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      chainId === 1
+                        ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
                     rel="noreferrer"
@@ -1339,13 +1340,17 @@ export default function initBscFarming({
                     </h6>
                   </div>
                 </div>
+                  </div>
+                </div>
+
+                
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="row w-100 justify-content-between">
-                <div className="firstblockwrapper col-2">
+              <div className="row w-100 gap-4 gap-lg-0 justify-content-between">
+                <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                   <div
-                    className="d-flex flex-column justify-content-between gap-4"
+                    className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
                     style={{ height: "100%" }}
                   >
                     <h6 className="start-title">Start Farming</h6>
@@ -1364,22 +1369,23 @@ export default function initBscFarming({
                       </button>
                     ) : (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={1} />
+                        <Address a={this.props.coinbase} chainId={43114}/>
                       </div>
                     )}
                   </div>
                 </div>
                 {/* <div className="otherside">
-                <button className="btn green-btn">
-                  TBD Claim reward 0.01 ETH
-                </button>
-              </div> */}
-                <div className="otherside-border col-4">
+              <button className="btn green-btn">
+                TBD Claim reward 0.01 ETH
+              </button>
+            </div> */}
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-start gap-2">
-                    <div className="d-flex align-items-start gap-3">
-                      <h6 className="deposit-txt">Deposit</h6>
+                    <div className="d-flex flex-column flex-lg-row align-items-start gap-3">
+                     <div className="d-flex align-items-start gap-3"> 
+                     <h6 className="deposit-txt">Deposit</h6>
                       <div className="d-flex justify-content-center align-items-center">
-                        <div class="dropdown">
+                      <div class="dropdown">
                           <button
                             class="btn farming-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
                             type="button"
@@ -1427,10 +1433,8 @@ export default function initBscFarming({
                             ))}
                           </ul>
                         </div>
-                        {/* {this.state.selectedTokenSymbol} */}
-                        {/* </div> */}
-                      </div>
 
+                      </div></div>
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
@@ -1438,8 +1442,8 @@ export default function initBscFarming({
                             this.state.selectedTokenBalance /
                               10 ** this.state.selectedTokenDecimals,
                             6
-                          )}{" "}
-                          {this.state.selectedTokenSymbol}
+                          )}
+                        {" "}{this.state.selectedTokenSymbol}
                         </b>
                       </h6>
                     </div>
@@ -1463,8 +1467,9 @@ export default function initBscFarming({
                       </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="position-relative">
+                    <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
+                          <div className="d-flex align-items-center justify-content-between justify-content-lg-start gap-2 w-100">
+                          <div className="position-relative">
                         <h6 className="amount-txt">Amount</h6>
                         <input
                           type={"number"}
@@ -1481,7 +1486,6 @@ export default function initBscFarming({
                               depositAmount: e.target.value,
                             })
                           }
-                          // onChange={(e) => setDepositValue(e.target.value)}
                         />
                       </div>
                       <button
@@ -1490,28 +1494,7 @@ export default function initBscFarming({
                       >
                         Max
                       </button>
-
-                      {/* <button
-                    onClick={this.handleApprove}
-                    disabled={
-                      this.state.depositAmount === "" ||
-                      this.state.depositLoading === true
-                        ? true
-                        : false
-                    }
-                    className={`btn filledbtn ${
-                      this.state.depositAmount === "" && "disabled-btn"
-                    } ${
-                      this.state.depositStatus === "deposit"
-                        ? "success-button"
-                        : this.state.depositStatus === "success"
-                        ? "fail-button"
-                        : null
-                    } d-flex justify-content-center align-items-center gap-2`}
-
-                    >
-                    Approve
-                    </button> */}
+                          </div>
 
                       <button
                         disabled={
@@ -1522,9 +1505,7 @@ export default function initBscFarming({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.depositAmount === "" &&
-                          this.state.depositStatus === "initial" &&
-                          "disabled-btn"
+                          this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
                         } ${
                           this.state.depositStatus === "deposit" ||
                           this.state.depositStatus === "success"
@@ -1536,8 +1517,7 @@ export default function initBscFarming({
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
-                            : this.state.depositStatus === "initial" &&
-                              this.state.depositAmount !== ""
+                            : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
                             ? this.handleApprove()
                             : console.log("");
                         }}
@@ -1563,17 +1543,17 @@ export default function initBscFarming({
                         )}
                       </button>
                     </div>
+                    {this.state.errorMsg && (
+                      <h6 className="errormsg">{this.state.errorMsg}</h6>
+                    )}
                   </div>
-                  {this.state.errorMsg && (
-                    <h6 className="errormsg">{this.state.errorMsg}</h6>
-                  )}
                 </div>
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                      Rewards are displayed in real-time
-                      <ClickAwayListener onClickAway={rewardsClose}>
+                        Rewards are displayed in real-time
+                        <ClickAwayListener onClickAway={rewardsClose}>
                         <Tooltip
                           open={this.state.rewardsTooltip}
                           disableFocusListener
@@ -1595,8 +1575,8 @@ export default function initBscFarming({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex gap-2 align-items-end justify-content-between">
-                      <div className="d-flex align-items-center gap-4">
+                    <div className="form-row d-flex flex-column flex-lg-row gap-2 align-items-center align-items-lg-end justify-content-between">
+                        <div className="d-flex align-items-center justify-content-between justify-content-lg-center gap-5">
                         <div
                           className="gap-1 claimreward-wrapper"
                           onClick={() => {
@@ -1739,81 +1719,127 @@ export default function initBscFarming({
                             </div>
                           </div>
                         </div>
+                      <div
+                        className="gap-1 claimreward-wrapper"
+                        style={{
+                          // padding: '3px',
+                          background:
+                            this.state.selectedPool === "dyp"
+                              ? "#141333"
+                              : "#26264F",
+                          border:
+                            this.state.selectedPool === "dyp"
+                              ? "1px solid #57B6AB"
+                              : "1px solid #8E97CD",
+                        }}
+                        onClick={() => {
+                          this.setState({ selectedPool: "dyp" });
+                        }}
+                      >
+                        <img
+                          src={
+                            this.state.selectedPool === "dyp" ? check : empty
+                          }
+                          alt=""
+                          className="activestate"
+                        />
+
+                        <div className="position-relative">
+                          <input
+                            disabled
+                            value={
+                              Number(pendingDivs) > 0
+                                ? `${pendingDivs} DYP`
+                                : `${getFormattedNumber(0,2)} DYP`
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                pendingDivs:
+                                  Number(e.target.value) > 0
+                                    ? e.target.value
+                                    : e.target.value,
+                              })
+                            }
+                            className=" left-radius inputfarming styledinput2"
+                            placeholder="0"
+                            type="text"
+                            style={{
+                              width: "120px",
+                              padding: "0px 15px 0px 15px",
+                              height: 35,
+                            }}
+                          />
+                        </div>
+
                         <div
-                          className="gap-1 claimreward-wrapper"
-                          style={{
-                            // padding: "3px",
-                            background:
-                              this.state.selectedPool === "dyp"
-                                ? "#141333"
-                                : "#26264F",
-                            border:
-                              this.state.selectedPool === "dyp"
-                                ? "1px solid #57B6AB"
-                                : "1px solid #8E97CD",
-                          }}
-                          onClick={() => {
-                            this.setState({ selectedPool: "dyp" });
-                          }}
+                          className="d-flex align-items-center justify-content-center w-100 claimreward-header "
+                          // style={{ paddingLeft: "10px" }}
                         >
                           <img
                             src={
-                              this.state.selectedPool === "dyp" ? check : empty
+                              require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                                .default
                             }
                             alt=""
-                            className="activestate"
+                            style={{ width: 14, height: 14 }}
                           />
-
-                          <div className="position-relative">
-                            <input
-                              disabled
-                              value={
-                                Number(pendingDivs) > 0
-                                  ? `${pendingDivs} DYP`
-                                  : `${getFormattedNumber(0, 2)} DYP`
-                              }
-                              onChange={(e) =>
-                                this.setState({
-                                  pendingDivs:
-                                    Number(e.target.value) > 0
-                                      ? e.target.value
-                                      : e.target.value,
-                                })
-                              }
-                              className=" left-radius inputfarming styledinput2"
-                              placeholder="0"
-                              type="text"
-                              style={{
-                                width: "100px",
-                                padding: "0px 15px 0px 15px",
-                                height: 35,
-                              }}
-                            />
-                          </div>
-
-                          <div
-                            className="d-flex align-items-center justify-content-center w-100 claimreward-header "
-                            // style={{ paddingLeft: "10px" }}
+                          <select
+                            disabled
+                            defaultValue="DYP"
+                            className="form-control inputfarming"
+                            style={{ border: "none", padding: "0 0 0 3px" }}
                           >
-                            <img
-                              src={
-                                require(`./assets/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
-                                  .default
-                              }
-                              alt=""
-                              style={{ width: 14, height: 14 }}
-                            />
-                            <select
-                              disabled
-                              defaultValue="DYP"
-                              className="form-control inputfarming"
-                              style={{ border: "none", padding: "0 0 0 3px" }}
+                            <option value="DYP"> DYP </option>
+                          </select>
+                          {/* <div class="dropdown">
+                            <button
+                              class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
                             >
-                              <option value="DYP"> DYP </option>
-                            </select>
-                          </div>
+                              <img
+                                src={
+                                  require(`./assets/avax/dyp.svg`)
+                                    .default
+                                }
+                                alt=""
+                                style={{ width: 14, height: 14 }}
+                              />
+                             DYP
+                              <img
+                                src={dropdownVector}
+                                alt=""
+                                style={{ width: 10, height: 10 }}
+                              />
+                            </button>
+                            <ul
+                              class="dropdown-menu"
+                              style={{ minWidth: "100%" }}
+                            >
+                              <span
+                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                onClick={() => {
+                                  this.handleClaimToken("0");
+                                  this.setState({
+                                    selectedRewardTokenLogo1: "dyp",
+                                  });
+                                }}
+                              >
+                                <img
+                                  src={
+                                    require(`./assets/avax/dyp.svg`).default
+                                  }
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                DYP
+                              </span>
+                            </ul>
+                          </div> */}
                         </div>
                       </div>
+                        </div>
                       <button
                         disabled={
                           this.state.selectedPool === "" ||
@@ -1826,7 +1852,7 @@ export default function initBscFarming({
                         className={`btn filledbtn ${
                           this.state.claimStatus === "claimed" ||
                           this.state.selectedPool === "" ||
-                          this.state.selectedPool === "wbnb2" ||
+                          this.state.selectedPool === "wavax2" ||
                           this.state.selectedPool === "dyp2"
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
@@ -1837,7 +1863,7 @@ export default function initBscFarming({
                         } d-flex justify-content-center align-items-center`}
                         style={{ height: "fit-content" }}
                         onClick={() => {
-                          this.state.selectedPool === "wbnb"
+                          this.state.selectedPool === "wavax"
                             ? this.handleClaimDivs()
                             : this.handleClaimDyp();
                         }}
@@ -1856,42 +1882,39 @@ export default function initBscFarming({
                           </>
                         ) : this.state.claimStatus === "success" ? (
                           <>Success</>
-                        ) : this.state.claimStatus === "initial" ? (
-                          <>Claim</>
                         ) : (
-                          <></>
+                          <>Claim</>
                         )}
                       </button>
                     </div>
-
+                    {this.state.errorMsg2 && (
+                      <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                    )}
                     {/* <button
-                      title={claimTitle}
-                      disabled={!is_connected}
-                      className="btn  btn-primary btn-block l-outline-btn"
-                      type="submit"
-                      onClick={this.handleClaimDivs}
-                    >
-                      CLAIM
-                    </button> */}
-                    {/* <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      this.handleClaimDyp();
-                    }}
                     title={claimTitle}
                     disabled={!is_connected}
                     className="btn  btn-primary btn-block l-outline-btn"
                     type="submit"
+                    onClick={this.handleClaimDivs}
                   >
                     CLAIM
                   </button> */}
+                    {/* <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.handleClaimDyp();
+                  }}
+                  title={claimTitle}
+                  disabled={!is_connected}
+                  className="btn  btn-primary btn-block l-outline-btn"
+                  type="submit"
+                >
+                  CLAIM
+                </button> */}
                   </div>
-                  {this.state.errorMsg2 && (
-                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
-                  )}
                 </div>
 
-                <div className="otherside-border col-2">
+                <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>

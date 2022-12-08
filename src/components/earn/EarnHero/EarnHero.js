@@ -23,24 +23,24 @@ const EarnHero = () => {
   }, []);
 
   return (
-    <div className="row w-100 earn-hero p-4 justify-content-between">
+    <div className="row w-100 flex-column flex-lg-row earn-hero gap-2 gap-lg-0 p-2 p-lg-4 justify-content-between">
       <div className="col-5 d-flex flex-column justify-content-center gap-3">
         <h3 className="text-white">Dypius Earn</h3>
-        <p className="text-white">
+        <p className="text-white d-none d-lg-flex">
         Make the most of your assets with Dypius Earn products. Dypius offers four ways to productively use your assets. Participate in Staking, Farming, Vault and Buyback. Start earning today!
         </p>
       </div>
-      <div className="col-6 d-flex gap-5">
+      <div className="col-12 col-lg-6 d-flex gap-0 gap-lg-5">
         <div className="d-flex flex-column align-items-start">
-          <div className="d-flex flex-column" style={{ marginLeft: "80px", width: '150px' }}>
-            <p style={{ fontSize: "9px", color: "#F36D46", fontWeight: "300" }}>
+          <div className="d-flex flex-column paid-rewards">
+            <p style={{ fontSize: "9px", color: "#f7f7fc", fontWeight: "300" }}>
               Rewards paid out
             </p>
             <CountUp
               className="count-up"
               style={{
                 fontSize: "19px",
-                color: "#F36D46",
+                color: "#f7f7fc",
                 fontWeight: "600",
                 textAlign: "start",
               }}
@@ -61,20 +61,20 @@ const EarnHero = () => {
         <div className="d-flex flex-column justify-content-between">
           <div className="d-flex justify-content-start align-items-center gap-2">
             <img src={eth} alt="" />
-            <h4 style={{ color: "#6C85E7" }}>
+            <h4 style={{ color: "#f7f7fc" }}>
               {" "}
               {getFormattedNumber(totalpaid?.ethTotal.wethPaiOutTotals, 0)}
             </h4>
           </div>
           <div className="d-flex justify-content-start align-items-center gap-2">
             <img src={bnb} alt="" />
-            <h4 style={{ color: "#F6CC29" }}>
+            <h4 style={{ color: "#f7f7fc" }}>
               {getFormattedNumber(totalpaid?.bnbTotal.wbnbPaidOutTotals, 0)}
             </h4>
           </div>
           <div className="d-flex justify-content-start align-items-center gap-2">
             <img src={avax} alt="" />
-            <h4 style={{ color: "#F86667" }}>
+            <h4 style={{ color: "#f7f7fc" }}>
               {getFormattedNumber(totalpaid?.avaxTotal.avaxPaidOutTotals, 0)}
             </h4>
           </div>

@@ -700,10 +700,10 @@ export default function initbscConstantStaking({
             }}
           >
             <div className="leftside2 w-100">
-              <div className="activewrapper">
+            <div className="activewrapper">
                 <div
-                  className={`d-flex align-items-center justify-content-between ${
-                    renderedPage === "dashboard" ? "gap-4" : "gap-5"
+                  className={`d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between ${
+                    renderedPage === "dashboard" ? "gap-3 gap-lg-4" : "gap-3 gap-lg-5"
                   }`}
                 >
                   <h6 className="activetxt">
@@ -716,16 +716,18 @@ export default function initbscConstantStaking({
                     Active status
                   </h6>
                   {/* <div className="d-flex align-items-center justify-content-between gap-2">
-                  <h6 className="earnrewards-text">Earn rewards in:</h6>
-                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    DYP
-                  </h6>
-                </div> */}
-                  <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Earn rewards in:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      DYP
+                    </h6>
+                  </div> */}
+                 <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
+                 <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">Performance fee:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
                       {fee}%
-                      <ClickAwayListener onClickAway={performanceClose}>
+                     <ClickAwayListener onClickAway={performanceClose}>
                         <Tooltip
                           open={this.state.performanceTooltip}
                           disableFocusListener
@@ -799,8 +801,7 @@ export default function initbscConstantStaking({
                     </h6>
                   </div>
                 </div>
-
-                <div className="d-flex align-items-center justify-content-between gap-3">
+                <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
                   <h6
                     className="bottomitems"
                     onClick={() => this.setState({ showCalculator: true })}
@@ -834,21 +835,25 @@ export default function initbscConstantStaking({
                     </h6>
                   </div>
                 </div>
+                 </div>
+
+                
+                 </div>
               </div>
             </div>
-            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="row w-100 justify-content-between">
-                <div className="firstblockwrapper col-2">
+            <div className="pools-details-wrapper d-flex m-0  container-lg border-0">
+              <div className="row w-100 flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between">
+                <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                   <div
-                    className="d-flex flex-column justify-content-between gap-4"
+                    className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
                     style={{ height: "100%" }}
                   >
                     <h6 className="start-title">Start Staking</h6>
                     {/* <h6 className="start-desc">
-                    {this.props.coinbase === null
-                      ? "Connect wallet to view and interact with deposits and withdraws"
-                      : "Interact with deposits and withdraws"}
-                  </h6> */}
+                      {this.props.coinbase === null
+                        ? "Connect wallet to view and interact with deposits and withdraws"
+                        : "Interact with deposits and withdraws"}
+                    </h6> */}
                     {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn d-flex align-items-center gap-2"
@@ -863,33 +868,33 @@ export default function initbscConstantStaking({
                       </button>
                     ) : (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={1} />
+                        <Address a={this.props.coinbase} chainId={1}/>
                       </div>
                     )}
                   </div>
                 </div>
                 {/* <div className="otherside">
-            <button className="btn green-btn">
-              TBD Claim reward 0.01 ETH
-            </button>
-          </div> */}
-                <div className="otherside-border col-4">
+              <button className="btn green-btn">
+                TBD Claim reward 0.01 ETH
+              </button>
+            </div> */}
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
                       {/* <div className="d-flex gap-2 align-items-center">
-                      <img
-                        src={require(`./assets/dyp.svg`).default}
-                        alt=""
-                        style={{ width: 15, height: 15 }}
-                      />
-                      <h6
-                        className="text-white"
-                        style={{ fontSize: "11px", fontWeight: "600" }}
-                      >
-                        DYP
-                      </h6>
-                    </div> */}
+                        <img
+                          src={require(`./assets/dyp.svg`).default}
+                          alt=""
+                          style={{ width: 15, height: 15 }}
+                        />
+                        <h6
+                          className="text-white"
+                          style={{ fontSize: "11px", fontWeight: "600" }}
+                        >
+                          DYP
+                        </h6>
+                      </div> */}
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
@@ -918,8 +923,9 @@ export default function initbscConstantStaking({
                       </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="position-relative">
+                    <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
+                     <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
+                     <div className="position-relative">
                         <h6 className="amount-txt">Amount</h6>
                         <input
                           type={"number"}
@@ -939,43 +945,44 @@ export default function initbscConstantStaking({
                         />
                       </div>
                       {/* <div
-                      className="input-container px-0"
-                      style={{ width: "32%" }}
-                    >
-                      <input
-                        type="number"
-                        min={1}
-                        id="amount"
-                        name="amount"
-                        value={ Number(this.state.depositAmount) > 0
-                          ? this.state.depositAmount
-                          : this.state.depositAmount
-                        }
-                        placeholder=" "
-                        className="text-input"
-                        onChange={(e) => this.setState({depositAmount: e.target.value})}
-                        style={{ width: "100%" }}
-                      />
-                      <label
-                        htmlFor="usd"
-                        className="label"
-                        onClick={() => focusInput("amount")}
+                        className="input-container px-0"
+                        style={{ width: "32%" }}
                       >
-                        DYP Amount
-                      </label>
-                    </div> */}
+                        <input
+                          type="number"
+                          min={1}
+                          id="amount"
+                          name="amount"
+                          value={ Number(this.state.depositAmount) > 0
+                            ? this.state.depositAmount
+                            : this.state.depositAmount
+                          }
+                          placeholder=" "
+                          className="text-input"
+                          onChange={(e) => this.setState({depositAmount: e.target.value})}
+                          style={{ width: "100%" }}
+                        />
+                        <label
+                          htmlFor="usd"
+                          className="label"
+                          onClick={() => focusInput("amount")}
+                        >
+                          DYP Amount
+                        </label>
+                      </div> */}
                       <button
                         className="btn maxbtn"
                         onClick={this.handleSetMaxDeposit}
                       >
                         Max
                       </button>
+                     </div>
                       {/* <button
-                    className="btn filledbtn"
-                    onClick={this.handleApprove}
-                  >
-                    Approve
-                  </button> */}
+                      className="btn filledbtn"
+                      onClick={this.handleApprove}
+                    >
+                      Approve
+                    </button> */}
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
@@ -1030,7 +1037,7 @@ export default function initbscConstantStaking({
                     )}
                   </div>
                 </div>
-                <div className="otherside-border col-4">
+                <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6
@@ -1059,8 +1066,8 @@ export default function initbscConstantStaking({
                     </h6>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
-                    <div className="d-flex align-items-center justify-content-between gap-2"></div>
-                    <div className="form-row d-flex  align-items-center justify-content-between">
+                    {/* <div className="d-flex align-items-center justify-content-between gap-2"></div> */}
+                    <div className="form-row flex-column flex-lg-row gap-2 d-flex  align-items-start align-items-lg-center justify-content-between">
                       <div className="position-relative d-flex flex-column">
                         <span
                           style={{
@@ -1078,27 +1085,27 @@ export default function initbscConstantStaking({
                             : getFormattedNumber(0, 6)}
                         </span>
                         {/* <input
-                        disabled
-                        value={
-                          Number(pendingDivs) > 0
-                            ? `${pendingDivs}`
-                            : `${pendingDivs}`
-                        }
-                        onChange={(e) =>
-                          this.setState({
-                            pendingDivs:
-                              Number(e.target.value) > 0
-                                ? e.target.value
-                                : e.target.value,
-                          })
-                        }
-                        className=" left-radius inputfarming styledinput2"
-                        placeholder="0"
-                        type="text"
-                        style={{ fontSize: "14px", width: renderedPage === "dashboard" && '120px', padding: 0 }}
-                      /> */}
+                          disabled
+                          value={
+                            Number(pendingDivs) > 0
+                              ? `${pendingDivs}`
+                              : `${pendingDivs}`
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              pendingDivs:
+                                Number(e.target.value) > 0
+                                  ? e.target.value
+                                  : e.target.value,
+                            })
+                          }
+                          className=" left-radius inputfarming styledinput2"
+                          placeholder="0"
+                          type="text"
+                          style={{ fontSize: "14px", width: renderedPage === "dashboard" && '120px', padding: 0 }}
+                        /> */}
                       </div>
-                      <div className="d-flex align-items-center gap-3">
+                      <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                         <button
                           disabled={
                             this.state.claimStatus === "claimed" ||
@@ -1181,7 +1188,7 @@ export default function initbscConstantStaking({
                   </div>
                 </div>
 
-                <div className="otherside-border col-2">
+                <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>

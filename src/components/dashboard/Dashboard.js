@@ -42,6 +42,7 @@ const Dashboard = ({
       lockTime: "No lock",
       tokenLogo: "dyplogo.svg",
       cardType: "Staking",
+      tag: 'stake',
     },
     {
       top_pick: false,
@@ -51,6 +52,7 @@ const Dashboard = ({
       lockTime: "No lock",
       tokenLogo: "usdt.svg",
       cardType: "Vault",
+      tag: 'vault'
     },
   ];
 
@@ -65,6 +67,8 @@ const Dashboard = ({
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
+      tag: 'stake',
+
     },
     {
       top_pick: false,
@@ -73,6 +77,8 @@ const Dashboard = ({
       tvl: "48543.20",
       lockTime: "90 Days",
       cardType: "Buyback",
+      tag: 'buyback',
+
     },
   ];
 
@@ -87,6 +93,8 @@ const Dashboard = ({
       isNewPool: false,
       isStaked: false,
       cardType: "Staking",
+      tag: 'stake',
+
     },
     {
       top_pick: false,
@@ -95,6 +103,8 @@ const Dashboard = ({
       tvl: "48543.20",
       lockTime: "90 Days",
       cardType: "Buyback",
+      tag: 'buyback',
+      
     },
   ];
 
@@ -470,6 +480,7 @@ const Dashboard = ({
                           tvl={item.tvl}
                           lockTime={item.lockTime}
                           tokenLogo={item.tokenLogo}
+                          tag={item.tag}
                           onShowDetailsClick={() => {
                             setActiveCard(cards[index]);
                             setcardIndex(index);
@@ -574,6 +585,7 @@ const Dashboard = ({
                           tvl={item.tvl}
                           lockTime={item.lockTime}
                           tokenLogo={item.tokenLogo}
+                          tag={item.tag}
                           onShowDetailsClick={() => {
                             setActiveCard(cards[index]);
                             setActiveCard2(null);

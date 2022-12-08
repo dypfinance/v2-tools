@@ -1991,8 +1991,8 @@ export default class Locker extends React.Component {
             on the project validity and security.
           </p>
         </div>
-        <div className="row mt-4 w-100 mx-0">
-          <div className="col-7 ps-0">
+        <div className="row  gap-4 gap-lg-0 mt-4 w-100 mx-0">
+          <div className="col-12 col-lg-7 px-0 px-lg-2 ps-lg-0">
             <div className="px-3 py-4 locker-card liquidity-background d-flex gap-3 position-relative">
               <div
                 className="purplediv"
@@ -2018,7 +2018,7 @@ export default class Locker extends React.Component {
               </div>
             </div>
           </div>
-          <div className="col-5 pe-0">
+          <div className="col-12 col-lg-5 px-0 px-lg-2 pe-0">
             <div className="px-3 py-4 locker-card security-background d-flex gap-3 h-100  position-relative">
               <div className="purplediv" style={{ left: "0px" }}></div>
               <div className="security-icon-holder d-flex align-items-center justify-content-center">
@@ -2038,8 +2038,8 @@ export default class Locker extends React.Component {
             </div>
           </div>
         </div>
-        <div className="row mx-0 w-100 mt-5">
-          <div className="col-7 ps-0">
+        <div className="row flex-column-reverse flex-lg-row gap-4 gap-lg-0 mx-0 w-100 mt-5">
+          <div className="col-12 col-lg-7 px-0 px-lg-2 ps-0">
             <div className="px-4 pt-4 pb-5 purple-wrapper position-relative">
               <div
                 className="purplediv"
@@ -2387,7 +2387,7 @@ export default class Locker extends React.Component {
               )}
             </div>
           </div>
-          <div className="col-5 position-relative pe-0">
+          <div className="col-12 col-lg-5 px-0 px-lg-2 position-relative pe-0">
             <div className="p-4 purple-wrapper">
               <div className="d-flex align-items-center gap-2">
                 <img src={coinStackIcon} alt="" />
