@@ -34,6 +34,8 @@ const MainNews = ({
   const [alreadyVoted, setalreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const [upvote, setUpvote] = useState(upvotes);
+  const [downvote, setDownvote] = useState(downvotes);
   const [bannerShadow, setBannerShadow] = useState(false)
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
@@ -43,66 +45,68 @@ const MainNews = ({
       if(bal1 === 0 && bal2 === 0 && isPremium === true) {
         setCanVote(true)
       }
-  
+
       else if(bal1 !== 0 && bal2 !== 0 && isPremium === true) {
         setCanVote(true)
       }
-  
+
       else if((bal1 !== 0 || bal2 !== 0) && isPremium === false) {
         setCanVote(true)
       }
-  
+
       else if((bal1 === 0 && bal2 === 0) && isPremium === false) {
         setCanVote(false)
       }
       else if(logout === 'true') {
         setCanVote(false)
       }
-      
+
     }, [alreadyVoted, bal1, bal2, isPremium, logout]);
 
     const checkUpVoting = async (itemId) => {
-      
+
       return await axios
         .get(
           `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/up`
         )
         .then((data) => {
           if (data.data.status === "success") {
-            
-            onVotesFetch()
-            
+
+            // onVotesFetch()
+            setUpvote(upvote + 1)
+
           } else {
             setalreadyVoted(false);
             setShowTooltip(true)
             setLikeIndicator(false)
-          }
-        })
-        .catch(console.error);
-    };
-  
-    const checkDownVoting = async (itemId) => {
-      
-      return await axios
-        .get(
-          `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/down`
-        )
-        .then((data) => {
-          
-          if (data.data.status === "success") {
-            onVotesFetch()
-          } else {
-            setalreadyVoted(false);
-            setShowTooltip(true)
-            setLikeIndicator(false)
-            setDislikeIndicator(false)
-  
           }
         })
         .catch(console.error);
     };
 
-    
+    const checkDownVoting = async (itemId) => {
+
+      return await axios
+        .get(
+          `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/down`
+        )
+        .then((data) => {
+
+          if (data.data.status === "success") {
+            // onVotesFetch()
+            setDownvote(downvote + 1)
+          } else {
+            setalreadyVoted(false);
+            setShowTooltip(true)
+            setLikeIndicator(false)
+            setDislikeIndicator(false)
+
+          }
+        })
+        .catch(console.error);
+    };
+
+
   const handleLikeStates = () => {
     if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
       checkUpVoting(newsId);
@@ -130,7 +134,7 @@ const MainNews = ({
       checkDownVoting(newsId);
     }
     else {setShowTooltip(true);}
-    
+
     const logout = localStorage.getItem("logout");
     if ((bal1 === 0 && bal2 === 0 && isPremium === false) || logout === 'true') {
       setLikeIndicator(false);
@@ -154,7 +158,7 @@ const MainNews = ({
 
   return (
     <div className="main-news-image" key={newsId}>
-      
+
       <div className="banner-item">
         {/* <a target="_blank" href={link}> */}
         <div className="main-image position-relative">
@@ -185,10 +189,10 @@ const MainNews = ({
                 {title}
               </h2>
             </div>
-            
+
           </div>
-            
-           
+
+
           {/* <div className="news-bottom-wrapper mt-3 justify-content-between">
           <div className="like-wrapper">
             <img
@@ -257,7 +261,7 @@ const MainNews = ({
 
         {/* </a> */}
 
-       
+
       </div>
     </div>
   );
