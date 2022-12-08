@@ -91,11 +91,13 @@ const News = ({ theme, isPremium, coinbase }) => {
   const [otherNewsDataReverse, setOtherNewsDataReverse] = useState([]);
   const [otherPressReverse, setotherPressReverse] = useState([]);
   const [newsContent, setNewsContent] = useState([]);
+  const [page, setPage] = useState(0);
   const [next, setNext] = useState(newsPerRow);
   const [userAlreadyVoted, setUserAlreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
 
-  const loadMore = () => {
+  const loadMore = async () => {
+    
     setNext(next + newsPerRow);
   };
 
@@ -104,18 +106,18 @@ const News = ({ theme, isPremium, coinbase }) => {
     setShowModal(true);
   };
 
-  const fetchVotingdata = async () => {
-    const response = await fetch(`https://news-manage.dyp.finance/api/v1/votes/all`)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setVotes(data.Data);
-      })
-      .catch(console.error);
-
-    return response;
-  };
+  // const fetchVotingdata = async () => {
+  //   const response = await fetch(`https://news-manage.dyp.finance/api/v1/votes/all`)
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setVotes(data.Data);
+  //     })
+  //     .catch(console.error);
+  //
+  //   return response;
+  // };
 
   const fetchNewsdata = async () => {
     const result = await fetch(`https://news-manage.dyp.finance/api/news`)
@@ -179,13 +181,21 @@ const News = ({ theme, isPremium, coinbase }) => {
 
   };
 
-  const fetchOtherNewsData = async () => {
+  const fetchOtherNewsData = async (page = 0, concat = false) => {
     const result = await fetch(`https://news-manage.dyp.finance/api/others`)
       .then((res) => {
         return res.json();
       })
-      .then((data) => {
-        setOtherNewsData(data);
+      .then((data) =>
+      {
+        if(concat)
+        {
+            setOtherNewsData([...otherNewsData, ...data]);
+        }
+        else
+        {
+            setOtherNewsData(data);
+        }
       })
       .catch(console.error);
 
@@ -199,8 +209,8 @@ const News = ({ theme, isPremium, coinbase }) => {
   },[account]);
 
   useEffect(() => {
-    fetchVotingdata().then();
-    // checkSingleVotes() 
+    // fetchVotingdata().then();
+    // checkSingleVotes()
   }, [showModal, newsItemId, activeNews]);
 
   const { news_id } = useParams();
@@ -398,8 +408,7 @@ const News = ({ theme, isPremium, coinbase }) => {
   }, [cloneArray.length, news_id, activeNews]);
 
   const handleNewsReoderPopular = () => {
-    if (popularNewsData.length > 5 && otherNewsData.length > 0) {
-      otherNewsData.push(...popularNewsData.slice(5, popularNewsData.length));
+    if (otherNewsData.length > 0) {
       otherNewsData.reverse();
       setOtherNewsDataReverse(otherNewsData);
     }
@@ -421,12 +430,12 @@ const News = ({ theme, isPremium, coinbase }) => {
     fetchNewsdata().then();
     fetchPressData().then();
     fetchPopularNewsData().then();
-    fetchOtherNewsData().then();
+    fetchOtherNewsData(page).then();
   }, [newsData.length, popularNewsData.length]);
 
-  useEffect(() => {
-    fetchVotingdata().then();
-  }, [newsItemId]);
+  // useEffect(() => {
+  //   fetchVotingdata().then();
+  // }, [newsItemId]);
 
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
@@ -465,7 +474,7 @@ const News = ({ theme, isPremium, coinbase }) => {
 
         if (response.data.status === "success") {
           setUserAlreadyVoted(false);
-          fetchVotingdata().then((votes) => topVotes(votes));
+          // fetchVotingdata().then((votes) => topVotes(votes));
           setnewsItemId(Number(itemId) + 1);
         } else {
           setUserAlreadyVoted(true);
@@ -515,7 +524,7 @@ const News = ({ theme, isPremium, coinbase }) => {
     localStorage.setItem("firstTimeVoter", "false");
   }, []);
 
-  let result = [...otherNewsDataReverse, ...otherPressReverse, ...newsData];
+  let result = [...otherNewsDataReverse];
   const bigNews = [...new Set(result)];
   const bigNewsSorted = bigNews.sort(function (a, b) {
     return new Date(b.date) - new Date(a.date);
@@ -632,18 +641,20 @@ const News = ({ theme, isPremium, coinbase }) => {
                               day={item.date}
                               theme={theme}
                               coinbase={coinbase}
-                              upvotes={
-                                votes.length !== 0
-                                  ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                                  : 0
-                              }
-                              downvotes={
-                                votes.length !== 0
-                                  ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                                    ? votes.find((obj) => obj.id === item.id)?.down
-                                    : 0
-                                  : 0
-                              }
+                              // upvotes={
+                              //   votes.length !== 0
+                              //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                              //     : 0
+                              // }
+                              // downvotes={
+                              //   votes.length !== 0
+                              //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                              //       ? votes.find((obj) => obj.id === item.id)?.down
+                              //       : 0
+                              //     : 0
+                              // }
+                              upvotes={item.vote.up}
+                              downvotes={item.vote.down}
                               newsId={item.id}
                               onShowModalClick={() => {
                                 setShowModal(true);
@@ -651,7 +662,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                                 handleFetchNewsContent("popular", item.id);
                                 console.log(index);
                               }}
-                              onVotesFetch={fetchVotingdata}
+                              // onVotesFetch={fetchVotingdata}
                               isConnected={isConnected}
                               isPremium={isPremium}
                             />
@@ -665,7 +676,7 @@ const News = ({ theme, isPremium, coinbase }) => {
 
                 </div>
               </div>
-               
+
               </div>
               <div
                 className=" col-4 pe-0"
@@ -729,7 +740,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                           //     : 0
                           // }
                           downvotes={item.vote.down}
-                          onVotesFetch={fetchVotingdata}
+                          // onVotesFetch={fetchVotingdata}
                           coinbase={coinbase}
                           onNewsClick={() => {
                             setShowModal(true);
@@ -759,7 +770,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                             day={item.date.slice(0, 10)}
                             fullDate={item.date}
                             theme={theme}
-                            onVotesFetch={fetchVotingdata}
+                            // onVotesFetch={fetchVotingdata}
                             coinbase={coinbase}
                             // upvotes={
                             //   votes.length !== 0
@@ -822,7 +833,7 @@ const News = ({ theme, isPremium, coinbase }) => {
             responsiveLayout={responsive1}
             autoplay={4000}
           >
-           
+
           </Carousel>
         </div> */}
         <div
@@ -850,7 +861,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                       date={item.date}
                       isPremium={isPremium}
                       isConnected={isConnected}
-                      onVotesFetch={fetchVotingdata}
+                      // onVotesFetch={fetchVotingdata}
                       newsId={item.id}
                       onSinglePressHighlightClick={() => {
                         setActiveNews(pressNewsData[key]);
@@ -909,7 +920,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                     month={item.month}
                     year={item.year}
                     theme={theme}
-                    onVotesFetch={fetchVotingdata}
+                    // onVotesFetch={fetchVotingdata}
                     newsId={item.id}
                     // upvotes={
                     //   votes.length !== 0
