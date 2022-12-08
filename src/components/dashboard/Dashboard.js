@@ -20,6 +20,7 @@ import initBscBuyback from "../FARMINNG/bscBuyback";
 import initbscConstantStaking from "../FARMINNG/bscConstantStake";
 import avaxBuyback from "../FARMINNG/avaxBuyback";
 import stakeAvax from "../FARMINNG/stakeAvax";
+import { FadeLoader } from "react-spinners";
 
 const Dashboard = ({
   isConnected,
@@ -103,6 +104,7 @@ const Dashboard = ({
   const [popularNewsData, setPopularNewsData] = useState([]);
   const [activeCard2, setActiveCard2] = useState();
   const [cards, setCards] = useState(cardsEth);
+  const [loading, setLoading] = useState(true)
 
   let networkId = parseInt(network);
 
@@ -407,16 +409,21 @@ const Dashboard = ({
     return result;
   };
 
-  useEffect(() => {
-    fetchPopularNewsData();
-    if (networkId === 1) {
+  const setPools = () => {
+    if (network === 1) {
       setCards(cardsEth);
-    } else if (networkId === 56) {
+    } else if (network === 56) {
       setCards(cardsBsc);
       console.log(cards);
     } else {
       setCards(cardsAvax);
     }
+  }
+
+  useEffect(() => {
+    fetchPopularNewsData();
+    setPools()
+      setLoading(false)
   }, []);
 
   const windowSize = useWindowSize();
@@ -448,7 +455,7 @@ const Dashboard = ({
             {windowSize.width > 786 ? (
               <div>
                 <div className="row m-0 gap-4 toppool-allwrapper">
-                  {cards.length > 0 &&
+                  {cards.length > 0 && loading === false ?
                     cards.map((item, index) => {
                       return (
                         <TopPoolsCard
@@ -476,7 +483,15 @@ const Dashboard = ({
                           details={details === index ? true : false}
                         />
                       );
-                    })}
+                    })
+                  :
+                  <div
+                  className="w-100 d-flex justify-content-center align-items-center mt-5"
+                  style={{ gridColumn: "1 / 3" }}
+                >
+                  <FadeLoader color="#7770DF" />
+                </div>
+                  }
                 </div>
                 {activeCard && networkId === 1 ? (
                   activeCard?.cardType === "Staking" ? (
