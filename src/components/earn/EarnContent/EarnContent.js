@@ -67,7 +67,11 @@ const EarnContent = ({
   const [content, setContent] = useState(options[0].content);
   const [listStyle, setListStyle] = useState("table");
   const [myStakes, setMyStakes] = useState(false);
-  const [tvl, setTvl] = useState(options[0].tvl);
+  const [tvl, setTvl] = useState();
+  const [ethApr, setEthApr] = useState()
+  const [bnbApr, setBnbApr] = useState()
+  const [avaxApr, setavaxApr] = useState()
+
   var tempTvl = 0;
   var farming = [];
 
@@ -110,26 +114,6 @@ const EarnContent = ({
   };
 
 
-
-
-  // useEffect(() => {
-  //   if(routeOption === null){
-  //     setOption("Staking")
-  //   }else{
-  //     setOption(routeOption)
-  //   }
-  
-  //   if(routeChain === null){
-  //     setStake("eth")
-  //   }else{
-  //     setStake(routeChain)
-  //   }
-  
-  // }, [])
-  
-
-
-
   const fetchAvaxTvl = async () => {
     await axios
       .get(`https://api.dyp.finance/api/the_graph_avax_v2`)
@@ -148,6 +132,91 @@ const EarnContent = ({
       .catch((err) => console.error(err));
   };
 
+  const fetchVaultTvl = async() => {
+    await axios.get(`https://api.dyp.finance/api/get_vault_info`).then((res) => {
+      setTvl(res.data.VaultTotalTVL[0].tvl)
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+
+  const fetchEthApr = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_eth`)
+      .then((res) => {
+       setEthApr(res.data.highestAPY_ETH[0].highest_apy)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchBnbApr = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
+      .then((res) => {
+        setBnbApr(res.data.highestAPY_BNB[0].highest_apy)
+
+       })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchAvaxApr = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_avax`)
+      .then((res) => {
+        setavaxApr(res.data.highestAPY_AVAX[0].highest_apy)
+
+       })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+
+
+  const fetchEthBuybackApr = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_eth`)
+      .then((res) => {
+        setEthApr(res.data.BuybackHighestApy[0].highest_apy)
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchBnbBuybackApr = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_bnb`)
+      .then((res) => {
+        setBnbApr(res.data.BuybackHighestApyBNB[0].highest_apy)
+
+       })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchAvaxBuybackApr = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_avax`)
+      .then((res) => {
+        setavaxApr(res.data.BuybackHighestApyAVAX[0].highest_apy)
+
+       })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchFarmingApr = async() => {
+    await axios.get(`https://api.dyp.finance/api/highest-apy`).then((res) => {
+      setEthApr(res.data.highestAPY.highestAPY_ETH_V2)
+      setBnbApr(res.data.highestAPY.highestAPY_BSC_V2)
+      setavaxApr(res.data.highestAPY.highestAPY_AVAX_V2)
+    })
+  }
 
   const fetchEthStaking = async () => {
     await axios
@@ -212,13 +281,27 @@ const EarnContent = ({
   };
 
  useEffect(() => {
-    if(option === "Stake" && stake ===  "eth"){
+
+  if(option === "Staking"){
+    fetchEthApr();
+    fetchAvaxApr();
+    fetchBnbApr();
+  }else if(option === "Buyback"){
+    fetchEthBuybackApr()
+    fetchBnbBuybackApr()
+    fetchAvaxBuybackApr()
+  }else if(option === "Farming"){
+    fetchFarmingApr();
+  }
+
+
+    if(option === "Staking" && stake ===  "eth"){
       fetchEthStaking()
     }
-    else if(option === "Stake" && stake ===  "bnb"){
+    else if(option === "Staking" && stake ===  "bnb"){
       fetchBnbStaking()
     }
-    else if(option === "Stake" && stake ===  "avax"){
+    else if(option === "Staking" && stake ===  "avax"){
       fetchAvaxStaking()
     }
     else if(option === "Buyback" && stake ===  "eth"){
@@ -239,7 +322,7 @@ const EarnContent = ({
     else if(option === "Farming" && stake ===  "avax"){
       fetchAvaxTvl()
     }else{
-      setTvl
+      fetchVaultTvl();
     }
  }, [option, stake])
 
@@ -410,7 +493,7 @@ const EarnContent = ({
   </div>   
     }
 
-        <div className="row align-items-center gap-5 gap-lg-0 justify-content-between px-0" style={{minHeight: '52px'}}>
+        <div className="row align-items-center gap-5 gap-lg-0 justify-content-between px-0" style={{minHeight: '55px'}}>
           <div className="col-12 col-lg-4 col-xl-3 px-0">
             <div className="total-value-locked-container p-2 d-flex justify-content-between align-items-center">
               <span style={{ fontWeight: "300", fontSize: "13px" }}>
@@ -433,7 +516,7 @@ const EarnContent = ({
                   }`}
                   onClick={() => {
                     setStake("eth");
-                    fetchEthTvl();
+                    // fetchEthTvl();
                   }}
                 >
                   <img
@@ -452,9 +535,10 @@ const EarnContent = ({
                         fontSize: "12px",
                         fontWeight: "500",
                         color: "#f7f7fc",
+                        whiteSpace: 'pre'
                       }}
                     >
-                      25% APR
+                      {ethApr}% APR
                     </p>
                   </div>
                 </div>
@@ -464,7 +548,7 @@ const EarnContent = ({
                   }`}
                   onClick={() => {
                     setStake("bnb");
-                    fetchBscTvl();
+                    // fetchBscTvl();
                   }}
                 >
                   <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
@@ -493,9 +577,11 @@ const EarnContent = ({
                         fontSize: "12px",
                         fontWeight: "500",
                         color: "#f7f7fc",
+                        whiteSpace: 'pre'
+
                       }}
                     >
-                      25% APR
+                      {bnbApr}% APR
                     </p>
                   </div>
                 </div>
@@ -505,7 +591,7 @@ const EarnContent = ({
                   }`}
                   onClick={() => {
                     setStake("avax");
-                    fetchAvaxTvl();
+                    // fetchAvaxTvl();
                   }}
                 >
                   <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
@@ -534,9 +620,10 @@ const EarnContent = ({
                         fontSize: "12px",
                         fontWeight: "500",
                         color: "#f7f7fc",
+                        whiteSpace: 'pre'
                       }}
                     >
-                      25% APR
+                      {avaxApr}% APR
                     </p>
                   </div>
                 </div>
@@ -546,7 +633,7 @@ const EarnContent = ({
 
                     <>
                 <div
-                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                  className={`stake-item d-none position-relative d-flex align-items-center gap-2 ${
                     stake === "eth" ? "eth-item-active" : null
                   }`}
                   onClick={() => {
@@ -577,7 +664,7 @@ const EarnContent = ({
                   </div>
                 </div>
                 <div
-                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                  className={`stake-item d-none position-relative d-flex align-items-center gap-2 ${
                     stake === "bnb" ? "bsc-item-active" : null
                   }`}
                   // onClick={() => {
@@ -619,7 +706,7 @@ const EarnContent = ({
                   </div>
                 </div>
                 <div
-                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                  className={`stake-item d-none position-relative d-flex align-items-center gap-2 ${
                     stake === "avax" ? "avax-item-active" : null
                   }`}
                   // onClick={() => {

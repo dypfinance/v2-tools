@@ -36,8 +36,8 @@ const BridgeFAQ = ({faqIndex}) => {
   }, []);
 
   return (
-    <div id="bridgeFaq" className="row w-100 my-5 p-0 faq-container justify-content-between">
-      <div className="col-7 ps-0">
+    <div id="bridgeFaq" className="row flex-column-reverse gap-4 gap-lg-0 flex-lg-row w-100 my-5 p-0 faq-container justify-content-between">
+      <div className="col-12 col-lg-7 px-0 px-lg-2 ps-xl-0">
         <h3 className="mb-3" style={{ color: "#f7f7fc" }}>
           {faqTitle} FAQs
         </h3>
@@ -92,7 +92,7 @@ const BridgeFAQ = ({faqIndex}) => {
           ))}
         </div>
       </div>
-      <div className="col-5 pe-0">
+      <div className="col-12 col-lg-5 px-0 px-lg-2 pe-xl-0">
         <h3 className="mb-3" style={{ color: "#f7f7fc" }}>
           Video guide
         </h3>

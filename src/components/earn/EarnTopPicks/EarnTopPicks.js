@@ -6075,14 +6075,10 @@ const EarnTopPicks = ({
               key={index}
               chain={chain}
               top_pick={pool.top_pick}
-              tokenName={
-                pool.tokenName
-                  ? pool.tokenName
-                  : pool.pair_name
-                  ? pool.pair_name
-                  : ""
-              }
-              apr={pool.apy + "%"}
+
+              tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+              apr={pool.apy_percent + "%"}
+
               tvl={"$" + getFormattedNumber(pool.tvl_usd)}
               lockTime={pool.lockTime ? pool.lockTime : "No Lock"}
               cardType={topList}
