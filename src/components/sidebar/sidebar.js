@@ -70,26 +70,32 @@ const Sidebar = (props) => {
 
   const windowSize = useWindowSize()
 
+  const openSidebar = () => {
+    setActiveSidebar(true);
+  };
+
+  const closeSidebar = () => {
+     setActiveSidebar(false);
+
+  };
 
   useEffect(() => {
     // const fetchInterval = setInterval(
     //   () => setlocation(window.location.pathname),
     //   1000
     // );
+    const sidebar = document.getElementById("sidebar");
     if(windowSize.width > 1800){
       setActiveSidebar(true)
-    }else{
-      setActiveSidebar(false)
-    }
+    } 
 
-    if(windowSize.width < 1800){
-      sidebar?.addEventListener("mouseover", openSidebar);
-      sidebar?.addEventListener("mouseleave", closeSidebar);
+    else if(windowSize.width < 1800){
+      sidebar.addEventListener("mouseenter", openSidebar);
+      sidebar.addEventListener("mouseleave", closeSidebar);
     }else{
       setActiveSidebar(true)
     }
-  }, [windowSize, activeSidebar]);
-
+  }, [activeSidebar]);
 
   const sidebarItems = [
     {
@@ -163,16 +169,7 @@ const Sidebar = (props) => {
     },
   ];
 
-  const sidebar = document.getElementById("sidebar");
   const sidebarItem = document.querySelectorAll(".sidebar-item");
-
-  const openSidebar = () => {
-    windowSize.width < 1800 && setActiveSidebar(true);
-  };
-
-  const closeSidebar = () => {
-    windowSize.width < 1800 && setActiveSidebar(false);
-  };
 
   const windowUrl = window.location.href;
 
