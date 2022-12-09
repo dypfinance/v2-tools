@@ -109,6 +109,9 @@ const EarnContent = ({
       .catch((err) => console.error(err));
   };
 
+
+
+
   // useEffect(() => {
   //   if(routeOption === null){
   //     setOption("Staking")
@@ -124,6 +127,8 @@ const EarnContent = ({
   
   // }, [])
   
+
+
 
   const fetchAvaxTvl = async () => {
     await axios
@@ -142,6 +147,103 @@ const EarnContent = ({
       })
       .catch((err) => console.error(err));
   };
+
+
+  const fetchEthStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_eth`)
+      .then((res) => {
+       setTvl(res.data.totalTVL_ETH)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchBnbStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
+      .then((res) => {
+        setTvl(res.data.totalTVL_BNB)
+       })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchAvaxStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_avax`)
+      .then((res) => {
+        setTvl(res.data.totalTVL_AVAX)
+       })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchEthBuyback = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_eth`)
+      .then((res) => {
+       setTvl(res.data.totalTVL_BUYBACK_ETH)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchBnbBuyback = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_bnb`)
+      .then((res) => {
+        setTvl(res.data.totalTVL_BUYBACK_BNB)
+       })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchAvaxBuyback = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_avax`)
+      .then((res) => {
+        setTvl(res.data.totalTVL_BUYBACK_AVAX)
+       })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+ useEffect(() => {
+    if(option === "Stake" && stake ===  "eth"){
+      fetchEthStaking()
+    }
+    else if(option === "Stake" && stake ===  "bnb"){
+      fetchBnbStaking()
+    }
+    else if(option === "Stake" && stake ===  "avax"){
+      fetchAvaxStaking()
+    }
+    else if(option === "Buyback" && stake ===  "eth"){
+      fetchEthBuyback()
+    }
+    else if(option === "Buyback" && stake ===  "bnb"){
+      fetchBnbBuyback()
+    }
+    else if(option === "Buyback" && stake ===  "avax"){
+      fetchAvaxBuyback()
+    }
+    else if(option === "Farming" && stake ===  "eth"){
+      fetchEthTvl()
+    }
+    else if(option === "Farming" && stake ===  "bnb"){
+      fetchBscTvl()
+    }
+    else if(option === "Farming" && stake ===  "avax"){
+      fetchAvaxTvl()
+    }else{
+      setTvl
+    }
+ }, [option, stake])
+ 
+
 
   const setVaultEth = (vault) => {
     if(vault === "Vault"){
@@ -189,13 +291,13 @@ const EarnContent = ({
               setOption(item.title);
               setContent(item.content);
               setVaultEth(item.title)
-              item.tvl
-                ? setTvl(item.tvl)
-                : stake === "eth"
-                ? fetchEthTvl()
-                : stake === "bnb"
-                ? fetchBscTvl()
-                : fetchAvaxTvl();
+              // item.tvl
+              //   ? setTvl(item.tvl)
+              //   : stake === "eth"
+              //   ? fetchEthTvl()
+              //   : stake === "bnb"
+              //   ? fetchBscTvl()
+              //   : fetchAvaxTvl();
                 
             }}
           >
@@ -266,13 +368,13 @@ const EarnContent = ({
             setOption(item.title);
             setContent(item.content);
             setVaultEth(item.title)
-            item.tvl
-              ? setTvl(item.tvl)
-              : stake === "eth"
-              ? fetchEthTvl()
-              : stake === "bnb"
-              ? fetchBscTvl()
-              : fetchAvaxTvl();
+            // item.tvl
+            //   ? setTvl(item.tvl)
+            //   : stake === "eth"
+            //   ? fetchEthTvl()
+            //   : stake === "bnb"
+            //   ? fetchBscTvl()
+            //   : fetchAvaxTvl();
               
           }}
         >

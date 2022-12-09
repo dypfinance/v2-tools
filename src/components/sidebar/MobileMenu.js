@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import earnIcon from '../../assets/sidebarIcons/earnIcon.svg'
 import earnIconActive from '../../assets/sidebarIcons/earnIconActive.svg'
 import governanceIcon from '../../assets/sidebarIcons/governanceIcon.svg'
@@ -25,6 +25,24 @@ const MobileMenu = () => {
     const [moreModal, setMoreModal] = useState(false)
 
 
+    const html = document.querySelector("html")
+    const explorer = document.querySelector('#explorerModal')
+    const more = document.querySelector('#moreModal')
+
+
+    useEffect(() => {
+      
+        if(explorerModal === true || moreModal === true){
+            html.classList.add('hidescroll')
+            explorer.classList.add('modal-pointer-events')
+            more.classList.add('modal-pointer-events')
+        }else{
+            html.classList.remove('hidescroll')
+        }
+    
+      
+    }, [explorerModal, moreModal])
+    
 
   return (
     <div className="container-fluid mobile-sidebar justify-content-center align-items-center d-flex d-lg-none">
@@ -60,7 +78,7 @@ const MobileMenu = () => {
                 </div>
             </div>
         </div>
-          <div className={`explorer-modal ${explorerModal && 'explorer-modal-active'} d-flex flex-column gap-2  p-3`}>
+          <div className={`explorer-modal ${explorerModal && 'explorer-modal-active'} d-flex flex-column gap-2  p-3`} id='explorerModal'>
             <div className="d-flex w-100 justify-content-end py-3" onClick={() => setExplorerModal(false)}>
                 <img src={xMark} alt="" />
             </div>
@@ -89,7 +107,7 @@ const MobileMenu = () => {
                 <img src={rightArrow} alt="" />
                </NavLink>
             </div>
-            <div className={`explorer-modal ${moreModal && 'explorer-modal-active'} d-flex flex-column gap-2 p-3`}>
+            <div className={`explorer-modal ${moreModal && 'explorer-modal-active'} d-flex flex-column gap-2 p-3`} id="moreModal">
                  <div className="d-flex w-100 justify-content-end py-3" onClick={() => setMoreModal(false)}>
                 <img src={xMark} alt="" />
             </div>

@@ -385,6 +385,7 @@ const EarnTopPicks = ({
   const [topPools, setTopPools] = useState(stake);
   const [listing, setListing] = useState(listType);
   const [cawsCard, setCawsCard] = useState({});
+  const [tvlTotal, setTvlTotal] = useState()
 
   var farming = [];
 

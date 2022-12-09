@@ -28,6 +28,7 @@ position: absolute;
 bottom: -500px;
 transition: all .3s;
 width: 90%;
+z-index: 99;
 }
 
 .explorer-modal-active{

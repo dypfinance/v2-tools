@@ -2668,6 +2668,15 @@ color: #4ED5D2 !important;
   pointer-events: all !important;
 }
 
+.hidescroll{
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.modal-pointer-events{
+  pointer-events: auto;
+}
+
 .modal {
   position: fixed;
   top: 0;
