@@ -267,7 +267,9 @@ const Header = ({
             Discover the latest trends, breaking news and gain access to powerful dApps.
             </span>
           </div>
+          <NavLink to="/">
           <img src={toolsLogo} className="d-flex d-lg-none" alt="" />
+          </NavLink>
           <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
             <NavLink
               className="buydyp-btn btn"
@@ -361,13 +363,17 @@ const Header = ({
               </DropdownButton> */}
               {checklogout === "false" ? (
                 <>
-                  <div className="account-info d-flex align-items-center justify-content-center gap-3">
-                    <span className="account-balance">
+                  <div className="account-info d-flex align-items-center justify-content-center gap-2 gap-lg-3">
+                    <span className="account-balance d-none d-lg-flex">
                       {currencyAmount}{" "}
                       {chainId === 1 ? "ETH" : chainId === 56 ? "BNB" : "AVAX"}
                     </span>
                     <span className="account-address">
-                      {shortAddress(coinbase)}
+                      {windowSize.width > 786 ?
+                      shortAddress(coinbase)
+                      :
+                      coinbase?.slice(0,6) + "..."
+                      }
                     </span>
                   </div>
                   <DropdownButton

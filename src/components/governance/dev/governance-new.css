@@ -619,6 +619,10 @@
   border: 1px solid transparent;
 }
 
+.bnb-passive{
+  opacity: 0.6;
+}
+
 .bridge-passive{
   opacity: 0.6;
 }
@@ -818,6 +822,9 @@ color: #F7F7FC !important;
     bottom: 0px;
   }
 
+  .governanceWrapper{
+    grid-template-columns: auto;
+  }
   .submitproposal-wrapper {
     width: 100% !important;
     padding: 85px 0 15px  0;

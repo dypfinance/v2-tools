@@ -88,7 +88,6 @@ const Sidebar = (props) => {
     }else{
       setActiveSidebar(true)
     }
-    // return () => clearInterval(fetchInterval);
   }, [windowSize, activeSidebar]);
 
 

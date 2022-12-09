@@ -370,13 +370,69 @@ const EarnTopPicks = ({
     },
   ];
 
+
+
+
+
   const [farmingItem, setFarming] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
   const [topPools, setTopPools] = useState(stake);
   const [listing, setListing] = useState(listType);
+  const [cawsCard, setCawsCard] = useState({})
+
+
 
   var farming = [];
 
+  const fetchEthStaking = async() => {
+    await axios.get(`https://api.dyp.finance/api/get_staking_info_eth`).then((res) => {
+      const dypIdyp = res.data.stakingInfoDYPEth.concat(res.data.stakingInfoiDYPEth)
+      setTopPools(dypIdyp)
+      setCawsCard(res.data.stakingInfoCAWS[0])
+    }).catch((err) => {
+      console.log(err);
+    })
+  } 
+  const fetchBnbStaking = async() => {
+    await axios.get(`https://api.dyp.finance/api/get_staking_info_eth`).then((res) => {
+      const dypIdypBnb = res.data.stakingInfoDYPBnb.concat(res.data.stakingInfoiDYPBnb)
+      setTopPools(dypIdypBnb)
+    }).catch((err) => {
+      console.log(err);
+    })
+  } 
+  const fetchAvaxStaking = async() => {
+    await axios.get(`https://api.dyp.finance/api/get_staking_info_eth`).then((res) => {
+      const dypIdypAvax = res.data.stakingInfoDYPEth.concat(res.data.stakingInfoiDYPEth)
+      setTopPools(dypIdypAvax)
+    }).catch((err) => {
+      console.log(err);
+    })
+  } 
+  
+  const fetchEthBuyback = async() => {
+    await axios.get(`https://api.dyp.finance/api/get_buyback_info_eth`).then((res) => {
+      setTopPools(res.data.BuybackETHInfo)
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  const fetchBnbBuyback = async() => {
+    await axios.get(`https://api.dyp.finance/api/get_buyback_info_bnb`).then((res) => {
+      setTopPools(res.data.BuybackBNBInfo)
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  const fetchAvaxBuyback = async() => {
+    await axios.get(`https://api.dyp.finance/api/get_buyback_info_avax`).then((res) => {
+      setTopPools(res.data.BuybackAVAXInfo)
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  
+  
   const fetchEthFarming = async () => {
     await axios
       .get("https://api.dyp.finance/api/the_graph_eth_v2")
@@ -852,9 +908,9 @@ const EarnTopPicks = ({
     listType: listType,
   });
 
-  const lockarray = ["No Lock", 90];
+  const lockarray = ["No Lock", 3, 30];
 
-  const lockarrayiDyp = ["No Lock", 90, "No Lock", 90];
+  const lockarrayiDyp = ["No Lock", 90, 90];
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
@@ -938,31 +994,40 @@ const EarnTopPicks = ({
       setTopPools([]);
       if (chain === "avax") {
         setTimeout(() => {
-          setTopPools(stakeavax);
+          fetchAvaxStaking();
         }, 500);
       }
       if (chain === "eth") {
         setTimeout(() => {
-          setTopPools(stake);
+          // setTopPools(stake);
+          fetchEthStaking();
         }, 500);
       }
 
       if (chain === "bnb") {
         setTimeout(() => {
-          setTopPools(stakebsc);
+          // setTopPools(stakebsc);
+          fetchBnbStaking()
         }, 500);
       }
     } else if (topList === "Buyback") {
       setTopPools([]);
       if (chain === "bnb") {
         setTimeout(() => {
-          setTopPools(buyback);
+          // setTopPools(buyback);
+          fetchBnbBuyback();
         }, 500);
       }
 
-      if (chain !== "bnb") {
+      if (chain === "eth") {
         setTimeout(() => {
-          setTopPools(buyback);
+          // setTopPools(buyback);
+          fetchEthBuyback();
+        }, 500);
+      }
+      if(chain === "avax"){
+        setTimeout(() => {
+          fetchAvaxBuyback();
         }, 500);
       }
     } else if (topList === "Vault") {
@@ -1105,17 +1170,18 @@ const EarnTopPicks = ({
       {listing === "table" ? (
         windowSize.width > 1300 ? (
           <div className="px-0">
-            <div className="top-picks-container">
+          <>
+          <div className="top-picks-container">
               {topPools.slice(0, 3).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName}
-                  apr={pool.apy + "%"}
+                  tokenName={pool.pair_name}
+                  apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lockTime ? pool.lockTime : locktimeFarm[index]}
-                  tokenLogo={pool.icon}
+                  lockTime={pool.lock_time ? pool.lock_time : locktimeFarm[index]}
+                  tokenLogo={pool.pair_name === "DYP" ? 'dyplogo.svg' : 'idypius.svg'}
                   onShowDetailsClick={() => {
                     setActiveCard(topPools[index]);
                     setActiveCard2(null);
@@ -1341,19 +1407,20 @@ const EarnTopPicks = ({
             ) : (
               <></>
             )}
+          </>
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
               {topPools.slice(3, 6).map((pool, index) => (
                 <TopPoolsCard
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName}
-                  apr={pool.apy + "%"}
+                  tokenName={pool.pair_name}
+                  apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 3]
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index + 3]
                   }
-                  tokenLogo={pool.icon}
+                  tokenLogo={pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(topPools[index + 3]);

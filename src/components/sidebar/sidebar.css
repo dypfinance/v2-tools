@@ -12,6 +12,21 @@
     background-size: cover;
 }
 
+.mobile-sidebar{
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    background: #2A2859;
+    height: 70px;
+    z-index: 5;
+}
+
+.explorer-modal{
+    background: #2A2859;
+    box-shadow: 0 0 0 1000px rgb(0 0 0 / 50%);
+border-radius: 12px;
+}
+
 .testbar-open{
     width: 250px;
 }

@@ -1470,7 +1470,7 @@ export default class PairExplorer extends React.Component {
                           <NavLink
                             key={index}
                             className="favRow"
-                            to={`/locker/${this.props.match.params.pair_id}`}
+                            to={`/account#my-fav`}
                           >
                             <div
                               className="d-flex m-0 justify-content-between align-items-center"
@@ -1981,14 +1981,14 @@ export default class PairExplorer extends React.Component {
                 <div
                   className={
                     this.props.networkId === 56
-                      ? "optionbtn-active"
-                      : "optionbtn-passive"
+                      ? "optionbtn-active bnb-passive"
+                      : "optionbtn-passive bnb-passive"
                   }
-                  onClick={() => {
-                    this.props.onSelectChain("bnb");
-                  }}
+                  // onClick={() => {
+                  //   this.props.onSelectChain("bnb");
+                  // }}
                 >
-                  <h6 className="optiontext">
+                  <h6 className="optiontext" style={{cursor: 'auto'}}>
                     <img src={bnblogo} alt="" /> BNB Chain
                   </h6>
                 </div>

@@ -4608,6 +4608,7 @@ right: -8% !important;
   bottom: 0;
   right: 0;
   left: 0;
+  width: 50%;
 }
 
 .theme-dark .modal-footer {
@@ -4822,5 +4823,36 @@ input[type=number] {
   .stats-container{
     grid-template-columns: repeat(2,1fr);
   }
-  
+  .modal-content{
+    width: 100%;
+  }
+
+  .social-profile ul{
+    justify-content: start;
+    gap: 10px;
+  }
+
+  .social-profile ul li{
+    margin: 0 3px;
+  }
+
+  .footer-menu ul{
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+
+  .footer-menu ul li a{
+    padding: 0px !important;
+  }
+
+  .social-and-links{
+    align-items: flex-start !important;
+  }
+
+  .footer{
+    padding-bottom: 50px;
+  }
 }
