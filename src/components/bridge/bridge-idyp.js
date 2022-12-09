@@ -458,9 +458,13 @@ export default function initBridgeidyp({
                             : "optionbtn-passive bridge-passive"
                         }
                       >
-                        <h6 className="optiontext">
-                          <img src={eth} alt="" /> Ethereum
-                        </h6>
+                        <h6 className="optiontext d-flex align-items-center gap-2">
+                                      <img src={eth} alt="" /> 
+                                      <p className=" mb-0 optiontext d-none d-lg-flex">
+
+                                      Ethereum
+                                      </p>
+                                    </h6>
                       </div>
                       <div
                         className={
@@ -469,9 +473,13 @@ export default function initBridgeidyp({
                             : "optionbtn-passive bridge-passive"
                         }
                       >
-                        <h6 className="optiontext">
-                          <img src={bnb} alt="" /> BNB Chain
-                        </h6>
+                         <h6 className="optiontext d-flex align-items-center gap-2">
+                                      <img src={bnb} alt="" /> 
+                                      <p className=" mb-0 optiontext d-none d-lg-flex">
+
+                                      BNB Chain
+                                      </p>
+                                    </h6>
                       </div>
                       <div
                         className={
@@ -480,9 +488,13 @@ export default function initBridgeidyp({
                             : "optionbtn-passive bridge-passive"
                         }
                       >
-                        <h6 className="optiontext">
-                          <img src={avax} alt="" /> Avalanche
-                        </h6>
+                         <h6 className="optiontext d-flex align-items-center gap-2">
+                                      <img src={avax} alt="" /> 
+                                      <p className=" mb-0 optiontext d-none d-lg-flex">
+
+                                      Avalanche
+                                      </p>
+                                    </h6>
                       </div>
                     </div>
                     {this.props.isConnected === false ? (
@@ -728,8 +740,12 @@ export default function initBridgeidyp({
                                           : "auto",
                                     }}
                                   >
-                                    <h6 className="optiontext">
-                                      <img src={eth} alt="" /> Ethereum
+                                     <h6 className="optiontext d-flex align-items-center gap-2">
+                                      <img src={eth} alt="" /> 
+                                      <p className=" mb-0 optiontext d-none d-lg-flex">
+
+                                      Ethereum
+                                      </p>
                                     </h6>
                                   </div>
                                   <div
@@ -751,8 +767,12 @@ export default function initBridgeidyp({
                                           : "auto",
                                     }}
                                   >
-                                    <h6 className="optiontext">
-                                      <img src={bnb} alt="" /> BNB Chain
+                                     <h6 className="optiontext d-flex align-items-center gap-2">
+                                      <img src={bnb} alt="" /> 
+                                      <p className=" mb-0 optiontext d-none d-lg-flex">
+
+                                      BNB Chain
+                                      </p>
                                     </h6>
                                   </div>
                                   <div
@@ -774,8 +794,12 @@ export default function initBridgeidyp({
                                           : "auto",
                                     }}
                                   >
-                                    <h6 className="optiontext">
-                                      <img src={avax} alt="" /> Avalanche
+                                     <h6 className="optiontext d-flex align-items-center gap-2">
+                                      <img src={avax} alt="" /> 
+                                      <p className=" mb-0 optiontext d-none d-lg-flex">
+
+                                      Avalanche
+                                      </p>
                                     </h6>
                                   </div>
                                 </div>
