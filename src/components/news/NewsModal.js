@@ -478,7 +478,7 @@ const NewsModal = ({
             </p> */}
             <div className="d-flex align-items-center gap-2">
               <img src={sourceLinkIcon} alt="source link" />
-            <a href={link} target="_blank" className="source-link">Source link: {link?.slice(0, 30) + '...'}</a>
+            <a href={link} target="_blank" className="source-link">Source link</a>
             </div>
             </div>
           </div>
@@ -495,7 +495,7 @@ const NewsModal = ({
             <div className="related-news-wrapper">
               {latestNewsData.length > 0 &&
                 getItemsWithoutCurrentItem(newsId, latestNewsData)
-                  .slice(0, parseInt(height / 130))
+                  .slice(0, parseInt(height / 100))
                   .map((item, key) => {
                     if (item !== undefined) {
                       return (

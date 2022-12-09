@@ -6,11 +6,11 @@ const Footer = () => {
   const windowSize = useWindowSize();
 
   return (
-    <div className="footer container-fluid d-flex">
+    <div className="footer container-fluid d-flex justify-content-center justify-content-lg-start">
     <div className="row w-100">
     <div className="col-1"></div>
-    <div className={`${windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
-    <div className="py-4 px-0 container-lg d-flex justify-content-between gap-3 align-items-center">
+    <div className={`${windowSize.width < 786 ? 'col-12' : windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
+    <div className="py-4 flex-column flex-lg-row px-0 container-lg d-flex justify-content-between gap-3 align-items-start align-items-lg-center">
       <div className="footer-logo flex-column flex-xxl-row">
         <a target={"_blank"} href="https://lorenadev.dyp.finance/">
           <img src="/assets/img/logo-footer.svg" alt="Dypius"></img>

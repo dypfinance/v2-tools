@@ -424,14 +424,16 @@ const slider = useRef()
             }
             <div className="d-flex align-items center justify-content-between">
               <h6 className="playlist-title mt-3">Video playlist</h6>
+            {videoList.length > 4 &&
               <div className="d-flex justify-content-center align-items-center gap-2">
-                <div className="p-3 d-flex justify-content-center align-items-center cursor-pointer" onClick={() => previous()}>
-                    <img src={customSliderArrow} alt="" className="prev-arrow" />
-                </div>
-                <div className="p-3 d-flex justify-content-center align-items-center cursor-pointer" onClick={() => next()}>
-                    <img src={customSliderArrow} alt=""  className="next-arrow"/>
-                </div>
+              <div className="p-3 d-flex justify-content-center align-items-center cursor-pointer" onClick={() => previous()}>
+                  <img src={customSliderArrow} alt="" className="prev-arrow" />
               </div>
+              <div className="p-3 d-flex justify-content-center align-items-center cursor-pointer" onClick={() => next()}>
+                  <img src={customSliderArrow} alt=""  className="next-arrow"/>
+              </div>
+            </div>
+            }
             </div>
             <div className="mt-2">
            {videoList.length <= 0 ?

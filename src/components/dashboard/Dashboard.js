@@ -424,7 +424,6 @@ const Dashboard = ({
       setCards(cardsEth);
     } else if (network === 56) {
       setCards(cardsBsc);
-      console.log(cards);
     } else {
       setCards(cardsAvax);
     }
@@ -485,7 +484,6 @@ const Dashboard = ({
                             setActiveCard(cards[index]);
                             setcardIndex(index);
                             setDetails(index);
-                            console.log(item.tvl_usd);
                           }}
                           onHideDetailsClick={() => {
                             setActiveCard(null);

@@ -334,17 +334,17 @@ export default class TopTokens extends React.Component {
                 <div
                   className={
                     this.props.networkId === 56
-                      ? "optionbtn-active"
-                      : "optionbtn-passive"
+                      ? "optionbtn-active bnb-passive"
+                      : "optionbtn-passive bnb-passive"
                   }
-                  onClick={() => {
-                    this.props.onSelectChain("bnb");
-                    this.setState({
-                      destinationChain: "bnb",
-                    });
-                  }}
+                  // onClick={() => {
+                  //   this.props.onSelectChain("bnb");
+                  //   this.setState({
+                  //     destinationChain: "bnb",
+                  //   });
+                  // }}
                 >
-                  <h6 className="optiontext">
+                  <h6 className="optiontext" style={{cursor: 'auto'}}>
                     <img src={bnblogo} alt="" /> BNB Chain
                   </h6>
                 </div>

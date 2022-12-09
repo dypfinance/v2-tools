@@ -88,7 +88,6 @@ const Sidebar = (props) => {
     }else{
       setActiveSidebar(true)
     }
-    console.log(windowSize.width);
   }, [windowSize, activeSidebar]);
 
 
@@ -169,8 +168,6 @@ const Sidebar = (props) => {
 
   const openSidebar = () => {
     windowSize.width < 1800 && setActiveSidebar(true);
-
-
   };
 
   const closeSidebar = () => {
