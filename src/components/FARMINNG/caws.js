@@ -44,6 +44,8 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
   const [showUnstakeModal, setShowUnstakeModal] = useState(false);
   const [showClaimAllModal, setShowClaimAllModal] = useState(false);
   const [countDownLeft, setCountDownLeft] = useState(59000);
+  const [hide, setHide] = useState('');
+
 
   const checkApproval = async () => {
     const address = coinbase;
@@ -360,6 +362,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                         setamountToStake(e.target.value);
                         setshowChecklistModal(true);
                         setOpenStakeChecklist(true);
+                        setHide('staked')
                       }}
                     />
                   </div>
@@ -420,6 +423,8 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                     style={{ height: "fit-content" }}
                     onClick={() => {
                       claimRewards();
+                      setHide('tostake')
+
                     }}
                     disabled={EthRewards === 0? true : false}
                   >
@@ -451,6 +456,8 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                 onClick={() => {
                   setshowChecklistModal(true);
                   setOpenStakeChecklist(true);
+                  setHide('')
+
                 }}
               >
                 Withdraw
@@ -483,6 +490,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
           ETHrewards={EthRewards}
           countDownLeft={countDownLeft}
           open={openStakeChecklist ? true : false}
+          hideItem={hide}
         />
       )}
     </div>

@@ -16,7 +16,7 @@ const Modal = ({ visible, modalId, setIsVisible, children, title, width }) => {
   const closeModal = () => {
     setIsVisible(false);
   };
-  console.log(title);
+  
 
   return (
     <div
