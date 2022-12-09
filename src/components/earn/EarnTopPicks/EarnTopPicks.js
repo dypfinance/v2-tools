@@ -332,8 +332,8 @@ const EarnTopPicks = ({
   const vault = [
     {
       icon: "ethereum.svg",
-      tokenName: "ETH",
-      apy: "3 - 13",
+      pair_name: "ETH",
+      apy_percent: "3 - 13",
       tvl_usd: ``,
       lockTime: "No lock",
       top_pick: true,
@@ -342,16 +342,16 @@ const EarnTopPicks = ({
     },
     {
       icon: "wbtc.svg",
-      tokenName: "WBTC",
-      apy: "3 - 13",
+      pair_name: "WBTC",
+      apy_percent: "3 - 13",
       tvl_usd: ``,
       lockTime: "No lock",
       link: "https://vault.dyp.finance/vault-wbtc",
     },
     {
       icon: "usdc.svg",
-      tokenName: "USDC",
-      apy: "8 - 22",
+      pair_name: "USDC",
+      apy_percent: "8 - 22",
       tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
@@ -360,8 +360,8 @@ const EarnTopPicks = ({
     },
     {
       icon: "usdt.svg",
-      tokenName: "USDT",
-      apy: "9 - 23",
+      pair_name: "USDT",
+      apy_percent: "9 - 23",
       tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
@@ -370,8 +370,8 @@ const EarnTopPicks = ({
     },
     {
       icon: "dai.svg",
-      tokenName: "DAI",
-      apy: "8 - 21",
+      pair_name: "DAI",
+      apy_percent: "8 - 21",
       tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
@@ -404,7 +404,7 @@ const EarnTopPicks = ({
   };
   const fetchBnbStaking = async () => {
     await axios
-      .get(`https://api.dyp.finance/api/get_staking_info_eth`)
+      .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
       .then((res) => {
         const dypIdypBnb = res.data.stakingInfoDYPBnb.concat(
           res.data.stakingInfoiDYPBnb
@@ -417,10 +417,10 @@ const EarnTopPicks = ({
   };
   const fetchAvaxStaking = async () => {
     await axios
-      .get(`https://api.dyp.finance/api/get_staking_info_eth`)
+      .get(`https://api.dyp.finance/api/get_staking_info_avax`)
       .then((res) => {
-        const dypIdypAvax = res.data.stakingInfoDYPEth.concat(
-          res.data.stakingInfoiDYPEth
+        const dypIdypAvax = res.data.stakingInfoDYPAvax.concat(
+          res.data.stakingInfoiDYPAvax
         );
         setTopPools(dypIdypAvax);
       })
@@ -1196,44 +1196,41 @@ const EarnTopPicks = ({
       {listing === "table" ? (
         windowSize.width > 1300 ? (
           <div className="px-0">
-            <>
-              <div className="top-picks-container">
-                {topPools.slice(0, 3).map((pool, index) => (
-                  <TopPoolsCard
-                    key={index}
-                    chain={chain}
-                    top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
-                    apr={pool.apy_percent + "%"}
-                    tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
-                    }
-                    tokenLogo={
-                      pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"
-                    }
-                    onShowDetailsClick={() => {
-                      setActiveCard(topPools[index]);
-                      setActiveCard2(null);
-                      setActiveCard3(null);
-                      setActiveCard4(null);
-                      setActiveCardNFT(false);
-                      handleCardIndexStake(index);
-                      handleCardIndexStake30(index);
-                      handleCardIndexStakeiDyp(index);
-                      setDetails(index);
-                    }}
-                    onHideDetailsClick={() => {
-                      setActiveCard(null);
-                      setDetails();
-                    }}
-                    cardType={topList}
-                    details={details === index ? true : false}
-                    isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
-                  />
-                ))}
-              </div>
+          <>
+          <div className="top-picks-container">
+              {topPools.slice(0, 3).map((pool, index) => (
+                <TopPoolsCard
+                  key={index}
+                  chain={chain}
+                  top_pick={pool.top_pick}
+                  tokenName={pool.pair_name}
+                  apr={pool.apy_percent + "%"}
+                  tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                  lockTime={pool.lock_time ? pool.lock_time : locktimeFarm[index]}
+                  tokenLogo={pool.icon ? pool.icon : pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"}
+                  onShowDetailsClick={() => {
+                    setActiveCard(topPools[index]);
+                    setActiveCard2(null);
+                    setActiveCard3(null);
+                    setActiveCard4(null);
+                    setActiveCardNFT(false);
+                    handleCardIndexStake(index);
+                    handleCardIndexStake30(index);
+                    handleCardIndexStakeiDyp(index);
+                    setDetails(index);
+                    
+                  }}
+                  onHideDetailsClick={() => {
+                    setActiveCard(null);
+                    setDetails();
+                  }}
+                  cardType={topList}
+                  details={details === index ? true : false}
+                  isNewPool={pool.isNewPool}
+                  isStaked={pool.isStaked}
+                />
+              ))}
+            </div>
 
               {activeCard && topList === "Farming" ? (
                 chain === "eth" ? (
@@ -1446,12 +1443,10 @@ const EarnTopPicks = ({
                   tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
                   apr={pool.apy_percent ? pool.apy_percent : pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  tokenLogo={
-                    pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"
-                  }
                   lockTime={
                     pool.lock_time ? pool.lock_time : locktimeFarm[index + 3]
                   }
+                  tokenLogo={pool.icon ? pool.icon : pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(topPools[index + 3]);
