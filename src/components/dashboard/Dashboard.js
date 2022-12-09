@@ -116,7 +116,7 @@ const Dashboard = ({
   const [cards, setCards] = useState(cardsEth);
   const [loading, setLoading] = useState(true)
 
-  let networkId = parseInt(network);
+  // let network = parseInt(network);
 
   const eth_address = "ETH";
   const { rebase_factors } = window;
@@ -434,7 +434,7 @@ const Dashboard = ({
     fetchPopularNewsData();
     setPools()
       setLoading(false)
-  }, []);
+  }, [network]);
 
   const windowSize = useWindowSize();
 
@@ -469,7 +469,7 @@ const Dashboard = ({
                     cards.map((item, index) => {
                       return (
                         <TopPoolsCard
-                        chain={networkId === 1 ? "eth" : networkId === 56 ? "bnb" : "avax"}
+                        chain={network === 1 ? "eth" : network === 56 ? "bnb" : "avax"}
                           renderedPage="dashboard"
                           cardId={item.tokenName}
                           key={index}
@@ -504,7 +504,7 @@ const Dashboard = ({
                 </div>
                   }
                 </div>
-                {activeCard && networkId === 1 ? (
+                {activeCard && network === 1 ? (
                   activeCard?.cardType === "Staking" ? (
                     <ConstantStaking1
                       is_wallet_connected={isConnected}
@@ -523,7 +523,7 @@ const Dashboard = ({
                       the_graph_result={the_graph_result}
                     />
                   )
-                ) : activeCard && networkId === 56 ? (
+                ) : activeCard && network === 56 ? (
                  activeCard.cardType === "Staking" ? 
 
                   <BscConstantStake
@@ -544,7 +544,7 @@ const Dashboard = ({
                 />
                  
 
-                ) : activeCard && networkId === 43114 ? (
+                ) : activeCard && network === 43114 ? (
                   activeCard.cardType === "Staking" ?
                    <StakeAvax
                 is_wallet_connected={isConnected}
