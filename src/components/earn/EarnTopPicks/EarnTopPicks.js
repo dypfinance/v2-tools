@@ -322,8 +322,8 @@ const EarnTopPicks = ({
   const vault = [
     {
       icon: "ethereum.svg",
-      tokenName: "ETH",
-      apy: "3 - 13",
+      pair_name: "ETH",
+      apy_percent: "3 - 13",
       tvl_usd: ``,
       lockTime: "No lock",
       top_pick: true,
@@ -332,16 +332,16 @@ const EarnTopPicks = ({
     },
     {
       icon: "wbtc.svg",
-      tokenName: "WBTC",
-      apy: "3 - 13",
+      pair_name: "WBTC",
+      apy_percent: "3 - 13",
       tvl_usd: ``,
       lockTime: "No lock",
       link: "https://vault.dyp.finance/vault-wbtc",
     },
     {
       icon: "usdc.svg",
-      tokenName: "USDC",
-      apy: "8 - 22",
+      pair_name: "USDC",
+      apy_percent: "8 - 22",
       tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
@@ -350,8 +350,8 @@ const EarnTopPicks = ({
     },
     {
       icon: "usdt.svg",
-      tokenName: "USDT",
-      apy: "9 - 23",
+      pair_name: "USDT",
+      apy_percent: "9 - 23",
       tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
@@ -360,8 +360,8 @@ const EarnTopPicks = ({
     },
     {
       icon: "dai.svg",
-      tokenName: "DAI",
-      apy: "8 - 21",
+      pair_name: "DAI",
+      apy_percent: "8 - 21",
       tvl_usd: ``,
       lockTime: "No lock",
       new_badge: false,
@@ -908,9 +908,9 @@ const EarnTopPicks = ({
     listType: listType,
   });
 
-  const lockarray = ["No Lock", 3, 30];
+  const lockarray = ["No Lock", 90];
 
-  const lockarrayiDyp = ["No Lock", 90, 90];
+  const lockarrayiDyp = ["No Lock", "No Lock", 90];
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
@@ -1136,7 +1136,7 @@ const EarnTopPicks = ({
 
   const handleCardIndexStake = (index) => {
     if (topList === "Staking") {
-      if (index >= 2) {
+      if (index > 2) {
         const newIndex = index - 2;
         setcardIndexiDyp(newIndex);
         setcardIndex(index);
@@ -1181,7 +1181,7 @@ const EarnTopPicks = ({
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={pool.lock_time ? pool.lock_time : locktimeFarm[index]}
-                  tokenLogo={pool.pair_name === "DYP" ? 'dyplogo.svg' : 'idypius.svg'}
+                  tokenLogo={pool.icon ? pool.icon : pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"}
                   onShowDetailsClick={() => {
                     setActiveCard(topPools[index]);
                     setActiveCard2(null);
@@ -1420,7 +1420,7 @@ const EarnTopPicks = ({
                   lockTime={
                     pool.lock_time ? pool.lock_time : locktimeFarm[index + 3]
                   }
-                  tokenLogo={pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"}
+                  tokenLogo={pool.icon ? pool.icon : pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"}
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(topPools[index + 3]);

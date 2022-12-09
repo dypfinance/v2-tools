@@ -15,12 +15,13 @@ import newsIcon from '../../assets/sidebarIcons/newsIcon.svg'
 import newsIconActive from '../../assets/sidebarIcons/newsIconActive.svg'
 import moreIcon from '../../assets/sidebarIcons/moreIcon.svg'
 import moreIconActive from '../../assets/sidebarIcons/moreIconActive.svg'
+import rightArrow from '../faqcard/assets/rightlogo.svg'
 import { NavLink } from 'react-router-dom'
-
+import xMark from '../Modal/xMark.svg'
 const MobileMenu = () => {
 
     const [activeIcon, setActiveIcon] = useState('earn')
-    const [explorerModal, setExplorerModal] = useState(true)
+    const [explorerModal, setExplorerModal] = useState(false)
     const [moreModal, setMoreModal] = useState(false)
 
 
@@ -46,21 +47,82 @@ const MobileMenu = () => {
                     {/* <h3 className={`active-text ${activeIcon === 'bridge' ? 'd-flex' : 'd-none'}`}>Bridge</h3> */}
                 </div>
             </NavLink>
-            <div className="col" onClick={() => setActiveIcon('explorer')}>
+            <div className="col" onClick={() => {setActiveIcon('explorer'); setExplorerModal(!explorerModal)}}>
                 <div className={`d-flex align-items-center sidebar-item ${activeIcon === 'explorer' && 'active-side-link'} p-2 justify-content-center`}>
                     <img src={activeIcon === 'explorer' ? explorerIconActive : explorerIcon} width={25} height={25} alt="" />
                     {/* <h3 className={`active-text ${activeIcon === 'explorer' ? 'd-flex' : 'd-none'}`}>Explorer</h3> */}
                 </div>
             </div>
-            <div className="col" onClick={() => setActiveIcon('more')}>
+            <div className="col" onClick={() => {setActiveIcon('more'); setMoreModal(!moreModal)}}>
                 <div className={`d-flex align-items-center sidebar-item ${activeIcon === 'more' && 'active-side-link'} p-2 justify-content-center`}>
                     <img src={activeIcon === 'more' ? moreIconActive : moreIcon} width={25} height={25} alt="" />
                     {/* <h3 className={`active-text ${activeIcon === 'more' ? 'd-flex' : 'd-none'}`}>More</h3> */}
                 </div>
             </div>
         </div>
-            <div className="explorer-modal">
-                
+          <div className={`explorer-modal ${explorerModal && 'explorer-modal-active'} d-flex flex-column gap-2  p-3`}>
+            <div className="d-flex w-100 justify-content-end py-3" onClick={() => setExplorerModal(false)}>
+                <img src={xMark} alt="" />
+            </div>
+               <NavLink to='/pair-explorer' onClick={() => setExplorerModal(false)} className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3">
+                <h3 className="sideitem-text">Pair Explorer</h3>
+                <img src={rightArrow} alt="" />
+               </NavLink>
+               <NavLink to='/pool-explorer' onClick={() => setExplorerModal(false)} className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3">
+                <h3 className="sideitem-text">Pool explorer</h3>
+                <img src={rightArrow} alt="" />
+               </NavLink>
+               <NavLink to='/big-swap-explorer' onClick={() => setExplorerModal(false)} className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3">
+                <h3 className="sideitem-text">Big swap</h3>
+                <img src={rightArrow} alt="" />
+               </NavLink>
+               <NavLink to='/top-tokens' onClick={() => setExplorerModal(false)} className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3">
+                <h3 className="sideitem-text">Top tokens</h3>
+                <img src={rightArrow} alt="" />
+               </NavLink>
+               <NavLink to='/farms' onClick={() => setExplorerModal(false)} className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3">
+                <h3 className="sideitem-text">Yields</h3>
+                <img src={rightArrow} alt="" />
+               </NavLink>
+               <NavLink to='/submit-info' onClick={() => setExplorerModal(false)} className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3">
+                <h3 className="sideitem-text">Submit form</h3>
+                <img src={rightArrow} alt="" />
+               </NavLink>
+            </div>
+            <div className={`explorer-modal ${moreModal && 'explorer-modal-active'} d-flex flex-column gap-2 p-3`}>
+                 <div className="d-flex w-100 justify-content-end py-3" onClick={() => setMoreModal(false)}>
+                <img src={xMark} alt="" />
+            </div>
+                <div className="sidebar-item active-side-link w-100 p-3">
+                    <div className="d-flex align-items-center gap-2">
+                        <img src={projectsIconActive} alt="" />
+                        <h3 className="active-text">Projects</h3>
+                    </div>
+               </div>
+                    <div onClick={() => setMoreModal(false)} className="mobile-modal-item d-flex flex-column justify-content-between align-items-center w-100 pb-3">
+                    <NavLink to='/launchpad' className="d-flex justify-content-between align-items-center w-100 py-2">
+                    <h3 className="sideitem-text">Launchpad</h3>
+                    <img src={rightArrow} alt="" />
+                    </NavLink>
+                    <NavLink to='/locker' className="d-flex justify-content-between align-items-center w-100 py-2">
+                    <h3 className="sideitem-text">DYP Locker</h3>
+                    <img src={rightArrow} alt="" />
+                    </NavLink>
+                </div>
+                <NavLink to='/swap' onClick={() => setMoreModal(false)} className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3">
+                <div className="d-flex align-items-center gap-2">
+                    <img src={swapIcon} alt="" />
+                <h3 className="sideitem-text">Swap</h3>
+                </div>
+                <img src={rightArrow} alt="" />
+               </NavLink>
+               <NavLink to='/news' onClick={() => setMoreModal(false)} className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3">
+               <div className="d-flex align-items-center gap-2">
+                    <img src={newsIcon} alt="" />
+                <h3 className="sideitem-text">News</h3>
+                </div>
+                <img src={rightArrow} alt="" />
+               </NavLink>
             </div>
     </div>
   )
