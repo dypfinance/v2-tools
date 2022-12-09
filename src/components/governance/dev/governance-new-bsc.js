@@ -471,10 +471,10 @@ const ProposalCard = (props) => {
           className="text-center mb-2 d-flex align-items-center gap-3 justify-content-between"
           style={{ gap: 10 }}
         >
-          <div className="d-flex justify-content-between gap-2">
+          <div className="d-flex justify-content-between gap-2 align-items-center">
             <img
               className="m-0 cardlogo"
-              src={props.vault ? props.vault.logo : "/logo192.png"}
+              src={props.vault ? props.vault.logo : require('../assets/dyp.svg').default}
             />
 
             <div
