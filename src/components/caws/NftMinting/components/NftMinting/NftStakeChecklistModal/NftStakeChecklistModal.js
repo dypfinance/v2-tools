@@ -31,6 +31,7 @@ const NftStakeCheckListModal = ({
   onNftCheckListClick,
   coinbase,
   isConnected,
+  hideItem
 }) => {
   const style = {
     position: "absolute",
@@ -257,6 +258,17 @@ const NftStakeCheckListModal = ({
     } else setSelectedNftIds([]);
   }, [showClaim, apr, showToStake]);
 
+
+  useEffect(() => {
+    if (hideItem === 'staked') {
+      console.log('yes')
+      setshowToStake(true)
+    } else if (hideItem === 'tostake') {
+      setshowStaked(true)
+    };
+  }, [hideItem]);
+
+
   const onEmptyState = () => {};
 
   const handleUnstake = async (value) => {
@@ -376,6 +388,7 @@ const NftStakeCheckListModal = ({
           >
             <div
               className={showToStake ? "optionbtn-active" : "optionbtn-passive"}
+              style={{ display: hideItem === 'tostake' ? 'none' : 'block' }}
             >
               <h5
                 className="optiontext"
@@ -386,13 +399,15 @@ const NftStakeCheckListModal = ({
                   //Make selectedNfts empty []
                   setSelectedNftIds([]);
                 }}
-                style={{ fontSize: 14 }}
+                style={{ fontSize: 14}}
               >
                 To Stake
               </h5>
             </div>
             <div
               className={showStaked ? "optionbtn-active" : "optionbtn-passive"}
+              style={{ display: hideItem === 'staked' ? 'none' : 'block' }}
+
             >
               <h5
                 className="optiontext"
@@ -403,7 +418,7 @@ const NftStakeCheckListModal = ({
                   //Make selectedNfts empty []
                   setSelectedNftIds([]);
                 }}
-                style={{ fontSize: 14 }}
+                style={{ fontSize: 14}}
               >
                 Staked
                 {/* {showStaked && (
