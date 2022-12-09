@@ -88,7 +88,7 @@ const Sidebar = (props) => {
     }else{
       setActiveSidebar(true)
     }
-    console.log(windowSize.width);
+    return () => clearInterval(fetchInterval);
   }, [windowSize, activeSidebar]);
 
 
