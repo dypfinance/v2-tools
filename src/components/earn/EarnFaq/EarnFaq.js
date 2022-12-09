@@ -48,7 +48,7 @@ const EarnFaq = ({ faqTypes, faqIndex }) => {
   };
 
   useEffect(() => {
-    console.log(faqIndex);
+    
     if (faqTypes === "Staking") {
       fetchFaq(categories[0]);
     } else if (faqTypes === "Buyback") {

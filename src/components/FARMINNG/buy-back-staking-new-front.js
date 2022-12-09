@@ -24,6 +24,7 @@ import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 
 
@@ -56,7 +57,8 @@ export default function initBuybackStakingNew({
   expiration_time,
   fee,
   lockTime,
-  listType
+  listType,
+  chainId
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -1642,18 +1644,25 @@ export default function initBuybackStakingNew({
                       ? "Connect wallet to view and interact with deposits and withdraws"
                       : "Interact with deposits and withdraws"}
                   </h6> */}
-                    {this.props.coinbase === null ? (
+                     {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
+                        
                       >
-                        {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : (
+                    ) : chainId === '1' ? (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={43114} />
+                        <Address a={this.props.coinbase} chainId={1} />
                       </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{handleSwitchNetworkhook("0x1")}}
+                      >
+                       Change Network
+                      </button>
                     )}
                   </div>
                 </div>

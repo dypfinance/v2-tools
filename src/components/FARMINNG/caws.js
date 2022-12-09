@@ -289,16 +289,13 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
               </div>
             </div>
             <div className="d-flex align-items-center justify-content-between gap-3">
-              <div
-                onClick={() => {
-                  this.showPopup();
-                }}
+              <a href='https://opensea.io/collection/catsandwatchessocietycaws' target='_blank' rel="noreferrer"
               >
                 <h6 className="bottomitems">
                   <img src={arrowup} alt="" />
                   Get CAWS
                 </h6>
-              </div>
+              </a>
             </div>
           </div>
         </div>

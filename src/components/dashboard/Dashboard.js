@@ -435,7 +435,7 @@ const Dashboard = ({
       setLoading(false)
   }, [network]);
 
-  const windowSize = useWindowSize();
+  const windowSize = useWindowSize(); 
 
   return (
     <div className="container-lg dashboardwrapper px-0">

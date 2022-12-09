@@ -1577,6 +1577,7 @@ window.config = {
   weth_address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   etherscan_baseURL: "https://etherscan.io",
   snowtrace_baseURL: "https://snowtrace.io",
+  bscscan_baseURL: 'https://bscscan.com/',
 
   max_proposals_per_call: 4,
   // default_gasprice_gwei: 60,
@@ -1642,6 +1643,8 @@ window.config = {
     "0x6a258Bd17456e057A7c6102177EC2f9d64D5F9e4",
 
   constant_stakingdaiavax_address: "0x16429e51A64B7f88D4C018fbf66266A693df64b3",
+  constant_stakingdaieth_address: "0x44bEd8ea3296bda44870d0Da98575520De1735d4",
+
   constant_stakingdaibsc_address: "0xa9efab22cCbfeAbB6dc4583d81421e76342faf8b",
 
 
@@ -1692,7 +1695,7 @@ window.config = {
   reward_token_dypsbsc_address: "0x4B2dfB131B0AE1D6d5D0c9a3a09c028a5cD10554",
 
   //Constant Staking DYP -> DAI
-  constant_stakingdai_address: "0x44bEd8ea3296bda44870d0Da98575520De1735d4",
+  reward_token_daieth_address: "0x44bEd8ea3296bda44870d0Da98575520De1735d4",
   reward_token_dai_address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
   reward_token_daiavax_address: "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70",
   reward_token_daibsc_address: "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
@@ -2177,11 +2180,17 @@ window.constant_staking_newavax1 = new CONSTANT_STAKING_NEWAVAX(
 window.constant_staking_newavax2 = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGNEW_NEWAVAX2"
 );
+window.constant_stakingdaieth = new CONSTANT_STAKING_NEW(
+  "CONSTANT_STAKINGDAIETH"
+);
+
 window.constant_stakingdaiavax = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGDAIAVAX"
 );
 
 window.CONSTANT_STAKINGDAIAVAX_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+window.CONSTANT_STAKINGDAIETH_ABI = window.CONSTANT_STAKING_IDYP_ABI;
+
 
 
 
@@ -2221,6 +2230,9 @@ window.constant_staking_new1 = new CONSTANT_STAKING_NEW(
 window.constant_staking_new2 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW2"
 );
+window.constant_staking_newdai = new CONSTANT_STAKING_NEW(
+  "CONSTANT_STAKINGNEW_NEWDAI"
+);
 
 window.constant_staking_new10 = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGIDYPAVAX_3"
@@ -2244,6 +2256,9 @@ window.reward_token_dai = new TOKEN("REWARD_TOKEN_DAI");
 
 window.reward_token_daiavax = new TOKENAVAX("REWARD_TOKEN_DAIAVAX");
 window.REWARD_TOKEN_DAIAVAX_ABI = window.TOKENAVAX_ABI;
+
+window.reward_token_daieth = new TOKEN("REWARD_TOKEN_DAIETH");
+window.REWARD_TOKEN_DAIETH_ABI = window.TOKEN_ABI;
 
 window.reward_token_daibsc = new TOKENAVAX("REWARD_TOKEN_DAIBSC");
 window.REWARD_TOKEN_DAIBSC_ABI = window.TOKENBSC_ABI;
@@ -25304,9 +25319,13 @@ Object.keys(window.config)
 
       k.startsWith("constant_stakingnew_newavax2") ||
       k.startsWith("constant_stakingdaiavax") ||
+      k.startsWith("constant_stakingdaieth") ||
+
       k.startsWith("constant_stakingdaibsc") ||
 
       k.startsWith("reward_token_daiavax") ||
+      k.startsWith("reward_token_daieth") ||
+
       k.startsWith("reward_token_daibsc") ||
 
       k.startsWith("constant_staking_") ||
@@ -25387,6 +25406,8 @@ Object.keys(window.config)
       : k.includes("wethbsc")
       ? window.TOKENBSC_ABI
       : k.includes("reward_token_daiavax")
+      ? window.TOKENAVAX_ABI
+      : k.includes("reward_token_daieth")
       ? window.TOKENAVAX_ABI
       : k.includes("reward_token_daibsc")
       ? window.TOKENBSC_ABI
@@ -25474,6 +25495,8 @@ Object.keys(window.config)
       ? window.CONSTANT_STAKINGNEWBSC_ABI
       : k.startsWith("constant_stakingnew_newavax2")
       ? window.CONSTANT_STAKINGNEW_ABI
+      : k.startsWith("constant_stakingdaieth")
+      ? window.CONSTANT_STAKING_DAI_ABI
       : k.startsWith("constant_stakingdaiavax")
       ? window.CONSTANT_STAKING_DAI_ABI
       : k.startsWith("constant_stakingdaibsc")

@@ -24,6 +24,7 @@ import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -55,6 +56,7 @@ export default function initBscBuyback({
   fee,
   lockTime,
   listType,
+  chainId,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsbsc } =
     window;
@@ -1362,7 +1364,7 @@ export default function initBscBuyback({
         this.setState({ withdrawTooltip: false });
       };
 
-
+      
       return (
         <div className="container-lg p-0">
           <div
@@ -1526,14 +1528,22 @@ export default function initBscBuyback({
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
+                       
                       >
                         {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : (
+                    ) : chainId === '56' ? (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={43114} />
+                        <Address a={this.props.coinbase} chainId={56} />
                       </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{handleSwitchNetworkhook("0x38")}}
+                      >
+                       Change Network
+                      </button>
                     )}
                   </div>
                 </div>
