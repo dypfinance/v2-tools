@@ -7,6 +7,7 @@ import getFormattedNumber from "../../../functions/getFormattedNumber2";
 import initStakingNew from "../../FARMINNG/staking-new-front";
 import initBuybackStakingNew from "../../FARMINNG/buy-back-staking-new-front";
 import initConstantStakingNew from "../../FARMINNG/constant-staking-new-front";
+import initConstantStakingNewDai from "../../FARMINNG/constant-staking-dai-front";
 import initConstantStakingiDYP from "../../FARMINNG/constant-staking-idyp-new-front";
 import initVaultNew from "../../FARMINNG/vault-new";
 import initFarmAvax from "../../FARMINNG/farmAvax";
@@ -50,6 +51,16 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
+      isNewPool: false,
+      isStaked: false,
+    },
+    {
+      icon: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apy: "1.08",
+      tvl_usd: "48543.20",
+      lockTime: "90 Days",
       isNewPool: false,
       isStaked: false,
     },
@@ -209,7 +220,7 @@ const EarnTopPicks = ({
       isNewPool: true,
       isStaked: false,
     },
-    {  
+    {
       icon: "dyplogo.svg",
       top_pick: false,
       tokenName: "DYP",
@@ -660,7 +671,7 @@ const EarnTopPicks = ({
 
   const aprarrayStakeAvax = [30, 10];
   const feearrayStakeAvax = [3.5, 1];
-
+//constant_staking_new3
   const stakingarrayStakeAvax = [
     window.constant_staking_new10,
     window.constant_staking_new11,
@@ -856,6 +867,20 @@ const EarnTopPicks = ({
     handleConnection: handleConnection,
     chainId: chainId,
     lockTime: lockarray[cardIndex],
+    listType: listType,
+  });
+
+  const ConstantStakingDai = initConstantStakingNewDai({
+    staking: window.constant_stakingdaieth,
+    apr: 25,
+    liquidity: eth_address,
+    expiration_time: "Expired",
+    other_info: true,
+    fee: 0.25,
+    coinbase: coinbase,
+    handleConnection: handleConnection,
+    chainId: chainId,
+    lockTime: 90,
     listType: listType,
   });
 
@@ -1074,6 +1099,7 @@ const EarnTopPicks = ({
     } else setcardIndex(index);
   };
 
+  
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (
@@ -1100,7 +1126,7 @@ const EarnTopPicks = ({
                     handleCardIndexStake30(index);
                     handleCardIndexStakeiDyp(index);
                     setDetails(index);
-                    console.log(details, activeCard, cardIndex);
+                    
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard(null);
@@ -1194,10 +1220,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard &&
-              cardIndex >= 2 &&
+              cardIndex > 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard &&
+              cardIndex === 2 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -1388,7 +1426,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard2 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -1411,10 +1449,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard2 &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard2 &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -1553,6 +1603,25 @@ const EarnTopPicks = ({
                   isStaked={pool.isStaked}
                 />
               ))}
+              {topList === "Staking" && chain === "eth" && (
+                <CawsCard
+                  onShowDetailsClick={() => {
+                    setActiveCardNFT(true);
+                    setActiveCard(null);
+                    setActiveCard2(null);
+                    setActiveCard3(null);
+                    setActiveCard4(null);
+                    setDetails();
+                  }}
+                  onHideDetailsClick={() => {
+                    setActiveCardNFT(false);
+                    setDetails();
+                  }}
+                  cardType={topList}
+                  details={activeCardNFT === true ? true : false}
+                  listType={listType}
+                />
+              )}
             </div>
             {activeCard3 && topList === "Farming" ? (
               chain === "eth" ? (
@@ -1605,7 +1674,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard3 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -1616,10 +1685,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard3 &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard3 &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -1736,25 +1817,6 @@ const EarnTopPicks = ({
                   isStaked={pool.isStaked}
                 />
               ))}
-              {topList === "Staking" && chain === "eth" && (
-                <CawsCard
-                  onShowDetailsClick={() => {
-                    setActiveCardNFT(true);
-                    setActiveCard(null);
-                    setActiveCard2(null);
-                    setActiveCard3(null);
-                    setActiveCard4(null);
-                    setDetails();
-                  }}
-                  onHideDetailsClick={() => {
-                    setActiveCardNFT(false);
-                    setDetails();
-                  }}
-                  cardType={topList}
-                  details={activeCardNFT === true ? true : false}
-                  listType={listType}
-                />
-              )}
             </div>
             {activeCard4 && topList === "Farming" ? (
               chain === "eth" ? (
@@ -1807,7 +1869,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard4 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -1818,10 +1880,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard4 &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard4 &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -1990,7 +2064,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -2001,10 +2075,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -2153,7 +2239,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard2 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -2164,10 +2250,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard2 &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard2 &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -2316,7 +2414,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard3 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -2327,10 +2425,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard3 &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard3 &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -2479,7 +2589,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard4 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -2490,10 +2600,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard4 &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard4 &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -2645,7 +2767,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard5 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -2656,10 +2778,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard5 &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard5 &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -2830,7 +2964,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard6 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
+              cardIndex < 3 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -2841,10 +2975,22 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard6 &&
-              cardIndex >= 2 &&
+              cardIndex > 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard6 &&
+              cardIndex === 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -3023,7 +3169,7 @@ const EarnTopPicks = ({
                 />
               ) : activeCard &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -3046,10 +3192,22 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -3250,7 +3408,7 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                 />
-              ): activeCard2 && topList === "Buyback" && chain === "bnb" ? (
+              ) : activeCard2 && topList === "Buyback" && chain === "bnb" ? (
                 <BscBuyback
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
@@ -3260,7 +3418,7 @@ const EarnTopPicks = ({
                 />
               ) : activeCard2 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -3283,10 +3441,22 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard2 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard2 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -3491,7 +3661,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard3 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -3502,7 +3672,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard3 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
@@ -3512,35 +3682,46 @@ const EarnTopPicks = ({
                   lp_id={lp_id[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
-                />              
+                />
               ) : activeCard3 &&
-              cardIndex >= 2 &&
-              cardIndex < 4 &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <BscConstantStake2
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard3 &&
-              cardIndex === 4 &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <BscConstantStakeDai
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                referrer={referrer}
-              />
-            )
-               : activeCard3 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard3 &&
+                cardIndex >= 2 &&
+                cardIndex < 4 &&
+                topList === "Staking" &&
+                chain === "bnb" ? (
+                <BscConstantStake2
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard3 &&
+                cardIndex === 4 &&
+                topList === "Staking" &&
+                chain === "bnb" ? (
+                <BscConstantStakeDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  referrer={referrer}
+                />
+              ) : activeCard3 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -3711,7 +3892,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard4 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -3722,7 +3903,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard4 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
@@ -3734,34 +3915,44 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard4 &&
-              cardIndex >= 2 &&
-              cardIndex < 4 &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <BscConstantStake2
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard4 &&
-              cardIndex === 4 &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <BscConstantStakeDai
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                referrer={referrer}
-              />
-            )
-              
-              : activeCard4 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard4 &&
+                cardIndex >= 2 &&
+                cardIndex < 4 &&
+                topList === "Staking" &&
+                chain === "bnb" ? (
+                <BscConstantStake2
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard4 &&
+                cardIndex === 4 &&
+                topList === "Staking" &&
+                chain === "bnb" ? (
+                <BscConstantStakeDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  referrer={referrer}
+                />
+              ) : activeCard4 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -3932,7 +4123,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard5 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -3943,7 +4134,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard5 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
@@ -3954,35 +4145,45 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                 />
-              ): activeCard5 &&
-              cardIndex >= 2 &&
-              cardIndex < 4 &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <BscConstantStake2
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard5 &&
-              cardIndex === 4 &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <BscConstantStakeDai
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                referrer={referrer}
-              />
-            )
-              
-              : activeCard5 &&
+              ) : activeCard5 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard5 &&
+                cardIndex >= 2 &&
+                cardIndex < 4 &&
+                topList === "Staking" &&
+                chain === "bnb" ? (
+                <BscConstantStake2
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard5 &&
+                cardIndex === 4 &&
+                topList === "Staking" &&
+                chain === "bnb" ? (
+                <BscConstantStakeDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  referrer={referrer}
+                />
+              ) : activeCard5 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -4153,7 +4354,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard6 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -4164,10 +4365,22 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard6 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard6 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -4346,7 +4559,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard7 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -4357,10 +4570,22 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard7 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard7 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -4539,7 +4764,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard8 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -4550,10 +4775,22 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard8 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard8 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -4732,7 +4969,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard9 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -4743,10 +4980,22 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard9 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard9 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -4925,7 +5174,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard10 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -4936,7 +5185,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard10 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
@@ -4944,6 +5193,17 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
                   lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard10 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
                   chainId={chainId}
                   handleConnection={handleConnection}
                 />
@@ -5118,7 +5378,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard11 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -5129,7 +5389,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard11 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
@@ -5137,6 +5397,17 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
                   lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard11 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
                   chainId={chainId}
                   handleConnection={handleConnection}
                 />
@@ -5330,7 +5601,7 @@ const EarnTopPicks = ({
                 <></>
               ) : activeCard12 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
+                cardIndex < 3 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -5341,7 +5612,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard12 &&
-                cardIndex >= 2 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
@@ -5349,6 +5620,17 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
                   lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
+              ) : activeCard12 &&
+                cardIndex === 3 &&
+                topList === "Staking" &&
+                chain === "eth" ? (
+                <ConstantStakingDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
                   chainId={chainId}
                   handleConnection={handleConnection}
                 />

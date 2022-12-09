@@ -25,6 +25,7 @@ import { shortAddress } from "../../functions/shortAddress";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -1123,20 +1124,23 @@ export default function initConstantStakingNew({
                     </h6> */}
                     {this.props.coinbase === null ? (
                       <button
-                        className="connectbtn btn d-flex align-items-center gap-2"
+                        className="connectbtn btn"
                         onClick={this.showModal}
-                        style={{
-                          width: renderedPage === "dashboard" && "100%",
-                          fontSize: renderedPage === "dashboard" && "10px",
-                        }}
+                        
                       >
-                        {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : (
+                    ) : chainId === '1' ? (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={1}/>
+                        <Address a={this.props.coinbase} chainId={1} />
                       </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{handleSwitchNetworkhook("0x1")}}
+                      >
+                       Change Network
+                      </button>
                     )}
                   </div>
                 </div>

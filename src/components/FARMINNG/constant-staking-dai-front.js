@@ -5,11 +5,9 @@ import Modal from "../Modal/Modal";
 import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
-import { shortAddress } from "../../functions/shortAddress";
 import ellipse from "./assets/ellipse.svg";
-import Clipboard from "react-clipboard.js";
-import successMark from "../../assets/successMark.svg";
 import failMark from "../../assets/failMark.svg";
+import Clipboard from "react-clipboard.js";
 import ReactTooltip from "react-tooltip";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
@@ -20,8 +18,10 @@ import copy from "./assets/copy.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
-import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
+import statsLinkIcon from "./assets/statsLinkIcon.svg";
+import CountDownTimer from "../locker/Countdown";
+import { shortAddress } from "../../functions/shortAddress";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
@@ -48,23 +48,31 @@ const renderer = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-export default function initConstantStakingiDYP({
+export default function initConstantStakingNewDai({
   staking,
   apr,
   liquidity = "ETH",
   lock,
   expiration_time,
   other_info,
-  fee_s,
-  fee_u,
   chainId,
   handleConnection,
   lockTime,
+  coinbase,
+  renderedPage,
   listType,
+  fee,
 }) {
-  let { reward_token_idyp, BigNumber, alertify, token_dyps } = window;
-  let token_symbol = "iDYP";
-  let reward_token = reward_token_idyp;
+  let {
+    reward_token,
+    BigNumber,
+    alertify,
+    reward_token_idyp,
+    token_dyps,
+    reward_token_daieth,
+  } = window;
+  let token_symbol = "DYP";
+
   // token, staking
 
   const TOKEN_DECIMALS = window.config.token_decimals;
@@ -134,46 +142,33 @@ export default function initConstantStakingiDYP({
         stakingTime: "",
         depositedTokens: "",
         lastClaimedTime: "",
-        reInvestLoading: false,
-        reInvestStatus: "initial",
-        depositAmount: "",
-        withdrawAmount: "",
         depositLoading: false,
         depositStatus: "initial",
+        depositAmount: "",
+        withdrawAmount: "",
         claimLoading: false,
         claimStatus: "initial",
-        withdrawLoading: false,
-        withdrawStatus: "initial",
+        reInvestLoading: false,
+        reInvestStatus: "initial",
         coinbase: "0x0000000000000000000000000000000000000111",
         tvl: "",
         referralFeeEarned: "",
         stakingOwner: null,
         approxDeposit: 100,
         approxDays: 365,
-        selectedTokenLogo: "idyp",
+        selectedTokenLogo: "weth",
         selectedRewardTokenLogo1: "weth",
-        selectedRewardTokenLogo2: "idyp",
-        showCalculator: false,
-
+        selectedRewardTokenLogo2: "dyp",
+        withdrawLoading: false,
+        withdrawStatus: "initial",
         usdPerToken: "",
         errorMsg: "",
         errorMsg2: "",
         errorMsg3: "",
-
+        showCalculator: false,
         contractDeployTime: "",
         disburseDuration: "",
-        show: false,
-        showWithdrawModal: false,
-        popup: false,
-        is_wallet_connected: false,
-        apy1: 0,
-        apy2: 0,
-        performanceTooltip: false,
-        aprTooltip: false,
-        lockTooltip: false,
-        depositTooltip: false,
-        rewardsTooltip: false,
-        withdrawTooltip: false,
+        apy: 0,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -237,22 +232,19 @@ export default function initConstantStakingiDYP({
     };
 
     componentDidMount() {
-      this.refreshBalance();
-      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
-
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
-      this.getTotalTvl().then();
+      this.refreshBalance();
+      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+
+      this.getPriceDYP();
     }
 
-    getTotalTvl = async () => {
-      let apy1 = 15;
-
-      let apy2 = 30;
-
-      this.setState({ apy1, apy2 });
+    getPriceDYP = async () => {
+      let usdPerToken = await window.getPrice("defi-yield-protocol");
+      this.setState({ usdPerToken });
     };
 
     componentWillUnmount() {
@@ -266,11 +258,14 @@ export default function initConstantStakingiDYP({
       staking.depositTOKEN(amount);
     };
 
-    handleApprove = async (e) => {
-      // e.preventDefault();
+    handleApprove = (e) => {
+      //   e.preventDefault();
+      this.setState({ depositLoading: true });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
+        this.setState({ depositLoading: false });
+
         return;
       }
 
@@ -293,25 +288,28 @@ export default function initConstantStakingiDYP({
           }, 2000);
         });
     };
+
     handleStake = async (e) => {
+      //   e.preventDefault();
+      this.setState({ depositLoading: true });
+
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
+        this.setState({ depositLoading: false });
+
         return;
       }
 
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
-      let referrer = this.props.referrer;
+      let referrer = window.config.ZERO_ADDRESS;
 
-      if (referrer) {
-        referrer = String(referrer).trim().toLowerCase();
-      }
+      let deadline = Math.floor(
+        Date.now() / 1e3 + window.config.tx_max_wait_seconds
+      );
 
-      if (!window.web3.utils.isAddress(referrer)) {
-        referrer = window.config.ZERO_ADDRESS;
-      }
       staking
-        .stake(amount, referrer)
+        .stake(amount, referrer, 0, deadline)
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "success" });
         })
@@ -329,13 +327,18 @@ export default function initConstantStakingiDYP({
     };
 
     handleWithdraw = async (e) => {
-      // e.preventDefault();
+      //   e.preventDefault();
       this.setState({ withdrawLoading: true });
 
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
+
+      let deadline = Math.floor(
+        Date.now() / 1e3 + window.config.tx_max_wait_seconds
+      );
+
       staking
-        .unstake(amount)
+        .unstake(amount, 0, deadline)
         .then(() => {
           this.setState({ withdrawStatus: "success" });
           this.setState({ withdrawLoading: false });
@@ -354,13 +357,58 @@ export default function initConstantStakingiDYP({
         });
     };
 
-    handleClaimDivs = (e) => {
+    handleClaimDivs = async (e) => {
+      //   e.preventDefault();
       this.setState({ claimLoading: true });
-      // this.setState({ claimStatus: "claim" });
 
-      // e.preventDefault();
+      if (
+        this.state.stakingTime != 0 &&
+        Date.now() - this.state.stakingTime >= this.state.cliffTime
+      ) {
+        window.$.alert(
+          "Contract Expired! Your lock time ended so please withdraw your funds and move to a " +
+            "new pool. Any unclaimed rewards will be automatically distributed to your wallet within 24 hours!"
+        );
+        this.setState({ claimLoading: false });
+
+        return;
+      }
+
+      let address = this.state.coinbase;
+      let amount = await staking.getTotalPendingDivs(address);
+
+      let router = await window.getUniswapRouterContract();
+      let WETH = await router.methods.WETH().call();
+      // let platformTokenAddress = window.config.reward_token_address
+      let rewardTokenAddress = window.config.reward_token_daieth_address;
+      let path = [
+        ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
+      ];
+      let _amountOutMin = await router.methods
+        .getAmountsOut(amount, path)
+        .call()
+        .catch((e) => {
+          this.setState({ errorMsg2: e?.message });
+          this.setState({ claimStatus: "failed" });
+          this.setState({ claimLoading: false });
+          setTimeout(() => {
+            this.setState({ claimStatus: "initial", errorMsg2: "" });
+          }, 2000);
+        });
+      _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
+      _amountOutMin = new BigNumber(_amountOutMin)
+        .times(100 - window.config.slippage_tolerance_percent)
+        .div(100)
+        .toFixed(0);
+
+      let deadline = Math.floor(
+        Date.now() / 1e3 + window.config.tx_max_wait_seconds
+      );
+
+      console.log({ _amountOutMin, deadline });
+
       staking
-        .claim()
+        .claim(0, _amountOutMin, deadline)
         .then(() => {
           this.setState({ claimStatus: "success" });
           this.setState({ claimLoading: false });
@@ -398,19 +446,53 @@ export default function initConstantStakingiDYP({
 
     refreshBalance = async () => {
       let coinbase = this.state.coinbase;
-
       if (window.coinbase_address) {
         coinbase = window.coinbase_address;
         this.setState({ coinbase });
       }
 
+      let lp_data = this.props.the_graph_result.token_data;
+      //console.log({lp_data})
+
+      //Calculate APY
       let { the_graph_result } = this.props;
-      // let usd_per_dyps = the_graph_result.price_DYPS ? the_graph_result.price_DYPS : 1
-      let usd_per_dyps = 0;
+      let usd_per_token = the_graph_result.token_data
+        ? the_graph_result.token_data[
+            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+          ].token_price_usd
+        : 1;
+      let usd_per_idyp = the_graph_result.token_data
+        ? the_graph_result.token_data[
+            "0xbd100d061e120b2c67a24453cf6368e63f1be056"
+          ].token_price_usd
+        : 1;
+      let usd_per_dyps = the_graph_result.price_DYPS
+        ? the_graph_result.price_DYPS
+        : 1;
+
+      let apy = apr;
+      this.setState({ apy });
 
       try {
+        let amount = new BigNumber(1000000000000000000).toFixed(0);
+        let router = await window.getUniswapRouterContract();
+        let WETH = await router.methods.WETH().call();
+        let platformTokenAddress = window.config.USDC_address;
+        let rewardTokenAddress = window.config.reward_token_idyp_address;
+        let path = [
+          ...new Set(
+            [rewardTokenAddress, WETH, platformTokenAddress].map((a) =>
+              a.toLowerCase()
+            )
+          ),
+        ];
+        let _amountOutMin = await router.methods
+          .getAmountsOut(amount, path)
+          .call();
+        _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
+        _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
         let _bal = reward_token.balanceOf(this.state.coinbase);
-        // console.log(reward_token)
+
         let _pDivs = staking.getTotalPendingDivs(this.state.coinbase);
         let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
         let _stakingTime = staking.stakingTime(this.state.coinbase);
@@ -419,6 +501,11 @@ export default function initConstantStakingiDYP({
         let _tvl = reward_token.balanceOf(staking._address);
         let _rFeeEarned = staking.totalReferralFeeEarned(this.state.coinbase);
         let tStakers = staking.getNumberOfHolders();
+
+        //Take DAI Balance on Staking
+        let _tvlConstantDAI = reward_token_daieth.balanceOf(
+          staking._address
+        ); /* TVL of DAI on Staking */
 
         //Take DYPS Balance
         let _tvlDYPS = token_dyps.balanceOf(staking._address); /* TVL of DYPS */
@@ -433,6 +520,7 @@ export default function initConstantStakingiDYP({
           tvl,
           referralFeeEarned,
           total_stakers,
+          tvlConstantDAI,
           tvlDYPS,
         ] = await Promise.all([
           _bal,
@@ -444,10 +532,25 @@ export default function initConstantStakingiDYP({
           _tvl,
           _rFeeEarned,
           tStakers,
+          _tvlConstantDAI,
           _tvlDYPS,
         ]);
 
-        let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
+        //console.log({tvl, tvlConstantiDYP, _amountOutMin})
+
+        let usdValueDAI = new BigNumber(tvlConstantDAI).toFixed(18);
+        let usdValueDYPS = new BigNumber(tvlDYPS)
+          .times(usd_per_dyps)
+          .toFixed(18);
+        let usd_per_lp = lp_data
+          ? lp_data[window.reward_token["_address"]].token_price_usd
+          : 0;
+        let tvlUSD = new BigNumber(tvl)
+          .times(usd_per_lp)
+          .plus(usdValueDAI)
+          .plus(usdValueDYPS)
+          .toFixed(18);
+        //console.log({tvlUSD})
 
         this.setState({
           token_balance,
@@ -457,9 +560,9 @@ export default function initConstantStakingiDYP({
           depositedTokens,
           lastClaimedTime,
           tvl,
-          tvlDyps,
           referralFeeEarned,
           total_stakers,
+          tvlUSD,
         });
         let stakingOwner = await staking.owner();
         this.setState({ stakingOwner });
@@ -481,9 +584,6 @@ export default function initConstantStakingiDYP({
       staking.REWARD_INTERVAL().then((disburseDuration) => {
         this.setState({ disburseDuration });
       });
-
-      let usdPerToken = this.props.the_graph_result.token_price_usd || 0;
-      this.setState({ usdPerToken });
     };
 
     getUsdPerETH = () => {
@@ -491,11 +591,25 @@ export default function initConstantStakingiDYP({
     };
 
     getApproxReturn = () => {
-      let APY = this.getAPY() - fee_s;
       let approxDays = this.state.approxDays;
       let approxDeposit = this.state.approxDeposit;
 
-      return ((approxDeposit * APY) / 100 / 365) * approxDays;
+      let usd_per_token = this.props.the_graph_result.token_data
+        ? this.props.the_graph_result.token_data[
+            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+          ].token_price_usd
+        : 1;
+      let usd_per_eth = this.props.the_graph_result.token_data
+        ? this.props.the_graph_result.usd_per_eth
+        : 1;
+
+      return (
+        ((approxDeposit * usd_per_token * this.state.apy) /
+          usd_per_eth /
+          100 /
+          365) *
+        approxDays
+      );
     };
 
     getReferralLink = () => {
@@ -503,16 +617,65 @@ export default function initConstantStakingiDYP({
         window.location.origin +
         window.location.pathname +
         "?r=" +
-        this.state.coinbase
+        this.state.this.state.coinbase
       );
     };
 
-    handleReinvest = (e) => {
-      // e.preventDefault();
+    handleReinvest = async (e) => {
+      //   e.preventDefault();
       this.setState({ reInvestStatus: "invest", reInvestLoading: true });
 
+      if (
+        this.state.stakingTime != 0 &&
+        Date.now() - this.state.stakingTime >= this.state.cliffTime
+      ) {
+        window.$.alert(
+          "Contract Expired! Your lock time ended so please withdraw your funds and move to a new pool."
+        );
+        this.setState({ reInvestStatus: "initial", reInvestLoading: false });
+
+        return;
+      }
+
+      let address = this.state.coinbase;
+      let amount = await staking.getTotalPendingDivs(address);
+
+      let router = await window.getUniswapRouterContract();
+      let WETH = await router.methods.WETH().call();
+      let platformTokenAddress = window.config.reward_token_address;
+      let rewardTokenAddress = window.config.reward_token_daieth_address;
+      let path = [
+        ...new Set(
+          [rewardTokenAddress, WETH, platformTokenAddress].map((a) =>
+            a.toLowerCase()
+          )
+        ),
+      ];
+      let _amountOutMin = await router.methods
+        .getAmountsOut(amount, path)
+        .call()
+        .catch((e) => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({ reInvestStatus: "initial", errorMsg2: "" });
+          }, 2000);
+        });
+      _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
+      _amountOutMin = new BigNumber(_amountOutMin)
+        .times(100 - window.config.slippage_tolerance_percent)
+        .div(100)
+        .toFixed(0);
+
+      let deadline = Math.floor(
+        Date.now() / 1e3 + window.config.tx_max_wait_seconds
+      );
+
+      console.log({ _amountOutMin, deadline });
+
       staking
-        .reInvest()
+        .reInvest(0, _amountOutMin, deadline)
         .then(() => {
           this.setState({ reInvestStatus: "success" });
           this.setState({ reInvestLoading: false });
@@ -554,10 +717,20 @@ export default function initConstantStakingiDYP({
       token_balance = new BigNumber(token_balance).div(1e18).toString(10);
       token_balance = getFormattedNumber(token_balance, 6);
 
+      let { the_graph_result } = this.props;
+
+      // let usd_per_token = the_graph_result.token_data ? the_graph_result.token_data["0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"].token_price_usd : 1
+      // let usd_per_idyp = the_graph_result.token_data ? the_graph_result.token_data["0xbd100d061e120b2c67a24453cf6368e63f1be056"].token_price_usd : 1
+
+      let usd_per_bnb = the_graph_result.token_data
+        ? the_graph_result.usd_per_eth
+        : 1;
+
       pendingDivs = new BigNumber(pendingDivs)
         .div(10 ** TOKEN_DECIMALS)
+        .div(usd_per_bnb)
         .toString(10);
-      pendingDivs = getFormattedNumber(pendingDivs, 6);
+      pendingDivs = getFormattedNumber(pendingDivs, 8);
 
       totalEarnedTokens = new BigNumber(totalEarnedTokens)
         .div(10 ** TOKEN_DECIMALS)
@@ -570,7 +743,7 @@ export default function initConstantStakingiDYP({
       depositedTokens = getFormattedNumber(depositedTokens, 6);
 
       tvl = new BigNumber(tvl).div(1e18).toString(10);
-      tvl = getFormattedNumber(tvl, 3);
+      tvl = getFormattedNumber(tvl, 6);
 
       stakingTime = stakingTime * 1e3;
       cliffTime = cliffTime * 1e3;
@@ -603,11 +776,8 @@ export default function initConstantStakingiDYP({
       }
 
       let total_stakers = this.state.total_stakers;
-      let tvl_usd = (this.state.tvl / 1e18) * this.state.usdPerToken;
-
-      let tvlDYPS = this.state.tvlDyps / 1e18;
-
-      tvl_usd = tvl_usd + tvlDYPS;
+      //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
+      let tvl_usd = this.state.tvlUSD / 1e18;
 
       tvl_usd = getFormattedNumber(tvl_usd, 2);
       total_stakers = getFormattedNumber(total_stakers, 0);
@@ -620,7 +790,11 @@ export default function initConstantStakingiDYP({
 
       let id = Math.random().toString(36);
 
-      let is_connected = this.props.isConnected;
+      // let apy = new BigNumber(apr).div(1e2).times(usd_per_idyp).div(usd_per_token).times(1e2).toFixed(2)
+
+      //this.setState({apy})
+
+      let is_connected = this.props.is_wallet_connected;
 
       const performanceOpen = () => {
         this.setState({ performanceTooltip: true });
@@ -670,7 +844,13 @@ export default function initConstantStakingiDYP({
           >
             <div className="leftside2 w-100">
               <div className="activewrapper">
-                <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between gap-3 gap-lg-5">
+                <div
+                  className={`d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between ${
+                    renderedPage === "dashboard"
+                      ? "gap-3 gap-lg-4"
+                      : "gap-3 gap-lg-5"
+                  }`}
+                >
                   <h6 className="activetxt">
                     <img
                       src={ellipse}
@@ -678,134 +858,134 @@ export default function initConstantStakingiDYP({
                       className="position-relative"
                       style={{ top: 3 }}
                     />
-                    Active status
+                    Expired
                   </h6>
                   {/* <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Earn rewards in:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      iDYP
-                    </h6>
-                  </div> */}
+                  <h6 className="earnrewards-text">Earn rewards in:</h6>
+                  <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                    DYP
+                  </h6>
+                </div> */}
                   <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
                     <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Performance fee:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {fee_s}%
-                      <ClickAwayListener onClickAway={performanceClose}>
-                        <Tooltip
-                          open={this.state.performanceTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "Performance fee is subtracted from the displayed APR."
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Performance fee:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {fee}%
+                          <ClickAwayListener onClickAway={performanceClose}>
+                            <Tooltip
+                              open={this.state.performanceTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "Performance fee is subtracted from the displayed APR."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img
-                            src={moreinfo}
-                            alt=""
-                            onClick={performanceOpen}
-                          />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
+                            >
+                              <img
+                                src={moreinfo}
+                                alt=""
+                                onClick={performanceOpen}
+                              />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
 
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">APR:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {getFormattedNumber(apr - fee_s, 2)}%
-                      <ClickAwayListener onClickAway={aprClose}>
-                        <Tooltip
-                          open={this.state.aprTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">APR:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {getFormattedNumber(this.state.apy, 2)}%{" "}
+                          <ClickAwayListener onClickAway={aprClose}>
+                            <Tooltip
+                              open={this.state.aprTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "APR reflects the interest rate of earnings on an account over the course of one year. "
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={aprOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Lock time:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <ClickAwayListener onClickAway={lockClose}>
-                        <Tooltip
-                          open={this.state.lockTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "The amount of time your deposited assets will be locked."
+                            >
+                              <img src={moreinfo} alt="" onClick={aprOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Lock time:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
+                          <ClickAwayListener onClickAway={lockClose}>
+                            <Tooltip
+                              open={this.state.lockTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "The amount of time your deposited assets will be locked."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={lockOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
+                            >
+                              <img src={moreinfo} alt="" onClick={lockOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
                     </div>
-                <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
-                  <h6
-                    className="bottomitems"
-                    onClick={() => this.setState({ showCalculator: true })}
-                  >
-                    <img src={poolsCalculatorIcon} alt="" />
-                    Calculator
-                  </h6>
-                  <a
-                    href={
-                      // chainId === 1
-                      // ?
-                      "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
-                      // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                    }
-                    target={"_blank"}
-                    rel="noreferrer"
-                  >
-                    <h6 className="bottomitems">
-                      <img src={arrowup} alt="" />
-                      Get iDYP
-                    </h6>
-                  </a>
-                  <div
-                    onClick={() => {
-                      this.showPopup();
-                    }}
-                  >
-                    <h6 className="bottomitems">
-                      <img src={purplestats} alt="" />
-                      Stats
-                    </h6>
-                  </div>
-                </div>
+                    <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                      <h6
+                        className="bottomitems"
+                        onClick={() => this.setState({ showCalculator: true })}
+                      >
+                        <img src={poolsCalculatorIcon} alt="" />
+                        Calculator
+                      </h6>
+                      <a
+                        href={
+                          // chainId === 1
+                          // ?
+                          "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                          // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        }
+                        target={"_blank"}
+                        rel="noreferrer"
+                      >
+                        <h6 className="bottomitems">
+                          <img src={arrowup} alt="" />
+                          Get DYP
+                        </h6>
+                      </a>
+                      <div
+                        onClick={() => {
+                          this.showPopup();
+                        }}
+                      >
+                        <h6 className="bottomitems">
+                          <img src={purplestats} alt="" />
+                          Stats
+                        </h6>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="row gap-4 gap-lg-0 w-100 justify-content-between">
+            <div className="pools-details-wrapper d-flex m-0  container-lg border-0">
+              <div className="row w-100 flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between">
                 <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                   <div
                     className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
@@ -813,78 +993,63 @@ export default function initConstantStakingiDYP({
                   >
                     <h6 className="start-title">Start Staking</h6>
                     {/* <h6 className="start-desc">
-                      {this.props.coinbase === null
-                        ? "Connect wallet to view and interact with deposits and withdraws"
-                        : "Interact with deposits and withdraws"}
-                    </h6> */}
+                    {this.props.coinbase === null
+                      ? "Connect wallet to view and interact with deposits and withdraws"
+                      : "Interact with deposits and withdraws"}
+                  </h6> */}
                     {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
-                        
                       >
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : chainId === '1' ? (
+                    ) : chainId === "1" ? (
                       <div className="addressbtn btn">
                         <Address a={this.props.coinbase} chainId={1} />
                       </div>
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0x1")}}
+                        onClick={() => {
+                          handleSwitchNetworkhook("0x1");
+                        }}
                       >
-                       Change Network
+                        Change Network
                       </button>
                     )}
                   </div>
                 </div>
                 {/* <div className="otherside">
-              <button className="btn green-btn">
-                TBD Claim reward 0.01 ETH
-              </button>
-            </div> */}
+            <button className="btn green-btn">
+              TBD Claim reward 0.01 ETH
+            </button>
+          </div> */}
                 <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
-                      {/* <h6 className="deposit-txt d-flex align-items-center gap-2">
-                        <img
-                          src={
-                            require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
-                              .default
-                          }
-                          alt=""
-                          style={{ width: 14, height: 14 }}
-                        />
-                        {token_symbol}
-                      </h6> */}
+                      {/* <div className="d-flex gap-2 align-items-center">
+                      <img
+                        src={require(`./assets/dyp.svg`).default}
+                        alt=""
+                        style={{ width: 15, height: 15 }}
+                      />
+                      <h6
+                        className="text-white"
+                        style={{ fontSize: "11px", fontWeight: "600" }}
+                      >
+                        DYP
+                      </h6>
+                    </div> */}
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {/* {getFormattedNumber(
-                      this.state.selectedTokenBalance /
-                        10 ** this.state.selectedTokenDecimals,
-                      6
-                    )} */}
-                          {token_balance} {token_symbol}
+                          {token_balance > 0
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "}
+                          {token_symbol}
                         </b>
-                        {/* <select
-                    disabled={!is_connected}
-                    value={this.state.selectedBuybackToken}
-                    onChange={(e) =>
-                      this.handleSelectedTokenChange(e.target.value)
-                    }
-                    className="inputfarming p-0"
-                    style={{ border: "none" }}
-                  >
-                    {Object.keys(window.buyback_tokens_farming).map((t) => (
-                      <option key={t} value={t}>
-                        {" "}
-                        {window.buyback_tokens_farming[t].symbol}{" "}
-                      </option>
-                    ))}
-                  </select> */}
                       </h6>
                     </div>
                     <ClickAwayListener onClickAway={depositClose}>
@@ -907,44 +1072,70 @@ export default function initConstantStakingiDYP({
                     </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="position-relative">
-                        <h6 className="amount-txt">Amount</h6>
-                        <input
-                          type={"text"}
-                          className="styledinput"
-                          placeholder="0.0"
-                          style={{ width: "100%" }}
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
-                          // onChange={(e) => setDepositValue(e.target.value)}
-                        />
-                      </div>
-                      <button
-                        className="btn maxbtn"
-                        onClick={this.handleSetMaxDeposit}
-                      >
-                        Max
-                      </button>
-                      {/* <button
-                      className="btn filledbtn"
-                      onClick={this.handleApprove}
+                    <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
+                      <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
+                        <div className="position-relative">
+                          <h6 className="amount-txt">Amount</h6>
+                          <input
+                            type={"number"}
+                            className="styledinput"
+                            placeholder="0.0"
+                            style={{ width: "100%" }}
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                depositAmount: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        {/* <div
+                      className="input-container px-0"
+                      style={{ width: "32%" }}
                     >
-                      Approve
-                    </button> */}
+                      <input
+                        type="number"
+                        min={1}
+                        id="amount"
+                        name="amount"
+                        value={ Number(this.state.depositAmount) > 0
+                          ? this.state.depositAmount
+                          : this.state.depositAmount
+                        }
+                        placeholder=" "
+                        className="text-input"
+                        onChange={(e) => this.setState({depositAmount: e.target.value})}
+                        style={{ width: "100%" }}
+                      />
+                      <label
+                        htmlFor="usd"
+                        className="label"
+                        onClick={() => focusInput("amount")}
+                      >
+                        DYP Amount
+                      </label>
+                    </div> */}
+                        <button
+                          className="btn maxbtn"
+                          onClick={this.handleSetMaxDeposit}
+                        >
+                          Max
+                        </button>
+                      </div>
+                      {/* <button
+                    className="btn filledbtn"
+                    onClick={this.handleApprove}
+                  >
+                    Approve
+                  </button> */}
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
-                          this.state.depositLoading === true ||
-                          this.state.depositStatus === "success"
+                          this.state.depositLoading === true
                             ? true
                             : false
                         }
@@ -989,12 +1180,6 @@ export default function initConstantStakingiDYP({
                           </>
                         )}
                       </button>
-                      {/* <button
-                      className="btn filledbtn"
-                      onClick={this.handleStake}
-                    >
-                      Deposit
-                    </button> */}
                     </div>
                     {this.state.errorMsg && (
                       <h6 className="errormsg">{this.state.errorMsg}</h6>
@@ -1002,9 +1187,14 @@ export default function initConstantStakingiDYP({
                   </div>
                 </div>
                 <div className="otherside-border col-12 col-md-6 col-lg-4">
-                  <div className="d-flex justify-content-between gap-2">
+                  <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
-                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
+                    <h6
+                      className="withdraw-littletxt d-flex align-items-center gap-2"
+                      style={{
+                        fontSize: renderedPage === "dashboard" && "9px",
+                      }}
+                    >
                       Rewards are displayed in real-time
                       <ClickAwayListener onClickAway={rewardsClose}>
                         <Tooltip
@@ -1026,122 +1216,129 @@ export default function initConstantStakingiDYP({
                       </ClickAwayListener>
                     </h6>
                   </div>
-                      
-                  <div className="form-row flex-column flex-lg-row d-flex gap-2 align-item-start align-items-lg-center justify-content-between">
-                    <div className="d-flex flex-column">
-                      <span
-                        style={{
-                          fontWeight: "500",
-                          fontSize: "12px",
-                          lineHeight: "18px",
-                          color: "#c0c9ff",
-                        }}
-                      >
-                        iDYP
-                      </span>
-                      <span>{pendingDivs}</span>
-                    </div>
-                    <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
-                      <button
-                        disabled={
-                          this.state.claimStatus === "claimed" ||
-                          this.state.claimStatus === "success"
-                            ? true
-                            : false
+                  <div className="d-flex flex-column gap-2 justify-content-between">
+                    {/* <div className="d-flex align-items-center justify-content-between gap-2"></div> */}
+                    <div className="form-row flex-column flex-lg-row gap-2 d-flex  align-items-start align-items-lg-center justify-content-between">
+                      <div className="position-relative d-flex flex-column">
+                        <span
+                          style={{
+                            fontWeight: "500",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#c0c9ff",
+                          }}
+                        >
+                          DYP
+                        </span>
+                        <span>
+                          {pendingDivs > 0
+                            ? pendingDivs
+                            : getFormattedNumber(0, 6)}
+                        </span>
+                        {/* <input
+                        disabled
+                        value={
+                          Number(pendingDivs) > 0
+                            ? `${pendingDivs}`
+                            : `${pendingDivs}`
                         }
-                        className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed" &&
-                          this.state.claimStatus === "initial"
-                            ? "disabled-btn"
-                            : this.state.claimStatus === "failed"
-                            ? "fail-button"
-                            : this.state.claimStatus === "success"
-                            ? "success-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
-                        style={{ height: "fit-content" }}
-                        onClick={this.handleClaimDivs}
-                      >
-                        {this.state.claimLoading ? (
-                          <div
-                            class="spinner-border spinner-border-sm text-light"
-                            role="status"
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : this.state.claimStatus === "failed" ? (
-                          <>
-                            <img src={failMark} alt="" />
-                            Failed
-                          </>
-                        ) : this.state.claimStatus === "success" ? (
-                          <>Success</>
-                        ) : (
-                          <>Claim</>
-                        )}
-                      </button>
+                        onChange={(e) =>
+                          this.setState({
+                            pendingDivs:
+                              Number(e.target.value) > 0
+                                ? e.target.value
+                                : e.target.value,
+                          })
+                        }
+                        className=" left-radius inputfarming styledinput2"
+                        placeholder="0"
+                        type="text"
+                        style={{ fontSize: "14px", width: renderedPage === "dashboard" && '120px', padding: 0 }}
+                      /> */}
+                      </div>
+                      <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
+                        <button
+                          disabled={
+                            this.state.claimStatus === "claimed" ||
+                            this.state.claimStatus === "success"
+                              ? true
+                              : false
+                          }
+                          className={`btn filledbtn ${
+                            this.state.claimStatus === "claimed" &&
+                            this.state.claimStatus === "initial"
+                              ? "disabled-btn"
+                              : this.state.claimStatus === "failed"
+                              ? "fail-button"
+                              : this.state.claimStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleClaimDivs}
+                        >
+                          {this.state.claimLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.claimStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.claimStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Claim</>
+                          )}
+                        </button>
 
-                      <button
-                        disabled={
-                          // this.state.reInvestStatus === "initial" ? true :
-                          false
-                        }
-                        className={`btn outline-btn ${
-                          this.state.reInvestStatus === "invest"
-                            ? "disabled-btn"
-                            : this.state.reInvestStatus === "failed"
-                            ? "fail-button"
-                            : this.state.reInvestStatus === "success"
-                            ? "success-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
-                        style={{ height: "fit-content" }}
-                        onClick={this.handleReinvest}
-                      >
-                        {this.state.reInvestLoading ? (
-                          <div
-                            class="spinner-border spinner-border-sm text-light"
-                            role="status"
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : this.state.reInvestStatus === "failed" ? (
-                          <>
-                            <img src={failMark} alt="" />
-                            Failed
-                          </>
-                        ) : this.state.reInvestStatus === "success" ? (
-                          <>Success</>
-                        ) : (
-                          <>Reinvest</>
-                        )}
-                      </button>
+                        <button
+                          disabled={
+                            // this.state.claimStatus === "invest" ? true :
+                            false
+                          }
+                          className={`btn outline-btn ${
+                            this.state.reInvestStatus === "invest"
+                              ? "disabled-btn"
+                              : this.state.reInvestStatus === "failed"
+                              ? "fail-button"
+                              : this.state.reInvestStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleReinvest}
+                        >
+                          {this.state.reInvestLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.reInvestStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.reInvestStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Reinvest</>
+                          )}
+                        </button>
+                      </div>
                     </div>
+                    {this.state.errorMsg2 && (
+                      <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                    )}
                   </div>
-                  {this.state.errorMsg2 && (
-                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
-                  )}
-                  {/* <button
-                    title={claimTitle}
-                    disabled={!is_connected}
-                    className="btn  btn-primary btn-block l-outline-btn"
-                    type="submit"
-                  >
-                    CLAIM
-                  </button> */}
-                  {/* <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    this.handleClaimDyp();
-                  }}
-                  title={claimTitle}
-                  disabled={!is_connected}
-                  className="btn  btn-primary btn-block l-outline-btn"
-                  type="submit"
-                >
-                  CLAIM
-                </button> */}
                 </div>
+
                 <div className="otherside-border col-12 col-md-6 col-lg-2">
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
@@ -1166,7 +1363,13 @@ export default function initConstantStakingiDYP({
                   </h6>
 
                   <button
-                    className="btn outline-btn"
+                    // disabled={this.state.depositStatus === "success" ? false : true}
+                    className={
+                      // this.state.depositStatus === "success" ?
+                      "outline-btn btn"
+                      // :
+                      //  "btn disabled-btn"
+                    }
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
                     }}
@@ -1181,7 +1384,6 @@ export default function initConstantStakingiDYP({
             <Modal
               visible={this.state.popup}
               modalId="tymodal"
-              icon="stats"
               title="stats"
               setIsVisible={() => {
                 this.setState({ popup: false });
@@ -1191,90 +1393,88 @@ export default function initConstantStakingiDYP({
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
                   <div className="container px-0">
-                    <div className="row" style={{ marginLeft: "0px" }}>
-                      {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext">
-                          <img src={stats} alt="" />
-                          Stats
-                        </h6>
-                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
-                          My address
-                          <a
-                            href={`${window.config._etherscanbaseURL}/address/${this.props.coinbase}`}
-                            target={"_blank"}
-                            rel="noreferrer"
-                          >
-                            <h6 className="addresstxt">
-                              {this.props.coinbase?.slice(0, 10) + "..."}
-                            </h6>
-                          </a>
-                          <img src={arrowup} alt="" />
-                        </h6>
-                      </div> */}
+                    {/* <div className="row" style={{ marginLeft: "0px" }}>
+                    <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                      <h6 className="d-flex gap-2 align-items-center statstext">
+                        <img src={stats} alt="" />
+                        Stats
+                      </h6>
+                      <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                        My address
+                        <a
+                          href={`${window.config.etherscan_baseURL}/address/${this.props.coinbase}`}
+                          target={"_blank"}
+                          rel="noreferrer"
+                        >
+                          <h6 className="addresstxt">
+                            {this.props.coinbase?.slice(0, 10) + "..."}
+                          </h6>
+                        </a>
+                        <img src={arrowup} alt="" />
+                      </h6>
                     </div>
+                  </div> */}
                     {/* <table className="table-stats table table-sm table-borderless mt-2">
-                      <tbody>
-                        <tr>
-                          <td className="text-right">
-                            <th>My iDYP Deposit</th>
-                            <div>
-                              <strong>{depositedTokens}</strong>{" "}
-                              <small>iDYP</small>
-                            </div>
-                          </td>
+                    <tbody>
+                      <tr>
+                        <td className="text-right">
+                          <th>My DYP Deposit</th>
+                          <div>
+                            <strong>{depositedTokens}</strong>{" "}
+                            <small>DYP</small>
+                          </div>
+                        </td>
 
-                          <td className="text-right">
-                            <th>My iDYP Balance</th>
-                            <div>
-                              <strong>{token_balance}</strong>{" "}
-                              <small>iDYP</small>
-                            </div>
-                          </td>
-                          <td className="text-right">
-                            <th>Referral Fee Earned </th>
-                            <div>
-                              <strong>{referralFeeEarned}</strong>{" "}
-                              <small>iDYP</small>
-                            </div>
-                          </td>
-                        </tr>
+                        <td className="text-right">
+                          <th>My DYP Balance</th>
+                          <div>
+                            <strong>{token_balance}</strong>{" "}
+                            <small>DYP</small>
+                          </div>
+                        </td>
+                        <td className="text-right">
+                          <th>Referral Fee Earned</th>
+                          <div>
+                            <strong>{referralFeeEarned}</strong>{" "}
+                            <small>DYP</small>
+                          </div>
+                        </td>
 
-                        <tr>
-                          <td className="text-right">
-                            <th>Total iDYP Locked</th>
-                            <div>
-                              <strong>{tvl}</strong> <small>iDYP</small>
-                            </div>
-                          </td>
-                          <td className="text-right">
-                            <th>TVL USD</th>
-                            <div>
-                              <strong>${tvl_usd}</strong> <small>USD</small>
-                            </div>
-                          </td>
+                      
+                      </tr>
 
-                          <td className="text-right">
-                            <th>Contract Expiration</th>
-                            <small>{expiration_time}</small>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table> */}
+                      <tr>
+                        <td className="text-right">
+                          <th>Total DYP Locked</th>
+                          <div>
+                            <strong>{tvl}</strong> <small>DYP</small>
+                          </div>
+                        </td>
+                        <td className="text-right">
+                          <th>TVL USD</th>
+                          <div>
+                            <strong>${tvl_usd}</strong> <small>USD</small>
+                          </div>
+                        </td>
+
+                        <td className="text-right">
+                          <th>Contract Expiration</th>
+                          <small>{expiration_time}</small>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> */}
                     <div className="stats-container my-4">
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                        <span className="stats-card-title">
-                          My iDYP Deposit
-                        </span>
+                        <span className="stats-card-title">My DYP Deposit</span>
                         <h6 className="stats-card-content">
-                          {depositedTokens} iDYP
+                          {depositedTokens} DYP
                         </h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                        <span className="stats-card-title">
-                          My iDYP Balance
-                        </span>
+                        <span className="stats-card-title">My DYP Balance</span>
                         <h6 className="stats-card-content">
-                          {token_balance} iDYP
+                          {token_balance} DYP
                         </h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1282,14 +1482,14 @@ export default function initConstantStakingiDYP({
                           Referral Fee Earned
                         </span>
                         <h6 className="stats-card-content">
-                          {referralFeeEarned} iDYP
+                          {referralFeeEarned} DYP
                         </h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">
-                          Total iDYP Locked
+                          Total DYP Locked
                         </span>
-                        <h6 className="stats-card-content">{tvl} iDYP</h6>
+                        <h6 className="stats-card-content">{tvl} DYP</h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">TVL USD</span>
@@ -1300,12 +1500,12 @@ export default function initConstantStakingiDYP({
                           Contract Expiration
                         </span>
                         <h6 className="stats-card-content">
-                          {expiration_time} iDYP
+                          {expiration_time} DYP
                         </h6>
                       </div>
                     </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="referralwrapper col-8">
+                    <div className="d-flex flex-column flex-lg-row gap-3 gap-lg-0 align-items-center justify-content-between">
+                      <div className="referralwrapper col-12 col-lg-8">
                         <div className="d-flex gap-2 align-items-start justify-content-between">
                           <img src={referralimg} alt="" />
                           <div
@@ -1344,12 +1544,12 @@ export default function initConstantStakingiDYP({
                                 </h6>
                                 <br />
                                 {/* <a
-                                className="text-muted small"
-                                href={this.getReferralLink()}
-                              >
-                                {" "}
-                                {this.getReferralLink()}{" "}
-                              </a> */}
+                              className="text-muted small"
+                              href={this.getReferralLink()}
+                            >
+                              {" "}
+                              {this.getReferralLink()}{" "}
+                            </a> */}
                               </span>
                             </div>
 
@@ -1377,7 +1577,7 @@ export default function initConstantStakingiDYP({
                           &nbsp;{" "}
                         </div>
                       </div>
-                      <div className="col-3 d-flex flex-column gap-1">
+                      <div className="col-12 col-lg-3 d-flex flex-column gap-1">
                         <span
                           style={{
                             fontWeight: "400",
@@ -1416,17 +1616,17 @@ export default function initConstantStakingiDYP({
                       </div>
                     </div>
                     {/* <div className="mt-4">
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
-                        className="maxbtn"
-                        style={{ color: "#7770e0" }}
-                      >
-                        Etherscan
-                        <img src={arrowup} alt="" />
-                      </a>
-                    </div> */}
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                      className="maxbtn"
+                      style={{ color: "#7770e0" }}
+                    >
+                      Etherscan
+                      <img src={arrowup} alt="" />
+                    </a>
+                  </div> */}
                   </div>
                 </div>
               </div>
@@ -1448,11 +1648,11 @@ export default function initConstantStakingiDYP({
                   <div className="container px-0">
                     <div className="row" style={{ marginLeft: "0px" }}>
                       {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext">
-                          <img src={stats} alt="" />
-                          Withdraw
-                        </h6>
-                      </div> */}
+                      <h6 className="d-flex gap-2 align-items-center statstext">
+                        <img src={stats} alt="" />
+                        Withdraw
+                      </h6>
+                    </div> */}
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
@@ -1461,7 +1661,7 @@ export default function initConstantStakingiDYP({
                     </div>
 
                     <div className="d-flex flex-column mt-2">
-                      <div className="d-flex  gap-2 justify-content-between align-items-center mt-2">
+                      <div className="d-flex  gap-2 justify-content-between align-items-center">
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle mt-3">Timer</h6>
                           <h6 className="withtitle" style={{ fontWeight: 300 }}>
@@ -1483,7 +1683,10 @@ export default function initConstantStakingiDYP({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                            {token_balance} {token_symbol}
+                            {token_balance > 0
+                              ? token_balance
+                              : getFormattedNumber(0, 6)}{" "}
+                            {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1513,41 +1716,28 @@ export default function initConstantStakingiDYP({
                       </div>
 
                       <div className="d-flex flex-column align-items-start justify-content-between gap-2 mt-4">
-                        {/* <button
-                        disabled={this.state.withdrawAmount === "" ? true : false}
-                          className={`btn filledbtn ${this.state.withdrawAmount === "" && 'disabled-btn'} w-100`}
-                          onClick={(e) => {
-                            // e.preventDefault();
-                            this.handleWithdraw();
-                          }}
-                          title={
-                            canWithdraw
-                              ? ""
-                              : `You recently staked, you can unstake ${cliffTimeInWords}`
-                          }
-                        >
-                          Withdraw
-                        </button> */}
                         <button
                           disabled={
-                            this.state.withdrawAmount === "" ||
                             this.state.withdrawStatus === "failed" ||
-                            this.state.withdrawStatus === "success"
+                            this.state.withdrawStatus === "success" ||
+                            this.state.withdrawAmount === ""
                               ? true
                               : false
                           }
                           className={` w-100 btn filledbtn ${
-                            this.state.withdrawAmount === "" &&
-                            this.state.withdrawStatus === "initial"
-                              ? "disabled-btn"
-                              : this.state.withdrawStatus === "failed"
+                            this.state.withdrawStatus === "failed"
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
                               ? "success-button"
+                              : this.state.withdrawAmount === "" &&
+                                this.state.withdrawStatus === "initial"
+                              ? "disabled-btn"
                               : null
                           } d-flex justify-content-center align-items-center`}
                           style={{ height: "fit-content" }}
-                          onClick={() => this.handleWithdraw()}
+                          onClick={() => {
+                            this.handleWithdraw();
+                          }}
                         >
                           {this.state.withdrawLoading ? (
                             <div
@@ -1578,40 +1768,55 @@ export default function initConstantStakingiDYP({
                         >
                           *No withdrawal fee
                         </span>
+                        {/* <button
+                        className="btn filledbtn w-100"
+                        onClick={(e) => {
+                          // e.preventDefault();
+                          this.handleWithdraw();
+                        }}
+                        title={
+                          canWithdraw
+                            ? ""
+                            : `You recently staked, you can unstake ${cliffTimeInWords}`
+                        }
+                      >
+                        Withdraw
+                      </button> */}
+
                         {/* <div className="form-row">
-                              <div className="col-6">
-                                <button
-                                  title={
-                                    canWithdraw
-                                      ? ""
-                                      : `You recently staked, you can unstake ${cliffTimeInWords}`
-                                  }
-                                  disabled={!canWithdraw || !is_connected}
-                                  className="btn  btn-primary btn-block l-outline-btn"
-                                  type="submit"
-                                >
-                                  WITHDRAW
-                                </button>
-                              </div>
-                              <div className="col-6">
-                                <button
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    this.handleWithdrawDyp();
-                                  }}
-                                  title={
-                                    canWithdraw
-                                      ? ""
-                                      : `You recently staked, you can unstake ${cliffTimeInWords}`
-                                  }
-                                  disabled={!canWithdraw || !is_connected}
-                                  className="btn  btn-primary btn-block l-outline-btn"
-                                  type="submit"
-                                >
-                                  WITHDRAW
-                                </button>
-                              </div>
-                            </div> */}
+                            <div className="col-6">
+                              <button
+                                title={
+                                  canWithdraw
+                                    ? ""
+                                    : `You recently staked, you can unstake ${cliffTimeInWords}`
+                                }
+                                disabled={!canWithdraw || !is_connected}
+                                className="btn  btn-primary btn-block l-outline-btn"
+                                type="submit"
+                              >
+                                WITHDRAW
+                              </button>
+                            </div>
+                            <div className="col-6">
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  this.handleWithdrawDyp();
+                                }}
+                                title={
+                                  canWithdraw
+                                    ? ""
+                                    : `You recently staked, you can unstake ${cliffTimeInWords}`
+                                }
+                                disabled={!canWithdraw || !is_connected}
+                                className="btn  btn-primary btn-block l-outline-btn"
+                                type="submit"
+                              >
+                                WITHDRAW
+                              </button>
+                            </div>
+                          </div> */}
                       </div>
                       {this.state.errorMsg3 && (
                         <h6 className="errormsg">{this.state.errorMsg3}</h6>
@@ -1630,49 +1835,51 @@ export default function initConstantStakingiDYP({
               handleConnection={this.props.handleConnection}
             />
           )}
-
           {/* <div
-            className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
-            onClick={() => this.setState({ showCalculator: true })}
-          >
-            <img
-              src={calculatorIcon}
-              alt=""
-              style={{ width: 30, height: 30 }}
-            />
-            Calculator
-          </div> */}
+          className="calculator-btn d-flex justify-content-center align-items-center gap-2 text-white"
+          onClick={() => this.setState({ showCalculator: true })}
+        >
+          <img
+            src={calculatorIcon}
+            alt=""
+            style={{ width: 30, height: 30 }}
+          />{" "}
+          Calculator
+        </div> */}
 
           {this.state.showCalculator && (
             <Modal
               visible={this.state.showCalculator}
-              title="calculator"
               modalId="calculatormodal"
-              setIsVisible={() => this.setState({ showCalculator: false })}
+              title="calculator"
+              setIsVisible={() => {
+                this.setState({ showCalculator: false });
+              }}
+              width="fit-content"
             >
               <div className="pools-calculator">
                 {/* <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex align-items-center gap-3">
-                  <img src={calculatorIcon} alt="" />
-                  <h5
-                    style={{
-                      fontSize: "23px",
-                      fontWeight: "500",
-                      color: "#f7f7fc",
-                    }}
-                  >
-                    Calculator
-                  </h5>
-                </div>
-                <img
-                  src={xMark}
-                  alt=""
-                  onClick={() => {
-                    this.setState({ showCalculator: false });
+              <div className="d-flex align-items-center gap-3">
+                <img src={calculatorIcon} alt="" />
+                <h5
+                  style={{
+                    fontSize: "23px",
+                    fontWeight: "500",
+                    color: "#f7f7fc",
                   }}
-                  className="cursor-pointer"
-                />
-              </div> */}
+                >
+                  Calculator
+                </h5>
+              </div>
+              <img
+                src={xMark}
+                alt=""
+                onClick={() => {
+                  this.setState({ showCalculator: false });
+                }}
+                className="cursor-pointer"
+              />
+            </div> */}
                 <hr />
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="d-flex flex-column gap-3 w-50 me-5">
@@ -1696,7 +1903,7 @@ export default function initConstantStakingiDYP({
                   </div>
                   <div className="d-flex flex-column gap-3 w-50 me-5">
                     <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                      iDYP to Deposit
+                      Amount to stake
                     </span>
                     <input
                       style={{ height: "40px" }}
@@ -1715,9 +1922,7 @@ export default function initConstantStakingiDYP({
                   </div>
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
-                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    $tbd USD
-                  </h3>
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>tbd</h3>
                   <h6
                     style={{
                       fontWeight: "300",
@@ -1725,7 +1930,8 @@ export default function initConstantStakingiDYP({
                       color: "#f7f7fc",
                     }}
                   >
-                    {getFormattedNumber(this.getApproxReturn(), 6)} iDYP
+                    Approx {getFormattedNumber(this.getApproxReturn(), 6)}
+                    DYP
                   </h6>
                 </div>
                 <div className="mt-4">
@@ -1750,44 +1956,29 @@ export default function initConstantStakingiDYP({
         //   <div className="row">
         //     <div className="col-12 header-image-staking-new">
         //       <div className="container">
-        //         <Modal show={this.state.popup} handleClose={this.hidePopup}>
+        //         <Popup show={this.state.popup} handleClose={this.hidePopup}>
         //           <div className="earn-hero-content p4token-wrapper">
         //             <p className="h3">
-        //               <b>iDYP Staking</b>
+        //               <b>DYP Staking</b>
         //             </p>
         //             <p>
-        //               Stake your iDYP tokens and earn{" "}
-        //               {apr == 0 ? '...' : getFormattedNumber(apr - fee_s, 0)}
-        //               % APR with no Impermanent Loss.
+        //               Stake your DYP tokens and earn 25% APR in ETH with no
+        //               Impermanent Loss.
         //             </p>
         //             <p>
-        //               To start earning, all you need is to deposit iDYP tokens
-        //               into the Staking contract. You can choose from two
-        //               different staking options, with rewards starting from{" "}
-        //               {this.state.apy1 == 0 ? (
-        //                 '...'
-        //               ) : (
-        //                 getFormattedNumber(this.state.apy1, 0)
-        //               )}
-        //               % APR up to{" "}
-        //               {this.state.apy2 == 0 ? (
-        //                 '...'
-        //               ) : (
-        //                 getFormattedNumber(this.state.apy2, 0)
-        //               )}
-        //               % APR, depending on the lock time from a minimum of
-        //               zero-days up to a maximum of 90 days.
+        //               To start earning, all you need is to deposit DYP tokens
+        //               into the Staking contract and earn ETH as rewards.
         //             </p>
         //             <p>
         //               The staking pools have the REINVEST function integrated,
         //               meaning that you can automatically add your daily rewards
-        //               to the staking pool. Moreover, the iDYP Referral is
-        //               available. If you refer iDYP to your friends, 5% of your
+        //               to the staking pool. Moreover, the DYP Referral is
+        //               available. If you refer DYP to your friends, 5% of your
         //               friends’ rewards will automatically be sent to you
-        //               whenever they stake iDYP.
+        //               whenever they stake DYP.
         //             </p>
         //           </div>
-        //         </Modal>
+        //         </Popup>
         //         <Modal
         //           show={this.state.show}
         //           handleConnection={this.props.handleConnection}
@@ -1798,7 +1989,7 @@ export default function initConstantStakingiDYP({
         //         />
         //         <div className="row">
         //           <div className="col-12">
-        //             <p className="header-title-text">iDYP Staking</p>
+        //             <p className="header-title-text">DYP Staking</p>
         //           </div>
         //           <div className="col-7 col-md-7 col-lg-6 col-xl-5">
         //             <div className="row">
@@ -1819,7 +2010,6 @@ export default function initConstantStakingiDYP({
         //               </div>
         //               <div className="col-11 col-md-5 mb-4">
         //                 <button
-        //                   className
         //                   onClick={() =>
         //                     window.open(
         //                       "https://www.youtube.com/watch?v=D5g19SuQlcI&t=2s",
@@ -1991,7 +2181,7 @@ export default function initConstantStakingiDYP({
         //                               <span className="testNumber">
         //                                 {" "}
         //                                 <img src="img/icon/vector.svg" />{" "}
-        //                                 {getFormattedNumber(apr - fee_s, 2)}%{" "}
+        //                                 {getFormattedNumber(this.state.apy, 2)}%{" "}
         //                               </span>
         //                             </div>
         //                           </div>
@@ -2022,20 +2212,19 @@ export default function initConstantStakingiDYP({
         //                             <a
         //                               target="_blank"
         //                               rel="noopener noreferrer"
-        //                               href={`https://app.uniswap.org/#/swap?use=V2&inputCurrency=${liquidity}&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056`}
+        //                               href={`https://app.uniswap.org/#/swap?use=V2&inputCurrency=${liquidity}&outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17`}
         //                             >
         //                               <button
         //                                 className="btn btn-sm btn-block btn-primary l-outline-btn"
         //                                 type="button"
         //                               >
-        //                                 GET iDYP
+        //                                 GET DYP
         //                               </button>
         //                             </a>
         //                           </div>
         //                         </div>
         //                         <div className="input-group ">
         //                           <input
-        //                             disabled={!is_connected}
         //                             value={
         //                               Number(this.state.depositAmount) > 0
         //                                 ? this.state.depositAmount
@@ -2052,7 +2241,6 @@ export default function initConstantStakingiDYP({
         //                           />
         //                           <div className="input-group-append">
         //                             <button
-        //                               disabled={!is_connected}
         //                               className="btn  btn-primary right-radius btn-max l-light-btn"
         //                               style={{ cursor: "pointer" }}
         //                               onClick={this.handleSetMaxDeposit}
@@ -2094,11 +2282,8 @@ export default function initConstantStakingiDYP({
         //                         style={{ fontSize: ".8rem" }}
         //                         className="mt-1 text-center mb-0 text-muted mt-3"
         //                       >
-
-        //                         Please approve before staking. PERFORMANCE FEE{" "}
-        //                         {fee_s}%<br />
-        //                         Performance fees are already subtracted from the
-        //                         displayed APR.
+        //                         Please approve before staking. 0% fee for
+        //                         deposit.
         //                       </p>
         //                     </form>
         //                   ) : (
@@ -2152,7 +2337,6 @@ export default function initConstantStakingiDYP({
         //                         />
         //                         <div className="input-group-append">
         //                           <button
-        //                             disabled={!is_connected}
         //                             className="btn  btn-primary right-radius btn-max l-light-btn"
         //                             style={{ cursor: "pointer" }}
         //                             onClick={this.handleSetMaxWithdraw}
@@ -2178,7 +2362,7 @@ export default function initConstantStakingiDYP({
         //                       style={{ fontSize: ".8rem" }}
         //                       className="mt-1 text-center text-muted mt-3"
         //                     >
-        //                       {fee_u}% fee for withdraw
+        //                       0% fee for withdraw
         //                     </p>
         //                   </form>
         //                 </div>
@@ -2194,28 +2378,26 @@ export default function initConstantStakingiDYP({
         //                         REWARDS
         //                       </label>
         //                       <div className="form-row">
-
         //                         <div className="col-md-12">
-        //                           <p
-        //                             className="form-control  text-right"
-        //                             style={{
-        //                               border: "none",
-        //                               marginBottom: 0,
-        //                               paddingLeft: 0,
-        //                               background: "transparent",
-        //                               color: "var(--text-color)",
-        //                             }}
-        //                           >
-        //                             <span
-        //                               style={{
-        //                                 fontSize: "1.2rem",
-        //                                 color: "var(--text-color)",
-        //                               }}
-        //                             >
-        //                               {pendingDivs}
-        //                             </span>{" "}
-        //                             <small className="text-bold">iDYP</small>
-        //                           </p>
+        //                           <input
+        //                             value={
+        //                               Number(pendingDivs) > 0
+        //                                 ? `${pendingDivs} WETH`
+        //                                 : `${pendingDivs} WETH`
+        //                             }
+        //                             onChange={(e) =>
+        //                               this.setState({
+        //                                 pendingDivs:
+        //                                   Number(e.target.value) > 0
+        //                                     ? e.target.value
+        //                                     : e.target.value,
+        //                               })
+        //                             }
+        //                             className="form-control left-radius"
+        //                             placeholder="0"
+        //                             type="text"
+        //                             disabled
+        //                           />
         //                         </div>
         //                       </div>
         //                     </div>
@@ -2261,7 +2443,7 @@ export default function initConstantStakingiDYP({
         //                               fontWeight: "normal",
         //                             }}
         //                           >
-        //                             iDYP to Deposit
+        //                             DYP to Deposit
         //                           </label>
         //                           <input
         //                             className="form-control "
@@ -2300,9 +2482,9 @@ export default function initConstantStakingiDYP({
         //                     <p>
         //                       Approx.{" "}
         //                       {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
-        //                       iDYP
+        //                       WETH
         //                     </p>
-        //                       </form>
+        //                   </form>
         //                 </div>
         //               </div>
         //             </div>
@@ -2321,7 +2503,6 @@ export default function initConstantStakingiDYP({
         //                 </h3>
         //                 <table className="table-stats table table-sm table-borderless">
         //                   <tbody>
-
         //                     <tr>
         //                       <th>Contract Expiration</th>
         //                       <td className="text-right">
@@ -2330,7 +2511,7 @@ export default function initConstantStakingiDYP({
         //                     </tr>
 
         //                     <tr>
-        //                       <th>My iDYP Balance</th>
+        //                       <th>My DYP Balance</th>
         //                       <td className="text-right">
         //                         <strong>{token_balance}</strong>{" "}
         //                         <small>{token_symbol}</small>
@@ -2338,34 +2519,20 @@ export default function initConstantStakingiDYP({
         //                     </tr>
 
         //                     <tr>
-        //                       <th>MY iDYP Deposit</th>
+        //                       <th>MY DYP Deposit</th>
         //                       <td className="text-right">
         //                         <strong>{depositedTokens}</strong>{" "}
         //                         <small>{token_symbol}</small>
         //                       </td>
         //                     </tr>
         //                     <tr>
-        //                       <th>Total iDYP Locked</th>
+        //                       <th>Total DYP Locked</th>
         //                       <td className="text-right">
         //                         <strong>{tvl}</strong>{" "}
         //                         <small>{token_symbol}</small>
         //                       </td>
         //                     </tr>
 
-        //                     <tr>
-        //                       <th>Total Earned iDYP</th>
-        //                       <td className="text-right">
-        //                         <strong>{totalEarnedTokens}</strong>{" "}
-        //                         <small>iDYP</small>
-        //                       </td>
-        //                     </tr>
-        //                     <tr>
-        //                       <th>Referral Fee Earned</th>
-        //                       <td className="text-right">
-        //                         <strong>{referralFeeEarned}</strong>{" "}
-        //                         <small>iDYP</small>
-        //                       </td>
-        //                     </tr>
         //                     <tr>
         //                       <th>TVL USD</th>
         //                       <td className="text-right">
@@ -2395,53 +2562,6 @@ export default function initConstantStakingiDYP({
         //                             style={{ fontSize: ".8rem" }}
         //                             className="fas fa-external-link-alt"
         //                           ></i>
-        //                         </td>
-        //                       </tr>
-        //                     ) : (
-        //                       ""
-        //                     )}
-
-        //                     {is_connected ? (
-        //                       <tr>
-        //                         <td colSpan="2">
-        //                           <div>
-        //                             <span style={{ fontSize: ".8rem" }}>
-        //                               <span style={{ cursor: "pointer" }}>
-        //                                 <Clipboard
-        //                                   component="span"
-        //                                   onSuccess={(e) => {
-        //                                     setTimeout(
-        //                                       () => ReactTooltip.hide(),
-        //                                       2000
-        //                                     );
-        //                                   }}
-        //                                   data-event="click"
-        //                                   data-for={id}
-        //                                   data-tip="Copied To Clipboard!"
-        //                                   data-clipboard-text={this.getReferralLink()}
-        //                                 >
-        //                                   Referral Link: &nbsp;{" "}
-        //                                   <span
-        //                                     title="Copy link to clipboard"
-        //                                     style={{
-        //                                       cursor: "pointer",
-        //                                     }}
-        //                                     className="fas fa-paste"
-        //                                   ></span>
-        //                                 </Clipboard>
-        //                                 <ReactTooltip id={id} effect="solid" />
-        //                               </span>
-
-        //                               <br />
-        //                               <a
-        //                                 className="text-muted small"
-        //                                 href={this.getReferralLink()}
-        //                               >
-        //                                 {" "}
-        //                                 {this.getReferralLink()}{" "}
-        //                               </a>
-        //                             </span>
-        //                           </div>
         //                         </td>
         //                       </tr>
         //                     ) : (

@@ -215,7 +215,6 @@ const Header = ({
 
   useEffect(() => {
     getEthBalance();
-   
   }, [chainId]);
 
   useEffect(() => {

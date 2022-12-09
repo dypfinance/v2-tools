@@ -73,7 +73,7 @@ const AddProposal = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   const setState = (obj) => setFormState({ ...formState, ...obj });
-  let { isOwner, connected, coinbase, handleConnection } = props;
+  let { isOwner, connected } = props;
 
   return (
     <div className="col-12 col-lg-7">

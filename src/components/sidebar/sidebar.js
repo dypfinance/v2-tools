@@ -68,6 +68,115 @@ const Sidebar = (props) => {
     }
   }, [account]);
 
+  const windowSize = useWindowSize()
+
+
+  useEffect(() => {
+    // const fetchInterval = setInterval(
+    //   () => setlocation(window.location.pathname),
+    //   1000
+    // );
+    if(windowSize.width > 1800){
+      setActiveSidebar(true)
+    }else{
+      setActiveSidebar(false)
+    }
+
+    if(windowSize.width < 1800){
+      sidebar?.addEventListener("mouseover", openSidebar);
+      sidebar?.addEventListener("mouseleave", closeSidebar);
+    }else{
+      setActiveSidebar(true)
+    }
+    // return () => clearInterval(fetchInterval);
+  }, [windowSize, activeSidebar]);
+
+
+  const sidebarItems = [
+    {
+      label: "Earn",
+      icon: "earnIcon",
+      link: '/earn'
+    },
+    {
+      label: "Governance",
+      icon: "governanceIcon",
+      link: '/governance'
+    },
+    {
+      label: "Bridge",
+      icon: "bridgeIcon",
+      link: '/bridge'
+    },
+    {
+      label: "Explorer",
+      icon: "explorerIcon",
+      children: [
+        {
+          title: 'Pair explorer',
+          link: '/pair-explorer'
+        },
+        {
+          title: 'Pool explorer',
+          link: '/pool-explorer'
+        },
+        {
+          title: 'Big Swap',
+          link: '/big-swap-explorer'
+        },
+        {
+          title: 'Top Tokens',
+          link: '/top-tokens'
+        },
+        {
+          title: 'Yields',
+          link: '/farms'
+        },
+        {
+          title: 'Submit Form',
+          link: '/submit-info'
+        },
+       
+      ],
+    },
+    {
+      label: "Projects",
+      icon: "projectsIcon",
+      children: [  {
+        title: 'Launchpad',
+        link: '/launchpad'
+      },
+      {
+        title: 'DYP Locker',
+        link: '/locker'
+      },
+    ],
+    },
+    {
+      label: "Swap",
+      icon: "swapIcon",
+      link: "/swap"
+    },
+    {
+      label: "News",
+      icon: "newsIcon",
+      link: '/news'
+    },
+  ];
+
+  const sidebar = document.getElementById("sidebar");
+  const sidebarItem = document.querySelectorAll(".sidebar-item");
+
+  const openSidebar = () => {
+    windowSize.width < 1800 && setActiveSidebar(true);
+  };
+
+  const closeSidebar = () => {
+    windowSize.width < 1800 && setActiveSidebar(false);
+  };
+
+  const windowUrl = window.location.href;
+
   return (
 
 

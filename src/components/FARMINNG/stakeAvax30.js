@@ -24,6 +24,7 @@ import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import { ClickAwayListener } from "@material-ui/core";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -1089,9 +1090,9 @@ export default function stakeAvax30({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                    {this.props.coinbase === null ? (
+                        {this.props.coinbase === null ? (
                       <button
-                        className="connectbtn btn d-flex align-items-center gap-2"
+                        className="connectbtn btn"
                         onClick={this.showModal}
                         style={{
                           width: renderedPage === "dashboard" && "100%",
@@ -1101,10 +1102,17 @@ export default function stakeAvax30({
                         {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : (
+                    ) : chainId === '43114' ? (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={1}/>
+                        <Address a={this.props.coinbase} chainId={43114} />
                       </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{handleSwitchNetworkhook("0xa86a")}}
+                      >
+                       Change Network
+                      </button>
                     )}
                   </div>
                 </div>

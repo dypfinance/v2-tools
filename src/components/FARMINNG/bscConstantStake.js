@@ -25,6 +25,7 @@ import { shortAddress } from "../../functions/shortAddress";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -579,7 +580,7 @@ export default function initbscConstantStaking({
       token_balance = getFormattedNumber(token_balance, 6);
 
       let { the_graph_result } = this.props;
-
+      
       pendingDivs = new BigNumber(pendingDivs)
         .div(10 ** TOKEN_DECIMALS)
         .toString(10);
@@ -854,9 +855,10 @@ export default function initbscConstantStaking({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
+                    
                     {this.props.coinbase === null ? (
                       <button
-                        className="connectbtn btn d-flex align-items-center gap-2"
+                        className="connectbtn btn"
                         onClick={this.showModal}
                         style={{
                           width: renderedPage === "dashboard" && "100%",
@@ -866,10 +868,17 @@ export default function initbscConstantStaking({
                         {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : (
+                    ) : chainId === '56' ? (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={1}/>
+                        <Address a={this.props.coinbase} chainId={56} />
                       </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{handleSwitchNetworkhook("0x38")}}
+                      >
+                       Change Network
+                      </button>
                     )}
                   </div>
                 </div>

@@ -25,6 +25,7 @@ import { shortAddress } from "../../functions/shortAddress";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 
 
@@ -61,7 +62,8 @@ export default function initbscConstantStakingiDyp({
   fee_u,
   renderedPage,
   listType,
-  lockTime
+  lockTime,
+  chainId
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsbsc } = window;
   let token_symbol = "iDYP";
@@ -820,18 +822,24 @@ export default function initbscConstantStakingiDyp({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                    {this.props.coinbase === null ? (
+                     {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
                       >
-                        {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : (
+                    ) : chainId === '56' ? (
                       <div className="addressbtn btn">
-                        <Address a={this.props.coinbase} chainId={1} />
+                        <Address a={this.props.coinbase} chainId={56} />
                       </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{handleSwitchNetworkhook("0x38")}}
+                      >
+                       Change Network
+                      </button>
                     )}
                   </div>
                 </div>

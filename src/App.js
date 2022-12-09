@@ -21,6 +21,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Governance from "./components/governance/Governance";
 import navRadius from "./assets/navRadius.svg";
 import Governancedev from "./components/governance/dev/governance-new-avax";
+import GovernanceEth from "./components/governance/dev/governance-new";
 import Launchpad from "./components/launchpad/Launchpad";
 import LaunchpadForm from "./components/launchpad/launchpadform/LaunchpadForm";
 import LaunchpadDetails from "./components/launchpad/launchpaddetails/LaunchpadDetails";
@@ -576,6 +577,7 @@ class App extends React.Component {
                     )}
                   />
                   <Route exact path="/buydyp" render={() => <BuyDyp />} />
+                  {this.state.networkId !== '1' ? 
                   <Route
                     exact
                     path="/governance"
@@ -587,7 +589,19 @@ class App extends React.Component {
                       />
                     )}
                   />
-
+                  : 
+                  <Route
+                  exact
+                  path="/governance"
+                  render={() => (
+                    <GovernanceEth
+                      coinbase={this.state.coinbase}
+                      connected={this.state.isConnected}
+                      handleConnection={this.handleConnection}
+                    />
+                  )}
+                />
+}
                   <Route
                     exact
                     path="/"
