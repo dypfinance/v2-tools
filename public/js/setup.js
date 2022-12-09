@@ -1877,6 +1877,8 @@ window.config = {
 
   //governance avax
   new_governanceavax_address: "0x4d3deb73df067d6466facad196b22411422909ab",
+  new_governancebsc_address: "0x2cf8b55a6a492c2f8e750ad1fa4e4a858044deea",
+
 
   //bridge eth-avax
 
@@ -2581,6 +2583,111 @@ class NEW_GOVERNANCEAVAX {
 }
 
 window.new_governanceavax = new NEW_GOVERNANCEAVAX();
+
+
+
+
+class NEW_GOVERNANCEBSC {
+  constructor(ticker = "NEW_GOVERNANCEBSC", token = "REWARD_TOKEN") {
+    this.ticker = ticker;
+    this.token = token;
+    let address = window.config[ticker.toLowerCase() + "_address"];
+    this._address = address;
+    [
+      "QUORUM",
+      "MIN_BALANCE_TO_INIT_PROPOSAL",
+      "VOTE_DURATION",
+      "RESULT_EXECUTION_ALLOWANCE_PERIOD",
+      "actions",
+      "optionOneVotes",
+      "optionTwoVotes",
+      "stakingPools",
+      "newGovernances",
+      "proposalStartTime",
+      "isProposalExecuted",
+      "totalDepositedTokens",
+      "votesForProposalByAddress",
+      "votedForOption",
+      "lastVotedProposalStartTime",
+      "lastIndex",
+      "getProposal",
+      "isProposalOpen",
+      "isProposalExecutible",
+    ].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({ key: this.ticker });
+        return await contract.methods[fn_name](...args).call();
+      };
+    });
+
+    [
+      "proposeDisburseOrBurn",
+      "proposeNewQuorum",
+      "proposeNewMinBalanceToInitProposal",
+      "proposeText",
+      "proposeUpgradeGovernance",
+      "addVotes",
+      "removeVotes",
+      "withdrawAllTokens",
+      "executeProposal",
+    ].forEach((fn_name) => {
+      this[fn_name] = async function (...args) {
+        let contract = await getContract({ key: this.ticker });
+        let value = 0;
+        console.log(value);
+        let gas = window.config.default_gas_amount;
+        try {
+          let estimatedGas = await contract.methods[fn_name](
+            ...args
+          ).estimateGas({ gas });
+          if (estimatedGas) {
+            gas = Math.min(estimatedGas, gas);
+            //console.log('estimatedgas'+gas)
+          }
+        } catch (e) {
+          console.warn(e);
+        }
+        if (fn_name == "proposeText") {
+          gas = undefined;
+        }
+        return await contract.methods[fn_name](...args).send({
+          value,
+          gas,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        });
+      };
+    });
+  }
+
+  async addVotesOneClick(proposalId, option, amount) {
+    let token_contract = await getContract({ key: this.token });
+    let governance_contract = await getContract({ key: this.ticker });
+    let batch = new window.web3.eth.BatchRequest();
+    batch.add(
+      token_contract.methods
+        .approve(governance_contract._address, amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    batch.add(
+      governance_contract.methods
+        .addVotes(proposalId, option, amount)
+        .send.request({
+          gas: window.config.default_gas_amount,
+          from: await getCoinbase(),
+          gasPrice: window.config.default_gasprice_gwei * 1e9,
+        })
+    );
+    return batch.execute();
+  }
+}
+
+window.new_governancebsc = new NEW_GOVERNANCEBSC();
+
 
 window.CONSTANT_STAKINGIDYPAVAX_1_ABI = window.CONSTANT_STAKING_IDYP_ABI;
 window.CONSTANT_STAKINGIDYPAVAX_2_ABI = window.CONSTANT_STAKING_IDYP_ABI;
@@ -7134,6 +7241,934 @@ window.NEW_GOVERNANCEAVAX_ABI = [
     type: "function",
   },
 ];
+
+
+
+window.NEW_GOVERNANCEBSC_ABI = [
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Governance.Option",
+        name: "option",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "addVotes",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMinBalanceToInitProposal",
+        type: "uint256",
+      },
+    ],
+    name: "changeMinBalanceToInitProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newQuorum",
+        type: "uint256",
+      },
+    ],
+    name: "changeQuorum",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "claimOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "executeProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    name: "PoolCallReverted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    name: "PoolCallReverted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "PoolCallSucceeded",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "poolGroupName",
+        type: "uint8",
+      },
+    ],
+    name: "proposeDisburseOrBurn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newMinBalance",
+        type: "uint256",
+      },
+    ],
+    name: "proposeNewMinBalanceToInitProposal",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "newQuorum",
+        type: "uint256",
+      },
+    ],
+    name: "proposeNewQuorum",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "text",
+        type: "string",
+      },
+    ],
+    name: "proposeText",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "poolGroupName",
+        type: "uint8",
+      },
+      {
+        internalType: "address",
+        name: "newGovernance",
+        type: "address",
+      },
+    ],
+    name: "proposeUpgradeGovernance",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "removeVotes",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyERC20Token",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pool",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyERC20TokenFromPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyLegacyERC20Token",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "pool",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "transferAnyLegacyERC20TokenFromPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "withdrawAllTokens",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "actions",
+    outputs: [
+      {
+        internalType: "enum Governance.Action",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ADMIN_CAN_CLAIM_AFTER",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ADMIN_FEATURES_EXPIRE_AFTER",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contractStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "getProposal",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "enum Governance.Action",
+        name: "_proposalAction",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "_optionOneVotes",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_optionTwoVotes",
+        type: "uint256",
+      },
+      {
+        internalType: "contract StakingPool[]",
+        name: "_stakingPool",
+        type: "address[]",
+      },
+      {
+        internalType: "address",
+        name: "_newGovernance",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_proposalStartTime",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "_isProposalExecuted",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "_newQuorum",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "_proposalText",
+        type: "string",
+      },
+      {
+        internalType: "uint256",
+        name: "_newMinBalance",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "enum Governance.PoolGroupName",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "hardcodedStakingPools",
+    outputs: [
+      {
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isOwner",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalExecuted",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalExecutible",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "isProposalOpen",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastIndex",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "lastVotedProposalStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "MIN_BALANCE_TO_INIT_PROPOSAL",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newGovernances",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newMinBalances",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "newQuorums",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "optionOneVotes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "optionTwoVotes",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pendingOwner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "proposalStartTime",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "proposalTexts",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "QUORUM",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "RESULT_EXECUTION_ALLOWANCE_PERIOD",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "stakingPools",
+    outputs: [
+      {
+        internalType: "contract StakingPool",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "totalDepositedTokens",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "TRUSTED_TOKEN_ADDRESS",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "VOTE_DURATION",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "votedForOption",
+    outputs: [
+      {
+        internalType: "enum Governance.Option",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "votesForProposalByAddress",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
 
 window.ERC20_ABI = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
@@ -25360,6 +26395,8 @@ Object.keys(window.config)
       k.startsWith("constant_stakingnew_newavax4") ||
       k.startsWith("new_governance") ||
       k.startsWith("new_governanceavax") ||
+      k.startsWith("new_governancebsc") ||
+
       k.startsWith("buyback_stakingbsc1_1") ||
       k.startsWith("buyback_stakingbsc1_2") ||
       (k.startsWith("constant_stakingold_") && k.endsWith("_address"))
@@ -25519,6 +26556,8 @@ Object.keys(window.config)
       ? window.NEW_GOVERNANCE_ABI
       : k.startsWith("new_governanceavax")
       ? window.NEW_GOVERNANCEAVAX_ABI
+      : k.startsWith("new_governancebsc")
+      ? window.NEW_GOVERNANCEBSC_ABI
       : window.STAKING_ABI;
   });
 

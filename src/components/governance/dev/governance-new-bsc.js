@@ -32,68 +32,34 @@ import totalVotesIcon from "../assets/totalVotesIcon.svg";
 import { shortAddress } from "../../../functions/shortAddress";
 import axios from "axios";
 
-const { new_governance: governance, reward_token, BigNumber } = window;
+const { new_governancebsc: governance, reward_token, BigNumber } = window;
 const LP_AMPLIFY_FACTOR = 1;
 
 let PoolGroupName = Object.freeze({
-  WETH: "0",
-  WBTC: "1",
-  USDT: "2",
-  USDC: "3",
-});
+    WBNB: "0",
+  });
+  
 
 const stakingPools = [
-  {
-    logo: "/images/ETH.png",
-    name: "Ether Pools",
-    group_name: PoolGroupName.WETH,
-    pools: [
-      "0xa7d6F5fa9b0be0e98b3b40E6aC884e53F2F9460e",
-      "0x0b0A544AE6131801522E3aC1FBAc6D311094c94c",
-      "0x16cAaD63BDFC3Ec4A2850336B28efE17e802b896",
-      "0x512FF8739d39e55d75d80046921E7dE20c3e9BFf",
-    ],
-  },
-  {
-    logo: "/images/WBTC.png",
-    name: "WBTC pools",
-    group_name: PoolGroupName.WBTC,
-    pools: [
-      "0xeF71DE5Cb40f7985FEb92AA49D8e3E84063Af3BB",
-      "0x8B0e324EEdE360CaB670a6AD12940736d74f701e",
-      "0x78e2dA2eda6dF49BaE46E3B51528BAF5c106e654",
-      "0x350F3fE979bfad4766298713c83b387C2D2D7a7a",
-    ],
-  },
-  {
-    logo: "/images/USDT.png",
-    name: "USDT pools",
-    group_name: PoolGroupName.USDT,
-    pools: [
-      "0x4a76Fc15D3fbf3855127eC5DA8AAf02DE7ca06b3",
-      "0xF4abc60a08B546fA879508F4261eb4400B55099D",
-      "0x13F421Aa823f7D90730812a33F8Cac8656E47dfa",
-      "0x86690BbE7a9683A8bAd4812C2e816fd17bC9715C",
-    ],
-  },
-  {
-    logo: "/images/USDC.png",
-    name: "USDC pools",
-    group_name: PoolGroupName.USDC,
-    pools: [
-      "0x2b5D7a865A3888836d15d69dCCBad682663DCDbb",
-      "0xa52250f98293c17C894d58cf4f78c925dC8955d0",
-      "0x924BECC8F4059987E4bc4B741B7C354FF52c25e4",
-      "0xbE528593781988974D83C2655CBA4c45FC75c033",
-    ],
-  },
-].map((pools) => {
-  pools.pools = pools.pools
-    .map((p) => p.toLowerCase())
-    .sort()
-    .join(",");
-  return pools;
-});
+    {
+      logo: "/images/wbnb_logo.png",
+      name: "BNB Pools",
+      group_name: PoolGroupName.WBNB,
+      pools: [
+        "0x537DC4fee298Ea79A7F65676735415f1E2882F92",
+        "0x219717BF0bC33b2764A6c1A772F75305458BDA3d",
+        "0xD1151a2434931f34bcFA6c27639b67C1A23D93Af",
+        "0xed869Ba773c3F1A1adCC87930Ca36eE2dC73435d",
+        "0x415B1624710296717FA96cAD84F53454E8F02D18",
+      ],
+    },
+  ].map((pools) => {
+    pools.pools = pools.pools
+      .map((p) => p.toLowerCase())
+      .sort()
+      .join(",");
+    return pools;
+  });
 
 const AddProposal = (props) => {
   let [formState, setFormState] = useState({
@@ -497,6 +463,7 @@ const AddProposal = (props) => {
 };
 
 const ProposalCard = (props) => {
+  
   return (
     <div className="container vault-container d-flex">
       <div className="row vault-row text-start justify-content-between p-1">
@@ -519,6 +486,7 @@ const ProposalCard = (props) => {
               </span>
             </div>
           </div>
+          {props._proposalAction !== '5' &&
           <div
             className={`${
               props._proposalAction === "3"
@@ -545,7 +513,7 @@ const ProposalCard = (props) => {
                 4: "Change Min Balance",
               }[props._proposalAction] || ""}
             </span>
-          </div>
+          </div>}
         </div>
         <div className="card-bottom-wrapper">
           <div className="text-left ExpireWrapper d-flex flex-column justify-content-start">
@@ -568,10 +536,10 @@ const ProposalCard = (props) => {
                     .humanize(true)}
             </h6>
           </div>
-          <div className="ethchain">
+          <div className="bnbchain">
             <span className="chaintext">
-              ETH Chain
-              <img src={eth} alt="" className="chainlogo2" />
+              BNB Chain
+              <img src={bnb} alt="" className="chainlogo2" />
             </span>
           </div>
         </div>
@@ -1073,13 +1041,13 @@ export default class Governance extends React.Component {
                             go to your wallet*
                           </h6>
                           <div
-                            className="ethchain position-relative"
+                            className="bnbchain position-relative"
                             style={{ right: "auto" }}
                           >
                             <span className="chaintext">
-                              ETH Chain
+                              BNB Chain
                               <img
-                                src={eth}
+                                src={bnb}
                                 alt=""
                                 className="chainlogo2"
                                 style={{ top: "-1px" }}
@@ -1208,7 +1176,6 @@ export default class Governance extends React.Component {
                               });
                             }}
                             style={{
-                              
                               margin: "auto",
                               paddingLeft: 10,
                               paddingRight: 10,

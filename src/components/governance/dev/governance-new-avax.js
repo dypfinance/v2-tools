@@ -360,10 +360,10 @@ const ProposalCard = (props) => (
         className="text-center mb-2 d-flex align-items-center gap-3 justify-content-between"
         style={{ gap: 10 }}
       >
-        <div className="d-flex justify-content-between gap-2">
+        <div className="d-flex justify-content-between gap-2 align-items-center">
           <img
             className="m-0 cardlogo"
-            src={props.vault ? props.vault.logo : "/logo192.png"}
+            src={props.vault ? props.vault.logo : require('../assets/dyp.svg').default}
           />
 
           <div
@@ -701,7 +701,7 @@ export default class Governance extends React.Component {
       String(this.state.coinbase).toLowerCase() ==
       window.config.admin_address.toLowerCase();
     const deviceWidth = window.innerWidth;
-    let noVotes = localStorage.getItem("NoVotesAvax");
+    let noVotes = localStorage.getItem('NoVotes');
 
     return (
       <div>
@@ -921,7 +921,7 @@ export default class Governance extends React.Component {
 
                           <button
                             title={withdrawableTitleText}
-                            disabled
+                            disabled={canWithdrawAll}
                             className="btn withdrawButton"
                             type="submit"
                           >
@@ -994,7 +994,6 @@ export default class Governance extends React.Component {
                               });
                             }}
                             style={{
-                              width: "fit-content",
                               margin: "auto",
                               paddingLeft: 10,
                               paddingRight: 10,
