@@ -328,7 +328,8 @@ const EarnContent = ({
 
 
  useEffect(() => {
-  if(chainId === '1') {
+  if(option === 'Farming' || option=== 'Buyback' || option === 'Staking')
+ { if(chainId === '1') {
     setStake("eth")
   }
   else if(chainId === '56') {
@@ -337,8 +338,8 @@ const EarnContent = ({
 
   else if(chainId === '43114') {
     setStake("avax")
-  }
-}, [chainId])
+  }}
+}, [chainId, option])
 
  
 
