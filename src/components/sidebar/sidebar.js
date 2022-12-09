@@ -72,10 +72,10 @@ const Sidebar = (props) => {
 
 
   useEffect(() => {
-    const fetchInterval = setInterval(
-      () => setlocation(window.location.pathname),
-      1000
-    );
+    // const fetchInterval = setInterval(
+    //   () => setlocation(window.location.pathname),
+    //   1000
+    // );
     if(windowSize.width > 1800){
       setActiveSidebar(true)
     }else{
@@ -88,7 +88,7 @@ const Sidebar = (props) => {
     }else{
       setActiveSidebar(true)
     }
-    return () => clearInterval(fetchInterval);
+    // return () => clearInterval(fetchInterval);
   }, [windowSize, activeSidebar]);
 
 
