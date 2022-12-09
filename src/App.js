@@ -490,6 +490,9 @@ class App extends React.Component {
                         appState={this.state}
                         theme={this.state.theme}
                         {...props}
+                        networkId={parseInt(this.state.explorerNetworkId)}
+                        onSelectChain={this.onSelectChain}
+
                       />
                     )}
                   />

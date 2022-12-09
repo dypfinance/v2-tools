@@ -415,47 +415,11 @@ export default class PoolExplorer extends React.Component {
     return (
       <div className="container-lg">
         <div className="d-flex flex-column gap-3">
-            {this.state.screen === "pool" ? (
-              <>
                 <h2 className="launchpad-hero-title">Pool Explorer</h2>
                 <p className="launchpad-hero-desc">
                   Search for new pools, add or remove liquidity in a pair.
                 </p>
-              </>
-            ) : this.state.screen === "swap" ? (
-              <>
-                <h2 className="launchpad-hero-title">Big Swap Explorer</h2>
-                <p className="launchpad-hero-desc">
-                  {this.props.networkId === 1
-                    ? " Search for Big Swaps on Uniswap with useful information"
-                    : " Search for Big Swaps on Pangolin with useful information"}
-                </p>
-              </>
-            ) : this.state.screen === "tokens" ? (
-              <>
-                <h2 style={{ display: "block", color: `var(--preloader-clr)` }}>
-                  Top Tokens
-                </h2>
-                <p className="d-block">
-                  {this.props.networkId === 1
-                    ? "List of Uniswap Top Tokens"
-                    : "List of Pangolin Top Tokens"}
-                </p>
-              </>
-            ) : (
-              <>
-                <h2 className="launchpad-hero-title">Yields</h2>
-                <p className="launchpad-hero-desc">
-                  This list does not imply endorsement by DeFi Yield Protocol.
-                  There might be Smart Contract risk and IL risk.
-                  <br />{" "}
-                  <b>
-                    Please conduct your own research before dealing with any
-                    project!
-                  </b>
-                </p>
-              </>
-            )}
+            
           </div>
         <div className="row flex-colum flex-lg-row gap-5 gap-lg-0 justify-content-between align-items-center my-4">
           <div className="col-12 col-lg-4">
@@ -572,7 +536,7 @@ export default class PoolExplorer extends React.Component {
             
         </div>
         <div className="table-box">
-          {this.state.screen === "pool" ? (
+          
             <div className="form-container p-3 position-relative">
               <div
                 className="tablepurplediv"
@@ -580,26 +544,7 @@ export default class PoolExplorer extends React.Component {
               ></div>
               {this.GetDataTable()}
             </div>
-          ) : this.state.screen === "swap" ? (
-            <BigSwapExplorer
-              theme={this.props.theme}
-              networkId={this.props.networkId}
-            />
-          ) : this.state.screen === "tokens" ? (
-            <TopTokens
-              theme={this.props.theme}
-              networkId={this.props.networkId}
-            />
-          ) : (
-            <Farms
-              handleConnection={this.props.handleConnection}
-              isConnected={this.props.isConnected}
-              appState={this.props.state}
-              theme={this.props.theme}
-              networkId={this.props.networkId}
-              // {...props}
-            />
-          )}
+         
           {/* <div className="l-table-wrapper-div">{this.GetDataTable()}</div> */}
         </div>
       </div>

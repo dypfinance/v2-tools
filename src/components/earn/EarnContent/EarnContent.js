@@ -325,6 +325,21 @@ const EarnContent = ({
       fetchVaultTvl();
     }
  }, [option, stake])
+
+
+ useEffect(() => {
+  if(chainId === '1') {
+    setStake("eth")
+  }
+  else if(chainId === '56') {
+    setStake("bnb")
+  }
+
+  else if(chainId === '43114') {
+    setStake("avax")
+  }
+}, [chainId])
+
  
 
 
@@ -333,7 +348,7 @@ const EarnContent = ({
       setStake("eth")
     }
  }
-
+ 
   return (
     <>
       <div className="row justify-content-center w-100">
@@ -497,7 +512,7 @@ const EarnContent = ({
               <>
                 <div
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
-                    stake === "eth" ? "eth-item-active" : null
+                    stake === "eth"  ? "eth-item-active" : null
                   }`}
                   onClick={() => {
                     setStake("eth");
@@ -529,7 +544,7 @@ const EarnContent = ({
                 </div>
                 <div
                   className={`stake-item position-relative d-flex align-items-center gap-2 ${
-                    stake === "bnb" ? "bsc-item-active" : null
+                    stake === "bnb"  ? "bsc-item-active" : null
                   }`}
                   onClick={() => {
                     setStake("bnb");
