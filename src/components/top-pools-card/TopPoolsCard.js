@@ -3,12 +3,12 @@ import "./top-pools.css";
 import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
 import TopPoolsDetails from "./TopPoolsDetails";
-import newPool from './assets/newPool.png'
-import staked from './assets/staked.svg'
-import topPick from './assets/toppick.svg'
-import stakeTag from '../../assets/earnAssets/stakeTag.svg'
-import vaultTag from '../../assets/earnAssets/vaultTag.svg'
-import buybackTag from '../../assets/earnAssets/buybackTag.svg'
+import newPool from "./assets/newPool.png";
+import staked from "./assets/staked.svg";
+import topPick from "./assets/toppick.svg";
+import stakeTag from "../../assets/earnAssets/stakeTag.svg";
+import vaultTag from "../../assets/earnAssets/vaultTag.svg";
+import buybackTag from "../../assets/earnAssets/buybackTag.svg";
 
 const TopPoolsCard = ({
   tokenLogo,
@@ -26,58 +26,87 @@ const TopPoolsCard = ({
   details,
   isStaked,
   isNewPool,
-  tag
+  tag,
   // showDetails,
 }) => {
-  
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
-  const bscCoins = ["bsc", "btcb", "ethereum", "busd", "pancakeswap", "idypius" ]
-  const avaxCoins = ["avax", "ethereum", "wbtc", "usdt", "usdc", "dai", "idypius", "pangolin", "benqi", "xava", "link"]
-  
+  const bscCoins = [
+    "bsc",
+    "btcb",
+    "ethereum",
+    "busd",
+    "pancakeswap",
+    "idypius",
+  ];
+  const avaxCoins = [
+    "avax",
+    "ethereum",
+    "wbtc",
+    "usdt",
+    "usdc",
+    "dai",
+    "idypius",
+    "pangolin",
+    "benqi",
+    "xava",
+    "link",
+  ];
+
   const [showDetails, setShowDetails] = useState(false);
-  const [coins, setCoins] = useState(ethCoins)
+  const [coins, setCoins] = useState(ethCoins);
 
   const handleDetails = () => {
-    if(details === false) {
+    if (details === false) {
       setShowDetails(true);
-      onShowDetailsClick()
-    }
-
-    else if(details === true) {
+      onShowDetailsClick();
+    } else if (details === true) {
       setShowDetails(false);
-      onHideDetailsClick()
+      onHideDetailsClick();
     }
-  }
-
+  };
 
   useEffect(() => {
-    if(chain === 'eth'){
-      setCoins(ethCoins)
-    }else if(chain === 'bnb'){
-      setCoins(bscCoins)
-    }else if(chain === 'avax'){
-      setCoins(avaxCoins)
+    if (chain === "eth") {
+      setCoins(ethCoins);
+    } else if (chain === "bnb") {
+      setCoins(bscCoins);
+    } else if (chain === "avax") {
+      setCoins(avaxCoins);
     }
-  }, [chain])
-  
+  }, [chain]);
 
   return (
     <>
       <div
         className={`poolscardwrapper cursor-pointer position-relative ${
           details && "pools-card-open"
-        }  ${renderedPage === "dashboard" && !details ? 'pools-card-hover' : ''}`}
-
+        }  ${
+          renderedPage === "dashboard" && !details ? "pools-card-hover" : ""
+        }`}
         onClick={() => handleDetails()}
       >
         {isStaked && <img src={staked} className="staked" alt="staked" />}
-        {top_pick === true && <img src={topPick} className="toppick" alt="top pick" />}
-        {isNewPool && <img src={newPool} className='new-pool' alt="new pool" />}
-        {tag && <img src={tag === "stake" ? stakeTag : tag === "vault" ? vaultTag : buybackTag} alt="pool-tag" className="dashboard-pool-tag" />}
- 
+        {top_pick === true && (
+          <img src={topPick} className="toppick" alt="top pick" />
+        )}
+        {isNewPool && <img src={newPool} className="new-pool" alt="new pool" />}
+        {tag && (
+          <img
+            src={
+              tag === "stake"
+                ? stakeTag
+                : tag === "vault"
+                ? vaultTag
+                : buybackTag
+            }
+            alt="pool-tag"
+            className="dashboard-pool-tag"
+          />
+        )}
+
         <div
           className="purplediv"
-          style={{ background: details ? "#7770e0" : "#8890C4", top: '12px' }}
+          style={{ background: details ? "#7770e0" : "#8890C4", top: "12px" }}
         ></div>
         <div className="d-flex flex-column gap-0">
           <div
@@ -85,22 +114,28 @@ const TopPoolsCard = ({
             style={{ padding: "0px 16px" }}
           >
             <div className="d-flex align-items-center">
-              {cardType === "Farming" || cardType === "Buyback" ? (
-               coins.length > 0 && 
-               coins.slice(0,5).map((coin, index) => (
-                  <img
-                    key={index}
-                    src={require(`./assets/${coin}.svg`).default}
-                    alt=""
-                    className="pool-coins"
-                  />
-                ))
-              ) : (
-                tokenLogo !== undefined &&
-                <h6 className="token-name d-flex align-items-center gap-2">
-                  <img src={require(`./assets/${tokenLogo}`).default} alt="" className="tokenlogo" /> {tokenName}
-                </h6>
-              )}
+              {cardType === "Farming" || cardType === "Buyback"
+                ? coins.length > 0 &&
+                  coins
+                    .slice(0, 5)
+                    .map((coin, index) => (
+                      <img
+                        key={index}
+                        src={require(`./assets/${coin}.svg`).default}
+                        alt=""
+                        className="pool-coins"
+                      />
+                    ))
+                : tokenLogo !== undefined && (
+                    <h6 className="token-name d-flex align-items-center gap-2">
+                      <img
+                        src={require(`./assets/${tokenLogo}`).default}
+                        alt=""
+                        className="tokenlogo"
+                      />{" "}
+                      {tokenName}
+                    </h6>
+                  )}
             </div>
             <div className="d-flex align-items-baseline gap-1">
               <h6 className="apr-amount">{apr}</h6>
@@ -114,7 +149,11 @@ const TopPoolsCard = ({
                 <h6 className="tvl-amount">{tvl}</h6>
               </div>
             )}
-            <div className={`d-flex flex-column ${cardType !== "Vault" && "align-items-end"}`}>
+            <div
+              className={`d-flex flex-column ${
+                cardType !== "Vault" && "align-items-end"
+              }`}
+            >
               <h6 className="tvl-text">Lock Time</h6>
 
               <h6 className="locktime-amount">{lockTime}</h6>
@@ -123,8 +162,7 @@ const TopPoolsCard = ({
           <div
             className="details-wrapper"
             onClick={() => {
-              handleDetails()
-              
+              handleDetails();
             }}
           >
             <h6
@@ -137,7 +175,6 @@ const TopPoolsCard = ({
           </div>
         </div>
       </div>
-      
     </>
   );
 };
