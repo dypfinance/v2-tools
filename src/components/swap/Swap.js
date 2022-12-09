@@ -72,15 +72,17 @@ const referrerOptions = {
 
 
   return (
-    // <SwapWidget
-    //     width={400}
-    //     referrerOptions={referrerOptions}
-    //     theme={nereusTheme}
-    //     locale="en"
-    //     jsonRpcEndpoint={defaultJsonRpcEndpoint}
-    //     defaultOutputTokenAddress={defaultOutputTokenAddress}
-    //     defaultTypedValue={defaultTypedValue}/>
-    <div>Hello</div>
+    <div className="container-lg d-flex justify-content-center" style={{minHeight: '100vh'}}>
+            <iframe src="https://swap.dyp.finance/"
+              className='swap-iframe'
+                    width="400px"
+                    height="537px"
+                    id=""
+                    overflow={"hidden"}
+                    styles={{pointerEvents: "all"}}
+                    display="block"
+                    position="relative"/>
+        </div>
   )
 }
 

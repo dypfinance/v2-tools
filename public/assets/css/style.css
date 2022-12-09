@@ -2664,6 +2664,10 @@ color: #4ED5D2 !important;
   }
 }
 
+.swap-iframe{
+  pointer-events: all !important;
+}
+
 .modal {
   position: fixed;
   top: 0;

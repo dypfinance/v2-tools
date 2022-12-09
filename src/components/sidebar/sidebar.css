@@ -23,8 +23,24 @@
 
 .explorer-modal{
     background: #2A2859;
-    box-shadow: 0 0 0 1000px rgb(0 0 0 / 50%);
 border-radius: 12px;
+position: absolute;
+bottom: -500px;
+transition: all .3s;
+width: 90%;
+}
+
+.explorer-modal-active{
+    bottom: 100px;
+    box-shadow: 0 0 0 1000px rgb(0 0 0 / 50%);
+}
+
+.mobile-modal-item{
+    border-bottom: 2px solid #565891;
+}
+
+.mobile-modal-item:last-child{
+    border-bottom: none !important;
 }
 
 .testbar-open{
