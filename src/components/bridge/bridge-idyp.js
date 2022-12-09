@@ -443,13 +443,13 @@ export default function initBridgeidyp({
 
       return (
         <div className="d-flex gap-4 justify-content-between">
-          <div className="token-staking col-6 col-xxl-5">
+          <div className="token-staking col-12 col-lg-6 col-xxl-5">
             <div className="purplediv"></div>
             <div className="row">
               <div>
                 <div className="d-flex flex-column">
                   <h6 className="fromtitle mb-2">From</h6>
-                  <div className="d-flex align-items-center justify-content-between gap-2">
+                  <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                     <div className="d-flex align-items-center justify-content-between gap-3">
                       <div
                         className={
@@ -509,7 +509,7 @@ export default function initBridgeidyp({
                       <form onSubmit={(e) => e.preventDefault()}>
                         <div className="form-group">
                           <div className="row m-0">
-                            <div className="activewrapper mt-3 mb-3">
+                            <div className="activewrapper flex-column flex-lg-row mt-3 mb-3">
                               <label
                                 htmlFor="deposit-amount"
                                 className="chainWrapper text-left"
@@ -575,7 +575,7 @@ export default function initBridgeidyp({
                               </Tooltip>
                             </h6>
 
-                            <div className="d-flex gap-2 align-items-center justify-content-between">
+                            <div className="d-flex gap-2 flex-column flex-lg-row align-items-center justify-content-between">
                               <div className="d-flex gap-2 align-items-center">
                                 <input
                                   value={
@@ -784,7 +784,7 @@ export default function initBridgeidyp({
                           </label>
 
                           <div className="mt-4 otherside w-100">
-                            <h6 className="fromtitle d-flex justify-content-between align-items-center mt-1 mb-2">
+                            <h6 className="fromtitle flex-column flex-lg-row d-flex justify-content-between align-items-start align-items-lg-center mt-1 mb-2">
                               RECEIVE
                               <div className="d-flex align-items-center gap-2">
                                 <h6
@@ -833,7 +833,7 @@ export default function initBridgeidyp({
                               </div>
                             </h6>
 
-                            <div className="d-flex gap-2 align-items-center justify-content-between">
+                            <div className="d-flex gap-2 flex-column flex-lg-row align-items-center justify-content-between">
                               <div className="d-flex gap-2 align-items-center">
                                 <input
                                   value={this.state.txHash}
@@ -949,7 +949,7 @@ export default function initBridgeidyp({
             />
           )}
 
-<div className="col-6 guidewrapper">
+<div className="col-6 d-none d-lg-flex guidewrapper">
             <div className="purplediv" style={{left: '0px'}}> </div>
             <div>
               <h6 className="guidetitle">
