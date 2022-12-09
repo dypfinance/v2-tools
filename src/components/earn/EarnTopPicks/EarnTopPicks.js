@@ -81,7 +81,7 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
-      isNewPool: false,
+      isNewPool: true,
       isStaked: false,
     },
     {
@@ -91,7 +91,7 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
-      isNewPool: false,
+      isNewPool: true,
       isStaked: false,
     },
     {
@@ -134,7 +134,7 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "180 Days",
-      isNewPool: false,
+      isNewPool: true,
       isStaked: false,
     },
     {
@@ -144,7 +144,7 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "30 Days",
-      isNewPool: false,
+      isNewPool: true,
       isStaked: false,
     },
     {
@@ -184,7 +184,7 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "No lock",
-      isNewPool: false,
+      isNewPool: true,
       isStaked: false,
     },
     {
@@ -194,7 +194,7 @@ const EarnTopPicks = ({
       apy: "1.08",
       tvl_usd: "48543.20",
       lockTime: "90 Days",
-      isNewPool: false,
+      isNewPool: true,
       isStaked: false,
     },
     {
@@ -385,7 +385,7 @@ const EarnTopPicks = ({
   const [topPools, setTopPools] = useState(stake);
   const [listing, setListing] = useState(listType);
   const [cawsCard, setCawsCard] = useState({});
-  const [tvlTotal, setTvlTotal] = useState()
+  const [tvlTotal, setTvlTotal] = useState();
 
   var farming = [];
 
@@ -1197,41 +1197,48 @@ const EarnTopPicks = ({
       {listing === "table" ? (
         windowSize.width > 1300 ? (
           <div className="px-0">
-          <>
-          <div className="top-picks-container">
-              {topPools.slice(0, 3).map((pool, index) => (
-                <TopPoolsCard
-                  key={index}
-                  chain={chain}
-                  top_pick={pool.top_pick}
-                  tokenName={pool.pair_name}
-                  apr={pool.apy_percent + "%"}
-                  tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lock_time ? pool.lock_time : locktimeFarm[index]}
-                  tokenLogo={pool.icon ? pool.icon : pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"}
-                  onShowDetailsClick={() => {
-                    setActiveCard(topPools[index]);
-                    setActiveCard2(null);
-                    setActiveCard3(null);
-                    setActiveCard4(null);
-                    setActiveCardNFT(false);
-                    handleCardIndexStake(index);
-                    handleCardIndexStake30(index);
-                    handleCardIndexStakeiDyp(index);
-                    setDetails(index);
-                    
-                  }}
-                  onHideDetailsClick={() => {
-                    setActiveCard(null);
-                    setDetails();
-                  }}
-                  cardType={topList}
-                  details={details === index ? true : false}
-                  isNewPool={pool.isNewPool}
-                  isStaked={pool.isStaked}
-                />
-              ))}
-            </div>
+            <>
+              <div className="top-picks-container">
+                {topPools.slice(0, 3).map((pool, index) => (
+                  <TopPoolsCard
+                    key={index}
+                    chain={chain}
+                    top_pick={pool.top_pick}
+                    tokenName={pool.pair_name}
+                    apr={pool.apy_percent + "%"}
+                    tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                    lockTime={
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    }
+                    tokenLogo={
+                      pool.icon
+                        ? pool.icon
+                        : pool.pair_name === "DYP"
+                        ? "dyplogo.svg"
+                        : "idypius.svg"
+                    }
+                    onShowDetailsClick={() => {
+                      setActiveCard(topPools[index]);
+                      setActiveCard2(null);
+                      setActiveCard3(null);
+                      setActiveCard4(null);
+                      setActiveCardNFT(false);
+                      handleCardIndexStake(index);
+                      handleCardIndexStake30(index);
+                      handleCardIndexStakeiDyp(index);
+                      setDetails(index);
+                    }}
+                    onHideDetailsClick={() => {
+                      setActiveCard(null);
+                      setDetails();
+                    }}
+                    cardType={topList}
+                    details={details === index ? true : false}
+                    isNewPool={pool.isNewPool}
+                    isStaked={pool.isStaked}
+                  />
+                ))}
+              </div>
 
               {activeCard && topList === "Farming" ? (
                 chain === "eth" ? (
@@ -1441,13 +1448,25 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy_percent ? pool.apy_percent : pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
                     pool.lock_time ? pool.lock_time : locktimeFarm[index + 3]
                   }
-                  tokenLogo={pool.icon ? pool.icon : pool.pair_name === "DYP" ? "dyplogo.svg" : "idypius.svg"}
+                  tokenLogo={
+                    pool.icon
+                      ? pool.icon
+                      : pool.pair_name === "DYP"
+                      ? "dyplogo.svg"
+                      : "idypius.svg"
+                  }
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(topPools[index + 3]);
@@ -1670,7 +1689,13 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
@@ -1889,7 +1914,13 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
@@ -2096,7 +2127,13 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={pool.lockTime ? pool.lockTime : locktimeFarm[index]}
@@ -2276,7 +2313,13 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
@@ -2457,7 +2500,13 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
@@ -2638,7 +2687,13 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
@@ -2822,7 +2877,13 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
@@ -3006,7 +3067,13 @@ const EarnTopPicks = ({
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
-                  tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                  tokenName={
+                    pool.tokenName
+                      ? pool.tokenName
+                      : pool.pair_name
+                      ? pool.pair_name
+                      : ""
+                  }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
@@ -3216,7 +3283,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -3472,7 +3545,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                                        tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -3727,7 +3806,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                     tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -3964,7 +4049,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -4201,7 +4292,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -4438,7 +4535,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -4649,7 +4752,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -4860,7 +4969,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -5071,7 +5186,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -5282,7 +5403,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -5492,7 +5619,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -5702,7 +5835,13 @@ const EarnTopPicks = ({
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
-                    tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+                    tokenName={
+                      pool.tokenName
+                        ? pool.tokenName
+                        : pool.pair_name
+                        ? pool.pair_name
+                        : ""
+                    }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={
@@ -5936,7 +6075,13 @@ const EarnTopPicks = ({
               key={index}
               chain={chain}
               top_pick={pool.top_pick}
-              tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+              tokenName={
+                pool.tokenName
+                  ? pool.tokenName
+                  : pool.pair_name
+                  ? pool.pair_name
+                  : ""
+              }
               apr={pool.apy + "%"}
               tvl={"$" + getFormattedNumber(pool.tvl_usd)}
               lockTime={pool.lockTime ? pool.lockTime : "No Lock"}
@@ -5972,6 +6117,7 @@ const EarnTopPicks = ({
               the_graph_resultavax={the_graph_resultavax}
             />
           ))}
+        
         </div>
       )}
     </div>
