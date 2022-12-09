@@ -6113,6 +6113,7 @@ const EarnTopPicks = ({
               referrer={referrer}
               lp_id={lp_id[cardIndex]}
               the_graph_result={the_graph_result}
+              the_graph_resultbsc={the_graph_resultbsc}
               isConnected={isConnected}
               the_graph_resultavax={the_graph_resultavax}
             />
