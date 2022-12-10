@@ -132,6 +132,8 @@ const TopPoolsCard = ({
                         src={require(`./assets/${tokenLogo}`).default}
                         alt=""
                         className="tokenlogo"
+                        width={32}
+                        height={32}
                       />{" "}
                       {tokenName}
                     </h6>

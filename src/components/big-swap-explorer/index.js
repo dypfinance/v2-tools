@@ -11,6 +11,7 @@ import getFormattedNumber from "../../functions/get-formatted-number";
 import ethPools from '../../assets/ethPools.png'
 import bnbPools from '../../assets/bnbPools.png'
 import avaxPools from '../../assets/avaxPools.png'
+import { Tooltip } from "@material-ui/core";
 
 const Circular = () => (
   // we need to add some padding to circular progress to keep it from activating our scrollbar
@@ -359,7 +360,13 @@ export default class BigSwapExplorer extends React.Component {
                     <img src={ethlogo} alt="" /> Ethereum
                   </h6>
                 </div>
-                <div
+                <Tooltip
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">{"Comming Soon!"}</div>
+                        }
+                      >
+                       <div
                   className={
                     this.props.networkId === 56
                       ? "optionbtn-active bnb-passive"
@@ -367,15 +374,14 @@ export default class BigSwapExplorer extends React.Component {
                   }
                   // onClick={() => {
                   //   this.props.onSelectChain("bnb");
-                  //   this.setState({
-                  //     destinationChain: "bnb",
-                  //   });
                   // }}
                 >
                   <h6 className="optiontext" style={{cursor: 'auto'}}>
                     <img src={bnblogo} alt="" /> BNB Chain
                   </h6>
                 </div>
+                      </Tooltip>
+
                 <div
                   className={
                     this.props.networkId === 43114
