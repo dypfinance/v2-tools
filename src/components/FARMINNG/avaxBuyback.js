@@ -1580,7 +1580,7 @@ export default function avaxBuyback({
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <h6 className="earnrewards-text">Lock time:</h6>
                         <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                          {lockTime}
+                        {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
                           <ClickAwayListener onClickAway={lockClose}>
                             <Tooltip
                               open={this.state.lockTooltip}

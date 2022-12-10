@@ -706,7 +706,7 @@ const TopPoolsListCard = ({
             onClick={() => setShowDetails(!showDetails)}
           >
             {showDetails === false ? "Deposit" : "Close"}
-            <img src={showDetails === false ? greenArrow : orangeArrow} />
+            <img src={showDetails === false ? greenArrow : orangeArrow} alt=''/>
           </h6>
         </div>
       </div>
