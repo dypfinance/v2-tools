@@ -273,7 +273,7 @@ export default function initBridgeidyp({
             this.setState({ txHash });
           })
           .then(() => {
-            this.setState({ depositLoading: false, depositStatus: "deposit" });
+            this.setState({ depositLoading: false, depositStatus: "success" });
           })
           .catch((e) => {
             this.setState({

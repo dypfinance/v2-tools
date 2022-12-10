@@ -1691,7 +1691,7 @@ export default function initVaultNew({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                            {token_balance} {token_symbol}
+                            {getFormattedNumber(depositedTokens, 6)} {token_symbol}
                           </h6>
                         </div>
                       </div>
