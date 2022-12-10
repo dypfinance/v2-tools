@@ -879,19 +879,19 @@ export default function initBridgeidyp({
                                   className="styledinput"
                                   placeholder="Enter Deposit transaction hash"
                                   type="text"
-                                  disabled={!canWithdraw}
+                                  // disabled={!canWithdraw}
                                 />
                               </div>
 
                               <button
                                 style={{ width: "fit-content" }}
                                 disabled={
-                                  canWithdraw === false ||
-                                  this.state.withdrawLoading === true ||
-                                  this.state.withdrawStatus === "success"
-                                    ? true
-                                    : false
-                                  // this.state.txHash !== '' ? false : true
+                                  // canWithdraw === false ||
+                                  // this.state.withdrawLoading === true ||
+                                  // this.state.withdrawStatus === "success"
+                                  //   ? true
+                                  //   : false
+                                  this.state.txHash !== '' ? false : true
                                 }
                                 className={`btn filledbtn ${
                                   canWithdraw === false &&
