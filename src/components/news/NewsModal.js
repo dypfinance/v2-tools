@@ -72,7 +72,7 @@ const NewsModal = ({
     if (content !== undefined && content.includes("&nbsp")) {
       setnewContent(content.replace(/&nbsp;/g, " "));
     }
-  }, [newsId, content]);
+  }, [newsId, content,elementRef.current?.clientHeight]);
 
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
@@ -486,7 +486,7 @@ const NewsModal = ({
       </div>
     </div>
     <div className="col-4 pe-0">
-    <div className="right-col position-relative">
+    <div className="right-col position-relative w-100">
       <div className="purplediv" style={{left: '0px', top: '20px', background: '#8E97CD'}}></div>
       <div className="d-flex align-items-center gap-2 mt-2">
         <img src={require(`./assets/relatedNewsIcon.svg`).default} alt="" />
@@ -495,8 +495,8 @@ const NewsModal = ({
             <div className="related-news-wrapper">
               {latestNewsData.length > 0 &&
                 getItemsWithoutCurrentItem(newsId, latestNewsData)
-                  .slice(0, parseInt(height / 100))
-                  .map((item, key) => {
+                  .slice(0, parseInt(height / 127))
+                  .map((item, key)=> {
                     if (item !== undefined) {
                       return (
                         <div

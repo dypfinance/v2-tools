@@ -5,7 +5,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 const WalletModal = ({ handleClose, show, handleConnection }) => {
   return (
       
-    <Modal visible={show} onModalClose={handleClose} maxWidth={420}>
+    <Modal visible={show} onModalClose={handleClose} maxWidth={820}>
         <OutsideClickHandler onOutsideClick={handleClose}>
       <div className="walletmodal-wrapper">
         <div className="sc-jwKygS bFQpTL">

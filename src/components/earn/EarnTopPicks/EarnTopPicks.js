@@ -583,7 +583,7 @@ const EarnTopPicks = ({
     "15 August 2023",
   ];
 
-  const lockarrayFarm = ["No Lock", 90, 30, 60, 90];
+  const lockarrayFarm = ["No Lock", 3, 30, 60, 90];
 
   const StakingNew1 = initStakingNew({
     token: window.token_new,
@@ -617,6 +617,8 @@ const EarnTopPicks = ({
     window.constant_stakingnewbsc_new9,
   ];
   const bscFarmArrayFee = [0.3, 0.3, 0.4, 0.8, 1.2];
+  const bscFarmArrayLock = ["No Lock", 3, 30, 60, 90];
+
 
   const BscFarming = initBscFarming({
     token: window.token_newbsc,
@@ -631,7 +633,7 @@ const EarnTopPicks = ({
     expiration_time: "19 November 2022",
     fee: bscFarmArrayFee[cardIndex],
     handleConnection: handleConnection,
-    lockTime: 3,
+    lockTime: bscFarmArrayLock[cardIndex],
     listType: listType,
   });
 
@@ -763,14 +765,26 @@ const EarnTopPicks = ({
 
   const aprarrayStakeAvax30 = [25, 50];
   const lockarrayStakeAvax = [
-    180,
+    "No Lock",
+    90,
     30,
+    90,
+    180,
+    "No Lock",
     "No Lock",
     90,
     90,
+  ];
+
+  const lockarrayStakeBSC = [
     "No Lock",
     90,
+    30,
+    90,
+    180,
     "No Lock",
+    "No Lock",
+    90,
     90,
   ];
 
@@ -793,29 +807,30 @@ const EarnTopPicks = ({
     listType: listType,
   });
 
-  const feearrayStakeBsc = [3.5, 1, 0.25, 0.5, 0, 0, 1, 3.5];
+  const feearrayStakeBsc = [0.25, 0.5, 1, 3.5, 0, 1, 0, 3.5];
   const expirearrayStakeBsc = [
-    "14 July 2023",
+    "17 November 2022",
+    "17 November 2022",
     "5 August 2023",
-    "17 November 2022",
-    "17 November 2022",
     "Expired",
-    "28 February 2023",
+    "14 July 2023",
     "28 February 2023",
     "15 August 2023",
+    "28 February 2023",
     "15 August 2023",
   ];
-  const aprarrayStakeBsc = [30, 10, 25, 50, 25, 20, 45, 15, 30];
+
+  const aprarrayStakeBsc = [25, 50, 10, 25, 30, 15, 20, 45, 30];
 
   const stakearrayStakeBsc = [
-    window.constant_stakingbsc_new10,
-    window.constant_stakingbsc_new11,
     window.constant_stakingbsc_new12,
     window.constant_stakingbsc_new13,
+    window.constant_stakingbsc_new11,
     window.constant_stakingdaibsc,
+    window.constant_stakingbsc_new10,
     window.constant_stakingidyp_1,
-    window.constant_stakingidyp_2,
     window.constant_stakingidyp_5,
+    window.constant_stakingidyp_2,
     window.constant_stakingidyp_6,
   ];
 
@@ -823,11 +838,11 @@ const EarnTopPicks = ({
     false,
     false,
     false,
-    false,
-    true,
-    true,
     true,
     false,
+    true,
+    false,
+    true,
     false,
   ];
 
@@ -839,7 +854,7 @@ const EarnTopPicks = ({
     fee: feearrayStakeBsc[cardIndex],
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime: lockarrayStakeBSC[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
   });
@@ -852,7 +867,7 @@ const EarnTopPicks = ({
     fee: feearrayStakeBsc[cardIndex],
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime: lockarrayStakeBSC[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
   });
@@ -865,7 +880,7 @@ const EarnTopPicks = ({
     fee: feearrayStakeBsc[cardIndex],
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime: lockarrayStakeBSC[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
   });
@@ -878,7 +893,7 @@ const EarnTopPicks = ({
     fee: feearrayStakeBsc[cardIndex],
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime: lockarrayStakeBSC[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
   });
@@ -905,24 +920,24 @@ const EarnTopPicks = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
   });
-
-  const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
-  const feeSarrayStakeAvaxiDyp = [0, 0, 1, 3.5];
-  const feeUarrayStakeAvaxiDyp = [0.25, 0.25, 0, 0];
-  const otherinfoarrayStakeAvaxiDyp = [true, true, false, false];
+// , , 1, 4
+  const aprarrayStakeAvaxiDyp = [ 15,20,  30,45];
+  const feeSarrayStakeAvaxiDyp = [1,0,3.5 ,0];
+  const feeUarrayStakeAvaxiDyp = [0,0.25,0,0,0.25];
+  const otherinfoarrayStakeAvaxiDyp = [false,false,true, false];
 
   const expirearrayStakeAvaxiDyp = [
-    "28 February 2023",
-    "28 February 2023",
     "15 August 2023",
     "15 August 2023",
+    "28 February 2023",
+    "28 February 2023",
   ];
 
   const stakingarrayStakeAvaxiDyp = [
-    window.constant_staking_idypavax_1,
-    window.constant_staking_idypavax_2,
     window.constant_staking_idypavax_5,
     window.constant_staking_idypavax_6,
+    window.constant_staking_idypavax_1,
+    window.constant_staking_idypavax_2,
   ];
 
   const StakeAvaxiDyp = stakeAvaxiDyp({
@@ -934,6 +949,8 @@ const EarnTopPicks = ({
     fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     listType: listType,
+    lockTime: lockarrayStakeAvax[cardIndex],
+    
   });
 
   const lockarray = ["No Lock", 90];
@@ -1455,7 +1472,9 @@ const EarnTopPicks = ({
                       ? pool.pair_name
                       : ""
                   }
-                  apr={pool.apy_percent ? pool.apy_percent : pool.apy + "%"}
+                  apr={
+                    pool.apy_percent ? pool.apy_percent + "%" : pool.apy + "%"
+                  }
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
                     pool.lock_time ? pool.lock_time : locktimeFarm[index + 3]
@@ -1699,7 +1718,7 @@ const EarnTopPicks = ({
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 6]
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -1924,7 +1943,7 @@ const EarnTopPicks = ({
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 9]
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -2136,7 +2155,9 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lockTime ? pool.lockTime : locktimeFarm[index]}
+                  lockTime={pool.lockTime ? pool.lockTime : 
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                  }
                   tokenLogo={
                     pool.icon
                       ? pool.icon
@@ -2322,8 +2343,8 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 2]
+                  lockTime={pool.lockTime ? pool.lockTime : 
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -2509,8 +2530,8 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 4]
+                  lockTime={pool.lockTime ? pool.lockTime : 
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -2696,8 +2717,8 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 6]
+                  lockTime={pool.lockTime ? pool.lockTime : 
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -2886,8 +2907,8 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 8]
+                  lockTime={pool.lockTime ? pool.lockTime : 
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -3076,8 +3097,8 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={
-                    pool.lockTime ? pool.lockTime : locktimeFarm[index + 10]
+                  lockTime={pool.lockTime ? pool.lockTime : 
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -3292,8 +3313,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -3554,8 +3575,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 1]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -3815,8 +3836,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 2]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4058,8 +4079,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 3]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4301,8 +4322,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 4]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4544,8 +4565,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 5]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4761,8 +4782,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 6]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4978,8 +4999,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 7]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5195,8 +5216,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 8]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5412,8 +5433,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 9]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5628,8 +5649,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 10]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5844,8 +5865,8 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={
-                      pool.lockTime ? pool.lockTime : locktimeFarm[index + 11]
+                    lockTime={pool.lockTime ? pool.lockTime : 
+                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -6075,12 +6096,18 @@ const EarnTopPicks = ({
               key={index}
               chain={chain}
               top_pick={pool.top_pick}
-
-              tokenName={pool.tokenName ? pool.tokenName : pool.pair_name ? pool.pair_name : ''}
+              tokenName={
+                pool.tokenName
+                  ? pool.tokenName
+                  : pool.pair_name
+                  ? pool.pair_name
+                  : ""
+              }
               apr={pool.apy_percent + "%"}
-
               tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-              lockTime={pool.lockTime ? pool.lockTime : "No Lock"}
+              lockTime={pool.lockTime ? pool.lockTime : 
+                pool.lock_time ? pool.lock_time : locktimeFarm[index]
+              }
               cardType={topList}
               tokenLogo={
                 pool.icon
@@ -6114,7 +6141,6 @@ const EarnTopPicks = ({
               the_graph_resultavax={the_graph_resultavax}
             />
           ))}
-        
         </div>
       )}
     </div>

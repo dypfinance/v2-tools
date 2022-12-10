@@ -17,8 +17,8 @@ import walletIcon from "./assets/walletIcon.svg";
 import WalletModal from "../WalletModal";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
 import { NavLink } from "react-router-dom";
-import useWindowSize from '../../functions/useWindowSize'
-import toolsLogo from '../../assets/sidebarIcons/toolsLogo.svg'
+import useWindowSize from "../../functions/useWindowSize";
+import toolsLogo from "../../assets/sidebarIcons/toolsLogo.svg";
 import axios from "axios";
 
 const Header = ({
@@ -34,7 +34,6 @@ const Header = ({
   hideModal,
   handleConnection,
   isConnected,
-
 }) => {
   const [gasPrice, setGasprice] = useState();
   const [ethPrice, setEthprice] = useState();
@@ -57,7 +56,7 @@ const Header = ({
   //     }
   // }
 
-  const windowSize = useWindowSize()
+  const windowSize = useWindowSize();
   const [hotpairs, setHotpairs] = useState([]);
 
   const [ethState, setEthState] = useState(true);
@@ -159,22 +158,25 @@ const Header = ({
     return response;
   };
 
-  const fetchUsername = async() => {
-   if(coinbase){
-    await axios.get(`https://api-image.dyp.finance/api/v1/username/${coinbase}`).then((res) => {
-      if(res.data.username){
-        setUsername(res.data.username)
-        console.log(res.data.username);
-      }else{
-        setUsername("Dypian")
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
-   }else{
-    setUsername("Dypian")
-   }
-  }
+  const fetchUsername = async () => {
+    if (coinbase) {
+      await axios
+        .get(`https://api-image.dyp.finance/api/v1/username/${coinbase}`)
+        .then((res) => {
+          if (res.data.username) {
+            setUsername(res.data.username);
+            console.log(res.data.username);
+          } else {
+            setUsername("Dypian");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setUsername("Dypian");
+    }
+  };
   const [currencyAmount, setCurrencyAmount] = useState(0);
   const checklogout = localStorage.getItem("logout");
 
@@ -210,8 +212,19 @@ const Header = ({
     }
   };
 
+  const welcomeTypes = ["Good morning", "Good afternoon", "Good evening"];
+  const [welcomeText, setwelcomeText] = useState('')
+  const hour = new Date().getHours();
 
-  
+  const setGreeting = () => {
+    if (hour < 12) setwelcomeText(welcomeTypes[0]);
+    else if (hour < 18) setwelcomeText(welcomeTypes[1]);
+    else setwelcomeText(welcomeTypes[2]);
+  };
+
+  useEffect(() => {
+    setGreeting();
+  }, [hour]);
 
   useEffect(() => {
     getEthBalance();
@@ -250,72 +263,84 @@ const Header = ({
         <div className="container-fluid d-flex justify-content-center justify-content-lg-start">
           <div className="row w-100">
             <div className="col-1"></div>
-            <div className={`${windowSize.width < 786 ?'col-12' : windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
             <div
-          className="container-lg px-0 d-flex justify-content-between gap-3 align-items-center w-100"
-          // style={{ maxWidth: "calc(100% - 215px)"}}
-        >
-          {/* marginLeft: "240px" */}
-          <div className="d-none d-lg-flex flex-column gap-2 text-start">
-            <h4
-              className="text-white"
-              style={{ fontSize: "23px", fontWeight: "600" }}
+              className={`${
+                windowSize.width < 786
+                  ? "col-12"
+                  : windowSize.width < 1490
+                  ? "col-11"
+                  : "col-10"
+              }`}
             >
-              Good morning, {username}
-            </h4>
-            <span className="text-white headerdesc">
-            Discover the latest trends, breaking news and gain access to powerful dApps.
-            </span>
-          </div>
-          <NavLink to="/">
-          <img src={toolsLogo} className="d-flex d-lg-none" alt="" />
-          </NavLink>
-          <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
-            <NavLink
-              className="buydyp-btn btn"
-              to="/buydyp"
-            >
-              <img src={coin} alt="" /> 
-              <span className="buy-dyp-text d-none d-lg-flex">Buy DYP</span>
-            </NavLink>
-            <div className="d-flex justify-content-between gap-3 align-items-center">
-              <DropdownButton
-                id="dropdown-basic-button"
-                title={
-                  <span className="dropdown-title">
-                    <img
-                      src={
-                        ethState === true ? eth : bnbState === true ? bnb : avax
-                      }
-                      alt=""
-                    />
-                    <span className="change-chain-text d-none d-lg-flex">
-                    {ethState === true
-                      ? "Ethereum"
-                      : bnbState === true
-                      ? "BNB Chain"
-                      : "Avalanche"}
-                    </span>
-
-                    <img src={dropdown} alt="" />
-                  </span>
-                }
+              <div
+                className="container-lg px-0 d-flex justify-content-between gap-3 align-items-center w-100"
+                // style={{ maxWidth: "calc(100% - 215px)"}}
               >
-                <Dropdown.Item onClick={() => handleEthPool()}>
-                  <img src={eth} alt="" />
-                  Ethereum
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleBnbPool()}>
-                  <img src={bnb} alt="" />
-                  BNB Chain
-                </Dropdown.Item>
-                <Dropdown.Item onClick={() => handleAvaxPool()}>
-                  <img src={avax} alt="" />
-                  Avalanche
-                </Dropdown.Item>
-              </DropdownButton>
+                {/* marginLeft: "240px" */}
+                <div className="d-none d-lg-flex flex-column gap-2 text-start">
+                  <h4
+                    className="text-white"
+                    style={{ fontSize: "23px", fontWeight: "600" }}
+                  >
+                    {welcomeText}, {username}
+                  </h4>
+                  <span className="text-white headerdesc">
+                    Discover the latest trends, breaking news and gain access to
+                    powerful dApps.
+                  </span>
+                </div>
+                <NavLink to="/">
+                  <img src={toolsLogo} className="d-flex d-lg-none" alt="" />
+                </NavLink>
+                <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
+                  <NavLink className="buydyp-btn btn" to="/buydyp">
+                    <img src={coin} alt="" />
+                    <span className="buy-dyp-text d-none d-lg-flex">
+                      Buy DYP
+                    </span>
+                  </NavLink>
+                  <div className="d-flex justify-content-between gap-3 align-items-center">
+                    <DropdownButton
+                      id="dropdown-basic-button"
+                      title={
+                        <span className="dropdown-title">
+                          <img
+                            src={
+                              ethState === true
+                                ? eth
+                                : bnbState === true
+                                ? bnb
+                                : avax
+                            }
+                            alt=""
+                          />
+                          <span className="change-chain-text d-none d-lg-flex">
+                            {ethState === true
+                              ? "Ethereum"
+                              : bnbState === true
+                              ? "BNB Chain"
+                              : "Avalanche"}
+                          </span>
 
-              {/* <DropdownButton
+                          <img src={dropdown} alt="" />
+                        </span>
+                      }
+                    >
+                      <Dropdown.Item onClick={() => handleEthPool()}>
+                        <img src={eth} alt="" />
+                        Ethereum
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleBnbPool()}>
+                        <img src={bnb} alt="" />
+                        BNB Chain
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleAvaxPool()}>
+                        <img src={avax} alt="" />
+                        Avalanche
+                      </Dropdown.Item>
+                    </DropdownButton>
+
+                    {/* <DropdownButton
                 id="dropdown-basic-button2"
                 onClick={checklogout === "true" && showModal}
                 title={
@@ -361,72 +386,76 @@ const Header = ({
                   </Dropdown.Item>
                 )}
               </DropdownButton> */}
-              {checklogout === "false" ? (
-                <>
-                  <div className="account-info d-flex align-items-center justify-content-center gap-2 gap-lg-3">
-                    <span className="account-balance d-none d-lg-flex">
-                      {currencyAmount}{" "}
-                      {chainId === 1 ? "ETH" : chainId === 56 ? "BNB" : "AVAX"}
-                    </span>
-                    <span className="account-address">
-                      {windowSize.width > 786 ?
-                      shortAddress(coinbase)
-                      :
-                      coinbase?.slice(0,6) + "..."
-                      }
-                    </span>
+                    {checklogout === "false" ? (
+                      <>
+                        <div className="account-info d-flex align-items-center justify-content-center gap-2 gap-lg-3">
+                          <span className="account-balance d-none d-lg-flex">
+                            {currencyAmount}{" "}
+                            {chainId === 1
+                              ? "ETH"
+                              : chainId === 56
+                              ? "BNB"
+                              : "AVAX"}
+                          </span>
+                          <span className="account-address">
+                            {windowSize.width > 786
+                              ? shortAddress(coinbase)
+                              : coinbase?.slice(0, 6) + "..."}
+                          </span>
+                        </div>
+                        <DropdownButton
+                          id="dropdown-basic-button4"
+                          title={
+                            <img
+                              src={avatar}
+                              style={{
+                                height: 40,
+                                width: 40,
+                                borderRadius: "50%",
+                                border: "2px solid #4ED5D2",
+                                margin: "auto",
+                              }}
+                              alt=""
+                            />
+                          }
+                        >
+                          <Dropdown.Item
+                            onClick={() => window.location.assign("/account")}
+                          >
+                            <img src={user} alt="" />
+                            My account
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={() => logout()}>
+                            <img src={logoutimg} alt="" />
+                            Disconnect wallet
+                          </Dropdown.Item>
+                        </DropdownButton>
+                      </>
+                    ) : (
+                      <DropdownButton
+                        onClick={checklogout === "true" && showModal}
+                        id="dropdown-basic-button2"
+                        title={
+                          <div
+                            className="d-flex align-items-center gap-2  position-relative"
+                            style={{ bottom: "5px", fontSize: "12px" }}
+                          >
+                            <img
+                              src={walletIcon}
+                              alt=""
+                              className="position-relative"
+                              // style={{ top: 4 }}
+                            />
+                            <span className="connecttitle d-none d-lg-flex">
+                              Connect Wallet
+                            </span>
+                          </div>
+                        }
+                      ></DropdownButton>
+                    )}
                   </div>
-                  <DropdownButton
-                    id="dropdown-basic-button4"
-                    title={
-                      <img
-                        src={avatar}
-                        style={{
-                          height: 40,
-                          width: 40,
-                          borderRadius: "50%",
-                          border: "2px solid #4ED5D2",
-                          margin: "auto",
-                        }}
-                        alt=""
-                      />
-                    }
-                  >
-                    <Dropdown.Item
-                      onClick={() => window.location.assign("/account")}
-                    >
-                      <img src={user} alt="" />
-                      My account
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={() => logout()}>
-                      <img src={logoutimg} alt="" />
-                      Disconnect wallet
-                    </Dropdown.Item>
-                  </DropdownButton>
-                </>
-              ) : (
-                <DropdownButton
-                  onClick={checklogout === "true" && showModal}
-                  id="dropdown-basic-button2"
-                  title={
-                    <div
-                      className="d-flex align-items-center gap-2  position-relative"
-                      style={{ bottom: "5px", fontSize: "12px" }}
-                    >
-                      <img
-                        src={walletIcon}
-                        alt=""
-                        className="position-relative"
-                        // style={{ top: 4 }}
-                      />
-                      <span className="connecttitle d-none d-lg-flex">Connect Wallet</span>
-                    </div>
-                  }
-                ></DropdownButton>
-              )}
-            </div>
-          </div>
-        </div>
+                </div>
+              </div>
             </div>
             <div className="col-1"></div>
           </div>
