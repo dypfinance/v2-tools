@@ -52,7 +52,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
     },
   ];
   const timePillsArray = ["1 month", "3 months", "6 months", "Max"];
-  const pillsNames = ["Staking", "Vault", "Farming"];
+  const pillsNames = ["Staking", "Vault"];
 
   const getActivePill = (activePill) => {
     setActiveMethod(activePill);
@@ -116,6 +116,14 @@ const Calculator = ({ earnClass, onClose, ref }) => {
     });
   };
 
+
+  const getEthApy = async()=>{
+    await axios.get('https://api.dyp.finance/api/get_staking_info_eth').then((data) => {
+      // console.log(data.data.highestAPY_ETH[0].highest_apy)
+      setStakeApy(data.data.highestAPY_ETH[0].highest_apy);
+    });
+  }
+
   const getETHdata = async () => {
     await axios
       .get("https://api.dyp.finance/api/the_graph_eth_v2")
@@ -146,6 +154,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
     getETHdata();
     getBSCdata();
     getAVAXdata();
+    getEthApy();
   }, [wethPrice, wavaxPrice, wbnbPrice, activeMethod]);
 
   const getTotalTvlBuyBack = async () => {
@@ -203,7 +212,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       } else if (activeMethod === "Staking") {
         setStakeApyAVAX(30);
         setStakeApyBNB(30);
-        setStakeApy(25);
+        // setStakeApy(30);
       } else if (activeMethod === "Buyback") {
         getTotalTvlBuyBack().then();
       } else {
@@ -433,7 +442,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
       );
     }
 
-    console.log(calculateApproxUSDBNB);
+    
   }, [
     activeMethod,
     farmApy,

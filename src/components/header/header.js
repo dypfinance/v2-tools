@@ -179,13 +179,14 @@ const Header = ({
   };
   const [currencyAmount, setCurrencyAmount] = useState(0);
   const checklogout = localStorage.getItem("logout");
-
+  //  console.log(coinbase)
   const getEthBalance = async () => {
     if (checklogout === "false" && coinbase) {
       const balance = await ethereum.request({
         method: "eth_getBalance",
         params: [coinbase, "latest"],
       });
+   
       if (balance) {
         const infuraWeb3 = new Web3(window.config.infura_endpoint);
         const bscWeb3 = new Web3(window.config.bsc_endpoint);
@@ -228,7 +229,7 @@ const Header = ({
 
   useEffect(() => {
     getEthBalance();
-  }, [chainId]);
+  }, [chainId, currencyAmount,coinbase]);
 
   useEffect(() => {
     fetchData().then();

@@ -2366,7 +2366,7 @@ export default function initStakingNew({
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
-              width="fit-content"
+              // width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -2450,8 +2450,8 @@ export default function initStakingNew({
                                         ? `${
                                             this.state.withdrawAmount *
                                             LP_AMPLIFY_FACTOR
-                                          } LP`
-                                        : `${this.state.withdrawAmount} LP`
+                                          } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                        : `${this.state.withdrawAmount} ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
                                     }
                                     onChange={(e) =>
                                       this.setState({
@@ -2490,8 +2490,8 @@ export default function initStakingNew({
                                         ? `${
                                             this.state.withdrawAmount *
                                             LP_AMPLIFY_FACTOR
-                                          } LP`
-                                        : `${this.state.withdrawAmount} LP`
+                                          } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                        : `${this.state.withdrawAmount} ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
                                     }
                                     onChange={(e) =>
                                       this.setState({

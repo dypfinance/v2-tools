@@ -23,12 +23,10 @@ import xMark from "../calculator/assets/xMark.svg";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import axios from "axios";
-import poolStatsIcon from './assets/poolStatsIcon.svg'
-import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+import poolStatsIcon from "./assets/poolStatsIcon.svg";
+import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
-                        
-
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -65,7 +63,7 @@ export default function initFarmAvax({
   coinbase,
   chainId,
   lockTime,
-  listType
+  listType,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =
     window;
@@ -268,16 +266,15 @@ export default function initFarmAvax({
         this.setState({ coinbase: this.props.coinbase });
       }
 
-        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
       this.getTokenData();
     }
 
     componentWillUnmount() {
-        clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
-
 
     getTokenData = async () => {
       await axios
@@ -286,12 +283,12 @@ export default function initFarmAvax({
           const propertyDyp = Object.entries(
             data.data.the_graph_eth_v2.token_data
           );
-          this.setState({dypUSD: propertyDyp[0][1].token_price_usd})
-  
+          this.setState({ dypUSD: propertyDyp[0][1].token_price_usd });
+
           const propertyIDyp = Object.entries(
             data.data.the_graph_eth_v2.token_data
           );
-          this.setState({iDypUSD: propertyIDyp[1][1].token_price_usd})
+          this.setState({ iDypUSD: propertyIDyp[1][1].token_price_usd });
         });
     };
 
@@ -324,8 +321,11 @@ export default function initFarmAvax({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 2000);
         });
     };
@@ -390,12 +390,16 @@ export default function initFarmAvax({
       ];
       let _amountOutMin_75Percent = await router.methods
         .getAmountsOut(_75Percent, path)
-        .call().catch((e) => {
+        .call()
+        .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
       _amountOutMin_75Percent =
@@ -418,9 +422,12 @@ export default function initFarmAvax({
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
-           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+          setTimeout(() => {
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
       _amountOutMin_25Percent =
@@ -460,8 +467,11 @@ export default function initFarmAvax({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
-
+            this.setState({
+              depositStatus: "initial",
+              depositAmount: "",
+              errorMsg: "",
+            });
           }, 10000);
         });
     };
@@ -489,14 +499,22 @@ export default function initFarmAvax({
             this.setState({ withdrawLoading: false });
             this.setState({ errorMsg3: e?.message });
             setTimeout(() => {
-              this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+              this.setState({
+                withdrawStatus: "initial",
+                selectedPool: "",
+                errorMsg3: "",
+              });
             }, 10000);
           });
       } catch (e) {
         console.error(e);
         this.setState({ errorMsg3: e });
         setTimeout(() => {
-          this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+          this.setState({
+            withdrawStatus: "initial",
+            selectedPool: "",
+            errorMsg3: "",
+          });
         }, 10000);
         return;
       }
@@ -563,14 +581,22 @@ export default function initFarmAvax({
             this.setState({ withdrawLoading: false });
             this.setState({ errorMsg3: e?.message });
             setTimeout(() => {
-              this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+              this.setState({
+                withdrawStatus: "initial",
+                selectedPool: "",
+                errorMsg3: "",
+              });
             }, 10000);
           });
       } catch (e) {
         console.error(e);
         this.setState({ errorMsg3: e?.message });
         setTimeout(() => {
-          this.setState({  withdrawStatus: "initial", selectedPool: '', errorMsg3: '' });
+          this.setState({
+            withdrawStatus: "initial",
+            selectedPool: "",
+            errorMsg3: "",
+          });
         }, 10000);
         return;
       }
@@ -601,7 +627,11 @@ export default function initFarmAvax({
               this.setState({ claimLoading: false });
               this.setState({ errorMsg2: e?.message });
               setTimeout(() => {
-                this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+                this.setState({
+                  claimStatus: "initial",
+                  selectedPool: "",
+                  errorMsg2: "",
+                });
               }, 10000);
             });
         } catch (e) {
@@ -609,7 +639,11 @@ export default function initFarmAvax({
           this.setState({ claimLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+            this.setState({
+              claimStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
           }, 10000);
 
           console.error(e);
@@ -628,7 +662,11 @@ export default function initFarmAvax({
               this.setState({ claimLoading: false });
               this.setState({ errorMsg2: e?.message });
               setTimeout(() => {
-                this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+                this.setState({
+                  claimStatus: "initial",
+                  selectedPool: "",
+                  errorMsg2: "",
+                });
               }, 10000);
             });
         } catch (e) {
@@ -636,7 +674,11 @@ export default function initFarmAvax({
           this.setState({ claimLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+            this.setState({
+              claimStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
           }, 10000);
 
           console.error(e);
@@ -692,7 +734,11 @@ export default function initFarmAvax({
           this.setState({ claimLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+            this.setState({
+              claimStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
           }, 10000);
         });
       _amountOutMinConstant =
@@ -720,7 +766,11 @@ export default function initFarmAvax({
             this.setState({ claimLoading: false });
             this.setState({ errorMsg2: e?.message });
             setTimeout(() => {
-              this.setState({  claimStatus: "initial", selectedPool: '', errorMsg2: '' });
+              this.setState({
+                claimStatus: "initial",
+                selectedPool: "",
+                errorMsg2: "",
+              });
             }, 10000);
           });
       } catch (e) {
@@ -1192,7 +1242,6 @@ export default function initFarmAvax({
       let infoItems2 = ["75% WAVAX/ETH rewards", "25% DYP rewards"];
       let tooltip2 = infoItems2.join("\n");
 
-
       const performanceOpen = () => {
         this.setState({ performanceTooltip: true });
       };
@@ -1232,9 +1281,15 @@ export default function initFarmAvax({
 
       return (
         <div className="container-lg p-0">
-          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
+          <div
+            className={`allwrapper ${listType === "table" && "my-4"}`}
+            style={{
+              border: listType !== "table" && "none",
+              borderRadius: listType !== "table" && "0px",
+            }}
+          >
             <div className="leftside2 w-100">
-            <div className="activewrapper activewrapper-vault">
+              <div className="activewrapper activewrapper-vault">
                 <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between">
                   <h6 className="activetxt position-relative activetxt-vault">
                     <img
@@ -1252,87 +1307,87 @@ export default function initFarmAvax({
                     </h6>
                   </div> */}
                   <div className="d-flex flex-row-reverse flex-lg-row align-items-end justify-content-between earnrewards-container">
-                  <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <h6 className="earnrewards-text">Performance fee:</h6>
-                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {fee}%
-                        <ClickAwayListener onClickAway={performanceClose}>
-                        <Tooltip
-                          open={this.state.performanceTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "Performance fee is subtracted from the displayed APR."
+                    <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Performance fee:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {fee}%
+                          <ClickAwayListener onClickAway={performanceClose}>
+                            <Tooltip
+                              open={this.state.performanceTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "Performance fee is subtracted from the displayed APR."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img
-                            src={moreinfo}
-                            alt=""
-                            onClick={performanceOpen}
-                          />
-                        </Tooltip>
-                      </ClickAwayListener>
-                      </h6>
-                    </div>
+                            >
+                              <img
+                                src={moreinfo}
+                                alt=""
+                                onClick={performanceOpen}
+                              />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
 
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <h6 className="earnrewards-text">APR:</h6>
-                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {apy}%
-                        <ClickAwayListener onClickAway={aprClose}>
-                        <Tooltip
-                          open={this.state.aprTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">APR:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {apy}%
+                          <ClickAwayListener onClickAway={aprClose}>
+                            <Tooltip
+                              open={this.state.aprTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "APR reflects the interest rate of earnings on an account over the course of one year. "
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={aprOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                      </h6>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <h6 className="earnrewards-text">Lock time:</h6>
-                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                        <ClickAwayListener onClickAway={lockClose}>
-                        <Tooltip
-                          open={this.state.lockTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "The amount of time your deposited assets will be locked."
+                            >
+                              <img src={moreinfo} alt="" onClick={aprOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Lock time:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
+                          <ClickAwayListener onClickAway={lockClose}>
+                            <Tooltip
+                              open={this.state.lockTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "The amount of time your deposited assets will be locked."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={lockOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                      </h6>
+                            >
+                              <img src={moreinfo} alt="" onClick={lockOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
                     </div>
-                  </div>
-                  <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
-                  {/* <a
+                    <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                      {/* <a
                     href={
                       chainId === 1
                         ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
@@ -1346,28 +1401,26 @@ export default function initFarmAvax({
                       Get DYP
                     </h6>
                   </a> */}
-                  <h6
-                    className="bottomitems"
-                    onClick={() => this.setState({ showCalculator: true })}
-                  >
-                    <img src={poolsCalculatorIcon} alt="" />
-                    Calculator
-                  </h6>
-                  <div
-                    onClick={() => {
-                      this.showPopup();
-                    }}
-                  >
-                    <h6 className="bottomitems">
-                      <img src={purplestats} alt="" />
-                      Stats
-                    </h6>
+                      <h6
+                        className="bottomitems"
+                        onClick={() => this.setState({ showCalculator: true })}
+                      >
+                        <img src={poolsCalculatorIcon} alt="" />
+                        Calculator
+                      </h6>
+                      <div
+                        onClick={() => {
+                          this.showPopup();
+                        }}
+                      >
+                        <h6 className="bottomitems">
+                          <img src={purplestats} alt="" />
+                          Stats
+                        </h6>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                  </div>
-                </div>
-
-                
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
@@ -1383,7 +1436,7 @@ export default function initFarmAvax({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                   {this.props.coinbase === null ? (
+                    {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1391,16 +1444,18 @@ export default function initFarmAvax({
                         {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : chainId === '43114' ? (
+                    ) : chainId === "43114" ? (
                       <div className="addressbtn btn">
                         <Address a={this.props.coinbase} chainId={43114} />
                       </div>
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0xa86a")}}
+                        onClick={() => {
+                          handleSwitchNetworkhook("0xa86a");
+                        }}
                       >
-                       Change Network
+                        Change Network
                       </button>
                     )}
                   </div>
@@ -1413,38 +1468,39 @@ export default function initFarmAvax({
                 <div className="otherside-border col-12 col-md-6 col-lg-4">
                   <div className="d-flex justify-content-between align-items-start gap-2">
                     <div className="d-flex flex-column flex-lg-row align-items-start gap-3">
-                     <div className="d-flex align-items-start gap-3"> 
-                     <h6 className="deposit-txt">Deposit</h6>
-                      <div className="d-flex justify-content-center align-items-center">
-                        <div className="dropdown">
-                          <button
-                            class="btn farming-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                            style={{position: 'relative', bottom: '4px'}}
-                          >
-                            <img
-                              src={
-                                require(`./assets/avax/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
-                                  .default
-                              }
-                              alt=""
-                              style={{ width: 14, height: 14 }}
-                            />
-                            {this.state.selectedTokenLogo.toUpperCase()}
-                            <img
-                              src={dropdownVector}
-                              alt=""
-                              style={{ width: 10, height: 10 }}
-                            />
-                          </button>
-                          <ul
-                            className="dropdown-menu"
-                            style={{ minWidth: "100%" }}
-                          >
-                            {Object.keys(window.buyback_tokens_farmingavax).map(
-                              (t) => (
+                      <div className="d-flex align-items-start gap-3">
+                        <h6 className="deposit-txt">Deposit</h6>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="dropdown">
+                            <button
+                              class="btn farming-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                              type="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                              style={{ position: "relative", bottom: "4px" }}
+                            >
+                              <img
+                                src={
+                                  require(`./assets/avax/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                                    .default
+                                }
+                                alt=""
+                                style={{ width: 14, height: 14 }}
+                              />
+                              {this.state.selectedTokenLogo.toUpperCase()}
+                              <img
+                                src={dropdownVector}
+                                alt=""
+                                style={{ width: 10, height: 10 }}
+                              />
+                            </button>
+                            <ul
+                              className="dropdown-menu"
+                              style={{ minWidth: "100%" }}
+                            >
+                              {Object.keys(
+                                window.buyback_tokens_farmingavax
+                              ).map((t) => (
                                 <span
                                   className="d-flex align-items-center justify-content-start ps-2 gap-1 inputfarming farming-dropdown-item py-1 w-100"
                                   onClick={() =>
@@ -1462,11 +1518,11 @@ export default function initFarmAvax({
                                   />
                                   {window.buyback_tokens_farmingavax[t].symbol}
                                 </span>
-                              )
-                            )}
-                          </ul>
+                              ))}
+                            </ul>
+                          </div>
                         </div>
-                      </div></div>
+                      </div>
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
@@ -1474,59 +1530,59 @@ export default function initFarmAvax({
                             this.state.selectedTokenBalance /
                               10 ** this.state.selectedTokenDecimals,
                             6
-                          )}
-                        {" "}{this.state.selectedTokenSymbol}
+                          )}{" "}
+                          {this.state.selectedTokenSymbol}
                         </b>
                       </h6>
                     </div>
                     <ClickAwayListener onClickAway={depositClose}>
-                        <Tooltip
-                          open={this.state.depositTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                                {
-                            "Deposit your assets to the farming smart contract. 75% of your assets goes for creation of LP tokens and 25% goes for buying DYP and depositing to staking smart contract to generate rewards."
-                          }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={depositOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                      <Tooltip
+                        open={this.state.depositTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Deposit your assets to the farming smart contract. 75% of your assets goes for creation of LP tokens and 25% goes for buying DYP and depositing to staking smart contract to generate rewards."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={depositOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
-                          <div className="d-flex align-items-center justify-content-between justify-content-lg-start gap-2 w-100">
-                          <div className="position-relative">
-                        <h6 className="amount-txt">Amount</h6>
-                        <input
-                          type={"number"}
-                          className="styledinput"
-                          placeholder="0.0"
-                          style={{ width: "100%" }}
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
-                        />
+                      <div className="d-flex align-items-center justify-content-between justify-content-lg-start gap-2 w-100">
+                        <div className="position-relative">
+                          <h6 className="amount-txt">Amount</h6>
+                          <input
+                            type={"number"}
+                            className="styledinput"
+                            placeholder="0.0"
+                            style={{ width: "100%" }}
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                depositAmount: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        <button
+                          className="btn maxbtn"
+                          onClick={this.handleSetMaxDeposit}
+                        >
+                          Max
+                        </button>
                       </div>
-                      <button
-                        className="btn maxbtn"
-                        onClick={this.handleSetMaxDeposit}
-                      >
-                        Max
-                      </button>
-                          </div>
 
                       <button
                         disabled={
@@ -1537,7 +1593,9 @@ export default function initFarmAvax({
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.depositAmount === "" &&  this.state.depositStatus === "initial" && "disabled-btn"
+                          this.state.depositAmount === "" &&
+                          this.state.depositStatus === "initial" &&
+                          "disabled-btn"
                         } ${
                           this.state.depositStatus === "deposit" ||
                           this.state.depositStatus === "success"
@@ -1549,7 +1607,8 @@ export default function initFarmAvax({
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
-                            : this.state.depositStatus === "initial"  && this.state.depositAmount !== ""
+                            : this.state.depositStatus === "initial" &&
+                              this.state.depositAmount !== ""
                             ? this.handleApprove()
                             : console.log("");
                         }}
@@ -1584,8 +1643,8 @@ export default function initFarmAvax({
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
-                        Rewards are displayed in real-time
-                        <ClickAwayListener onClickAway={rewardsClose}>
+                      Rewards are displayed in real-time
+                      <ClickAwayListener onClickAway={rewardsClose}>
                         <Tooltip
                           open={this.state.rewardsTooltip}
                           disableFocusListener
@@ -1594,9 +1653,9 @@ export default function initFarmAvax({
                           placement="top"
                           title={
                             <div className="tooltip-text">
-                           {
-                              "Rewards earned by your deposit to the farming smart contract are distributed automatically and can be claimed every day. You need to select assets individually and claim them to your wallet."
-                            }
+                              {
+                                "Rewards earned by your deposit to the farming smart contract are distributed automatically and can be claimed every day. You need to select assets individually and claim them to your wallet."
+                              }
                             </div>
                           }
                         >
@@ -1608,62 +1667,64 @@ export default function initFarmAvax({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2"></div>
                     <div className="form-row d-flex flex-column flex-lg-row gap-2 align-items-center align-items-lg-end justify-content-between">
-                        <div className="d-flex align-items-center justify-content-between justify-content-lg-center gap-5">
+                      <div className="d-flex align-items-center justify-content-between justify-content-lg-center gap-5">
                         <div
-                        className="gap-1 claimreward-wrapper"
-                        onClick={() => {
-                          this.setState({ selectedPool: "wavax" });
-                        }}
-                        style={{
-                          // padding: '3px',
-                          background:
-                            this.state.selectedPool === "wavax"
-                              ? "#141333"
-                              : "#26264F",
-                          border:
-                            this.state.selectedPool === "wavax"
-                              ? "1px solid #57B6AB"
-                              : "1px solid #8E97CD",
-                        }}
-                      >
-                        <img
-                          src={
-                            this.state.selectedPool === "wavax" ? check : empty
-                          }
-                          alt=""
-                          className="activestate"
-                        />
-                        <div className="position-relative">
-                          <input
-                            disabled
-                            value={
-                              Number(pendingDivsEth) > 0
-                                ? `${pendingDivsEth} WAVAX`
-                                : `${getFormattedNumber(0,2)} WAVAX`
-                            }
-                            onChange={(e) =>
-                              this.setState({
-                                pendingDivsEth:
-                                  Number(e.target.value) > 0
-                                    ? e.target.value
-                                    : e.target.value,
-                              })
-                            }
-                            className=" left-radius inputfarming styledinput2"
-                            placeholder="0"
-                            type="text"
-                            style={{
-                              width: "120px",
-                              padding: "0px 15px 0px 15px",
-                              height: 35,
-                            }}
-                          />
-                        </div>
-                        <div
-                          className="d-flex align-items-center justify-content-center w-100 claimreward-header"
-                          // style={{ paddingLeft: "10px" }}
+                          className="gap-1 claimreward-wrapper"
+                          onClick={() => {
+                            this.setState({ selectedPool: "wavax" });
+                          }}
+                          style={{
+                            // padding: '3px',
+                            background:
+                              this.state.selectedPool === "wavax"
+                                ? "#141333"
+                                : "#26264F",
+                            border:
+                              this.state.selectedPool === "wavax"
+                                ? "1px solid #57B6AB"
+                                : "1px solid #8E97CD",
+                          }}
                         >
-                          {/* <img
+                          <img
+                            src={
+                              this.state.selectedPool === "wavax"
+                                ? check
+                                : empty
+                            }
+                            alt=""
+                            className="activestate"
+                          />
+                          <div className="position-relative">
+                            <input
+                              disabled
+                              value={
+                                Number(pendingDivsEth) > 0
+                                  ? `${pendingDivsEth} WAVAX`
+                                  : `${getFormattedNumber(0, 2)} WAVAX`
+                              }
+                              onChange={(e) =>
+                                this.setState({
+                                  pendingDivsEth:
+                                    Number(e.target.value) > 0
+                                      ? e.target.value
+                                      : e.target.value,
+                                })
+                              }
+                              className=" left-radius inputfarming styledinput2"
+                              placeholder="0"
+                              type="text"
+                              style={{
+                                width: "120px",
+                                padding: "0px 15px 0px 15px",
+                                height: 35,
+                              }}
+                            />
+                          </div>
+                          <div
+                            className="d-flex align-items-center justify-content-center w-100 claimreward-header"
+                            // style={{ paddingLeft: "10px" }}
+                          >
+                            {/* <img
                             src={
                               require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
                                 .default
@@ -1687,145 +1748,146 @@ export default function initFarmAvax({
                             <option value="0"> WAVAX </option>
                             <option value="1"> WETH.e </option>
                           </select> */}
-                          <div class="dropdown">
-                            <button
-                              class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
-                              type="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
-                            >
-                              <img
-                                src={
-                                  require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
-                                    .default
-                                }
-                                alt=""
-                                style={{ width: 14, height: 14 }}
-                              />
-                              {this.state.selectedRewardTokenLogo1.toUpperCase()}
-                              <img
-                                src={dropdownVector}
-                                alt=""
-                                style={{ width: 10, height: 10 }}
-                              />
-                            </button>
-                            <ul
-                              class="dropdown-menu"
-                              style={{ minWidth: "100%" }}
-                            >
-                              <span
-                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
-                                onClick={() => {
-                                  this.handleClaimToken("1");
-                                  this.setState({
-                                    selectedRewardTokenLogo1: "wavax",
-                                  });
-                                }}
+                            <div class="dropdown">
+                              <button
+                                class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
                               >
                                 <img
                                   src={
-                                    require(`./assets/avax/wavax.svg`).default
+                                    require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                      .default
                                   }
                                   alt=""
                                   style={{ width: 14, height: 14 }}
                                 />
-                                WAVAX
-                              </span>
-                              <span
-                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
-                                onClick={() => {
-                                  this.handleClaimToken("2");
-                                  this.setState({
-                                    selectedRewardTokenLogo1: "weth.e",
-                                  });
-                                }}
-                              >
+                                {this.state.selectedRewardTokenLogo1.toUpperCase()}
                                 <img
-                                  src={
-                                    require(`./assets/avax/weth.e.svg`).default
-                                  }
+                                  src={dropdownVector}
                                   alt=""
-                                  style={{ width: 14, height: 14 }}
+                                  style={{ width: 10, height: 10 }}
                                 />
-                                WETH.e
-                              </span>
-                            </ul>
+                              </button>
+                              <ul
+                                class="dropdown-menu"
+                                style={{ minWidth: "100%" }}
+                              >
+                                <span
+                                  className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                  onClick={() => {
+                                    this.handleClaimToken("1");
+                                    this.setState({
+                                      selectedRewardTokenLogo1: "wavax",
+                                    });
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      require(`./assets/avax/wavax.svg`).default
+                                    }
+                                    alt=""
+                                    style={{ width: 14, height: 14 }}
+                                  />
+                                  WAVAX
+                                </span>
+                                <span
+                                  className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                  onClick={() => {
+                                    this.handleClaimToken("2");
+                                    this.setState({
+                                      selectedRewardTokenLogo1: "weth.e",
+                                    });
+                                  }}
+                                >
+                                  <img
+                                    src={
+                                      require(`./assets/avax/weth.e.svg`)
+                                        .default
+                                    }
+                                    alt=""
+                                    style={{ width: 14, height: 14 }}
+                                  />
+                                  WETH.e
+                                </span>
+                              </ul>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div
-                        className="gap-1 claimreward-wrapper"
-                        style={{
-                          // padding: '3px',
-                          background:
-                            this.state.selectedPool === "dyp"
-                              ? "#141333"
-                              : "#26264F",
-                          border:
-                            this.state.selectedPool === "dyp"
-                              ? "1px solid #57B6AB"
-                              : "1px solid #8E97CD",
-                        }}
-                        onClick={() => {
-                          this.setState({ selectedPool: "dyp" });
-                        }}
-                      >
-                        <img
-                          src={
-                            this.state.selectedPool === "dyp" ? check : empty
-                          }
-                          alt=""
-                          className="activestate"
-                        />
-
-                        <div className="position-relative">
-                          <input
-                            disabled
-                            value={
-                              Number(pendingDivs) > 0
-                                ? `${pendingDivs} DYP`
-                                : `${getFormattedNumber(0,2)} DYP`
-                            }
-                            onChange={(e) =>
-                              this.setState({
-                                pendingDivs:
-                                  Number(e.target.value) > 0
-                                    ? e.target.value
-                                    : e.target.value,
-                              })
-                            }
-                            className=" left-radius inputfarming styledinput2"
-                            placeholder="0"
-                            type="text"
-                            style={{
-                              width: "120px",
-                              padding: "0px 15px 0px 15px",
-                              height: 35,
-                            }}
-                          />
-                        </div>
-
                         <div
-                          className="d-flex align-items-center justify-content-center w-100 claimreward-header "
-                          // style={{ paddingLeft: "10px" }}
+                          className="gap-1 claimreward-wrapper"
+                          style={{
+                            // padding: '3px',
+                            background:
+                              this.state.selectedPool === "dyp"
+                                ? "#141333"
+                                : "#26264F",
+                            border:
+                              this.state.selectedPool === "dyp"
+                                ? "1px solid #57B6AB"
+                                : "1px solid #8E97CD",
+                          }}
+                          onClick={() => {
+                            this.setState({ selectedPool: "dyp" });
+                          }}
                         >
                           <img
                             src={
-                              require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
-                                .default
+                              this.state.selectedPool === "dyp" ? check : empty
                             }
                             alt=""
-                            style={{ width: 14, height: 14 }}
+                            className="activestate"
                           />
-                          <select
-                            disabled
-                            defaultValue="DYP"
-                            className="form-control inputfarming"
-                            style={{ border: "none", padding: "0 0 0 3px" }}
+
+                          <div className="position-relative">
+                            <input
+                              disabled
+                              value={
+                                Number(pendingDivs) > 0
+                                  ? `${pendingDivs} DYP`
+                                  : `${getFormattedNumber(0, 2)} DYP`
+                              }
+                              onChange={(e) =>
+                                this.setState({
+                                  pendingDivs:
+                                    Number(e.target.value) > 0
+                                      ? e.target.value
+                                      : e.target.value,
+                                })
+                              }
+                              className=" left-radius inputfarming styledinput2"
+                              placeholder="0"
+                              type="text"
+                              style={{
+                                width: "120px",
+                                padding: "0px 15px 0px 15px",
+                                height: 35,
+                              }}
+                            />
+                          </div>
+
+                          <div
+                            className="d-flex align-items-center justify-content-center w-100 claimreward-header "
+                            // style={{ paddingLeft: "10px" }}
                           >
-                            <option value="DYP"> DYP </option>
-                          </select>
-                          {/* <div class="dropdown">
+                            <img
+                              src={
+                                require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                                  .default
+                              }
+                              alt=""
+                              style={{ width: 14, height: 14 }}
+                            />
+                            <select
+                              disabled
+                              defaultValue="DYP"
+                              className="form-control inputfarming"
+                              style={{ border: "none", padding: "0 0 0 3px" }}
+                            >
+                              <option value="DYP"> DYP </option>
+                            </select>
+                            {/* <div class="dropdown">
                             <button
                               class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
                               type="button"
@@ -1871,9 +1933,9 @@ export default function initFarmAvax({
                               </span>
                             </ul>
                           </div> */}
+                          </div>
                         </div>
                       </div>
-                        </div>
                       <button
                         disabled={
                           this.state.selectedPool === "" ||
@@ -1952,23 +2014,23 @@ export default function initFarmAvax({
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
-                        <Tooltip
-                          open={this.state.withdrawTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
+                      <Tooltip
+                        open={this.state.withdrawTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
                             {
-                            "Withdraw your deposited assets from the farming smart contract."
-                          }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={withdrawOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                              "Withdraw your deposited assets from the farming smart contract."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </h6>
 
                   <button
@@ -1997,8 +2059,7 @@ export default function initFarmAvax({
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
-            width="fit-content"
-
+              width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -2079,34 +2140,51 @@ export default function initFarmAvax({
                       </tbody>
                     </table>
                   </div> */}
-                   <div className="stats-container my-4">
+                  <div className="stats-container my-4">
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">My LP Deposit</span>
                       <h6 className="stats-card-content">
                         {myDepositedLpTokens} iDYP/WAVAX
                       </h6>
-                      <span className="stats-usd-value">${getFormattedNumber(myDepositedLpTokens * this.state.iDypUSD)}</span>
+                      <span className="stats-usd-value">
+                        $
+                        {getFormattedNumber(
+                          myDepositedLpTokens * this.state.iDypUSD
+                        )}
+                      </span>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">
                         Total LP Deposited
                       </span>
                       <h6 className="stats-card-content">{tvl} iDYP/WAVAX</h6>
-                      <span className="stats-usd-value">${getFormattedNumber(tvl * this.state.iDypUSD)}</span>
+                      <span className="stats-usd-value">
+                        ${getFormattedNumber(tvl * this.state.iDypUSD)}
+                      </span>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">My DYP Stake</span>
                       <h6 className="stats-card-content">
                         {reward_token_balance} DYP
                       </h6>
-                      <span className="stats-usd-value">${getFormattedNumber(reward_token_balance * this.state.dypUSD)}</span>
+                      <span className="stats-usd-value">
+                        $
+                        {getFormattedNumber(
+                          reward_token_balance * this.state.dypUSD
+                        )}
+                      </span>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">Total Earned DYP</span>
                       <h6 className="stats-card-content">
                         {totalEarnedTokens} DYP
                       </h6>
-                      <span className="stats-usd-value">${getFormattedNumber(totalEarnedTokens * this.state.dypUSD)}</span>
+                      <span className="stats-usd-value">
+                        $
+                        {getFormattedNumber(
+                          totalEarnedTokens * this.state.dypUSD
+                        )}
+                      </span>
                     </div>
                     <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                       <span className="stats-card-title">
@@ -2147,12 +2225,15 @@ export default function initFarmAvax({
                   <div className="container">
                     <div className="row" style={{ marginLeft: "0px" }}>
                       <div className="d-flex justify-content-between gap-2 align-items-center p-0">
-                        <h6 className="d-flex gap-2 align-items-center statstext"  style={{
+                        <h6
+                          className="d-flex gap-2 align-items-center statstext"
+                          style={{
                             fontWeight: "500",
                             fontSize: "20px",
                             lineHeight: "28px",
                             color: "#f7f7fc",
-                          }}>
+                          }}
+                        >
                           <img src={poolStatsIcon} alt="" />
                           Pool stats
                         </h6>
@@ -2246,7 +2327,7 @@ export default function initFarmAvax({
                         </tr>
                       </tbody>
                     </table> */}
-                     <div className="stats-container my-4">
+                    <div className="stats-container my-4">
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">TVL USD</span>
                         <h6 className="stats-card-content">{tvl_usd} USD</h6>
@@ -2278,7 +2359,7 @@ export default function initFarmAvax({
                         </h6>
                       </div>
                       <div className="d-flex flex-column align-items-start justify-content-center gap-2">
-                  <a
+                        <a
                           target="_blank"
                           rel="noopener noreferrer"
                           href={`https://github.com/dypfinance/staking-governance-security-audits`}
@@ -2294,7 +2375,7 @@ export default function initFarmAvax({
                         >
                           View transaction <img src={statsLinkIcon} alt="" />
                         </a>
-                  </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2310,13 +2391,12 @@ export default function initFarmAvax({
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
-            width="fit-content"
-
+              width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
                   <div className="container">
-                  <div className="row" style={{ marginLeft: "0px" }}>
+                    <div className="row" style={{ marginLeft: "0px" }}>
                       <h6 className="withdrawdesc mt-2 p-0">
                         {lockTime === "No Lock"
                           ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
@@ -2344,73 +2424,80 @@ export default function initFarmAvax({
                       <div className="separator"></div>
 
                       <div className="d-flex flex-column gap-1 mt-2">
-                        <h6 className="withsubtitle mb-2" style={{color: '#4ED5D2'}}>Select assets</h6>
+                        <h6
+                          className="withsubtitle mb-2"
+                          style={{ color: "#4ED5D2" }}
+                        >
+                          Select assets
+                        </h6>
                         <div className="row d-flex align-items-start justify-content-between gap-1 ">
-                         <div className="col-5 d-flex flex-column gap-1">
-                         <div className="gap-1 claimreward-wrapper w-100"
-                            onClick={() => {
-                              this.setState({ selectedPool: "wavax2" });
-                            }}
-                            style={{
-                              background:
-                                this.state.selectedPool === "wavax2"
-                                  ? "#141333"
-                                  : "#26264F",
-                              border:
-                                this.state.selectedPool === "wavax2"
-                                  ? "1px solid #57B6AB"
-                                  : "1px solid #8E97CD",
-                            }}
-                          >
-                            <img
-                              src={
-                                this.state.selectedPool === "wavax2"
-                                  ? check
-                                  : empty
-                              }
-                              alt=""
-                              className="activestate" style={{top: '65px'}}
-                            />
-                            <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100">
-                              <div className="position-relative">
-                                <h6
-                                  className="withsubtitle"
-                                  style={{ padding: "5px 0 0 15px" }}
-                                >
-                                  Value
-                                </h6>
+                          <div className="col-5 d-flex flex-column gap-1">
+                            <div
+                              className="gap-1 claimreward-wrapper w-100"
+                              onClick={() => {
+                                this.setState({ selectedPool: "wavax2" });
+                              }}
+                              style={{
+                                background:
+                                  this.state.selectedPool === "wavax2"
+                                    ? "#141333"
+                                    : "#26264F",
+                                border:
+                                  this.state.selectedPool === "wavax2"
+                                    ? "1px solid #57B6AB"
+                                    : "1px solid #8E97CD",
+                              }}
+                            >
+                              <img
+                                src={
+                                  this.state.selectedPool === "wavax2"
+                                    ? check
+                                    : empty
+                                }
+                                alt=""
+                                className="activestate"
+                                style={{ top: "65px" }}
+                              />
+                              <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100">
+                                <div className="position-relative">
+                                  <h6
+                                    className="withsubtitle"
+                                    style={{ padding: "5px 0 0 15px" }}
+                                  >
+                                    Value
+                                  </h6>
 
-                                <input
-                                  disabled
-                                  value={
-                                    Number(this.state.withdrawAmount) > 0
-                                      ? `${
-                                          this.state.withdrawAmount *
-                                          LP_AMPLIFY_FACTOR
-                                        } LP`
-                                      : `${this.state.withdrawAmount} LP`
-                                  }
-                                  onChange={(e) =>
-                                    this.setState({
-                                      withdrawAmount:
-                                        Number(e.target.value) > 0
-                                          ? e.target.value / LP_AMPLIFY_FACTOR
-                                          : e.target.value,
-                                    })
-                                  }
-                                  className=" left-radius inputfarming styledinput2"
-                                  placeholder="0"
-                                  type="text"
-                                  style={{
-                                    width: "150px",
-                                    padding: "0px 15px 0px 15px",
-                                    height: 35,
-                                    fontSize: 20,
-                                    fontWeight: 300,
-                                  }}
-                                />
-                              </div>
-                              {/* <div
+                                  <input
+                                    disabled
+                                    value={
+                                      Number(this.state.withdrawAmount) > 0
+                                        ? `${
+                                            this.state.withdrawAmount *
+                                            LP_AMPLIFY_FACTOR
+                                          } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                        : `${this.state.withdrawAmount} ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                    }
+                                    onChange={(e) =>
+                                      this.setState({
+                                        withdrawAmount:
+                                          Number(e.target.value) > 0
+                                            ? e.target.value / LP_AMPLIFY_FACTOR
+                                            : e.target.value,
+                                      })
+                                    }
+                                    className=" left-radius inputfarming styledinput2"
+                                    placeholder="0"
+                                    type="text"
+                                    style={{
+                                      width: "150px",
+                                      padding: "0px 15px 0px 15px",
+                                      height: 35,
+                                      fontSize: 20,
+                                      fontWeight: 300,
+                                    }}
+                                  />
+                                </div>
+                                {/* <div
                                 className="d-flex flex-column gap-1"
                                 style={{ paddingRight: "15px" }}
                               >
@@ -2422,53 +2509,53 @@ export default function initFarmAvax({
                                   $200
                                 </h6>
                               </div> */}
-                              <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100">
-                              <div className="position-relative">
-                                <h6
-                                  className="withsubtitle"
-                                  style={{ padding: "5px 0 0 15px" }}
-                                >
-                                  LP balance
-                                </h6>
+                                <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100">
+                                  <div className="position-relative">
+                                    <h6
+                                      className="withsubtitle"
+                                      style={{ padding: "5px 0 0 15px" }}
+                                    >
+                                      LP balance
+                                    </h6>
 
-                                <input
-                                  disabled
-                                  value={
-                                    Number(this.state.withdrawAmount) > 0
-                                      ? `${
-                                          this.state.withdrawAmount *
-                                          LP_AMPLIFY_FACTOR
-                                        } LP`
-                                      : `${this.state.withdrawAmount} LP`
-                                  }
-                                  onChange={(e) =>
-                                    this.setState({
-                                      withdrawAmount:
-                                        Number(e.target.value) > 0
-                                          ? e.target.value / LP_AMPLIFY_FACTOR
-                                          : e.target.value,
-                                    })
-                                  }
-                                  className=" left-radius inputfarming styledinput2"
-                                  placeholder="0"
-                                  type="text"
-                                  style={{
-                                    width: "150px",
-                                    padding: "0px 15px 0px 15px",
-                                    height: 35,
-                                    fontSize: 20,
-                                    fontWeight: 300,
-                                  }}
-                                />
+                                    <input
+                                      disabled
+                                      value={
+                                        Number(this.state.withdrawAmount) > 0
+                                          ? `${
+                                              this.state.withdrawAmount *
+                                              LP_AMPLIFY_FACTOR
+                                            } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                          : `${this.state.withdrawAmount} ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                      }
+                                      onChange={(e) =>
+                                        this.setState({
+                                          withdrawAmount:
+                                            Number(e.target.value) > 0
+                                              ? e.target.value /
+                                                LP_AMPLIFY_FACTOR
+                                              : e.target.value,
+                                        })
+                                      }
+                                      className=" left-radius inputfarming styledinput2"
+                                      placeholder="0"
+                                      type="text"
+                                      style={{
+                                        width: "150px",
+                                        padding: "0px 15px 0px 15px",
+                                        height: 35,
+                                        fontSize: 20,
+                                        fontWeight: 300,
+                                      }}
+                                    />
+                                  </div>
+                                </div>
                               </div>
-                            
-                            </div>
-                            </div>
-                            <div
-                              className="d-flex align-items-center justify-content-center w-100 claimreward-header"
-                              // style={{ padding: "10px 0 0 10px" }}
-                            >
-                              {/* <img
+                              <div
+                                className="d-flex align-items-center justify-content-center w-100 claimreward-header"
+                                // style={{ padding: "10px 0 0 10px" }}
+                              >
+                                {/* <img
                                 src={
                                   require(`./assets/avax/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
                                     .default
@@ -2494,153 +2581,167 @@ export default function initFarmAvax({
                                 <option value="0"> WAVAX </option>
                                 <option value="1"> WETH.e </option>
                               </select> */}
-                               <div class="dropdown">
-                            <button
-                              class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
-                              type="button"
-                              data-bs-toggle="dropdown"
-                              aria-expanded="false"
+                                <div class="dropdown">
+                                  <button
+                                    class="btn reward-dropdown inputfarming d-flex align-items-center justify-content-center gap-1"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false"
+                                  >
+                                    <img
+                                      src={
+                                        require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
+                                          .default
+                                      }
+                                      alt=""
+                                      style={{ width: 14, height: 14 }}
+                                    />
+                                    {this.state.selectedRewardTokenLogo1.toUpperCase()}
+                                    <img
+                                      src={dropdownVector}
+                                      alt=""
+                                      style={{ width: 10, height: 10 }}
+                                    />
+                                  </button>
+                                  <ul
+                                    class="dropdown-menu"
+                                    style={{ minWidth: "100%" }}
+                                  >
+                                    <span
+                                      className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                      onClick={() => {
+                                        this.handleClaimToken("1");
+                                        this.setState({
+                                          selectedRewardTokenLogo1: "wavax",
+                                        });
+                                      }}
+                                    >
+                                      <img
+                                        src={
+                                          require(`./assets/wavax.svg`).default
+                                        }
+                                        alt=""
+                                        style={{ width: 14, height: 14 }}
+                                      />
+                                      WAVAX
+                                    </span>
+                                    <span
+                                      className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
+                                      onClick={() => {
+                                        this.handleClaimToken("2");
+                                        this.setState({
+                                          selectedRewardTokenLogo1: "usdt",
+                                        });
+                                      }}
+                                    >
+                                      <img
+                                        src={
+                                          require(`./assets/usdt.svg`).default
+                                        }
+                                        alt=""
+                                        style={{ width: 14, height: 14 }}
+                                      />
+                                      USDT
+                                    </span>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+                            <h6 className="withsubtitle d-flex justify-content-start w-100 mb-2">
+                              Total LP deposited{" "}
+                            </h6>
+                          </div>
+                          <div className="col-5 d-flex flex-column gap-1">
+                            <div
+                              className="gap-1 claimreward-wrapper w-100"
+                              style={{
+                                background:
+                                  this.state.selectedPool === "dyp2"
+                                    ? "#141333"
+                                    : "#26264F",
+                                border:
+                                  this.state.selectedPool === "dyp2"
+                                    ? "1px solid #57B6AB"
+                                    : "1px solid #8E97CD",
+                              }}
+                              onClick={() => {
+                                this.setState({ selectedPool: "dyp2" });
+                              }}
                             >
                               <img
                                 src={
-                                  require(`./assets/${this.state.selectedRewardTokenLogo1.toLowerCase()}.svg`)
-                                    .default
+                                  this.state.selectedPool === "dyp2"
+                                    ? check
+                                    : empty
                                 }
                                 alt=""
-                                style={{ width: 14, height: 14 }}
+                                className="activestate"
                               />
-                              {this.state.selectedRewardTokenLogo1.toUpperCase()}
-                              <img
-                                src={dropdownVector}
-                                alt=""
-                                style={{ width: 10, height: 10 }}
-                              />
-                            </button>
-                            <ul
-                              class="dropdown-menu"
-                              style={{ minWidth: "100%" }}
-                            >
-                              <span
-                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
-                                onClick={() => {
-                                  this.handleClaimToken("1");
-                                  this.setState({
-                                    selectedRewardTokenLogo1: "wavax",
-                                  });
-                                }}
-                              >
-                                <img
-                                  src={require(`./assets/wavax.svg`).default}
-                                  alt=""
-                                  style={{ width: 14, height: 14 }}
-                                />
-                                WAVAX
-                              </span>
-                              <span
-                                className="d-flex align-items-center justify-content-center  gap-1 inputfarming farming-dropdown-item py-1 w-100"
-                                onClick={() => {
-                                  this.handleClaimToken("2");
-                                  this.setState({
-                                    selectedRewardTokenLogo1: "usdt",
-                                  });
-                                }}
-                              >
-                                <img
-                                  src={require(`./assets/usdt.svg`).default}
-                                  alt=""
-                                  style={{ width: 14, height: 14 }}
-                                />
-                                USDT
-                              </span>
-                            </ul>
-                          </div>
-                            </div>
-                          </div>
-                          <h6 className="withsubtitle d-flex justify-content-start w-100 mb-2">
-                            Total LP deposited{" "}
-                          </h6>
-                         </div>
-                         <div className="col-5 d-flex flex-column gap-1">
-                         <div
-                            className="gap-1 claimreward-wrapper w-100"
-                            style={{
-                              background:
-                                this.state.selectedPool === "dyp2"
-                                  ? "#141333"
-                                  : "#26264F",
-                              border:
-                                this.state.selectedPool === "dyp2"
-                                  ? "1px solid #57B6AB"
-                                  : "1px solid #8E97CD",
-                            }}
-                            onClick={() => {
-                              this.setState({ selectedPool: "dyp2" });
-                            }}
-                          >
-                            <img
-                              src={
-                                this.state.selectedPool === "dyp2"
-                                  ? check
-                                  : empty
-                              }
-                              alt=""
-                              className="activestate"
-                            />
 
-                            <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100 position-relative">
-                              <div className="position-relative">
-                              <h6 className="withsubtitle" style={{padding: "0px 15px 0px 15px"}}>LP Balance</h6>
+                              <div className="d-flex flex-column align-items-center gap-2 justify-content-between w-100 position-relative">
+                                <div className="position-relative">
+                                  <h6
+                                    className="withsubtitle"
+                                    style={{ padding: "0px 15px 0px 15px" }}
+                                  >
+                                    LP Balance
+                                  </h6>
 
-                                <input
-                                  disabled
-                                  value={`${depositedTokensDYP} DYP`}
-                                  onChange={(e) =>
-                                    this.setState({
-                                      withdrawAmount:
-                                        Number(e.target.value) > 0
-                                          ? e.target.value / LP_AMPLIFY_FACTOR
-                                          : e.target.value,
-                                    })
-                                  }
-                                  className=" left-radius inputfarming styledinput2"
-                                  placeholder="0"
-                                  type="text"
-                                  style={{
-                                    width: "150px",
-                                    padding: "0px 15px 0px 15px",
-                                    height: 35,
-                                    fontSize: 20,
-                                    fontWeight: 300,
-                                  }}
-                                />
-                              </div>
-                              <div className="position-relative">
-                              <h6 className="withsubtitle" style={{padding: "0px 15px 0px 15px"}}>Value</h6>
+                                  <input
+                                    disabled
+                                    value={`${depositedTokensDYP} DYP`}
+                                    onChange={(e) =>
+                                      this.setState({
+                                        withdrawAmount:
+                                          Number(e.target.value) > 0
+                                            ? e.target.value / LP_AMPLIFY_FACTOR
+                                            : e.target.value,
+                                      })
+                                    }
+                                    className=" left-radius inputfarming styledinput2"
+                                    placeholder="0"
+                                    type="text"
+                                    style={{
+                                      width: "150px",
+                                      padding: "0px 15px 0px 15px",
+                                      height: 35,
+                                      fontSize: 20,
+                                      fontWeight: 300,
+                                    }}
+                                  />
+                                </div>
+                                <div className="position-relative">
+                                  <h6
+                                    className="withsubtitle"
+                                    style={{ padding: "0px 15px 0px 15px" }}
+                                  >
+                                    Value
+                                  </h6>
 
-                                <input
-                                  disabled
-                                  value={`${depositedTokensDYP} DYP`}
-                                  onChange={(e) =>
-                                    this.setState({
-                                      withdrawAmount:
-                                        Number(e.target.value) > 0
-                                          ? e.target.value / LP_AMPLIFY_FACTOR
-                                          : e.target.value,
-                                    })
-                                  }
-                                  className=" left-radius inputfarming styledinput2"
-                                  placeholder="0"
-                                  type="text"
-                                  style={{
-                                    width: "150px",
-                                    padding: "0px 15px 0px 15px",
-                                    height: 35,
-                                    fontSize: 20,
-                                    fontWeight: 300,
-                                  }}
-                                />
-                              </div>
-                              {/* <div
+                                  <input
+                                    disabled
+                                    value={`${depositedTokensDYP} DYP`}
+                                    onChange={(e) =>
+                                      this.setState({
+                                        withdrawAmount:
+                                          Number(e.target.value) > 0
+                                            ? e.target.value / LP_AMPLIFY_FACTOR
+                                            : e.target.value,
+                                      })
+                                    }
+                                    className=" left-radius inputfarming styledinput2"
+                                    placeholder="0"
+                                    type="text"
+                                    style={{
+                                      width: "150px",
+                                      padding: "0px 15px 0px 15px",
+                                      height: 35,
+                                      fontSize: 20,
+                                      fontWeight: 300,
+                                    }}
+                                  />
+                                </div>
+                                {/* <div
                                 className="d-flex flex-column gap-1 position-relative"
                                 style={{ paddingRight: "15px", top: "-8px" }}
                               >
@@ -2652,35 +2753,36 @@ export default function initFarmAvax({
                                   $200
                                 </h6>
                               </div> */}
-                            </div>
-                            <div
-                              className="d-flex align-items-center justify-content-center w-100 claimreward-header"
-                              // style={{ padding: "10px 0 0 10px" }}
-                            >
-                              <img
-                                src={
-                                  require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
-                                    .default
-                                }
-                                alt=""
-                                style={{ width: 14, height: 14 }}
-                              />
-                              <select
-                                disabled
-                                defaultValue="DYP"
-                                className="form-control inputfarming"
-                                style={{ border: "none", padding: "0 0 0 3px" }}
+                              </div>
+                              <div
+                                className="d-flex align-items-center justify-content-center w-100 claimreward-header"
+                                // style={{ padding: "10px 0 0 10px" }}
                               >
-                                <option value="DYP"> DYP </option>
-                              </select>
+                                <img
+                                  src={
+                                    require(`./assets/avax/${this.state.selectedRewardTokenLogo2.toLowerCase()}.svg`)
+                                      .default
+                                  }
+                                  alt=""
+                                  style={{ width: 14, height: 14 }}
+                                />
+                                <select
+                                  disabled
+                                  defaultValue="DYP"
+                                  className="form-control inputfarming"
+                                  style={{
+                                    border: "none",
+                                    padding: "0 0 0 3px",
+                                  }}
+                                >
+                                  <option value="DYP"> DYP </option>
+                                </select>
+                              </div>
                             </div>
+                            <h6 className="withsubtitle d-flex justify-content-start w-100 ">
+                              Total DYP deposited{" "}
+                            </h6>
                           </div>
-                          <h6 className="withsubtitle d-flex justify-content-start w-100 ">
-                            Total DYP deposited{" "}
-                          </h6>
-                         </div>
-
-                        
                         </div>
                       </div>
 
@@ -2813,13 +2915,13 @@ export default function initFarmAvax({
 
           {this.state.showCalculator && (
             <Modal
-            title="calculator"
-            modalId="calculatormodal"
-            setIsVisible={() => this.setState({showCalculator: false})}
-            visible={this.state.showCalculator}
+              title="calculator"
+              modalId="calculatormodal"
+              setIsVisible={() => this.setState({ showCalculator: false })}
+              visible={this.state.showCalculator}
             >
               <div className="pools-calculator">
-              {/* <div className="d-flex align-items-center justify-content-between">
+                {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -2841,86 +2943,86 @@ export default function initFarmAvax({
                   className="cursor-pointer"
                 />
               </div> */}
-              <hr />
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Days to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Days*"
-                    value={this.state.approxDays}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDays: e.target.value,
-                      })
-                    }
-                  />
+                <hr />
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Days to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Days*"
+                      value={this.state.approxDays}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDays: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Amount to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="USD to deposit*"
+                      value={
+                        Number(this.state.approxDeposit) > 0
+                          ? this.state.approxDeposit * LP_AMPLIFY_FACTOR
+                          : this.state.approxDeposit
+                      }
+                      onChange={(e) =>
+                        this.setState({
+                          approxDeposit:
+                            Number(e.target.value) > 0
+                              ? e.target.value / LP_AMPLIFY_FACTOR
+                              : e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Amount to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="USD to deposit*"
-                    value={
-                      Number(this.state.approxDeposit) > 0
-                        ? this.state.approxDeposit * LP_AMPLIFY_FACTOR
-                        : this.state.approxDeposit
-                    }
-                    onChange={(e) =>
-                      this.setState({
-                        approxDeposit:
-                          Number(e.target.value) > 0
-                            ? e.target.value / LP_AMPLIFY_FACTOR
-                            : e.target.value,
-                      })
-                    }
-                  />
+                <div className="d-flex flex-column gap-2 mt-4">
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                    ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
+                  </h3>
+                  <h6
+                    style={{
+                      fontWeight: "300",
+                      fontSize: "15px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    {getFormattedNumber(
+                      this.getApproxReturnUSD() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
+                    WAVAX
+                  </h6>
+                </div>
+                <div className="mt-4">
+                  <p
+                    style={{
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    *This calculator is for informational purposes only.
+                    Calculated yields assume that prices of the deposited assets
+                    don't change.
+                  </p>
                 </div>
               </div>
-              <div className="d-flex flex-column gap-2 mt-4">
-                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                  ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
-                </h3>
-                <h6
-                  style={{
-                    fontWeight: "300",
-                    fontSize: "15px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  {getFormattedNumber(
-                    this.getApproxReturnUSD() / this.getUsdPerETH(),
-                    6
-                  )}{" "}
-                  WAVAX
-                </h6>
-              </div>
-              <div className="mt-4">
-                <p
-                  style={{
-                    fontWeight: "400",
-                    fontSize: "13px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  *This calculator is for informational purposes only.
-                  Calculated yields assume that prices of the deposited assets
-                  don't change.
-                </p>
-              </div>
-            </div>
             </Modal>
           )}
         </div>
