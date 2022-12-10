@@ -620,11 +620,12 @@ const TopPoolsListCard = ({
   return (
     <>
       <div
-        className="row w-100 d-flex flex-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer"
+        className="row w-100 d-flex flex-column gap-3 gap-lg-0 flex-lg-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer"
         onClick={() => handleDetails()}
       >
+        <div className="col-12 col-lg-4 d-flex justify-content-between align-items-center">
         <div
-          className={`col-2 d-flex align-items-center ${
+          className={` d-flex align-items-center ${
             cardType === "Farming" || cardType === "Buyback" ? null : "gap-2"
           }`}
           style={{ width: "100px" }}
@@ -643,7 +644,7 @@ const TopPoolsListCard = ({
                 ))
             : tokenLogo !== undefined && (
                 <>
-                  <img src={require(`./assets/${tokenLogo}`).default} alt="" />
+                  <img src={require(`./assets/${tokenLogo}`).default} width={32} height={32} alt="" />
                   <h5
                     className="text-white"
                     style={{ fontSize: "25px", fontWeight: "600" }}
@@ -653,7 +654,7 @@ const TopPoolsListCard = ({
                 </>
               )}
         </div>
-        <div className="col-2 d-flex align-items-baseline gap-2">
+        <div className="d-flex align-items-baseline gap-2">
           <h5
             className="text-white"
             style={{ fontSize: "26px", fontWeight: "600", lineHeight: "30px" }}
@@ -667,8 +668,10 @@ const TopPoolsListCard = ({
             APR
           </p>
         </div>
-        {cardType !== "Vault" && (
-          <div className="col-2 d-flex flex-column gap-2">
+        </div>
+       <div className="d-flex col-12 col-lg-4 align-items-center justify-content-between">
+       {cardType !== "Vault" && (
+          <div className="d-flex flex-column gap-2">
             <span
               style={{ fontSize: "12px", fontWeight: "400", color: "#C0C9FF" }}
             >
@@ -681,7 +684,7 @@ const TopPoolsListCard = ({
             </h5>
           </div>
         )}
-        <div className="col-2 d-flex flex-column gap-2">
+        <div className="d-flex flex-column gap-2">
           <span
             style={{ fontSize: "12px", fontWeight: "400", color: "#C0C9FF" }}
           >
@@ -691,8 +694,9 @@ const TopPoolsListCard = ({
             {lockTime}
           </h5>
         </div>
+       </div>
         <div
-          className="col-2 d-flex justify-content-end gap-5"
+          className="col-12 col-lg-4 d-flex justify-content-end gap-5"
           style={{ width: "170px" }}
         >
           {top_pick && <img src={topPick} alt="" />}

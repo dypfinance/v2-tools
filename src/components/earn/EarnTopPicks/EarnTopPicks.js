@@ -2153,7 +2153,7 @@ const EarnTopPicks = ({
                       ? pool.pair_name
                       : ""
                   }
-                  apr={pool.apy + "%"}
+                  apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={pool.lockTime ? pool.lockTime : 
                     pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -2341,7 +2341,7 @@ const EarnTopPicks = ({
                       ? pool.pair_name
                       : ""
                   }
-                  apr={pool.apy + "%"}
+                  apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={pool.lockTime ? pool.lockTime : 
                     pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -2528,7 +2528,7 @@ const EarnTopPicks = ({
                       ? pool.pair_name
                       : ""
                   }
-                  apr={pool.apy + "%"}
+                  apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={pool.lockTime ? pool.lockTime : 
                     pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -2715,7 +2715,7 @@ const EarnTopPicks = ({
                       ? pool.pair_name
                       : ""
                   }
-                  apr={pool.apy + "%"}
+                  apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={pool.lockTime ? pool.lockTime : 
                     pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -2905,7 +2905,7 @@ const EarnTopPicks = ({
                       ? pool.pair_name
                       : ""
                   }
-                  apr={pool.apy + "%"}
+                  apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={pool.lockTime ? pool.lockTime : 
                     pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -3095,7 +3095,7 @@ const EarnTopPicks = ({
                       ? pool.pair_name
                       : ""
                   }
-                  apr={pool.apy + "%"}
+                  apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={pool.lockTime ? pool.lockTime : 
                     pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -3311,7 +3311,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -3573,7 +3573,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -3834,7 +3834,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -4077,7 +4077,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -4320,7 +4320,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -4563,7 +4563,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -4780,7 +4780,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -4997,7 +4997,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -5214,7 +5214,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -5431,7 +5431,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -5647,7 +5647,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
@@ -5863,7 +5863,7 @@ const EarnTopPicks = ({
                         ? pool.pair_name
                         : ""
                     }
-                    apr={pool.apy + "%"}
+                    apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                     lockTime={pool.lockTime ? pool.lockTime : 
                       pool.lock_time ? pool.lock_time : locktimeFarm[index]
