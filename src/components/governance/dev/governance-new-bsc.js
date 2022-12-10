@@ -790,11 +790,12 @@ export default class Governance extends React.Component {
 
   handleProposalSubmit = (formState) => (e) => {
     e.preventDefault();
+    const min = this.state.MIN_BALANCE_TO_INIT_PROPOSAL.slice(0,4)
     if (
       Number(this.state.token_balance) <
-      1 * this.state.MIN_BALANCE_TO_INIT_PROPOSAL
+      parseInt(min)
     ) {
-      window.alertify.error("Insufficiet Governance Token Balance!");
+      window.alertify.error("Insufficient Governance Token Balance!");
       return;
     }
     let poolGroupName;
