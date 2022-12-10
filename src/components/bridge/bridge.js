@@ -318,7 +318,7 @@ export default function initBridge({
               ? "ETH"
               : this.props.networkId === 56 &&
                 this.props.destinationChain === "eth"
-              ? "BSC"
+              ? "ETH"
               : this.props.networkId === 43114 &&
                 this.props.destinationChain === "eth"
               ? "AVAX"
