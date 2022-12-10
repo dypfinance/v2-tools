@@ -312,12 +312,18 @@ export default function initBridgeidyp({
         let url =
           signature +
           `/api/withdraw-args?depositNetwork=${
-            this.state.chainText === "ETH" &&
+            this.props.networkId === 1 &&
             this.props.destinationChain === "avax"
-              ? "AVAX"
-              : this.state.chainText === "ETH" &&
+              ? "ETH"
+              : this.props.networkId === 1 &&
                 this.props.destinationChain === "bnb"
+              ? "ETH"
+              : this.props.networkId === 56 &&
+                this.props.destinationChain === "eth"
               ? "BSC"
+              : this.props.networkId === 43114 &&
+                this.props.destinationChain === "eth"
+              ? "AVAX"
               : "ETH"
           }&txHash=${this.state.txHash}`;
         console.log({ url });
@@ -392,12 +398,18 @@ export default function initBridgeidyp({
               let url =
                 signature +
                 `/api/withdraw-args?depositNetwork=${
-                  this.state.chainText === "ETH" &&
+                  this.props.networkId === 1 &&
                   this.props.destinationChain === "avax"
-                    ? "AVAX"
-                    : this.state.chainText === "ETH" &&
+                    ? "ETH"
+                    : this.props.networkId === 1 &&
                       this.props.destinationChain === "bnb"
+                    ? "ETH"
+                    : this.props.networkId === 56 &&
+                      this.props.destinationChain === "eth"
                     ? "BSC"
+                    : this.props.networkId === 43114 &&
+                      this.props.destinationChain === "eth"
+                    ? "AVAX"
                     : "ETH"
                 }&txHash=${
                   this.state.txHash
@@ -879,10 +891,11 @@ export default function initBridgeidyp({
                                   this.state.withdrawStatus === "success"
                                     ? true
                                     : false
+                                  // this.state.txHash !== '' ? false : true
                                 }
                                 className={`btn filledbtn ${
                                   canWithdraw === false &&
-                                  this.state.withdrawStatus === "initial" &&
+                                  this.state.txHash === '' &&
                                   "disabled-btn"
                                 } ${
                                   this.state.withdrawStatus === "deposit" ||
@@ -916,8 +929,7 @@ export default function initBridgeidyp({
                                   </>
                                 )}
                               </button>
-                            </div>
-                            {this.state.withdrawableUnixTimestamp &&
+                              {this.state.withdrawableUnixTimestamp &&
                               Date.now() <
                                 this.state.withdrawableUnixTimestamp * 1e3 && (
                                 <span>
@@ -932,6 +944,8 @@ export default function initBridgeidyp({
                                   />
                                 </span>
                               )}
+                            </div>
+                            
                             <div className="separator"></div>
                             <div className="d-flex gap-2 align-items-start">
                               <img
@@ -1118,7 +1132,7 @@ export default function initBridgeidyp({
                         <b>Fill in transaction hash</b>
                       </h6>
                       After successful deposit, fill in the transaction hash
-                      and switch your wallet to the chosen bridge network.
+                      and switch your wallet to the chosen bridge network.
                     </h6>
                   </TimelineContent>
                 </TimelineItem>

@@ -7,7 +7,7 @@ import idyp from "./assets/idyp.svg";
 import './bridge.css'
 import { useLocation } from "react-router-dom";
 
-const Bridge = ({ networkId, isConnected, handleConnection }) => {
+const Bridge = ({ networkId, isConnected, handleConnection, coinbase }) => {
   const [destinationChain, setDestinationChain] = useState(
     networkId === 1 ? "bnb" : "eth"
   );
@@ -94,8 +94,7 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
       setSourceTokeniDyp(window.token_idyp_eth);
       setDestinationTokeniDyp(window.token_idyp_bsc);
     }
-    
-    console.log(faqSection);
+     
     if(faqSection === 'earnFaq'){
       setTimeout(() => {
       window.scrollTo(0, 1500)
@@ -117,7 +116,6 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
     tokenETH: sourceTokeniDyp,
     tokenBSC: destinationTokeniDyp,
   });
-
   return (
     <div className="container-lg">
       <div className="col-12 col-lg-5 d-flex flex-column justify-content-center gap-3 mb-4">
@@ -135,10 +133,12 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
           isConnected={isConnected}
           networkId={networkId}
           handleConnection={handleConnection}
-          destinationChain={destinationChainiDyp}
+          destinationChain={destinationChain}
           onSelectChain={(value) => {
             setDestinationChain(value);
           }}
+          coinbase={coinbase}
+
         />
       </div>
       <div className="bigseparator mt-5 mb-5 col-6 col-xxl-5"></div>
@@ -151,10 +151,12 @@ const Bridge = ({ networkId, isConnected, handleConnection }) => {
           isConnected={isConnected}
           networkId={networkId}
           handleConnection={handleConnection}
-          destinationChain={destinationChain}
+          destinationChain={destinationChainiDyp}
           onSelectChain={(value) => {
-            setDestinationChain(value);
+            setDestinationChainiDyp(value);
           }}
+          coinbase={coinbase}
+
         />
       </div>
       <BridgeFAQ faqIndex={routeData.state ? routeData.state.faqIndex: -1} />
