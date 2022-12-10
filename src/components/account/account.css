@@ -185,3 +185,29 @@ font-size: 14px;
 line-height: 18px;
 color: #F7F7FC !important;
 }
+
+.subscribe-input-container{
+  width: 40%;
+}
+
+.favorites-grid{
+  display: grid;
+    gap: 30px ;
+    grid-template-columns: repeat(4, 1fr) ;
+}
+
+@media screen and (max-width: 786px) {
+  .account-dyp-amount{
+    text-align: left;
+  }
+  .dyp-amount-placeholder{
+    text-align: left;
+  }
+  .subscribe-input-container{
+    width: 100%;
+  }
+
+  .favorites-grid{
+    grid-template-columns: auto;
+  }
+}

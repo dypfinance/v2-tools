@@ -522,7 +522,7 @@ const handleTooltipOpen = () => {
 // console.log(mycaws)
     return (
       <div>
-        <div className="d-flex align-items-center justify-content-between">
+        <div className="d-flex align-items-center justify-content-between flex-column flex-lg-row gap-4 gap-lg-0">
           <div className="d-flex flex-column gap-2">
             <div className="d-flex align-items-center gap-3" style={{height: 38}}>
               <h6 className="account-username">Username:  {this.state.username}</h6>
@@ -589,9 +589,9 @@ const handleTooltipOpen = () => {
               </div>
             </div>
             </div>  
-            <div className={this.props.coinbase ? "mb-3" : "d-none"}>
+            <div className={this.props.coinbase ? "mb-3 d-flex w-100 justify-content-between justify-content-lg-end" : "d-none"}>
 
-            <div className="d-flex align-items-center gap-2">
+            <div className="d-flex align-items-center w-100 justify-content-between justify-content-lg-end gap-2">
               <div className="d-flex flex-column">
               <span className="dyp-amount-placeholder">Balance:</span>
               <h6 className="account-dyp-amount">0.00000 DYP </h6>
@@ -649,15 +649,15 @@ const handleTooltipOpen = () => {
             </div>
           </div>                       
         </div>
-        <div className="row mt-5">
-          <div className="col-6 position-relative d-flex justify-content-center">
+        <div className="row mt-5 gap-4 gap-lg-0">
+          <div className="col-12 col-lg-6 position-relative d-flex justify-content-center">
               <div className="purplediv" style={{top: '15px', zIndex: 1, left: '12px', background: '#8E97CD' }}></div>
             <div className="row free-plan-container p-3 position-relative w-100">
-              <div className="col-6">
                 <div className="d-flex align-items-center gap-2">
                   <img src={require('./assets/freePlanIcon.svg').default} alt="" />
                   <h6 className="free-plan-title">Free plan</h6>
                 </div>
+              <div className="col-12 col-lg-6">
                 <div className="d-flex flex-column gap-1 mt-3">
                 {freePlanItems.map((item, index) => (
                   <div key={index} className="free-plan-item d-flex align-items-center justify-content-between p-2">
@@ -667,7 +667,7 @@ const handleTooltipOpen = () => {
                 ))}
               </div>
               </div>
-              <div className="col-6 free-plan-image">
+              <div className="col-12 col-lg-6 free-plan-image">
               </div>
             <div className="col-12">
             <hr className="form-divider my-4" style={{height: '2px'}} />
@@ -679,14 +679,14 @@ const handleTooltipOpen = () => {
             </div>
            
           </div>
-          <div className="col-6 position-relative d-flex justify-content-center">
+          <div className="col-12 col-lg-6 position-relative d-flex justify-content-center">
               <div className="purplediv" style={{top: '15px', zIndex: 1, left: '12px', background: '#8E97CD' }}></div>
             <div className="row free-plan-container p-3 position-relative w-100">
-              <div className="col-6">
                 <div className="d-flex align-items-center gap-2">
                   <img src={require('./assets/paidPlanIcon.svg').default} alt="" />
                   <h6 className="free-plan-title">Dypian plan</h6>
                 </div>
+              <div className="col-12 col-lg-6">
                 <div className="d-flex flex-column gap-1 mt-3">
                 {paidPlanItems.map((item, index) => (
                   <div key={index} className="free-plan-item d-flex align-items-center justify-content-between p-2">
@@ -697,7 +697,7 @@ const handleTooltipOpen = () => {
               </div>
               </div>
               
-              <div className="col-6 paid-plan-image">
+              <div className="col-12 col-lg-6 paid-plan-image">
               </div>
               <div className="col-12">
               {!this.props.appState.isPremium ? (
@@ -721,8 +721,8 @@ const handleTooltipOpen = () => {
                       </p> */}
                     </div>
                     <div>
-                      <div className="d-flex gap-2">
-                        <img src="/assets/img/usdt.svg"></img>
+                      <div className="d-flex gap-2 flex-column flex-lg-row">
+                        <img src="/assets/img/usdt.svg" width={28} height={28}></img>
                         <h3 className="subscr-price">75 USDT</h3>
                       </div>
                       <p className="subscr-note">*Exclusive offer</p>
@@ -741,7 +741,8 @@ const handleTooltipOpen = () => {
                     Subscribe <br></br> to the Premium plan
                   </div>
                   <div
-                    className="btn filledbtn px-5"
+                    className="btn filledbtn px-3 px-lg-5"
+                    style={{whiteSpace: 'pre'}}
                     type=""
                     onClick={() => {
                       this.setState({ subscribe_now: !this.state.subscribe_now });
@@ -811,7 +812,7 @@ const handleTooltipOpen = () => {
         </div>
         {this.state.subscribe_now === true ? 
         <div className="row mt-4 justify-content-end">
-        <div className="col-6">
+        <div className="col-12 col-lg-6">
           <div className="subscribe-container p-3 position-relative">
           <div className="purplediv" style={{ background: '#8E97CD' }}></div>
            <div className="d-flex justify-content-between align-items-center">
@@ -821,8 +822,8 @@ const handleTooltipOpen = () => {
             </div>
             <img src={require(`./assets/clearFieldIcon.svg`).default} height={28} width={28} className="cursor-pointer" onClick={() => this.setState({subscribe_now: false})}  alt="close subscription"/>
            </div>
-           <div className="d-flex mt-4 align-items-end justify-content-between w-100">
-            <div className="d-flex flex-column gap-3 " style={{width: '40%'}}>
+           <div className="d-flex mt-4 align-items-end justify-content-between flex-column-reverse flex lg-row w-100">
+            <div className="d-flex flex-column gap-3 subscribe-input-container">
             <span className="token-amount-placeholder">Token Amount</span>
             <div
                 className="input-container px-0"
@@ -849,7 +850,7 @@ const handleTooltipOpen = () => {
                 </label>
                 </div>
             </div>
-            <div className="d-flex flex-column align-items-end justify-content-end">
+            <div className="d-flex flex-column align-items-end justify-content-lg-end">
               <span className="token-balance-placeholder">USDT Balance</span>
               <h6 className="account-token-amount"> {getFormattedNumber(
                             this.state.tokenBalance / 10 ** tokenDecimals,
@@ -1253,12 +1254,8 @@ const handleTooltipOpen = () => {
           My favourites
         </h4>
         <div
-          className="row p-0 m-0"
-          style={{
-            gap: 30,
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr 1fr",
-          }}
+          className="row p-0 m-0 favorites-grid"
+          
         >
           {this.state.favorites.map((lock, index) => {
             return (
@@ -1267,7 +1264,7 @@ const handleTooltipOpen = () => {
                 className="p-0"
                 to={`/pair-explorer/${lock.id}`}
               >
-                <div style={{ position: "relative", width: "300px" }}>
+                <div style={{ position: "relative"  }}>
                   <div
                     className="d-flex avax"
                     style={{
@@ -1362,7 +1359,7 @@ const handleTooltipOpen = () => {
                   this.props.handleSwitchNetwork(1);
                 }}
               >
-                <div style={{ position: "relative", width: "300px" }}>
+                <div style={{ position: "relative" }}>
                   <div
                     className="d-flex"
                     style={{

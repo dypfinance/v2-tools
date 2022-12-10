@@ -186,7 +186,7 @@ coinbase
   return (
     <div className="single-press-wrapper" onClick={onSinglePressHighlightClick}>
       <div
-        className="d-flex justify-content-center  gap-3"
+        className="d-flex justify-content-center flex-column flex-lg-row gap-3"
         // style={{ gap: 20, height: "100%", width: "100%" }}
       >
         <img src={image} alt="" className="press-image" />

@@ -2190,7 +2190,7 @@ const EarnTopPicks = ({
               ))}
             </div>
 
-            {activeCard && topList === "Farming" ? (
+            {activeCard2 && topList === "Farming" ? (
               chain === "eth" ? (
                 <StakingNew1
                   is_wallet_connected={isConnected}
@@ -2201,7 +2201,14 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -2245,6 +2252,18 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard &&
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard &&
               cardIndex > 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
@@ -2265,6 +2284,44 @@ const EarnTopPicks = ({
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
                 lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard &&
+              cardIndex === 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                referrer={referrer}
+              />
+            ) : activeCard &&
+              cardIndex >= 2 &&
+              cardIndex < 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard &&
+              (cardIndex === 5 || cardIndex > 5) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                referrer={referrer}
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
@@ -2388,7 +2445,14 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -2432,6 +2496,18 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard2 &&
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard2 &&
               cardIndex > 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
@@ -2452,6 +2528,44 @@ const EarnTopPicks = ({
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
                 lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard2 &&
+              cardIndex === 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                referrer={referrer}
+              />
+            ) : activeCard2 &&
+              cardIndex >= 2 &&
+              cardIndex < 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard2 &&
+              (cardIndex === 5 || cardIndex > 5) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                referrer={referrer}
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
@@ -2575,7 +2689,14 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -2619,6 +2740,18 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard3 &&
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard3 &&
               cardIndex > 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
@@ -2639,6 +2772,44 @@ const EarnTopPicks = ({
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
                 lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard3 &&
+              cardIndex === 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                referrer={referrer}
+              />
+            ) : activeCard3 &&
+              cardIndex >= 2 &&
+              cardIndex < 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard3 &&
+              (cardIndex === 5 || cardIndex > 5) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                referrer={referrer}
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
@@ -2762,7 +2933,14 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -2806,6 +2984,18 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard4 &&
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard4 &&
               cardIndex > 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
@@ -2826,6 +3016,44 @@ const EarnTopPicks = ({
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
                 lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard4 &&
+              cardIndex === 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                referrer={referrer}
+              />
+            ) : activeCard4 &&
+              cardIndex >= 2 &&
+              cardIndex < 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard4 &&
+              (cardIndex === 5 || cardIndex > 5) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                referrer={referrer}
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
@@ -2931,7 +3159,7 @@ const EarnTopPicks = ({
                     setDetails(index + 8);
                   }}
                   onHideDetailsClick={() => {
-                    setActiveCard4(null);
+                    setActiveCard5(null);
                     setDetails();
                   }}
                   cardType={topList}
@@ -2952,7 +3180,14 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -2985,7 +3220,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard5 &&
               topList === "Staking" &&
-              cardIndex < 3 &&
+              cardIndex < 2 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -2996,7 +3231,19 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard5 &&
-              cardIndex > 3 &&
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard5 &&
+              cardIndex > 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
@@ -3016,6 +3263,44 @@ const EarnTopPicks = ({
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
                 lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard5 &&
+              cardIndex === 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                referrer={referrer}
+              />
+            ) : activeCard5 &&
+              cardIndex >= 2 &&
+              cardIndex < 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard5 &&
+              (cardIndex === 5 || cardIndex > 5) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                referrer={referrer}
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
@@ -3121,7 +3406,7 @@ const EarnTopPicks = ({
                     setDetails(index + 10);
                   }}
                   onHideDetailsClick={() => {
-                    setActiveCard4(null);
+                    setActiveCard6(null);
                     setDetails();
                   }}
                   cardType={topList}
@@ -3161,7 +3446,14 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : chain === "bnb" ? (
-                <></>
+                <BscFarming
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
@@ -3194,7 +3486,7 @@ const EarnTopPicks = ({
               <></>
             ) : activeCard6 &&
               topList === "Staking" &&
-              cardIndex < 3 &&
+              cardIndex < 2 &&
               chain === "eth" ? (
               <ConstantStaking1
                 is_wallet_connected={isConnected}
@@ -3205,7 +3497,19 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard6 &&
-              cardIndex > 3 &&
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard6 &&
+              cardIndex > 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
@@ -3217,7 +3521,7 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard6 &&
-              cardIndex === 3 &&
+              cardIndex === 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingDai
@@ -3225,6 +3529,44 @@ const EarnTopPicks = ({
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
                 lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard6 &&
+              cardIndex === 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                referrer={referrer}
+              />
+            ) : activeCard2 &&
+              cardIndex >= 2 &&
+              cardIndex < 4 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+              />
+            ) : activeCard6 &&
+              (cardIndex === 5 || cardIndex > 5) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                referrer={referrer}
                 chainId={chainId}
                 handleConnection={handleConnection}
               />
@@ -3286,13 +3628,7 @@ const EarnTopPicks = ({
                 the_graph_result={the_graph_result}
               />
             ) : (
-              activeCardNFT && (
-                <CawsDetails
-                  coinbase={coinbase}
-                  isConnected={isConnected}
-                  listType={listType}
-                />
-              )
+              <></>
             )}
           </div>
         ) : (

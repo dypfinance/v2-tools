@@ -1428,7 +1428,7 @@ class ProposalDetails extends React.Component {
                 <div className="mt-4 otherside w-100">
                   <div className="form-group">
                     <div className="d-flex justify-content-between gap-2 align-items-center">
-                      <div className="d-flex justify-content-between gap-4 align-items-center">
+                      <div className="d-flex justify-content-between gap-4 align-items-center flex-column flex-lg-row">
                         <label
                           htmlFor="deposit-amount"
                           className="d-block text-left addvotestxt"
@@ -1581,7 +1581,7 @@ class ProposalDetails extends React.Component {
                 <div className="otherside w-100">
                   <div className="form-group">
                     <div className="d-flex justify-content-between gap-2 align-items-center">
-                      <div className="d-flex justify-content-between gap-4 align-items-center">
+                      <div className="d-flex justify-content-between gap-4 align-items-center flex-column flex-lg-row">
                         <label
                           htmlFor="deposit-amount"
                           className="d-block text-left addvotestxt"
@@ -1603,7 +1603,7 @@ class ProposalDetails extends React.Component {
                       </Tooltip>
                     </div>
 
-                    <div className="d-flex align-items-center gap-3 justify-content-between mt-3">
+                    <div className="d-flex align-items-center gap-3 justify-content-between flex-column flex-lg-row mt-3">
                       <div className="d-flex align-items-center gap-2 ">
                         <input
                           value={

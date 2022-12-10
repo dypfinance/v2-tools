@@ -124,3 +124,9 @@ border: 2px solid #857DFA !important;
   line-height: 15px;
   color: #C0C9FF !important;
 }
+@media screen and (max-width: 786px) {
+  .vendor-container{
+    grid-template-columns: repeat(15, 1fr);
+    overflow-x: scroll;
+  }
+}
