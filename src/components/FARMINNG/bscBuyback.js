@@ -280,8 +280,8 @@ export default function initBscBuyback({
       this.getDypbalanceStake();
 
       this.getDypbalanceConst();
-      this.refreshBalance();
-      // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // this.refreshBalance();
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
     }
@@ -332,7 +332,7 @@ export default function initBscBuyback({
     };
 
     componentWillUnmount() {
-      // clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleApprove = (e) => {

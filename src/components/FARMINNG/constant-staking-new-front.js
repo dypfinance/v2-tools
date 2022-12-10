@@ -273,8 +273,8 @@ export default function initConstantStakingNew({
         this.setState({ coinbase: this.props.coinbase });
       }
 
-      this.refreshBalance();
-      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // this.refreshBalance();
+        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
     }
@@ -318,7 +318,7 @@ export default function initConstantStakingNew({
     };
 
     componentWillUnmount() {
-      //   clearInterval(window._refreshBalInterval);
+        clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {

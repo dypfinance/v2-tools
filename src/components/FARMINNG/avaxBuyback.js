@@ -281,7 +281,9 @@ export default function avaxBuyback({
         this.setState({ coinbase: this.props.coinbase });
       }
 
-      this.refreshBalance();
+      // this.refreshBalance();
+      window._refreshBalInterval = setInterval(this.refreshBalance, 8000);
+
       this.getDypbalanceConst();
       this.getDypbalanceStake();
       this.getPriceDYP();
@@ -333,7 +335,7 @@ export default function avaxBuyback({
     };
 
     componentWillUnmount() {
-      //   clearInterval(window._refreshBalInterval);
+        clearInterval(window._refreshBalInterval);
     }
 
     handleApprove = (e) => {

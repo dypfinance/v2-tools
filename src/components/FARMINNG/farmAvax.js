@@ -262,20 +262,20 @@ export default function initFarmAvax({
     };
 
     componentDidMount() {
-      this.refreshBalance();
+      // this.refreshBalance();
 
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
 
-      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
       this.getTokenData();
     }
 
     componentWillUnmount() {
-      //   clearInterval(window._refreshBalInterval);
+        clearInterval(window._refreshBalInterval);
     }
 
 

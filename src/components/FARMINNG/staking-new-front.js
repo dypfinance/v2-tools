@@ -287,8 +287,8 @@ export default function initStakingNew({
     };
 
     componentDidMount() {
-      this.refreshBalance();
-      // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // this.refreshBalance();
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
@@ -297,7 +297,7 @@ export default function initStakingNew({
     }
 
     componentWillUnmount() {
-      // clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     getTokenData = async () => {
