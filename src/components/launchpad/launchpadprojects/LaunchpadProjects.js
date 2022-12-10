@@ -14,11 +14,11 @@ const LaunchpadProjects = () => {
         <h6 className="launchpad-hero-title mb-4">Active Projects</h6>
         <div className="row align-items-center justify-content-end">
           <div className="col-11 active-projects-container p-3 position-relative">
-            <img src={projectBanner} alt="" className="project-banner" />
-            <img src={commingSoon} alt="" className="comming-soon" />
+            <img src={projectBanner} alt="" className="project-banner d-none d-lg-flex" />
+            <img src={commingSoon} alt="" className="comming-soon d-none d-lg-flex" />
             <div className="row align-items-center justify-content-end">
               <div className="col-9 ps-5 d-flex flex-column gap-3">
-                <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between">
                   <h6 className="active-projects-title">Dypius</h6>
                   <div className="project-timer-wrapper d-flex align-items-center gap-3 position-relative">
                     <img src={timerIcon} alt="" className="timer-icon" />

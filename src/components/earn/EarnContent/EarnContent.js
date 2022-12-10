@@ -487,6 +487,8 @@ const EarnContent = ({
           </div>
         )}
 
+        {option !== "Farming" &&
+        <>
         <div
           className="row align-items-center gap-5 gap-lg-0 justify-content-between px-0"
           style={{ minHeight: "55px" }}
@@ -753,24 +755,35 @@ const EarnContent = ({
           <div className="col-3"></div>
         </div>
         <div className="d-flex align-items-center justify-content-center  py-4 px-3"></div>
+        </>
+        }
       </div>
-      <EarnTopPicks
-        topList={option}
-        listType={listStyle}
-        chain={stake}
-        coinbase={coinbase}
-        the_graph_result={the_graph_result}
-        lp_id={lp_id}
-        isConnected={isConnected}
-        chainId={chainId}
-        handleConnection={handleConnection}
-        the_graph_resultavax={the_graph_resultavax}
-        the_graph_resultbsc={the_graph_resultbsc}
-        referrer={referrer}
-        pool={pool}
-        routeOption={routeOption}
-        customChain={customChain}
-      />
+     {option !== "Farming" ?
+     <EarnTopPicks
+     topList={option}
+     listType={listStyle}
+     chain={stake}
+     coinbase={coinbase}
+     the_graph_result={the_graph_result}
+     lp_id={lp_id}
+     isConnected={isConnected}
+     chainId={chainId}
+     handleConnection={handleConnection}
+     the_graph_resultavax={the_graph_resultavax}
+     the_graph_resultbsc={the_graph_resultbsc}
+     referrer={referrer}
+     pool={pool}
+     routeOption={routeOption}
+     customChain={customChain}
+   />
+   :
+   <div className="row mx-0 w-100 align-items-center justify-content-center flex-column p-4 gap-4 purple-wrapper">
+    <img src={require('../../../assets/earnAssets/disabledFarming.svg').default} style={{width: '150px', height: '150px'}} alt="" />
+    <h6 className="no-farms">No farming pools available</h6>
+    <span className="farm-soon">New pools coming soon...</span>
+   </div> 
+    
+    }
       <EarnFaq faqTypes={option} faqIndex={faqIndex} />
     </>
   );
