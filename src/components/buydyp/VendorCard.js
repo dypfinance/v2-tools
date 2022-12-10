@@ -5,7 +5,7 @@ const VendorCard = ({videoAmount, logo, title, onSelect, active, link}) => {
     <div className={`vendor-card p-3 ${active && 'selected-vendor-card'}`} onClick={onSelect}>
     <div className="d-flex align-items-start justify-content-between gap-2 gap-lg-0">
         <a href={link} target={"_blank"} className="vendor-image-wrapper">
-            <img src={require(`./assets/${logo}`).default} alt="" />
+            <img src={require(`./assets/${logo}`).default} width={64} height={64} alt="" />
         </a>
         <span className="video-amount">{videoAmount}</span>
     </div>
