@@ -26,8 +26,10 @@ import moreinfo from "../../FARMINNG/assets//more-info.svg";
 import failMark from "../../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import ellipse from "../assets/ellipse.svg";
+import ellipsegreen from "../assets/ellipsegreen.svg";
+
 import tyHero from "../assets/tyhero.png";
-import totalVotesIcon from '../assets/totalVotesIcon.svg'
+import totalVotesIcon from "../assets/totalVotesIcon.svg";
 
 import { shortAddress } from "../../../functions/shortAddress";
 import axios from "axios";
@@ -363,7 +365,11 @@ const ProposalCard = (props) => (
         <div className="d-flex justify-content-between gap-2 align-items-center">
           <img
             className="m-0 cardlogo"
-            src={props.vault ? props.vault.logo : require('../assets/dyp.svg').default}
+            src={
+              props.vault
+                ? props.vault.logo
+                : require("../assets/dyp.svg").default
+            }
           />
 
           <div
@@ -553,14 +559,16 @@ export default class Governance extends React.Component {
     }
   };
 
-
   fetchProposals = async () => {
-    await axios.get(`https://api.dyp.finance/api/gov-stats`).then((res) => {
-      this.setState({proposalData: res.data})
-    }).catch((err) => {
-      console.error(err);
-    })
-  }
+    await axios
+      .get(`https://api.dyp.finance/api/gov-stats`)
+      .then((res) => {
+        this.setState({ proposalData: res.data });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   getProposal = async (_proposalId) => {
     if (this.state.is_wallet_connected === true) {
@@ -613,11 +621,8 @@ export default class Governance extends React.Component {
 
   handleProposalSubmit = (formState) => (e) => {
     e.preventDefault();
-    const min = this.state.MIN_BALANCE_TO_INIT_PROPOSAL.slice(0,4)
-    if (
-      Number(this.state.token_balance) <
-      parseInt(min)
-    ) {
+    const min = this.state.MIN_BALANCE_TO_INIT_PROPOSAL.slice(0, 4);
+    if (Number(this.state.token_balance) < parseInt(min)) {
       window.alertify.error("Insufficient Governance Token Balance!");
       return;
     }
@@ -698,25 +703,34 @@ export default class Governance extends React.Component {
         moment.duration(canWithdrawAllAfter - Date.now()).humanize(true);
     }
 
+    let expireArray=[]; let expires ;
+    for(let i = 0; i<= this.state.proposals?.length-1; i++) {
+     let endsOn =  this.state.proposals[i]?._proposalStartTime * 1e3 + window.config.vote_duration_in_seconds * 1e3;
+
+      expires= moment.duration(endsOn - Date.now()).humanize(true);
+      expireArray[i] = expires
+    }
+    
+    
+
+
     let isOwner =
       String(this.state.coinbase).toLowerCase() ==
       window.config.admin_address.toLowerCase();
     const deviceWidth = window.innerWidth;
-    let noVotes = localStorage.getItem('NoVotes');
+    let noVotes = localStorage.getItem("NoVotes");
 
     return (
       <div>
         <div
-          className={
-            deviceWidth < 500 ? "container-lg" : "container-lg p-0"
-          }
+          className={deviceWidth < 500 ? "container-lg" : "container-lg p-0"}
         >
           <div className="d-flex flex-column flex-xxl-row justify-content-between gap-2 align-items-start">
             <div className="col-12 col-xxl-7">
               <h6 className="govtitle mb-3">Dypius Governance</h6>
               <h6 className="govdesc mb-3">
                 DYP tokens represent voting shares in Dypius Governance. The
-                introduction of DYP tokens enables shared community ownership of 
+                introduction of DYP tokens enables shared community ownership of
                 a vibrant, diverse, and dedicated governance system which will
                 actively guide the protocol toward the future. <br />
                 <br />
@@ -728,41 +742,51 @@ export default class Governance extends React.Component {
 
             <div className="col-12 col-xxl-4 flex-column d-flex justify-content-between gap-2">
               <div className="d-flex  w-100 justify-content-center gap-2">
-              <div className="totalproposals col-4">
-                <img src={eth} alt="" className="chainlogo" />
-                <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
-                  <h6 className="chaintitle">Ethereum</h6>
-                  <h6 className="totalpoolsnr">{this.state.proposalData.proposals?.eth}</h6>
-                  <h6 className="totalproposals-text">Total proposals</h6>
+                <div className="totalproposals col-4">
+                  <img src={eth} alt="" className="chainlogo" />
+                  <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <h6 className="chaintitle">Ethereum</h6>
+                    <h6 className="totalpoolsnr">
+                      {this.state.proposalData.proposals?.eth}
+                    </h6>
+                    <h6 className="totalproposals-text">Total proposals</h6>
+                  </div>
                 </div>
-              </div>
-              <div className="totalproposals col-4">
-                <img src={bnb} alt="" className="chainlogo" />
-                <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
-                  <h6 className="chaintitle">BNB Chain</h6>
-                  <h6 className="totalpoolsnr">{this.state.proposalData.proposals?.bsc}</h6>
-                  <h6 className="totalproposals-text">Total proposals</h6>
+                <div className="totalproposals col-4">
+                  <img src={bnb} alt="" className="chainlogo" />
+                  <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <h6 className="chaintitle">BNB Chain</h6>
+                    <h6 className="totalpoolsnr">
+                      {this.state.proposalData.proposals?.bsc}
+                    </h6>
+                    <h6 className="totalproposals-text">Total proposals</h6>
+                  </div>
                 </div>
-              </div>
-              <div className="totalproposals col-4">
-                <img src={avax} alt="" className="chainlogo" />
-                <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
-                  <h6 className="chaintitle">Avalanche</h6>
-                  <h6 className="totalpoolsnr">{this.state.proposalData.proposals?.avax}</h6>
-                  <h6 className="totalproposals-text">Total proposals</h6>
+                <div className="totalproposals col-4">
+                  <img src={avax} alt="" className="chainlogo" />
+                  <div className="d-flex flex-column gap-2 justify-content-center align-items-center">
+                    <h6 className="chaintitle">Avalanche</h6>
+                    <h6 className="totalpoolsnr">
+                      {this.state.proposalData.proposals?.avax}
+                    </h6>
+                    <h6 className="totalproposals-text">Total proposals</h6>
+                  </div>
                 </div>
-              </div>
               </div>
               <div className="col-12 col-lg-6 col-xl-12 flex-column flex-lg-row  mt-5 d-flex justify-content-start justify-content-lg-between align-items-center total-proposals-wrapper position-relative p-3">
-                <div className="purplediv" style={{left: '0'}}></div>
+                <div className="purplediv" style={{ left: "0" }}></div>
                 <div className="d-flex flex-row align-items-center w-100 gap-2">
-                    <img src={totalVotesIcon} alt="" />
-                   <div className="d-flex flex-column  gap-1">
-                   <span className="total-gov-votes">Total</span>
-                    <span className="total-gov-votes w-100">Governance Votes</span>
-                   </div>
+                  <img src={totalVotesIcon} alt="" />
+                  <div className="d-flex flex-column  gap-1">
+                    <span className="total-gov-votes">Total</span>
+                    <span className="total-gov-votes w-100">
+                      Governance Votes
+                    </span>
+                  </div>
                 </div>
-                <div className="total-votes">{getFormattedNumber(this.state.proposalData?.totalVotes)}</div>
+                <div className="total-votes">
+                  {getFormattedNumber(this.state.proposalData?.totalVotes)}
+                </div>
               </div>
             </div>
           </div>
@@ -964,7 +988,7 @@ export default class Governance extends React.Component {
 
               {this.state.is_wallet_connected === true ? (
                 <div className="mb-4">
-                  <h6 className="myDetails-title mb-3">Previous proposals</h6>
+                  <h6 className="myDetails-title mb-3">All proposals</h6>
 
                   <div
                     className="accordion  governanceWrapper"
@@ -976,11 +1000,12 @@ export default class Governance extends React.Component {
                         key={index}
                         style={{ border: "none" }}
                       >
+                        {expireArray[index].includes('ago') &&
                         <img
                           src={require("../assets/expired.png").default}
                           alt=""
                           className="acordionstate"
-                        />
+                        />}
                         <div className="accordion-header" id="headingOne">
                           <button
                             className="accordion-button collapsed d-flex flex-column position-relative "
@@ -1075,10 +1100,11 @@ export default class Governance extends React.Component {
             }}
             width="fit-content"
           >
-            <img src={tyHero} alt='' className="tyHero"/>
+            <img src={tyHero} alt="" className="tyHero" />
             <h6 className="ty-title">Thank you</h6>
-            <h6 className="ty-subtitle">Your proposal submitted successfully</h6>
-
+            <h6 className="ty-subtitle">
+              Your proposal submitted successfully
+            </h6>
           </Modal>
         )}
       </div>
@@ -1384,9 +1410,9 @@ class ProposalDetails extends React.Component {
               <div className="col-12">
                 <div className="activewrapper">
                   <div className="d-flex align-items-center justify-co ntent-between gap-5">
-                    <h6 className="expiredtxt">
-                      <img src={ellipse} alt="" className="position-relative" />
-                      Expired
+                    <h6 className={expires.includes('ago') ? "expiredtxt" : "activetxt position-relative activetxt-vault"}>
+                      <img src={expires.includes('ago') ?  ellipse : ellipsegreen} alt="" className="position-relative" />
+                     {expires.includes('ago') ? 'Expired' : 'Active'} 
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-3">

@@ -619,7 +619,6 @@ const EarnTopPicks = ({
   const bscFarmArrayFee = [0.3, 0.3, 0.4, 0.8, 1.2];
   const bscFarmArrayLock = ["No Lock", 3, 30, 60, 90];
 
-
   const BscFarming = initBscFarming({
     token: window.token_newbsc,
     staking: bscFarmArrayStake[cardIndex],
@@ -920,11 +919,11 @@ const EarnTopPicks = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
   });
-// , , 1, 4
-  const aprarrayStakeAvaxiDyp = [ 15,20,  30,45];
-  const feeSarrayStakeAvaxiDyp = [1,0,3.5 ,0];
-  const feeUarrayStakeAvaxiDyp = [0,0.25,0,0,0.25];
-  const otherinfoarrayStakeAvaxiDyp = [false,false,true, false];
+  // , , 1, 4
+  const aprarrayStakeAvaxiDyp = [15, 20, 30, 45];
+  const feeSarrayStakeAvaxiDyp = [1, 0, 3.5, 0];
+  const feeUarrayStakeAvaxiDyp = [0, 0.25, 0, 0, 0.25];
+  const otherinfoarrayStakeAvaxiDyp = [false, false, true, false];
 
   const expirearrayStakeAvaxiDyp = [
     "15 August 2023",
@@ -950,7 +949,6 @@ const EarnTopPicks = ({
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     listType: listType,
     lockTime: lockarrayStakeAvax[cardIndex],
-    
   });
 
   const lockarray = ["No Lock", 90];
@@ -1216,8 +1214,11 @@ const EarnTopPicks = ({
           <div className="px-0">
             <>
               <div className="top-picks-container">
-                {topPools.slice(0, 3).map((pool, index) => (
+                {topPools.slice(0, 8).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -1349,18 +1350,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard &&
-                cardIndex === 2 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard &&
                 cardIndex >= 2 &&
                 cardIndex < 4 &&
                 topList === "Staking" &&
@@ -1460,8 +1449,11 @@ const EarnTopPicks = ({
               )}
             </>
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(3, 6).map((pool, index) => (
+              {topPools.slice(8, 10).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -1477,7 +1469,7 @@ const EarnTopPicks = ({
                   }
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
                   lockTime={
-                    pool.lock_time ? pool.lock_time : locktimeFarm[index + 3]
+                    pool.lock_time ? pool.lock_time : locktimeFarm[index + 8]
                   }
                   tokenLogo={
                     pool.icon
@@ -1488,20 +1480,20 @@ const EarnTopPicks = ({
                   }
                   onShowDetailsClick={() => {
                     setActiveCard(null);
-                    setActiveCard2(topPools[index + 3]);
+                    setActiveCard2(topPools[index + 8]);
                     setActiveCard3(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 3);
-                    handleCardIndexStake30(index + 3);
-                    handleCardIndexStakeiDyp(index + 3);
-                    setDetails(index + 3);
+                    handleCardIndexStake(index + 8);
+                    handleCardIndexStake30(index + 8);
+                    handleCardIndexStakeiDyp(index + 8);
+                    setDetails(index + 8);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard2(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 3 ? true : false}
+                  details={details === index + 8 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
                 />
@@ -1585,18 +1577,6 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard2 &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -1703,8 +1683,11 @@ const EarnTopPicks = ({
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(6, 9).map((pool, index) => (
+              {topPools.slice(10, 16).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -1730,19 +1713,19 @@ const EarnTopPicks = ({
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(null);
-                    setActiveCard3(topPools[index + 6]);
+                    setActiveCard3(topPools[index + 10]);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 6);
-                    handleCardIndexStake30(index + 6);
-                    handleCardIndexStakeiDyp(index + 6);
-                    setDetails(index + 6);
+                    handleCardIndexStake(index + 10);
+                    handleCardIndexStake30(index + 10);
+                    handleCardIndexStakeiDyp(index + 10);
+                    setDetails(index + 10);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard3(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 6 ? true : false}
+                  details={details === index + 10 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
                 />
@@ -1841,18 +1824,6 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard3 &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard3 &&
               cardIndex >= 5 &&
               topList === "Staking" &&
               chain === "bnb" ? (
@@ -1930,6 +1901,9 @@ const EarnTopPicks = ({
             >
               {topPools.slice(9, topPools.length).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -2048,18 +2022,6 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard4 &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard4 &&
               cardIndex >= 5 &&
               topList === "Staking" &&
               chain === "bnb" ? (
@@ -2141,8 +2103,11 @@ const EarnTopPicks = ({
         ) : windowSize.width > 786 ? (
           <div className="px-0">
             <div className="top-picks-container">
-              {topPools.slice(0, 2).map((pool, index) => (
+              {topPools.slice(0, 8).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -2155,8 +2120,12 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lockTime ? pool.lockTime : 
-                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                  lockTime={
+                    pool.lockTime
+                      ? pool.lockTime
+                      : pool.lock_time
+                      ? pool.lock_time
+                      : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -2276,18 +2245,6 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard &&
               cardIndex === 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
@@ -2386,8 +2343,11 @@ const EarnTopPicks = ({
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(2, 4).map((pool, index) => (
+              {topPools.slice(8, 10).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -2400,8 +2360,12 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lockTime ? pool.lockTime : 
-                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                  lockTime={
+                    pool.lockTime
+                      ? pool.lockTime
+                      : pool.lock_time
+                      ? pool.lock_time
+                      : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -2412,23 +2376,23 @@ const EarnTopPicks = ({
                   }
                   onShowDetailsClick={() => {
                     setActiveCard(null);
-                    setActiveCard2(topPools[index + 2]);
+                    setActiveCard2(topPools[index + 8]);
                     setActiveCard3(null);
                     setActiveCard4(null);
                     setActiveCard5(null);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 2);
-                    handleCardIndexStake30(index + 2);
-                    handleCardIndexStakeiDyp(index + 2);
-                    setDetails(index + 2);
+                    handleCardIndexStake(index + 8);
+                    handleCardIndexStake30(index + 8);
+                    handleCardIndexStakeiDyp(index + 8);
+                    setDetails(index + 8);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard2(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 2 ? true : false}
+                  details={details === index + 8 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
                 />
@@ -2512,18 +2476,6 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard2 &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -2630,8 +2582,11 @@ const EarnTopPicks = ({
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(4, 6).map((pool, index) => (
+              {topPools.slice(10, 16).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -2644,8 +2599,12 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lockTime ? pool.lockTime : 
-                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                  lockTime={
+                    pool.lockTime
+                      ? pool.lockTime
+                      : pool.lock_time
+                      ? pool.lock_time
+                      : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -2657,22 +2616,22 @@ const EarnTopPicks = ({
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(null);
-                    setActiveCard3(topPools[index + 4]);
+                    setActiveCard3(topPools[index + 10]);
                     setActiveCard4(null);
                     setActiveCard5(null);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 4);
-                    handleCardIndexStake30(index + 4);
-                    handleCardIndexStakeiDyp(index + 4);
-                    setDetails(index + 4);
+                    handleCardIndexStake(index + 10);
+                    handleCardIndexStake30(index + 10);
+                    handleCardIndexStakeiDyp(index + 10);
+                    setDetails(index + 10);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard3(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 4 ? true : false}
+                  details={details === index + 10 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
                 />
@@ -2756,18 +2715,6 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard3 &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -2874,8 +2821,11 @@ const EarnTopPicks = ({
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {topPools.slice(6, 8).map((pool, index) => (
+              {topPools.slice(16, 18).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -2888,8 +2838,12 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lockTime ? pool.lockTime : 
-                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                  lockTime={
+                    pool.lockTime
+                      ? pool.lockTime
+                      : pool.lock_time
+                      ? pool.lock_time
+                      : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -2902,21 +2856,21 @@ const EarnTopPicks = ({
                     setActiveCard(null);
                     setActiveCard2(null);
                     setActiveCard3(null);
-                    setActiveCard4(topPools[index + 6]);
+                    setActiveCard4(topPools[index + 16]);
                     setActiveCard5(null);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 6);
-                    handleCardIndexStake30(index + 6);
-                    handleCardIndexStakeiDyp(index + 6);
-                    setDetails(index + 6);
+                    handleCardIndexStake(index + 16);
+                    handleCardIndexStake30(index + 16);
+                    handleCardIndexStakeiDyp(index + 16);
+                    setDetails(index + 16);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard4(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 6 ? true : false}
+                  details={details === index + 16 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
                 />
@@ -3000,18 +2954,6 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard4 &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -3121,8 +3063,11 @@ const EarnTopPicks = ({
               className="top-picks-container"
               style={{ marginTop: topPools.length > 8 && "25px" }}
             >
-              {topPools.slice(8, 10).map((pool, index) => (
+              {topPools.slice(18, 10).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -3135,8 +3080,12 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lockTime ? pool.lockTime : 
-                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                  lockTime={
+                    pool.lockTime
+                      ? pool.lockTime
+                      : pool.lock_time
+                      ? pool.lock_time
+                      : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -3150,13 +3099,13 @@ const EarnTopPicks = ({
                     setActiveCard2(null);
                     setActiveCard3(null);
                     setActiveCard4(null);
-                    setActiveCard5(topPools[index + 8]);
+                    setActiveCard5(topPools[index + 18]);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 8);
-                    handleCardIndexStake30(index + 8);
-                    handleCardIndexStakeiDyp(index + 8);
-                    setDetails(index + 8);
+                    handleCardIndexStake(index + 18);
+                    handleCardIndexStake30(index + 18);
+                    handleCardIndexStakeiDyp(index + 18);
+                    setDetails(index + 18);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard5(null);
@@ -3247,18 +3196,6 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "eth" ? (
               <ConstantStakingiDYP1
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard5 &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -3370,6 +3307,9 @@ const EarnTopPicks = ({
             >
               {topPools.slice(10, topPools.length).map((pool, index) => (
                 <TopPoolsCard
+                  display={
+                    pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                  }
                   key={index}
                   chain={chain}
                   top_pick={pool.top_pick}
@@ -3382,8 +3322,12 @@ const EarnTopPicks = ({
                   }
                   apr={pool.apy_percent + "%"}
                   tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                  lockTime={pool.lockTime ? pool.lockTime : 
-                    pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                  lockTime={
+                    pool.lockTime
+                      ? pool.lockTime
+                      : pool.lock_time
+                      ? pool.lock_time
+                      : locktimeFarm[index]
                   }
                   tokenLogo={
                     pool.icon
@@ -3521,18 +3465,6 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
               />
             ) : activeCard6 &&
-              cardIndex === 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingDai
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-              />
-            ) : activeCard6 &&
               cardIndex === 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
@@ -3637,6 +3569,9 @@ const EarnTopPicks = ({
               <div className="top-picks-container">
                 {topPools.slice(0, 1).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -3649,8 +3584,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -3782,18 +3721,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard &&
                 cardIndex >= 2 &&
                 cardIndex < 4 &&
                 topList === "Staking" &&
@@ -3899,6 +3826,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(1, 2).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -3911,8 +3841,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4043,18 +3977,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard2 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard2 &&
                 cardIndex === 4 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -4160,6 +4082,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(2, 3).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -4172,8 +4097,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4278,18 +4207,6 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard3 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -4403,6 +4320,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(3, 4).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -4415,8 +4335,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4521,18 +4445,6 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard4 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -4646,6 +4558,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(4, 5).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -4658,8 +4573,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -4764,18 +4683,6 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard5 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -4889,6 +4796,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(5, 6).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -4901,8 +4811,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5015,18 +4929,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard6 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard6 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -5106,6 +5008,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(6, 7).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -5118,8 +5023,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5232,18 +5141,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard7 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard7 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -5323,6 +5220,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(7, 8).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -5335,8 +5235,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5449,18 +5353,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard8 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard8 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -5540,6 +5432,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(8, 9).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -5552,8 +5447,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5666,18 +5565,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard9 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard9 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -5757,6 +5644,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(9, 10).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -5769,8 +5659,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -5883,17 +5777,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard10 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard10 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -5973,6 +5856,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(10, 11).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -5985,8 +5871,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -6099,17 +5989,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard11 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard11 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -6189,6 +6068,9 @@ const EarnTopPicks = ({
               >
                 {topPools.slice(11, topPools.length).map((pool, index) => (
                   <TopPoolsCard
+                    display={
+                      pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
+                    }
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -6201,8 +6083,12 @@ const EarnTopPicks = ({
                     }
                     apr={pool.apy_percent + "%"}
                     tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                    lockTime={pool.lockTime ? pool.lockTime : 
-                      pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                    lockTime={
+                      pool.lockTime
+                        ? pool.lockTime
+                        : pool.lock_time
+                        ? pool.lock_time
+                        : locktimeFarm[index]
                     }
                     tokenLogo={
                       pool.icon
@@ -6334,17 +6220,6 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                 />
               ) : activeCard12 &&
-                cardIndex === 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                />
-              ) : activeCard12 &&
                 cardIndex >= 5 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
@@ -6441,8 +6316,12 @@ const EarnTopPicks = ({
               }
               apr={pool.apy_percent + "%"}
               tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-              lockTime={pool.lockTime ? pool.lockTime : 
-                pool.lock_time ? pool.lock_time : locktimeFarm[index]
+              lockTime={
+                pool.lockTime
+                  ? pool.lockTime
+                  : pool.lock_time
+                  ? pool.lock_time
+                  : locktimeFarm[index]
               }
               cardType={topList}
               tokenLogo={
@@ -6475,6 +6354,9 @@ const EarnTopPicks = ({
               the_graph_resultbsc={the_graph_resultbsc}
               isConnected={isConnected}
               the_graph_resultavax={the_graph_resultavax}
+              display={
+                pool.expired ? (pool.expired === "Yes" ? "none" : "flex") : "flex"
+              }
             />
           ))}
         </div>

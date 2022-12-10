@@ -26,6 +26,7 @@ import moreinfo from "../../FARMINNG/assets//more-info.svg";
 import failMark from "../../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import ellipse from "../assets/ellipse.svg";
+import ellipsegreen from "../assets/ellipsegreen.svg";
 import tyHero from "../assets/tyhero.png";
 import totalVotesIcon from "../assets/totalVotesIcon.svg";
 
@@ -462,7 +463,6 @@ const AddProposal = (props) => {
 };
 
 const ProposalCard = (props) => {
-
   return (
     <div className="container vault-container d-flex">
       <div className="row vault-row text-start justify-content-between p-1">
@@ -672,7 +672,7 @@ export default class Governance extends React.Component {
       let step = window.config.max_proposals_per_call;
       for (
         let i = total_proposals - proposals.length;
-        i >= Math.max(1, total_proposals - proposals.length - step + 1);
+        i >= Math.max(1, total_proposals - proposals.length - step + 2);
         i--
       ) {
         const checkproposal = await this.getProposal(i).then();
@@ -880,6 +880,15 @@ export default class Governance extends React.Component {
       window.config.admin_address.toLowerCase();
     const deviceWidth = window.innerWidth;
 
+
+    
+    let expireArray=[]; let expires ;
+    for(let i = 0; i<= this.state.proposals?.length-1; i++) {
+     let endsOn =  this.state.proposals[i]?._proposalStartTime * 1e3 + window.config.vote_duration_in_seconds * 1e3;
+
+      expires= moment.duration(endsOn - Date.now()).humanize(true);
+      expireArray[i] = expires
+    }
     
 
     return (
@@ -1149,131 +1158,70 @@ export default class Governance extends React.Component {
               )} */}
 
               {this.state.is_wallet_connected === true ? (
-                <>
-                  <div className="mb-4">
-                    <h6 className="myDetails-title mb-3">Active proposals</h6>
-                    <div
-                      className="accordion governanceWrapper"
-                      id="accordionExample2"
-                    >
-                      {this.state.proposals.slice(0,1).map((props, index) => (
-                        <div
-                          className="accordion-item position-relative"
-                          key={index}
-                          style={{ border: "none" }}
-                        >
-                          <div className="accordion-header" id="headingOne">
-                            <button
-                              className="accordion-button collapsed d-flex flex-column position-relative "
-                              type="button"
-                              data-bs-toggle="collapse2"
-                              data-bs-target={`#${"collapse2" + index}`}
-                              aria-expanded="true"
-                              aria-controls={"collapse2" + index}
-                              onClick={() => {
-                                this.setState({
-                                  proposalId:
-                                    this.state.total_proposals - index,
-                                });
-                              }}
-                              style={{
-                                margin: "auto",
-                                paddingLeft: 10,
-                                paddingRight: 10,
-                              }}
-                            >
-                              <div className="purplediv"></div>
-                              <ProposalCard {...props} />
-                            </button>
-                          </div>
+                <div className="mb-4">
+                  <h6 className="myDetails-title mb-3">All proposals</h6>
 
-                          <div
-                            id={"collapse2" + index}
-                            className="accordion-collapse collapse"
-                            aria-labelledby={"collapsed" + index}
-                            data-bs-parent="#accordionExample2"
+                  <div
+                    className="accordion  governanceWrapper"
+                    id="accordionExample"
+                  >
+                    {this.state.proposals.map((props, index) => (
+                      <div
+                        className="accordion-item position-relative"
+                        key={index}
+                        style={{ border: "none" }}
+                      >
+                        {expireArray[index].includes('ago') &&
+                        <img
+                          src={require("../assets/expired.png").default}
+                          alt=""
+                          className="acordionstate"
+                        />}
+                        <div className="accordion-header" id="headingOne">
+                          <button
+                            className="accordion-button collapsed d-flex flex-column position-relative "
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={`#${"collapse" + index}`}
+                            aria-expanded="true"
+                            aria-controls={"collapse" + index}
+                            onClick={() => {
+                              this.setState({
+                                proposalId: this.state.total_proposals - index,
+                              });
+                            }}
+                            style={{
+                              margin: "auto",
+                              paddingLeft: 10,
+                              paddingRight: 10,
+                            }}
                           >
-                            <div className="accordion-body">
-                              <ProposalDetails
-                                refreshBalance={this.refreshBalance}
-                                proposalId={
-                                  this.state.proposalId === undefined
-                                    ? 0
-                                    : this.state.proposalId
-                                }
-                              />
-                            </div>
+                            <div className="purplediv"></div>
+                            <ProposalCard {...props} />
+                          </button>
+                        </div>
+
+                        <div
+                          id={"collapse" + index}
+                          className="accordion-collapse collapse"
+                          aria-labelledby={"collapsed" + index}
+                          data-bs-parent="#accordionExample"
+                        >
+                          <div className="accordion-body">
+                            <ProposalDetails
+                              refreshBalance={this.refreshBalance}
+                              proposalId={
+                                this.state.proposalId === undefined
+                                  ? 0
+                                  : this.state.proposalId
+                              }
+                            />
                           </div>
                         </div>
-                      ))}
-                    </div>
+                      </div>
+                    ))}
                   </div>
-
-                  <div className="mb-4">
-                    <h6 className="myDetails-title mb-3">Previous proposals</h6>
-
-                    <div
-                      className="accordion  governanceWrapper"
-                      id="accordionExample"
-                    >
-                      {this.state.proposals.slice(1,this.state.proposals.length).map((props, index) => (
-                        <div
-                          className="accordion-item position-relative"
-                          key={index}
-                          style={{ border: "none" }}
-                        >
-                          <img
-                            src={require("../assets/expired.png").default}
-                            alt=""
-                            className="acordionstate"
-                          />
-                          <div className="accordion-header" id="headingOne">
-                            <button
-                              className="accordion-button collapsed d-flex flex-column position-relative "
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target={`#${"collapse" + index}`}
-                              aria-expanded="true"
-                              aria-controls={"collapse" + index}
-                              onClick={() => {
-                                this.setState({
-                                  proposalId:
-                                    this.state.total_proposals - index,
-                                });
-                              }}
-                              style={{
-                                margin: "auto",
-                                paddingLeft: 10,
-                                paddingRight: 10,
-                              }}
-                            >
-                              <div className="purplediv"></div>
-                              <ProposalCard {...props} />
-                            </button>
-                          </div>
-
-                          <div
-                            id={"collapse" + index}
-                            className="accordion-collapse collapse"
-                            aria-labelledby={"collapsed" + index}
-                            data-bs-parent="#accordionExample"
-                          >
-                            <div className="accordion-body">
-                              <ProposalDetails
-                                refreshBalance={this.refreshBalance}
-                                proposalId={
-                                  this.state.proposalId === undefined
-                                    ? 0
-                                    : this.state.proposalId
-                                }
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </>
+                </div>
               ) : (
                 <div className="governanceWrapper">
                   <div className="emptycard"></div>
@@ -1938,9 +1886,9 @@ class ProposalDetails extends React.Component {
               <div className="col-12">
                 <div className="activewrapper">
                   <div className="d-flex align-items-center justify-co ntent-between gap-5">
-                    <h6 className="expiredtxt">
-                      <img src={ellipse} alt="" className="position-relative" />
-                      Expired
+                  <h6 className={expires.includes('ago') ? "expiredtxt" : "activetxt position-relative activetxt-vault"}>
+                    <img src={expires.includes('ago') ?  ellipse : ellipsegreen} alt="" className="position-relative" />
+                     {expires.includes('ago') ? 'Expired' : 'Active'} 
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-3">
