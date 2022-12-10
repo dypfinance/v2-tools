@@ -97,6 +97,13 @@ const slider = useRef()
       ],
     },
     {
+      title: "Poloniex",
+      logo: "poloniex.png",
+      link: "https://poloniex.com/spot/BTC_USDT",
+      totalvids: "0 videos",
+      videos: "",
+    },
+    {
       title: "MEXC",
       logo: "mexc.png",
       link: "https://www.mexc.com/exchange/DYP_USDT",
@@ -104,6 +111,7 @@ const slider = useRef()
       videos: "",
       id: "collapsefive",
     },
+   
     {
       title: "Uniswap V2",
       logo: "uniswap.png",
@@ -350,13 +358,7 @@ const slider = useRef()
         },
       ],
     },
-    {
-      title: "Poloniex",
-      logo: "poloniex.png",
-      link: "https://poloniex.com/spot/BTC_USDT",
-      totalvids: "0 videos",
-      videos: "",
-    },
+   
   ];
 
   const next = () => {
