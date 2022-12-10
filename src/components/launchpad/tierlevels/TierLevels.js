@@ -80,6 +80,23 @@ const TierLevels = ({
     slidesToShow: 2,
     slidesToScroll: 1,
     arrows: false,
+    responsive: [
+      {
+        breakpoint: 1138,
+        settings: {
+          arrows: false,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          fade: false,
+          arrows: false,
+        },
+      },
+    ],
   };
 
 
@@ -127,7 +144,7 @@ const TierLevels = ({
     <div className="container-lg px-0">
       <div className="d-flex flex-column gap-3">
         <h6 className="launchpad-hero-title">My tier level</h6>
-        <span className="launchpad-hero-desc w-50"  style={{display: display}}>
+        <span className="launchpad-hero-desc tier-level-title"  style={{display: display}}>
           Discover your Launchpad tier and check how much you are eligible to
           benefit. Increase your tier by depositing assets to Launchpools.
         </span>
@@ -214,8 +231,8 @@ const TierLevels = ({
       </div>
       <div style={{display: display}}>
       <h6 className="launchpad-hero-title mt-5">Launchpools</h6>
-      <div className="row w-100 mx-0 active-projects-container d-flex align-items-center justify-content-between mt-4 p-3">
-        <div className="col-4 d-flex flex-column gap-5">
+      <div className="row w-100 gap-4 gap-lg-0 mx-0 flex-column flex-lg-row active-projects-container d-flex align-items-center justify-content-between mt-4 p-3">
+        <div className="col-12 col-lg-4 d-flex flex-column gap-5">
           <div className="d-flex flex-column gap-3">
             <p
               className="d-flex align-items-center gap-2 staking-pill py-2 px-3"
@@ -241,12 +258,12 @@ const TierLevels = ({
               Dypius is a powerful, decentralized ecosystem build on next-gen
               infrastructure.
             </p>
-            <div className="d-flex align-items-center" style={{ gap: "80px" }}>
-              <div className="d-flex flex-column gap-1">
+            <div className="d-flex flex-column flex-lg-row align-items-center gap-4 gap-lg-5" >
+              <div className="d-flex flex-row flex-lg-column align-items-center justify-content-between w-100 gap-1">
                 <span className="time-left">Total rewards</span>
                 <div className="date-content">0.00</div>
               </div>
-              <div className="d-flex flex-column gap-1">
+              <div className="d-flex flex-row flex-lg-column align-items-center justify-content-between w-100 gap-1">
                 <span className="time-left">Lock time</span>
                 <div className="date-content">90-days</div>
               </div>
@@ -266,7 +283,7 @@ const TierLevels = ({
                   <div className="timer-text">00</div>
                   <div className="details-warning">days</div>
                 </div>
-                <div className="timer-text"> : </div>
+                <div className="timer-text d-none d-lg-flex"> : </div>
                 <div
                   className="d-flex flex-column align-items-center gap-2"
                   style={{ width: "65px" }}
@@ -274,7 +291,7 @@ const TierLevels = ({
                   <div className="timer-text">00</div>
                   <div className="details-warning">hours</div>
                 </div>
-                <div className="timer-text"> : </div>
+                <div className="timer-text d-none d-lg-flex"> : </div>
                 <div
                   className="d-flex flex-column align-items-center gap-2"
                   style={{ width: "65px" }}
@@ -282,7 +299,7 @@ const TierLevels = ({
                   <div className="timer-text">00</div>
                   <div className="details-warning">minutes</div>
                 </div>
-                <div className="timer-text"> : </div>
+                <div className="timer-text d-none d-lg-flex"> : </div>
                 <div
                   className="d-flex flex-column align-items-center gap-2"
                   style={{ width: "65px" }}
@@ -291,13 +308,13 @@ const TierLevels = ({
                   <div className="details-warning">seconds</div>
                 </div>
               </div>
-              <img src={timerIcon} width={56} height={56} alt="" />
+              <img src={timerIcon} width={56} height={56} className="d-none d-lg-flex" alt="" />
             </div>
           </div>
         </div>
-        <div className="col-7">
-          <div className="row">
-            <div className="col-8">
+        <div className="col-12 col-lg-7">
+          <div className="row flex-column-reverse flex-lg-row">
+            <div className="col-12 col-lg-8">
               <Slider ref={(c) => (slider.current = c)} {...settings}>
                 {/* <LaunchPoolsCard />
                     <LaunchPoolsCard />
@@ -326,7 +343,7 @@ const TierLevels = ({
                 ))}
               </Slider>
             </div>
-            <div className="col-4 d-flex flex-column justify-content-between">
+            <div className="col-12 col-lg-4 d-flex flex-column justify-content-between">
               <h6 className="time-left d-flex justify-content-center">
                 Tier progress
               </h6>

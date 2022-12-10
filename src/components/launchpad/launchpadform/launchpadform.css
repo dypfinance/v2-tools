@@ -132,4 +132,8 @@ line-height: 18px !important;
   .submit-form-title{
     width: 100% !important;
   }
+
+  .funding-grid{
+    grid-template-columns: auto;
+  }
 }

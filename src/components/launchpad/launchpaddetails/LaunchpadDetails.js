@@ -10,8 +10,8 @@ import walletIcon from "../../header/assets/walletIcon.svg";
 const LaunchpadDetails = () => {
   return (
     <div className="container-lg">
-      <div className="row">
-        <div className="col-7 p-4 main-details-wrapper position-relative">
+      <div className="row gap-4 gap-lg-0">
+        <div className="col-12 col-lg-7 p-2 p-lg-4 main-details-wrapper position-relative">
           <div
             className="purplediv"
             style={{ left: "0px", background: "#8E97CD" }}
@@ -116,13 +116,13 @@ const LaunchpadDetails = () => {
             </div>
           </div>
         </div>
-        <div className="col-5">
+        <div className="col-12 col-lg-5 px-0 px-lg-2">
           <div className="main-details-wrapper p-3 position-relative">
             <div
               className="purplediv"
               style={{ left: "0px", background: "#8E97CD", top: "25px" }}
             ></div>
-            <div className="d-flex align-items-start justify-content-between">
+            <div className="d-flex flex-column flex-lg-row align-items-center align-items-lg-start gap-3 gap-lg-0 justify-content-between">
               <div className="d-flex align-items-center gap-2">
                 <img src={coinStack} alt="" />
                 <div className="d-flex flex-column gap-1">
@@ -193,23 +193,23 @@ const LaunchpadDetails = () => {
             <span className="my-rewards-text">
               My rewards: <b>23.647845 iDYP</b>
             </span>
-            <div className="d-flex align-items-center justify-content-between mt-3 ">
+            <div className="d-flex flex-column flex-lg-row gap-4 gap-lg-0 align-items-center justify-content-between mt-3 ">
               <div className="dates-container p-3 me-2 d-flex  align-items-start justify-content-center">
                 <div className="d-flex flex-column align-items-center gap-2" style={{width: '65px'}}>
                   <div className="timer-text">00</div>
                   <div className="details-warning">days</div>
                 </div>
-                <div className="timer-text"> : </div>
+                <div className="timer-text d-none d-lg-flex"> : </div>
                 <div className="d-flex flex-column align-items-center gap-2" style={{width: '65px'}}>
                   <div className="timer-text">00</div>
                   <div className="details-warning">hours</div>
                 </div>
-                <div className="timer-text"> : </div>
+                <div className="timer-text d-none d-lg-flex"> : </div>
                 <div className="d-flex flex-column align-items-center gap-2" style={{width: '65px'}}>
                   <div className="timer-text">00</div>
                   <div className="details-warning">minutes</div>
                 </div>
-                <div className="timer-text"> : </div>
+                <div className="timer-text d-none d-lg-flex"> : </div>
                 <div className="d-flex flex-column align-items-center gap-2" style={{width: '65px'}}>
                   <div className="timer-text">00</div>
                   <div className="details-warning">seconds</div>

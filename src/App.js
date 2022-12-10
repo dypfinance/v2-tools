@@ -34,6 +34,7 @@ import Footer from "./components/Footer/footer";
 import BuyDyp from "./components/buydyp/BuyDyp";
 import Swap from "./components/swap/Swap";
 import MobileMenu from "./components/sidebar/MobileMenu";
+import Disclaimer from "./components/disclaimer/Disclaimer";
 
 
 class App extends React.Component {
@@ -550,9 +551,14 @@ class App extends React.Component {
                   />
                   <Route
                     exact
+                    path="/disclaimer"
+                    render={() => <Disclaimer />}
+                  />
+                  {/* <Route
+                    exact
                     path="/swap"
                     render={() => <Swap/>}
-                  />
+                  /> */}
 
                   {/* <Route
                     exact

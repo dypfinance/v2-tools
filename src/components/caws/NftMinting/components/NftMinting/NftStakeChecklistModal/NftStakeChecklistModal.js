@@ -359,7 +359,7 @@ const NftStakeCheckListModal = ({
               className="mb-2"
               style={{ fontSize: devicewidth < 500 ? 16 : 32 }}
             >
-              Stakeable NFT'S
+              Stakeable NFTs
             </h3>
             <h6
               className="checklist-subtitle mb-2"

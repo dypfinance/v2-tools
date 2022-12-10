@@ -13,24 +13,27 @@ const LaunchpadProjects = () => {
         
         <h6 className="launchpad-hero-title mb-4">Active Projects</h6>
         <div className="row align-items-center justify-content-end">
-          <div className="col-11 active-projects-container p-3 position-relative">
-            <img src={projectBanner} alt="" className="project-banner d-none d-lg-flex" />
-            <img src={commingSoon} alt="" className="comming-soon d-none d-lg-flex" />
+          <div className="col-12 col-lg-11 active-projects-container p-3 position-relative">
+            <img src={projectBanner} alt="" className="project-banner " />
+            <img src={commingSoon} alt="" className="comming-soon " />
             <div className="row align-items-center justify-content-end">
-              <div className="col-9 ps-5 d-flex flex-column gap-3">
-                <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between">
-                  <h6 className="active-projects-title">Dypius</h6>
-                  <div className="project-timer-wrapper d-flex align-items-center gap-3 position-relative">
+              <div className="col-12 col-lg-9 ps-lg-5 d-flex flex-column gap-3">
+                <div className="d-flex gap-3 flex-column flex-lg-row align-items-start justify-content-between">
+                  <div className="d-flex flex-column gap-3">
+                     <h6 className="active-projects-title">Dypius</h6>
+                     <p className="launchpad-hero-desc">
+                  Dypius is a powerful, decentralized ecosystem build on
+                  next-gen infrastructure.
+                </p>
+                  </div>
+                  <div className="project-timer-wrapper ms-5 ms-lg-0 d-flex align-items-center gap-3 position-relative">
                     <img src={timerIcon} alt="" className="timer-icon" />
                     <span className="time-left">Time left:</span>
                     <span className="project-timer">00:00:00</span>
                   </div>
                 </div>
-                <p className="launchpad-hero-desc w-50">
-                  Dypius is a powerful, decentralized ecosystem build on
-                  next-gen infrastructure.
-                </p>
-                <div className="d-flex align-items-center gap-5">
+                
+                <div className="d-flex flex-column flex-lg-row align-items-center gap-3 gap-lg-5">
                   <div className="d-flex align-items-center gap-2">
                     <span className="time-left">Start time:</span>
                     <span className="project-date">12.06.2022</span>
@@ -40,9 +43,9 @@ const LaunchpadProjects = () => {
                     <span className="project-date">12.06.2022</span>
                   </div>
                 </div>
-                <div className="d-flex justify-content-between align-items-end">
+                <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center align-items-lg-end gap-3 gap-lg-0">
                 <div className="active-project-info p-3">
-                  <div className="d-flex align-items-center gap-5">
+                  <div className="d-flex flex-column flex-lg-row align-items-start gap-3 gap-lg-5">
                     <div className="d-flex flex-column gap-2">
                       <span className="time-left">Tokens offered</span>
                       <span className="project-date">420,000,000.0000 DYP</span>

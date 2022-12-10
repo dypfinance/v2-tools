@@ -23,6 +23,10 @@
   border-radius: 12px;
 }
 
+.tier-levels-title{
+  width: 50%;
+}
+
 .icon-wrapper {
   background: linear-gradient(315deg, #554fd8 0%, #7770e0 100%);
   border-radius: 8px;
@@ -72,6 +76,9 @@ color: #D6D8E7 !important;
 
 @media screen and (max-width: 1200px) {
   .launch-project-title{
+    width: 100%;
+  }
+  .tier-levels-title{
     width: 100%;
   }
 }

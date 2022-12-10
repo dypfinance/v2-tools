@@ -18,6 +18,10 @@
   border-radius: 12px;
 }
 
+.calendar-input{
+  width: 40%;
+}
+
 .liquidity-background {
   background-image: url("./assets/liquidityBackground.svg");
   background-size: cover;
@@ -43,6 +47,10 @@
   font-size: 14px;
   line-height: 21px;
   color: #d6d8e7 !important;
+}
+
+.create-lock-inputs{
+  width: 60%;
 }
 
 .liquidity-icon-holder {
@@ -373,6 +381,10 @@ color: #F7F7FC !important;
   left: 30px;
 }
 
+.locker-slider-wrapper{
+  width: 50%;
+}
+
 @media screen and (max-width: 1199px) {
   .pair-locker-wrapper{
     grid-template-columns: repeat(2,1fr);
@@ -385,5 +397,15 @@ color: #F7F7FC !important;
   }
   .locker-status-text{
     font-size: 9px;
+  }
+  .create-lock-inputs{
+    width: 100%;
+  }
+
+  .calendar-input{
+    width: 100%;
+  }
+  .locker-slider-wrapper{
+    width: 100%;
   }
 }

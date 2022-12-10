@@ -510,7 +510,7 @@ const EarnContent = ({
             {option !== "Vault" ? (
               <>
                 <div
-                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                  className={`stake-item position-relative flex-column flex-lg-row d-flex align-items-center gap-2 ${
                     stake === "eth" ? "eth-item-active" : null
                   }`}
                   onClick={() => {
@@ -522,7 +522,7 @@ const EarnContent = ({
                     src={stake === "eth" ? ethStakeActive : ethStake}
                     alt=""
                   />
-                  <div className="d-flex flex-column d-none d-lg-flex">
+                  <div className="d-flex flex-column align-items-center align-items-lg-start">
                     <p
                       className="text-white"
                       style={{ fontSize: "12px", fontWeight: "300" }}
@@ -542,7 +542,7 @@ const EarnContent = ({
                   </div>
                 </div>
                 <div
-                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                  className={`stake-item position-relative flex-column flex-lg-row d-flex align-items-center gap-2 ${
                     stake === "bnb" ? "bsc-item-active" : null
                   }`}
                   onClick={() => {
@@ -550,7 +550,7 @@ const EarnContent = ({
                     // fetchBscTvl();
                   }}
                 >
-                  <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
+                  {/* <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
                     <img
                       src={addNewPools}
                       alt=""
@@ -562,12 +562,12 @@ const EarnContent = ({
                     >
                       New Pools
                     </span>
-                  </div>
+                  </div> */}
                   <img
                     src={stake === "bnb" ? bnbStakeActive : bnbStake}
                     alt=""
                   />
-                  <div className="d-flex flex-column d-none d-lg-flex">
+                  <div className="d-flex flex-column align-items-center align-items-lg-start">
                     <p
                       className="text-white"
                       style={{ fontSize: "12px", fontWeight: "300" }}
@@ -587,7 +587,7 @@ const EarnContent = ({
                   </div>
                 </div>
                 <div
-                  className={`stake-item position-relative d-flex align-items-center gap-2 ${
+                  className={`stake-item position-relative flex-column flex-lg-row d-flex align-items-center gap-2 ${
                     stake === "avax" ? "avax-item-active" : null
                   }`}
                   onClick={() => {
@@ -595,7 +595,7 @@ const EarnContent = ({
                     // fetchAvaxTvl();
                   }}
                 >
-                  <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
+                  {/* <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
                     <img
                       src={addNewPools}
                       alt=""
@@ -607,12 +607,12 @@ const EarnContent = ({
                     >
                       New Pools
                     </span>
-                  </div>
+                  </div> */}
                   <img
                     src={stake === "avax" ? avaxStakeActive : avaxStake}
                     alt=""
                   />
-                  <div className="d-flex flex-column d-none d-lg-flex">
+                  <div className="d-flex flex-column align-items-center align-items-lg-start">
                     <p
                       className="text-white"
                       style={{ fontSize: "12px", fontWeight: "300" }}

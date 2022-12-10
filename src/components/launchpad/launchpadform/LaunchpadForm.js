@@ -261,8 +261,8 @@ const LaunchpadForm = () => {
           </h6>
         </div>
         <form>
-          <div className="row align-items-center justify-content-between first-form mt-5">
-            <div className="col-2 d-flex flex-column gap-3">
+          <div className="row flex-column flex-lg-row align-items-center justify-content-between first-form mt-5">
+            <div className="col-12 col-lg-2 align-items-center align-items-lg-start d-flex flex-column gap-3">
               <div className="form-title">Project logo</div>
               <div className="upload-container d-flex justify-content-center align-items-center position-relative">
                 <input
@@ -281,9 +281,9 @@ const LaunchpadForm = () => {
                 )}
               </div>
             </div>
-            <div className="col-10 d-flex flex-column gap-3">
+            <div className="col-12 col-lg-10 d-flex flex-column gap-3">
               <div className="form-title">Project details</div>
-              <div className="d-flex align-items-center gap-4">
+              <div className="d-flex flex-column flex-lg-row align-items-center gap-4">
                 <div className="d-grid form-grid w-100">
                   <div
                     className="input-container px-0"
@@ -426,7 +426,7 @@ const LaunchpadForm = () => {
               </div>
             </div>
           </div>
-          <div className="mt-3 position-relative" style={{width: '34%'}}>
+          <div className="mt-3 position-relative col-12 col-lg-4">
             <span className={`image-tip mt-3 ${imageError && "required-star"}`}>
             *Logos must have a 1:1 aspect ratio, a maximum size of 250 × 250 pixels, and a maximum file size of 150 kilobytes (kb) - jpg, jpeg, png.
             </span>
@@ -435,7 +435,7 @@ const LaunchpadForm = () => {
             </span>}
           </div>
           <hr className="form-divider my-4" />
-          <div className="row align-items-center">
+          <div className="row gap-4 gap-lg-0 align-items-center">
             <h6
               className="my-3"
               style={{
@@ -447,7 +447,7 @@ const LaunchpadForm = () => {
             >
               Funding details
             </h6>
-            <div className="funding-grid d-grid col-9 col-xl-7">
+            <div className="funding-grid d-grid col-12 col-lg-9 col-xl-7">
               <div class="dropdown position relative">
                 <button
                   class={`btn launchpad-dropdown d-flex justify-content-between align-items-center dropdown-toggle w-100 ${errors.project_status && 'error-border'}`}
@@ -648,7 +648,7 @@ const LaunchpadForm = () => {
 
               </div>
             </div>
-            <div className="input-container col-3 col-xl-5">
+            <div className="input-container col-12 col-lg-3 col-xl-5">
               <textarea
                 type="text"
                 id="funding_description"
@@ -676,7 +676,7 @@ const LaunchpadForm = () => {
             </div>
           </div>
           <hr className="form-divider my-4" />
-          <div className="row align-items-center">
+          <div className="row gap-4 gap-lg-0 align-items-center">
             <div className="d-flex flex-column gap-3 mb-3">
               <h6
                 style={{
@@ -690,7 +690,7 @@ const LaunchpadForm = () => {
               </h6>
               <span className="form-title">Social media</span>
             </div>
-            <div className="col-7 form-grid d-grid">
+            <div className="col-12 col-lg-7 form-grid d-grid">
               <div className="input-container px-0" style={{ width: "100%" }}>
                 <img src={websiteIcon} alt="" className="input-icon" />
                 <input
@@ -856,7 +856,7 @@ const LaunchpadForm = () => {
                 </label>
               </div>
             </div>
-            <div className="input-container col-5">
+            <div className="input-container col-12 col-lg-5">
               <textarea
                 type="text"
                 id="additional_description"
