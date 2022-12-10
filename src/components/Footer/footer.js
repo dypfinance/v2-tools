@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 import useWindowSize from '../../functions/useWindowSize'
 
 const Footer = () => {
@@ -114,12 +115,11 @@ const Footer = () => {
             </a>
           </li>
           <li>
-            <a 
-              target={"_blank"}
-              href="https://lorenadev.dyp.finance/disclaimer"
+            <NavLink  to="/disclaimer"
+              
             >
               Disclaimer
-            </a>
+            </NavLink>
           </li>
           <li>
             <a

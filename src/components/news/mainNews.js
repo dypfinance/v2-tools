@@ -6,7 +6,7 @@ import Downvote from "./assets/downvote.svg";
 import Clock from "./assets/clock.svg";
 import ToolTip from "./ToolTip";
 import OutsideClickHandler from "react-outside-click-handler";
-import featuredNewsShadow from './assets/featuredNewsShadow.svg'
+import featuredNewsShadow from './assets/featuredNewsShadow.png'
 import calendar from '../newsCard/assets/calendar.svg'
 
 

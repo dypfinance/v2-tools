@@ -2055,10 +2055,10 @@ export default class Locker extends React.Component {
                 {/* <img src={moreInfo} alt="" height={24} width={24} /> */}
               </div>
               <hr className="form-divider my-4" style={{ height: "3px" }} />
-              <div className="d-flex align-items-center justify-content-between gap-5">
+              <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-5">
                 <div
-                  className="d-flex align-items-end justify-content-start gap-3"
-                  style={{ width: "60%" }}
+                  className="d-flex align-items-end justify-content-start gap-3 create-lock-inputs"
+                  
                 >
                   <div
                     className="d-flex flex-column gap-5"
@@ -2185,7 +2185,7 @@ export default class Locker extends React.Component {
                 </div>
               </div>
               <hr className="form-divider my-4" style={{ height: "3px" }} />
-              <div className="d-flex justify-content-between align-items-end">
+              <div className="d-flex flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between align-items-end">
                 <div className="d-flex flex-column gap-2">
                   <span className="create-lock-title">Select unlock date</span>
                   <div className="d-flex align-items-center gap-3">
@@ -2236,7 +2236,7 @@ export default class Locker extends React.Component {
                     </span>
                   </div>
                 </div>
-                <div className="input-container px-0" style={{ width: "40%" }}>
+                <div className="input-container px-0 calendar-input" >
                   <input
                     type="date"
                     id="date"
@@ -2253,12 +2253,12 @@ export default class Locker extends React.Component {
                   />
                 </div>
               </div>
-              <div className="d-flex flex-column gap-3 mt-4 w-50">
+              <div className="d-flex flex-column gap-3 mt-4 locker-slider-wrapper">
                 <span className="create-lock-title mb-5">Seleted % rate</span>
                 {/* <input type="range" className="w-50" /> */}
 
                 <Slider
-                  className="ms-3"
+                  className="ms-0 ms-lg-3"
                   step={25}
                   dots
                   min={25}

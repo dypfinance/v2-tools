@@ -328,7 +328,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                   <h6 className="deposit-txt">Stake</h6>
 
                   <h6 className="mybalance-text">
-                    Avaliable NFT's:{" "}
+                    Avaliable NFTs:{" "}
                     <b>{isConnected === false ? 0 : myNFTs.length} CAWS</b>
                   </h6>
                 </div>
@@ -336,7 +336,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                   placement="top"
                   title={
                     <div className="tooltip-text">
-                      {"Deposit your CAWS NFT’s to the staking smart contract."}
+                      {"Deposit your CAWS NFTs to the staking smart contract."}
                     </div>
                   }
                 >
@@ -391,7 +391,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                 <h6 className="withdraw-txt d-flex gap-2 align-items-center">
                   REWARDS
                   <h6 className="mybalance-text">
-                    NFT's Staked:{""}
+                    NFTs Staked:{""}
                     <b>{isConnected === false ? 0 : mystakes.length} CAWS</b>
                   </h6>
                 </h6>
@@ -402,7 +402,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
                     title={
                       <div className="tooltip-text">
                         {
-                          "Rewards earned by your CAWS NFT’s deposit to the staking smart contract are displayed in real-time."
+                          "Rewards earned by your CAWS NFTs deposit to the staking smart contract are displayed in real-time."
                         }
                       </div>
                     }
