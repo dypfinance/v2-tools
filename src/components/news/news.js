@@ -38,6 +38,7 @@ const News = ({ theme, isPremium, coinbase }) => {
           slidesToScroll: 1,
           fade: false,
           arrows: false,
+          dots: true
         },
       },
     ],
@@ -618,7 +619,7 @@ const News = ({ theme, isPremium, coinbase }) => {
             />
           ) : newsData.length > 0 ? (
             <>
-              <div className="col-8 ps-0">
+              <div className="col-12 col-lg-8 px-0 px-lg-2 ps-0">
               <div className="position-relative p-3 featured-slider-wrapper">
               <Slider {...mainSettings} ref={carousel}>
                 {popularNewsData.length > 0 &&
@@ -668,7 +669,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                
               </div>
               <div
-                className=" col-4 pe-0"
+                className=" col-12 col-lg-4 px-0 px-lg-2 pe-0"
                 style={{
                   display: !showModal ? "flex" : "none",
                 }}
@@ -830,7 +831,7 @@ const News = ({ theme, isPremium, coinbase }) => {
           // style={{ width: "96%", margin: "auto", background: "none" }}
         >
           <img src={pressReleaseNext} className="press-prev-btn" alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevSlide} />
-         <div style={{width: '93%'}}>
+         <div className="press-release-slider-container">
          <Slider {...settings} ref={slider}>
             {pressNewsData.length > 0 &&
               pressNewsData.slice(0, 8).map((item, key) => {

@@ -132,22 +132,21 @@ const TierLevels = ({
           benefit. Increase your tier by depositing assets to Launchpools.
         </span>
       </div>
-      <div className="active-projects-container px-5 pt-5 mt-4">
-      <div className={`tier-info-wrapper ${infoDisplay === 'flex' ? 'd-flex' : 'd-none'} align-items-center justify-content-between p-3 mx-3`} >
+      <div className="active-projects-container px-3 px-lg-5 pb-5 pb-lg-0 pt-5 mt-4">
+      <div className={`tier-info-wrapper ${infoDisplay === 'flex' ? 'd-flex' : 'd-none'} flex-column flex-lg-row align-items-center justify-content-between p-3 mx-3`} >
           <span className="tier-info-text w-50">In order to increase the current tier and benefit more of the Launchpad projects, participants need to stake DYP in a staking pool.</span>
           <NavLink to='/launchpad/tiers'>
-            <button className="btn filledbtn px-4">Go view</button>
+            <button className="btn filledbtn px-4" style={{whiteSpace: 'pre'}}>Go view</button>
           </NavLink>
         </div>
       <div
-        className=" d-flex justify-content-center mt-4  position-relative"
+        className=" d-flex justify-content-start justify-content-lg-center mt-4  position-relative tiers-container px-3 px-lg-0"
         style={{ gap: "100px", paddingBottom: "170px" }}
       >
 
-        <hr className="tier-divider" />
+        <hr className="tier-divider d-none d-lg-flex" />
         <div
           className="current-tier-wrapper selected-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
-          style={{ flex: "0 0 auto", width: "13%" }}
         >
           <span className="current-tier">Current tier</span>
           <h6 className="current-tier-title">Bronze</h6>
@@ -161,7 +160,6 @@ const TierLevels = ({
         </div>
         <div
           className="next-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
-          style={{ flex: "0 0 auto", width: "13%" }}
         >
           <span className="next-tier">Next tier</span>
           <h6 className="tier-title">Silver</h6>
@@ -175,7 +173,6 @@ const TierLevels = ({
         </div>
         <div
           className="next-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
-          style={{ flex: "0 0 auto", width: "13%" }}
         >
           <span className="next-tier">Next tier</span>
           <h6 className="tier-title">Gold</h6>
@@ -189,7 +186,6 @@ const TierLevels = ({
         </div>
         <div
           className="next-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
-          style={{ flex: "0 0 auto", width: "13%" }}
         >
           <span className="next-tier">Next tier</span>
           <h6 className="tier-title">Platinum</h6>
@@ -203,7 +199,6 @@ const TierLevels = ({
         </div>
         <div
           className="next-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
-          style={{ flex: "0 0 auto", width: "13%" }}
         >
           <span className="next-tier">Next tier</span>
           <h6 className="tier-title">Diamond</h6>

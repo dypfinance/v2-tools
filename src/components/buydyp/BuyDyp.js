@@ -14,6 +14,31 @@ const BuyDyp = () => {
     slidesToScroll: 4,
     arrows: false,
     dotsClass: "button__bar",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      }
+    ]
   };
 
 const slider = useRef()
@@ -358,16 +383,16 @@ const slider = useRef()
     <div className="container-lg px-0">
       <div className="d-flex flex-column gap-2">
         <h6 className="buydyp-title">Buy DYP</h6>
-        <p className="buydyp-content w-50">
+        <p className="buydyp-content col-12 col-lg-6">
           At Dypius, we want to make it easy for you to purchase our token. We
           have a variety of centralized and decentralized exchanges that you can
           use to do so.
         </p>
       </div>
       <h6 className="mt-5 buydyp-title">Exchanges to purchase DYP</h6>
-      <div className="row mt-3 px-0 w-100">
-        <div className="col-5">
-          <div className="d-grid vendor-container">
+      <div className="row gap-4 gap-lg-0 mx-0 mt-3 px-0 w-100">
+        <div className="col-12 col-lg-5">
+          <div className="d-grid vendor-container  py-3 py-lg-0">
         
             {buyDypItems.map((vendor, index) => (
               <VendorCard
@@ -387,7 +412,7 @@ const slider = useRef()
             ))}
           </div>
         </div>
-        <div className="col-7">
+        <div className="col-12 col-lg-7">
           <div className="vendor-card p-3 position-relative">
             <div className="purplediv"></div>
             <div className="d-flex align-items-center justify-content-between">
@@ -466,7 +491,7 @@ const slider = useRef()
              ))}
              {videoList?.length < 4 &&
              emptyVideos.slice(0, 4 - videoList.length).map((item) => (
-             <img src={require('./assets/noVideo.svg').default} alt="" />
+             <img src={require('./assets/noVideo.svg').default} className="d-none d-lg-flex" alt="" />
              ))
              }
          </Slider>

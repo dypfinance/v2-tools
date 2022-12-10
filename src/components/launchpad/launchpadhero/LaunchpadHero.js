@@ -33,8 +33,8 @@ const LaunchpadHero = () => {
   
   return (
     <>
-    <div className="row align-items-center justify-content-between">
-        <div className="col-5 d-flex flex-column gap-5">
+    <div className="row gap-4 gap-lg-0 align-items-center justify-content-between">
+        <div className="col-12 col-lg-5 d-flex flex-column gap-5">
             <div className="d-flex flex-column gap-3">
             <h6 className="launchpad-hero-title">Dypius Launchpad</h6>
             <p className="launchpad-hero-desc">Join Dypius, a powerful, decentralized ecosystem with a focus on scalability, security, and global adoption through next-gen infrastructure. The Launchpad enables projects to raise capital in a decentralized environment per DYP Tools to deliver the highest security for users.</p>
@@ -44,9 +44,9 @@ const LaunchpadHero = () => {
                 <a className="goto-button d-flex align-items-center gap-2">Launch Form <img src={gotoIndicator} alt="" /></a>
             </div> */}
         </div>
-        <div className="col-6 tier-level-wrapper p-3">
-        <div className="row align-items-center">
-          <div className="col-8 d-flex flex-column gap-4">
+        <div className="col-12 col-lg-6 tier-level-wrapper p-3">
+        <div className="row gap-3 gap-lg-0 align-items-center">
+          <div className="col-12 col-lg-8 d-flex flex-column gap-4">
           <div className="d-flex align-items-center gap-2">
             <img src={medalIcon} alt="" />
             <h6 className="launchpad-hero-title">
@@ -61,7 +61,7 @@ const LaunchpadHero = () => {
             <img src={rightArrow} alt="" />
           </NavLink>
           </div>
-          <div className="col-3 current-tier-wrapper selected-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3">
+          <div className="col-12 col-lg-3 current-tier-wrapper current-tier-hero-wrapper selected-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3">
             <span className="current-tier">Current tier</span>
             <h6 className="current-tier-title">Gold</h6>
             {/* <h6 className="tier-title">2</h6> */}
@@ -71,7 +71,7 @@ const LaunchpadHero = () => {
         </div>
     </div>
     <h6 className="launchpad-hero-title" style={{marginTop: '85px'}}>Key features</h6>
-    <div className="features-wrapper d-flex align-items-center justify-content-between my-5">
+    <div className="features-wrapper d-flex align-items-center justify-content-between my-5 flex-column flex-lg-row gap-3 gap-lg-0">
      {keyFeatures.map((item) => (
       <KeyFeaturesCard icon={item.icon} content={item.content} /> 
      ))}

@@ -26,8 +26,8 @@ const Benefits = () => {
   ]
 
   return (
-    <div className="row px-3 mt-5">
-      <div className="col-6 d-flex flex-column launch-project justify-content-start justify-content-xl-end align-items-end p-4 gap-5">
+    <div className="row gap-4 gap-lg-0 px-3 mt-5">
+      <div className="col-12 col-lg-6 d-flex flex-column launch-project justify-content-start justify-content-xl-end align-items-end p-4 gap-5">
         <h6 className="launch-project-title">
           Launch your project with Dypius now!
         </h6>
@@ -36,7 +36,7 @@ const Benefits = () => {
           <img src={whiteArrow} alt="" />
         </NavLink >
       </div>
-      <div className="col-6 benefits px-4">
+      <div className="col-12 col-lg-6 benefits px-0 px-lg-4">
         <div className="d-flex align-items-center justify-content-end">
           <h6 className="launchpad-hero-title">Benefits</h6>
         </div>
