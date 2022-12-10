@@ -26,6 +26,7 @@ import moreinfo from "../../FARMINNG/assets//more-info.svg";
 import failMark from "../../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import ellipse from "../assets/ellipse.svg";
+import ellipsegreen from "../assets/ellipsegreen.svg";
 import tyHero from "../assets/tyhero.png";
 import totalVotesIcon from "../assets/totalVotesIcon.svg";
 
@@ -507,7 +508,11 @@ const ProposalCard = (props) => {
           <div className="d-flex justify-content-between gap-2 align-items-center">
             <img
               className="m-0 cardlogo"
-              src={props.vault ? props.vault.logo : require('../assets/dyp.svg').default}
+              src={
+                props.vault
+                  ? props.vault.logo
+                  : require("../assets/dyp.svg").default
+              }
             />
 
             <div
@@ -822,11 +827,9 @@ export default class Governance extends React.Component {
 
   handleProposalSubmit = (formState) => (e) => {
     e.preventDefault();
-    if (
-      Number(this.state.token_balance) <
-      1 * this.state.MIN_BALANCE_TO_INIT_PROPOSAL
-    ) {
-      window.alertify.error("Insufficiet Governance Token Balance!");
+    const min = this.state.MIN_BALANCE_TO_INIT_PROPOSAL.slice(0, 4);
+    if (Number(this.state.token_balance) < parseInt(min)) {
+      window.alertify.error("Insufficient Governance Token Balance!");
       return;
     }
     let poolGroupName;
@@ -909,6 +912,18 @@ export default class Governance extends React.Component {
       String(this.state.coinbase).toLowerCase() ==
       window.config.admin_address.toLowerCase();
     const deviceWidth = window.innerWidth;
+
+    let expireArray = [];
+    let expires;
+    for (let i = 0; i <= this.state.proposals?.length - 1; i++) {
+      let endsOn =
+        this.state.proposals[i]?._proposalStartTime * 1e3 +
+        window.config.vote_duration_in_seconds * 1e3;
+
+      expires = moment.duration(endsOn - Date.now()).humanize(true);
+      expireArray[i] = expires;
+    }
+
     return (
       <div>
         <div
@@ -1177,7 +1192,7 @@ export default class Governance extends React.Component {
 
               {this.state.is_wallet_connected === true ? (
                 <div className="mb-4">
-                  <h6 className="myDetails-title mb-3">Previous proposals</h6>
+                  <h6 className="myDetails-title mb-3">All proposals</h6>
 
                   <div
                     className="accordion  governanceWrapper"
@@ -1189,11 +1204,13 @@ export default class Governance extends React.Component {
                         key={index}
                         style={{ border: "none" }}
                       >
-                        <img
-                          src={require("../assets/expired.png").default}
-                          alt=""
-                          className="acordionstate"
-                        />
+                        {expireArray[index].includes("ago") && (
+                          <img
+                            src={require("../assets/expired.png").default}
+                            alt=""
+                            className="acordionstate"
+                          />
+                        )}
                         <div className="accordion-header" id="headingOne">
                           <button
                             className="accordion-button collapsed d-flex flex-column position-relative "
@@ -1208,7 +1225,6 @@ export default class Governance extends React.Component {
                               });
                             }}
                             style={{
-                              
                               margin: "auto",
                               paddingLeft: 10,
                               paddingRight: 10,
@@ -1902,9 +1918,13 @@ class ProposalDetails extends React.Component {
               <div className="col-12">
                 <div className="activewrapper">
                   <div className="d-flex align-items-center justify-co ntent-between gap-5">
-                    <h6 className="expiredtxt">
-                      <img src={ellipse} alt="" className="position-relative" />
-                      Expired
+                  <h6 className={expires.includes('ago') ? "expiredtxt" : "activetxt position-relative activetxt-vault"}>
+                      <img
+                        src={expires.includes("ago") ? ellipse : ellipsegreen}
+                        alt=""
+                        className="position-relative"
+                      />
+                      {expires.includes("ago") ? "Expired" : "Active"}
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-3">

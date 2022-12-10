@@ -26,6 +26,7 @@ import moreinfo from "../../FARMINNG/assets//more-info.svg";
 import failMark from "../../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import ellipse from "../assets/ellipse.svg";
+import ellipsegreen from "../assets/ellipsegreen.svg";
 import tyHero from "../assets/tyhero.png";
 import totalVotesIcon from "../assets/totalVotesIcon.svg";
 
@@ -36,30 +37,29 @@ const { new_governancebsc: governance, reward_token, BigNumber } = window;
 const LP_AMPLIFY_FACTOR = 1;
 
 let PoolGroupName = Object.freeze({
-    WBNB: "0",
-  });
-  
+  WBNB: "0",
+});
 
 const stakingPools = [
-    {
-      logo: "/images/wbnb_logo.png",
-      name: "BNB Pools",
-      group_name: PoolGroupName.WBNB,
-      pools: [
-        "0x537DC4fee298Ea79A7F65676735415f1E2882F92",
-        "0x219717BF0bC33b2764A6c1A772F75305458BDA3d",
-        "0xD1151a2434931f34bcFA6c27639b67C1A23D93Af",
-        "0xed869Ba773c3F1A1adCC87930Ca36eE2dC73435d",
-        "0x415B1624710296717FA96cAD84F53454E8F02D18",
-      ],
-    },
-  ].map((pools) => {
-    pools.pools = pools.pools
-      .map((p) => p.toLowerCase())
-      .sort()
-      .join(",");
-    return pools;
-  });
+  {
+    logo: "/images/bnb.svg",
+    name: "BNB Pools",
+    group_name: PoolGroupName.WBNB,
+    pools: [
+      "0x537DC4fee298Ea79A7F65676735415f1E2882F92",
+      "0x219717BF0bC33b2764A6c1A772F75305458BDA3d",
+      "0xD1151a2434931f34bcFA6c27639b67C1A23D93Af",
+      "0xed869Ba773c3F1A1adCC87930Ca36eE2dC73435d",
+      "0x415B1624710296717FA96cAD84F53454E8F02D18",
+    ],
+  },
+].map((pools) => {
+  pools.pools = pools.pools
+    .map((p) => p.toLowerCase())
+    .sort()
+    .join(",");
+  return pools;
+});
 
 const AddProposal = (props) => {
   let [formState, setFormState] = useState({
@@ -463,7 +463,6 @@ const AddProposal = (props) => {
 };
 
 const ProposalCard = (props) => {
-  
   return (
     <div className="container vault-container d-flex">
       <div className="row vault-row text-start justify-content-between p-1">
@@ -474,7 +473,11 @@ const ProposalCard = (props) => {
           <div className="d-flex justify-content-between gap-2 align-items-center">
             <img
               className="m-0 cardlogo"
-              src={props.vault ? props.vault.logo : require('../assets/dyp.svg').default}
+              src={
+                props.vault
+                  ? props.vault.logo
+                  : require("../assets/dyp.svg").default
+              }
             />
 
             <div
@@ -486,38 +489,39 @@ const ProposalCard = (props) => {
               </span>
             </div>
           </div>
-          {props._proposalAction !== '5' &&
-          <div
-            className={`${
-              props._proposalAction === "3"
-                ? "actionwrapper2"
-                : props._proposalAction === "1"
-                ? "actionwrapper3"
-                : "actionwrapper"
-            } col-sm-10 text-left`}
-          >
-            <span
-              className={
+          {props._proposalAction !== "5" && (
+            <div
+              className={`${
                 props._proposalAction === "3"
-                  ? "actionText2"
+                  ? "actionwrapper2"
                   : props._proposalAction === "1"
-                  ? "actionText3"
-                  : "actionText"
-              }
+                  ? "actionwrapper3"
+                  : "actionwrapper"
+              } col-sm-10 text-left`}
             >
-              {{
-                0: "Disburse / Burn",
-                1: "Upgrade Governance",
-                2: "Change Quorum",
-                3: "Other / Free Text",
-                4: "Change Min Balance",
-              }[props._proposalAction] || ""}
-            </span>
-          </div>}
+              <span
+                className={
+                  props._proposalAction === "3"
+                    ? "actionText2"
+                    : props._proposalAction === "1"
+                    ? "actionText3"
+                    : "actionText"
+                }
+              >
+                {{
+                  0: "Disburse / Burn",
+                  1: "Upgrade Governance",
+                  2: "Change Quorum",
+                  3: "Other / Free Text",
+                  4: "Change Min Balance",
+                }[props._proposalAction] || ""}
+              </span>
+            </div>
+          )}
         </div>
         <div className="card-bottom-wrapper">
           <div className="text-left ExpireWrapper d-flex flex-column justify-content-start">
-            <p className="expiretxt">Expires</p>
+            <p className="expiretxt">Expires </p>
             <h6 className="duration-txt small mb-0 ">
               {moment
                 .duration(
@@ -767,7 +771,7 @@ export default class Governance extends React.Component {
     this.checkConnection();
     this.getProposal();
     window._refreshBalInterval = setInterval(this.checkConnection, 1000);
-    // window._refreshBalInterval = setInterval(this.getProposal, 3000);
+    window._refreshBalInterval2 = setInterval(this.getProposal, 3000);
     if (this.state.proposals.length == 0) {
       this.refreshProposals();
     }
@@ -790,11 +794,9 @@ export default class Governance extends React.Component {
 
   handleProposalSubmit = (formState) => (e) => {
     e.preventDefault();
-    if (
-      Number(this.state.token_balance) <
-      1 * this.state.MIN_BALANCE_TO_INIT_PROPOSAL
-    ) {
-      window.alertify.error("Insufficiet Governance Token Balance!");
+    const min = this.state.MIN_BALANCE_TO_INIT_PROPOSAL.slice(0, 4);
+    if (Number(this.state.token_balance) < parseInt(min)) {
+      window.alertify.error("Insufficient Governance Token Balance!");
       return;
     }
     let poolGroupName;
@@ -877,6 +879,18 @@ export default class Governance extends React.Component {
       String(this.state.coinbase).toLowerCase() ==
       window.config.admin_address.toLowerCase();
     const deviceWidth = window.innerWidth;
+
+
+    
+    let expireArray=[]; let expires ;
+    for(let i = 0; i<= this.state.proposals?.length-1; i++) {
+     let endsOn =  this.state.proposals[i]?._proposalStartTime * 1e3 + window.config.vote_duration_in_seconds * 1e3;
+
+      expires= moment.duration(endsOn - Date.now()).humanize(true);
+      expireArray[i] = expires
+    }
+    
+
     return (
       <div>
         <div
@@ -1145,7 +1159,7 @@ export default class Governance extends React.Component {
 
               {this.state.is_wallet_connected === true ? (
                 <div className="mb-4">
-                  <h6 className="myDetails-title mb-3">Previous proposals</h6>
+                  <h6 className="myDetails-title mb-3">All proposals</h6>
 
                   <div
                     className="accordion  governanceWrapper"
@@ -1157,11 +1171,12 @@ export default class Governance extends React.Component {
                         key={index}
                         style={{ border: "none" }}
                       >
+                        {expireArray[index].includes('ago') &&
                         <img
                           src={require("../assets/expired.png").default}
                           alt=""
                           className="acordionstate"
-                        />
+                        />}
                         <div className="accordion-header" id="headingOne">
                           <button
                             className="accordion-button collapsed d-flex flex-column position-relative "
@@ -1599,6 +1614,8 @@ class ProposalDetails extends React.Component {
     // this.getProposal()
     this.checkConnection();
     window._refreshBalInterval = setInterval(this.checkConnection, 3000);
+    window._refreshBalInterval2 = setInterval(this.getProposal, 3000);
+
     window._refreshVoteBalInterval = setInterval(this.refreshBalance, 3000);
   }
 
@@ -1869,9 +1886,9 @@ class ProposalDetails extends React.Component {
               <div className="col-12">
                 <div className="activewrapper">
                   <div className="d-flex align-items-center justify-co ntent-between gap-5">
-                    <h6 className="expiredtxt">
-                      <img src={ellipse} alt="" className="position-relative" />
-                      Expired
+                  <h6 className={expires.includes('ago') ? "expiredtxt" : "activetxt position-relative activetxt-vault"}>
+                    <img src={expires.includes('ago') ?  ellipse : ellipsegreen} alt="" className="position-relative" />
+                     {expires.includes('ago') ? 'Expired' : 'Active'} 
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-3">

@@ -27,6 +27,7 @@ const TopPoolsCard = ({
   isStaked,
   isNewPool,
   tag,
+  display
   // showDetails,
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
@@ -84,6 +85,7 @@ const TopPoolsCard = ({
           renderedPage === "dashboard" && !details ? "pools-card-hover" : ""
         }`}
         onClick={() => handleDetails()}
+        style={{display: display}}
       >
         {isStaked && <img src={staked} className="staked" alt="staked" />}
         {top_pick === true && (

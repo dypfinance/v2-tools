@@ -47,6 +47,7 @@ const TopPoolsListCard = ({
   the_graph_resultavax,
   the_graph_resultbsc,
   listType,
+  display,
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
   const bscCoins = [
@@ -620,8 +621,9 @@ const TopPoolsListCard = ({
   return (
     <>
       <div
-        className="row w-100 d-flex flex-column gap-3 gap-lg-0 flex-lg-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer"
+        className="row w-100 flex-column gap-3 gap-lg-0 flex-lg-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer"
         onClick={() => handleDetails()}
+        style={{display: display}}
       >
         <div className="col-12 col-lg-4 d-flex justify-content-between align-items-center">
         <div

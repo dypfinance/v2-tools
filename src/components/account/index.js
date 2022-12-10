@@ -519,7 +519,7 @@ const handleTooltipOpen = () => {
   this.setState({openTooltip: true});
 };
 
-// console.log(mycaws)
+
     return (
       <div>
         <div className="d-flex align-items-center justify-content-between flex-column flex-lg-row gap-4 gap-lg-0">
@@ -594,7 +594,7 @@ const handleTooltipOpen = () => {
             <div className="d-flex align-items-center w-100 justify-content-between justify-content-lg-end gap-2">
               <div className="d-flex flex-column">
               <span className="dyp-amount-placeholder">Balance:</span>
-              <h6 className="account-dyp-amount">0.00000 DYP </h6>
+              <h6 className="account-dyp-amount">{this.state.tokenBalance} DYP </h6>
               </div>
             <div className="position-relative">
               <div className="avatar-border"></div>

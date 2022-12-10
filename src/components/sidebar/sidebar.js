@@ -101,7 +101,7 @@ const Sidebar = (props) => {
     }else if(windowSize.width < 1800){
       setActiveSidebar(false)
     }
-    console.log(sidebar);
+    
   }, [windowSize]);
 
 
@@ -184,7 +184,6 @@ const Sidebar = (props) => {
   const windowUrl = window.location.href;
 
 
-  console.log(activeSidebar);
 
   return (
 
