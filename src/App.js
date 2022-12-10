@@ -548,11 +548,11 @@ class App extends React.Component {
                     path="/submit-info"
                     render={() => <SubmitInfo theme={this.state.theme} />}
                   />
-                  <Route
+                  {/* <Route
                     exact
                     path="/swap"
                     render={() => <Swap/>}
-                  />
+                  /> */}
 
                   {/* <Route
                     exact
