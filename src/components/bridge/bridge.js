@@ -11,7 +11,7 @@ import switchicon from "./assets/switch.svg";
 import failMark from "../../assets/failMark.svg";
 import Tooltip from "@material-ui/core/Tooltip";
 import Timeline from "@mui/lab/Timeline";
-import TimelineItem, {timelineItemClasses} from "@mui/lab/TimelineItem";
+import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
@@ -43,8 +43,6 @@ const getRenderer =
       );
     }
   };
-
- 
 
 export default function initBridge({
   bridgeETH,
@@ -188,8 +186,8 @@ export default function initBridge({
       }
 
       amount = new BigNumber(amount).times(10 ** TOKEN_DECIMALS).toFixed(0);
-      let bridge = this.state.chainText === "ETH" ? bridgeETH : bridgeBSC;
-      await (this.state.chainText === "ETH" ? tokenETH : tokenBSC)
+      let bridge = this.props.networkId === 1 ? bridgeETH : bridgeBSC;
+      await (this.props.networkId === 1 ? tokenETH : tokenBSC)
         .approve(bridge._address, amount)
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "deposit" });
@@ -264,7 +262,7 @@ export default function initBridge({
       }
 
       amount = new BigNumber(amount).times(10 ** TOKEN_DECIMALS).toFixed(0);
-      let bridge = this.state.chainText === "ETH" ? bridgeETH : bridgeBSC;
+      let bridge = this.props.networkId === 1 ? bridgeETH : bridgeBSC;
       let chainId = this.props.networkId;
 
       if (chainId !== undefined) {
@@ -276,8 +274,13 @@ export default function initBridge({
           })
           .then(() => {
             this.setState({ depositLoading: false, depositStatus: "deposit" });
-          }).catch((e) => {
-            this.setState({ depositLoading: false, depositStatus: "fail", errorMsg: e?.message });
+          })
+          .catch((e) => {
+            this.setState({
+              depositLoading: false,
+              depositStatus: "fail",
+              errorMsg: e?.message,
+            });
             setTimeout(() => {
               this.setState({
                 depositStatus: "initial",
@@ -308,18 +311,23 @@ export default function initBridge({
         let url =
           signature +
           `/api/withdraw-args?depositNetwork=${
-            this.state.chainText === "ETH" &&
-            this.props.destinationChain === "avax"
-              ? "AVAX"
-              : this.state.chainText === "ETH" &&
+            this.props.networkId === 1 && this.props.destinationChain === "avax"
+              ? "ETH"
+              : this.props.networkId === 1 &&
                 this.props.destinationChain === "bnb"
+              ? "ETH"
+              : this.props.networkId === 56 &&
+                this.props.destinationChain === "eth"
               ? "BSC"
+              : this.props.networkId === 43114 &&
+                this.props.destinationChain === "eth"
+              ? "AVAX"
               : "ETH"
           }&txHash=${this.state.txHash}`;
-        console.log({ url });
+
         let args = await window.jQuery.get(url);
         console.log({ args });
-        (this.state.chainText === "ETH" ? bridgeETH : bridgeBSC)
+        (this.props.networkId === 1 ? bridgeETH : bridgeBSC)
           .withdraw(args)
           .then(() => {
             this.setState({
@@ -355,7 +363,7 @@ export default function initBridge({
 
     refreshBalance = async () => {
       if (this.props.isConnected === true) {
-        let coinbase = await window.getCoinbase();
+        let coinbase = this.props.coinbase;
         this.setState({ coinbase });
         try {
           let chainId = this.props.networkId;
@@ -387,18 +395,27 @@ export default function initBridge({
               let url =
                 signature +
                 `/api/withdraw-args?depositNetwork=${
-                  this.state.chainText === "ETH" &&
+                  this.props.networkId === 1 &&
                   this.props.destinationChain === "avax"
-                    ? "AVAX"
-                    : this.state.chainText === "ETH" &&
+                    ? "ETH"
+                    : this.props.networkId === 1 &&
                       this.props.destinationChain === "bnb"
+                    ? "ETH"
+                    : this.props.networkId === 56 &&
+                      this.props.destinationChain === "eth"
                     ? "BSC"
+                    : this.props.networkId === 43114 &&
+                      this.props.destinationChain === "eth"
+                    ? "AVAX"
                     : "ETH"
                 }&txHash=${
                   this.state.txHash
                 }&getWithdrawableUnixTimestamp=true`;
-              console.log({ url });
+
               let { withdrawableUnixTimestamp } = await window.jQuery.get(url);
+              console.log(this.state.withdrawableUnixTimestamp);
+
+              console.log(withdrawableUnixTimestamp);
               this.setState({ withdrawableUnixTimestamp });
               console.log({ withdrawableUnixTimestamp });
             } catch (e) {
@@ -435,10 +452,8 @@ export default function initBridge({
         );
         canWithdraw = timeDiff === 0;
       }
-      
       return (
         <div className="row w-100 mx-0 gap-4 justify-content-between">
-         
           <div className="token-staking col-12 col-lg-6 col-xxl-5">
             <div className="purplediv"></div>
             <div className="row">
@@ -455,13 +470,12 @@ export default function initBridge({
                         }
                         onClick={() => {}}
                       >
-                         <h6 className="optiontext d-flex align-items-center gap-2">
-                                      <img src={eth} alt="" /> 
-                                      <p className=" mb-0 optiontext d-none d-lg-flex">
-
-                                      Ethereum
-                                      </p>
-                                    </h6>
+                        <h6 className="optiontext d-flex align-items-center gap-2">
+                          <img src={eth} alt="" />
+                          <p className=" mb-0 optiontext d-none d-lg-flex">
+                            Ethereum
+                          </p>
+                        </h6>
                       </div>
                       <div
                         className={
@@ -471,12 +485,11 @@ export default function initBridge({
                         }
                       >
                         <h6 className="optiontext d-flex align-items-center gap-2">
-                                      <img src={bnb} alt="" /> 
-                                      <p className=" mb-0 optiontext d-none d-lg-flex">
-
-                                      BNB Chain
-                                      </p>
-                                    </h6>
+                          <img src={bnb} alt="" />
+                          <p className=" mb-0 optiontext d-none d-lg-flex">
+                            BNB Chain
+                          </p>
+                        </h6>
                       </div>
                       <div
                         className={
@@ -486,12 +499,11 @@ export default function initBridge({
                         }
                       >
                         <h6 className="optiontext d-flex align-items-center gap-2">
-                                      <img src={avax} alt="" /> 
-                                      <p className=" mb-0 optiontext d-none d-lg-flex">
-
-                                      Avalanche
-                                      </p>
-                                    </h6>
+                          <img src={avax} alt="" />
+                          <p className=" mb-0 optiontext d-none d-lg-flex">
+                            Avalanche
+                          </p>
+                        </h6>
                       </div>
                     </div>
                     {this.props.isConnected === false ? (
@@ -738,10 +750,9 @@ export default function initBridge({
                                     }}
                                   >
                                     <h6 className="optiontext d-flex align-items-center gap-2">
-                                      <img src={eth} alt="" /> 
+                                      <img src={eth} alt="" />
                                       <p className=" mb-0 optiontext d-none d-lg-flex">
-
-                                      Ethereum
+                                        Ethereum
                                       </p>
                                     </h6>
                                   </div>
@@ -765,10 +776,9 @@ export default function initBridge({
                                     }}
                                   >
                                     <h6 className="optiontext d-flex align-items-center gap-2">
-                                      <img src={bnb} alt="" /> 
+                                      <img src={bnb} alt="" />
                                       <p className=" mb-0 optiontext d-none d-lg-flex">
-
-                                      BNB Chain
+                                        BNB Chain
                                       </p>
                                     </h6>
                                   </div>
@@ -791,11 +801,10 @@ export default function initBridge({
                                           : "auto",
                                     }}
                                   >
-                                     <h6 className="optiontext d-flex align-items-center gap-2">
-                                      <img src={avax} alt="" /> 
+                                    <h6 className="optiontext d-flex align-items-center gap-2">
+                                      <img src={avax} alt="" />
                                       <p className=" mb-0 optiontext d-none d-lg-flex">
-
-                                      Avalanche
+                                        Avalanche
                                       </p>
                                     </h6>
                                   </div>
@@ -876,10 +885,11 @@ export default function initBridge({
                                   this.state.withdrawStatus === "success"
                                     ? true
                                     : false
+                                  // this.state.txHash !== "" ? false : true
                                 }
                                 className={`btn filledbtn ${
                                   canWithdraw === false &&
-                                  this.state.withdrawStatus === "initial" &&
+                                  this.state.txHash === "" &&
                                   "disabled-btn"
                                 } ${
                                   this.state.withdrawStatus === "deposit" ||
@@ -912,23 +922,25 @@ export default function initBridge({
                                     Failed
                                   </>
                                 )}
+                                {this.state.withdrawableUnixTimestamp &&
+                                  Date.now() <
+                                    this.state.withdrawableUnixTimestamp *
+                                      1e3 && (
+                                    <span>
+                                      &nbsp;
+                                      <Countdown
+                                        onComplete={() => this.forceUpdate()}
+                                        key="withdrawable"
+                                        date={
+                                          this.state.withdrawableUnixTimestamp *
+                                          1e3
+                                        }
+                                        renderer={getRenderer(undefined, true)}
+                                      />
+                                    </span>
+                                  )}
                               </button>
                             </div>
-                            {this.state.withdrawableUnixTimestamp &&
-                              Date.now() <
-                                this.state.withdrawableUnixTimestamp * 1e3 && (
-                                <span>
-                                  &nbsp;
-                                  <Countdown
-                                    onComplete={() => this.forceUpdate()}
-                                    key="withdrawable"
-                                    date={
-                                      this.state.withdrawableUnixTimestamp * 1e3
-                                    }
-                                    renderer={getRenderer(undefined, true)}
-                                  />
-                                </span>
-                              )}
 
                             <div className="separator"></div>
                             <div className="d-flex gap-2 align-items-start">
@@ -937,11 +949,12 @@ export default function initBridge({
                                 alt=""
                               />
                               <h6 className="bottominfotxt">
-                                You cannot Bridge from BNB Chain to Avalanche directly, you
-                                need to go first to Ethereum and then to Avalanche, the
-                                same will happen if you want to bridge from Avalanche
-                                to BNB Chain, you need first to bridge to Ethereum and then
-                                to BNB Chain.
+                                You cannot Bridge from BNB Chain to Avalanche
+                                directly, you need to go first to Ethereum and
+                                then to Avalanche, the same will happen if you
+                                want to bridge from Avalanche to BNB Chain, you
+                                need first to bridge to Ethereum and then to BNB
+                                Chain.
                               </h6>
                             </div>
                             {this.state.errorMsg2 && (
@@ -968,21 +981,23 @@ export default function initBridge({
             />
           )}
           <div className="col-6 d-none d-lg-flex guidewrapper">
-            <div className="purplediv" style={{left: '0px'}}> </div>
+            <div className="purplediv" style={{ left: "0px" }}>
+              {" "}
+            </div>
             <div>
               <h6 className="guidetitle">
                 <img src={routeIcon} alt="" />
                 Bridge process guide
               </h6>
               <div className="separator"></div>
-              <Timeline 
+              <Timeline
                 sx={{
                   [`& .${timelineItemClasses.root}:before`]: {
                     flex: 0,
                     padding: 0,
                   },
                 }}
-                >
+              >
                 <TimelineItem>
                   <TimelineSeparator>
                     <TimelineDot
@@ -1111,8 +1126,8 @@ export default function initBridge({
                       <h6 className="content-title2">
                         <b>Fill in transaction hash</b>
                       </h6>
-                      After successful deposit, fill in the transaction hash
-                      and switch your wallet to the chosen bridge network.
+                      After successful deposit, fill in the transaction hash and
+                      switch your wallet to the chosen bridge network.
                     </h6>
                   </TimelineContent>
                 </TimelineItem>

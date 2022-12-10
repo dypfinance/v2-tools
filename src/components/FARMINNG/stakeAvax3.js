@@ -1046,7 +1046,7 @@ export default function stakeAva3({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {token_balance > 0
+                        {token_balance !== '...'
                             ? token_balance
                             : getFormattedNumber(0, 6)}{" "}
                           {token_symbol}

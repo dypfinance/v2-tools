@@ -2364,8 +2364,8 @@ export default function initBscFarming({
                                         ? `${
                                             this.state.withdrawAmount *
                                             LP_AMPLIFY_FACTOR
-                                          } LP`
-                                        : `${this.state.withdrawAmount} LP`
+                                          } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                        : `${this.state.withdrawAmount} ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
                                     }
                                     onChange={(e) =>
                                       this.setState({
@@ -2404,8 +2404,8 @@ export default function initBscFarming({
                                         ? `${
                                             this.state.withdrawAmount *
                                             LP_AMPLIFY_FACTOR
-                                          } LP`
-                                        : `${this.state.withdrawAmount} LP`
+                                          } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                        : `${this.state.withdrawAmount} ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
                                     }
                                     onChange={(e) =>
                                       this.setState({

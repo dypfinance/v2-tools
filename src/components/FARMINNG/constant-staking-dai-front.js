@@ -537,6 +537,7 @@ export default function initConstantStakingNewDai({
         ]);
 
         //console.log({tvl, tvlConstantiDYP, _amountOutMin})
+        // console.log(token_balance)
 
         let usdValueDAI = new BigNumber(tvlConstantDAI).toFixed(18);
         let usdValueDYPS = new BigNumber(tvlDYPS)
@@ -713,7 +714,6 @@ export default function initConstantStakingNewDai({
         coinbase,
         tvl,
       } = this.state;
-
       token_balance = new BigNumber(token_balance).div(1e18).toString(10);
       token_balance = getFormattedNumber(token_balance, 6);
 
@@ -833,6 +833,7 @@ export default function initConstantStakingNewDai({
         this.setState({ withdrawTooltip: false });
       };
 
+      // console.log(token_balance)
       return (
         <div className="container-lg p-0">
           <div
@@ -1045,9 +1046,7 @@ export default function initConstantStakingNewDai({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {token_balance > 0
-                            ? token_balance
-                            : getFormattedNumber(0, 6)}{" "}
+                          {token_balance}{" "}
                           {token_symbol}
                         </b>
                       </h6>

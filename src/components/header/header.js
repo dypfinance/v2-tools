@@ -64,17 +64,6 @@ const Header = ({
   const [avaxState, setAvaxState] = useState(false);
   const [avatar, setAvatar] = useState("../../assets/img/person.svg");
 
-  const handleEthPool = () => {
-    handleSwitchNetworkhook("0x1");
-  };
-
-  const handleBnbPool = () => {
-    handleSwitchNetworkhook("0x38");
-  };
-
-  const handleAvaxPool = () => {
-    handleSwitchNetworkhook("0xa86a");
-  };
 
   const fetchData = async () => {
     if (chainId === 1) {
@@ -125,9 +114,47 @@ const Header = ({
 
   const ethereum = window.ethereum;
 
+  const setActiveChain=()=>{
+    
+    if (chainId === 1) {
+      setAvaxState(false);
+      setBnbState(false);
+      setEthState(true);
+    } 
+     if (chainId === 43114) {
+      setAvaxState(true);
+      setBnbState(false);
+      setEthState(false);
+    } 
+     if (chainId === 56) {
+      setAvaxState(false);
+      setBnbState(true);
+      setEthState(false);
+    }
+  }
+
+  
+  const handleEthPool = () => {
+    handleSwitchNetworkhook("0x1")
+    handleSwitchNetwork('1')
+  };
+
+  const handleBnbPool = () => {
+    handleSwitchNetworkhook("0x38")
+    handleSwitchNetwork('56')
+
+   
+  };
+
+  const handleAvaxPool = () => {
+    handleSwitchNetworkhook("0xa86a")
+    handleSwitchNetwork('43114')
+   
+  };
+
   function handleChainChanged() {
     // We recommend reloading the page, unless you must do otherwise
-    window.location.reload();
+    // window.location.reload();
     if (window.location.href.includes("pair-explorer")) {
       if (chainId === 1) {
         window.location.assign(
@@ -165,7 +192,6 @@ const Header = ({
         .then((res) => {
           if (res.data.username) {
             setUsername(res.data.username);
-            console.log(res.data.username);
           } else {
             setUsername("Dypian");
           }
@@ -179,13 +205,14 @@ const Header = ({
   };
   const [currencyAmount, setCurrencyAmount] = useState(0);
   const checklogout = localStorage.getItem("logout");
-
+  //  console.log(coinbase)
   const getEthBalance = async () => {
     if (checklogout === "false" && coinbase) {
       const balance = await ethereum.request({
         method: "eth_getBalance",
         params: [coinbase, "latest"],
       });
+   
       if (balance) {
         const infuraWeb3 = new Web3(window.config.infura_endpoint);
         const bscWeb3 = new Web3(window.config.bsc_endpoint);
@@ -228,29 +255,16 @@ const Header = ({
 
   useEffect(() => {
     getEthBalance();
-  }, [chainId]);
+  }, [chainId, currencyAmount,coinbase]);
 
   useEffect(() => {
     fetchData().then();
     refreshHotPairs().then();
-    // checkNetworkId()
+    setActiveChain()
     ethereum?.on("chainChanged", handleChainChanged);
-    ethereum?.on("accountChanged", handleChainChanged);
+    ethereum?.on("chainChanged", handleChainChanged);
 
-    if (chainId === 1) {
-      setAvaxState(false);
-      setBnbState(false);
-      setEthState(true);
-    } else if (chainId === 43114) {
-      setAvaxState(true);
-      setBnbState(false);
-      setEthState(false);
-    } else if (chainId === 56) {
-      setAvaxState(false);
-      setBnbState(true);
-      setEthState(false);
-    }
-  }, [chainId]);
+  }, [chainId, ethState]);
 
   useEffect(() => {
     fetchAvatar();

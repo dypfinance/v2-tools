@@ -525,6 +525,8 @@ class App extends React.Component {
                         networkId={parseInt(this.state.networkId)}
                         isConnected={this.state.isConnected}
                         handleConnection={this.handleConnection}
+                        coinbase={this.state.coinbase}
+
                       />
                     )}
                   />

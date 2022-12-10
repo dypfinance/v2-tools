@@ -611,6 +611,7 @@ export default function initConstantStakingNew({
         _amountOutMin = new BigNumber(_amountOutMin).div(1e6).toFixed(18);
 
         let _bal = reward_token.balanceOf(this.state.coinbase);
+
         let _pDivs = staking.getTotalPendingDivs(this.state.coinbase);
 
         let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
@@ -830,7 +831,6 @@ export default function initConstantStakingNew({
 
       token_balance = new BigNumber(token_balance).div(1e18).toString(10);
       token_balance = getFormattedNumber(token_balance, 6);
-
       let { the_graph_result } = this.props;
 
       let usd_per_token = the_graph_result.token_data
@@ -957,6 +957,7 @@ export default function initConstantStakingNew({
         this.setState({ withdrawTooltip: false });
       };
 
+      
 
       return (
         <div className="container-lg p-0">
@@ -1169,9 +1170,7 @@ export default function initConstantStakingNew({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {token_balance > 0
-                            ? token_balance
-                            : getFormattedNumber(0, 6)}{" "}
+                          { token_balance }{" "}
                           {token_symbol}
                         </b>
                       </h6>

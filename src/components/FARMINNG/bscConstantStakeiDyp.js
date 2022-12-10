@@ -871,10 +871,10 @@ export default function initbscConstantStakingiDyp({
                         10 ** this.state.selectedTokenDecimals,
                       6
                     )} */}
-                           {token_balance > 0
-                          ? token_balance
-                          : getFormattedNumber(0, 6)}{" "}
-                        {token_symbol}
+                             {token_balance !== '...'
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "}
+                          {token_symbol}
                         </b>
                         {/* <select
                     disabled={!is_connected}

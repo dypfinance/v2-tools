@@ -3,7 +3,7 @@ import "./top-pools.css";
 import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
 import newPool from "./assets/newPool.png";
-import cawsLogo from "./assets/cawslogo.png";
+import cawsLogo from "./assets/cawslogo.svg";
 import staked from "./assets/staked.svg";
 import topPick from "./assets/cawsbanner.svg";
 
