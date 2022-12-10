@@ -569,7 +569,12 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             </Tooltip>
            </ClickAwayListener>
           </div>
-          <div className="pills-container d-flex justify-content-center row m-0 w-100">
+          <div className="pills-container gap-3 d-flex justify-content-start row m-0 w-100 position-relative">
+          <img
+              src={calculatorChart}
+              className="calculator-chart d-none d-lg-flex"
+              alt=""
+            />
             {pillsNames &&
               pillsNames.length > 0 &&
               pillsNames.map((item, id) => (
@@ -599,11 +604,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                     alt=""
                   />
                   <span
-                    className={`pill-item-text ${
-                      activePill !== item && windowSize.width < 786
-                        ? "d-none"
-                        : "d-flex"
-                    }`}
+                    className={`pill-item-text`}
                   >
                     {item}
                   </span>
@@ -677,6 +678,10 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 Days
               </label>
             </div>
+            <span className="calculator-purpose px-0">
+            This calculator is for informational purposes only.
+            </span>
+            
             {/* <div
               className="inputwrapper position-relative px-0"
               style={{ width: "32%", paddingLeft: 0 }}
@@ -720,11 +725,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 ))}
             </div> */}
 
-            <img
-              src={calculatorChart}
-              className="calculator-chart d-none d-lg-flex"
-              alt=""
-            />
+          
           </div>
 
           {/* <div className="d-flex justify-content-between gap-2 align-items-end mt-3">

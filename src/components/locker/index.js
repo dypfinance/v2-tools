@@ -1991,6 +1991,8 @@ export default class Locker extends React.Component {
             on the project validity and security.
           </p>
         </div>
+       {this.state.placeholderState === false ?
+       <>
         <div className="row  gap-4 gap-lg-0 mt-4 w-100 mx-0">
           <div className="col-12 col-lg-7 px-0 px-lg-2 ps-lg-0">
             <div className="px-3 py-4 locker-card liquidity-background d-flex gap-3 position-relative">
@@ -2475,6 +2477,21 @@ export default class Locker extends React.Component {
             </div>
           </div>
         </div>
+       </>
+
+       :
+
+       <>
+       <div className="purple-wrapper p-3 mt-3 col-5 position-relative">
+          <div className="purplediv" style={{left: '0px'}}></div>
+          <div className="d-flex align-items-center gap-2">
+                  <img src={greySecurityIcon} alt="" />
+                  <h6 className="locker-function-title">Create lock</h6>
+                </div>
+                <hr className="form-divider" />
+          </div>
+       </>
+      }
         <h6 className="locker-title mt-5">Pair locks</h6>
         <span className="total-dyp-locked">
           Total DYP-USDT locked:{" "}

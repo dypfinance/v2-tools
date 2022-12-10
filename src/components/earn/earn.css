@@ -29,6 +29,29 @@
   background-repeat: no-repeat;
   border-radius: 16px;
 }
+.no-farms{
+  font-weight: 600;
+font-size: 24px;
+line-height: 36px;
+/* identical to box height */
+
+text-align: center;
+
+color: #F7F7FC;
+}
+
+.farm-soon{
+  font-weight: 300;
+font-size: 18px;
+line-height: 27px;
+/* identical to box height */
+
+text-align: center;
+
+color: #F7F7FC;
+
+
+}
 
 .paid-rewards{
   margin-left: 80px;

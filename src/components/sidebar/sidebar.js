@@ -71,31 +71,39 @@ const Sidebar = (props) => {
   const windowSize = useWindowSize()
 
   const openSidebar = () => {
-    setActiveSidebar(true);
+    if(windowSize.width < 1800){
+      setActiveSidebar(true);
+    }else if(windowSize.width > 1800){
+      setActiveSidebar(true)
+    }
   };
 
   const closeSidebar = () => {
-     setActiveSidebar(false);
-
+    if(windowSize.width < 1800){
+      setActiveSidebar(false);
+    }else if(windowSize.width > 1800){
+      setActiveSidebar(true)
+    }
   };
+  
+  const sidebar = document.querySelector('.testbar')
+
+  sidebar?.addEventListener("mouseover", openSidebar)
+  sidebar?.addEventListener("mouseleave", closeSidebar)
 
   useEffect(() => {
     // const fetchInterval = setInterval(
     //   () => setlocation(window.location.pathname),
     //   1000
     // );
-    const sidebar = document.getElementById("sidebar");
     if(windowSize.width > 1800){
       setActiveSidebar(true)
-    } 
-
-    else if(windowSize.width < 1800){
-      sidebar.addEventListener("mouseenter", openSidebar);
-      sidebar.addEventListener("mouseleave", closeSidebar);
-    }else{
-      setActiveSidebar(true)
+    }else if(windowSize.width < 1800){
+      setActiveSidebar(false)
     }
-  }, [activeSidebar]);
+    console.log(sidebar);
+  }, [windowSize]);
+
 
   const sidebarItems = [
     {
@@ -169,9 +177,14 @@ const Sidebar = (props) => {
     },
   ];
 
+  
+
   const sidebarItem = document.querySelectorAll(".sidebar-item");
 
   const windowUrl = window.location.href;
+
+
+  console.log(activeSidebar);
 
   return (
 

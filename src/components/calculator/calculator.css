@@ -18,6 +18,15 @@
   border: 2px solid rgb(142, 151, 205);
 }
 
+.calculator-purpose{
+  font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 15px;
+color: #FCFCF7;
+width: 31%;
+}
+
 .earn-calculator {
   position: fixed;
   left: 63%;
@@ -355,5 +364,9 @@ color: #F7F7FC !important;
   .values-wrapper{
     flex-direction: column !important;
     align-items: start !important;
+  }
+
+  .calculator-purpose{
+    width: 100%;
   }
 }
