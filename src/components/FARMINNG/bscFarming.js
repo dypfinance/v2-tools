@@ -66,6 +66,8 @@ export default function initBscFarming({
   lockTime,
   coinbase,
   listType,
+  handleSwitchNetwork
+
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsbsc } =
     window;
@@ -967,6 +969,16 @@ export default function initBscFarming({
       return result;
     };
 
+
+    handleBnbPool = async() => {
+      await handleSwitchNetworkhook("0x38").then(()=>{
+        this.props.handleSwitchNetwork('56')
+      }).catch((e)=>{
+        console.log(e)
+      })
+     };
+
+
     render() {
       let {
         disburseDuration,
@@ -1374,7 +1386,7 @@ export default function initBscFarming({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0x38")}}
+                        onClick={()=>{this.handleBnbPool()}}
                       >
                        Change Network
                       </button>

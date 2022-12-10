@@ -64,6 +64,8 @@ export default function initFarmAvax({
   chainId,
   lockTime,
   listType,
+  handleSwitchNetwork
+
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =
     window;
@@ -1052,6 +1054,18 @@ export default function initFarmAvax({
       return result;
     };
 
+
+     handleAvaxPool = async() => {
+      await handleSwitchNetworkhook("0xa86a").then(()=>{
+        this.props.handleSwitchNetwork('43114')
+  
+      }).catch((e)=>{
+        console.log(e)
+      })
+     
+    };
+
+
     render() {
       let {
         disburseDuration,
@@ -1452,7 +1466,7 @@ export default function initFarmAvax({
                       <button
                         className="connectbtn btn"
                         onClick={() => {
-                          handleSwitchNetworkhook("0xa86a");
+                          this.handleAvaxPool();
                         }}
                       >
                         Change Network

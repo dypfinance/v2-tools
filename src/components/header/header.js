@@ -133,28 +133,41 @@ const Header = ({
     }
   }
 
-  
-  const handleEthPool = () => {
-    handleSwitchNetworkhook("0x1")
-    handleSwitchNetwork('1')
+ 
+  const handleEthPool = async () => {
+    await handleSwitchNetworkhook("0x1").then(()=>{
+      handleSwitchNetwork('1')
+    }).catch((e)=>{
+      console.log(e)
+    })
   };
 
-  const handleBnbPool = () => {
-    handleSwitchNetworkhook("0x38")
+  const handleBnbPool = async() => {
+   await handleSwitchNetworkhook("0x38").then(()=>{
     handleSwitchNetwork('56')
+   }).catch((e)=>{
+     console.log(e)
+   })
+    
 
    
   };
 
-  const handleAvaxPool = () => {
-    handleSwitchNetworkhook("0xa86a")
-    handleSwitchNetwork('43114')
+  const handleAvaxPool = async() => {
+    await handleSwitchNetworkhook("0xa86a").then(()=>{
+      handleSwitchNetwork('43114')
+
+    }).catch((e)=>{
+      console.log(e)
+    })
    
   };
 
   function handleChainChanged() {
     // We recommend reloading the page, unless you must do otherwise
     // window.location.reload();
+
+
     if (window.location.href.includes("pair-explorer")) {
       if (chainId === 1) {
         window.location.assign(
@@ -253,8 +266,23 @@ const Header = ({
     setGreeting();
   }, [hour]);
 
+
+
+
   useEffect(() => {
     getEthBalance();
+    if(chainId === 1) {
+      handleSwitchNetwork('1')
+    }
+
+    if(chainId === 56) {
+      handleSwitchNetwork('56')
+    }
+
+    if(chainId === 43114) {
+      handleSwitchNetwork('43114')
+    }
+
   }, [chainId, currencyAmount,coinbase]);
 
   useEffect(() => {

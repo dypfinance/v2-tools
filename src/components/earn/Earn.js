@@ -13,7 +13,9 @@ const Earn = ({
   handleConnection,
   the_graph_resultavax,
   the_graph_resultbsc,
-  referrer
+  referrer,
+  handleSwitchNetwork
+
 }) => {
   const [showCalculator, setShowCalculator] = useState(false);
   const html = document.querySelector("html");
@@ -58,6 +60,8 @@ const Earn = ({
         pool={routeData.state ? routeData.state.pool : null}
         customChain={routeData.state ? routeData.state.customChain : "eth"}
         faqIndex={routeData.state ? routeData.state.faqIndex : -1}
+        handleSwitchNetwork={handleSwitchNetwork}
+
       />
     </div>
   );
