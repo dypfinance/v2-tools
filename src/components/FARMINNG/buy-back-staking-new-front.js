@@ -294,8 +294,8 @@ export default function initBuybackStakingNew({
     };
 
     componentDidMount() {
-      this.refreshBalance();
-      // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // this.refreshBalance();
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
       this.getDypbalanceConst();
       this.getDypbalanceStake();
       this.getPriceDYP();
@@ -355,7 +355,7 @@ export default function initBuybackStakingNew({
     };
 
     componentWillUnmount() {
-      // clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleApprove = async (e) => {

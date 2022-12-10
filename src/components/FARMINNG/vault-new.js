@@ -230,8 +230,8 @@ export default function initVaultNew({
         this.setState({ coinbase: this.props.coinbase });
       }
 
-      this.refreshBalance();
-      // window._refreshBalInterval = setInterval(this.refreshBalance, 8000);
+      // this.refreshBalance();
+      window._refreshBalInterval = setInterval(this.refreshBalance, 8000);
       // console.log( vault.getTvlUsdAndApyPercent(UNDERLYING_DECIMALS))
       vault
         .getTvlUsdAndApyPercent(UNDERLYING_DECIMALS)
@@ -250,7 +250,7 @@ export default function initVaultNew({
     }
 
     componentWillUnmount() {
-      // clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleApprove = async (e) => {

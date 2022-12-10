@@ -52,7 +52,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
     },
   ];
   const timePillsArray = ["1 month", "3 months", "6 months", "Max"];
-  const pillsNames = ["Staking", "Buyback", "Vault", "Farming"];
+  const pillsNames = ["Staking", "Vault", "Farming"];
 
   const getActivePill = (activePill) => {
     setActiveMethod(activePill);

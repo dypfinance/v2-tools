@@ -235,8 +235,8 @@ export default function initbscConstantStakingiDyp({
     };
 
     componentDidMount() {
-      this.refreshBalance();
-    //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // this.refreshBalance();
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
 
     if (this.props.coinbase !== this.state.coinbase) {
@@ -255,7 +255,7 @@ export default function initbscConstantStakingiDyp({
     };
 
     componentWillUnmount() {
-    //   clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {

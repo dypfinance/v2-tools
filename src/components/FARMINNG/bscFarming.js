@@ -262,12 +262,12 @@ export default function initBscFarming({
       }
 
       this.getPriceDYP();
-      this.refreshBalance();
-      //   window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // this.refreshBalance();
+        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
     }
 
     componentWillUnmount() {
-      //   clearInterval(window._refreshBalInterval);
+        clearInterval(window._refreshBalInterval);
     }
 
     getPriceDYP = async () => {
