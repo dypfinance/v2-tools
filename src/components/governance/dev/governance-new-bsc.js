@@ -990,8 +990,7 @@ export default class Governance extends React.Component {
                   <h6 className="govcard-number">2</h6>
                 </div>
                 <h6 className="govcard-desc">
-                  The proposal can be related to disbursing/burning tokens, or
-                  other suggestions
+                Proposals can be for the disbursement or burning of tokens and other user suggestions.
                 </h6>
               </div>
             </div>
@@ -1004,8 +1003,7 @@ export default class Governance extends React.Component {
                   <h6 className="govcard-number">3</h6>
                 </div>
                 <h6 className="govcard-desc">
-                  Submitting a proposal requires a minimum of 5000 DYP
-                  Governance token balance
+                Submitting a Governance proposal requires a minimum of 5000 DYP token balance
                 </h6>
               </div>
             </div>

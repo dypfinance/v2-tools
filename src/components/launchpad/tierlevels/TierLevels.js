@@ -173,7 +173,7 @@ const TierLevels = ({
             alt=""
             className="tier-medal"
           />
-          <h6 className="tier-dyp-amount">0 DYP</h6>
+          <h6 className="tier-dyp-amount">5000 DYP</h6>
         </div>
         <div
           className="next-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
@@ -199,7 +199,7 @@ const TierLevels = ({
             alt=""
             className="tier-medal"
           />
-          <h6 className="tier-dyp-amount">100,000 DYP</h6>
+          <h6 className="tier-dyp-amount">25,000 DYP</h6>
         </div>
         <div
           className="next-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
@@ -212,7 +212,7 @@ const TierLevels = ({
             alt=""
             className="tier-medal"
           />
-          <h6 className="tier-dyp-amount">250,000 DYP</h6>
+          <h6 className="tier-dyp-amount">50,000 DYP</h6>
         </div>
         <div
           className="next-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3"
@@ -225,7 +225,7 @@ const TierLevels = ({
             alt=""
             className="tier-medal"
           />
-          <h6 className="tier-dyp-amount">1,000,000 DYP</h6>
+          <h6 className="tier-dyp-amount">100,000 DYP</h6>
         </div>
       </div>
       </div>

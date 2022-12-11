@@ -2070,7 +2070,7 @@ export default class PairExplorer extends React.Component {
                       className="launchpad-hero-desc position-absolute"
                       style={{ fontSize: 12, top: "-27px" }}
                     >
-                      Change network
+                     Change network (view purposes only)
                     </p>
                     <div
                       className="d-flex justify-content-around align-items-center"

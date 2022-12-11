@@ -16,7 +16,7 @@ const Footer = () => {
         <a target={"_blank"} href="https://lorenadev.dyp.finance/">
           <img src="/assets/img/logo-footer.svg" alt="Dypius"></img>
         </a>
-        <a target={"_blank"} href="https://lorenadev.dyp.finance/#metaverse">
+        <a target={"_blank"} href="https://lorenadev.dyp.finance/#metaverse" style={{cursor: 'default'}}>
           <img src="/assets/img/metaverse.svg" alt="METAVERSE"></img>
         </a>
       </div>
@@ -124,7 +124,7 @@ const Footer = () => {
           <li>
             <a
               target={"_blank"}
-              href="https://lorenadev.dyp.finance/about#contactus"
+              href="https://lorenadev.dyp.finance/support"
             >
              Support
             </a>

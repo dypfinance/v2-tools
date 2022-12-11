@@ -90,7 +90,7 @@ const Dashboard = ({
   const cardsEth = [
     {
       top_pick: false,
-      tokenName: "DYP",
+      tokenName: "iDYP",
       apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
       tvl: topPools.length > 0
       ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
@@ -114,7 +114,7 @@ const Dashboard = ({
   const cardsBsc = [
     {
       tokenLogo: "dyplogo.svg",
-      top_pick: true,
+      top_pick: false,
       tokenName: "DYP",
       apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
       tvl:
@@ -129,7 +129,7 @@ const Dashboard = ({
     },
     {
       tokenLogo: "idypius.svg",
-      top_pick: true,
+      top_pick: false,
       tokenName: "iDYP",
       apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:
@@ -147,7 +147,7 @@ const Dashboard = ({
   const cardsAvax = [
     {
       tokenLogo: "dyplogo.svg",
-      top_pick: true,
+      top_pick: false,
       tokenName: "DYP",
       apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
       tvl:
@@ -162,7 +162,7 @@ const Dashboard = ({
     },
     {
       tokenLogo: "idypius.svg",
-      top_pick: true,
+      top_pick: false,
       tokenName: "iDYP",
       apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:

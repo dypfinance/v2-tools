@@ -30,9 +30,7 @@ const InfoModal = ({ modalId, visible, onModalClose }) => {
               <span className="locker-function-title">Dyp Locker</span>
             </div>
             <p className="locker-modal-desc" style={{ marginBottom: 20 }}>
-              A liquidity pool is a crowdsourced pool of cryptocurrencies or
-              tokens locked in a smart contract that is used to facilitate
-              trades between the assets on a decentralized exchange (DEX).
+            A liquidity pool is a crowdsourced pool of cryptocurrencies or tokens locked in a smart contract that is used to facilitate trades between the assets on a decentralized exchange (DEX).
             </p>
             <div className="d-flex flex-column gap-4">
               <div className="d-flex p-3 locker-modal-item justify-content-center gap-2 align-items-start">
@@ -41,10 +39,7 @@ const InfoModal = ({ modalId, visible, onModalClose }) => {
                   <span className="modal-locker-active-tag">Active</span>
                   <h6 className="modal-locker-liquidity">Liquidity Locked</h6>
                   <p className="modal-locker-paragraph">
-                    A liquidity pool is a crowdsourced pool of cryptocurrencies
-                    or tokens locked in a smart contract that is used to
-                    facilitate trades between the assets on a decentralized
-                    exchange (DEX).
+                  A liquidity pool is a crowdsourced pool of cryptocurrencies or tokens locked in a smart contract that is used to facilitate trades between the assets on a decentralized exchange (DEX).
                   </p>
                 </div>
               </div>

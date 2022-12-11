@@ -283,7 +283,7 @@
 }
 
 .styledinput {
-  background: #26264f !important;
+  background: #312f69 !important;
   border: 1px solid #8e97cd !important;
   border-radius: 8px !important;
   padding: 20px;
@@ -305,7 +305,7 @@
   letter-spacing: 0.4px;
   color: #8e97cd;
   position: absolute;
-  background: #26264f;
+  background: #312f69;
   padding: 0 3px;
   top: -8px;
   left: 15px;

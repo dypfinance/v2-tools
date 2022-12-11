@@ -1069,8 +1069,7 @@ export default function initBridge({
                         <b>Select chains</b>
                       </h6>
                       Select desired bridge chains at “FROM” and “TO” sections.
-                      To change the “FROM” chain you need to change it to your
-                      wallet.
+                      To change the "FROM” chain you need to change it in your wallet.
                     </h6>
                   </TimelineContent>
                 </TimelineItem>
@@ -1147,8 +1146,7 @@ export default function initBridge({
                       <h6 className="content-title2">
                         <b>Fill in transaction hash</b>
                       </h6>
-                      After successful deposit, fill in the transaction hash and
-                      switch your wallet to the chosen bridge network.
+                      After successful deposit, fill in the transaction hash and switch your wallet to the chosen bridge network.
                     </h6>
                   </TimelineContent>
                 </TimelineItem>

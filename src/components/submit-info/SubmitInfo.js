@@ -267,7 +267,7 @@ const SubmitInfo = () => {
                 className="label"
                 onClick={() => focusInput("contract_address")}
               >
-                Uniswap pair contract list<span className="required-star">*</span>
+               Pair contract address<span className="required-star">*</span>
               </label>
               {errors.contract_address && (
                 <span className="error-text">{errors.contract_address}</span>

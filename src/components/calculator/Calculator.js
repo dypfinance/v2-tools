@@ -560,7 +560,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               title={
                 <div className="tooltip-text">
                   {
-                    "This calculator is for informational purposes only. Calculated yields assume that prices of the deposited assets don't change."
+                    "This calculator is for informational purposes only."
                   }
                 </div>
               }
@@ -781,7 +781,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                       : abbreviateNumber(calculateApproxUSD)}
                   </div>
                   <div className="approx-value">
-                    Approx (
+                    Approx. (
                     {calculateApproxWeth != "∞.undefined" &&
                     calculateApproxWeth != "..."
                       ? calculateApproxWeth.slice(0, 6)
@@ -821,7 +821,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                       : abbreviateNumber(calculateApproxUSDBNB)}
                   </div>
                   <div className="approx-value">
-                    Approx (
+                    Approx. (
                     {calculateApproxWbnb != "∞.undefined" &&
                     calculateApproxWbnb != "..."
                       ? calculateApproxWbnb.slice(0, 6)
@@ -868,7 +868,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                       : abbreviateNumber(calculateApproxUSDAVAX)}
                   </div>
                   <div className="approx-value">
-                    Approx (
+                    Approx. (
                     {calculateApproxWavax != "∞.undefined" &&
                     calculateApproxWavax != "..."
                       ? calculateApproxWavax.slice(0, 6)

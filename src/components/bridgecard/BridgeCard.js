@@ -17,7 +17,7 @@ const BridgeCard = () => {
        <div>
        <div>
           <h6 className="bridgecard-desc">
-          Bridge tokens between various chains. Instant and secure transactions.
+          Bridge tokens between supported chains instantly and securely. 
           </h6>
         </div>
         <div className="">
