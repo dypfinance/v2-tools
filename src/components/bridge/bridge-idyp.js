@@ -1131,8 +1131,7 @@ export default function initBridgeidyp({
                       <h6 className="content-title2">
                         <b>Fill in transaction hash</b>
                       </h6>
-                      After successful deposit, fill in the transaction hash
-                      and switch your wallet to the chosen bridge network.
+                      After successful deposit, fill in the transaction hash and switch your wallet to the chosen bridge network.
                     </h6>
                   </TimelineContent>
                 </TimelineItem>

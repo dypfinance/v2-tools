@@ -102,7 +102,7 @@ const TopPoolsCard = ({
                 : buybackTag
             }
             alt="pool-tag"
-            className="dashboard-pool-tag"
+            className="dashboard-pool-tag d-none d-lg-flex"
           />
         )}
 

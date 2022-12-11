@@ -327,8 +327,7 @@ const Header = ({
                     {welcomeText}, {username}
                   </h4>
                   <span className="text-white headerdesc">
-                    Discover the latest trends, breaking news and gain access to
-                    powerful dApps.
+                  Discover the latest trends, breaking news, and gain access to powerful dApps.
                   </span>
                 </div>
                 <NavLink to="/">

@@ -905,7 +905,7 @@ export default class Locker extends React.Component {
                     <br />
                   </div>
                   <p>
-                    <b>Selected % rate</b>
+                    <b>Selected</b>
                   </p>
                   <br />
                   <div className="slider-text-wrapper">
@@ -2009,13 +2009,7 @@ export default class Locker extends React.Component {
               >
                 <h6 className="locker-card-title">Locking Liquidity</h6>
                 <p className="locker-card-desc">
-                  This makes the funds immovable until they are unlocked. Every
-                  owner of the project can encrypt a portion of the asset for a
-                  specific period of time and this liquidity cannot be withdrawn
-                  until the time is over. This way users will create a sense of
-                  security against projects. Liquidity is locked using
-                  time-locked smart contracts and DYP Locker offers this
-                  functionality with no additional costs.
+                Locking liquidity makes the funds inaccessible for a predeterimned amount of time which creates user confidence. The liquidity is locked using time-locked smart contracts that DYP offers at not additional cost.
                 </p>
               </div>
             </div>
@@ -2325,7 +2319,7 @@ export default class Locker extends React.Component {
                   </span>
                 </div>
                 <span className="select-percentage mt-4">
-                  *Select % of to the balance to lock
+                  *Select % of balance to lock
                 </span>
               </div>
               <hr className="form-divider my-4" />
