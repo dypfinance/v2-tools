@@ -546,7 +546,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               style={{ cursor: "pointer" }}
               />
             )} */}
-           <ClickAwayListener onClickAway={handleTooltipClose}>
+           {/* <ClickAwayListener onClickAway={handleTooltipClose}>
            <Tooltip
               PopperProps={{
                 disablePortal: true,
@@ -567,7 +567,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             >
               <img src={moreinfo} width={24} height={24} className="cursor-pointer" alt="tooltip" onClick={handleTooltipOpen} />
             </Tooltip>
-           </ClickAwayListener>
+           </ClickAwayListener> */}
           </div>
           <div className="pills-container gap-3 d-flex justify-content-start row m-0 w-100 position-relative">
           <img
