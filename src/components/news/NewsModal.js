@@ -214,9 +214,9 @@ const NewsModal = ({
         <div className="details-modal-content">
           <div className="left-col" ref={elementRef}>
             <div className="d-flex flex-column justify-content-start align-items-start gap-3">
-              <div className="backbtn" onClick={onModalClose}>
+              {/* <div className="backbtn" onClick={onModalClose}>
                 <i className="fas fa-arrow-left" style={{ color: "white" }}></i>
-              </div>
+              </div> */}
               <div className="d-flex align-items-center justify-content-between w-100">
                 <button
                   className="btn go-back-btn d-flex align-items-center gap-2"

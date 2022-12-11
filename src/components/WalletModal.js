@@ -21,7 +21,7 @@ const WalletModal = ({ handleClose, show, handleConnection }) => {
               
                 <div color="#E8831D" className="justify-content-between d-flex w-100 align-items-center">
                 <span>MetaMask</span>  
-                <img src="/images/wallets/metamask.svg" alt="Icon" />
+                <img src="/images/wallets/metamask.svg" width={50} height={50} alt="Icon" />
               </div>
             </button>
             <button
@@ -32,7 +32,7 @@ const WalletModal = ({ handleClose, show, handleConnection }) => {
               
                 <div color="#E8831D" className="justify-content-between d-flex w-100 align-items-center">
                   <span>Coinbase</span>
-                <img src="/images/wallets/coinbase.svg" alt="Icon" />
+                <img src="/images/wallets/coinbase.svg" width={50} height={50} alt="Icon" />
               </div>
             </button>
             <button
@@ -42,7 +42,7 @@ const WalletModal = ({ handleClose, show, handleConnection }) => {
             >
                 <div color="#E8831D" className="justify-content-between d-flex w-100 align-items-center">
                  <span>Coin98</span> 
-                <img src="/images/wallets/coin98.svg" alt="Icon" />
+                <img src="/images/wallets/coin98.svg" width={50} height={50} alt="Icon" />
               </div>
             </button>
             <button
@@ -53,7 +53,7 @@ const WalletModal = ({ handleClose, show, handleConnection }) => {
              
                 <div color="#E8831D" className="justify-content-between d-flex w-100 align-items-center">
                  <span>Trust Wallet</span> 
-                <img src="/images/wallets/trustwallet.svg" alt="Icon" />
+                <img src="/images/wallets/trustwallet.svg" width={50} height={50} alt="Icon" />
               </div>
             </button>
             <button
@@ -64,7 +64,7 @@ const WalletModal = ({ handleClose, show, handleConnection }) => {
              
                 <div color="#E8831D" className="justify-content-between d-flex w-100 align-items-center">
                   <span>SafePal</span>
-                <img src="/images/wallets/safepal.svg" alt="Icon" />
+                <img src="/images/wallets/safepal.svg" width={50} height={50} alt="Icon" />
               </div>
             </button>
           </div>

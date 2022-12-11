@@ -190,7 +190,7 @@ const Bridge = ({ networkId, isConnected, handleConnection, coinbase, handleSwit
   });
 
   return (
-    <div className="container-lg">
+    <div className="container-lg p-0">
       <div className="col-12 col-lg-5 d-flex flex-column justify-content-center gap-3 mb-4">
         <h3 className="text-white">Dypius Bridge</h3>
         <p className="text-white">

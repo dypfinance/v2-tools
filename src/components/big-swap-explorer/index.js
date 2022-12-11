@@ -313,7 +313,7 @@ export default class BigSwapExplorer extends React.Component {
 
   render() {
     return (
-      <div className="container-lg">
+      <div className="container-lg p-0">
         <div className="d-flex flex-column gap-3">
             <h2 className="launchpad-hero-title">Big Swap Explorer</h2>
             <p className="launchpad-hero-desc">

@@ -558,7 +558,7 @@ const News = ({ theme, isPremium, coinbase }) => {
 
 
   return (
-    <div onScroll={onScroll} ref={listInnerRef} className="container-lg" id="header">
+    <div onScroll={onScroll} ref={listInnerRef} className="container-lg p-0" id="header">
         {/* {!showModal ? <h1 className="news-title">Popular News</h1> : ""} */}
         <div className="row m-0 main-news-content-wrapper">
           {showModal === true ? (
