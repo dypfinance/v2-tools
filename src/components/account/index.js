@@ -11,6 +11,7 @@ import coinStackIcon from "../launchpad/assets/coinStackIcon.svg";
 import axios from "axios";
 import openNameChange from './assets/openNameChange.svg'
 import { ClickAwayListener, Tooltip } from "@material-ui/core";
+import { shortAddress } from "../../functions/shortAddress";
 // import { benefits } from "./benefits";
 // import Check from "./check.svg";
 // import Cross from "./cross.svg";
@@ -522,14 +523,14 @@ const handleTooltipOpen = () => {
 
     return (
       <div>
-        <div className="d-flex align-items-center justify-content-between flex-column flex-lg-row gap-4 gap-lg-0">
-          <div className="d-flex flex-column gap-2">
-            <div className="d-flex align-items-center gap-3" style={{height: 38}}>
+        <div className="d-flex align-items-start align-items-lg-0 justify-content-between flex-column flex-lg-row gap-4 gap-lg-0">
+          <div className={`d-flex flex-column ${this.state.showInput ? 'gap-5 gap-lg-2' : 'gap-2'}`}>
+            <div className={`d-flex  gap-3 ${this.state.showInput ? 'align-items-start flex-column' :  'align-items-center flex-row'}`} style={{height: 38}}>
               <h6 className="account-username">Username:  {this.state.username}</h6>
             {this.state.showInput ?
-            <>  <div
+            <div className="d-flex align-items-center gap-2">  
+            <div
             className="input-container px-0"
-            style={{ width: "100%" }}
           >
       <input
               type="text"
@@ -552,7 +553,8 @@ const handleTooltipOpen = () => {
             </label>
             <img src={require(`./assets/clearFieldIcon.svg`).default} className="clear-icon cursor-pointer" alt="clear field" onClick={() => this.setState({showInput: false})}  />
       </div>
-      <button className="btn outline-btn py-2" onClick={() => this.postUsername(this.state.userNameInput)}>Submit</button></>
+      <button className="btn outline-btn py-2" onClick={() => this.postUsername(this.state.userNameInput)}>Submit</button>
+      </div>
       :
       <img src={openNameChange}  className="cursor-pointer" alt="" onClick={() => this.setState({showInput: true})} />  
           }
@@ -562,7 +564,7 @@ const handleTooltipOpen = () => {
               <div className="d-flex flex-column gap-1">
                 <span className="address-span">Wallet address:</span>
                 <div className="d-flex align-items-center gap-2">
-                <span className="account-wallet-address">{this.props.coinbase}</span>
+                <span className="account-wallet-address">{shortAddress(this.props.coinbase)}</span>
                 <ClickAwayListener onClickAway={handleTooltipClose}>
            <Tooltip
               PopperProps={{

@@ -306,6 +306,7 @@ color: #F7F7FC !important;
   white-space: nowrap;
   line-height: 18px;
   color: #f7f7fc;
+  min-width: 65px;
 }
 
 .calculator-chart{

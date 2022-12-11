@@ -150,6 +150,7 @@ export default class Farms extends React.Component {
         name: "Pool",
         selector: "pair_name",
         sortable: true,
+        minWidth: '200px',
         cell: (row) => (
           <div class="token">
             {/* <img src="/assets/img/icon.svg" alt="" /> */}
@@ -195,6 +196,7 @@ export default class Farms extends React.Component {
         progressComponent={<Circular />}
         compact={true}
         keyField="id"
+        
         theme={this.props.theme == "theme-dark" ? "solarized" : "light"}
         persistTableHead={false}
         progressPending={this.state.isLoading}
@@ -254,27 +256,21 @@ export default class Farms extends React.Component {
                     <img src={ethlogo} alt="" /> Ethereum
                   </h6>
                 </div>
-                <Tooltip
-                        placement="top"
-                        title={
-                          <div className="tooltip-text">{"Comming Soon!"}</div>
-                        }
-                      >
+             
                        <div
                   className={
                     this.props.networkId === 56
-                      ? "optionbtn-active bnb-passive"
-                      : "optionbtn-passive bnb-passive"
+                      ? "optionbtn-active"
+                      : "optionbtn-passive"
                   }
-                  // onClick={() => {
-                  //   this.props.onSelectChain("bnb");
-                  // }}
+                  onClick={() => {
+                    this.props.onSelectChain("bnb");
+                  }}
                 >
-                  <h6 className="optiontext" style={{cursor: 'auto'}}>
+                  <h6 className="optiontext" >
                     <img src={bnblogo} alt="" /> BNB Chain
                   </h6>
                 </div>
-                      </Tooltip>
 
                 <div
                   className={

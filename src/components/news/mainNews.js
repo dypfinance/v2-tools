@@ -166,7 +166,7 @@ const MainNews = ({
                 <img src={calendar} alt="calendar" />
                 <span className="news-date-text">{formattedDate.toLocaleDateString("en-US", options)}</span>
             </div>
-          <img src={featuredNewsShadow} alt="" className={`featured-shadow w-100 d-none d-lg-flex ${bannerShadow && 'featured-shadow-hover'}`}  />
+          <img src={featuredNewsShadow} alt="" className={`featured-shadow w-100 ${bannerShadow && 'featured-shadow-hover'}`}  />
           <img
             src={image}
             alt="Image not found"

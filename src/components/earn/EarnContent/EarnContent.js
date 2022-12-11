@@ -394,7 +394,7 @@ const EarnContent = ({
                 </div>
               ))}
             </div>
-            <div className="col-2 d-flex justify-content-end align-items-center gap-3">
+            <div className="col-2 d-flex justify-content-end align-items-center gap-1 gap-lg-3">
               <div
                 className={`pill-box ${myStakes && "pill-box-active"}`}
                 onClick={() => {setMyStakes(!myStakes); setExpiredPools(!expiredPools)}}
@@ -403,8 +403,8 @@ const EarnContent = ({
                 <div className="pill"></div>
               </div>
               <h5
-                className="text-white"
-                style={{ fontSize: "16px", whiteSpace: "nowrap" }}
+                className="text-white inactive-pools"
+                
               >
                 Inactive pools
               </h5>
@@ -439,7 +439,7 @@ const EarnContent = ({
                 />
               </div>
             </div>
-            <div className="col-6 d-flex justify-content-end align-items-center gap-3">
+            <div className="col-6 d-flex justify-content-end align-items-center gap-1 gap-lg-3">
               <div
                 className={`pill-box ${myStakes && "pill-box-active"}`}
                 onClick={() => {setMyStakes(!myStakes); setExpiredPools(!expiredPools)}}
@@ -447,8 +447,8 @@ const EarnContent = ({
                 <div className="pill"></div>
               </div>
               <h5
-                className="text-white"
-                style={{ fontSize: "16px", whiteSpace: "nowrap" }}
+                className="text-white inactive-pools"
+                
               >
                 Inactive pools
               </h5>
