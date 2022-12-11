@@ -43,7 +43,7 @@ const EarnTopPicks = ({
   routeOption,
   customChain,
   handleSwitchNetwork,
-  expiredPools,
+  expired,
 }) => {
   const stake = [
     {
@@ -384,7 +384,9 @@ const EarnTopPicks = ({
 
   const [farmingItem, setFarming] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
-  const [topPools, setTopPools] = useState(stake);
+  const [topPools, setTopPools] = useState([]);
+  const [activePools, setActivePools] = useState([])
+  const [expiredPools, setExpiredPools] = useState([])
   const [listing, setListing] = useState(listType);
   const [cawsCard, setCawsCard] = useState({});
   const [tvlTotal, setTvlTotal] = useState();
@@ -398,6 +400,16 @@ const EarnTopPicks = ({
         const dypIdyp = res.data.stakingInfoDYPEth.concat(
           res.data.stakingInfoiDYPEth
         );
+
+        const expiredEth = dypIdyp.filter((item) => {
+          return item.expired !== "No"
+        })
+        const activeEth = dypIdyp.filter((item) => {
+          return item.expired !== "Yes"
+        })
+        setActivePools(activeEth);
+        setExpiredPools(expiredEth);
+
         setTopPools(dypIdyp);
         setCawsCard(res.data.stakingInfoCAWS[0]);
       })
@@ -412,6 +424,15 @@ const EarnTopPicks = ({
         const dypIdypBnb = res.data.stakingInfoDYPBnb.concat(
           res.data.stakingInfoiDYPBnb
         );
+
+        const expiredBnb = dypIdypBnb.filter((item) => {
+          return item.expired !== "No"
+        })
+        const activeBnb = dypIdypBnb.filter((item) => {
+          return item.expired !== "Yes"
+        })
+        setActivePools(activeBnb);
+        setExpiredPools(expiredBnb);
         setTopPools(dypIdypBnb);
       })
       .catch((err) => {
@@ -425,7 +446,15 @@ const EarnTopPicks = ({
         const dypIdypAvax = res.data.stakingInfoDYPAvax.concat(
           res.data.stakingInfoiDYPAvax
         );
-        setTopPools(dypIdypAvax);
+
+        const expiredAvax = dypIdypAvax.filter((item) => {
+          return item.expired !== "No"
+        })
+        const activeAvax = dypIdypAvax.filter((item) => {
+          return item.expired !== "Yes"
+        })
+        setActivePools(activeAvax);
+        setExpiredPools(expiredAvax);
       })
       .catch((err) => {
         console.log(err);
@@ -472,6 +501,17 @@ const EarnTopPicks = ({
         temparray.map((item) => {
           farming.push(item[1]);
         });
+
+
+        const expiredFarmingEth = farming.filter((item) => {
+          return item.expired !== "No"
+        })
+        const activeFarmingEth = farming.filter((item) => {
+          return item.expired !== "Yes"
+        })
+        setActivePools(activeFarmingEth)
+        setExpiredPools(expiredFarmingEth)
+
         setFarming(farming);
       })
       .catch((err) => console.error(err));
@@ -485,7 +525,14 @@ const EarnTopPicks = ({
         temparray.map((item) => {
           farming.push(item[1]);
         });
-        setFarming(farming);
+        const expiredFarmingBsc = farming.filter((item) => {
+          return item.expired !== "No"
+        })
+        const activeFarmingBsc = farming.filter((item) => {
+          return item.expired !== "Yes"
+        })
+        setActivePools(activeFarmingBsc)
+        setExpiredPools(expiredFarmingBsc)
       })
       .catch((err) => console.error(err));
   };
@@ -498,12 +545,22 @@ const EarnTopPicks = ({
         temparray.map((item) => {
           farming.push(item[1]);
         });
-        setFarming(farming);
+        const expiredFarmingAvax = farming.filter((item) => {
+          return item.expired !== "No"
+        })
+        const activeFarmingAvax = farming.filter((item) => {
+          return item.expired !== "Yes"
+        })
+        setActivePools(activeFarmingAvax)
+        setExpiredPools(expiredFarmingAvax)
+
       })
       .catch((err) => console.error(err));
   };
 
   const [customPool, setCustomPool] = useState(pool);
+  const [filteredPools, setFilteredPools] = useState([])
+  const [unfilteredPools, setUnfilteredPools] = useState([])
   const [activeCard, setActiveCard] = useState();
   const [activeCardNFT, setActiveCardNFT] = useState();
   const [activeCard2, setActiveCard2] = useState();
@@ -1051,6 +1108,8 @@ const EarnTopPicks = ({
     handleSwitchNetwork: handleSwitchNetwork,
   });
 
+
+
   useEffect(() => {
     setActiveCard();
     if (topList === "Staking") {
@@ -1195,7 +1254,11 @@ const EarnTopPicks = ({
     }
     setShowDetails(false);
     setListing(listType);
-  }, [topList, listType, chain, expiredPools]);
+
+  
+    
+    
+  }, [topList, listType, chain, expired]);
 
   const handleCardIndexStake = (index) => {
     if (topList === "Staking") {

@@ -428,7 +428,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
                 <div className="form-row d-flex gap-2 align-items-end justify-content-between">
                   <h6 className="rewardstxtCaws d-flex align-items-center gap-2">
                     <img src={weth} alt="" /> {EthRewards} ETH (
-                    {formattedNum(ethToUSD, true)})
+                    {getFormattedNumber(ethToUSD, 8)})
                   </h6>
                   <button
                     className={`btn ${EthRewards === 0? 'disabled-btn' : 'filledbtn'} d-flex justify-content-center align-items-center`}

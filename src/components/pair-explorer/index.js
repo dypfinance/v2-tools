@@ -962,7 +962,7 @@ export default class PairExplorer extends React.Component {
     return (
       <div>
         <div>
-          <div className="graph-wrap container-lg">
+          <div className="graph-wrap container-lg p-0">
             <div className="leftside">
               <div
                 className="row m-0 w-100 justify-content-between flex-column"
@@ -2243,7 +2243,7 @@ export default class PairExplorer extends React.Component {
                     {" "}
                     {getFormattedNumber(
                       this.state.mainTokenTotalSupply,
-                      6
+                      2
                     )}{" "}
                     {this.state.mainToken?.symbol}{" "}
                   </div>
@@ -2268,7 +2268,7 @@ export default class PairExplorer extends React.Component {
                     {" "}
                     {getFormattedNumber(
                       this.state.cgInfo?.circulating_supply,
-                      6
+                      2
                     )}{" "}
                     {this.state.mainToken?.symbol}{" "}
                   </div>
@@ -2324,7 +2324,7 @@ export default class PairExplorer extends React.Component {
                     {getFormattedNumber(
                       this.state.pair &&
                         this.state.pair[`reserve${mainTokenKey}`],
-                      6
+                      2
                     )}{" "}
                     (
                     {(

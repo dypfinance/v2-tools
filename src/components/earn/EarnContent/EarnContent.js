@@ -762,7 +762,7 @@ const EarnContent = ({
         </>
         }
       </div>
-     {option !== "Farming" ?
+     {option !== "Farming" || expiredPools === true ?
      <EarnTopPicks
      topList={option}
      listType={listStyle}
@@ -780,7 +780,7 @@ const EarnContent = ({
      routeOption={routeOption}
      customChain={customChain}
      handleSwitchNetwork={handleSwitchNetwork}
-     expiredPools={expiredPools}
+     expired={expiredPools}
 
    />
    :
