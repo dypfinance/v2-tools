@@ -108,7 +108,7 @@ hr {
   padding: 8px 30px 8px 12px;
   width: 160px;
   cursor: pointer;
-  height: 56px;
+  /* height: 56px; */
   transition: all 0.25s;
 }
 
@@ -423,6 +423,10 @@ hr {
   .stake-item{
     width: auto;
     padding: 12px;
+  }
+
+  .earn-option{
+    font-size: 11px;
   }
 }
 

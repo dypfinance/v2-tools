@@ -7,7 +7,7 @@ const Modal = ({ modalId, visible, children, setIsVisible, onModalClose, maxWidt
     let style = {}
     if(visible){
         className += ' show' ;
-        style= {display: 'block', paddingRight: '10px'}
+        style= {display: 'block', }
     }
 
 
@@ -15,7 +15,9 @@ const Modal = ({ modalId, visible, children, setIsVisible, onModalClose, maxWidt
 
     return (
         <div className={className} id={modalId} style={style} tabIndex="-1" aria-labelledby={`modalLabel` + modalId} aria-hidden="true">
-            <div className="modal-dialog" style={{maxWidth: maxWidth, width: 1000}}>
+            <div className="modal-dialog"
+             style={{maxWidth: maxWidth}}
+             >
                 <div className="modal-content">
                     {/* <img src={require("../../../Assets/General/times-icon.svg").default} alt="" aria-hidden="true" className="close" data-dismiss="modal" aria-label="Close" /> */}
                     <span onClick={onModalClose} aria-hidden="true" data-dismiss="modal" aria-label="Close" className='close-btn'>
