@@ -224,7 +224,7 @@ const MobileMenu = () => {
         id="moreModal"
       >
         <div
-          className="d-flex w-100 justify-content-end py-3"
+          className="d-flex w-100 justify-content-end"
           onClick={() => setMoreModal(false)}
         >
           <img src={xMark} alt="" />

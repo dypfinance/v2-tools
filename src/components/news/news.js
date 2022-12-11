@@ -661,8 +661,8 @@ const News = ({ theme, isPremium, coinbase }) => {
                     })}
                 </Slider>
                 <div className="d-flex align-items-center gap-2 featured-slider-arrows">
-          <img src={pressReleaseNext} height={40} width={40} className="cursor-pointer"  alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevMain} />
-          <img src={pressReleaseNext} height={40} width={40} className="cursor-pointer"  alt="prev-button" onClick={nextMain} />
+          <img src={pressReleaseNext} height={40} width={40} className="cursor-pointer d-none d-lg-flex"  alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevMain} />
+          <img src={pressReleaseNext} height={40} width={40} className="cursor-pointer d-none d-lg-flex"  alt="prev-button" onClick={nextMain} />
 
                 </div>
               </div>

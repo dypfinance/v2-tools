@@ -112,7 +112,7 @@ const AddProposal = (props) => {
   return (
     <div className="col-12 col-lg-7">
       <div className="d-flex flex-column justify-content-between h-100 w-100">
-        <div className="d-flex justify-content-start justify-content-lg-center gap-2 align-items-center mb-3 col-12 col-lg-6">
+        <div className="d-flex justify-content-start justify-content-lg-center gap-2 align-items-center my-3 col-12 col-lg-6">
           <h6
             className="submitnewproposal-title"
             style={{ paddingRight: "15px" }}
@@ -1061,7 +1061,7 @@ export default class Governance extends React.Component {
                 />
                 <div className="mydetails-wrapper col-12 col-lg-4">
                   <div className="d-flex justify-content-between flex-column gap-4 gap-lg-0">
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-start justify-content-lg-end">
                       {this.state.is_wallet_connected === false ? (
                         <button
                           className="connectbtn btn mb-3"

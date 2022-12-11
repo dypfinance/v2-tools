@@ -130,6 +130,7 @@ const SubmitInfo = () => {
         if (send.status === 1) {
           alert("Your information has been submitted.");
           setValues({ ...initialState });
+          setErrors({})
           console.log("done!");
         } else {
           alert("Something goes to wrong.");
@@ -146,6 +147,7 @@ const SubmitInfo = () => {
 
   const clearFields = () => {
     setValues(initialState)
+    setErrors({})
   }
 
   return (

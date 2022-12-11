@@ -336,7 +336,7 @@ const Header = ({
                 <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
                   <NavLink className="buydyp-btn btn" to="/buydyp">
                     <img src={coin} alt="" />
-                    <span className="buy-dyp-text d-none d-lg-flex">
+                    <span className="buy-dyp-text">
                       Buy DYP
                     </span>
                   </NavLink>
@@ -429,7 +429,7 @@ const Header = ({
               </DropdownButton> */}
                     {checklogout === "false" ? (
                       <>
-                        <div className="account-info d-flex align-items-center justify-content-center gap-2 gap-lg-3">
+                        <div className="account-info d-none d-lg-flex align-items-center justify-content-center gap-2 gap-lg-3">
                           <span className="account-balance d-none d-lg-flex">
                             {currencyAmount}{" "}
                             {chainId === 1

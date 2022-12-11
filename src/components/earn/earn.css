@@ -157,7 +157,7 @@ hr {
   background: #8e97cd;
   border-radius: 100px;
   padding: 2px;
-  width: 36px;
+  min-width: 36px;
   display: flex;
   justify-content: start;
   cursor: pointer;
@@ -392,6 +392,11 @@ hr {
   color: #e84142;
 }
 
+.inactive-pools{
+  font-size: 16px;
+  white-space: nowrap;
+}
+
 .filled-btn {
   background: linear-gradient(90.74deg, #7770e0 0%, #554fd8 100%);
   border-radius: 8px;
@@ -439,7 +444,16 @@ hr {
   .video{
     width: 100%;
   }
+
+  .inactive-pools{
+    font-size: 12px;
+  }
+  .pill{
+    width: 12px;
+    height: 12px;
+  }
 }
+
 
 @keyframes rotate {
   0% {
