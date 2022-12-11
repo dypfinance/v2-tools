@@ -915,7 +915,7 @@ export default function stakeAvax({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className="otherside-border col-12 col-md-6 col-lg-4">
+               <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1074,7 +1074,7 @@ export default function stakeAvax({
                     )}
                   </div>
                 </div>
-                <div className="otherside-border col-12 col-md-6 col-lg-4">
+                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6
@@ -1225,7 +1225,7 @@ export default function stakeAvax({
                   </div>
                 </div>
 
-                <div className="otherside-border col-12 col-md-6 col-lg-2">
+                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '43114' && "blurrypool"}`}>
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
