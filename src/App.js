@@ -528,6 +528,7 @@ class App extends React.Component {
                         isConnected={this.state.isConnected}
                         handleConnection={this.handleConnection}
                         coinbase={this.state.coinbase}
+                        handleSwitchNetwork={this.handleSwitchNetwork}
 
                       />
                     )}

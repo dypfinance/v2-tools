@@ -937,7 +937,7 @@ const EarnTopPicks = ({
   const aprarrayStakeAvaxiDyp = [15, 20, 30, 45];
   const feeSarrayStakeAvaxiDyp = [1, 0, 3.5, 0];
   const feeUarrayStakeAvaxiDyp = [0, 0.25, 0, 0, 0.25];
-  const otherinfoarrayStakeAvaxiDyp = [false, false, true, false];
+  const otherinfoarrayStakeAvaxiDyp = [false, false, false, false];
 
   const expirearrayStakeAvaxiDyp = [
     "15 August 2023",
