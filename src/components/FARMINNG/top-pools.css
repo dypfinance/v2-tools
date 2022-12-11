@@ -33,6 +33,11 @@
   left: -1px;
 }
 
+.blurrypool {
+  pointer-events: none;
+  filter: blur(3px);
+}
+
 .rewardstxtCaws {
   font-weight: 500;
   font-size: 16px;

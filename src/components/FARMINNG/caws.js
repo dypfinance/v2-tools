@@ -334,7 +334,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
                     )}
               </div>
             </div>
-            <div className="otherside-border col-4">
+            <div className={`otherside-border col-4 ${chainId !== '1' && "blurrypool"}`}>
               <div className="d-flex justify-content-between align-items-center gap-2">
                 <div className="d-flex align-items-center gap-3">
                   <h6 className="deposit-txt">Stake</h6>
@@ -398,7 +398,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
                 )} */}
               </div>
             </div>
-            <div className="otherside-border col-4">
+            <div className={`otherside-border col-4 ${chainId !== '1' && "blurrypool"}`}>
               <div className="d-flex justify-content-between gap-2 ">
                 <h6 className="withdraw-txt d-flex gap-2 align-items-center">
                   REWARDS
@@ -446,7 +446,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
               </div>
             </div>
 
-            <div className="otherside-border col-2">
+            <div className={`otherside-border col-2 ${chainId !== '1' && "blurrypool"}`}>
               <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                 Unstake
                 <Tooltip
