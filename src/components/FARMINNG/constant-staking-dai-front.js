@@ -62,6 +62,8 @@ export default function initConstantStakingNewDai({
   renderedPage,
   listType,
   fee,
+  handleSwitchNetwork
+
 }) {
   let {
     reward_token,
@@ -700,6 +702,15 @@ export default function initConstantStakingNewDai({
       return result;
     };
 
+    handleEthPool = async () => {
+      await handleSwitchNetworkhook("0x1").then(()=>{
+        this.props.handleSwitchNetwork('1')
+      }).catch((e)=>{
+        console.log(e)
+      })
+    };
+
+
     render() {
       let {
         disburseDuration,
@@ -1013,7 +1024,7 @@ export default function initConstantStakingNewDai({
                       <button
                         className="connectbtn btn"
                         onClick={() => {
-                          handleSwitchNetworkhook("0x1");
+                          this.handleEthPool();
                         }}
                       >
                         Change Network

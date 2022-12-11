@@ -513,6 +513,7 @@ class App extends React.Component {
                         isConnected={this.state.isConnected}
                         network={this.state.networkId}
                         handleConnection={this.handleConnection}
+                        handleSwitchNetwork={this.handleSwitchNetwork}
                         referrer={this.state.referrer}
                       />
                     )}
@@ -527,6 +528,7 @@ class App extends React.Component {
                         isConnected={this.state.isConnected}
                         handleConnection={this.handleConnection}
                         coinbase={this.state.coinbase}
+                        handleSwitchNetwork={this.handleSwitchNetwork}
 
                       />
                     )}

@@ -8,27 +8,20 @@ import { formattedNum } from "../../functions/formatUSD";
 import Address from "./address";
 import WalletModal from "../WalletModal";
 import "./top-pools.css";
-import dropdownVector from "./assets/dropdownVector.svg";
 import ellipse from "./assets/ellipse.svg";
-import empty from "./assets/empty.svg";
-import check from "./assets/check.svg";
-import failMark from "../../assets/failMark.svg";
 import arrowup from "./assets/arrow-up.svg";
-import whiteArrowUp from "./assets/whiteArrowUp.svg";
 import moreinfo from "./assets/more-info.svg";
-import stats from "./assets/stats.svg";
-import purplestats from "./assets/purpleStat.svg";
 import wallet from "./assets/wallet.svg";
 import Tooltip from "@material-ui/core/Tooltip";
-import Modal from "../Modal/Modal";
-import Countdown from "react-countdown";
-import statsLinkIcon from "./assets/statsLinkIcon.svg";
+
 import { shortAddress } from "../../functions/shortAddress";
 import xMark from "../calculator/assets/xMark.svg";
 import weth from "./assets/weth.svg";
 import NftStakeCheckListModal from "../caws/NftMinting/components/NftMinting/NftStakeChecklistModal/NftStakeChecklistModal";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
-const CawsDetails = ({ coinbase, isConnected, listType }) => {
+ 
+  const CawsDetails = ({ coinbase, isConnected, listType, handleSwitchNetwork, chainId, handleConnection }) => {
   const [myNFTs, setMyNFTs] = useState([]);
   const [amountToStake, setamountToStake] = useState("");
   const [mystakes, setMystakes] = useState([]);
@@ -42,7 +35,7 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
   const [ethToUSD, setethToUSD] = useState(0);
   const [openStakeChecklist, setOpenStakeChecklist] = useState(false);
   const [showUnstakeModal, setShowUnstakeModal] = useState(false);
-  const [showClaimAllModal, setShowClaimAllModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [countDownLeft, setCountDownLeft] = useState(59000);
   const [hide, setHide] = useState('');
 
@@ -214,6 +207,16 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
       });
   };
 
+
+  const handleEthPool = async () => {
+    await handleSwitchNetworkhook("0x1").then(()=>{
+      handleSwitchNetwork('1')
+    }).catch((e)=>{
+      console.log(e)
+    })
+  };
+
+
   useEffect(() => {
     if (isConnected) {
       myNft().then();
@@ -310,16 +313,25 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
               >
                 <h6 className="start-title">Start Staking</h6>
 
-                {coinbase === null ? (
-                  <button className="connectbtn btn">
-                    {" "}
-                    <img src={wallet} alt="" /> Connect wallet
-                  </button>
-                ) : (
-                  <div className="addressbtn btn">
-                    <Address a={coinbase} chainId={1} />
-                  </div>
-                )}
+                { coinbase === null ? (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{setShowModal(true)}}
+                      >
+                        <img src={wallet} alt="" /> Connect wallet
+                      </button>
+                    ) : chainId === '1' ? (
+                      <div className="addressbtn btn">
+                        <Address a={coinbase} chainId={1} />
+                      </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{handleEthPool()}}
+                      >
+                       Change Network
+                      </button>
+                    )}
               </div>
             </div>
             <div className="otherside-border col-4">
@@ -493,6 +505,14 @@ const CawsDetails = ({ coinbase, isConnected, listType }) => {
           hideItem={hide}
         />
       )}
+
+{showModal === true && (
+            <WalletModal
+              show={showModal}
+              handleClose={()=>{showModal()}}
+              handleConnection={handleConnection}
+            />
+          )}
     </div>
   );
 };

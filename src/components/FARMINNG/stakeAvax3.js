@@ -58,7 +58,9 @@ export default function stakeAva3({
   chainId,
   lockTime,
   listType,
-  renderedPage
+  renderedPage,
+  handleSwitchNetwork
+
 }) {
   let {
     reward_token,
@@ -703,6 +705,19 @@ export default function stakeAva3({
       return result;
     };
 
+
+
+    handleAvaxPool = async() => {
+      await handleSwitchNetworkhook("0xa86a").then(()=>{
+        this.props.handleSwitchNetwork('43114')
+  
+      }).catch((e)=>{
+        console.log(e)
+      })
+     
+    };
+
+
     render() {
       let {
         disburseDuration,
@@ -1014,7 +1029,7 @@ export default function stakeAva3({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0xa86a")}}
+                        onClick={()=>{this.handleAvaxPool()}}
                       >
                        Change Network
                       </button>

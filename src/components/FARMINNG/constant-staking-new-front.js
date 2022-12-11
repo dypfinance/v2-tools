@@ -60,6 +60,7 @@ export default function initConstantStakingNew({
   lockTime,
   coinbase,
   renderedPage,
+  handleSwitchNetwork,
   listType,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
@@ -814,6 +815,16 @@ export default function initConstantStakingNew({
       return result;
     };
 
+
+    handleEthPool = async () => {
+      await handleSwitchNetworkhook("0x1").then(()=>{
+        this.props.handleSwitchNetwork('1')
+      }).catch((e)=>{
+        console.log(e)
+      })
+    };
+
+
     render() {
       let {
         disburseDuration,
@@ -1138,7 +1149,7 @@ export default function initConstantStakingNew({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0x1")}}
+                        onClick={()=>{ this.state.handleEthPool()}}
                       >
                        Change Network
                       </button>

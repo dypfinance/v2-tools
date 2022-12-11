@@ -59,7 +59,9 @@ export default function stakeAvax({
   coinbase,
   lockTime,
   listType,
-  renderedPage
+  renderedPage,
+  handleSwitchNetwork
+
 }) {
   let {
     reward_token,
@@ -148,8 +150,7 @@ export default function stakeAvax({
         approxDeposit: 100,
         approxDays: 365,
         depositLoading: false,
-        depositStatus: "initial",
-        depositAmount: "",
+        depositStatus: "initial", 
         withdrawAmount: "",
         claimLoading: false,
         claimStatus: "initial",
@@ -580,6 +581,21 @@ export default function stakeAvax({
       }).format(timestamp * 1000);
       return result;
     };
+
+
+
+    handleAvaxPool = async() => {
+      await handleSwitchNetworkhook("0xa86a").then(()=>{
+        this.props.handleSwitchNetwork('43114')
+  
+      }).catch((e)=>{
+        console.log(e)
+      })
+     
+    };
+
+
+
     render() {
       let {
         disburseDuration,
@@ -887,7 +903,7 @@ export default function stakeAvax({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0xa86a")}}
+                        onClick={()=>{this.handleAvaxPool()}}
                       >
                        Change Network
                       </button>

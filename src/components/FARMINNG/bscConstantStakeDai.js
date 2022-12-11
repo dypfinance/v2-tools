@@ -59,7 +59,9 @@ export default function initbscConstantStakingDai({
   listType,
   lockTime,
   fee,
-  chainId
+  chainId,
+  handleSwitchNetwork
+
 }) {
   let {
     reward_token,
@@ -705,6 +707,17 @@ export default function initbscConstantStakingDai({
       return result;
     };
 
+
+    handleBnbPool = async() => {
+      await handleSwitchNetworkhook("0x38").then(()=>{
+        this.props.handleSwitchNetwork('56')
+      }).catch((e)=>{
+        console.log(e)
+      })
+     };
+
+
+
     render() {
       let {
         disburseDuration,
@@ -1022,7 +1035,7 @@ export default function initbscConstantStakingDai({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0x38")}}
+                        onClick={()=>{this.handleBnbPool()}}
                       >
                        Change Network
                       </button>

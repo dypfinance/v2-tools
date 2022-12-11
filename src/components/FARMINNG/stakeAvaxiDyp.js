@@ -60,6 +60,8 @@ export default function stakeAvaxiDyp({
   coinbase,
   lockTime,
   listType,
+  handleSwitchNetwork
+
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;
   let token_symbol = "iDYP";
@@ -544,6 +546,20 @@ export default function stakeAvaxiDyp({
       return result;
     };
 
+
+
+
+    handleAvaxPool = async() => {
+      await handleSwitchNetworkhook("0xa86a").then(()=>{
+        this.props.handleSwitchNetwork('43114')
+  
+      }).catch((e)=>{
+        console.log(e)
+      })
+     
+    };
+
+
     render() {
       let {
         disburseDuration,
@@ -844,7 +860,7 @@ export default function stakeAvaxiDyp({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0xa86a")}}
+                        onClick={()=>{this.handleAvaxPool()}}
                       >
                        Change Network
                       </button>

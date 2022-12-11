@@ -61,6 +61,8 @@ export default function initConstantStakingiDYP({
   handleConnection,
   lockTime,
   listType,
+  handleSwitchNetwork
+
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dyps } = window;
   let token_symbol = "iDYP";
@@ -507,6 +509,14 @@ export default function initConstantStakingiDYP({
       );
     };
 
+    handleEthPool = async () => {
+      await handleSwitchNetworkhook("0x1").then(()=>{
+        this.props.handleSwitchNetwork('1')
+      }).catch((e)=>{
+        console.log(e)
+      })
+    };
+
     handleReinvest = (e) => {
       // e.preventDefault();
       this.setState({ reInvestStatus: "invest", reInvestLoading: true });
@@ -832,7 +842,7 @@ export default function initConstantStakingiDYP({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0x1")}}
+                        onClick={()=>{this.handleEthPool()}}
                       >
                        Change Network
                       </button>

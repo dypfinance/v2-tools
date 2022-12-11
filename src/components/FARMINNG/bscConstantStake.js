@@ -62,6 +62,7 @@ export default function initbscConstantStaking({
   coinbase,
   renderedPage,
   listType,
+  handleSwitchNetwork
 }) {
   let {
     reward_token,
@@ -390,6 +391,16 @@ export default function initbscConstantStaking({
     getAPY = () => {
       return apr;
     };
+
+
+   handleBnbPool = async() => {
+    await handleSwitchNetworkhook("0x38").then(()=>{
+     this.props.handleSwitchNetwork('56')
+    }).catch((e)=>{
+      console.log(e)
+    })
+   };
+
 
     refreshBalance = async () => {
       let coinbase = this.state.coinbase;
@@ -875,7 +886,7 @@ export default function initbscConstantStaking({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{handleSwitchNetworkhook("0x38")}}
+                        onClick={()=>{ this.handleBnbPool()}}
                       >
                        Change Network
                       </button>

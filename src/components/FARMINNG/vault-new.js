@@ -25,6 +25,7 @@ import { shortAddress } from "../../functions/shortAddress";
 import poolStatsIcon from "./assets/poolStatsIcon.svg";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import { ClickAwayListener } from "@material-ui/core";
+import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 export default function initVaultNew({
   vault,
@@ -39,6 +40,8 @@ export default function initVaultNew({
   chainId,
   lockTime,
   listType,
+  handleSwitchNetwork
+
 }) {
   let { BigNumber, alertify, token_dyps } = window;
   let token_symbol = UNDERLYING_SYMBOL;
@@ -762,6 +765,15 @@ export default function initVaultNew({
       return ((approxDeposit * APY) / 100 / 365) * approxDays;
     };
 
+    handleEthPool = async () => {
+      await handleSwitchNetworkhook("0x1").then(()=>{
+        this.props.handleSwitchNetwork('1')
+      }).catch((e)=>{
+        console.log(e)
+      })
+    };
+
+
     render() {
       let {
         cliffTime,
@@ -1073,16 +1085,23 @@ export default function initVaultNew({
                   </h6> */}
                     {this.props.coinbase === null ? (
                       <button
-                        className="connectbtn btn d-flex align-items-center gap-2"
+                        className="connectbtn btn"
                         onClick={this.showModal}
+                        
                       >
-                        {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : (
+                    ) : chainId === '1' ? (
                       <div className="addressbtn btn">
                         <Address a={this.props.coinbase} chainId={1} />
                       </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={()=>{this.handleEthPool()}}
+                      >
+                       Change Network
+                      </button>
                     )}
                   </div>
                 </div>
