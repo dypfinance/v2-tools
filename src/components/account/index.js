@@ -168,7 +168,7 @@ export default class Subscription extends React.Component {
       .approve(
         this.props.networkId === 1
           ? window.config.subscriptioneth_address
-          : window.config.subscriptioneth_address,
+          : window.config.subscription_address,
         this.state.price
       )
       .send()

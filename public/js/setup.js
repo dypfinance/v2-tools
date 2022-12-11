@@ -10,8 +10,8 @@ window.config = {
   locker_address: "0x4c695f6198cd4e56efcbf750d0b8961d28885f57",
   lockereth_address: "0x0c5d9AA95329517918AA7b82BfDa25d60446E1ac",
 
-  subscription_address: "0xba4b2bab726f645677681ddc74b29543d10b28af",
-  subscriptioneth_address: "0x943023d8e0f591C08a0E2B922452a7Dc37173C9b",
+  subscription_address: "0x5078a4912f6e0d74dcf99482ac5910df123e9b4b",
+  subscriptioneth_address: "0x6cc47d895aa6da6012c2b6bfd2f6af3ebbf1d2e4",
   ZERO_ADDRESS: "0x0000000000000000000000000000000000000000",
   MAX_LOCKS_TO_LOAD_PER_CALL: 10,
 
