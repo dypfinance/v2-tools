@@ -548,7 +548,7 @@ const handleTooltipOpen = () => {
               className="label"
               onClick={() => focusInput("username")}
             >
-              Input new name
+              Enter a new name
             </label>
             <img src={require(`./assets/clearFieldIcon.svg`).default} className="clear-icon cursor-pointer" alt="clear field" onClick={() => this.setState({showInput: false})}  />
       </div>
@@ -1251,7 +1251,7 @@ const handleTooltipOpen = () => {
 
 <TierLevels display={'none'} infoDisplay={'flex'}/>
         <h4 className="d-block mb-5 mt-5" id="my-fav">
-          My favourites
+        My favourite pairs
         </h4>
         <div
           className="row p-0 m-0 favorites-grid"

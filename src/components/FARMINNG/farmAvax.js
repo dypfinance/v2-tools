@@ -2988,7 +2988,7 @@ export default function initFarmAvax({
                       className="form-control calcinput w-100"
                       id="days"
                       name="days"
-                      placeholder="USD to deposit*"
+                      placeholder="Value of deposit in USD"
                       value={
                         Number(this.state.approxDeposit) > 0
                           ? this.state.approxDeposit * LP_AMPLIFY_FACTOR

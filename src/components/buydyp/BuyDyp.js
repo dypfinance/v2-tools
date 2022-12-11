@@ -345,7 +345,7 @@ const slider = useRef()
     {
       title: "KyberDMM",
       logo: "kyber.png",
-      link: "https://dmm.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17&networkId=43114",
+      link: "https://kyberswap.com/swap/bnb/bnb-to-dyp",
       totalvids: "1 video",
       videos: [
         {

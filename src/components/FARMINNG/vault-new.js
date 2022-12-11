@@ -1318,7 +1318,7 @@ export default function initVaultNew({
                         <span>
                           {pendingDivsEth > 0
                             ? pendingDivsEth
-                            : getFormattedNumber(0, 18)}{" "}
+                            : getFormattedNumber(0, 8)}{" "}
                           {token_symbol}
                         </span>
                       </div>
@@ -1919,7 +1919,7 @@ export default function initVaultNew({
                       className="form-control calcinput w-100"
                       id="days"
                       name="days"
-                      placeholder="USD to deposit*"
+                      placeholder="Value of deposit in USD"
                       value={this.state.approxDeposit}
                       onChange={(e) =>
                         this.setState({

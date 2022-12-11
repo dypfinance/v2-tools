@@ -418,7 +418,7 @@ export default class PoolExplorer extends React.Component {
         <div className="d-flex flex-column gap-3">
                 <h2 className="launchpad-hero-title">Pool Explorer</h2>
                 <p className="launchpad-hero-desc">
-                  Search for new pools, add or remove liquidity in a pair.
+                Search new or existing liquidity pools
                 </p>
             
           </div>
@@ -432,7 +432,7 @@ export default class PoolExplorer extends React.Component {
                 className="launchpad-hero-desc position-absolute"
                 style={{ fontSize: 12, top: "-27px" }}
               >
-                Change network
+                Change network (view purposes only)
               </p>
               <div
                 className="d-flex justify-content-around align-items-center"

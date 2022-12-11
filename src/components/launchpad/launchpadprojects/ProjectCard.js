@@ -37,7 +37,8 @@ const ProjectCard = ({upcoming, expired, id}) => {
           </div>
         </div>
         <div className="project-card-footer d-flex justify-content-between align-items-end p-3">
-          <p className="time-left w-50">Launch a project on Dypius now!</p>
+          <p className="time-left w-50">Dypius Launchpad
+Project coming soon</p>
           <div className="d-flex align-items-center justify-content-center arrow-wrapper">
             <img src={rightArrow} alt="" />
           </div>

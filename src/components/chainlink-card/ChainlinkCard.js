@@ -37,7 +37,7 @@ const ChainlinkCard = () => {
                 alt=""
                 style={{ width: 20, height: 20 }}
               />
-              Provided by Chainlink
+              Data Feed by Chainlink
             </a>
           </h6>
         </div>
@@ -75,7 +75,7 @@ const ChainlinkCard = () => {
               color: "#c0c9ff",
             }}
           >
-            Paid to users
+            Total rewards paid to users
           </span>
           <h6
             style={{

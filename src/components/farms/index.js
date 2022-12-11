@@ -229,7 +229,7 @@ export default class Farms extends React.Component {
           </div>
           <div className="position-relative col-12 col-lg-5 col-xl-4">
               <p className="launchpad-hero-desc position-absolute" style={{ fontSize: 12, top: '-27px' }}>
-                Change network
+              Change network (view purposes only)
               </p>
               <div className="d-flex justify-content-around align-items-center" style={{
                 background: "#312F69",

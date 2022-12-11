@@ -1730,7 +1730,7 @@ export default function initbscConstantStakingiDyp({
                   className="form-control calcinput w-100"
                   id="days"
                   name="days"
-                  placeholder="USD to deposit*"
+                  placeholder="Value of deposit in USD"
                   value={this.state.approxDeposit}
                   onChange={(e) =>
                     this.setState({

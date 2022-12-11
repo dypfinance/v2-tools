@@ -17,7 +17,7 @@ const GovCard = () => {
       <div>
       <div>
           <h6 className="governancecard-desc">
-          Vote to add more pools, burn tokens and create other unique proposals.
+          DYP token holders can participate in Dypius governance proposals.
           </h6>
         </div>
         <div className="">

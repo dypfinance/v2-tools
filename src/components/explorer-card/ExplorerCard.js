@@ -21,7 +21,7 @@ const ExplorerCard = () => {
         </div>
         <div>
           <h6 className="explorercard-desc">
-          Follow the latest trends, keep up with new tokens, big swaps, and get every information in real-time.
+          Follow the latest trends, discover new tokens, and get data in real-time.
           </h6>
         </div>
         <div className="">

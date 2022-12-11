@@ -428,6 +428,17 @@ hr {
   .earn-option{
     font-size: 11px;
   }
+
+  .video-container{
+    grid-template-columns: auto;
+    gap: 15px;
+  }
+  .video-wrapper{
+    width: 100%;
+  }
+  .video{
+    width: 100%;
+  }
 }
 
 @keyframes rotate {
