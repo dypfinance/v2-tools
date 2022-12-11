@@ -1198,7 +1198,7 @@ const EarnTopPicks = ({
 
   const handleCardIndexStake = (index) => {
     if (topList === "Staking") {
-      if (index > 3) {
+      if (index >= 3) {
         const newIndex = index - 3;
         setcardIndexiDyp(newIndex);
         setcardIndex(index);
@@ -1218,15 +1218,14 @@ const EarnTopPicks = ({
 
   const handleCardIndexStakeiDyp = (index) => {
     if (topList === "Staking" && chain === "avax") {
-      if (index >= 5) {
-        const newIndex = index - 5;
+      if (index >= 3) {
+        const newIndex = index - 3;
         setcardIndexavaxiDyp(newIndex);
         setcardIndex(index);
       } else setcardIndex(index);
     } else setcardIndex(index);
   }; 
 
-console.log(cardIndex)
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (
@@ -1234,7 +1233,7 @@ console.log(cardIndex)
           <div className="px-0">
             <>
               <div className="top-picks-container">
-                {topPools.slice(0, 7).map((pool, index) => (
+                {topPools.slice(0, 8).map((pool, index) => (
                   <TopPoolsCard
                     display={
                       pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
@@ -1263,7 +1262,7 @@ console.log(cardIndex)
                       setActiveCardNFT(false);
                       handleCardIndexStake(index);
                       handleCardIndexStake30(index);
-                      handleCardIndexStakeiDyp(index);
+                      // handleCardIndexStakeiDyp(index);
                       setDetails(index);
                     }}
                     onHideDetailsClick={() => {
@@ -1342,38 +1341,12 @@ console.log(cardIndex)
               ) : activeCard &&
                 topList === "Staking" &&
                 cardIndex < 2 &&
-                chain === "eth" ? (
-                <ConstantStaking1
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                />
-              ) : activeCard &&
-                topList === "Staking" &&
-                cardIndex < 2 &&
                 chain === "bnb" ? (
                 <BscConstantStake
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
                   lp_id={LP_IDBNB_Array[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                />
-              ) : activeCard &&
-                cardIndex > 2 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingiDYP1
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
