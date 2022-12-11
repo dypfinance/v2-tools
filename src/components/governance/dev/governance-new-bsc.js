@@ -1171,12 +1171,20 @@ export default class Governance extends React.Component {
                         key={index}
                         style={{ border: "none" }}
                       >
-                        {expireArray[index].includes('ago') &&
-                        <img
-                          src={require("../assets/expired.png").default}
-                          alt=""
-                          className="acordionstate"
-                        />}
+                       {expireArray[index].includes("ago") ? (
+                          <img
+                            src={require("../assets/expired.png").default}
+                            alt=""
+                            className="acordionstate"
+                          />
+                        ) : (
+                          <img
+                            src={require("../assets/new.png").default}
+                            alt=""
+                            className="acordionstate"
+                            style={{scale: '0.67'}}
+                          />
+                        )}
                         <div className="accordion-header" id="headingOne">
                           <button
                             className="accordion-button collapsed d-flex flex-column position-relative "

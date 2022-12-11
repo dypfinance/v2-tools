@@ -69,6 +69,7 @@ const EarnContent = ({
   const [content, setContent] = useState(options[0].content);
   const [listStyle, setListStyle] = useState("table");
   const [myStakes, setMyStakes] = useState(false);
+  const [expiredPools, setExpiredPools] = useState(false);
   const [tvl, setTvl] = useState();
   const [ethApr, setEthApr] = useState();
   const [bnbApr, setBnbApr] = useState();
@@ -396,7 +397,8 @@ const EarnContent = ({
             <div className="col-2 d-flex justify-content-end align-items-center gap-3">
               <div
                 className={`pill-box ${myStakes && "pill-box-active"}`}
-                onClick={() => setMyStakes(!myStakes)}
+                onClick={() => {setMyStakes(!myStakes); setExpiredPools(!expiredPools)}}
+                
               >
                 <div className="pill"></div>
               </div>
@@ -404,7 +406,7 @@ const EarnContent = ({
                 className="text-white"
                 style={{ fontSize: "16px", whiteSpace: "nowrap" }}
               >
-                My pools
+                Inactive pools
               </h5>
             </div>
           </div>
@@ -440,7 +442,7 @@ const EarnContent = ({
             <div className="col-6 d-flex justify-content-end align-items-center gap-3">
               <div
                 className={`pill-box ${myStakes && "pill-box-active"}`}
-                onClick={() => setMyStakes(!myStakes)}
+                onClick={() => {setMyStakes(!myStakes); setExpiredPools(!expiredPools)}}
               >
                 <div className="pill"></div>
               </div>
@@ -448,7 +450,7 @@ const EarnContent = ({
                 className="text-white"
                 style={{ fontSize: "16px", whiteSpace: "nowrap" }}
               >
-                My pools
+                Inactive pools
               </h5>
             </div>
             <div className="col-12 row d-flex gap-0 gap-xl-3 justify-content-center p-2">
@@ -778,6 +780,7 @@ const EarnContent = ({
      routeOption={routeOption}
      customChain={customChain}
      handleSwitchNetwork={handleSwitchNetwork}
+     expiredPools={expiredPools}
 
    />
    :

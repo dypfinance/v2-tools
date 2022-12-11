@@ -703,16 +703,16 @@ export default class Governance extends React.Component {
         moment.duration(canWithdrawAllAfter - Date.now()).humanize(true);
     }
 
-    let expireArray=[]; let expires ;
-    for(let i = 0; i<= this.state.proposals?.length-1; i++) {
-     let endsOn =  this.state.proposals[i]?._proposalStartTime * 1e3 + window.config.vote_duration_in_seconds * 1e3;
+    let expireArray = [];
+    let expires;
+    for (let i = 0; i <= this.state.proposals?.length - 1; i++) {
+      let endsOn =
+        this.state.proposals[i]?._proposalStartTime * 1e3 +
+        window.config.vote_duration_in_seconds * 1e3;
 
-      expires= moment.duration(endsOn - Date.now()).humanize(true);
-      expireArray[i] = expires
+      expires = moment.duration(endsOn - Date.now()).humanize(true);
+      expireArray[i] = expires;
     }
-    
-    
-
 
     let isOwner =
       String(this.state.coinbase).toLowerCase() ==
@@ -1000,12 +1000,20 @@ export default class Governance extends React.Component {
                         key={index}
                         style={{ border: "none" }}
                       >
-                        {expireArray[index].includes('ago') &&
-                        <img
-                          src={require("../assets/expired.png").default}
-                          alt=""
-                          className="acordionstate"
-                        />}
+                        {expireArray[index].includes("ago") ? (
+                          <img
+                            src={require("../assets/expired.png").default}
+                            alt=""
+                            className="acordionstate"
+                          />
+                        ) : (
+                          <img
+                            src={require("../assets/new.png").default}
+                            alt=""
+                            className="acordionstate"
+                            style={{scale: '0.67'}}
+                          />
+                        )}
                         <div className="accordion-header" id="headingOne">
                           <button
                             className="accordion-button collapsed d-flex flex-column position-relative "
@@ -1410,9 +1418,19 @@ class ProposalDetails extends React.Component {
               <div className="col-12">
                 <div className="activewrapper">
                   <div className="d-flex align-items-center justify-co ntent-between gap-5">
-                    <h6 className={expires.includes('ago') ? "expiredtxt" : "activetxt position-relative activetxt-vault"}>
-                      <img src={expires.includes('ago') ?  ellipse : ellipsegreen} alt="" className="position-relative" />
-                     {expires.includes('ago') ? 'Expired' : 'Active'} 
+                    <h6
+                      className={
+                        expires.includes("ago")
+                          ? "expiredtxt"
+                          : "activetxt position-relative activetxt-vault"
+                      }
+                    >
+                      <img
+                        src={expires.includes("ago") ? ellipse : ellipsegreen}
+                        alt=""
+                        className="position-relative"
+                      />
+                      {expires.includes("ago") ? "Expired" : "Active"}
                     </h6>
                   </div>
                   <div className="d-flex align-items-center justify-content-between gap-3">
