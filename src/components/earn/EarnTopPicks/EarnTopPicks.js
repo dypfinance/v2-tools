@@ -574,9 +574,9 @@ const EarnTopPicks = ({
     window.constant_staking_idyp_4,
   ];
 
-  const performancefeeArrayidyp = [0, 0, 1, 3.5];
+  const performancefeeArrayidyp = [0, 0,3.5, 1 ];
   const withdrawFeeiDyp = [0.25, 0.25, 0, 0];
-  const aprArrayiDyp = [20, 45, 15, 30];
+  const aprArrayiDyp = [15, 20, 30 ,15];
   const expirationArray = [
     "28 February 2023",
     "28 February 2023",
@@ -1005,7 +1005,7 @@ const EarnTopPicks = ({
     apr: aprArrayiDyp[cardIndexiDyp],
     liquidity: eth_address,
     expiration_time: expirationArray[cardIndexiDyp],
-    other_info: true,
+    other_info: false,
     fee_s: performancefeeArrayidyp[cardIndexiDyp],
     fee_u: withdrawFeeiDyp[cardIndexiDyp],
     coinbase: coinbase,
@@ -1224,8 +1224,9 @@ const EarnTopPicks = ({
         setcardIndex(index);
       } else setcardIndex(index);
     } else setcardIndex(index);
-  };
+  }; 
 
+console.log(cardIndex)
   return topPools.length > 0 ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {listing === "table" ? (
@@ -1233,7 +1234,7 @@ const EarnTopPicks = ({
           <div className="px-0">
             <>
               <div className="top-picks-container">
-                {topPools.slice(0, 8).map((pool, index) => (
+                {topPools.slice(0, 7).map((pool, index) => (
                   <TopPoolsCard
                     display={
                       pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
@@ -1964,7 +1965,7 @@ const EarnTopPicks = ({
               className="top-picks-container"
               style={{ marginTop: topPools.length > 9 && "25px" }}
             >
-              {topPools.slice(9, topPools.length).map((pool, index) => (
+              {topPools.slice(8, topPools.length).map((pool, index) => (
                 <TopPoolsCard
                   display={
                     pool.expired ? (pool.expired === "Yes" ? "none" : "") : ""
@@ -1995,19 +1996,19 @@ const EarnTopPicks = ({
                     setActiveCard(null);
                     setActiveCard2(null);
                     setActiveCard3(null);
-                    setActiveCard4(topPools[index + 9]);
+                    setActiveCard4(topPools[index + 8]);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 9);
-                    handleCardIndexStake30(index + 9);
-                    handleCardIndexStakeiDyp(index + 9);
-                    setDetails(index + 9);
+                    handleCardIndexStake(index + 8);
+                    handleCardIndexStake30(index + 8);
+                    handleCardIndexStakeiDyp(index + 8);
+                    setDetails(index + 8);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard4(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 9 ? true : false}
+                  details={details === index + 8 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
                 />
@@ -3894,7 +3895,7 @@ const EarnTopPicks = ({
                   handleSwitchNetwork={handleSwitchNetwork}
                 />
               ) : activeCard &&
-                cardIndex > 3 &&
+                cardIndex > 2 &&
                 topList === "Staking" &&
                 chain === "eth" ? (
                 <ConstantStakingiDYP1

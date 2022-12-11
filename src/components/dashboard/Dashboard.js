@@ -78,10 +78,8 @@ const Dashboard = ({
       .get(`https://api.dyp.finance/api/get_staking_info_eth`)
       .then((res) => {
         let dataArray = [];
-        const dypIdypavax1 = res.data.stakingInfoDYPAvax[4];
-        dataArray.push(dypIdypavax1);
-        const dypIdypavax2 = res.data.stakingInfoiDYPAvax[2];
-        dataArray.push(dypIdypavax2);
+        const dypIdypeth2 = res.data.stakingInfoiDYPEth[2];
+        dataArray.push(dypIdypeth2);
         setTopPools(dataArray);
       })
       .catch((err) => {
@@ -93,10 +91,12 @@ const Dashboard = ({
     {
       top_pick: false,
       tokenName: "DYP",
-      apr: "1.09%",
-      tvl: "$48,382.30",
-      lockTime: "No lock",
-      tokenLogo: "dyplogo.svg",
+      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
+      tvl: topPools.length > 0
+      ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+      : "$48543.20",
+      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
+      tokenLogo: "idypius.svg",
       cardType: "Staking",
       tag: "stake",
     },
@@ -110,19 +110,18 @@ const Dashboard = ({
       cardType: "Vault",
       tag: "vault",
     },
-  ];
-
+  ]; 
   const cardsBsc = [
     {
       tokenLogo: "dyplogo.svg",
       top_pick: true,
       tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0].apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0].tvl_usd)
+          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0].lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -132,12 +131,12 @@ const Dashboard = ({
       tokenLogo: "idypius.svg",
       top_pick: true,
       tokenName: "iDYP",
-      apr: topPools.length > 0 ? topPools[1].apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[1].tvl_usd)
+          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[1].lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -150,12 +149,12 @@ const Dashboard = ({
       tokenLogo: "dyplogo.svg",
       top_pick: true,
       tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0].apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0].tvl_usd)
+          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0].lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -165,12 +164,12 @@ const Dashboard = ({
       tokenLogo: "idypius.svg",
       top_pick: true,
       tokenName: "iDYP",
-      apr: topPools.length > 0 ? topPools[1].apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[1].tvl_usd)
+          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[1].lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -190,72 +189,25 @@ const Dashboard = ({
 
   const eth_address = "ETH";
 
-  const { rebase_factors } = window;
 
-  const stakeArray = [
-    window.farming_new_1,
-    window.farming_new_2,
-    window.farming_new_3,
-    window.farming_new_4,
-    window.farming_new_5,
-  ];
-  const constantArray = [
-    window.constant_staking_new5,
-    window.constant_staking_new6,
-    window.constant_staking_new7,
-    window.constant_staking_new8,
-    window.constant_staking_new9,
-  ];
-  const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
-
-  const StakingNew1 = initStakingNew({
-    token: window.token_new,
-    // staking: window.farming_new_1,
-    staking: stakeArray[cardIndex],
-    chainId: network.toString(),
-    coinbase: coinbase,
-    constant: constantArray[cardIndex],
+  
+  const ConstantStakingiDYP1 = initConstantStakingiDYP({
+    staking: window.constant_staking_idyp_3,
+    apr: 30,
     liquidity: eth_address,
-    lp_symbol: "USD",
-    reward: "30,000",
-    lock: "3 Days",
-    rebase_factor: rebase_factors[0],
-    expiration_time: "14 December 2022",
-    fee: feeArray[cardIndex],
-    handleConnection: handleConnection,
-  });
-
-  const stakeArrayStakeNew = [
-    window.constant_staking_new1,
-    window.constant_staking_new2,
-  ];
-
-  const aprArrayStake = [25, 50];
-  const lockarray = ["No Lock", 90];
-  const feeArrayStake = [0.25, 0.5];
-
-  const ConstantStaking1 = initConstantStakingNew({
-    staking: stakeArrayStakeNew[cardIndex],
-    apr: aprArrayStake[cardIndex],
-    liquidity: eth_address,
-    expiration_time: "14 December 2022",
+    expiration_time: "15 August 2023",
     other_info: false,
-    fee: feeArrayStake[cardIndex],
+    fee_s: 3.5,
+    fee_u: 0,
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: network.toString(),
-    lockTime: lockarray[cardIndex],
-    renderedPage: "dashboard",
-    listType: "table",
+    lockTime: 90,
+    listType: 'table',
+    handleSwitchNetwork: handleSwitchNetwork,
   });
 
-  const vaultArray = window.vault_usdt;
-  const tokenvaultArray = window.token_usdt;
 
-  const vaultplatformArray = 15;
-  const vaultdecimalsArray = 6;
-  const vaultsymbolArray = "USDT";
-  const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
 
   const VaultCard = initVaultNew({
     vault: window.vault_usdt,
@@ -271,30 +223,8 @@ const Dashboard = ({
     listType: "table",
   });
 
-  const stakearrayStakeBsc = [
-    window.constant_stakingbsc_new10,
-    window.constant_stakingbsc_new11,
-    window.constant_stakingbsc_new12,
-    window.constant_stakingbsc_new13,
-    window.constant_stakingdaibsc,
-    window.constant_stakingidyp_1,
-    window.constant_stakingidyp_2,
-    window.constant_stakingidyp_5,
-    window.constant_stakingidyp_6,
-  ];
-  const aprarrayStakeBsc = [30, 10, 25, 50, 25, 20, 45, 15, 30];
-  const expirearrayStakeBsc = [
-    "14 July 2023",
-    "5 August 2023",
-    "17 November 2022",
-    "17 November 2022",
-    "Expired",
-    "28 February 2023",
-    "28 February 2023",
-    "15 August 2023",
-    "15 August 2023",
-  ];
-  const feearrayStakeBsc = [3.5, 1, 0.25, 0.5, 0, 0, 1, 3.5];
+
+
   const lockarrayStakeAvax = [
     180,
     30,
@@ -306,17 +236,7 @@ const Dashboard = ({
     "No Lock",
     90,
   ];
-  const otherInfoarrayStakeBsc = [
-    false,
-    false,
-    false,
-    false,
-    true,
-    true,
-    true,
-    false,
-    false,
-  ];
+ 
 
   const BscConstantStake = initbscConstantStaking({
     staking: window.constant_stakingbsc_new10,
@@ -346,7 +266,7 @@ const Dashboard = ({
     handleSwitchNetwork: handleSwitchNetwork,
   });
 
-  const { LP_IDs_V2Avax, LP_IDs_V2BNB } = window;
+  const {  LP_IDs_V2BNB } = window;
 
   const LP_IDBNB_Array = [
     LP_IDs_V2BNB.wbnb[0],
@@ -356,13 +276,6 @@ const Dashboard = ({
     LP_IDs_V2BNB.wbnb[4],
   ];
 
-  const LP_IDAVAX_Array = [
-    LP_IDs_V2Avax.wavax[0],
-    LP_IDs_V2Avax.wavax[1],
-    LP_IDs_V2Avax.wavax[2],
-    LP_IDs_V2Avax.wavax[3],
-    LP_IDs_V2Avax.wavax[4],
-  ];
 
   const stakingarrayStakeAvax = [
     window.constant_staking_new10,
@@ -482,6 +395,9 @@ const Dashboard = ({
     } else if (network === 43114) {
       fetchAvaxStaking();
     }
+    else if(network === 1) {
+      fetchEthStaking()
+    }
     setPools();
     setLoading(false);
   }, [network, topPools, network]);
@@ -560,7 +476,7 @@ const Dashboard = ({
                 </div>
                 {activeCard && network === 1 ? (
                   activeCard?.cardType === "Staking" ? (
-                    <ConstantStaking1
+                    <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_result}
@@ -674,7 +590,7 @@ const Dashboard = ({
                 </div>
                 {activeCard ? (
                   activeCard?.cardType === "Staking" ? (
-                    <ConstantStaking1
+                    <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_result}
@@ -727,7 +643,7 @@ const Dashboard = ({
                 </div>
                 {activeCard2 ? (
                   activeCard2?.cardType === "Staking" ? (
-                    <ConstantStaking1
+                    <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_result}

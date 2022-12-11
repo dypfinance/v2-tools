@@ -677,8 +677,7 @@ export default function initbscConstantStakingiDyp({
         this.setState({ withdrawTooltip: false });
       };
 
-
-      
+ 
 
       return (
         <div className="container-lg p-0">
