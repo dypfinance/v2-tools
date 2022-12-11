@@ -1379,37 +1379,6 @@ const EarnTopPicks = ({
                         handleSwitchNetwork={handleSwitchNetwork}
                       />
                     )
-                  ) : activeCard && topList === "Buyback" && chain === "eth" ? (
-                    <BuybackStaking1
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      lp_id={lp_id[cardIndex]}
-                      chainId={chainId}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
-                  ) : activeCard &&
-                    topList === "Buyback" &&
-                    chain === "avax" ? (
-                    <AvaxBuyback
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_resultavax}
-                      lp_id={LP_IDAVAX_Array[cardIndex]}
-                      chainId={chainId}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
-                  ) : activeCard && topList === "Buyback" && chain === "bnb" ? (
-                    <BscBuyback
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_resultbsc}
-                      chainId={chainId}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
                   ) : activeCard &&
                     topList === "Staking" &&
                     cardIndex < 2 &&
@@ -1624,28 +1593,6 @@ const EarnTopPicks = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
                   )
-                ) : activeCard2 && topList === "Buyback" && chain === "eth" ? (
-                  <BuybackStaking1
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    lp_id={lp_id[cardIndex]}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                  />
-                ) : activeCard2 && topList === "Buyback" && chain === "avax" ? (
-                  <AvaxBuyback
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_resultavax}
-                    lp_id={LP_IDAVAX_Array[cardIndex]}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                  />
-                ) : activeCard2 && topList === "Buyback" && chain === "bnb" ? (
-                  <></>
                 ) : activeCard2 &&
                   topList === "Staking" &&
                   cardIndex < 2 &&
