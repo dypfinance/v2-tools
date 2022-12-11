@@ -7,7 +7,7 @@ const Modal = ({ modalId, visible, children, setIsVisible }) => {
   let style = {};
   if (visible) {
     className += " show";
-    style = { display: "block", paddingRight: "10px" };
+    style = { display: "block",  };
   }
 
   const closeModal = () => {

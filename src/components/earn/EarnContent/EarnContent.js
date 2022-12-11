@@ -478,11 +478,11 @@ const EarnContent = ({
                     }
                     alt=""
                   />
-                  <div
+                  {/* <div
                     className={`${option === item.title ? "d-flex" : "d-none"}`}
-                  >
+                  > */}
                     {item.title}
-                  </div>
+                  {/* </div> */}
                 </div>
               ))}
             </div>
@@ -756,7 +756,7 @@ const EarnContent = ({
           </div>
           <div className="col-3"></div>
         </div>
-        <div className="d-flex align-items-center justify-content-center  py-4 px-3"></div>
+        <div className="d-flex align-items-center justify-content-center  py-0 py-lg-4 px-3"></div>
         </>
         }
       </div>

@@ -1649,7 +1649,7 @@ export default class PairExplorer extends React.Component {
               </div>
 
               <div
-                className="form-container p-3 position-relative"
+                className="form-container p-3 position-relative progress-container "
                 style={{ height: "331px" }}
               >
                 <div
@@ -1665,7 +1665,7 @@ export default class PairExplorer extends React.Component {
                 </div>
                 <div>
                   {false && !isNaN(this.state.pairInfo?.ts_score_avg) ? (
-                    <div className="graph-progress">
+                    <div className="graph-progress ">
                       <div className="progress-title">
                         <p>DYP Score</p>
                         <span>
@@ -1754,11 +1754,10 @@ export default class PairExplorer extends React.Component {
                       </div>
                     </div>
                   ) : (
-                    <div className="graph-progress">
+                    <div className="graph-progress flex-column flex-lg-row gap-3 gap-lg-0">
                       <div
-                        className="progress-title m-0 pb-2"
+                        className="progress-title m-0 pb-2 progress-circle"
                         style={{
-                          width: "48%",
                           background: "#2B2A59",
                           borderRadius: "8px",
                           padding: "10px",
@@ -1784,8 +1783,8 @@ export default class PairExplorer extends React.Component {
                         </GearProgress>
                       </div>
                       <div
-                        className="box-inner row m-0 justify-content-between"
-                        style={{ gap: 12, width: "48%" }}
+                        className="box-inner row m-0 justify-content-between progress-table"
+                        style={{ gap: 12,  }}
                       >
                         <table className="w-100">
                           <tr>
@@ -1896,7 +1895,7 @@ export default class PairExplorer extends React.Component {
                     </p>
                     <p>{this.state.voteCount} votes</p>
                   </div>
-                  <div className="progress-container">
+                  <div>
                     <div className="d-flex flex-col justify-content-between align-items-center gap-2">
                       <div>
                         <span

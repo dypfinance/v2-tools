@@ -32,7 +32,7 @@ const WalletModal = ({ handleClose, show, handleConnection }) => {
               
                 <div color="#E8831D" className="justify-content-between d-flex w-100 align-items-center">
                   <span>Coinbase</span>
-                <img src="/images/wallets/coinbase.png" alt="Icon" />
+                <img src="/images/wallets/coinbase.svg" alt="Icon" />
               </div>
             </button>
             <button

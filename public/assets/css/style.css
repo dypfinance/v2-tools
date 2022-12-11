@@ -3063,6 +3063,14 @@ letter-spacing: -0.018em !important;
 color: #F7F7FC !important;
 
 }
+.left-col-content a{
+  font-weight: 400 !important;
+font-size: 16px !important;
+line-height: 30px !important;
+letter-spacing: -0.018em !important;
+color: #F7F7FC !important;
+
+}
 
 .left-col-content span{
   font-weight: 400 !important;
