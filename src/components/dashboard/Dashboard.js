@@ -40,27 +40,32 @@ const Dashboard = ({
   handleSwitchNetwork,
 }) => {
   const [topPools, setTopPools] = useState([]);
+  const [count, setCount] = useState(0)
   const [cawcard, setCawcard] = useState([]);
 
   const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
 
+  
   const fetchBnbStaking = async () => {
     await axios
       .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
       .then((res) => {
-        let dataArray = [];
-        const dypIdypBnb1 = res.data.stakingInfoDYPBnb[2];
-        dataArray.push(dypIdypBnb1);
-        const dypIdypBnb2 = res.data.stakingInfoiDYPBnb[2];
-        dataArray.push(dypIdypBnb2);
+        const dypIdypBnb = res.data.stakingInfoDYPBnb
+        const cleanCards = dypIdypBnb.filter((item) => {
+          return item.expired !== "Yes"
+        })
 
-        setTopPools(dataArray);
+        const sortedAprs = cleanCards.sort(function(a, b){return b.tvl_usd - a.tvl_usd}) 
+        console.log(sortedAprs);
+        setTopPools(sortedAprs);
+      setCount(count + 1)
+
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
+  
   const fetchAvaxStaking = async () => {
     await axios
       .get(`https://api.dyp.finance/api/get_staking_info_avax`)
@@ -68,9 +73,11 @@ const Dashboard = ({
         let dataArray = [];
         const dypIdypavax1 = res.data.stakingInfoDYPAvax[2];
         dataArray.push(dypIdypavax1);
-        const dypIdypavax2 = res.data.stakingInfoiDYPAvax[2];
+        const dypIdypavax2 = res.data.stakingInfoDYPAvax[4];
         dataArray.push(dypIdypavax2);
         setTopPools(dataArray);
+      setCount(count + 1)
+
       })
       .catch((err) => {
         console.log(err);
@@ -93,6 +100,7 @@ const Dashboard = ({
       
       const finalEthCards = res.data.stakingInfoCAWS.concat(sortedAprs.slice(0,2))
       setTopPools(finalEthCards);
+      setCount(count + 1)
     })
     .catch((err) => {
       console.log(err);
@@ -128,13 +136,13 @@ const Dashboard = ({
       tag: "stake",
     },
   ]; 
-  
+   
   const cardsBsc = [
 
     {
-      tokenLogo: "idypius.svg",
+      tokenLogo: "dyplogo.svg",
       top_pick: false,
-      tokenName: "iDYP",
+      tokenName: "DYP",
       apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
@@ -166,9 +174,9 @@ const Dashboard = ({
   const cardsAvax = [
     
     {
-      tokenLogo: "idypius.svg",
+      tokenLogo: "dyplogo.svg",
       top_pick: false,
-      tokenName: "iDYP",
+      tokenName: "DYP",
       apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
@@ -229,22 +237,6 @@ const Dashboard = ({
 
 
 
-  const VaultCard = initVaultNew({
-    vault: window.vault_usdt,
-    token: window.token_usdt,
-    platformTokenApyPercent: 15,
-    UNDERLYING_DECIMALS: 6,
-    UNDERLYING_SYMBOL: "USDT",
-    expiration_time: "04 March 2023",
-    coinbase: coinbase,
-    lockTime: "No Lock",
-    handleConnection: handleConnection,
-    chainId: network.toString(),
-    listType: "table",
-  });
-
-
-
   const lockarrayStakeAvax = [
     180,
     30,
@@ -257,34 +249,41 @@ const Dashboard = ({
     90,
   ];
  
+  const stakearrayStakeBscDyp2 = [
+    window.constant_stakingbsc_new11,
+    window.constant_stakingbsc_new10,
+  ];
+
+  const expirearrayStakeBscDyp2 = ["14 July 2023","5 August 2023" ];
+
 
   const BscConstantStake = initbscConstantStaking({
-    staking: window.constant_stakingbsc_new10,
-    apr: 30,
+    staking: stakearrayStakeBscDyp2[0],
+    apr: topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30,
     liquidity: wbsc_address,
-    expiration_time: "14 July 2023",
+    expiration_time: expirearrayStakeBscDyp2[0],
     coinbase: coinbase,
     chainId: network.toString(),
-    lockTime: 180,
+    lockTime: parseInt(topPools[0]?.lock_time?.split(' ')[0]),
     listType: "table",
     other_info: false,
-    fee: 3.5,
+    fee: topPools[0]?.performancefee,
   });
 
-  const BscConstantStakingiDyp = initbscConstantStakingiDyp({
-    staking: window.constant_stakingidyp_2,
-    apr: 30,
+  const BscConstantStake1 = initbscConstantStaking({
+    staking: stakearrayStakeBscDyp2[1],
+    apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
     liquidity: wbsc_address,
-    expiration_time: "28 February 2023",
-    fee: 0,
-    fee_s: 3.5,
+    expiration_time: expirearrayStakeBscDyp2[1],
     coinbase: coinbase,
     chainId: network.toString(),
-    lockTime: 90,
+    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[1]),
     listType: "table",
     other_info: false,
-    handleSwitchNetwork: handleSwitchNetwork,
+    fee: topPools[1]?.performancefee,
   });
+
+
 
   const {  LP_IDs_V2BNB } = window;
 
@@ -306,33 +305,35 @@ const Dashboard = ({
   const aprarrayStakeAvax = [30, 10];
 
   const avax_address = "AVAX";
+  const expirearrayStakeAvax = ["14 July 2023", "05 August 2023"];
 
   const StakeAvax = stakeAvax({
-    staking: stakingarrayStakeAvax[cardIndex],
-    apr: aprarrayStakeAvax[cardIndex],
+    staking: stakingarrayStakeAvax[1],
+    apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
     liquidity: avax_address,
-    expiration_time: "6 December 2022",
-    fee: feearrayStakeAvax[cardIndex],
+    expiration_time: expirearrayStakeAvax[1],
+    fee: topPools[1]?.performancefee,
     coinbase: coinbase,
     chainId: network.toString(),
     referrer: referrer,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[0]),
     listType: "table",
   });
 
-  const StakeAvaxiDyp = stakeAvaxiDyp({
-    staking: window.constant_staking_idypavax_1,
-    apr: 30,
+  const StakeAvax1 = stakeAvax({
+    staking: stakingarrayStakeAvax[0],
+    apr: topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30,
     liquidity: avax_address,
-    expiration_time: "28 February 2023",
-    other_info: false,
-    fee_s: 3.5,
-    fee_u: 0,
+    expiration_time: expirearrayStakeAvax[0],
+    fee: topPools[0]?.performancefee,
+    coinbase: coinbase,
+    chainId: network.toString(),
+    referrer: referrer,
+    lockTime: parseInt(topPools[0]?.lock_time?.split(' ')[0]),
     listType: "table",
-    lockTime: 90,
-    handleSwitchNetwork: handleSwitchNetwork,
-    chainId:network.toString()
   });
+
+
 
   const faqItems = [
     {
@@ -409,18 +410,22 @@ const Dashboard = ({
   };
 
   useEffect(() => {
-    fetchPopularNewsData();
+  
     if (network === 56) {
       fetchBnbStaking();
-    } else if (network === 43114) {
+    } 
+     if (network === 43114) {
       fetchAvaxStaking();
     }
-    else if(network === 1) {
+    
+     if(network === 1) {
       fetchEthStaking() 
     }
     setPools();
     setLoading(false);
-  }, [network, topPools, network]);
+    fetchPopularNewsData();
+  }, [network,topPools.length]);
+  
   
   const windowSize = useWindowSize();
   return (
@@ -531,7 +536,7 @@ const Dashboard = ({
                   )
                 ) : activeCard && network === 56 && cardIndex === 1 ? (
                   activeCard.cardType === "Staking" ? (
-                    <BscConstantStakingiDyp
+                    <BscConstantStake1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
@@ -559,7 +564,7 @@ const Dashboard = ({
                   )
                 ) : activeCard && network === 43114 && cardIndex === 1 ? (
                   activeCard.cardType === "Staking" ? (
-                    <StakeAvaxiDyp
+                    <StakeAvax1
                       is_wallet_connected={isConnected}
                       handleConnection={handleConnection}
                       the_graph_result={the_graph_resultavax}

@@ -868,10 +868,10 @@ const EarnTopPicks = ({
   
   const StakeAvax = stakeAvax({
     staking: stakingarrayStakeAvax[cardIndex],
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvax[cardIndex],
-    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     coinbase: coinbase,
     chainId: chainId,
     referrer: referrer,
@@ -926,9 +926,9 @@ const EarnTopPicks = ({
   const BscConstantStake = initbscConstantStaking({
    
     staking: stakearrayStakeBscDyp2[cardIndex],
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: wbsc_address,
-    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     expiration_time: expirearrayStakeBscDyp2[cardIndex],
 
     coinbase: coinbase,
@@ -957,11 +957,11 @@ const EarnTopPicks = ({
 
   const BscConstantStake2 = initbscConstantStaking2({
     staking: stakearrayStakeBscExpired[cardIndex],
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     expiration_time: expirearrayStakeBscExpired[cardIndex],
     
     liquidity: wbsc_address,
-    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     coinbase: coinbase,
     chainId: chainId,
     lockTime: cardIndex !== undefined
@@ -985,10 +985,10 @@ const EarnTopPicks = ({
 
   const BscConstantStakeDai = initbscConstantStakingDai({
     staking: window.constant_stakingdaibsc,
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: wbsc_address,
     expiration_time: 'Expired',
-    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     coinbase: coinbase,
     chainId: chainId,
     lockTime: cardIndex !== undefined
@@ -1032,11 +1032,11 @@ const EarnTopPicks = ({
 
   const BscConstantStakingiDyp = initbscConstantStakingiDyp({
     staking: expiredPools === false? stakearrayStakeBsciDyp2[cardIndex-2] : stakearrayStakeBsciDyp2Expired[cardIndex-2],
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: wbsc_address,
     expiration_time: expiredPools === false ?  expirearrayStakeBsciDyp2[cardIndex-2] : expirearrayStakeBsciDyp2Expired[cardIndex-2],
     coinbase: coinbase,
-    fee_s: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee_s: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     chainId: chainId,
     fee_u: 0,
     lockTime: cardIndex !== undefined
@@ -1071,10 +1071,10 @@ const EarnTopPicks = ({
 
   const StakeAvax30 = stakeAvax30({
     staking: stakingarrayStakeAvax30[cardIndexavax30],
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
     expiration_time: "6 December 2022",
-    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     coinbase: coinbase,
     chainId: chainId,
     lockTime: cardIndex !== undefined
@@ -1088,7 +1088,7 @@ const EarnTopPicks = ({
 
   const StakeAvax3 = stakeAvax3({
     staking: window.constant_stakingdaiavax,
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
     expiration_time: "Expired",
     coinbase: coinbase,
@@ -1130,7 +1130,7 @@ const EarnTopPicks = ({
   const StakeAvaxiDyp = stakeAvaxiDyp({
     staking: expiredPools === false  ? stakingarrayStakeAvaxiDypActive[cardIndex-2]
     : stakingarrayStakeAvaxiDypExpired[cardIndex-2],
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvaxiDyp[cardIndex -2],
     chainId: chainId,
@@ -1145,7 +1145,7 @@ const EarnTopPicks = ({
           ? true
           : false
         : false,
-    fee_s: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee_s: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp-2],
     listType: listType,
     lockTime: cardIndex !== undefined
@@ -1168,7 +1168,7 @@ const EarnTopPicks = ({
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: eth_address,
     expiration_time: "14 December 2022",
     other_info:
@@ -1181,7 +1181,7 @@ const EarnTopPicks = ({
         ? true
         : false
       : false,
-    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
@@ -1196,11 +1196,11 @@ const EarnTopPicks = ({
 
   const ConstantStakingDai = initConstantStakingNewDai({
     staking: window.constant_stakingdaieth,
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: eth_address,
     expiration_time: "Expired",
     other_info: true,
-    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
@@ -1211,7 +1211,7 @@ const EarnTopPicks = ({
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
     staking: stakeArrayiDYP[cardIndex],
-    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: eth_address,
     expiration_time: expirationArray[cardIndex],
     other_info:
@@ -1224,7 +1224,7 @@ const EarnTopPicks = ({
         ? true
         : false
       : false,
-    fee_s: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
+    fee_s: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     fee_u: withdrawFeeiDyp[cardIndex],
     coinbase: coinbase,
     handleConnection: handleConnection,
@@ -5167,6 +5167,7 @@ const EarnTopPicks = ({
               {activePools.map((pool, index) => (
                 <TopPoolsListCard
                   key={index}
+                  expired={false}
                   chain={chain}
                   top_pick={pool.top_pick}
                   tokenName={
@@ -5249,6 +5250,8 @@ const EarnTopPicks = ({
               <div className="top-picks-container">
                 {expiredDYPPools.slice(0, 3).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     key={index}
                     chain={chain}
                     top_pick={pool.top_pick}
@@ -5283,7 +5286,8 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={pool.isStaked} 
+
                   />
                 ))}
               </div>
@@ -5425,6 +5429,8 @@ const EarnTopPicks = ({
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
               {expiredDYPPools.slice(3, 6).map((pool, index) => (
                 <TopPoolsCard
+                expired={true}
+
                   display={
                     pool.expired
                       ? pool.expired === "Yes"
@@ -5643,6 +5649,8 @@ const EarnTopPicks = ({
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
               {expiredDYPPools.slice(6, 9).map((pool, index) => (
                 <TopPoolsCard
+                expired={true}
+
                   display={
                     pool.expired
                       ? pool.expired === "Yes"
@@ -5846,6 +5854,8 @@ const EarnTopPicks = ({
                 .slice(9, expiredDYPPools.length)
                 .map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -6035,6 +6045,8 @@ const EarnTopPicks = ({
             <div className="top-picks-container">
               {expiredDYPPools.slice(0, 4).map((pool, index) => (
                 <TopPoolsCard
+                expired={true}
+
                   display={
                     pool.expired
                       ? pool.expired === "Yes"
@@ -6275,6 +6287,8 @@ const EarnTopPicks = ({
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
               {expiredDYPPools.slice(4, 8).map((pool, index) => (
                 <TopPoolsCard
+                expired={true}
+
                   display={
                     pool.expired
                       ? pool.expired === "Yes"
@@ -6498,6 +6512,8 @@ const EarnTopPicks = ({
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
               {expiredDYPPools.slice(8, 12).map((pool, index) => (
                 <TopPoolsCard
+                expired={true}
+
                   display={
                     pool.expired
                       ? pool.expired === "Yes"
@@ -6763,6 +6779,8 @@ const EarnTopPicks = ({
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
               {expiredDYPPools.slice(9, 12).map((pool, index) => (
                 <TopPoolsCard
+                expired={true}
+                
                   display={
                     pool.expired
                       ? pool.expired === "Yes"
@@ -7031,6 +7049,8 @@ const EarnTopPicks = ({
             >
               {expiredDYPPools.slice(12, 15).map((pool, index) => (
                 <TopPoolsCard
+                expired={true}
+
                   display={
                     pool.expired
                       ? pool.expired === "Yes"
@@ -7301,6 +7321,8 @@ const EarnTopPicks = ({
                 .slice(15, expiredDYPPools.length)
                 .map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -7596,6 +7618,8 @@ const EarnTopPicks = ({
               <div className="top-picks-container">
                 {expiredDYPPools.slice(0, 1).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -7908,6 +7932,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(1, 2).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -8184,6 +8210,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(2, 3).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -8445,6 +8473,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(3, 4).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -8706,6 +8736,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(4, 5).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -8993,6 +9025,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(5, 6).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -9222,6 +9256,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(6, 7).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -9451,6 +9487,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(7, 8).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -9680,6 +9718,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(8, 9).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -9909,6 +9949,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(9, 10).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -10138,6 +10180,8 @@ const EarnTopPicks = ({
               >
                 {expiredDYPPools.slice(10, 11).map((pool, index) => (
                   <TopPoolsCard
+                  expired={true}
+
                     display={
                       pool.expired
                         ? pool.expired === "Yes"
@@ -10407,6 +10451,8 @@ const EarnTopPicks = ({
                           ? pool.lock_time
                           : locktimeFarm[index]
                       }
+                    expired={true}
+
                       tokenLogo={
                         pool.icon
                           ? pool.icon
@@ -10440,7 +10486,8 @@ const EarnTopPicks = ({
                       cardType={topList}
                       details={details === index + 11 ? true : false}
                       isNewPool={pool.isNewPool}
-                      isStaked={pool.isStaked}
+                      isStaked={pool.isStaked} 
+
                     />
                   ))}
               </div>
@@ -10610,6 +10657,7 @@ const EarnTopPicks = ({
           {expiredDYPPools.map((pool, index) => (
             <TopPoolsListCard
               key={index}
+              expired={true}
               chain={chain}
               top_pick={pool.top_pick}
               tokenName={
@@ -10653,8 +10701,6 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
-                    expired={true}
-
               coinbase={coinbase}
               referrer={referrer}
               lp_id={lp_id[cardIndex]}

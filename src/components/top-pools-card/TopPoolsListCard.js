@@ -49,6 +49,7 @@ const TopPoolsListCard = ({
   the_graph_resultbsc,
   listType,
   display,
+  expired,
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
   const bscCoins = [
@@ -282,8 +283,7 @@ const TopPoolsListCard = ({
     referrer: referrer,
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const StakeAvax30 = stakeAvax30({
@@ -296,8 +296,7 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const StakeAvax3 = stakeAvax3({
@@ -309,8 +308,7 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
@@ -341,8 +339,7 @@ const TopPoolsListCard = ({
     fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const lockarray = ["No Lock", 90];
@@ -360,8 +357,7 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: lockarray[cardIndex],
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
@@ -377,8 +373,7 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: lockarrayiDyp[cardIndexiDyp],
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const vaultArray = [
@@ -420,7 +415,7 @@ const TopPoolsListCard = ({
     lockTime: "No Lock",
     handleConnection: handleConnection,
     chainId: chainId,
-    handleSwitchNetwork:{handleSwitchNetwork},
+    handleSwitchNetwork: { handleSwitchNetwork },
     listType: listType,
   });
 
@@ -455,8 +450,7 @@ const TopPoolsListCard = ({
     handleConnection: handleConnection,
     lockTime: 3,
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const feearrayStakeBsc = [3.5, 1, 0.25, 0.5, 0, 0, 1, 3.5];
@@ -508,8 +502,7 @@ const TopPoolsListCard = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const BscConstantStake2 = initbscConstantStaking2({
@@ -523,12 +516,9 @@ const TopPoolsListCard = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
-  
 
-  
   const bscStakeArray = [
     window.buyback_stakingbsc1_1,
     window.buyback_stakingbsc1_2,
@@ -541,8 +531,6 @@ const TopPoolsListCard = ({
   const bscFeeArray = [1, 3.5];
   const bscLockArray = ["No Lock", 90];
 
-
-
   const BscBuyback = initBscBuyback({
     staking: bscStakeArray[cardIndex],
     constant: bscConstArray[cardIndex],
@@ -554,8 +542,7 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: bscLockArray[cardIndex],
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const BscConstantStakeDai = initbscConstantStakingDai({
@@ -569,8 +556,7 @@ const TopPoolsListCard = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const BscConstantStakingiDyp = initbscConstantStakingiDyp({
@@ -584,8 +570,7 @@ const TopPoolsListCard = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const ConstantStakingDai = initConstantStakingNewDai({
@@ -600,8 +585,7 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: 90,
     listType: listType,
-    handleSwitchNetwork:{handleSwitchNetwork}
-
+    handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const handleDetails = () => {
@@ -651,80 +635,103 @@ const TopPoolsListCard = ({
       <div
         className="row w-100 flex-column gap-3 gap-lg-0 flex-lg-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer"
         onClick={() => handleDetails()}
-        style={{display: display}}
+        style={{ display: display }}
       >
         <div className="col-12 col-lg-4 d-flex justify-content-between align-items-center">
-        <div
-          className={` d-flex align-items-center ${
-            cardType === "Farming" || cardType === "Buyback" ? null : "gap-2"
-          }`}
-          style={{ width: "100px" }}
-        >
-          {cardType === "Farming" || cardType === "Buyback"
-            ? coins.length > 0 &&
-              coins
-                .slice(0, 5)
-                .map((coin, index) => (
-                  <img
-                    key={index}
-                    src={require(`./assets/${coin}.svg`).default}
-                    alt=""
-                    className="pool-coins"
-                  />
-                ))
-            : tokenLogo !== undefined && (
-                <>
-                  <img src={require(`./assets/${tokenLogo}`).default} width={32} height={32} alt="" />
-                  <h5
-                    className="text-white"
-                    style={{ fontSize: "25px", fontWeight: "600" }}
-                  >
-                    {tokenName}
-                  </h5>
-                </>
-              )}
-        </div>
-        <div className="d-flex align-items-baseline gap-2">
-          <h5
-            className="text-white"
-            style={{ fontSize: "26px", fontWeight: "600", lineHeight: "30px" }}
+          <div
+            className={` d-flex align-items-center ${
+              cardType === "Farming" || cardType === "Buyback" ? null : "gap-2"
+            }`}
+            style={{ width: "100px" }}
           >
-            {apr}
-          </h5>
-          <p
-            className="text-white"
-            style={{ fontSize: "18px", fontWeight: "600", lineHeight: "26px" }}
-          >
-            APR
-          </p>
+            {cardType === "Farming" || cardType === "Buyback"
+              ? coins.length > 0 &&
+                coins
+                  .slice(0, 5)
+                  .map((coin, index) => (
+                    <img
+                      key={index}
+                      src={require(`./assets/${coin}.svg`).default}
+                      alt=""
+                      className="pool-coins"
+                    />
+                  ))
+              : tokenLogo !== undefined && (
+                  <>
+                    <img
+                      src={require(`./assets/${tokenLogo}`).default}
+                      width={32}
+                      height={32}
+                      alt=""
+                    />
+                    <h5
+                      className="text-white"
+                      style={{ fontSize: "25px", fontWeight: "600" }}
+                    >
+                      {tokenName}
+                    </h5>
+                  </>
+                )}
+          </div>
+          <div className="d-flex align-items-baseline gap-2">
+            <h5
+              className="text-white"
+              style={{
+                fontSize: "26px",
+                fontWeight: "600",
+                lineHeight: "30px",
+              }}
+            >
+              {apr}
+            </h5>
+            <p
+              className="text-white"
+              style={{
+                fontSize: "18px",
+                fontWeight: "600",
+                lineHeight: "26px",
+              }}
+            >
+              APR
+            </p>
+          </div>
         </div>
-        </div>
-       <div className="d-flex col-12 col-lg-4 align-items-center justify-content-between">
-       {cardType !== "Vault" && (
+        <div className="d-flex col-12 col-lg-4 align-items-center justify-content-between">
+          {cardType !== "Vault" && (
+            <div className="d-flex flex-column gap-2">
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "400",
+                  color: "#C0C9FF",
+                }}
+              >
+                Total Value Locked
+              </span>
+              <h5
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "500",
+                  color: "#F7F7FC",
+                }}
+              >
+                {tvl}
+              </h5>
+            </div>
+          )}
           <div className="d-flex flex-column gap-2">
             <span
               style={{ fontSize: "12px", fontWeight: "400", color: "#C0C9FF" }}
             >
-              Total Value Locked
+              Lock Time
             </span>
             <h5
-              style={{ fontSize: "20px", fontWeight: "500", color: "#F7F7FC" }}
+              style={{ fontSize: "18px", fontWeight: "300", color: "#F7F7FC" }}
             >
-              {tvl}
+              {lockTime}
             </h5>
           </div>
-        )}
-        <div className="d-flex flex-column gap-2">
-          <span
-            style={{ fontSize: "12px", fontWeight: "400", color: "#C0C9FF" }}
-          >
-            Lock Time
-          </span>
-          <h5 style={{ fontSize: "18px", fontWeight: "300", color: "#F7F7FC" }}>
-            {lockTime}
-          </h5>
         </div>
-       </div>
         <div
           className="col-12 col-lg-4 d-flex justify-content-end gap-5"
           style={{ width: "170px" }}
@@ -740,235 +747,481 @@ const TopPoolsListCard = ({
             onClick={() => setShowDetails(!showDetails)}
           >
             {showDetails === false ? "Deposit" : "Close"}
-            <img src={showDetails === false ? greenArrow : orangeArrow} alt=''/>
+            <img
+              src={showDetails === false ? greenArrow : orangeArrow}
+              alt=""
+            />
           </h6>
         </div>
       </div>
-      {showDetails && showDetails === true && topList === "Farming" ? (
-        chain === "eth" ? (
-          <StakingNew1
-            is_wallet_connected={isConnected}
-            coinbase={coinbase}
-            the_graph_result={the_graph_result}
-            lp_id={lp_id[cardIndex]}
-            chainId={chainId}
-            handleConnection={handleConnection}
-            handleSwitchNetwork={handleSwitchNetwork}
-
-          />
-        ) : chain === "bnb" ? (
-          <BscFarming
-            is_wallet_connected={isConnected}
-            coinbase={coinbase}
-            the_graph_result={the_graph_resultbsc}
-            lp_id={LP_IDBNB_Array[cardIndex]}
-            chainId={chainId}
-            handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-          />
-        ) : (
-          <FarmAvax
-            is_wallet_connected={isConnected}
-            handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-            the_graph_result={the_graph_resultavax}
-            lp_id={LP_IDAVAX_Array[cardIndex]}
-            chainId={chainId}
-            coinbase={coinbase}
-          />
-        )
-      ) : showDetails === true && topList === "Buyback" && chain === "eth" ? (
-        <BuybackStaking1
-          is_wallet_connected={isConnected}
-          coinbase={coinbase}
-          the_graph_result={the_graph_result}
-          lp_id={lp_id[cardIndex]}
-          chainId={chainId}
-          handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        />
-      ) : showDetails === true && topList === "Buyback" && chain === "avax" ? (
-        <AvaxBuyback
-          is_wallet_connected={isConnected}
-          coinbase={coinbase}
-          the_graph_result={the_graph_resultavax}
-          lp_id={LP_IDAVAX_Array[cardIndex]}
-          chainId={chainId}
-          handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        />
-      ) : showDetails === true && topList === "Buyback" && chain === "bnb" ? (
-        <BscBuyback
-          is_wallet_connected={isConnected}
-          coinbase={coinbase}
-          the_graph_result={the_graph_resultbsc}
-          chainId={chainId}
-          handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        />
-      ) : showDetails &&
-      topList === "Staking" &&
-      cardIndex < 2 &&
-      chain === "eth" ? (
-      <ConstantStaking1
-        is_wallet_connected={isConnected}
-        coinbase={coinbase}
-        the_graph_result={the_graph_result}
-        lp_id={lp_id[cardIndex]}
-        chainId={chainId}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-      />
-    ) : showDetails &&
-      topList === "Staking" &&
-      cardIndex < 2 &&
-      chain === "bnb" ? (
-      <BscConstantStake
-        is_wallet_connected={isConnected}
-        coinbase={coinbase}
-        the_graph_result={the_graph_resultbsc}
-        lp_id={LP_IDBNB_Array[cardIndex]}
-        chainId={chainId}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-      />
-    ) : showDetails &&
-      cardIndex > 2 &&
-      topList === "Staking" &&
-      chain === "eth" ? (
-      <ConstantStakingiDYP1
-        is_wallet_connected={isConnected}
-        coinbase={coinbase}
-        the_graph_result={the_graph_result}
-        lp_id={lp_id[cardIndex]}
-        chainId={chainId}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-      />
-    ) : showDetails &&
-      cardIndex === 2 &&
-      topList === "Staking" &&
-      chain === "eth" ? (
-      <ConstantStakingDai
-        is_wallet_connected={isConnected}
-        coinbase={coinbase}
-        the_graph_result={the_graph_result}
-        lp_id={lp_id[cardIndex]}
-        chainId={chainId}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-      />
-    ) : showDetails &&
-      cardIndex >= 2 &&
-      cardIndex < 4 &&
-      topList === "Staking" &&
-      chain === "bnb" ? (
-      <BscConstantStake2
-        is_wallet_connected={isConnected}
-        coinbase={coinbase}
-        the_graph_result={the_graph_resultbsc}
-        lp_id={LP_IDBNB_Array[cardIndex]}
-        chainId={chainId}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-      />
-    ) : showDetails &&
-      cardIndex === 4 &&
-      topList === "Staking" &&
-      chain === "bnb" ? (
-      <BscConstantStakeDai
-        is_wallet_connected={isConnected}
-        coinbase={coinbase}
-        the_graph_result={the_graph_resultbsc}
-        lp_id={LP_IDBNB_Array[cardIndex]}
-        chainId={chainId}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        referrer={referrer}
-      />
-    ) : showDetails &&
-      cardIndex >= 5 &&
-      topList === "Staking" &&
-      chain === "bnb" ? (
-      <BscConstantStakingiDyp
-        is_wallet_connected={isConnected}
-        coinbase={coinbase}
-        the_graph_result={the_graph_resultbsc}
-        chainId={chainId}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        referrer={referrer}
-      />
-    ) : showDetails &&
-      topList === "Staking" &&
-      chain === "avax" &&
-      cardIndex < 2 ? (
-      <StakeAvax
-        is_wallet_connected={isConnected}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        the_graph_result={the_graph_resultavax}
-        chainId={chainId}
-        coinbase={coinbase}
-        referrer={referrer}
-      />
-    ) : showDetails &&
-      topList === "Staking" &&
-      chain === "avax" &&
-      cardIndex >= 2 &&
-      cardIndex < 4 ? (
-      <StakeAvax30
-        is_wallet_connected={isConnected}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        the_graph_result={the_graph_resultavax}
-        chainId={chainId}
-        coinbase={coinbase}
-        referrer={referrer}
-      />
-    ) : showDetails &&
-      topList === "Staking" &&
-      chain === "avax" &&
-      cardIndex === 4 ? (
-      <StakeAvax3
-        is_wallet_connected={isConnected}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        the_graph_result={the_graph_resultavax}
-        chainId={chainId}
-        coinbase={coinbase}
-        referrer={referrer}
-      />
-    ) : showDetails &&
-      topList === "Staking" &&
-      chain === "avax" &&
-      cardIndex >= 5 ? (
-      <StakeAvaxiDyp
-        is_wallet_connected={isConnected}
-        handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-        the_graph_result={the_graph_resultavax}
-        chainId={chainId}
-        coinbase={coinbase}
-        referrer={referrer}
-      />
-    ) : showDetails === true && topList === "Vault" ? (
-        <VaultCard
-          is_wallet_connected={isConnected}
-          handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-          chainId={chainId}
-          coinbase={coinbase}
-          the_graph_result={the_graph_result}
-        />
+      {expired === false ? (
+        <>
+          {showDetails && showDetails === true && topList === "Farming" ? (
+            chain === "eth" ? (
+              <StakingNew1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+              />
+            ) : chain === "bnb" ? (
+              <BscFarming
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+              />
+            ) : (
+              <FarmAvax
+                is_wallet_connected={isConnected}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                the_graph_result={the_graph_resultavax}
+                lp_id={LP_IDAVAX_Array[cardIndex]}
+                chainId={chainId}
+                coinbase={coinbase}
+              />
+            )
+          ) : showDetails === true &&
+            topList === "Buyback" &&
+            chain === "eth" ? (
+            <BuybackStaking1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails === true &&
+            topList === "Buyback" &&
+            chain === "avax" ? (
+            <AvaxBuyback
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultavax}
+              lp_id={LP_IDAVAX_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails === true &&
+            topList === "Buyback" &&
+            chain === "bnb" ? (
+            <BscBuyback
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            cardIndex < 2 &&
+            chain === "eth" ? (
+            <ConstantStaking1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            cardIndex < 2 &&
+            chain === "bnb" ? (
+            <BscConstantStake
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            cardIndex > 2 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <ConstantStakingiDYP1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            cardIndex === 2 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <ConstantStakingDai
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            cardIndex >= 2 &&
+            cardIndex < 4 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStake2
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            cardIndex === 4 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStakeDai
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            cardIndex >= 5 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStakingiDyp
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex < 2 ? (
+            <StakeAvax
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex >= 2 &&
+            cardIndex < 4 ? (
+            <StakeAvax30
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex === 4 ? (
+            <StakeAvax3
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex >= 5 ? (
+            <StakeAvaxiDyp
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) : showDetails === true && topList === "Vault" ? (
+            <VaultCard
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              chainId={chainId}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+            />
+          ) : (
+            activeCardNFT && (
+              <CawsDetails
+                coinbase={coinbase}
+                isConnected={isConnected}
+                listType={listType}
+              />
+            )
+          )}
+        </>
       ) : (
-        activeCardNFT && (
-          <CawsDetails
-            coinbase={coinbase}
-            isConnected={isConnected}
-            listType={listType}
-          />
-        )
+        <>
+          {showDetails && showDetails === true && topList === "Farming" ? (
+            chain === "eth" ? (
+              <StakingNew1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+              />
+            ) : chain === "bnb" ? (
+              <BscFarming
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+              />
+            ) : (
+              <FarmAvax
+                is_wallet_connected={isConnected}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                the_graph_result={the_graph_resultavax}
+                lp_id={LP_IDAVAX_Array[cardIndex]}
+                chainId={chainId}
+                coinbase={coinbase}
+              />
+            )
+          ) : showDetails === true &&
+            topList === "Buyback" &&
+            chain === "eth" ? (
+            <BuybackStaking1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails === true &&
+            topList === "Buyback" &&
+            chain === "avax" ? (
+            <AvaxBuyback
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultavax}
+              lp_id={LP_IDAVAX_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails === true &&
+            topList === "Buyback" &&
+            chain === "bnb" ? (
+            <BscBuyback
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            cardIndex < 2 &&
+            chain === "eth" ? (
+            <ConstantStaking1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            cardIndex < 2 &&
+            chain === "bnb" ? (
+            <BscConstantStake
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            cardIndex > 2 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <ConstantStakingiDYP1
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            cardIndex === 2 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <ConstantStakingDai
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              lp_id={lp_id[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            cardIndex >= 2 &&
+            cardIndex < 4 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStake2
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+            />
+          ) : showDetails &&
+            cardIndex === 4 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStakeDai
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              lp_id={LP_IDBNB_Array[cardIndex]}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            cardIndex >= 5 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStakingiDyp
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_resultbsc}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex < 2 ? (
+            <StakeAvax
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex >= 2 &&
+            cardIndex < 4 ? (
+            <StakeAvax30
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex === 4 ? (
+            <StakeAvax3
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) : showDetails &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex >= 5 ? (
+            <StakeAvaxiDyp
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) : showDetails === true && topList === "Vault" ? (
+            <VaultCard
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              chainId={chainId}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+            />
+          ) : (
+            activeCardNFT && (
+              <CawsDetails
+                coinbase={coinbase}
+                isConnected={isConnected}
+                listType={listType}
+              />
+            )
+          )}
+        </>
       )}
     </>
   );

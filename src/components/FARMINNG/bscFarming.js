@@ -1399,7 +1399,7 @@ export default function initBscFarming({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '56' && "blurrypool" }`}>
+                <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '56' || this.props.expired === true ? "blurrypool" : ''}`}>
                   <div className="d-flex justify-content-between align-items-start gap-2">
                     <div className="d-flex flex-column flex-lg-row align-items-start gap-3">
                      <div className="d-flex align-items-start gap-3"> 
@@ -2116,7 +2116,7 @@ export default function initBscFarming({
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                      href={`${window.config.bscscan_baseURL}/address/${coinbase}`}
                       className="stats-link"
                     >
                       {shortAddress(coinbase)}{" "}
@@ -2272,7 +2272,7 @@ export default function initBscFarming({
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={`${window.config.etherscan_baseURL}/token/${token._address}?a=${coinbase}`}
+                          href={`${window.config.bscscan_baseURL}/token/${token._address}?a=${coinbase}`}
                           className="stats-link"
                         >
                           View transaction <img src={statsLinkIcon} alt="" />

@@ -10,6 +10,19 @@
 }
 
 
+.poolscardwrapperexpired {
+  background: #A0A3BD;
+box-shadow: 0px 32px 64px rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  position: relative;
+  padding: 10px;
+  /* width: 400px; */
+  border: 2px solid transparent;
+  transition: all .25s;
+}
+
+
+
 .pools-card-hover:hover{
   border: 2px solid rgb(142, 151, 205);
 }
@@ -107,6 +120,23 @@
   padding-top: 3px;
 }
 
+.details-wrapperexpired {
+  background: #A0A3BD;
+  border-radius: 5px 5px 0px 0px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 96px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 3px;
+}
+
 .toppick {
   /* border: 2px solid #f0603a; */
   position: absolute;
@@ -151,6 +181,12 @@
 .bottomwrapper {
   background: linear-gradient(0deg, #14142a 0%, rgba(20, 20, 42, 0) 100%);
   filter: drop-shadow(0px 32px 64px rgba(17, 17, 17, 0.08));
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.bottomwrapperExpired {
+  background: linear-gradient(0deg, rgba(20, 20, 42, 0.6) 0%, rgba(20, 20, 42, 0) 100%);
   border-radius: 8px;
   padding: 10px;
 }

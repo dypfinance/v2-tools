@@ -271,10 +271,12 @@ export default function stakeAvax({
     handleApprove = async (e) => {
       //   e.preventDefault();
 
-      this.setState({ depositLoading: true });
+      this.setState({ depositLoading: true, depositStatus: "initial" });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
+      this.setState({ depositLoading: false });
+
         return;
       }
 
@@ -916,7 +918,7 @@ export default function stakeAvax({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-               <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
+               <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
