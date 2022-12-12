@@ -1292,7 +1292,7 @@ export default function initFarmAvax({
       const withdrawClose = () => {
         this.setState({ withdrawTooltip: false });
       };
-
+      
       return (
         <div className="container-lg p-0">
           <div

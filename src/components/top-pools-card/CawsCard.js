@@ -14,7 +14,8 @@ const CawsCard = ({
   cardType,
   renderedPage,
   details,
-  listType
+  listType,
+  tvl
   // showDetails,
 }) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -87,8 +88,8 @@ const CawsCard = ({
           <div className="d-flex m-0 justify-content between gap-2 align-items-center justify-content-between bottomwrapper">
             {cardType !== "Vault" && (
               <div className="d-flex flex-column">
-                <h6 className="tvl-text">Total NFTs locked</h6>
-                <h6 className="tvl-amount">{mystakes}/10000</h6>
+                <h6 className="tvl-text">Total Value Locked</h6>
+                <h6 className="tvl-amount">{tvl}</h6>
               </div>
             )}
             <div

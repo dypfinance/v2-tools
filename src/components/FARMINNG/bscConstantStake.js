@@ -664,7 +664,7 @@ export default function initbscConstantStaking({
 
       let is_connected = this.props.is_wallet_connected;
 
-
+console.log(apr)
       const performanceOpen = () => {
         this.setState({ performanceTooltip: true });
       };
@@ -825,7 +825,7 @@ export default function initbscConstantStaking({
                     href={
                       // chainId === 1
                       // ?
-                      "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      "https://pancakeswap.finance/swap?inputCurrencty=BNB&outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                       // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}

@@ -662,7 +662,7 @@ export default class Governance extends React.Component {
   };
 
   refreshProposals = async () => {
-    if (this.state.isLoading && this.state.proposals.length > 0) return;
+    if (this.state.isLoading && this.state.proposals?.length > 0) return;
     this.setState({ isLoading: true });
     try {
       let total_proposals = Number(await governance?.lastIndex());
@@ -671,8 +671,8 @@ export default class Governance extends React.Component {
       let newProposals2 = [];
       let step = window.config.max_proposals_per_call;
       for (
-        let i = total_proposals - proposals.length;
-        i >= Math.max(1, total_proposals - proposals.length - step + 2);
+        let i = total_proposals - proposals?.length;
+        i >= Math.max(1, total_proposals - proposals?.length - step + 2);
         i--
       ) {
         const checkproposal = await this.getProposal(i).then();
@@ -762,19 +762,20 @@ export default class Governance extends React.Component {
   componentDidMount() {
     this.refreshBalance();
     this.refreshDYPBalance();
-    this.fetchProposals();
+    
     const logout = localStorage.getItem("logout");
 
-    if (this.state.proposals.length == 0 && logout === "false") {
+    if (this.state.proposals?.length == 0 && logout === "false") {
       this.refreshProposals();
+    this.getProposal();
+    this.fetchProposals();
+    window._refreshBalInterval2 = setInterval(this.getProposal, 3000);
     }
     this.checkConnection();
     this.getProposal();
     window._refreshBalInterval = setInterval(this.checkConnection, 1000);
-    window._refreshBalInterval2 = setInterval(this.getProposal, 3000);
-    if (this.state.proposals.length == 0) {
-      this.refreshProposals();
-    }
+ 
+   
     window.gRefBalInterval = setInterval(this.refreshBalance, 7e3);
     window.gRefDYPBalInterval = setInterval(this.refreshDYPBalance, 3000);
   }
@@ -1237,7 +1238,7 @@ export default class Governance extends React.Component {
               )}
 
               <div className="text-center">
-                {this.state.proposals.length < this.state.total_proposals &&
+                {this.state.proposals?.length < this.state.total_proposals &&
                   this.state.is_wallet_connected === true && (
                     <button
                       className="btn loadmore-btn"
@@ -1256,7 +1257,7 @@ export default class Governance extends React.Component {
                   )}
 
                 {!this.state.isLoading &&
-                  this.state.proposals.length == 0 &&
+                  this.state.proposals?.length == 0 &&
                   this.state.is_wallet_connected === true && (
                     <div className="pt-5">
                       <p>No Proposals to Display</p>

@@ -24,6 +24,8 @@ import initbscConstantStaking from "../FARMINNG/bscConstantStake";
 import stakeAvax from "../FARMINNG/stakeAvax";
 import stakeAvaxiDyp from "../FARMINNG/stakeAvaxiDyp";
 import { FadeLoader } from "react-spinners";
+import CawsCard from "../top-pools-card/CawsCard";
+import CawsDetails from "../FARMINNG/caws";
 
 const Dashboard = ({
   isConnected,
@@ -38,6 +40,8 @@ const Dashboard = ({
   handleSwitchNetwork,
 }) => {
   const [topPools, setTopPools] = useState([]);
+  const [cawcard, setCawcard] = useState([]);
+
   const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
 
   const fetchBnbStaking = async () => {
@@ -75,20 +79,43 @@ const Dashboard = ({
 
   const fetchEthStaking = async () => {
     await axios
-      .get(`https://api.dyp.finance/api/get_staking_info_eth`)
-      .then((res) => {
-        let dataArray = [];
-        const dypIdypeth2 = res.data.stakingInfoiDYPEth[2];
-        dataArray.push(dypIdypeth2);
-        setTopPools(dataArray);
+    .get(`https://api.dyp.finance/api/get_staking_info_eth`)
+    .then((res) => {
+      const dypIdyp = res.data.stakingInfoDYPEth.concat(
+        res.data.stakingInfoiDYPEth
+      );
+
+      const cleanCards = dypIdyp.filter((item) => {
+        return item.expired !== "Yes"
       })
-      .catch((err) => {
-        console.log(err);
-      });
+
+      const sortedAprs = cleanCards.sort(function(a, b){return b.tvl_usd - a.tvl_usd}) 
+      
+      const finalEthCards = res.data.stakingInfoCAWS.concat(sortedAprs.slice(0,2))
+      setTopPools(finalEthCards);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
+ 
+
   const cardsEth = [
+
     {
+      top_pick: false,
+      tokenName: "CAWS",
+      apr: "50%",
+      tvl: topPools.length > 0
+      ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+      : "$48543.20",
+      lockTime: "30 Days",
+      tokenLogo: "cawslogo.svg",
+      cardType: "NFT",
+      tag: "nft",
+    },
+        {
       top_pick: false,
       tokenName: "iDYP",
       apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
@@ -99,16 +126,6 @@ const Dashboard = ({
       tokenLogo: "idypius.svg",
       cardType: "Staking",
       tag: "stake",
-    },
-    {
-      top_pick: false,
-      tokenName: "USDT",
-      apr: "9-23%",
-      tvl: "$48,382.30",
-      lockTime: "No lock",
-      tokenLogo: "usdt.svg",
-      cardType: "Vault",
-      tag: "vault",
     },
   ]; 
   const cardsBsc = [
@@ -396,12 +413,12 @@ const Dashboard = ({
       fetchAvaxStaking();
     }
     else if(network === 1) {
-      fetchEthStaking()
+      fetchEthStaking() 
     }
     setPools();
     setLoading(false);
   }, [network, topPools, network]);
-
+  
   const windowSize = useWindowSize();
   return (
     <div className="container-lg dashboardwrapper px-0">
@@ -486,14 +503,14 @@ const Dashboard = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
                   ) : (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      chainId={network.toString()}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
+                    <CawsDetails
+                    coinbase={coinbase}
+                    isConnected={isConnected}
+                    listType={'table'}
+                    chainId={network.toString()}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    handleConnection={handleConnection}
+                  />
                   )
                 ) : activeCard && network === 56 && cardIndex === 0 ? (
                   activeCard.cardType === "Staking" ? (
