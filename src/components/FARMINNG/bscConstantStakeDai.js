@@ -60,7 +60,8 @@ export default function initbscConstantStakingDai({
   lockTime,
   fee,
   chainId,
-  handleSwitchNetwork
+  handleSwitchNetwork,
+  expired
 
 }) {
   let {
@@ -1047,7 +1048,7 @@ export default function initbscConstantStakingDai({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-               <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '56' && "blurrypool" }`}>
+               <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '56' || this.props.expired === true ? "blurrypool" : ''}`}>
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>

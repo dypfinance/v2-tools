@@ -29,7 +29,8 @@ const TopPoolsCard = ({
   isStaked,
   isNewPool,
   tag,
-  display
+  display,
+  expired
   // showDetails,
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
@@ -81,7 +82,7 @@ const TopPoolsCard = ({
   return (
     <>
       <div
-        className={`poolscardwrapper cursor-pointer position-relative ${
+        className={`${expired === true ? 'poolscardwrapperexpired' : 'poolscardwrapper'} cursor-pointer position-relative ${
           details && "pools-card-open"
         }  ${
           renderedPage === "dashboard" && !details ? "pools-card-hover" : ""
@@ -150,7 +151,7 @@ const TopPoolsCard = ({
               <h6 className="apr-title">APR</h6>
             </div>
           </div>
-          <div className="d-flex m-0 justify-content between gap-2 align-items-center justify-content-between bottomwrapper">
+          <div className={`d-flex m-0 justify-content between gap-2 align-items-center justify-content-between ${ expired === true ? 'bottomwrapperExpired' : 'bottomwrapper'} } `}  >
             {cardType !== "Vault" && (
               <div className="d-flex flex-column">
                 <h6 className="tvl-text">Total Value Locked</h6>
@@ -168,16 +169,16 @@ const TopPoolsCard = ({
             </div>
           </div>
           <div
-            className="details-wrapper"
+            className={ expired === true ? 'details-wrapperexpired' :"details-wrapper" }
             onClick={() => {
               handleDetails();
             }}
           >
             <h6
               className="details-text gap-1 d-flex align-items-center"
-              style={{ color: details === false ? "#75CAC2" : "#C0C9FF" }}
+              style={{ color: (details === false && expired === false )? "#75CAC2" : details === false && expired === true ? '#312F69': "#C0C9FF" }}
             >
-              {details === false ? "Deposit" : "Close"}
+              {details === false && expired === false ? "Deposit" : details === false && expired === true ? 'Details' : "Close"}
               <img src={details === false ? greenArrow : orangeArrow} />
             </h6>
           </div>
