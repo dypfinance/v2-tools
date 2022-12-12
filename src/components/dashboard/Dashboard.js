@@ -49,7 +49,7 @@ const Dashboard = ({
       .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
       .then((res) => {
         let dataArray = [];
-        const dypIdypBnb1 = res.data.stakingInfoDYPBnb[4];
+        const dypIdypBnb1 = res.data.stakingInfoDYPBnb[2];
         dataArray.push(dypIdypBnb1);
         const dypIdypBnb2 = res.data.stakingInfoiDYPBnb[2];
         dataArray.push(dypIdypBnb2);
@@ -66,7 +66,7 @@ const Dashboard = ({
       .get(`https://api.dyp.finance/api/get_staking_info_avax`)
       .then((res) => {
         let dataArray = [];
-        const dypIdypavax1 = res.data.stakingInfoDYPAvax[4];
+        const dypIdypavax1 = res.data.stakingInfoDYPAvax[2];
         dataArray.push(dypIdypavax1);
         const dypIdypavax2 = res.data.stakingInfoiDYPAvax[2];
         dataArray.push(dypIdypavax2);
@@ -128,22 +128,9 @@ const Dashboard = ({
       tag: "stake",
     },
   ]; 
+  console.log(topPools)
   const cardsBsc = [
-    {
-      tokenLogo: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
-      tvl:
-        topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
-          : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
-      isNewPool: true,
-      isStaked: false,
-      cardType: "Staking",
-      tag: "stake",
-    },
+
     {
       tokenLogo: "idypius.svg",
       top_pick: false,
@@ -154,6 +141,21 @@ const Dashboard = ({
           ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
           : "$48543.20",
       lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
+      isNewPool: true,
+      isStaked: false,
+      cardType: "Staking",
+      tag: "stake",
+    },
+    {
+      tokenLogo: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
+      tvl:
+        topPools.length > 0
+          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+          : "$48543.20",
+      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -162,21 +164,7 @@ const Dashboard = ({
   ];
 
   const cardsAvax = [
-    {
-      tokenLogo: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
-      tvl:
-        topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
-          : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
-      isNewPool: true,
-      isStaked: false,
-      cardType: "Staking",
-      tag: "stake",
-    },
+    
     {
       tokenLogo: "idypius.svg",
       top_pick: false,
@@ -187,6 +175,21 @@ const Dashboard = ({
           ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
           : "$48543.20",
       lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
+      isNewPool: true,
+      isStaked: false,
+      cardType: "Staking",
+      tag: "stake",
+    },
+    {
+      tokenLogo: "dyplogo.svg",
+      top_pick: false,
+      tokenName: "DYP",
+      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
+      tvl:
+        topPools.length > 0
+          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+          : "$48543.20",
+      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",

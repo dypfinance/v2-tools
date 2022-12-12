@@ -39,6 +39,7 @@ const TopPoolsListCard = ({
   cardIndex,
   chainId,
   handleConnection,
+  handleSwitchNetwork,
   coinbase,
   referrer,
   isConnected,
@@ -281,6 +282,8 @@ const TopPoolsListCard = ({
     referrer: referrer,
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const StakeAvax30 = stakeAvax30({
@@ -293,6 +296,8 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const StakeAvax3 = stakeAvax3({
@@ -304,6 +309,8 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const aprarrayStakeAvaxiDyp = [20, 50, 15, 30];
@@ -334,6 +341,8 @@ const TopPoolsListCard = ({
     fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const lockarray = ["No Lock", 90];
@@ -351,6 +360,8 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: lockarray[cardIndex],
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
@@ -366,6 +377,8 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: lockarrayiDyp[cardIndexiDyp],
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const vaultArray = [
@@ -407,6 +420,7 @@ const TopPoolsListCard = ({
     lockTime: "No Lock",
     handleConnection: handleConnection,
     chainId: chainId,
+    handleSwitchNetwork:{handleSwitchNetwork},
     listType: listType,
   });
 
@@ -441,6 +455,8 @@ const TopPoolsListCard = ({
     handleConnection: handleConnection,
     lockTime: 3,
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const feearrayStakeBsc = [3.5, 1, 0.25, 0.5, 0, 0, 1, 3.5];
@@ -492,6 +508,8 @@ const TopPoolsListCard = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const BscConstantStake2 = initbscConstantStaking2({
@@ -505,6 +523,8 @@ const TopPoolsListCard = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
   
 
@@ -534,6 +554,8 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: bscLockArray[cardIndex],
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const BscConstantStakeDai = initbscConstantStakingDai({
@@ -547,6 +569,8 @@ const TopPoolsListCard = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const BscConstantStakingiDyp = initbscConstantStakingiDyp({
@@ -560,6 +584,8 @@ const TopPoolsListCard = ({
     lockTime: lockarrayStakeAvax[cardIndex],
     listType: listType,
     other_info: otherInfoarrayStakeBsc[cardIndex],
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const ConstantStakingDai = initConstantStakingNewDai({
@@ -574,6 +600,8 @@ const TopPoolsListCard = ({
     chainId: chainId,
     lockTime: 90,
     listType: listType,
+    handleSwitchNetwork:{handleSwitchNetwork}
+
   });
 
   const handleDetails = () => {
@@ -725,6 +753,8 @@ const TopPoolsListCard = ({
             lp_id={lp_id[cardIndex]}
             chainId={chainId}
             handleConnection={handleConnection}
+            handleSwitchNetwork={handleSwitchNetwork}
+
           />
         ) : chain === "bnb" ? (
           <BscFarming
@@ -734,11 +764,13 @@ const TopPoolsListCard = ({
             lp_id={LP_IDBNB_Array[cardIndex]}
             chainId={chainId}
             handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
           />
         ) : (
           <FarmAvax
             is_wallet_connected={isConnected}
             handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
             the_graph_result={the_graph_resultavax}
             lp_id={LP_IDAVAX_Array[cardIndex]}
             chainId={chainId}
@@ -753,6 +785,7 @@ const TopPoolsListCard = ({
           lp_id={lp_id[cardIndex]}
           chainId={chainId}
           handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         />
       ) : showDetails === true && topList === "Buyback" && chain === "avax" ? (
         <AvaxBuyback
@@ -762,6 +795,7 @@ const TopPoolsListCard = ({
           lp_id={LP_IDAVAX_Array[cardIndex]}
           chainId={chainId}
           handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         />
       ) : showDetails === true && topList === "Buyback" && chain === "bnb" ? (
         <BscBuyback
@@ -770,6 +804,7 @@ const TopPoolsListCard = ({
           the_graph_result={the_graph_resultbsc}
           chainId={chainId}
           handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         />
       ) : showDetails &&
       topList === "Staking" &&
@@ -782,6 +817,7 @@ const TopPoolsListCard = ({
         lp_id={lp_id[cardIndex]}
         chainId={chainId}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
       />
     ) : showDetails &&
       topList === "Staking" &&
@@ -794,6 +830,7 @@ const TopPoolsListCard = ({
         lp_id={LP_IDBNB_Array[cardIndex]}
         chainId={chainId}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
       />
     ) : showDetails &&
       cardIndex > 2 &&
@@ -806,6 +843,7 @@ const TopPoolsListCard = ({
         lp_id={lp_id[cardIndex]}
         chainId={chainId}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
       />
     ) : showDetails &&
       cardIndex === 2 &&
@@ -818,6 +856,7 @@ const TopPoolsListCard = ({
         lp_id={lp_id[cardIndex]}
         chainId={chainId}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
       />
     ) : showDetails &&
       cardIndex >= 2 &&
@@ -831,6 +870,7 @@ const TopPoolsListCard = ({
         lp_id={LP_IDBNB_Array[cardIndex]}
         chainId={chainId}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
       />
     ) : showDetails &&
       cardIndex === 4 &&
@@ -843,6 +883,7 @@ const TopPoolsListCard = ({
         lp_id={LP_IDBNB_Array[cardIndex]}
         chainId={chainId}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         referrer={referrer}
       />
     ) : showDetails &&
@@ -855,6 +896,7 @@ const TopPoolsListCard = ({
         the_graph_result={the_graph_resultbsc}
         chainId={chainId}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         referrer={referrer}
       />
     ) : showDetails &&
@@ -864,6 +906,7 @@ const TopPoolsListCard = ({
       <StakeAvax
         is_wallet_connected={isConnected}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         the_graph_result={the_graph_resultavax}
         chainId={chainId}
         coinbase={coinbase}
@@ -877,6 +920,7 @@ const TopPoolsListCard = ({
       <StakeAvax30
         is_wallet_connected={isConnected}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         the_graph_result={the_graph_resultavax}
         chainId={chainId}
         coinbase={coinbase}
@@ -889,6 +933,7 @@ const TopPoolsListCard = ({
       <StakeAvax3
         is_wallet_connected={isConnected}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         the_graph_result={the_graph_resultavax}
         chainId={chainId}
         coinbase={coinbase}
@@ -901,6 +946,7 @@ const TopPoolsListCard = ({
       <StakeAvaxiDyp
         is_wallet_connected={isConnected}
         handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
         the_graph_result={the_graph_resultavax}
         chainId={chainId}
         coinbase={coinbase}
@@ -910,6 +956,7 @@ const TopPoolsListCard = ({
         <VaultCard
           is_wallet_connected={isConnected}
           handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
           chainId={chainId}
           coinbase={coinbase}
           the_graph_result={the_graph_result}
