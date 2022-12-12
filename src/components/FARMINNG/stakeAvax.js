@@ -1771,7 +1771,7 @@ export default function stakeAvax({
                 <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                 USD ${" "}
                     {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
+                      this.getApproxReturn(),
                       6
                     )}{" "}
                 </h3>
@@ -1782,7 +1782,7 @@ export default function stakeAvax({
                     color: "#f7f7fc",
                   }}
                 >
-                  {getFormattedNumber(this.getApproxReturn(), 6)} DYP
+                  {getFormattedNumber(this.getApproxReturn()/this.getUsdPerETH(), 6)} DYP
                 </h6>
               </div>
               <div className="mt-4">

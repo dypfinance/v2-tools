@@ -90,9 +90,7 @@ const Dashboard = ({
     await axios
     .get(`https://api.dyp.finance/api/get_staking_info_eth`)
     .then((res) => {
-      const dypIdyp = res.data.stakingInfoDYPEth.concat(
-        res.data.stakingInfoiDYPEth
-      );
+      const dypIdyp = res.data.stakingInfoiDYPEth
 
       const cleanCards = dypIdyp.filter((item) => {
         return item.expired !== "Yes"
@@ -238,19 +236,6 @@ const Dashboard = ({
   });
 
 
-
-  const lockarrayStakeAvax = [
-    180,
-    30,
-    "No Lock",
-    90,
-    90,
-    "No Lock",
-    90,
-    "No Lock",
-    90,
-  ];
- 
   const stakearrayStakeBscDyp2 = [
     window.constant_stakingbsc_new11,
     window.constant_stakingbsc_new10,
@@ -411,19 +396,20 @@ const Dashboard = ({
     }
   };
 
+  
+  
   useEffect(() => {
   
     if (network === 56) {
-      fetchBnbStaking();
+      fetchBnbStaking().then();
     } 
-     if (network === 43114) {
-      fetchAvaxStaking();
+      if (network === 43114) {
+      fetchAvaxStaking().then();
     }
     
-     if(network === 1) {
-      fetchEthStaking() 
+      if(network === 1) {
+      fetchEthStaking().then() 
     }
-    setPools();
     setLoading(false);
     fetchPopularNewsData();
   }, [network,topPools.length]);
@@ -616,7 +602,7 @@ const Dashboard = ({
                     })}
                 </div>
                 {activeCard ? (
-                  activeCard?.cardType === "Staking" ? (
+                  activeCard?.cardType === "Staking" && network === 1  ? (
                     <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
@@ -670,7 +656,7 @@ const Dashboard = ({
                     })}
                 </div>
                 {activeCard2 ? (
-                  activeCard2?.cardType === "Staking" ? (
+                  activeCard2?.cardType === "Staking" && network === 1  ? (
                     <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}

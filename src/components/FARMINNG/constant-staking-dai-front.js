@@ -1935,7 +1935,7 @@ export default function initConstantStakingNewDai({
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>USD ${" "}
                     {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
+                      this.getApproxReturn(),
                       6
                     )}{" "}</h3>
                   <h6
@@ -1945,7 +1945,7 @@ export default function initConstantStakingNewDai({
                       color: "#f7f7fc",
                     }}
                   >
-                    Approx {getFormattedNumber(this.getApproxReturn(), 6)}
+                    Approx {getFormattedNumber(this.getApproxReturn() / this.getUsdPerETH(), 6)}
                     DYP
                   </h6>
                 </div>
