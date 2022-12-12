@@ -62,8 +62,7 @@ export default function initConstantStakingiDYP({
   lockTime,
   listType,
   handleSwitchNetwork,
-  expired
-
+  expired,
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dyps } = window;
   let token_symbol = "iDYP";
@@ -241,7 +240,7 @@ export default function initConstantStakingiDYP({
 
     componentDidMount() {
       // this.refreshBalance();
-        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
@@ -259,7 +258,7 @@ export default function initConstantStakingiDYP({
     };
 
     componentWillUnmount() {
-        clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -271,7 +270,7 @@ export default function initConstantStakingiDYP({
 
     handleApprove = async (e) => {
       // e.preventDefault();
-      this.setState({ depositLoading: true});
+      this.setState({ depositLoading: true });
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
         return;
@@ -297,11 +296,11 @@ export default function initConstantStakingiDYP({
         });
     };
     handleStake = async (e) => {
-      this.setState({ depositLoading: true});
+      this.setState({ depositLoading: true });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
-      this.setState({ depositLoading: false});
+        this.setState({ depositLoading: false });
 
         return;
       }
@@ -515,11 +514,13 @@ export default function initConstantStakingiDYP({
     };
 
     handleEthPool = async () => {
-      await handleSwitchNetworkhook("0x1").then(()=>{
-        this.props.handleSwitchNetwork('1')
-      }).catch((e)=>{
-        console.log(e)
-      })
+      await handleSwitchNetworkhook("0x1")
+        .then(() => {
+          this.props.handleSwitchNetwork("1");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     };
 
     handleReinvest = (e) => {
@@ -703,118 +704,118 @@ export default function initConstantStakingiDYP({
                   </div> */}
                   <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
                     <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Performance fee:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {fee_s}%
-                      <ClickAwayListener onClickAway={performanceClose}>
-                        <Tooltip
-                          open={this.state.performanceTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "Performance fee is subtracted from the displayed APR."
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Performance fee:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {fee_s}%
+                          <ClickAwayListener onClickAway={performanceClose}>
+                            <Tooltip
+                              open={this.state.performanceTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "Performance fee is subtracted from the displayed APR."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img
-                            src={moreinfo}
-                            alt=""
-                            onClick={performanceOpen}
-                          />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
+                            >
+                              <img
+                                src={moreinfo}
+                                alt=""
+                                onClick={performanceOpen}
+                              />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
 
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">APR:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {getFormattedNumber(apr - fee_s, 2)}%
-                      <ClickAwayListener onClickAway={aprClose}>
-                        <Tooltip
-                          open={this.state.aprTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">APR:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {getFormattedNumber(apr - fee_s, 2)}%
+                          <ClickAwayListener onClickAway={aprClose}>
+                            <Tooltip
+                              open={this.state.aprTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "APR reflects the interest rate of earnings on an account over the course of one year. "
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={aprOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Lock time:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <ClickAwayListener onClickAway={lockClose}>
-                        <Tooltip
-                          open={this.state.lockTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "The amount of time your deposited assets will be locked."
+                            >
+                              <img src={moreinfo} alt="" onClick={aprOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Lock time:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
+                          <ClickAwayListener onClickAway={lockClose}>
+                            <Tooltip
+                              open={this.state.lockTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "The amount of time your deposited assets will be locked."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={lockOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
+                            >
+                              <img src={moreinfo} alt="" onClick={lockOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
                     </div>
-                <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
-                  <h6
-                    className="bottomitems"
-                    onClick={() => this.setState({ showCalculator: true })}
-                  >
-                    <img src={poolsCalculatorIcon} alt="" />
-                    Calculator
-                  </h6>
-                  <a
-                    href={
-                      // chainId === 1
-                      // ?
-                      "https://app.uniswap.org/#/swap?use=V2&inputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
-                      // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                    }
-                    target={"_blank"}
-                    rel="noreferrer"
-                  >
-                    <h6 className="bottomitems">
-                      <img src={arrowup} alt="" />
-                      Get iDYP
-                    </h6>
-                  </a>
-                  <div
-                    onClick={() => {
-                      this.showPopup();
-                    }}
-                  >
-                    <h6 className="bottomitems">
-                      <img src={purplestats} alt="" />
-                      Stats
-                    </h6>
-                  </div>
-                </div>
+                    <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                      <h6
+                        className="bottomitems"
+                        onClick={() => this.setState({ showCalculator: true })}
+                      >
+                        <img src={poolsCalculatorIcon} alt="" />
+                        Calculator
+                      </h6>
+                      <a
+                        href={
+                          // chainId === 1
+                          // ?
+                          "https://app.uniswap.org/#/swap?use=V2&inputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                          // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        }
+                        target={"_blank"}
+                        rel="noreferrer"
+                      >
+                        <h6 className="bottomitems">
+                          <img src={arrowup} alt="" />
+                          Get iDYP
+                        </h6>
+                      </a>
+                      <div
+                        onClick={() => {
+                          this.showPopup();
+                        }}
+                      >
+                        <h6 className="bottomitems">
+                          <img src={purplestats} alt="" />
+                          Stats
+                        </h6>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -836,20 +837,21 @@ export default function initConstantStakingiDYP({
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
-                        
                       >
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : chainId === '1' ? (
+                    ) : chainId === "1" ? (
                       <div className="addressbtn btn">
                         <Address a={this.props.coinbase} chainId={1} />
                       </div>
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{this.handleEthPool()}}
+                        onClick={() => {
+                          this.handleEthPool();
+                        }}
                       >
-                       Change Network
+                        Change Network
                       </button>
                     )}
                   </div>
@@ -859,7 +861,13 @@ export default function initConstantStakingiDYP({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                 <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '1' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4  ${
+                    chainId !== "1" || this.props.expired === true
+                      ? "blurrypool"
+                      : ""
+                  }`}
+                >
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1016,7 +1024,11 @@ export default function initConstantStakingiDYP({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '1' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
                   <div className="d-flex justify-content-between gap-2">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
@@ -1041,7 +1053,7 @@ export default function initConstantStakingiDYP({
                       </ClickAwayListener>
                     </h6>
                   </div>
-                      
+
                   <div className="form-row flex-column flex-lg-row d-flex gap-2 align-item-start align-items-lg-center justify-content-between">
                     <div className="d-flex flex-column">
                       <span
@@ -1157,7 +1169,11 @@ export default function initConstantStakingiDYP({
                   CLAIM
                 </button> */}
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '1' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
@@ -1304,7 +1320,9 @@ export default function initConstantStakingiDYP({
                         <span className="stats-card-title">
                           Total iDYP Locked
                         </span>
-                        <h6 className="stats-card-content">{tvl} {token_symbol}</h6>
+                        <h6 className="stats-card-content">
+                          {tvl} {token_symbol}
+                        </h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">TVL USD</span>
@@ -1731,7 +1749,11 @@ export default function initConstantStakingiDYP({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    $tbd USD
+                    USD ${" "}
+                    {getFormattedNumber(
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
                   </h3>
                   <h6
                     style={{

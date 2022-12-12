@@ -1769,7 +1769,11 @@ export default function stakeAvax({
               </div>
               <div className="d-flex flex-column gap-2 mt-4">
                 <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                  $tbd USD
+                USD ${" "}
+                    {getFormattedNumber(
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
                 </h3>
                 <h6
                   style={{

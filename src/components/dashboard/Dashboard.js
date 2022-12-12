@@ -56,7 +56,6 @@ const Dashboard = ({
         })
 
         const sortedAprs = cleanCards.sort(function(a, b){return b.tvl_usd - a.tvl_usd}) 
-        console.log(sortedAprs);
         setTopPools(sortedAprs);
       setCount(count + 1)
 
@@ -70,13 +69,16 @@ const Dashboard = ({
     await axios
       .get(`https://api.dyp.finance/api/get_staking_info_avax`)
       .then((res) => {
-        let dataArray = [];
-        const dypIdypavax1 = res.data.stakingInfoDYPAvax[2];
-        dataArray.push(dypIdypavax1);
-        const dypIdypavax2 = res.data.stakingInfoDYPAvax[4];
-        dataArray.push(dypIdypavax2);
-        setTopPools(dataArray);
-      setCount(count + 1)
+
+      const dypIdypBnb = res.data.stakingInfoDYPAvax
+      const cleanCards = dypIdypBnb.filter((item) => {
+        return item.expired !== "Yes"
+      })
+
+      const sortedAprs = cleanCards.sort(function(a, b){return b.tvl_usd - a.tvl_usd}) 
+      setTopPools(sortedAprs);
+    setCount(count + 1)
+
 
       })
       .catch((err) => {
@@ -143,12 +145,12 @@ const Dashboard = ({
       tokenLogo: "dyplogo.svg",
       top_pick: false,
       tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
+          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -158,12 +160,12 @@ const Dashboard = ({
       tokenLogo: "dyplogo.svg",
       top_pick: false,
       tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -177,12 +179,12 @@ const Dashboard = ({
       tokenLogo: "dyplogo.svg",
       top_pick: false,
       tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
+          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -192,12 +194,12 @@ const Dashboard = ({
       tokenLogo: "dyplogo.svg",
       top_pick: false,
       tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -277,7 +279,7 @@ const Dashboard = ({
     expiration_time: expirearrayStakeBscDyp2[1],
     coinbase: coinbase,
     chainId: network.toString(),
-    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[1]),
+    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[0]),
     listType: "table",
     other_info: false,
     fee: topPools[1]?.performancefee,
@@ -308,19 +310,6 @@ const Dashboard = ({
   const expirearrayStakeAvax = ["14 July 2023", "05 August 2023"];
 
   const StakeAvax = stakeAvax({
-    staking: stakingarrayStakeAvax[1],
-    apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
-    liquidity: avax_address,
-    expiration_time: expirearrayStakeAvax[1],
-    fee: topPools[1]?.performancefee,
-    coinbase: coinbase,
-    chainId: network.toString(),
-    referrer: referrer,
-    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[0]),
-    listType: "table",
-  });
-
-  const StakeAvax1 = stakeAvax({
     staking: stakingarrayStakeAvax[0],
     apr: topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30,
     liquidity: avax_address,
@@ -330,6 +319,19 @@ const Dashboard = ({
     chainId: network.toString(),
     referrer: referrer,
     lockTime: parseInt(topPools[0]?.lock_time?.split(' ')[0]),
+    listType: "table",
+  });
+
+  const StakeAvax1 = stakeAvax({
+    staking: stakingarrayStakeAvax[1],
+    apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
+    liquidity: avax_address,
+    expiration_time: expirearrayStakeAvax[1],
+    fee: topPools[1]?.performancefee,
+    coinbase: coinbase,
+    chainId: network.toString(),
+    referrer: referrer,
+    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[1]),
     listType: "table",
   });
 
