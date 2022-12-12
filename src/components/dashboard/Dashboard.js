@@ -40,22 +40,26 @@ const Dashboard = ({
   handleSwitchNetwork,
 }) => {
   const [topPools, setTopPools] = useState([]);
+  const [count, setCount] = useState(0)
   const [cawcard, setCawcard] = useState([]);
 
   const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
 
-
+  
   const fetchBnbStaking = async () => {
     await axios
       .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
       .then((res) => {
-        let dataArray = [];
-        const dypIdypBnb1 = res.data.stakingInfoDYPBnb[2];
-        dataArray.push(dypIdypBnb1);
-        const dypIdypBnb2 = res.data.stakingInfoDYPBnb[4];
-        dataArray.push(dypIdypBnb2);
+        const dypIdypBnb = res.data.stakingInfoDYPBnb
+        const cleanCards = dypIdypBnb.filter((item) => {
+          return item.expired !== "Yes"
+        })
 
-        setTopPools(dataArray);
+        const sortedAprs = cleanCards.sort(function(a, b){return b.tvl_usd - a.tvl_usd}) 
+        console.log(sortedAprs);
+        setTopPools(sortedAprs);
+      setCount(count + 1)
+
       })
       .catch((err) => {
         console.log(err);
@@ -72,6 +76,8 @@ const Dashboard = ({
         const dypIdypavax2 = res.data.stakingInfoDYPAvax[4];
         dataArray.push(dypIdypavax2);
         setTopPools(dataArray);
+      setCount(count + 1)
+
       })
       .catch((err) => {
         console.log(err);
@@ -94,6 +100,7 @@ const Dashboard = ({
       
       const finalEthCards = res.data.stakingInfoCAWS.concat(sortedAprs.slice(0,2))
       setTopPools(finalEthCards);
+      setCount(count + 1)
     })
     .catch((err) => {
       console.log(err);
@@ -251,19 +258,6 @@ const Dashboard = ({
 
 
   const BscConstantStake = initbscConstantStaking({
-    staking: stakearrayStakeBscDyp2[1],
-    apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
-    liquidity: wbsc_address,
-    expiration_time: expirearrayStakeBscDyp2[1],
-    coinbase: coinbase,
-    chainId: network.toString(),
-    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[0]),
-    listType: "table",
-    other_info: false,
-    fee: topPools[1]?.performancefee,
-  });
-
-  const BscConstantStake1 = initbscConstantStaking({
     staking: stakearrayStakeBscDyp2[0],
     apr: topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30,
     liquidity: wbsc_address,
@@ -274,6 +268,19 @@ const Dashboard = ({
     listType: "table",
     other_info: false,
     fee: topPools[0]?.performancefee,
+  });
+
+  const BscConstantStake1 = initbscConstantStaking({
+    staking: stakearrayStakeBscDyp2[1],
+    apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
+    liquidity: wbsc_address,
+    expiration_time: expirearrayStakeBscDyp2[1],
+    coinbase: coinbase,
+    chainId: network.toString(),
+    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[1]),
+    listType: "table",
+    other_info: false,
+    fee: topPools[1]?.performancefee,
   });
 
 
@@ -403,18 +410,22 @@ const Dashboard = ({
   };
 
   useEffect(() => {
-    fetchPopularNewsData();
+  
     if (network === 56) {
       fetchBnbStaking();
-    } else if (network === 43114) {
+    } 
+     if (network === 43114) {
       fetchAvaxStaking();
     }
-    else if(network === 1) {
+    
+     if(network === 1) {
       fetchEthStaking() 
     }
     setPools();
     setLoading(false);
-  }, [network]);
+    fetchPopularNewsData();
+  }, [network,topPools.length]);
+  
   
   const windowSize = useWindowSize();
   return (

@@ -822,7 +822,7 @@ class CONSTANT_STAKINGAVAX {
 }
 
 class CONSTANT_STAKINGBSC_NEW {
-  constructor(ticker = "CONSTANT_STAKINGBSC_30", token = "REWARD_TOKEN") {
+  constructor(ticker = "CONSTANT_STAKING_30", token = "REWARD_TOKENBSC") {
     this.ticker = ticker;
     this.token = token;
     let address = window.config[ticker.toLowerCase() + "_address"];
@@ -2081,11 +2081,11 @@ window.constant_stakingnewbsc_new9 = new CONSTANT_STAKINGBSC_NEW(
   "CONSTANT_STAKINGNEWBSC_NEW9"
 );
 
-window.CONSTANT_STAKINGNEWBSC_NEW5_ABI = window.CONSTANT_STAKINGBSC_NEW;
-window.CONSTANT_STAKINGNEWBSC_NEW6_ABI = window.CONSTANT_STAKINGBSC_NEW;
-window.CONSTANT_STAKINGNEWBSC_NEW7_ABI = window.CONSTANT_STAKINGBSC_NEW;
-window.CONSTANT_STAKINGNEWBSC_NEW8_ABI = window.CONSTANT_STAKINGBSC_NEW;
-window.CONSTANT_STAKINGNEWBSC_NEW9_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGNEWBSC_NEW5_ABI = window.CONSTANT_STAKINGBSC_NEW_ABI;
+window.CONSTANT_STAKINGNEWBSC_NEW6_ABI = window.CONSTANT_STAKINGBSC_NEW_ABI;
+window.CONSTANT_STAKINGNEWBSC_NEW7_ABI = window.CONSTANT_STAKINGBSC_NEW_ABI;
+window.CONSTANT_STAKINGNEWBSC_NEW8_ABI = window.CONSTANT_STAKINGBSC_NEW_ABI;
+window.CONSTANT_STAKINGNEWBSC_NEW9_ABI = window.CONSTANT_STAKINGBSC_NEW_ABI;
 
 
 
@@ -2106,10 +2106,10 @@ window.constant_stakingbsc_new13 = new CONSTANT_STAKINGBSC_NEW(
 );
 
 
-window.CONSTANT_STAKINGBSC_NEW10_ABI = window.CONSTANT_STAKINGBSC_NEW;
-window.CONSTANT_STAKINGBSC_NEW11_ABI = window.CONSTANT_STAKINGBSC_NEW;
-window.CONSTANT_STAKINGBSC_NEW12_ABI = window.CONSTANT_STAKINGBSC_NEW;
-window.CONSTANT_STAKINGBSC_NEW13_ABI = window.CONSTANT_STAKINGBSC_NEW;
+window.CONSTANT_STAKINGBSC_NEW10_ABI = window.CONSTANT_STAKING_OLD_ABI;
+window.CONSTANT_STAKINGBSC_NEW11_ABI = window.CONSTANT_STAKING_OLD_ABI;
+window.CONSTANT_STAKINGBSC_NEW12_ABI = window.CONSTANT_STAKING_OLD_ABI;
+window.CONSTANT_STAKINGBSC_NEW13_ABI = window.CONSTANT_STAKING_OLD_ABI;
 
 //DYP-USDC
 window.token_usdc_3 = new TOKEN("TOKEN_USDC3");
@@ -15351,7 +15351,7 @@ window.CONSTANT_STAKINGNEW_ABI = [
   },
 ];
 
-window.CONSTANT_STAKINGNEWBSC_ABI = [
+window.CONSTANT_STAKINGBSC_NEW_ABI = [
   {
     inputs: [
       {
@@ -26511,25 +26511,25 @@ Object.keys(window.config)
       : k.startsWith("constant_stakingnewbsc_new4")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingnewbsc_new5")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingnewbsc_new6")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingnewbsc_new7")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingnewbsc_new8")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingnewbsc_new9")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingbsc_new10")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new11")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new12")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new13")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new14")
-      ? window.CONSTANT_STAKINGNEWBSC_ABI
+      ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingnew_newavax2")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingdaieth")

@@ -693,7 +693,7 @@ export default function stakeAvaxiDyp({
         this.setState({ withdrawTooltip: false });
       };
 
-      
+      // console.log(this.state.depositStatus)
 
       return (
         <div className="container-lg p-0">

@@ -1145,7 +1145,7 @@ const EarnTopPicks = ({
           ? true
           : false
         : false,
-    fee_s: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex]?.performancefee,
+    fee_s: expiredPools=== false ? activePools[cardIndex]?.performancefee : expiredDYPPools[cardIndex]?.performancefee,
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp-2],
     listType: listType,
     lockTime: cardIndex !== undefined
@@ -5167,6 +5167,7 @@ const EarnTopPicks = ({
               {activePools.map((pool, index) => (
                 <TopPoolsListCard
                   key={index}
+                  expired={false}
                   chain={chain}
                   top_pick={pool.top_pick}
                   tokenName={
@@ -10656,6 +10657,7 @@ const EarnTopPicks = ({
           {expiredDYPPools.map((pool, index) => (
             <TopPoolsListCard
               key={index}
+              expired={true}
               chain={chain}
               top_pick={pool.top_pick}
               tokenName={
@@ -10699,8 +10701,6 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
-                    expired={true}
-
               coinbase={coinbase}
               referrer={referrer}
               lp_id={lp_id[cardIndex]}

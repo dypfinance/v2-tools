@@ -266,20 +266,20 @@ export default function initbscConstantStaking({
     };
 
     handleApprove = (e) => {
+      console.log(staking)
     //   e.preventDefault();
     this.setState({ depositLoading: true });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
-      this.setState({ depositLoading: true });
-
+      this.setState({ depositLoading: false });
         return;
       }
 
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
       reward_token.approve(staking._address, amount).then(() => {
-        this.setState({ depositLoading: false, depositStatus: "success" });
+        this.setState({ depositLoading: false, depositStatus: "deposit" });
       })
       .catch((e) => {
         this.setState({ depositLoading: false, depositStatus: "fail" });
@@ -665,7 +665,7 @@ export default function initbscConstantStaking({
 
       let is_connected = this.props.is_wallet_connected;
 
-console.log(apr)
+      
       const performanceOpen = () => {
         this.setState({ performanceTooltip: true });
       };
@@ -1101,7 +1101,7 @@ console.log(apr)
                           DYP
                         </span>
                         <span>
-                          {pendingDivs > 0
+                          {Number(pendingDivs) > 0
                             ? pendingDivs
                             : getFormattedNumber(0, 6)}
                         </span>
@@ -1342,7 +1342,7 @@ console.log(apr)
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">My DYP Balance</span>
                         <h6 className="stats-card-content">
-                          {token_balance} DYP
+                          {token_balance} {token_symbol}
                         </h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1361,7 +1361,7 @@ console.log(apr)
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">TVL USD</span>
-                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                        <h6 className="stats-card-content">${tvl_usd} USD</h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">
@@ -1459,7 +1459,7 @@ console.log(apr)
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                          href={`${window.config.bscscan_baseURL}/address/${coinbase}`}
                           className="stats-link"
                         >
                           {shortAddress(coinbase)}{" "}
@@ -1476,7 +1476,7 @@ console.log(apr)
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                          href={`${window.config.bscscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
                           className="stats-link"
                         >
                           View transaction <img src={statsLinkIcon} alt="" />

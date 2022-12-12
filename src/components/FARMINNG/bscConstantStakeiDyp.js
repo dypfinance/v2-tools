@@ -274,7 +274,7 @@ export default function initbscConstantStakingiDyp({
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
-      this.setState({ depositLoading: true });
+      this.setState({ depositLoading: false });
 
         return;
       }
@@ -282,7 +282,7 @@ export default function initbscConstantStakingiDyp({
       let amount = this.state.depositAmount;
       amount = new BigNumber(amount).times(1e18).toFixed(0);
       reward_token.approve(staking._address, amount).then(() => {
-        this.setState({ depositLoading: false, depositStatus: "success" });
+        this.setState({ depositLoading: false, depositStatus: "deposit" });
       })
       .catch((e) => {
         this.setState({ depositLoading: false, depositStatus: "fail" });
@@ -1062,7 +1062,7 @@ export default function initbscConstantStakingiDyp({
                       >
                         iDYP
                       </span>
-                      <span> {pendingDivs > 0
+                      <span> {Number(pendingDivs) > 0
                           ? pendingDivs
                           : getFormattedNumber(0, 6)}{" "}
                         </span>
@@ -1414,7 +1414,7 @@ export default function initbscConstantStakingiDyp({
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                        href={`${window.config.bscscan_baseURL}/address/${coinbase}`}
                         className="stats-link"
                       >
                         {shortAddress(coinbase)}{" "}
@@ -1431,7 +1431,7 @@ export default function initbscConstantStakingiDyp({
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
-                        href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                        href={`${window.config.bscscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
                         className="stats-link"
                       >
                         View transaction <img src={statsLinkIcon} alt="" />

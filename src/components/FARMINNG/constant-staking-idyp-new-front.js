@@ -271,7 +271,7 @@ export default function initConstantStakingiDYP({
 
     handleApprove = async (e) => {
       // e.preventDefault();
-
+      this.setState({ depositLoading: true});
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
         return;
@@ -297,8 +297,12 @@ export default function initConstantStakingiDYP({
         });
     };
     handleStake = async (e) => {
+      this.setState({ depositLoading: true});
+
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
+      this.setState({ depositLoading: false});
+
         return;
       }
 
@@ -1285,7 +1289,7 @@ export default function initConstantStakingiDYP({
                           My iDYP Balance
                         </span>
                         <h6 className="stats-card-content">
-                          {token_balance} iDYP
+                          {token_balance} {token_symbol}
                         </h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1300,7 +1304,7 @@ export default function initConstantStakingiDYP({
                         <span className="stats-card-title">
                           Total iDYP Locked
                         </span>
-                        <h6 className="stats-card-content">{tvl} iDYP</h6>
+                        <h6 className="stats-card-content">{tvl} {token_symbol}</h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">TVL USD</span>

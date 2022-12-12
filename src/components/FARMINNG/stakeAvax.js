@@ -271,10 +271,12 @@ export default function stakeAvax({
     handleApprove = async (e) => {
       //   e.preventDefault();
 
-      this.setState({ depositLoading: true });
+      this.setState({ depositLoading: true, depositStatus: "initial" });
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
+      this.setState({ depositLoading: false });
+
         return;
       }
 

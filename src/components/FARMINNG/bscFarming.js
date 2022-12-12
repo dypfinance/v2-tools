@@ -2116,7 +2116,7 @@ export default function initBscFarming({
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                      href={`${window.config.bscscan_baseURL}/address/${coinbase}`}
                       className="stats-link"
                     >
                       {shortAddress(coinbase)}{" "}
@@ -2272,7 +2272,7 @@ export default function initBscFarming({
                         <a
                           target="_blank"
                           rel="noopener noreferrer"
-                          href={`${window.config.etherscan_baseURL}/token/${token._address}?a=${coinbase}`}
+                          href={`${window.config.bscscan_baseURL}/token/${token._address}?a=${coinbase}`}
                           className="stats-link"
                         >
                           View transaction <img src={statsLinkIcon} alt="" />
