@@ -1327,8 +1327,9 @@ const EarnTopPicks = ({
     } else if (topList === "Vault") {
       setTopPools([]);
       setTimeout(() => {
-        // setTopPools(vault);
+        setTopPools(vault);
         setActivePools(vault)
+        setExpiredPools([])
       }, 500);
     } else if (topList === "Farming") {
       setTopPools([]);
