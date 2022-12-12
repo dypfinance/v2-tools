@@ -834,7 +834,7 @@ export default function stakeAvaxiDyp({
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-              <div className="row gap-4 gap-lg-0 w-100 justify-content-between">
+              <div className="row w-100 flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between">
                 <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
                   <div
                     className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
@@ -1030,7 +1030,7 @@ export default function stakeAvaxiDyp({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '43114' && "blurrypool"}`}>
+                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
                   <div className="d-flex justify-content-between gap-2">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">

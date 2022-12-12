@@ -88,15 +88,22 @@ export default class Farms extends React.Component {
       });
       await this.fetchFarms().then();
     }
+
   }
 
   fetchFarms = async () => {
     try {
       let network = this.props.networkId;
+      console.log(network);
       let farms = await window.$.get(
         network == 1
-          ? `${window.config.farm_api}/api/farm-info/eth/`
-          : `${window.config.farm_api}/api/farm-info-avax/`
+          ? `${window.config.farm_api}/api/farm-info/eth/` 
+          :
+          network == 56
+          ?
+          `${window.config.farm_api}/api/farm-info-bsc/`
+          : 
+          `${window.config.farm_api}/api/farm-info-avax/`
       );
       farms = farms.farmInfo;
       //console.log({ farms })
@@ -265,6 +272,9 @@ export default class Farms extends React.Component {
                   }
                   onClick={() => {
                     this.props.onSelectChain("bnb");
+                    this.setState({
+                      destinationChain: "bnb",
+                    });
                   }}
                 >
                   <h6 className="optiontext" >
@@ -280,6 +290,9 @@ export default class Farms extends React.Component {
                   }
                   onClick={() => {
                     this.props.onSelectChain("avax");
+                    this.setState({
+                      destinationChain: "avax",
+                    });
                   }}
                 >
                   <h6 className="optiontext">
