@@ -747,4 +747,10 @@
   .activetxt-vault{
     top: 15px;
   }
+
+  .caws-active-txt{
+    position: absolute;
+    left: 4%;
+    bottom: 40%;
+  }
 }
