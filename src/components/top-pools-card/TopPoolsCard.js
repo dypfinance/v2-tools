@@ -8,6 +8,8 @@ import staked from "./assets/staked.svg";
 import topPick from "./assets/toppick.svg";
 import stakeTag from "../../assets/earnAssets/stakeTag.svg";
 import vaultTag from "../../assets/earnAssets/vaultTag.svg";
+import cawsLabel from "./assets/cawsLabel.svg";
+
 import buybackTag from "../../assets/earnAssets/buybackTag.svg";
 
 const TopPoolsCard = ({
@@ -99,6 +101,8 @@ const TopPoolsCard = ({
                 ? stakeTag
                 : tag === "vault"
                 ? vaultTag
+                : tag === 'nft'
+                ? cawsLabel
                 : buybackTag
             }
             alt="pool-tag"

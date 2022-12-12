@@ -118,11 +118,11 @@ const Dashboard = ({
         {
       top_pick: false,
       tokenName: "iDYP",
-      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[2]?.apy_percent + "%" : "30%",
       tvl: topPools.length > 0
-      ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+      ? "$" + getFormattedNumber(topPools[2]?.tvl_usd)
       : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[2]?.lock_time : "No lock",
       tokenLogo: "idypius.svg",
       cardType: "Staking",
       tag: "stake",
@@ -617,13 +617,14 @@ const Dashboard = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
                   ) : (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      chainId={network.toString()}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                    />
+                    <CawsDetails
+                    coinbase={coinbase}
+                    isConnected={isConnected}
+                    listType={'table'}
+                    chainId={network.toString()}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    handleConnection={handleConnection}
+                  />
                   )
                 ) : (
                   <></>
@@ -670,14 +671,14 @@ const Dashboard = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
                   ) : (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      chainId={network.toString()}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
+                    <CawsDetails
+                    coinbase={coinbase}
+                    isConnected={isConnected}
+                    listType={'table'}
+                    chainId={network.toString()}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    handleConnection={handleConnection}
+                  />
                   )
                 ) : (
                   <></>
