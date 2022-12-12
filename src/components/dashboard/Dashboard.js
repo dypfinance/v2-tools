@@ -128,7 +128,7 @@ const Dashboard = ({
       tag: "stake",
     },
   ]; 
-  console.log(topPools)
+  
   const cardsBsc = [
 
     {

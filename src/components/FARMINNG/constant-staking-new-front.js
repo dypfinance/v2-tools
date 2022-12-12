@@ -61,6 +61,7 @@ export default function initConstantStakingNew({
   coinbase,
   renderedPage,
   handleSwitchNetwork,
+  expired,
   listType,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =

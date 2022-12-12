@@ -58,7 +58,9 @@ export default function initBuybackStakingNew({
   fee,
   lockTime,
   listType,
-  chainId
+  chainId,
+  handleSwitchNetwork,
+  expired
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
