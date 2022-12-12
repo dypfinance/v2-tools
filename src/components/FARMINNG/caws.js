@@ -37,6 +37,8 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
   const [showUnstakeModal, setShowUnstakeModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [countDownLeft, setCountDownLeft] = useState(59000);
+  const [totalStakes, settotalStakes] = useState(0);
+
   const [hide, setHide] = useState('');
 
 
@@ -217,6 +219,30 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
   };
 
 
+  const totalStakedNft = async () => {
+    let staking_contract = await new window.infuraWeb3.eth.Contract(
+      window.NFT_ABI,
+      window.config.nft_address,
+      { from: undefined }
+    );
+
+    await staking_contract.methods
+      .balanceOf(window.config.nftstaking_address)
+      .call()
+      .then((data) => {
+        settotalStakes(data);
+      });
+  };
+
+  useEffect(() => {
+    totalStakedNft().then();
+  }, []);
+
+
+
+
+
+
   useEffect(() => {
     if (isConnected) {
       myNft().then();
@@ -226,7 +252,8 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
       setUSDPrice().then();
       calculateCountdown().then();
     }
-  }, [isConnected]);
+  }, [isConnected, mystakes]);
+  
 
   return (
     <div className="container-lg p-0">
@@ -290,6 +317,12 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
                   >
                     <img src={moreinfo} alt="" />
                   </Tooltip>
+                </h6>
+              </div>
+              <div className="d-flex align-items-center justify-content-between gap-2">
+                <h6 className="earnrewards-text">Total NFTs staked</h6>
+                <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                  {totalStakes}/1000
                 </h6>
               </div>
             </div>

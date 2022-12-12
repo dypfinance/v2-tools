@@ -545,12 +545,12 @@ export default function initbscConstantStaking2({
           ].token_price_usd
         : 1;
       let apy = new BigNumber(apr)
-        .minus(fee)
-        .div(1e2)
-        .times(usd_per_idyp)
-        .div(usd_per_token)
-        .times(1e2)
-        .toFixed(2);
+        // .minus(fee)
+        // .div(1e2)
+        // .times(usd_per_idyp)
+        // .div(usd_per_token)
+        // .times(1e2)
+        // .toFixed(2);
 
       // let usd_per_dyps = this.props.the_graph_result.price_DYPS ? this.props.the_graph_result.price_DYPS : 1
       let usd_per_dyps = 0;
@@ -796,6 +796,7 @@ export default function initbscConstantStaking2({
         tvl,
       } = this.state;
 
+      
       token_balance = new BigNumber(token_balance).div(1e18).toString(10);
       token_balance = getFormattedNumber(token_balance, 6);
 
@@ -1048,7 +1049,7 @@ export default function initbscConstantStaking2({
                     href={
                       // chainId === 1
                       // ?
-                      "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      "https://pancakeswap.finance/swap?inputCurrencty=BNB&outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                       // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
@@ -1139,9 +1140,7 @@ export default function initbscConstantStaking2({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                        {token_balance !== '...'
-                            ? token_balance
-                            : getFormattedNumber(0, 6)}{" "}
+                        { token_balance ? getFormattedNumber(token_balance, 6) : '...'}{" "}
                           {token_symbol}
                         </b>
                       </h6>

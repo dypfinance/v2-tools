@@ -582,7 +582,7 @@ export default function initbscConstantStakingiDyp({
       totalEarnedTokens = getFormattedNumber(totalEarnedTokens, 6);
 
       referralFeeEarned = getFormattedNumber(referralFeeEarned / 1e18, 6);
-
+ 
       depositedTokens = new BigNumber(depositedTokens).div(1e18).toString(10);
       depositedTokens = getFormattedNumber(depositedTokens, 6);
 
@@ -798,7 +798,7 @@ export default function initbscConstantStakingiDyp({
                     href={
                       // chainId === 1
                       // ?
-                      "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                      "https://pancakeswap.finance/swap?inputCurrencty=BNB&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
                       // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
