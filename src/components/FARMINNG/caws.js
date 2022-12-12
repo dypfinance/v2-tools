@@ -265,9 +265,9 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
         }}
       >
         <div className="leftside2 w-100">
-          <div className="activewrapper">
-            <div className="d-flex align-items-center justify-content-between gap-5">
-              <h6 className="activetxt">
+          <div className="activewrapper position-relative flex-row-reverse flex-lg-row align-items-end align-items-lg-center">
+            <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center justify-content-between gap-3 gap-lg-5">
+              <h6 className="activetxt caws-active-txt">
                 <img
                   src={ellipse}
                   alt=""
@@ -337,11 +337,11 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
             </div>
           </div>
         </div>
-        <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
-          <div className="row w-100 justify-content-between">
-            <div className="firstblockwrapper col-2">
+        <div className="pools-details-wrapper d-flex m-0 container-lg border-0 ">
+          <div className="row w-100 justify-content-between gap-4 gap-lg-0">
+            <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
               <div
-                className="d-flex flex-column justify-content-between gap-4"
+                className="d-flex flex-row flex-lg-column align-items-center align-items-lg- justify-content-between  gap-4"
                 style={{ height: "100%" }}
               >
                 <h6 className="start-title">Start Staking</h6>
@@ -367,7 +367,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
                     )}
               </div>
             </div>
-            <div className={`otherside-border col-4 ${chainId !== '1' && "blurrypool"}`}>
+            <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '1' && "blurrypool"}`}>
               <div className="d-flex justify-content-between align-items-center gap-2">
                 <div className="d-flex align-items-center gap-3">
                   <h6 className="deposit-txt">Stake</h6>
@@ -431,8 +431,8 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
                 )} */}
               </div>
             </div>
-            <div className={`otherside-border col-4 ${chainId !== '1' && "blurrypool"}`}>
-              <div className="d-flex justify-content-between gap-2 ">
+            <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '1' && "blurrypool"}`}>
+              <div className="d-flex justify-content-between gap-2 flex-column flex-lg-row">
                 <h6 className="withdraw-txt d-flex gap-2 align-items-center">
                   REWARDS
                   <h6 className="mybalance-text" style={{textTransform: 'capitalize'}}>
@@ -479,7 +479,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
               </div>
             </div>
 
-            <div className={`otherside-border col-2 ${chainId !== '1' && "blurrypool"}`}>
+            <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '1' && "blurrypool"}`}>
               <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                 Unstake
                 <Tooltip
