@@ -435,7 +435,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
               <div className="d-flex justify-content-between gap-2 flex-column flex-lg-row">
                 <h6 className="withdraw-txt d-flex gap-2 align-items-center">
                   REWARDS
-                  <h6 className="mybalance-text">
+                  <h6 className="mybalance-text" style={{textTransform: 'capitalize'}}>
                     NFTs Staked:{""}
                     <b>{isConnected === false ? 0 : mystakes.length} CAWS</b>
                   </h6>
