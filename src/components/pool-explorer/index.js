@@ -76,49 +76,58 @@ export default class PoolExplorer extends React.Component {
       screen: "pool",
       filteredByTokenId: "",
       filteredByTxnType: "", // 'burn' | 'mint' | ''
-      destinationChain: ""
+      filteredByTokenSymbol: ""
     };
   }
 
   componentDidMount() {
     this.fetchTransactions();
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
   }
 
-  async componentDidUpdate(prevProps) {
-    if (prevProps.networkId != this.props.networkId) {
+  async componentDidUpdate(prevProps, prevState) {
+    if(prevProps.networkId != this.props.networkId){
       this.setState({
         isLoading: true,
         ethPrice: "...",
         processedTransactions: [],
-        filteredTransactions: [],
+        filteredTransactions: []
       });
       await window.wait(1000);
       await this.fetchTransactions().then();
     }
+
+    if(prevState.screen != this.state.screen){
+      this.setState({filteredByTokenSymbol: ""})
+      this.setState({
+        filteredByTokenSymbol: "",
+        filteredTransactions: JSON.parse(
+            JSON.stringify(this.state.processedTransactions)
+        ),
+      });
+    }
   }
 
   fetchTransactions = async () => {
+
     try {
-      let network;
-      this.props.networkId == 1
-        ? (network = "ethereum")
-        : (network = "avalanche");
+
+      let network
+      this.props.networkId == 1 ? network = 'ethereum' : network = 'avalanche'
       let transactions = await getProcessedTransactions(network);
 
       // TODO: Filter this to last 4 hour transactions once synced
-      let filteredTransactions = transactions.transactions.filter(
-        (txn) => txn.timestamp * 1e3 >= Date.now() - 4 * 60 * 60 * 1000
-      );
+      let filteredTransactions = transactions.transactions
+          .filter(txn => txn.timestamp*1e3 >= Date.now() - 4 * 60 * 60 * 1000)
       this.setState({
         processedTransactions: filteredTransactions,
         filteredTransactions: filteredTransactions,
         ethPrice: transactions.ethPrice,
       });
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-    this.setState({ isLoading: false });
+    this.setState({isLoading: false});
   };
 
   filterByTokenId = (tokenId) => {
@@ -191,8 +200,8 @@ export default class PoolExplorer extends React.Component {
         sortable: true,
         cell: (txn) => (
           <div class="token">
-            
-            {/* <img src="/assets/img/icon.svg" alt="" /> */}            
+
+            {/* <img src="/assets/img/icon.svg" alt="" /> */}
             <a
               className="token-link"
               rel="noopener noreferrer"
@@ -420,7 +429,7 @@ export default class PoolExplorer extends React.Component {
                 <p className="launchpad-hero-desc">
                 Search new or existing liquidity pools
                 </p>
-            
+
           </div>
         <div className="row flex-colum flex-lg-row gap-5 gap-lg-0 justify-content-between align-items-center my-4">
           <div className="col-12 col-lg-4">
@@ -454,7 +463,7 @@ export default class PoolExplorer extends React.Component {
                       destinationChain: "eth",
                     });
                     this.props.onSelectChain("eth");
-                    
+
 
                   }}
                 >
@@ -495,7 +504,7 @@ export default class PoolExplorer extends React.Component {
                     this.setState({
                       destinationChain: "avax",
                     });
-                    
+
                   }}
                 >
                   <h6 className="optiontext">
@@ -539,10 +548,10 @@ export default class PoolExplorer extends React.Component {
                 </form>
               </div>
             </div>
-            
+
         </div>
         <div className="table-box">
-          
+
             <div className="form-container p-3 position-relative">
               <div
                 className="tablepurplediv"
@@ -550,7 +559,7 @@ export default class PoolExplorer extends React.Component {
               ></div>
               {this.GetDataTable()}
             </div>
-         
+
           {/* <div className="l-table-wrapper-div">{this.GetDataTable()}</div> */}
         </div>
       </div>

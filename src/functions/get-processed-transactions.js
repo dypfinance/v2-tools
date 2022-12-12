@@ -81,11 +81,11 @@ function handleTheGraphData({data}, network) {
     // console.log(data)
     let burns = data.burns.filter(mintOrBurn => {
         return [mintOrBurn.pair.token0.id, mintOrBurn.pair.token1.id]
-            .includes((network == 'ethereum' ? window.config.weth2_address : window.config.weth_address))
+            .includes((network == 'ethereum' ? window.config.weth2_address : '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7'))
     }).map(mintOrBurn => getFormattedMintOrBurn(mintOrBurn, 'burn', network))
     let mints = data.mints.filter(mintOrBurn => {
         return [mintOrBurn.pair.token0.id, mintOrBurn.pair.token1.id]
-            .includes((network == 'ethereum' ? window.config.weth2_address : window.config.weth_address))
+            .includes((network == 'ethereum' ? window.config.weth2_address : '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7'))
     }).map(mintOrBurn => getFormattedMintOrBurn(mintOrBurn, 'mint', network))
 
     let transactions = burns.concat(mints)
