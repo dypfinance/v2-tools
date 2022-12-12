@@ -1326,8 +1326,8 @@ const EarnTopPicks = ({
     } else if (topList === "Vault") {
       setTopPools([]);
       setTimeout(() => {
-        setTopPools(vault);
-        // setActivePools(vault)
+        // setTopPools(vault);
+        setActivePools(vault)
       }, 500);
     } else if (topList === "Farming") {
       setTopPools([]);
@@ -2111,7 +2111,7 @@ const EarnTopPicks = ({
                   )}
                    
 
-                  {activePools.slice(0, 4).map((pool, index) => (
+                  {activePools.slice(0, 2).map((pool, index) => (
                     <TopPoolsCard
                       display={
                         pool.expired
@@ -2280,7 +2280,7 @@ const EarnTopPicks = ({
                   className="top-picks-container"
                   style={{ marginTop: "25px" }}
                 >
-                  {activePools.slice(4, 8).map((pool, index) => (
+                  {activePools.slice(2, 4).map((pool, index) => (
                     <TopPoolsCard
                       display={
                         pool.expired
@@ -2317,23 +2317,23 @@ const EarnTopPicks = ({
                       }
                       onShowDetailsClick={() => {
                         setActiveCard(null);
-                        setActiveCard2(topPools[index + 4]);
+                        setActiveCard2(topPools[index + 2]);
                         setActiveCard3(null);
                         setActiveCard4(null);
                         setActiveCard5(null);
                         setActiveCard6(null);
                         setActiveCardNFT(false);
-                        handleCardIndexStake(index + 4);
-                        handleCardIndexStake30(index + 4);
-                        handleCardIndexStakeiDyp(index + 4);
-                        setDetails(index + 4);
+                        handleCardIndexStake(index + 2);
+                        handleCardIndexStake30(index + 2);
+                        handleCardIndexStakeiDyp(index + 2);
+                        setDetails(index + 2);
                       }}
                       onHideDetailsClick={() => {
                         setActiveCard2(null);
                         setDetails();
                       }}
                       cardType={topList}
-                      details={details === index + 4 ? true : false}
+                      details={details === index + 2 ? true : false}
                       isNewPool={pool.isNewPool}
                       isStaked={pool.isStaked}
                     />
@@ -2423,7 +2423,7 @@ const EarnTopPicks = ({
                   className="top-picks-container"
                   style={{ marginTop: "25px" }}
                 >
-                  {activePools.slice(8, 12).map((pool, index) => (
+                  {activePools.slice(4, 6).map((pool, index) => (
                     <TopPoolsCard
                       display={
                         pool.expired
