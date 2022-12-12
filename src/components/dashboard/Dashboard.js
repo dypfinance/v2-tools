@@ -113,7 +113,7 @@ const Dashboard = ({
       lockTime: "30 Days",
       tokenLogo: "cawslogo.svg",
       cardType: "NFT",
-      tag: "nft",
+      tag: "stake",
     },
         {
       top_pick: false,
