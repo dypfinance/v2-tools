@@ -13,10 +13,10 @@ const Footer = () => {
     <div className={`${windowSize.width < 786 ? 'col-12' : windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
     <div className="py-4 flex-column flex-lg-row px-0 container-lg d-flex justify-content-between gap-3 align-items-start align-items-lg-center">
       <div className="footer-logo">
-        <a target={"_blank"} href="https://lorenadev.dyp.finance/">
+        <a target={"_blank"} href="https://dypius.com/">
           <img src="/assets/img/logo-footer.svg" alt="Dypius"></img>
         </a>
-        <a target={"_blank"} href="https://lorenadev.dyp.finance/#metaverse" style={{cursor: 'default', pointerEvents: 'none'}}>
+        <a target={"_blank"} href="https://dypius.com/#metaverse" style={{cursor: 'default', pointerEvents: 'none'}}>
           <img src="/assets/img/metaverse.svg" alt="METAVERSE"></img>
         </a>
       </div>
@@ -109,7 +109,7 @@ const Footer = () => {
           <li>
             <a
               target={"_blank"}
-              href="https://lorenadev.dyp.finance/about#security"
+              href="https://dypius.com/about#security"
             >
               Security
             </a>
@@ -124,7 +124,7 @@ const Footer = () => {
           <li>
             <a
               target={"_blank"}
-              href="https://lorenadev.dyp.finance/support"
+              href="https://dypius.com//support"
             >
              Support
             </a>
