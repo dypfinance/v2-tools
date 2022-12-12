@@ -1126,6 +1126,7 @@ const EarnTopPicks = ({
     window.constant_staking_idypavax_1,
   ];
 
+
   
   const StakeAvaxiDyp = stakeAvaxiDyp({
     staking: expiredPools === false  ? stakingarrayStakeAvaxiDypActive[cardIndex-2]
@@ -1133,14 +1134,14 @@ const EarnTopPicks = ({
     apr:
       cardIndex !== undefined
         ? expiredPools === false
-          ? activePools[cardIndex-2]?.apy_percent
-          : expiredDYPPools[cardIndex-2]?.apy_percent
+          ? activePools[cardIndex]?.apy_percent
+          : expiredDYPPools[cardIndex]?.apy_percent
         : aprarrayStakeAvaxiDyp[cardIndex -2],
 
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvaxiDyp[cardIndex -2],
     chainId: chainId,
-
+    
     other_info:
       cardIndex !== undefined
         ? expiredPools === false
@@ -1151,7 +1152,7 @@ const EarnTopPicks = ({
           ? true
           : false
         : false,
-    fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp-2],
+    fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp-2],
     listType: listType,
     lockTime: cardIndex !== undefined
