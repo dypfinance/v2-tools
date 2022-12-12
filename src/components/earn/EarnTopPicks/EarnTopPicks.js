@@ -1126,6 +1126,7 @@ const EarnTopPicks = ({
     window.constant_staking_idypavax_1,
   ];
 
+
   
   const StakeAvaxiDyp = stakeAvaxiDyp({
     staking: expiredPools === false  ? stakingarrayStakeAvaxiDypActive[cardIndex-2]
@@ -1133,14 +1134,14 @@ const EarnTopPicks = ({
     apr:
       cardIndex !== undefined
         ? expiredPools === false
-          ? activePools[cardIndex-2]?.apy_percent
-          : expiredDYPPools[cardIndex-2]?.apy_percent
+          ? activePools[cardIndex]?.apy_percent
+          : expiredDYPPools[cardIndex]?.apy_percent
         : aprarrayStakeAvaxiDyp[cardIndex -2],
 
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvaxiDyp[cardIndex -2],
     chainId: chainId,
-
+    
     other_info:
       cardIndex !== undefined
         ? expiredPools === false
@@ -1151,7 +1152,7 @@ const EarnTopPicks = ({
           ? true
           : false
         : false,
-    fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp-2],
+    fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp-2],
     listType: listType,
     lockTime: cardIndex !== undefined
@@ -1327,7 +1328,8 @@ const EarnTopPicks = ({
       setTopPools([]);
       setTimeout(() => {
         setTopPools(vault);
-        // setActivePools(vault)
+        setActivePools(vault)
+        setExpiredPools([])
       }, 500);
     } else if (topList === "Farming") {
       setTopPools([]);
@@ -2111,7 +2113,7 @@ const EarnTopPicks = ({
                   )}
                    
 
-                  {activePools.slice(0, 4).map((pool, index) => (
+                  {activePools.slice(0, 2).map((pool, index) => (
                     <TopPoolsCard
                       display={
                         pool.expired
@@ -2280,7 +2282,7 @@ const EarnTopPicks = ({
                   className="top-picks-container"
                   style={{ marginTop: "25px" }}
                 >
-                  {activePools.slice(4, 8).map((pool, index) => (
+                  {activePools.slice(2, 4).map((pool, index) => (
                     <TopPoolsCard
                       display={
                         pool.expired
@@ -2317,23 +2319,23 @@ const EarnTopPicks = ({
                       }
                       onShowDetailsClick={() => {
                         setActiveCard(null);
-                        setActiveCard2(topPools[index + 4]);
+                        setActiveCard2(topPools[index + 2]);
                         setActiveCard3(null);
                         setActiveCard4(null);
                         setActiveCard5(null);
                         setActiveCard6(null);
                         setActiveCardNFT(false);
-                        handleCardIndexStake(index + 4);
-                        handleCardIndexStake30(index + 4);
-                        handleCardIndexStakeiDyp(index + 4);
-                        setDetails(index + 4);
+                        handleCardIndexStake(index + 2);
+                        handleCardIndexStake30(index + 2);
+                        handleCardIndexStakeiDyp(index + 2);
+                        setDetails(index + 2);
                       }}
                       onHideDetailsClick={() => {
                         setActiveCard2(null);
                         setDetails();
                       }}
                       cardType={topList}
-                      details={details === index + 4 ? true : false}
+                      details={details === index + 2 ? true : false}
                       isNewPool={pool.isNewPool}
                       isStaked={pool.isStaked}
                     />
@@ -2423,7 +2425,7 @@ const EarnTopPicks = ({
                   className="top-picks-container"
                   style={{ marginTop: "25px" }}
                 >
-                  {activePools.slice(8, 12).map((pool, index) => (
+                  {activePools.slice(4, 6).map((pool, index) => (
                     <TopPoolsCard
                       display={
                         pool.expired
