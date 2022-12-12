@@ -143,12 +143,12 @@ const Dashboard = ({
       tokenLogo: "dyplogo.svg",
       top_pick: false,
       tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
+          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -158,12 +158,12 @@ const Dashboard = ({
       tokenLogo: "dyplogo.svg",
       top_pick: false,
       tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
+      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
       tvl:
         topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
           : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
+      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
       isNewPool: true,
       isStaked: false,
       cardType: "Staking",
@@ -277,7 +277,7 @@ const Dashboard = ({
     expiration_time: expirearrayStakeBscDyp2[1],
     coinbase: coinbase,
     chainId: network.toString(),
-    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[1]),
+    lockTime: parseInt(topPools[1]?.lock_time?.split(' ')[0]),
     listType: "table",
     other_info: false,
     fee: topPools[1]?.performancefee,
