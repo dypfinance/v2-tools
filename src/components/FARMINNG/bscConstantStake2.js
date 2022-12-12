@@ -304,7 +304,7 @@ export default function initbscConstantStaking2({
       reward_token
         .approve(staking._address, amount)
         .then(() => {
-          this.setState({ depositLoading: false, depositStatus: "success" });
+          this.setState({ depositLoading: false, depositStatus: "deposit" });
         })
         .catch((e) => {
           this.setState({ depositLoading: false, depositStatus: "fail" });

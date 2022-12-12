@@ -274,6 +274,8 @@ export default function stakeAva3({
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
+      this.setState({ depositLoading: false });
+
         return;
       }
 
