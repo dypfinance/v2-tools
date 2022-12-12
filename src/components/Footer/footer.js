@@ -16,11 +16,11 @@ const Footer = () => {
         <a target={"_blank"} href="https://lorenadev.dyp.finance/">
           <img src="/assets/img/logo-footer.svg" alt="Dypius"></img>
         </a>
-        <a target={"_blank"} href="https://lorenadev.dyp.finance/#metaverse" style={{cursor: 'default'}}>
+        <a target={"_blank"} href="https://lorenadev.dyp.finance/#metaverse" style={{cursor: 'default', pointerEvents: 'none'}}>
           <img src="/assets/img/metaverse.svg" alt="METAVERSE"></img>
         </a>
       </div>
-      <div className="social-and-links d-flex align-items-center justify-content-center gap-3">
+      <div className="social-and-links d-flex align-items-center justify-content-center gap-3 gap-xxl-5">
       <div className="social-profile">
         <ul>
           <li>
