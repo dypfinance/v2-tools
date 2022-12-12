@@ -60,7 +60,8 @@ export default function stakeAvaxiDyp({
   coinbase,
   lockTime,
   listType,
-  handleSwitchNetwork
+  handleSwitchNetwork,
+  expired
 
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;

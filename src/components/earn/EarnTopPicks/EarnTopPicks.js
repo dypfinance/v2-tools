@@ -865,14 +865,13 @@ const EarnTopPicks = ({
     window.constant_staking_new11,
   ];
 
- 
-
+  
   const StakeAvax = stakeAvax({
     staking: stakingarrayStakeAvax[cardIndex],
-    apr: aprarrayStakeAvax[cardIndex],
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvax[cardIndex],
-    fee: feearrayStakeAvax[cardIndex],
+    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     coinbase: coinbase,
     chainId: chainId,
     referrer: referrer,
@@ -927,9 +926,9 @@ const EarnTopPicks = ({
   const BscConstantStake = initbscConstantStaking({
    
     staking: stakearrayStakeBscDyp2[cardIndex],
-    apr: aprarrayStakeBscDyp2[cardIndex],
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: wbsc_address,
-    fee: feearrayStakeBscDyp2[cardIndex],
+    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     expiration_time: expirearrayStakeBscDyp2[cardIndex],
 
     coinbase: coinbase,
@@ -958,11 +957,11 @@ const EarnTopPicks = ({
 
   const BscConstantStake2 = initbscConstantStaking2({
     staking: stakearrayStakeBscExpired[cardIndex],
-    apr: aprarrayStakeBscExpired[cardIndex],
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     expiration_time: expirearrayStakeBscExpired[cardIndex],
     
     liquidity: wbsc_address,
-    fee: feearrayStakeBscExpired[cardIndex],
+    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     coinbase: coinbase,
     chainId: chainId,
     lockTime: cardIndex !== undefined
@@ -986,10 +985,10 @@ const EarnTopPicks = ({
 
   const BscConstantStakeDai = initbscConstantStakingDai({
     staking: window.constant_stakingdaibsc,
-    apr: 25,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: wbsc_address,
     expiration_time: 'Expired',
-    fee: 0,
+    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     coinbase: coinbase,
     chainId: chainId,
     lockTime: cardIndex !== undefined
@@ -1033,11 +1032,11 @@ const EarnTopPicks = ({
 
   const BscConstantStakingiDyp = initbscConstantStakingiDyp({
     staking: expiredPools === false? stakearrayStakeBsciDyp2[cardIndex-2] : stakearrayStakeBsciDyp2Expired[cardIndex-2],
-    apr: expiredPools === false ? aprarrayStakeBsciDyp2[cardIndex-2] : aprarrayStakeBsciDyp2Expired[cardIndex-2],
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: wbsc_address,
     expiration_time: expiredPools === false ?  expirearrayStakeBsciDyp2[cardIndex-2] : expirearrayStakeBsciDyp2Expired[cardIndex-2],
-    fee_s:  expiredPools === false ?  feearrayStakeBsciDyp2[cardIndex-2] : feearrayStakeBsciDyp2Expired[cardIndex-2],
     coinbase: coinbase,
+    fee_s: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     chainId: chainId,
     fee_u: 0,
     lockTime: cardIndex !== undefined
@@ -1072,10 +1071,10 @@ const EarnTopPicks = ({
 
   const StakeAvax30 = stakeAvax30({
     staking: stakingarrayStakeAvax30[cardIndexavax30],
-    apr: aprarrayStakeAvax30[cardIndexavax30],
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: avax_address,
     expiration_time: "6 December 2022",
-    fee: feearrayStakeAvax30[cardIndexavax30],
+    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     coinbase: coinbase,
     chainId: chainId,
     lockTime: cardIndex !== undefined
@@ -1089,7 +1088,7 @@ const EarnTopPicks = ({
 
   const StakeAvax3 = stakeAvax3({
     staking: window.constant_stakingdaiavax,
-    apr: 25,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: avax_address,
     expiration_time: "Expired",
     coinbase: coinbase,
@@ -1131,13 +1130,7 @@ const EarnTopPicks = ({
   const StakeAvaxiDyp = stakeAvaxiDyp({
     staking: expiredPools === false  ? stakingarrayStakeAvaxiDypActive[cardIndex-2]
     : stakingarrayStakeAvaxiDypExpired[cardIndex-2],
-    apr:
-      cardIndex !== undefined
-        ? expiredPools === false
-          ? activePools[cardIndex]?.apy_percent
-          : expiredDYPPools[cardIndex]?.apy_percent
-        : aprarrayStakeAvaxiDyp[cardIndex -2],
-
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvaxiDyp[cardIndex -2],
     chainId: chainId,
@@ -1152,7 +1145,7 @@ const EarnTopPicks = ({
           ? true
           : false
         : false,
-    fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    fee_s: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp-2],
     listType: listType,
     lockTime: cardIndex !== undefined
@@ -1175,7 +1168,7 @@ const EarnTopPicks = ({
 
   const ConstantStaking1 = initConstantStakingNew({
     staking: stakeArrayStakeNew[cardIndex],
-    apr: aprArrayStake[cardIndex],
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: eth_address,
     expiration_time: "14 December 2022",
     other_info:
@@ -1188,7 +1181,7 @@ const EarnTopPicks = ({
         ? true
         : false
       : false,
-    fee: feeArrayStake[cardIndex],
+    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
@@ -1203,11 +1196,11 @@ const EarnTopPicks = ({
 
   const ConstantStakingDai = initConstantStakingNewDai({
     staking: window.constant_stakingdaieth,
-    apr: 25,
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: eth_address,
     expiration_time: "Expired",
     other_info: true,
-    fee: 0.25,
+    fee: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
@@ -1218,7 +1211,7 @@ const EarnTopPicks = ({
 
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
     staking: stakeArrayiDYP[cardIndex],
-    apr: aprArrayiDyp[cardIndex],
+    apr: expiredPools=== false ? activePools[cardIndex]?.apy_percent : expiredDYPPools[cardIndex].apy_percent,
     liquidity: eth_address,
     expiration_time: expirationArray[cardIndex],
     other_info:
@@ -1231,7 +1224,7 @@ const EarnTopPicks = ({
         ? true
         : false
       : false,
-    fee_s: performancefeeArrayidyp[cardIndex],
+    fee_s: expiredPools=== false ? activePools[cardIndex]?.apy_performancefee : expiredDYPPools[cardIndex].apy_performancefee,
     fee_u: withdrawFeeiDyp[cardIndex],
     coinbase: coinbase,
     handleConnection: handleConnection,
@@ -2463,22 +2456,22 @@ const EarnTopPicks = ({
                       onShowDetailsClick={() => {
                         setActiveCard(null);
                         setActiveCard2(null);
-                        setActiveCard3(topPools[index + 8]);
+                        setActiveCard3(topPools[index + 4]);
                         setActiveCard4(null);
                         setActiveCard5(null);
                         setActiveCard6(null);
                         setActiveCardNFT(false);
-                        handleCardIndexStake(index + 8);
-                        handleCardIndexStake30(index + 8);
-                        handleCardIndexStakeiDyp(index + 8);
-                        setDetails(index + 8);
+                        handleCardIndexStake(index + 4);
+                        handleCardIndexStake30(index + 4);
+                        handleCardIndexStakeiDyp(index + 4);
+                        setDetails(index + 4);
                       }}
                       onHideDetailsClick={() => {
                         setActiveCard3(null);
                         setDetails();
                       }}
                       cardType={topList}
-                      details={details === index + 8 ? true : false}
+                      details={details === index + 4 ? true : false}
                       isNewPool={pool.isNewPool}
                       isStaked={pool.isStaked}
                     />
@@ -2566,7 +2559,7 @@ const EarnTopPicks = ({
                   className="top-picks-container"
                   style={{ marginTop: "25px" }}
                 >
-                  {activePools.slice(12, 16).map((pool, index) => (
+                  {activePools.slice(6, 8).map((pool, index) => (
                     <TopPoolsCard
                       display={
                         pool.expired
@@ -2605,21 +2598,21 @@ const EarnTopPicks = ({
                         setActiveCard(null);
                         setActiveCard2(null);
                         setActiveCard3(null);
-                        setActiveCard4(topPools[index + 12]);
+                        setActiveCard4(topPools[index + 6]);
                         setActiveCard5(null);
                         setActiveCard6(null);
                         setActiveCardNFT(false);
-                        handleCardIndexStake(index + 12);
-                        handleCardIndexStake30(index + 12);
-                        handleCardIndexStakeiDyp(index + 12);
-                        setDetails(index + 12);
+                        handleCardIndexStake(index + 6);
+                        handleCardIndexStake30(index + 6);
+                        handleCardIndexStakeiDyp(index + 6);
+                        setDetails(index + 6);
                       }}
                       onHideDetailsClick={() => {
                         setActiveCard4(null);
                         setDetails();
                       }}
                       cardType={topList}
-                      details={details === index + 12 ? true : false}
+                      details={details === index + 6 ? true : false}
                       isNewPool={pool.isNewPool}
                       isStaked={pool.isStaked}
                     />
@@ -2707,10 +2700,10 @@ const EarnTopPicks = ({
                 )}
                 <div
                   className="top-picks-container"
-                  style={{ marginTop: activePools.length > 16 && "25px" }}
+                  style={{ marginTop: activePools.length > 8 && "25px" }}
                 >
                   {activePools
-                    .slice(16, activePools.length)
+                    .slice(8, activePools.length)
                     .map((pool, index) => (
                       <TopPoolsCard
                         display={
@@ -2751,20 +2744,20 @@ const EarnTopPicks = ({
                           setActiveCard2(null);
                           setActiveCard3(null);
                           setActiveCard4(null);
-                          setActiveCard5(topPools[index + 18]);
+                          setActiveCard5(topPools[index + 8]);
                           setActiveCard6(null);
                           setActiveCardNFT(false);
-                          handleCardIndexStake(index + 18);
-                          handleCardIndexStake30(index + 18);
-                          handleCardIndexStakeiDyp(index + 18);
-                          setDetails(index + 18);
+                          handleCardIndexStake(index + 8);
+                          handleCardIndexStake30(index + 8);
+                          handleCardIndexStakeiDyp(index + 8);
+                          setDetails(index + 8);
                         }}
                         onHideDetailsClick={() => {
                           setActiveCard5(null);
                           setDetails();
                         }}
                         cardType={topList}
-                        details={details === index + 18 ? true : false}
+                        details={details === index + 8 ? true : false}
                         isNewPool={pool.isNewPool}
                         isStaked={pool.isStaked}
                       />
@@ -2851,10 +2844,10 @@ const EarnTopPicks = ({
                 )}
                 <div
                   className="top-picks-container"
-                  style={{ marginTop: activePools.length > 18 && "25px" }}
+                  style={{ marginTop: activePools.length > 9 && "25px" }}
                 >
                   {activePools
-                    .slice(18, activePools.length)
+                    .slice(10, activePools.length)
                     .map((pool, index) => (
                       <TopPoolsCard
                         display={
@@ -2896,19 +2889,19 @@ const EarnTopPicks = ({
                           setActiveCard3(null);
                           setActiveCard4(null);
                           setActiveCard5(null);
-                          setActiveCard6(topPools[index + 18]);
+                          setActiveCard6(topPools[index + 10]);
                           setActiveCardNFT(false);
-                          handleCardIndexStake(index + 18);
-                          handleCardIndexStake30(index + 18);
-                          handleCardIndexStakeiDyp(index + 18);
-                          setDetails(index + 18);
+                          handleCardIndexStake(index + 10);
+                          handleCardIndexStake30(index + 10);
+                          handleCardIndexStakeiDyp(index + 10);
+                          setDetails(index + 10);
                         }}
                         onHideDetailsClick={() => {
                           setActiveCard6(null);
                           setDetails();
                         }}
                         cardType={topList}
-                        details={details === index + 18 ? true : false}
+                        details={details === index + 10 ? true : false}
                         isNewPool={pool.isNewPool}
                         isStaked={pool.isStaked}
                       />
@@ -5305,6 +5298,7 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -5315,6 +5309,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
@@ -5325,6 +5321,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     coinbase={coinbase}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 )
               )  : activeCard &&
@@ -5340,6 +5338,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 cardIndex === 4 &&
@@ -5354,6 +5354,8 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                   referrer={referrer}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 cardIndex >= 5 &&
@@ -5367,6 +5369,8 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                   referrer={referrer}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               )  : activeCard &&
                 topList === "Staking" &&
@@ -5381,6 +5385,8 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   referrer={referrer}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 topList === "Staking" &&
@@ -5394,6 +5400,8 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   referrer={referrer}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 topList === "Staking" &&
@@ -5407,6 +5415,8 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   referrer={referrer}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               )  : (
                 <></>
@@ -5477,6 +5487,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -5487,6 +5499,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
@@ -5497,6 +5511,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   coinbase={coinbase}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               )
             ) : activeCard2 &&
@@ -5511,6 +5527,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard2 &&
               topList === "Staking" &&
@@ -5524,6 +5542,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard2 &&
               cardIndex > 2 &&
@@ -5537,6 +5557,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard2 &&
               cardIndex === 4 &&
@@ -5550,6 +5572,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 referrer={referrer}
               />
             ) : activeCard2 &&
@@ -5564,6 +5588,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             )  : activeCard2 &&
               topList === "Staking" &&
@@ -5574,6 +5600,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -5587,6 +5615,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -5600,6 +5630,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -5673,6 +5705,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -5683,12 +5717,16 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   lp_id={LP_IDAVAX_Array[cardIndex]}
                   chainId={chainId}
@@ -5707,6 +5745,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard3 &&
               cardIndex > 2 &&
@@ -5720,6 +5760,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard3 &&
               cardIndex >= 5 &&
@@ -5733,6 +5775,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ): activeCard3 &&
               topList === "Staking" &&
@@ -5743,6 +5787,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -5756,6 +5802,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -5769,6 +5817,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -5779,6 +5829,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 chainId={chainId}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -5855,6 +5907,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -5865,12 +5919,16 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   lp_id={LP_IDAVAX_Array[cardIndex]}
                   chainId={chainId}
@@ -5889,6 +5947,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard4 &&
               cardIndex > 2 &&
@@ -5902,6 +5962,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard4 &&
               cardIndex >= 5 &&
@@ -5915,6 +5977,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             )  : activeCard4 &&
               topList === "Staking" &&
@@ -5925,6 +5989,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -5938,6 +6004,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -5951,6 +6019,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6033,6 +6103,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -6043,12 +6115,16 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   lp_id={LP_IDAVAX_Array[cardIndex]}
                   chainId={chainId}
@@ -6067,6 +6143,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard &&
               topList === "Staking" &&
@@ -6080,6 +6158,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard &&
               cardIndex > 2 &&
@@ -6093,6 +6173,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard &&
               cardIndex === 4 &&
@@ -6106,6 +6188,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 referrer={referrer}
               />
             ) : activeCard &&
@@ -6121,6 +6205,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -6134,6 +6220,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard &&
               topList === "Staking" &&
@@ -6144,6 +6232,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6157,6 +6247,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6170,6 +6262,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6248,6 +6342,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -6258,12 +6354,16 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   lp_id={LP_IDAVAX_Array[cardIndex]}
                   chainId={chainId}
@@ -6282,6 +6382,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard2 &&
               topList === "Staking" &&
@@ -6295,6 +6397,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard2 &&
               cardIndex > 2 &&
@@ -6308,6 +6412,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard2 &&
               cardIndex === 4 &&
@@ -6321,6 +6427,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 referrer={referrer}
               />
             )  : activeCard2 &&
@@ -6335,6 +6443,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             )   : activeCard2 &&
               topList === "Staking" &&
@@ -6345,6 +6455,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6358,6 +6470,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6371,6 +6485,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6449,6 +6565,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -6459,12 +6577,16 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   lp_id={LP_IDAVAX_Array[cardIndex]}
                   chainId={chainId}
@@ -6483,6 +6605,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard3 &&
               topList === "Staking" &&
@@ -6496,6 +6620,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard3 &&
               cardIndex > 2 &&
@@ -6509,6 +6635,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard3 &&
               cardIndex === 4 &&
@@ -6522,6 +6650,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 referrer={referrer}
               />
             ) : activeCard3 &&
@@ -6537,6 +6667,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard3 &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -6550,6 +6682,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard3 &&
               topList === "Staking" &&
@@ -6559,6 +6693,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6573,6 +6709,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6586,6 +6724,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6599,6 +6739,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6609,6 +6751,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 chainId={chainId}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -6686,6 +6830,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -6696,12 +6842,16 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   lp_id={LP_IDAVAX_Array[cardIndex]}
                   chainId={chainId}
@@ -6720,6 +6870,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard4 &&
               topList === "Staking" &&
@@ -6733,6 +6885,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard4 &&
               cardIndex > 2 &&
@@ -6746,6 +6900,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard4 &&
               cardIndex === 4 &&
@@ -6759,6 +6915,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 referrer={referrer}
               />
             ) : activeCard4 &&
@@ -6774,6 +6932,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard4 &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -6787,6 +6947,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard4 &&
               topList === "Staking" &&
@@ -6796,6 +6958,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6810,6 +6974,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6823,6 +6989,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6836,6 +7004,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -6846,6 +7016,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 chainId={chainId}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -6926,6 +7098,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -6936,12 +7110,16 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   lp_id={LP_IDAVAX_Array[cardIndex]}
                   chainId={chainId}
@@ -6960,6 +7138,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard5 &&
               topList === "Staking" &&
@@ -6973,6 +7153,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard5 &&
               cardIndex > 2 &&
@@ -6986,6 +7168,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard5 &&
               cardIndex === 4 &&
@@ -6999,6 +7183,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 referrer={referrer}
               />
             ) : activeCard5 &&
@@ -7014,6 +7200,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard5 &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -7027,6 +7215,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard5 &&
               topList === "Staking" &&
@@ -7036,6 +7226,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -7050,6 +7242,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -7063,6 +7257,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -7076,6 +7272,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -7086,6 +7284,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 chainId={chainId}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -7168,6 +7368,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : chain === "bnb" ? (
                 <BscFarming
@@ -7178,12 +7380,16 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : (
                 <FarmAvax
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   lp_id={LP_IDAVAX_Array[cardIndex]}
                   chainId={chainId}
@@ -7199,6 +7405,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard6 && topList === "Buyback" && chain === "avax" ? (
               <AvaxBuyback
@@ -7209,6 +7417,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard6 && topList === "Buyback" && chain === "bnb" ? (
               <></>
@@ -7224,6 +7434,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard6 &&
               topList === "Staking" &&
@@ -7237,6 +7449,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard6 &&
               cardIndex > 2 &&
@@ -7250,6 +7464,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard6 &&
               cardIndex === 4 &&
@@ -7263,6 +7479,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 referrer={referrer}
               />
             ) : activeCard2 &&
@@ -7278,6 +7496,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard6 &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -7291,6 +7511,8 @@ const EarnTopPicks = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               />
             ) : activeCard6 &&
               topList === "Staking" &&
@@ -7300,6 +7522,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -7314,6 +7538,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -7327,6 +7553,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -7340,6 +7568,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 the_graph_result={the_graph_resultavax}
                 chainId={chainId}
                 coinbase={coinbase}
@@ -7350,6 +7580,8 @@ const EarnTopPicks = ({
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 chainId={chainId}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -7438,6 +7670,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -7448,12 +7682,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -7469,6 +7707,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard && topList === "Buyback" && chain === "avax" ? (
                 <AvaxBuyback
@@ -7479,6 +7719,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard && topList === "Buyback" && chain === "bnb" ? (
                 <BscBuyback
@@ -7488,6 +7730,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 topList === "Staking" &&
@@ -7501,6 +7745,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 topList === "Staking" &&
@@ -7514,6 +7760,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 cardIndex > 2 &&
@@ -7527,6 +7775,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 cardIndex >= 2 &&
@@ -7541,6 +7791,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard &&
                 cardIndex === 4 &&
@@ -7554,6 +7806,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   referrer={referrer}
                 />
               ) : activeCard &&
@@ -7567,6 +7821,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   referrer={referrer}
                 />
               ) : activeCard &&
@@ -7577,6 +7833,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -7591,6 +7849,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -7604,6 +7864,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -7617,6 +7879,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -7627,6 +7891,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -7715,6 +7981,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -7725,12 +7993,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -7749,6 +8021,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard2 &&
                 topList === "Staking" &&
@@ -7762,6 +8036,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard2 &&
                 cardIndex > 3 &&
@@ -7775,6 +8051,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard2 &&
                 cardIndex === 4 &&
@@ -7788,6 +8066,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   referrer={referrer}
                 />
               ) : activeCard2 &&
@@ -7803,6 +8083,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard2 &&
                 (cardIndex === 5 || cardIndex > 5) &&
@@ -7816,6 +8098,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard2 &&
                 topList === "Staking" &&
@@ -7825,6 +8109,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -7839,6 +8125,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -7852,6 +8140,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -7865,6 +8155,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -7875,6 +8167,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -7963,6 +8257,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -7973,12 +8269,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -7997,6 +8297,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard3 &&
                 cardIndex > 3 &&
@@ -8010,6 +8312,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard3 &&
                 cardIndex >= 2 &&
@@ -8024,6 +8328,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard3 &&
                 cardIndex === 4 &&
@@ -8037,6 +8343,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   referrer={referrer}
                 />
               ) : activeCard3 &&
@@ -8051,6 +8359,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard3 &&
                 topList === "Staking" &&
@@ -8060,6 +8370,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8074,6 +8386,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8087,6 +8401,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8100,6 +8416,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8110,6 +8428,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8198,6 +8518,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -8208,12 +8530,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -8232,6 +8558,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard4 &&
                 cardIndex > 3 &&
@@ -8245,6 +8573,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard4 &&
                 cardIndex >= 2 &&
@@ -8259,6 +8589,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard4 &&
                 cardIndex === 4 &&
@@ -8272,6 +8604,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   referrer={referrer}
                 />
               ) : activeCard4 &&
@@ -8286,6 +8620,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard4 &&
                 topList === "Staking" &&
@@ -8295,6 +8631,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8309,6 +8647,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8322,6 +8662,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8335,6 +8677,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8345,6 +8689,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8433,6 +8779,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -8443,12 +8791,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -8464,6 +8816,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard5 && topList === "Buyback" && chain === "avax" ? (
                 <AvaxBuyback
@@ -8474,6 +8828,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard5 && topList === "Buyback" && chain === "bnb" ? (
                 <></>
@@ -8489,6 +8845,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard5 &&
                 cardIndex > 3 &&
@@ -8502,6 +8860,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard5 &&
                 cardIndex >= 2 &&
@@ -8516,6 +8876,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard5 &&
                 cardIndex === 4 &&
@@ -8529,6 +8891,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   referrer={referrer}
                 />
               ) : activeCard5 &&
@@ -8543,6 +8907,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard5 &&
                 topList === "Staking" &&
@@ -8552,6 +8918,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8566,6 +8934,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8579,6 +8949,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8592,6 +8964,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8602,6 +8976,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8690,6 +9066,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -8700,12 +9078,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -8724,6 +9106,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard6 &&
                 cardIndex > 3 &&
@@ -8737,6 +9121,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard6 &&
                 cardIndex >= 5 &&
@@ -8750,6 +9136,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard6 &&
                 topList === "Staking" &&
@@ -8759,6 +9147,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8773,6 +9163,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8786,6 +9178,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8799,6 +9193,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8809,6 +9205,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8897,6 +9295,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -8907,12 +9307,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -8931,6 +9335,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard7 &&
                 cardIndex > 3 &&
@@ -8944,6 +9350,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard7 &&
                 cardIndex >= 5 &&
@@ -8957,6 +9365,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard7 &&
                 topList === "Staking" &&
@@ -8966,6 +9376,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8980,6 +9392,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -8993,6 +9407,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9006,6 +9422,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9016,6 +9434,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -9104,6 +9524,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -9114,12 +9536,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -9138,6 +9564,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard8 &&
                 cardIndex > 3 &&
@@ -9151,6 +9579,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard8 &&
                 cardIndex >= 5 &&
@@ -9164,6 +9594,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard8 &&
                 topList === "Staking" &&
@@ -9173,6 +9605,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9187,6 +9621,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9200,6 +9636,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9213,6 +9651,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9223,6 +9663,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -9311,6 +9753,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -9321,12 +9765,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -9345,6 +9793,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard9 &&
                 cardIndex > 3 &&
@@ -9358,6 +9808,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard9 &&
                 cardIndex >= 5 &&
@@ -9371,6 +9823,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard9 &&
                 topList === "Staking" &&
@@ -9380,6 +9834,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9394,6 +9850,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9407,6 +9865,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9420,6 +9880,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9430,6 +9892,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -9518,6 +9982,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -9528,12 +9994,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -9552,6 +10022,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard10 &&
                 cardIndex > 3 &&
@@ -9565,6 +10037,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard10 &&
                 cardIndex >= 5 &&
@@ -9578,6 +10052,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard10 &&
                 topList === "Staking" &&
@@ -9587,6 +10063,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9601,6 +10079,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9614,6 +10094,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9627,6 +10109,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9637,6 +10121,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -9725,6 +10211,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -9735,12 +10223,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -9756,6 +10248,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard11 &&
                 topList === "Staking" &&
@@ -9769,6 +10263,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard11 &&
                 cardIndex > 3 &&
@@ -9782,6 +10278,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard11 &&
                 cardIndex >= 5 &&
@@ -9795,6 +10293,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard11 &&
                 topList === "Staking" &&
@@ -9804,6 +10304,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9818,6 +10320,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9831,6 +10335,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9844,6 +10350,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -9854,6 +10362,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -9944,6 +10454,8 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : chain === "bnb" ? (
                   <BscFarming
@@ -9954,12 +10466,16 @@ const EarnTopPicks = ({
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   />
                 ) : (
                   <FarmAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                     the_graph_result={the_graph_resultavax}
                     lp_id={LP_IDAVAX_Array[cardIndex]}
                     chainId={chainId}
@@ -9978,6 +10494,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard12 &&
                 cardIndex > 3 &&
@@ -9991,6 +10509,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard12 &&
                 cardIndex >= 5 &&
@@ -10004,6 +10524,8 @@ const EarnTopPicks = ({
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                 />
               ) : activeCard12 &&
                 topList === "Staking" &&
@@ -10013,6 +10535,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -10027,6 +10551,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -10040,6 +10566,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -10053,6 +10581,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   the_graph_result={the_graph_resultavax}
                   chainId={chainId}
                   coinbase={coinbase}
@@ -10063,6 +10593,8 @@ const EarnTopPicks = ({
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
                   chainId={chainId}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -10121,13 +10653,16 @@ const EarnTopPicks = ({
               chainId={chainId}
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
+                    expired={true}
+
               coinbase={coinbase}
               referrer={referrer}
               lp_id={lp_id[cardIndex]}
               the_graph_result={the_graph_result}
               the_graph_resultbsc={the_graph_resultbsc}
               isConnected={isConnected}
-              the_graph_resultavax={the_graph_resultavax}
+              the_graph_resultavax={the_graph_resultavax} 
+
               display={
                 pool.expired
                   ? pool.expired === "Yes"

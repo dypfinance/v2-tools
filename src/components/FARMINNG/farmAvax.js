@@ -64,7 +64,8 @@ export default function initFarmAvax({
   chainId,
   lockTime,
   listType,
-  handleSwitchNetwork
+  handleSwitchNetwork,
+  expired
 
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =

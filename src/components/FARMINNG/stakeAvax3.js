@@ -59,7 +59,8 @@ export default function stakeAva3({
   lockTime,
   listType,
   renderedPage,
-  handleSwitchNetwork
+  handleSwitchNetwork,
+  expired
 
 }) {
   let {

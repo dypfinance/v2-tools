@@ -60,7 +60,8 @@ export default function stakeAvax({
   lockTime,
   listType,
   renderedPage,
-  handleSwitchNetwork
+  handleSwitchNetwork,
+  expired
 
 }) {
   let {

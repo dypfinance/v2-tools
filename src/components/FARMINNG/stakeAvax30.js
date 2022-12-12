@@ -59,7 +59,8 @@ export default function stakeAvax30({
   lockTime,
   listType,
   renderedPage,
-  handleSwitchNetwork
+  handleSwitchNetwork,
+  expired
 
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =

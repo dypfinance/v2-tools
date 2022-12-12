@@ -66,7 +66,8 @@ export default function initBscFarming({
   lockTime,
   coinbase,
   listType,
-  handleSwitchNetwork
+  handleSwitchNetwork,
+  expired
 
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsbsc } =

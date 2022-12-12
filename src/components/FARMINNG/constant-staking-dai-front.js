@@ -62,7 +62,8 @@ export default function initConstantStakingNewDai({
   renderedPage,
   listType,
   fee,
-  handleSwitchNetwork
+  handleSwitchNetwork,
+  expired
 
 }) {
   let {
