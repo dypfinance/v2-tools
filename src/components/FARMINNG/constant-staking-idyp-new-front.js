@@ -63,6 +63,7 @@ export default function initConstantStakingiDYP({
   listType,
   handleSwitchNetwork,
   expired,
+  finalApr
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dyps } = window;
   let token_symbol = "iDYP";
@@ -736,7 +737,7 @@ export default function initConstantStakingiDYP({
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <h6 className="earnrewards-text">APR:</h6>
                         <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                          {getFormattedNumber(apr - fee_s, 2)}%
+                        {finalApr}%
                           <ClickAwayListener onClickAway={aprClose}>
                             <Tooltip
                               open={this.state.aprTooltip}
@@ -1333,7 +1334,7 @@ export default function initConstantStakingiDYP({
                           Contract Expiration
                         </span>
                         <h6 className="stats-card-content">
-                          {expiration_time} iDYP
+                          {expiration_time}
                         </h6>
                       </div>
                     </div>
@@ -1751,7 +1752,7 @@ export default function initConstantStakingiDYP({
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                     USD ${" "}
                     {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
+                      this.getApproxReturn(),
                       6
                     )}{" "}
                   </h3>
@@ -1762,7 +1763,7 @@ export default function initConstantStakingiDYP({
                       color: "#f7f7fc",
                     }}
                   >
-                    {getFormattedNumber(this.getApproxReturn(), 6)} iDYP
+                    {getFormattedNumber(this.getApproxReturn() / this.getUsdPerETH(), 6)} iDYP
                   </h6>
                 </div>
                 <div className="mt-4">

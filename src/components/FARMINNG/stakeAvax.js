@@ -61,7 +61,8 @@ export default function stakeAvax({
   listType,
   renderedPage,
   handleSwitchNetwork,
-  expired
+  expired,
+  finalApr
 
 }) {
   let {
@@ -790,7 +791,7 @@ export default function stakeAvax({
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <h6 className="earnrewards-text">APR:</h6>
                         <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                          {getFormattedNumber(this.state.apy, 2)}%{" "}
+                        {finalApr}%
                           <ClickAwayListener onClickAway={aprClose}>
                             <Tooltip
                               open={this.state.aprTooltip}
@@ -1369,7 +1370,7 @@ export default function stakeAvax({
                           Contract Expiration
                         </span>
                         <h6 className="stats-card-content">
-                          {expiration_time} DYP
+                          {expiration_time}
                         </h6>
                       </div>
                     </div>
@@ -1771,7 +1772,7 @@ export default function stakeAvax({
                 <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                 USD ${" "}
                     {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
+                      this.getApproxReturn(),
                       6
                     )}{" "}
                 </h3>
@@ -1782,7 +1783,7 @@ export default function stakeAvax({
                     color: "#f7f7fc",
                   }}
                 >
-                  {getFormattedNumber(this.getApproxReturn(), 6)} DYP
+                  {getFormattedNumber(this.getApproxReturn()/this.getUsdPerETH(), 6)} DYP
                 </h6>
               </div>
               <div className="mt-4">

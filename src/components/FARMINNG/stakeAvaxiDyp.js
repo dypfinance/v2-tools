@@ -22,7 +22,7 @@ import { shortAddress } from "../../functions/shortAddress";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
-import poolsCalculatorIcon from './assets/poolsCalculatorIcon.svg'
+import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
 
@@ -61,8 +61,8 @@ export default function stakeAvaxiDyp({
   lockTime,
   listType,
   handleSwitchNetwork,
-  expired
-
+  expired,
+  finalApr
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;
   let token_symbol = "iDYP";
@@ -243,7 +243,7 @@ export default function stakeAvaxiDyp({
 
     componentDidMount() {
       // this.refreshBalance();
-        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
@@ -261,7 +261,7 @@ export default function stakeAvaxiDyp({
     };
 
     componentWillUnmount() {
-        clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -277,6 +277,8 @@ export default function stakeAvaxiDyp({
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
+        this.setState({ depositLoading: false });
+
         return;
       }
 
@@ -379,8 +381,7 @@ export default function stakeAvaxiDyp({
           this.setState({ claimLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  claimStatus: "initial",  errorMsg2: '' });
-
+            this.setState({ claimStatus: "initial", errorMsg2: "" });
           }, 10000);
         });
     };
@@ -532,8 +533,7 @@ export default function stakeAvaxiDyp({
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  reInvestStatus: "invest",  errorMsg2: '' });
-
+            this.setState({ reInvestStatus: "invest", errorMsg2: "" });
           }, 10000);
         });
     };
@@ -547,19 +547,15 @@ export default function stakeAvaxiDyp({
       return result;
     };
 
-
-
-
-    handleAvaxPool = async() => {
-      await handleSwitchNetworkhook("0xa86a").then(()=>{
-        this.props.handleSwitchNetwork('43114')
-  
-      }).catch((e)=>{
-        console.log(e)
-      })
-     
+    handleAvaxPool = async () => {
+      await handleSwitchNetworkhook("0xa86a")
+        .then(() => {
+          this.props.handleSwitchNetwork("43114");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     };
-
 
     render() {
       let {
@@ -655,7 +651,6 @@ export default function stakeAvaxiDyp({
       let infoItems2 = ["75% WBNB/ETH rewards", "25% DYP rewards"];
       let tooltip2 = infoItems2.join("\n");
 
-
       const performanceOpen = () => {
         this.setState({ performanceTooltip: true });
       };
@@ -693,13 +688,19 @@ export default function stakeAvaxiDyp({
         this.setState({ withdrawTooltip: false });
       };
 
-      // console.log(this.state.depositStatus)
+      
 
       return (
         <div className="container-lg p-0">
-          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
+          <div
+            className={`allwrapper ${listType === "table" && "my-4"}`}
+            style={{
+              border: listType !== "table" && "none",
+              borderRadius: listType !== "table" && "0px",
+            }}
+          >
             <div className="leftside2 w-100">
-            <div className="activewrapper">
+              <div className="activewrapper">
                 <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between gap-3 gap-lg-5">
                   <h6 className="activetxt">
                     <img
@@ -718,118 +719,118 @@ export default function stakeAvaxiDyp({
                   </div> */}
                   <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
                     <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Performance fee:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {fee_s}%
-                      <ClickAwayListener onClickAway={performanceClose}>
-                        <Tooltip
-                          open={this.state.performanceTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "Performance fee is subtracted from the displayed APR."
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Performance fee:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {fee_s}%
+                          <ClickAwayListener onClickAway={performanceClose}>
+                            <Tooltip
+                              open={this.state.performanceTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "Performance fee is subtracted from the displayed APR."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img
-                            src={moreinfo}
-                            alt=""
-                            onClick={performanceOpen}
-                          />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
+                            >
+                              <img
+                                src={moreinfo}
+                                alt=""
+                                onClick={performanceOpen}
+                              />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
 
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">APR:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {getFormattedNumber(apr - fee_s, 2)}%
-                      <ClickAwayListener onClickAway={aprClose}>
-                        <Tooltip
-                          open={this.state.aprTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">APR:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {finalApr}%
+                          <ClickAwayListener onClickAway={aprClose}>
+                            <Tooltip
+                              open={this.state.aprTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "APR reflects the interest rate of earnings on an account over the course of one year. "
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={aprOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Lock time:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <ClickAwayListener onClickAway={lockClose}>
-                        <Tooltip
-                          open={this.state.lockTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "The amount of time your deposited assets will be locked."
+                            >
+                              <img src={moreinfo} alt="" onClick={aprOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Lock time:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
+                          <ClickAwayListener onClickAway={lockClose}>
+                            <Tooltip
+                              open={this.state.lockTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "The amount of time your deposited assets will be locked."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={lockOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
+                            >
+                              <img src={moreinfo} alt="" onClick={lockOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
                     </div>
-                <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
-                  <h6
-                    className="bottomitems"
-                    onClick={() => this.setState({ showCalculator: true })}
-                  >
-                    <img src={poolsCalculatorIcon} alt="" />
-                    Calculator
-                  </h6>
-                  <a
-                    href={
-                      // chainId === 1
-                      // ?
-                      "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
-                      // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                    }
-                    target={"_blank"}
-                    rel="noreferrer"
-                  >
-                    <h6 className="bottomitems">
-                      <img src={arrowup} alt="" />
-                      Get iDYP
-                    </h6>
-                  </a>
-                  <div
-                    onClick={() => {
-                      this.showPopup();
-                    }}
-                  >
-                    <h6 className="bottomitems">
-                      <img src={purplestats} alt="" />
-                      Stats
-                    </h6>
-                  </div>
-                </div>
+                    <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                      <h6
+                        className="bottomitems"
+                        onClick={() => this.setState({ showCalculator: true })}
+                      >
+                        <img src={poolsCalculatorIcon} alt="" />
+                        Calculator
+                      </h6>
+                      <a
+                        href={
+                          // chainId === 1
+                          // ?
+                          "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                          // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        }
+                        target={"_blank"}
+                        rel="noreferrer"
+                      >
+                        <h6 className="bottomitems">
+                          <img src={arrowup} alt="" />
+                          Get iDYP
+                        </h6>
+                      </a>
+                      <div
+                        onClick={() => {
+                          this.showPopup();
+                        }}
+                      >
+                        <h6 className="bottomitems">
+                          <img src={purplestats} alt="" />
+                          Stats
+                        </h6>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -847,7 +848,7 @@ export default function stakeAvaxiDyp({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                       {this.props.coinbase === null ? (
+                    {this.props.coinbase === null ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -855,16 +856,18 @@ export default function stakeAvaxiDyp({
                         {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : chainId === '43114' ? (
+                    ) : chainId === "43114" ? (
                       <div className="addressbtn btn">
                         <Address a={this.props.coinbase} chainId={43114} />
                       </div>
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{this.handleAvaxPool()}}
+                        onClick={() => {
+                          this.handleAvaxPool();
+                        }}
                       >
-                       Change Network
+                        Change Network
                       </button>
                     )}
                   </div>
@@ -874,7 +877,13 @@ export default function stakeAvaxiDyp({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "43114" || this.props.expired === true
+                      ? "blurrypool"
+                      : ""
+                  }`}
+                >
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1031,7 +1040,11 @@ export default function stakeAvaxiDyp({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "43114" && "blurrypool"
+                  }`}
+                >
                   <div className="d-flex justify-content-between gap-2">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
@@ -1056,7 +1069,7 @@ export default function stakeAvaxiDyp({
                       </ClickAwayListener>
                     </h6>
                   </div>
-                      
+
                   <div className="form-row flex-column flex-lg-row d-flex gap-2 align-item-start align-items-lg-center justify-content-between">
                     <div className="d-flex flex-column">
                       <span
@@ -1172,7 +1185,11 @@ export default function stakeAvaxiDyp({
                   CLAIM
                 </button> */}
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '43114' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                    chainId !== "43114" && "blurrypool"
+                  }`}
+                >
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
@@ -1205,7 +1222,8 @@ export default function stakeAvaxiDyp({
                   </button>
                 </div>
               </div>
-            </div>q
+            </div>
+            q
           </div>
 
           {/* </div> */}
@@ -1217,8 +1235,7 @@ export default function stakeAvaxiDyp({
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
-            width="fit-content"
-
+              width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -1308,7 +1325,7 @@ export default function stakeAvaxiDyp({
                           Contract Expiration
                         </span>
                         <h6 className="stats-card-content">
-                          {expiration_time} iDYP
+                          {expiration_time}
                         </h6>
                       </div>
                     </div>
@@ -1437,8 +1454,7 @@ export default function stakeAvaxiDyp({
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
-            width="fit-content"
-
+              width="fit-content"
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
@@ -1474,7 +1490,10 @@ export default function stakeAvaxiDyp({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                            {token_balance > 0 ? token_balance : getFormattedNumber(0, 6)} {token_symbol}
+                            {token_balance > 0
+                              ? token_balance
+                              : getFormattedNumber(0, 6)}{" "}
+                            {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1517,7 +1536,8 @@ export default function stakeAvaxiDyp({
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
                               ? "success-button"
-                              : this.state.withdrawAmount === "" && this.state.withdrawStatus === "initial"
+                              : this.state.withdrawAmount === "" &&
+                                this.state.withdrawStatus === "initial"
                               ? "disabled-btn"
                               : null
                           } d-flex justify-content-center align-items-center`}
@@ -1637,14 +1657,14 @@ export default function stakeAvaxiDyp({
           </div> */}
 
           {this.state.showCalculator && (
-            <Modal 
-            visible={this.state.showCalculator}
-            title="calculator"
-            modalId="calculatormodal"
-            setIsVisible={() => this.setState({showCalculator: false})}
+            <Modal
+              visible={this.state.showCalculator}
+              title="calculator"
+              modalId="calculatormodal"
+              setIsVisible={() => this.setState({ showCalculator: false })}
             >
               <div className="pools-calculator">
-              {/* <div className="d-flex align-items-center justify-content-between">
+                {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -1666,84 +1686,82 @@ export default function stakeAvaxiDyp({
                   className="cursor-pointer"
                 />
               </div> */}
-              <hr />
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Days to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Days*"
-                    value={this.state.approxDays}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDays: e.target.value,
-                      })
-                    }
-                  />
+                <hr />
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Days to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Days*"
+                      value={this.state.approxDays}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDays: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      iDYP to Deposit
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Value of deposit in USD"
+                      value={this.state.approxDeposit}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDeposit: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    iDYP to Deposit
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Value of deposit in USD"
-                    value={this.state.approxDeposit}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDeposit: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </div>
-              <div className="d-flex flex-column gap-2 mt-4">
-                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                USD ${" "}
+                <div className="d-flex flex-column gap-2 mt-4">
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                    USD $ {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                  </h3>
+                  <h6
+                    style={{
+                      fontWeight: "300",
+                      fontSize: "15px",
+                      color: "#f7f7fc",
+                    }}
+                  >
                     {getFormattedNumber(
                       this.getApproxReturn() / this.getUsdPerETH(),
                       6
                     )}{" "}
-                </h3>
-                <h6
-                  style={{
-                    fontWeight: "300",
-                    fontSize: "15px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  {getFormattedNumber(this.getApproxReturn(), 6)} iDYP
-                </h6>
+                    iDYP
+                  </h6>
+                </div>
+                <div className="mt-4">
+                  <p
+                    style={{
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    *This calculator is for informational purposes only.
+                    Calculated yields assume that prices of the deposited assets
+                    don't change.
+                  </p>
+                </div>
               </div>
-              <div className="mt-4">
-                <p
-                  style={{
-                    fontWeight: "400",
-                    fontSize: "13px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  *This calculator is for informational purposes only.
-                  Calculated yields assume that prices of the deposited assets
-                  don't change.
-                </p>
-              </div>
-            </div>
-       
             </Modal>
- )}
-
-      </div>
+          )}
+        </div>
 
         // <div>
         //   <div className="row">

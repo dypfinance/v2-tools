@@ -60,7 +60,8 @@ export default function stakeAva3({
   listType,
   renderedPage,
   handleSwitchNetwork,
-  expired
+  expired,
+  finalApr
 
 }) {
   let {
@@ -274,6 +275,8 @@ export default function stakeAva3({
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
+      this.setState({ depositLoading: false });
+
         return;
       }
 
@@ -914,7 +917,7 @@ export default function stakeAva3({
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <h6 className="earnrewards-text">APR:</h6>
                         <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                          {getFormattedNumber(this.state.apy, 2)}%{" "}
+                        {finalApr}%
                           <ClickAwayListener onClickAway={aprClose}>
                             <Tooltip
                               open={this.state.aprTooltip}
@@ -1493,7 +1496,7 @@ export default function stakeAva3({
                           Contract Expiration
                         </span>
                         <h6 className="stats-card-content">
-                          {expiration_time} DYP
+                          {expiration_time}
                         </h6>
                       </div>
                     </div>
@@ -1894,7 +1897,7 @@ export default function stakeAva3({
                 <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                 USD ${" "}
                     {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
+                      this.getApproxReturn(),
                       6
                     )}{" "}
                 </h3>
@@ -1905,7 +1908,7 @@ export default function stakeAva3({
                     color: "#f7f7fc",
                   }}
                 >
-                  {getFormattedNumber(this.getApproxReturn(), 6)} WAVAX
+                  {getFormattedNumber(this.getApproxReturn()/this.getUsdPerETH(), 6)} WAVAX
                 </h6>
               </div>
               <div className="mt-4">

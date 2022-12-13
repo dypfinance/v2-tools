@@ -65,7 +65,8 @@ export default function initbscConstantStakingiDyp({
   lockTime,
   chainId,
   handleSwitchNetwork,
-  expired
+  expired,
+  finalApr
 
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsbsc } = window;
@@ -741,7 +742,7 @@ export default function initbscConstantStakingiDyp({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">APR:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {getFormattedNumber(apr - fee_s, 2)}%
+                    {finalApr}%
                       <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
                           open={this.state.aprTooltip}
@@ -1323,7 +1324,7 @@ export default function initbscConstantStakingiDyp({
                         Contract Expiration
                       </span>
                       <h6 className="stats-card-content">
-                        {expiration_time} iDYP
+                        {expiration_time}
                       </h6>
                     </div>
                   </div>
@@ -1744,7 +1745,7 @@ export default function initbscConstantStakingiDyp({
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>USD ${" "}
                     {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
+                      this.getApproxReturn(),
                       6
                     )}{" "}</h3>
               <h6
@@ -1754,7 +1755,7 @@ export default function initbscConstantStakingiDyp({
                   color: "#f7f7fc",
                 }}
               >
-                Approx {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                Approx {getFormattedNumber(this.getApproxReturn() / this.getUsdPerETH(), 6)}{" "}
                 iDYP
               </h6>
             </div>
