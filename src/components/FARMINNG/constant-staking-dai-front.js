@@ -510,6 +510,7 @@ export default function initConstantStakingNewDai({
         let _tvlConstantDAI = reward_token_daieth.balanceOf(
           staking._address
         ); /* TVL of DAI on Staking */
+ 
 
         //Take DYPS Balance
         let _tvlDYPS = token_dyps.balanceOf(staking._address); /* TVL of DYPS */
@@ -555,7 +556,6 @@ export default function initConstantStakingNewDai({
           .plus(usdValueDAI)
           .plus(usdValueDYPS)
           .toFixed(18);
-        //console.log({tvlUSD})
 
         this.setState({
           token_balance,
@@ -622,7 +622,7 @@ export default function initConstantStakingNewDai({
         window.location.origin +
         window.location.pathname +
         "?r=" +
-        this.state.this.state.coinbase
+        this.state.coinbase
       );
     };
 
@@ -728,7 +728,7 @@ export default function initConstantStakingNewDai({
         tvl,
       } = this.state;
       token_balance = new BigNumber(token_balance).div(1e18).toString(10);
-      token_balance = getFormattedNumber(token_balance, 6);
+      token_balance = getFormattedNumber(token_balance, 6); 
 
       let { the_graph_result } = this.props;
 
