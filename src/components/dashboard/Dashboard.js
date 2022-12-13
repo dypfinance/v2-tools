@@ -449,6 +449,7 @@ const Dashboard = ({
   }, [network, chainId]);
 
   const windowSize = useWindowSize();
+  
   return (
     <div className="container-lg dashboardwrapper px-0">
       <div className="d-flex m-0 flex-column flex-xxl-row justify-content-between gap-4">
@@ -521,7 +522,7 @@ const Dashboard = ({
                   )}
                 </div>
                 {activeCard && chainId === 1 ? (
-                  activeCard?.cardType === "Staking" &&
+                 
                   chainId === 1 &&
                   cardIndex === 1 ? (
                     <ConstantStakingiDYP1
@@ -548,7 +549,7 @@ const Dashboard = ({
                     <></>
                   )
                 ) : activeCard && chainId === 56 && cardIndex === 0 ? (
-                  activeCard.cardType === "Staking" ? (
+                
                     <BscConstantStake
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
@@ -559,11 +560,9 @@ const Dashboard = ({
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
-                  ) : (
-                    <></>
-                  )
+                  
                 ) : activeCard && chainId === 56 && cardIndex === 1 ? (
-                  activeCard.cardType === "Staking" ? (
+                  
                     <BscConstantStake1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
@@ -574,11 +573,9 @@ const Dashboard = ({
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
-                  ) : (
-                    <></>
-                  )
+                
                 ) : activeCard && chainId === 43114 && cardIndex === 0 ? (
-                  activeCard.cardType === "Staking" ? (
+                 
                     <StakeAvax
                       is_wallet_connected={isConnected}
                       handleConnection={handleConnection}
@@ -589,11 +586,9 @@ const Dashboard = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
                     />
-                  ) : (
-                    <></>
-                  )
+                 
                 ) : activeCard && chainId === 43114 && cardIndex === 1 ? (
-                  activeCard.cardType === "Staking" ? (
+                 
                     <StakeAvax1
                       is_wallet_connected={isConnected}
                       handleConnection={handleConnection}
@@ -604,9 +599,7 @@ const Dashboard = ({
                       expired={false}
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
-                  ) : (
-                    <></>
-                  )
+               
                 ) : (
                   <></>
                 )}
@@ -659,7 +652,8 @@ const Dashboard = ({
                   )}
                 </div>
                 {activeCard ? (
-                  activeCard?.cardType === "Staking" && chainId === 1 ? (
+                 chainId === 1 &&
+                 cardIndex === 1 ? (
                     <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
@@ -730,7 +724,7 @@ const Dashboard = ({
                   )}
                 </div>
                 {activeCard2 ? (
-                  activeCard2?.cardType === "Staking" && chainId === 1 ? (
+                 chainId === 1 && cardIndex === 1 ? (
                     <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
