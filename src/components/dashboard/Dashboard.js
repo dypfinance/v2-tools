@@ -429,17 +429,7 @@ const Dashboard = ({
       fetchAvaxStaking();
     }
   };
-  const setPools = async () => {
-    if (chainId === 1) {
-      setCards(cardsEth);
-    }
-    if (chainId === 56) {
-      setCards(cardsBsc);
-    }
-    if (chainId === 43114) {
-      setCards(cardsAvax);
-    }
-  };
+ 
 
   const handleReload = () => {
     window.location.reload();
@@ -447,7 +437,7 @@ const Dashboard = ({
 
   const ethereum = window.ethereum;
 
-  ethereum?.on("chainChanged", handleReload);
+  // ethereum?.on("chainChanged", handleReload);
 
   // ethereum?.removeAllListeners(["networkChanged"]);
 
@@ -455,7 +445,6 @@ const Dashboard = ({
     fetchStakingData();
     checkNetworkId();
     setLoading(false);
-    setPools();
     fetchPopularNewsData();
   }, [network, chainId]);
 
@@ -508,7 +497,7 @@ const Dashboard = ({
                               : "cawslogo.svg"
                           }
                           onShowDetailsClick={() => {
-                            setActiveCard(cards[index]);
+                            setActiveCard(topPools[index]);
                             setcardIndex(index);
                             setDetails(index);
                           }}
@@ -625,36 +614,49 @@ const Dashboard = ({
             ) : (
               <div className="d-flex flex-column gap-4">
                 <div className="row m-0 gap-4 toppool-allwrapper">
-                  {cards.length > 0 &&
-                    cards.slice(0, 1).map((item, index) => {
+                {topPools.length > 0 && loading === false ? (
+                    topPools.slice(0,1).map((item, index) => {
                       return (
                         <TopPoolsCard
-                          renderedPage="dashboard"
-                          cardId={item.tokenName}
                           key={index}
-                          cardType={item.cardType}
+                          chain={network}
                           top_pick={item.top_pick}
-                          tokenName={item.tokenName}
-                          apr={item.apr}
-                          tvl={item.tvl}
-                          lockTime={item.lockTime}
-                          tokenLogo={item.tokenLogo}
-                          tag={item.tag}
+                          tokenName={item.pair_name}
+                          apr={item.apy_percent + "%"}
+                          tvl={"$" + getFormattedNumber(item.tvl_usd)}
+                          lockTime={item.lock_time ? item.lock_time : 30}
+                          tokenLogo={
+                            item.icon
+                              ? item.icon
+                              : item.pair_name === "iDYP"
+                              ? "idypius.svg"
+                              : item.pair_name === "DYP"
+                              ? "dyplogo.svg"
+                              : "cawslogo.svg"
+                          }
                           onShowDetailsClick={() => {
-                            setActiveCard(cards[index]);
-                            setActiveCard2(null);
+                            setActiveCard(topPools[index]);
                             setcardIndex(index);
                             setDetails(index);
                           }}
-                          expired={false}
                           onHideDetailsClick={() => {
                             setActiveCard(null);
                             setDetails();
                           }}
+                          cardType={"table"}
                           details={details === index ? true : false}
+                          expired={false}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <div
+                      className="w-100 d-flex justify-content-center align-items-center mt-5"
+                      style={{ gridColumn: "1 / 3" }}
+                    >
+                      <FadeLoader color="#7770DF" />
+                    </div>
+                  )}
                 </div>
                 {activeCard ? (
                   activeCard?.cardType === "Staking" && chainId === 1 ? (
@@ -683,35 +685,49 @@ const Dashboard = ({
                   <></>
                 )}
                 <div className="row m-0 gap-4 toppool-allwrapper">
-                  {cards.length > 0 &&
-                    cards.slice(1, cards.length).map((item, index) => {
+                {topPools.length > 0 && loading === false ? (
+                    topPools.slice(1, topPools.length).map((item, index) => {
                       return (
                         <TopPoolsCard
-                          renderedPage="dashboard"
-                          cardId={item.tokenName}
                           key={index}
-                          cardType={item.cardType}
+                          chain={network}
                           top_pick={item.top_pick}
-                          tokenName={item.tokenName}
-                          apr={item.apr}
-                          tvl={item.tvl}
-                          lockTime={item.lockTime}
-                          tokenLogo={item.tokenLogo}
+                          tokenName={item.pair_name}
+                          apr={item.apy_percent + "%"}
+                          tvl={"$" + getFormattedNumber(item.tvl_usd)}
+                          lockTime={item.lock_time ? item.lock_time : 30}
+                          tokenLogo={
+                            item.icon
+                              ? item.icon
+                              : item.pair_name === "iDYP"
+                              ? "idypius.svg"
+                              : item.pair_name === "DYP"
+                              ? "dyplogo.svg"
+                              : "cawslogo.svg"
+                          }
                           onShowDetailsClick={() => {
-                            setActiveCard2(cards[index + 1]);
-                            setActiveCard(null);
-                            setcardIndex(index + 1);
-                            setDetails(index + 1);
+                            setActiveCard(topPools[index]);
+                            setcardIndex(index);
+                            setDetails(index);
                           }}
                           onHideDetailsClick={() => {
-                            setActiveCard2(null);
+                            setActiveCard(null);
                             setDetails();
                           }}
-                          details={details === index + 1 ? true : false}
+                          cardType={"table"}
+                          details={details === index ? true : false}
                           expired={false}
                         />
                       );
-                    })}
+                    })
+                  ) : (
+                    <div
+                      className="w-100 d-flex justify-content-center align-items-center mt-5"
+                      style={{ gridColumn: "1 / 3" }}
+                    >
+                      <FadeLoader color="#7770DF" />
+                    </div>
+                  )}
                 </div>
                 {activeCard2 ? (
                   activeCard2?.cardType === "Staking" && chainId === 1 ? (
