@@ -63,6 +63,7 @@ export default function initConstantStakingNew({
   handleSwitchNetwork,
   expired,
   listType,
+  finalApr
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
     window;
@@ -1036,7 +1037,7 @@ export default function initConstantStakingNew({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">APR:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {getFormattedNumber(this.state.apy, 2)}%{" "}
+                    {finalApr}%
                       <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
                           open={this.state.aprTooltip}
@@ -1630,7 +1631,7 @@ export default function initConstantStakingNew({
                           Contract Expiration
                         </span>
                         <h6 className="stats-card-content">
-                          {expiration_time} DYP
+                          {expiration_time}
                         </h6>
                       </div>
                     </div>

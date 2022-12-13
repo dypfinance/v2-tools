@@ -65,7 +65,8 @@ export default function initbscConstantStakingiDyp({
   lockTime,
   chainId,
   handleSwitchNetwork,
-  expired
+  expired,
+  finalApr
 
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsbsc } = window;
@@ -741,7 +742,7 @@ export default function initbscConstantStakingiDyp({
                   <div className="d-flex align-items-center justify-content-between gap-2">
                     <h6 className="earnrewards-text">APR:</h6>
                     <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {getFormattedNumber(apr - fee_s, 2)}%
+                    {finalApr}%
                       <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
                           open={this.state.aprTooltip}
@@ -1323,7 +1324,7 @@ export default function initbscConstantStakingiDyp({
                         Contract Expiration
                       </span>
                       <h6 className="stats-card-content">
-                        {expiration_time} iDYP
+                        {expiration_time}
                       </h6>
                     </div>
                   </div>
