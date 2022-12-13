@@ -40,7 +40,7 @@ const Dashboard = ({
   handleSwitchNetwork,
 }) => {
   const [topPools, setTopPools] = useState([]);
-  const [poolTvl, setTvl] = useState(0); 
+  const [poolTvl, setTvl] = useState(0);
 
   const [chainId, setChainId] = useState(network);
 
@@ -59,7 +59,6 @@ const Dashboard = ({
           return b.tvl_usd - a.tvl_usd;
         });
         setTopPools(sortedAprs);
-
       })
       .catch((err) => {
         console.log(err);
@@ -85,14 +84,13 @@ const Dashboard = ({
       });
   };
 
-
   const fetchEthStaking = async () => {
     await axios
       .get(`https://api.dyp.finance/api/get_staking_info_eth`)
       .then((res) => {
         const dypIdyp = res.data.stakingInfoiDYPEth;
 
-        const cleanCards = dypIdyp.filter((item) =>  {
+        const cleanCards = dypIdyp.filter((item) => {
           return item.expired !== "Yes";
         });
 
@@ -103,14 +101,12 @@ const Dashboard = ({
         const finalEthCards = res.data.stakingInfoCAWS.concat(
           sortedAprs.slice(0, 2)
         );
-        setTopPools(finalEthCards.slice(0,2));
-        
+        setTopPools(finalEthCards.slice(0, 2));
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
 
   const checkNetworkId = () => {
     if (window.ethereum) {
@@ -130,9 +126,10 @@ const Dashboard = ({
       top_pick: false,
       tokenName: "CAWS",
       apr: "50%",
-      tvl: topPools.length > 0
-      ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
-      : "$48543.20",
+      tvl:
+        topPools.length > 0
+          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
+          : "$48543.20",
       lockTime: "30 Days",
       tokenLogo: "cawslogo.svg",
       cardType: "NFT",
@@ -142,9 +139,10 @@ const Dashboard = ({
       top_pick: false,
       tokenName: "iDYP",
       apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
-      tvl: topPools.length > 0
-      ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
-      : "$48543.20",
+      tvl:
+        topPools.length > 0
+          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
+          : "$48543.20",
       lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
       tokenLogo: "idypius.svg",
       cardType: "Staking",
@@ -217,7 +215,7 @@ const Dashboard = ({
       tag: "stake",
     },
   ];
-  
+
   const [activeCard, setActiveCard] = useState();
   const [cardIndex, setcardIndex] = useState();
   const [details, setDetails] = useState();
@@ -229,11 +227,13 @@ const Dashboard = ({
   // let network = parseInt(network);
 
   const eth_address = "ETH";
-  
+
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
     staking: window.constant_staking_idyp_3,
     apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
-    finalApr: topPools[1]?.apy_performancefee ? topPools[1]?.apy_performancefee : 30,
+    finalApr: topPools[1]?.apy_performancefee
+      ? topPools[1]?.apy_performancefee
+      : 30,
     liquidity: eth_address,
     expiration_time: "15 August 2023 ",
     other_info: false,
@@ -242,13 +242,15 @@ const Dashboard = ({
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: network.toString(),
-    lockTime: parseInt(topPools[1]?.lock_time?.split(" ")[0])=== "No" ? "No Lock" : topPools[1]?.lock_time?.split(" ")[0],
+    lockTime:
+      parseInt(topPools[1]?.lock_time?.split(" ")[0]) === "No"
+        ? "No Lock"
+        : topPools[1]?.lock_time?.split(" ")[0],
     listType: "table",
     handleSwitchNetwork: handleSwitchNetwork,
   });
 
   const stakearrayStakeBscDyp2 = [
-    
     window.constant_stakingbsc_new10,
     window.constant_stakingbsc_new11,
   ];
@@ -258,12 +260,17 @@ const Dashboard = ({
   const BscConstantStake = initbscConstantStaking({
     staking: stakearrayStakeBscDyp2[0],
     apr: topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30,
-    finalApr: topPools[0]?.apy_performancefee ? topPools[0]?.apy_performancefee : 30,
+    finalApr: topPools[0]?.apy_performancefee
+      ? topPools[0]?.apy_performancefee
+      : 30,
     liquidity: wbsc_address,
     expiration_time: expirearrayStakeBscDyp2[0],
     coinbase: coinbase,
     chainId: network.toString(),
-    lockTime: parseInt(topPools[0]?.lock_time?.split(" ")[0])=== "No" ? "No Lock" : topPools[0]?.lock_time?.split(" ")[0],
+    lockTime:
+      parseInt(topPools[0]?.lock_time?.split(" ")[0]) === "No"
+        ? "No Lock"
+        : topPools[0]?.lock_time?.split(" ")[0],
     listType: "table",
     other_info: false,
     fee: topPools[0]?.performancefee,
@@ -272,12 +279,17 @@ const Dashboard = ({
   const BscConstantStake1 = initbscConstantStaking({
     staking: stakearrayStakeBscDyp2[1],
     apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
-    finalApr: topPools[1]?.apy_performancefee ? topPools[1]?.apy_performancefee : 30,
+    finalApr: topPools[1]?.apy_performancefee
+      ? topPools[1]?.apy_performancefee
+      : 30,
     liquidity: wbsc_address,
     expiration_time: expirearrayStakeBscDyp2[1],
     coinbase: coinbase,
     chainId: network.toString(),
-    lockTime: parseInt(topPools[1]?.lock_time?.split(" ")[0])=== "No" ? "No Lock" : topPools[1]?.lock_time?.split(" ")[0],
+    lockTime:
+      parseInt(topPools[1]?.lock_time?.split(" ")[0]) === "No"
+        ? "No Lock"
+        : topPools[1]?.lock_time?.split(" ")[0],
     listType: "table",
     other_info: false,
     fee: topPools[1]?.performancefee,
@@ -307,28 +319,38 @@ const Dashboard = ({
   const StakeAvax = stakeAvax({
     staking: stakingarrayStakeAvax[0],
     apr: topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30,
-    finalApr: topPools[0]?.apy_performancefee ? topPools[0]?.apy_performancefee : 30,
+    finalApr: topPools[0]?.apy_performancefee
+      ? topPools[0]?.apy_performancefee
+      : 30,
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvax[0],
     fee: topPools[0]?.performancefee,
     coinbase: coinbase,
     chainId: network.toString(),
     referrer: referrer,
-    lockTime: parseInt(topPools[0]?.lock_time?.split(" ")[0])=== "No" ? "No Lock" : topPools[cardIndex]?.lock_time?.split(" ")[0],
+    lockTime:
+      parseInt(topPools[0]?.lock_time?.split(" ")[0]) === "No"
+        ? "No Lock"
+        : topPools[cardIndex]?.lock_time?.split(" ")[0],
     listType: "table",
   });
 
   const StakeAvax1 = stakeAvax({
     staking: stakingarrayStakeAvax[1],
     apr: topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30,
-    finalApr: topPools[1]?.apy_performancefee ? topPools[1]?.apy_performancefee : 30,
+    finalApr: topPools[1]?.apy_performancefee
+      ? topPools[1]?.apy_performancefee
+      : 30,
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvax[1],
     fee: topPools[1]?.performancefee,
     coinbase: coinbase,
     chainId: network.toString(),
     referrer: referrer,
-    lockTime: parseInt(topPools[1]?.lock_time?.split(" ")[0])=== "No" ? "No Lock" : topPools[cardIndex]?.lock_time?.split(" ")[0],
+    lockTime:
+      parseInt(topPools[1]?.lock_time?.split(" ")[0]) === "No"
+        ? "No Lock"
+        : topPools[cardIndex]?.lock_time?.split(" ")[0],
     listType: "table",
   });
 
@@ -394,49 +416,49 @@ const Dashboard = ({
       .catch(console.error);
 
     return result;
-  }; 
+  };
 
-  const fetchStakingData = () =>{
-    if(chainId === 1) {
-      fetchEthStaking()
+  const fetchStakingData = () => {
+    if (chainId === 1) {
+      fetchEthStaking();
     }
-    if(chainId === 56) {
-      fetchBnbStaking()
+    if (chainId === 56) {
+      fetchBnbStaking();
     }
-    if(chainId === 43114) {
-      fetchAvaxStaking()
+    if (chainId === 43114) {
+      fetchAvaxStaking();
     }
-  }
+  };
   const setPools = async () => {
     if (chainId === 1) {
       setCards(cardsEth);
-    } 
-     if (chainId === 56) {
+    }
+    if (chainId === 56) {
       setCards(cardsBsc);
-    } if (chainId === 43114) {
+    }
+    if (chainId === 43114) {
       setCards(cardsAvax);
     }
   };
 
-  const handleReload =()=>{
-    window.location.reload()
-  }
+  const handleReload = () => {
+    window.location.reload();
+  };
 
   const ethereum = window.ethereum;
 
-  
   ethereum?.on("chainChanged", handleReload);
 
-  ethereum?.removeAllListeners(['networkChanged'])
+  // ethereum?.removeAllListeners(["networkChanged"]);
 
   useEffect(() => {
-    fetchStakingData()
+    fetchStakingData();
     checkNetworkId();
     setLoading(false);
     setPools();
     fetchPopularNewsData();
-  }, [network, chainId ]);
-  
+  }, [network, chainId]);
+
   const windowSize = useWindowSize();
   return (
     <div className="container-lg dashboardwrapper px-0">
@@ -469,36 +491,35 @@ const Dashboard = ({
                     topPools.map((item, index) => {
                       return (
                         <TopPoolsCard
-                        key={index}
-                        chain={network}
-                        top_pick={item.top_pick}
-                        tokenName={item.pair_name}
-                        apr={item.apy_percent + "%"}
-                        tvl={"$" + getFormattedNumber(item.tvl_usd)}
-                        lockTime={
-                          item.lock_time ? item.lock_time : 30
-                        }
-                        tokenLogo={
-                          item.icon? item.icon
-                          : item.pair_name === "iDYP"
-                          ? "idypius.svg"
-                          : item.pair_name === "DYP"
-                          ? "dyplogo.svg"
-                          : "cawslogo.svg"
-                        }
-                        onShowDetailsClick={() => {
-                          setActiveCard(cards[index]);
-                          setcardIndex(index);
-                          setDetails(index);
-                        }}
-                        onHideDetailsClick={() => {
-                          setActiveCard(null);
-                          setDetails();
-                        }}
-                        cardType={'table'}
-                        details={details === index ? true : false}
-                        expired={false}
-                      />
+                          key={index}
+                          chain={network}
+                          top_pick={item.top_pick}
+                          tokenName={item.pair_name}
+                          apr={item.apy_percent + "%"}
+                          tvl={"$" + getFormattedNumber(item.tvl_usd)}
+                          lockTime={item.lock_time ? item.lock_time : 30}
+                          tokenLogo={
+                            item.icon
+                              ? item.icon
+                              : item.pair_name === "iDYP"
+                              ? "idypius.svg"
+                              : item.pair_name === "DYP"
+                              ? "dyplogo.svg"
+                              : "cawslogo.svg"
+                          }
+                          onShowDetailsClick={() => {
+                            setActiveCard(cards[index]);
+                            setcardIndex(index);
+                            setDetails(index);
+                          }}
+                          onHideDetailsClick={() => {
+                            setActiveCard(null);
+                            setDetails();
+                          }}
+                          cardType={"table"}
+                          details={details === index ? true : false}
+                          expired={false}
+                        />
                       );
                     })
                   ) : (
@@ -533,7 +554,6 @@ const Dashboard = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                       handleConnection={handleConnection}
                       expired={false}
-
                     />
                   ) : (
                     <></>
@@ -547,7 +567,6 @@ const Dashboard = ({
                       lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId.toString()}
                       expired={false}
-
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
@@ -563,7 +582,6 @@ const Dashboard = ({
                       lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId.toString()}
                       expired={false}
-
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
@@ -581,7 +599,6 @@ const Dashboard = ({
                       referrer={referrer}
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
-
                     />
                   ) : (
                     <></>
@@ -596,7 +613,6 @@ const Dashboard = ({
                       coinbase={coinbase}
                       referrer={referrer}
                       expired={false}
-
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
                   ) : (
@@ -630,8 +646,7 @@ const Dashboard = ({
                             setcardIndex(index);
                             setDetails(index);
                           }}
-                      expired={false}
-
+                          expired={false}
                           onHideDetailsClick={() => {
                             setActiveCard(null);
                             setDetails();
@@ -652,7 +667,6 @@ const Dashboard = ({
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
-
                     />
                   ) : (
                     <CawsDetails
@@ -663,7 +677,6 @@ const Dashboard = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                       handleConnection={handleConnection}
                       expired={false}
-
                     />
                   )
                 ) : (
@@ -695,8 +708,7 @@ const Dashboard = ({
                             setDetails();
                           }}
                           details={details === index + 1 ? true : false}
-                      expired={false}
-                          
+                          expired={false}
                         />
                       );
                     })}
@@ -711,7 +723,6 @@ const Dashboard = ({
                       chainId={chainId.toString()}
                       handleConnection={handleConnection}
                       expired={false}
-
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
                   ) : (
@@ -723,7 +734,6 @@ const Dashboard = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                       handleConnection={handleConnection}
                       expired={false}
-
                     />
                   )
                 ) : (
