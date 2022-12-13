@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./top-pools.css";
 import greenArrow from "./assets/greenarrow.svg";
+import purpleArrow from "./assets/purpleArrow.svg";
+
 import orangeArrow from "./assets/orangearrow.svg";
 import TopPoolsDetails from "./TopPoolsDetails";
 import newPool from "./assets/newPool.png";
@@ -30,7 +32,7 @@ const TopPoolsCard = ({
   isNewPool,
   tag,
   display,
-  expired
+  expired,
   // showDetails,
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
@@ -82,13 +84,13 @@ const TopPoolsCard = ({
   return (
     <>
       <div
-        className={`${expired === true ? 'poolscardwrapperexpired' : 'poolscardwrapper'} cursor-pointer position-relative ${
-          details && "pools-card-open"
-        }  ${
+        className={`${
+          expired === true ? "poolscardwrapperexpired" : "poolscardwrapper"
+        } cursor-pointer position-relative ${details && "pools-card-open"}  ${
           renderedPage === "dashboard" && !details ? "pools-card-hover" : ""
         }`}
         onClick={() => handleDetails()}
-        style={{display: display}}
+        style={{ display: display }}
       >
         {isStaked && <img src={staked} className="staked" alt="staked" />}
         {top_pick === true && (
@@ -102,7 +104,7 @@ const TopPoolsCard = ({
                 ? stakeTag
                 : tag === "vault"
                 ? vaultTag
-                : tag === 'nft'
+                : tag === "nft"
                 ? cawsLabel
                 : buybackTag
             }
@@ -151,7 +153,11 @@ const TopPoolsCard = ({
               <h6 className="apr-title">APR</h6>
             </div>
           </div>
-          <div className={`d-flex m-0 justify-content between gap-2 align-items-center justify-content-between ${ expired === true ? 'bottomwrapperExpired' : 'bottomwrapper'} } `}  >
+          <div
+            className={`d-flex m-0 justify-content between gap-2 align-items-center justify-content-between ${
+              expired === true ? "bottomwrapperExpired" : "bottomwrapper"
+            } } `}
+          >
             {cardType !== "Vault" && (
               <div className="d-flex flex-column">
                 <h6 className="tvl-text">Total Value Locked</h6>
@@ -169,17 +175,42 @@ const TopPoolsCard = ({
             </div>
           </div>
           <div
-            className={ expired === true ? 'details-wrapperexpired' :"details-wrapper" }
+            className={
+              expired === true ? "details-wrapperexpired" : "details-wrapper"
+            }
             onClick={() => {
               handleDetails();
             }}
           >
             <h6
               className="details-text gap-1 d-flex align-items-center"
-              style={{ color: (details === false && expired === false )? "#75CAC2" : details === false && expired === true ? '#312F69': "#C0C9FF" }}
+              style={{
+                color:
+                  details === false && expired === false
+                    ? "#75CAC2"
+                    : details === false && expired === true
+                    ? "#C1CCF8"
+                    : "#C0C9FF",
+              }}
             >
-              {details === false && expired === false ? "Deposit" : details === false && expired === true ? 'Details' : "Close"}
-              <img src={details === false ? greenArrow : orangeArrow} />
+              {details === false && expired === false
+                ? "Deposit"
+                : details === false && expired === true
+                ? "Details"
+                : "Close"}
+              <img
+                src={
+                  details === false && expired === false
+                     ? greenArrow :
+                     details === false && expired === true
+                      ? purpleArrow
+                      : details === true && expired === true
+                      ? orangeArrow
+                      : orangeArrow
+                 
+                }
+                alt=""
+              />
             </h6>
           </div>
         </div>

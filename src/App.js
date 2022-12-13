@@ -392,7 +392,7 @@ class App extends React.Component {
           theme={this.state.theme}
           toggleMobileSidebar={this.toggleMobileSidebar}
           isOpenInMobile={this.state.isOpenInMobile}
-          network={this.state.networkId}
+          chainId={parseInt(this.state.networkId)}
           logout={this.logout}
           handleSwitchNetwork={this.handleSwitchNetwork}
           handleConnection={this.handleConnection}

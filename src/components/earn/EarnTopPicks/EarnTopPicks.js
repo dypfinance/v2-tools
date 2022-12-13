@@ -378,13 +378,6 @@ const EarnTopPicks = ({
   const feeArrayBuyback = [1, 3.5];
   const aprArray = [30, 100];
 
-  const stakeArrayiDYP = [
-    window.constant_staking_idyp_3,
-    window.constant_staking_idyp_4,
-    window.constant_staking_idyp_1,
-    window.constant_staking_idyp_2,
-  ];
-
   const stakeArrayiDYPActive = [
     window.constant_staking_idyp_3,
     window.constant_staking_idyp_4,
@@ -393,12 +386,7 @@ const EarnTopPicks = ({
   const performancefeeArrayidyp = [1, 3.5, 0, 0];
   const withdrawFeeiDyp = [1, 0, 0, 0];
   const aprArrayiDyp = [15, 30, 20, 15];
-  const expirationArray = [
-    "15 August 2023",
-    "15 August 2023",
-    "28 February 2023",
-    "28 February 2023",
-  ];
+
 
   const lockarrayFarm = ["No Lock", 3, 30, 60, 90];
 
@@ -543,7 +531,6 @@ const EarnTopPicks = ({
 
   //Buyback New
 
-
   const bscStakeArray = [
     window.buyback_stakingbsc1_1,
     window.buyback_stakingbsc1_2,
@@ -555,7 +542,6 @@ const EarnTopPicks = ({
   const bscAprArray = [30, 100];
   const bscFeeArray = [1, 3.5];
   const bscLockArray = ["No Lock", 90];
-
 
   const aprarrayStakeAvax = [30, 10];
   const feearrayStakeAvax = [3.5, 1];
@@ -575,9 +561,10 @@ const EarnTopPicks = ({
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
     expiration_time: expirearrayStakeAvax[cardIndex],
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     fee:
       expiredPools === false
         ? activePools[cardIndex]?.performancefee
@@ -624,7 +611,6 @@ const EarnTopPicks = ({
   const feearrayStakeBscDyp2 = [3.5, 1];
   const aprarrayStakeBscExpired = [50, 25];
 
-  
   const BscConstantStake = initbscConstantStaking({
     staking: stakearrayStakeBscDyp2[cardIndex],
     apr:
@@ -632,9 +618,10 @@ const EarnTopPicks = ({
         ? activePools[cardIndex]?.apy_percent
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: wbsc_address,
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     fee:
       expiredPools === false
         ? activePools[cardIndex]?.performancefee
@@ -674,9 +661,10 @@ const EarnTopPicks = ({
         ? activePools[cardIndex]?.apy_percent
         : expiredDYPPools[cardIndex]?.apy_percent,
     expiration_time: expirearrayStakeBscExpired[cardIndex],
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     liquidity: wbsc_address,
     fee:
       expiredPools === false
@@ -716,9 +704,10 @@ const EarnTopPicks = ({
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: wbsc_address,
     expiration_time: "Expired",
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     fee:
       expiredPools === false
         ? activePools[cardIndex]?.performancefee
@@ -780,9 +769,10 @@ const EarnTopPicks = ({
         ? activePools[cardIndex]?.apy_percent
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: wbsc_address,
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     expiration_time:
       expiredPools === false
         ? expirearrayStakeBsciDyp2[cardIndex - 2]
@@ -834,9 +824,10 @@ const EarnTopPicks = ({
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
     expiration_time: "6 December 2022",
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     fee:
       expiredPools === false
         ? activePools[cardIndex]?.performancefee
@@ -859,9 +850,10 @@ const EarnTopPicks = ({
 
   const StakeAvax3 = stakeAvax3({
     staking: window.constant_stakingdaiavax,
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     apr:
       expiredPools === false
         ? activePools[cardIndex]?.apy_percent
@@ -916,9 +908,10 @@ const EarnTopPicks = ({
         ? activePools[cardIndex]?.apy_percent
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     expiration_time: expirearrayStakeAvaxiDyp[cardIndex - 2],
     chainId: chainId,
 
@@ -952,8 +945,8 @@ const EarnTopPicks = ({
   });
 
   const stakeArrayStakeNew = [
-    window.constant_staking_new1,
     window.constant_staking_new2,
+    window.constant_staking_new1,
   ];
 
   const feeArrayStake = [0.25, 0.5];
@@ -967,9 +960,10 @@ const EarnTopPicks = ({
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: eth_address,
     expiration_time: "14 December 2022",
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     other_info:
       cardIndex !== undefined
         ? expiredPools === false
@@ -1020,22 +1014,38 @@ const EarnTopPicks = ({
     lockTime: 90,
     listType: listType,
     handleSwitchNetwork: handleSwitchNetwork,
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
   });
 
+
+
+  const stakeArrayiDYP = [
+    
+    window.constant_staking_idyp_2,
+    window.constant_staking_idyp_1,
+  ];
+
+  const expirationArray = [
+    "28 February 2023",
+    "28 February 2023",
+  ];
+
+
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
-    staking: stakeArrayiDYP[cardIndex],
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    staking: stakeArrayiDYP[cardIndex-3],
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     apr:
       expiredPools === false
         ? activePools[cardIndex]?.apy_percent
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: eth_address,
-    expiration_time: expirationArray[cardIndex],
+    expiration_time: expirationArray[cardIndex-3],
     other_info:
       cardIndex !== undefined
         ? expiredPools === false
@@ -1050,7 +1060,7 @@ const EarnTopPicks = ({
       expiredPools === false
         ? activePools[cardIndex]?.performancefee
         : expiredDYPPools[cardIndex]?.performancefee,
-    fee_u: withdrawFeeiDyp[cardIndex],
+    fee_u: withdrawFeeiDyp[cardIndex-3],
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
@@ -1062,7 +1072,7 @@ const EarnTopPicks = ({
             : activePools[cardIndex]?.lock_time?.split(" ")[0]
           : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
           ? "No Lock"
-          : activePools[cardIndex]?.lock_time?.split(" ")[0]
+          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
         : "No Lock",
     listType: listType,
     handleSwitchNetwork: handleSwitchNetwork,
@@ -1070,9 +1080,10 @@ const EarnTopPicks = ({
 
   const ConstantStakingiDYP1Active = initConstantStakingiDYP({
     staking: stakeArrayiDYPActive[cardIndex],
-    finalApr: expiredPools === false
-    ? activePools[cardIndex]?.apy_performancefee
-    : expiredDYPPools[cardIndex]?.apy_performancefee,
+    finalApr:
+      expiredPools === false
+        ? activePools[cardIndex]?.apy_performancefee
+        : expiredDYPPools[cardIndex]?.apy_performancefee,
     apr:
       expiredPools === false
         ? activePools[cardIndex]?.apy_percent
@@ -1323,23 +1334,6 @@ const EarnTopPicks = ({
     } else setcardIndex(index);
   };
 
-  const [mystakes, setMystakes] = useState([]);
-
-  const getStakesIds = async () => {
-    const address = coinbase;
-    let staking_contract = await window.getContractNFT("NFTSTAKING");
-    let stakenft = [];
-    let myStakes = await staking_contract.methods
-      .depositsOf(address)
-      .call()
-      .then((result) => {
-        for (let i = 0; i < result.length; i++)
-          stakenft.push(parseInt(result[i]));
-        return stakenft;
-      });
-
-    return myStakes;
-  };
 
   return topPools.length > 0 && expiredPools === false ? (
     <div className={`row w-100 justify-content-center gap-4`}>
@@ -5301,7 +5295,7 @@ const EarnTopPicks = ({
           )}
         </>
       ) : (
-        <>test</>
+        <>loading...</>
       )}
     </div>
   ) : topPools.length == 0 && expiredPools === false ? (
@@ -5396,6 +5390,49 @@ const EarnTopPicks = ({
                   />
                 )
               ) : activeCard &&
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "eth" ? (
+              <ConstantStaking1
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+              />
+            )  : activeCard &&
+            topList === "Staking" &&
+            cardIndex === 2 &&
+            chain === "eth" ? (
+            <ConstantStakingDai
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              expired={true}
+              referrer={referrer}
+
+            />
+          ) : activeCard &&
+          cardIndex >= 3 &&
+          topList === "Staking" &&
+          chain === "eth" ? (
+          <ConstantStakingiDYP1
+            is_wallet_connected={isConnected}
+            coinbase={coinbase}
+            the_graph_result={the_graph_result}
+            lp_id={lp_id[cardIndex]}
+            chainId={chainId}
+            handleConnection={handleConnection}
+            handleSwitchNetwork={handleSwitchNetwork}
+            expired={true}
+          />
+        ) : activeCard &&
                 cardIndex >= 2 &&
                 cardIndex < 4 &&
                 topList === "Staking" &&
@@ -5577,20 +5614,6 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               )
-            ) : activeCard2 &&
-              topList === "Staking" &&
-              cardIndex < 2 &&
-              chain === "eth" ? (
-              <ConstantStaking1
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-              />
             ) : activeCard2 &&
               topList === "Staking" &&
               cardIndex < 2 &&

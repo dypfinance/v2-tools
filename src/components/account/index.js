@@ -9,7 +9,7 @@ import NftCawCard from "../caws/NftMinting/components/General/NftCawCard/NftCawC
 import TierLevels from "../launchpad/tierlevels/TierLevels";
 import coinStackIcon from "../launchpad/assets/coinStackIcon.svg";
 import axios from "axios";
-import openNameChange from './assets/openNameChange.svg'
+import openNameChange from "./assets/openNameChange.svg";
 import { ClickAwayListener, Tooltip } from "@material-ui/core";
 import { shortAddress } from "../../functions/shortAddress";
 // import { benefits } from "./benefits";
@@ -32,7 +32,7 @@ export default class Subscription extends React.Component {
       )[0],
       tokenBalance: "",
       price: "",
-      formattedPrice: 0.000000,
+      formattedPrice: 0.0,
       favorites: [],
       favoritesETH: [],
       selectedFile: null,
@@ -46,7 +46,7 @@ export default class Subscription extends React.Component {
       showSavebtn: false,
       showRemovebtn: false,
       subscribe_now: false,
-      usdtAddress: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+      usdtAddress: "0xdac17f958d2ee523a2206206994597c13d831ec7",
       triggerText: "See more V",
       myNFTs: [],
       myStakess: [],
@@ -54,12 +54,11 @@ export default class Subscription extends React.Component {
       username: "",
       userNameInput: "",
       showInput: false,
-      openTooltip: false
+      openTooltip: false,
+      dypBalance: "0.0",
     };
   }
 
-
-  
   fetchfavData() {
     window
       .getFavoritesETH()
@@ -116,44 +115,76 @@ export default class Subscription extends React.Component {
   //   }
   // }
 
-  fetchUsername = async() => {
-    await axios.get(`https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`).then((res) => {
-      if(res.data?.username){
-        this.setState({username: res.data?.username})
-      }else{
-        this.setState({username: "Dypian"})
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+  fetchUsername = async () => {
+    await axios
+      .get(
+        `https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`
+      )
+      .then((res) => {
+        if (res.data?.username) {
+          this.setState({ username: res.data?.username });
+        } else {
+          this.setState({ username: "Dypian" });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  postUsername = async(userInput) => {
+  postUsername = async (userInput) => {
     const usernameData = {
-      username: userInput
-    }
+      username: userInput,
+    };
 
-    await axios.post(`https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`, usernameData).then((res) => {
-      this.setState({username: res.data?.username})
-      this.fetchUsername()
-      this.setState({userNameInput: "", showInput: false})
-    
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+    await axios
+      .post(
+        `https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`,
+        usernameData
+      )
+      .then((res) => {
+        this.setState({ username: res.data?.username });
+        this.fetchUsername();
+        this.setState({ userNameInput: "", showInput: false });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  getDypBalance = async () => {
+    const logout = localStorage.getItem("logout");
+    if (logout === 'false') {
+      if (this.props.networkId === 43114) {
+        this.setState({ dypBalance: localStorage.getItem("balance2") });
+      }
+
+     else if (this.props.networkId === 1) {
+        this.setState({ dypBalance: localStorage.getItem("balance1") });
+      }
+
+     else if (this.props.networkId === 56) {
+        this.setState({ dypBalance: localStorage.getItem("balance3") });
+      } 
+      else this.setState({dypBalance: '0.0'})
+    }
+  };
 
   componentDidMount() {
-    this.handleSubscriptionTokenChange(this.state.usdtAddress)
+    this.handleSubscriptionTokenChange(this.state.usdtAddress);
+    window._refreshBalIntervalDyp = setInterval(this.getDypBalance, 2000);
+
     setTimeout(() => {
       this.fetchAvatar();
       this.fetchUsername();
     }, 300);
-    this.fetchfavData();
-    this.myNft().then();
-    this.myStakes().then();
-    window._refreshBalInterval = setInterval(this.myNft, 1000);
-    window._refreshBalInterval2 = setInterval(this.myStakes, 1000);
+    if (this.props.networkId === 1) {
+      this.fetchfavData();
+      this.myNft().then();
+      this.myStakes().then();
+      // window._refreshBalInterval = setInterval(this.myNft, 1000);
+      // window._refreshBalInterval2 = setInterval(this.myStakes, 1000);
+    }
 
     this.setState({ coinbase: this.props.coinbase });
 
@@ -168,8 +199,11 @@ export default class Subscription extends React.Component {
     }
   }
   componentWillUnmount() {
-    clearInterval(window._refreshBalInterval);
-    clearInterval(window._refreshBalInterval2);
+    if (this.props.networkId === 1) {
+      clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval2);
+    }
+    clearInterval(window._refreshBalIntervalDyp);
 
     window.removeOneTimeWalletConnectionListener(this.onComponentMount);
   }
@@ -181,8 +215,6 @@ export default class Subscription extends React.Component {
     // this.fetchAvatar().then();
     // this.checkConnection();
   };
-
-
 
   handleSubscriptionTokenChange = async (tokenAddress) => {
     let tokenDecimals =
@@ -482,137 +514,179 @@ export default class Subscription extends React.Component {
             this.state.selectedSubscriptionToken
           ]?.decimals;
     // this.handleCheckIfAlreadyApproved()
-let mycaws = [...this.state.myNFTs, ...this.state.myStakess]
+    let mycaws = [...this.state.myNFTs, ...this.state.myStakess];
 
-const focusInput = (input) => {
-  document.getElementById(input).focus()
-} 
+    const focusInput = (input) => {
+      document.getElementById(input).focus();
+    };
 
+    const freePlanItems = [
+      "Real time DYP Tools",
+      "Pair Explorer",
+      "Big Swap Explorer",
+      "Top Tokens",
+      "Yields",
+      "News Section",
+      "DYP Locker",
+      "Community Trust Vote",
+      "dApps access",
+    ];
 
-const freePlanItems = [
-  'Real time DYP Tools',
-  'Pair Explorer',
-  'Big Swap Explorer',
-  'Top Tokens',
-  'Yields',
-  'News Section',
-  'DYP Locker',
-  'Community Trust Vote',
-  'dApps access',
-]
+    const paidPlanItems = [
+      "All free features included",
+      "Manual research info for projects",
+      "Full access to Community Trust Vote",
+      "Perform any votes on the News section",
+      "Early access to new features released in the future",
+      "Guaranteed allocation to presales of new projects launched using our Launchpad",
+    ];
 
-const paidPlanItems = [
-  'All free features included',
-  'Manual research info for projects',
-  'Full access to Community Trust Vote',
-  'Perform any votes on the News section',
-  'Early access to new features released in the future',
-  'Guaranteed allocation to presales of new projects launched using our Launchpad',
-]
+    const handleTooltipClose = () => {
+      this.setState({ openTooltip: false });
+    };
 
-
-const handleTooltipClose = () => {
-  this.setState({openTooltip: false});
-
-};
-
-const handleTooltipOpen = () => {
-  this.setState({openTooltip: true});
-};
-
+    const handleTooltipOpen = () => {
+      this.setState({ openTooltip: true });
+    };
 
     return (
       <div>
         <div className="d-flex align-items-start align-items-lg-0 justify-content-between flex-column flex-lg-row gap-4 gap-lg-0">
-          <div className={`d-flex flex-column ${this.state.showInput ? 'gap-5 gap-lg-2' : 'gap-2'}`}>
-            <div className={`d-flex  gap-3 ${this.state.showInput ? 'align-items-start flex-column' :  'align-items-center flex-row'}`} style={{height: 38}}>
-              <h6 className="account-username">Username:  {this.state.username}</h6>
-            {this.state.showInput ?
-            <div className="d-flex align-items-center gap-2">  
-            <div
-            className="input-container px-0"
+          <div
+            className={`d-flex flex-column ${
+              this.state.showInput ? "gap-5 gap-lg-2" : "gap-2"
+            }`}
           >
-      <input
-              type="text"
-              min={1}
-              max={365}
-              id="username"
-              name="username"
-              placeholder=" "
-              className="text-input"
-              style={{ width: "100%" }}
-              value={this.state.userNameInput}
-              onChange={(e) => this.setState({userNameInput : e.target.value})}
-            />
-            <label
-              htmlFor="username"
-              className="label"
-              onClick={() => focusInput("username")}
+            <div
+              className={`d-flex  gap-3 ${
+                this.state.showInput
+                  ? "align-items-start flex-column"
+                  : "align-items-center flex-row"
+              }`}
+              style={{ height: 38 }}
             >
-              Enter a new name
-            </label>
-            <img src={require(`./assets/clearFieldIcon.svg`).default} className="clear-icon cursor-pointer" alt="clear field" onClick={() => this.setState({showInput: false})}  />
-      </div>
-      <button className="btn outline-btn py-2" onClick={() => this.postUsername(this.state.userNameInput)}>Submit</button>
-      </div>
-      :
-      <img src={openNameChange}  className="cursor-pointer" alt="" onClick={() => this.setState({showInput: true})} />  
-          }
+              <h6 className="account-username">
+                Username: {this.state.username}
+              </h6>
+              {this.state.showInput ? (
+                <div className="d-flex align-items-center gap-2">
+                  <div className="input-container px-0">
+                    <input
+                      type="text"
+                      min={1}
+                      max={365}
+                      id="username"
+                      name="username"
+                      placeholder=" "
+                      className="text-input"
+                      style={{ width: "100%" }}
+                      value={this.state.userNameInput}
+                      onChange={(e) =>
+                        this.setState({ userNameInput: e.target.value })
+                      }
+                    />
+                    <label
+                      htmlFor="username"
+                      className="label"
+                      onClick={() => focusInput("username")}
+                    >
+                      Enter a new name
+                    </label>
+                    <img
+                      src={require(`./assets/clearFieldIcon.svg`).default}
+                      className="clear-icon cursor-pointer"
+                      alt="clear field"
+                      onClick={() => this.setState({ showInput: false })}
+                    />
+                  </div>
+                  <button
+                    className="btn outline-btn py-2"
+                    onClick={() => this.postUsername(this.state.userNameInput)}
+                  >
+                    Submit
+                  </button>
+                </div>
+              ) : (
+                <img
+                  src={openNameChange}
+                  className="cursor-pointer"
+                  alt=""
+                  onClick={() => this.setState({ showInput: true })}
+                />
+              )}
             </div>
             <div className="d-flex align-items-center gap-2">
               <img src={require(`./assets/metamask.png`).default} alt="" />
               <div className="d-flex flex-column gap-1">
                 <span className="address-span">Wallet address:</span>
                 <div className="d-flex align-items-center gap-2">
-                <span className="account-wallet-address">{shortAddress(this.props.coinbase)}</span>
-                <ClickAwayListener onClickAway={handleTooltipClose}>
-           <Tooltip
-              PopperProps={{
-                disablePortal: true,
-              }}
-              onClose={handleTooltipClose}
-              open={this.state.openTooltip}
-              disableFocusListener
-              disableHoverListener
-              disableTouchListener
-              placement="top"
-              title={
-                <div className="tooltip-text">
-                  {
-                    "Wallet address copied!"
-                  }
-                </div>
-              }
-            >
-             <img src={require('./assets/clipboardIcon.svg').default} className="cursor-pointer" alt="clipboard" onClick={() => {navigator.clipboard.writeText(this.props.coinbase); handleTooltipOpen();}} />
-            </Tooltip>
-           </ClickAwayListener>
+                  <span className="account-wallet-address">
+                    {shortAddress(this.props.coinbase)}
+                  </span>
+                  <ClickAwayListener onClickAway={handleTooltipClose}>
+                    <Tooltip
+                      PopperProps={{
+                        disablePortal: true,
+                      }}
+                      onClose={handleTooltipClose}
+                      open={this.state.openTooltip}
+                      disableFocusListener
+                      disableHoverListener
+                      disableTouchListener
+                      placement="top"
+                      title={
+                        <div className="tooltip-text">
+                          {"Wallet address copied!"}
+                        </div>
+                      }
+                    >
+                      <img
+                        src={require("./assets/clipboardIcon.svg").default}
+                        className="cursor-pointer"
+                        alt="clipboard"
+                        onClick={() => {
+                          navigator.clipboard.writeText(this.props.coinbase);
+                          handleTooltipOpen();
+                        }}
+                      />
+                    </Tooltip>
+                  </ClickAwayListener>
                 </div>
               </div>
             </div>
-            </div>  
-            <div className={this.props.coinbase ? "mb-3 d-flex w-100 justify-content-between justify-content-lg-end" : "d-none"}>
-
+          </div>
+          <div
+            className={
+              this.props.coinbase
+                ? "mb-3 d-flex w-100 justify-content-between justify-content-lg-end"
+                : "d-none"
+            }
+          >
             <div className="d-flex align-items-center w-100 justify-content-between justify-content-lg-end gap-2">
               <div className="d-flex flex-column">
-              <span className="dyp-amount-placeholder">Balance:</span>
-              <h6 className="account-dyp-amount">{this.state.tokenBalance} DYP </h6>
+                <span className="dyp-amount-placeholder">Balance:</span>
+                <h6 className="account-dyp-amount">
+                  {this.state.dypBalance} DYP{" "}
+                </h6>
               </div>
-            <div className="position-relative">
-              <div className="avatar-border"></div>
-              <img src={require('./assets/changeImage.svg').default} alt="" className="add-image" />
-              <img
-                src={this.state.image}
-                alt="your image"
-                className="avatarimg"
-                
-              />
-              <input
-                type="file"
-                id="group_image"
-                onChange={this.onImageChange}
-              />
-              {/* {this.state.showSavebtn === true ? (
+              <div className="position-relative">
+                <div className="avatar-border"></div>
+                <img
+                  src={require("./assets/changeImage.svg").default}
+                  alt=""
+                  className="add-image"
+                />
+                <img
+                  src={this.state.image}
+                  alt="your image"
+                  className="avatarimg"
+                />
+                <input
+                  type="file"
+                  id="group_image"
+                  onChange={this.onImageChange}
+                />
+                {/* {this.state.showSavebtn === true ? (
                 <div
                   className="savebtn"
                   type=""
@@ -647,236 +721,311 @@ const handleTooltipOpen = () => {
               ) : (
                 <></>
               )} */}
+              </div>
             </div>
-            </div>
-          </div>                       
+          </div>
         </div>
         <div className="row mt-5 gap-4 gap-lg-0">
           <div className="col-12 col-lg-6 position-relative d-flex justify-content-center">
-              <div className="purplediv" style={{top: '15px', zIndex: 1, left: '12px', background: '#8E97CD' }}></div>
+            <div
+              className="purplediv"
+              style={{
+                top: "15px",
+                zIndex: 1,
+                left: "12px",
+                background: "#8E97CD",
+              }}
+            ></div>
             <div className="row free-plan-container p-3 position-relative w-100">
-                <div className="d-flex align-items-center gap-2">
-                  <img src={require('./assets/freePlanIcon.svg').default} alt="" />
-                  <h6 className="free-plan-title">Free plan</h6>
-                </div>
+              <div className="d-flex align-items-center gap-2">
+                <img
+                  src={require("./assets/freePlanIcon.svg").default}
+                  alt=""
+                />
+                <h6 className="free-plan-title">Free plan</h6>
+              </div>
               <div className="col-12 col-lg-6">
                 <div className="d-flex flex-column gap-1 mt-3">
-                {freePlanItems.map((item, index) => (
-                  <div key={index} className="free-plan-item d-flex align-items-center justify-content-between p-2">
-                    <span className="free-plain-item-text">{item}</span>
-                    <img src={require('./assets/freeCheck.svg').default} alt="" />
-                  </div>
-                ))}
+                  {freePlanItems.map((item, index) => (
+                    <div
+                      key={index}
+                      className="free-plan-item d-flex align-items-center justify-content-between p-2"
+                    >
+                      <span className="free-plain-item-text">{item}</span>
+                      <img
+                        src={require("./assets/freeCheck.svg").default}
+                        alt=""
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
+              <div className="col-12 col-lg-6 free-plan-image"></div>
+              <div className="col-12">
+                <hr className="form-divider my-4" style={{ height: "2px" }} />
+                <div className="d-flex flex-column">
+                  <span className="inactive-plan">Active</span>
+                  <span className="inactive-plan">Free plan bundle</span>
+                </div>
               </div>
-              <div className="col-12 col-lg-6 free-plan-image">
-              </div>
-            <div className="col-12">
-            <hr className="form-divider my-4" style={{height: '2px'}} />
-            <div className="d-flex flex-column">
-              <span className="inactive-plan">Active</span>
-              <span className="inactive-plan">Free plan bundle</span>
             </div>
-            </div>
-            </div>
-           
           </div>
           <div className="col-12 col-lg-6 position-relative d-flex justify-content-center">
-              <div className="purplediv" style={{top: '15px', zIndex: 1, left: '12px', background: '#8E97CD' }}></div>
+            <div
+              className="purplediv"
+              style={{
+                top: "15px",
+                zIndex: 1,
+                left: "12px",
+                background: "#8E97CD",
+              }}
+            ></div>
             <div className="row free-plan-container p-3 position-relative w-100">
-                <div className="d-flex align-items-center gap-2">
-                  <img src={require('./assets/paidPlanIcon.svg').default} alt="" />
-                  <h6 className="free-plan-title">Dypian plan</h6>
-                </div>
+              <div className="d-flex align-items-center gap-2">
+                <img
+                  src={require("./assets/paidPlanIcon.svg").default}
+                  alt=""
+                />
+                <h6 className="free-plan-title">Dypian plan</h6>
+              </div>
               <div className="col-12 col-lg-6">
                 <div className="d-flex flex-column gap-1 mt-3">
-                {paidPlanItems.map((item, index) => (
-                  <div key={index} className="free-plan-item d-flex align-items-center justify-content-between p-2">
-                    <span className="free-plain-item-text">{item}</span>
-                    <img src={require('./assets/freeCheck.svg').default} alt="" />
-                  </div>
-                ))}
+                  {paidPlanItems.map((item, index) => (
+                    <div
+                      key={index}
+                      className="free-plan-item d-flex align-items-center justify-content-between p-2"
+                    >
+                      <span className="free-plain-item-text">{item}</span>
+                      <img
+                        src={require("./assets/freeCheck.svg").default}
+                        alt=""
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
-              </div>
-              
-              <div className="col-12 col-lg-6 paid-plan-image">
-              </div>
+
+              <div className="col-12 col-lg-6 paid-plan-image"></div>
               <div className="col-12">
-              {!this.props.appState.isPremium ? (
-              <>
-                <div className="premiumbanner">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 5,
-                      }}
-                    >
-                      <h3 className="subscr-title">Lifetime subscription </h3>
-                      <p className="subscr-subtitle">
-                        The subscription tokens will be used to buy and lock DYP
-                      </p>
-                      {/* <p className="subscr-note">
+                {!this.props.appState.isPremium ? (
+                  <>
+                    <div className="premiumbanner">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 5,
+                          }}
+                        >
+                          <h3 className="subscr-title">
+                            Lifetime subscription{" "}
+                          </h3>
+                          <p className="subscr-subtitle">
+                            The subscription tokens will be used to buy and lock
+                            DYP
+                          </p>
+                          {/* <p className="subscr-note">
                         *When you unsubscribe the DYP will be unlocked and sent to
                         your wallet
                       </p> */}
-                    </div>
-                    <div>
-                      <div className="d-flex gap-2 flex-column flex-lg-row">
-                        <img src="/assets/img/usdt.svg" width={28} height={28}></img>
-                        <h3 className="subscr-price">75 USDT</h3>
+                        </div>
+                        <div>
+                          <div className="d-flex gap-2 flex-column flex-lg-row">
+                            <img
+                              src="/assets/img/usdt.svg"
+                              width={28}
+                              height={28}
+                            ></img>
+                            <h3 className="subscr-price">75 USDT</h3>
+                          </div>
+                          <p className="subscr-note">*Exclusive offer</p>
+                        </div>
                       </div>
-                      <p className="subscr-note">*Exclusive offer</p>
                     </div>
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between align-items-center mt-3">
-                  <div
-                    style={{
-                      color: "#F7F7FC",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      lineHeight: "20px",
-                    }}
-                  >
-                    Subscribe <br></br> to the Premium plan
-                  </div>
-                  <div
-                    className="btn filledbtn px-3 px-lg-5"
-                    style={{whiteSpace: 'pre'}}
-                    type=""
-                    onClick={() => {
-                      this.setState({ subscribe_now: !this.state.subscribe_now });
-                      this.handleSubscriptionTokenChange(
-                        this.state.usdtAddress
-                      );
-                      this.handleCheckIfAlreadyApproved();
-                    }}
-                  >
-                    Subscribe now
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                 <div className="premiumbanner">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 5,
-                      }}
-                    >
-                      <h3 className="subscr-title">Welcome premium user</h3>
-                      <p className="subscr-subtitle">
-                      *When you unsubscribe the DYP will be unlocked and sent to your wallet
-                      </p>
-                      {/* <p className="subscr-note">
+                    <div className="d-flex justify-content-between align-items-center mt-3">
+                      <div
+                        style={{
+                          color: "#F7F7FC",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          lineHeight: "20px",
+                        }}
+                      >
+                        Subscribe <br></br> to the Premium plan
+                      </div>
+                      <div
+                        className="btn filledbtn px-3 px-lg-5"
+                        style={{ whiteSpace: "pre" }}
+                        type=""
+                        onClick={() => {
+                          this.setState({
+                            subscribe_now: !this.state.subscribe_now,
+                          });
+                          this.handleSubscriptionTokenChange(
+                            this.state.usdtAddress
+                          );
+                          this.handleCheckIfAlreadyApproved();
+                        }}
+                      >
+                        Subscribe now
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="premiumbanner">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 5,
+                          }}
+                        >
+                          <h3 className="subscr-title">Welcome premium user</h3>
+                          <p className="subscr-subtitle">
+                            *When you unsubscribe the DYP will be unlocked and
+                            sent to your wallet
+                          </p>
+                          {/* <p className="subscr-note">
                         *When you unsubscribe the DYP will be unlocked and sent to
                         your wallet
                       </p> */}
-                    </div>
-                    {/* <div>
+                        </div>
+                        {/* <div>
                       <div className="d-flex gap-2">
                         <img src="/assets/img/usdt.svg"></img>
                         <h3 className="subscr-price">75 USDT</h3>
                       </div>
                       <p className="subscr-note">*Exclusive offer</p>
                     </div> */}
-                  </div>
-                </div>
-                <div className="d-flex justify-content-between align-items-center mt-3">
-                  <div
-                    style={{
-                      color: "#4FAD93",
-                      fontSize: "14px",
-                      fontWeight: "500",
-                      lineHeight: "20px",
-                    }}
-                  >
-                    Active <br></br> Premium plan
-                  </div>
-                  <div
-                    className="btn outline-btn px-5"
-                    type=""
-                    onClick={this.handleUnsubscribe}
-                  >
-                    Unsubscribe
-                  </div>
-                </div>
-              </>
-            )}
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center mt-3">
+                      <div
+                        style={{
+                          color: "#4FAD93",
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          lineHeight: "20px",
+                        }}
+                      >
+                        Active <br></br> Premium plan
+                      </div>
+                      <div
+                        className="btn outline-btn px-5"
+                        type=""
+                        onClick={this.handleUnsubscribe}
+                      >
+                        Unsubscribe
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
-        {this.state.subscribe_now === true ? 
-        <div className="row mt-4 justify-content-end">
-        <div className="col-12 col-lg-6">
-          <div className="subscribe-container p-3 position-relative">
-          <div className="purplediv" style={{ background: '#8E97CD' }}></div>
-           <div className="d-flex justify-content-between align-items-center">
-           <div className="d-flex align-items-center gap-2">
-              <img src={coinStackIcon} alt="coin stack" />
-              <h6 className="free-plan-title">DYP Tools Premium Subscription</h6>
-            </div>
-            <img src={require(`./assets/clearFieldIcon.svg`).default} height={28} width={28} className="cursor-pointer" onClick={() => this.setState({subscribe_now: false})}  alt="close subscription"/>
-           </div>
-           <div className="d-flex mt-4 align-items-end justify-content-between flex-column-reverse flex lg-row w-100">
-            <div className="d-flex flex-column gap-3 subscribe-input-container">
-            <span className="token-amount-placeholder">Token Amount</span>
-            <div
-                className="input-container px-0"
-                style={{ width: "100%" }}
-              >
-          <input
-                  type="number"
-                  disabled
-                  min={1}
-                  max={365}
-                  id="token_amount"
-                  name="token_amount"
-                  placeholder=" "
-                  className="text-input"
-                  value={this.state.formattedPrice}
-                  style={{ width: "100%" }}
-                />
-                <label
-                  htmlFor="token_amount"
-                  className="label"
-                  onClick={() => focusInput("token_amount")}
-                >
-                  Subscription Token Amount
-                </label>
+        {this.state.subscribe_now === true ? (
+          <div className="row mt-4 justify-content-end">
+            <div className="col-12 col-lg-6">
+              <div className="subscribe-container p-3 position-relative">
+                <div
+                  className="purplediv"
+                  style={{ background: "#8E97CD" }}
+                ></div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <div className="d-flex align-items-center gap-2">
+                    <img src={coinStackIcon} alt="coin stack" />
+                    <h6 className="free-plan-title">
+                      DYP Tools Premium Subscription
+                    </h6>
+                  </div>
+                  <img
+                    src={require(`./assets/clearFieldIcon.svg`).default}
+                    height={28}
+                    width={28}
+                    className="cursor-pointer"
+                    onClick={() => this.setState({ subscribe_now: false })}
+                    alt="close subscription"
+                  />
                 </div>
-            </div>
-            <div className="d-flex flex-column align-items-end justify-content-lg-end">
-              <span className="token-balance-placeholder">USDT Balance</span>
-              <h6 className="account-token-amount"> {getFormattedNumber(
-                            this.state.tokenBalance / 10 ** tokenDecimals,
-                            6
-                          )}</h6>
-            </div>
-           </div>
-           <hr className="form-divider my-4" />
-           <div className="d-flex justify-content-between align-items-center">
-            <div className="subscription-token-wrapper  p-2 d-flex align-items-center justify-content-between " style={{width: '40%'}}>
-                <span className="token-amount-placeholder">Subscription token:</span>
-                <div className="d-flex align-items-center gap-2">
-                <img src="/assets/img/usdt.svg" height={24} width={24} alt="usdt"/>
-                <span className="usdt-text">USDT</span>
+                <div className="d-flex mt-4 align-items-end justify-content-between flex-column-reverse flex lg-row w-100">
+                  <div className="d-flex flex-column gap-3 subscribe-input-container">
+                    <span className="token-amount-placeholder">
+                      Token Amount
+                    </span>
+                    <div
+                      className="input-container px-0"
+                      style={{ width: "100%" }}
+                    >
+                      <input
+                        type="number"
+                        disabled
+                        min={1}
+                        max={365}
+                        id="token_amount"
+                        name="token_amount"
+                        placeholder=" "
+                        className="text-input"
+                        value={this.state.formattedPrice}
+                        style={{ width: "100%" }}
+                      />
+                      <label
+                        htmlFor="token_amount"
+                        className="label"
+                        onClick={() => focusInput("token_amount")}
+                      >
+                        Subscription Token Amount
+                      </label>
+                    </div>
+                  </div>
+                  <div className="d-flex flex-column align-items-end justify-content-lg-end">
+                    <span className="token-balance-placeholder">
+                      USDT Balance
+                    </span>
+                    <h6 className="account-token-amount">
+                      {" "}
+                      {getFormattedNumber(
+                        this.state.tokenBalance / 10 ** tokenDecimals,
+                        6
+                      )}
+                    </h6>
+                  </div>
                 </div>
+                <hr className="form-divider my-4" />
+                <div className="d-flex justify-content-between align-items-center">
+                  <div
+                    className="subscription-token-wrapper  p-2 d-flex align-items-center justify-content-between "
+                    style={{ width: "40%" }}
+                  >
+                    <span className="token-amount-placeholder">
+                      Subscription token:
+                    </span>
+                    <div className="d-flex align-items-center gap-2">
+                      <img
+                        src="/assets/img/usdt.svg"
+                        height={24}
+                        width={24}
+                        alt="usdt"
+                      />
+                      <span className="usdt-text">USDT</span>
+                    </div>
+                  </div>
+                  <button
+                    className="btn success-button px-4"
+                    onClick={(e) => this.handleApprove(e)}
+                  >
+                    Subscribe
+                  </button>
+                </div>
+              </div>
             </div>
-            <button className="btn success-button px-4" onClick={(e) => this.handleApprove(e)}>Subscribe</button>
-           </div>
           </div>
-        </div>
-    </div>
-    :
-    <></>
-        }
+        ) : (
+          <></>
+        )}
         {/* <form onSubmit={this.handleSubscribe}>     
           <div>
             {!this.props.appState.isPremium ? (
@@ -1232,33 +1381,43 @@ const handleTooltipOpen = () => {
             <div className="cawscontaier">
               {mycaws.length > 0 &&
                 this.props.coinbase !== null &&
-                mycaws.slice(0, this.state.viewall === false ? 4 : mycaws.length).map((item, id) => {
-                  return (
-                    <NftCawCard
-                      key={id}
-                      nft={item}
-                      action={() => {}}
-                      modalId="#newNftStake"
-                      coinbase={this.props.coinbase}
-                    />
-                  );
-                })}
-             
+                mycaws
+                  .slice(0, this.state.viewall === false ? 4 : mycaws.length)
+                  .map((item, id) => {
+                    return (
+                      <NftCawCard
+                        key={id}
+                        nft={item}
+                        action={() => {}}
+                        modalId="#newNftStake"
+                        coinbase={this.props.coinbase}
+                      />
+                    );
+                  })}
             </div>
-            <button className="outline-btn" style={{ height: "fit-content", display: this.state.viewall === false && mycaws.length>4 ? 'block' : 'none' }} onClick={()=>{this.setState({viewall: true})}}>
+            <button
+              className="outline-btn"
+              style={{
+                height: "fit-content",
+                display:
+                  this.state.viewall === false && mycaws.length > 4
+                    ? "block"
+                    : "none",
+              }}
+              onClick={() => {
+                this.setState({ viewall: true });
+              }}
+            >
               View all
             </button>
           </div>
         </div>
 
-<TierLevels display={'none'} infoDisplay={'flex'}/>
+        <TierLevels display={"none"} infoDisplay={"flex"} />
         <h4 className="d-block mb-5 mt-5" id="my-fav">
-        My favourite pairs
+          My favourite pairs
         </h4>
-        <div
-          className="row p-0 m-0 favorites-grid"
-          
-        >
+        <div className="row p-0 m-0 favorites-grid">
           {this.state.favorites.map((lock, index) => {
             return (
               <NavLink
@@ -1266,7 +1425,7 @@ const handleTooltipOpen = () => {
                 className="p-0"
                 to={`/pair-explorer/${lock.id}`}
               >
-                <div style={{ position: "relative"  }}>
+                <div style={{ position: "relative" }}>
                   <div
                     className="d-flex avax"
                     style={{
@@ -1274,8 +1433,7 @@ const handleTooltipOpen = () => {
                       borderRadius: "12px",
                     }}
                   >
-
-<div
+                    <div
                       className="d-flex justify-content-center align-items-center"
                       style={{
                         position: "absolute",
@@ -1290,7 +1448,11 @@ const handleTooltipOpen = () => {
                         gap: "5px",
                       }}
                     >
-                      <img src={require("../../assets/wavax.svg").default} alt='' style={{height: 20, width: 20}}></img>
+                      <img
+                        src={require("../../assets/wavax.svg").default}
+                        alt=""
+                        style={{ height: 20, width: 20 }}
+                      ></img>
                       <div style={{ color: "#F7F7FC" }}>Avalanche</div>
                     </div>
 

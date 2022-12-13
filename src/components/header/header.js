@@ -25,7 +25,7 @@ const Header = ({
   toggleMobileSidebar,
   toggleTheme,
   theme,
-  network,
+  chainId,
   coinbase,
   logout,
   handleSwitchNetwork,
@@ -38,23 +38,8 @@ const Header = ({
   const [gasPrice, setGasprice] = useState();
   const [ethPrice, setEthprice] = useState();
   const [username, setUsername] = useState();
-  // const [chainId, setChainId] = useState(1)
-
-  let chainId = parseInt(network);
-
-  // const checkNetworkId = () => {
-  //     if(window.ethereum) {
-  //         window.ethereum.request({ method: "net_version" })
-  //             .then((data) => {
-  //                 setChainId(Number(data))
-  //                 fetchData()
-  //             })
-  //             .catch(console.error);
-  //     }
-  //     else {
-  //         setChainId(1)
-  //     }
-  // }
+  // const [chainId, setChainId] = useState(1) 
+ 
 
   const windowSize = useWindowSize();
   const [hotpairs, setHotpairs] = useState([]);
@@ -149,14 +134,11 @@ const Header = ({
      console.log(e)
    })
     
-
-   
   };
 
   const handleAvaxPool = async() => {
     await handleSwitchNetworkhook("0xa86a").then(()=>{
       handleSwitchNetwork('43114')
-
     }).catch((e)=>{
       console.log(e)
     })
