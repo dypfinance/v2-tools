@@ -16,12 +16,14 @@ import newsIconActive from "../../assets/sidebarIcons/newsIconActive.svg";
 import moreIcon from "../../assets/sidebarIcons/moreIcon.svg";
 import moreIconActive from "../../assets/sidebarIcons/moreIconActive.svg";
 import rightArrow from "../faqcard/assets/rightlogo.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import xMark from "../Modal/xMark.svg";
 const MobileMenu = () => {
-  const [activeIcon, setActiveIcon] = useState("earn");
+  const [activeIcon, setActiveIcon] = useState("");
   const [explorerModal, setExplorerModal] = useState(false);
   const [moreModal, setMoreModal] = useState(false);
+
+  const location = useLocation();
 
   const html = document.querySelector("html");
   const explorer = document.querySelector("#explorerModal");
@@ -29,6 +31,10 @@ const MobileMenu = () => {
   const mobile = document.querySelector("#mobileMenu");
 
   useEffect(() => {
+    if(location.pathname === "/"){
+      setActiveIcon("")
+    }
+
     if (explorerModal === true || moreModal === true) {
       html.classList.add("hidescroll");
       explorer.classList.add("modal-pointer-events");
@@ -37,7 +43,7 @@ const MobileMenu = () => {
     } else {
       html.classList.remove("hidescroll");
     }
-  }, [explorerModal, moreModal]);
+  }, [explorerModal, moreModal, location]);
 
   return (
     <div
