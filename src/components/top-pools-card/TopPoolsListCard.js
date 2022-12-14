@@ -112,47 +112,33 @@ const TopPoolsListCard = ({
     window.constant_staking_new4,
   ];
 
-  const stakeArrayStakeNew = [
-    window.constant_staking_new1,
-    window.constant_staking_new2,
-  ];
+
 
   const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
   const feeArrayBuyback = [1, 3.5];
   const aprArray = [30, 100];
 
-  const feeArrayStake = [0.25, 0.5];
-  const aprArrayStake = [25, 50];
 
-  const stakeArrayiDYP = [
-    window.constant_staking_idyp_1,
-    window.constant_staking_idyp_2,
-    window.constant_staking_idyp_3,
-    window.constant_staking_idyp_4,
-  ];
+
+
 
   const stakeArrayiDYPActive = [
     window.constant_staking_idyp_3,
     window.constant_staking_idyp_4,
   ];
 
-  const performancefeeArrayidyp = [0, 0, 1, 3.5];
   const performancefeeArrayidypActive = [1, 3.5];
 
-  const withdrawFeeiDyp = [0.25, 0.25, 0, 0];
+  
   const withdrawFeeiDypActive = [0, 0];
 
-  const aprArrayiDyp = [20, 45];
   const aprArrayiDypActive = [ 15, 30];
 
-  const lockarrayiDyp = ["No Lock", 90];
+
   const lockarrayiDypActive = ["No Lock", 90];
 
 
-  const expirationArray = [
-    "28 February 2023",
-    "28 February 2023", 
-  ];
+
 
   const expirationArrayActive = [
     "15 August 2023",
@@ -448,8 +434,18 @@ const TopPoolsListCard = ({
 
   const lockarray = ["No Lock", 90];
 
+
+  const stakeArrayStakeNew = [
+    window.constant_staking_new2,
+    window.constant_staking_new1,
+  ];
+
+  const feeArrayStake = [0.25, 0.5];
+  const aprArrayStake = [25, 50];
+
+
   const ConstantStaking1 = initConstantStakingNew({
-    staking: stakeArrayStakeNew[cardIndex],
+    staking: stakeArrayStakeNew[cardIndex-1],
     apr: aprArrayStake[cardIndex],
     finalApr: aprArrayStake[cardIndex -1] - feeArrayStake[cardIndex -1],
     liquidity: eth_address,
@@ -464,19 +460,39 @@ const TopPoolsListCard = ({
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
+
+
+  const stakeArrayiDYP = [
+    window.constant_staking_idyp_2,
+    window.constant_staking_idyp_1,
+  ];
+
+  const aprArrayiDyp = [45,20];
+
+  const expirationArray = [
+    "28 February 2023",
+    "28 February 2023", 
+  ];
+
+  const performancefeeArrayidyp = [0,0];
+
+  const lockarrayiDyp = [ 90 , "No Lock"];
+  const withdrawFeeiDyp = [ 0, 0];
+
+
   const ConstantStakingiDYP1 = initConstantStakingiDYP({
-    staking: stakeArrayiDYP[cardIndexiDyp],
-    apr: aprArrayiDyp[cardIndexiDyp],
-    finalApr: aprArrayiDyp[cardIndex -1] - feeArrayStake[cardIndex -1],
+    staking: stakeArrayiDYP[cardIndex - 4],
+    apr: aprArrayiDyp[cardIndex - 4],
+    finalApr: aprArrayiDyp[cardIndex - 4] - performancefeeArrayidyp[cardIndex - 4],
     liquidity: eth_address,
-    expiration_time: expirationArray[cardIndexiDyp],
+    expiration_time: expirationArray[cardIndex - 4],
     other_info: true,
-    fee_s: performancefeeArrayidyp[cardIndexiDyp],
-    fee_u: withdrawFeeiDyp[cardIndexiDyp],
+    fee_s: performancefeeArrayidyp[cardIndex - 4],
+    fee_u: withdrawFeeiDyp[cardIndex - 4],
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
-    lockTime: lockarrayiDyp[cardIndexiDyp],
+    lockTime: lockarrayiDyp[cardIndex - 4],
     listType: listType,
     handleSwitchNetwork: { handleSwitchNetwork },
   });
@@ -757,11 +773,11 @@ const TopPoolsListCard = ({
   const ConstantStakingDai = initConstantStakingNewDai({
     staking: window.constant_stakingdaieth,
     apr: 25,
-    finalApr: 25 - 0.25,
+    finalApr: 25,
     liquidity: eth_address,
     expiration_time: "Expired",
     other_info: true,
-    fee: 0.25,
+    fee: 0,
     coinbase: coinbase,
     handleConnection: handleConnection,
     chainId: chainId,
@@ -816,7 +832,7 @@ const TopPoolsListCard = ({
   return (
     <>
       <div
-        className="row w-100 flex-column gap-3 gap-lg-0 flex-lg-row align-items-center justify-content-between list-pool-card mx-0 cursor-pointer"
+        className={`row w-100 flex-column gap-3 gap-lg-0 flex-lg-row align-items-center justify-content-between  mx-0 cursor-pointer ${ expired === true ? "poolscardwrapperexpired" : 'list-pool-card'}`}
         onClick={() => handleDetails()}
         style={{ display: display }}
       >
@@ -865,7 +881,7 @@ const TopPoolsListCard = ({
                 lineHeight: "30px",
               }}
             >
-              {apr}
+              {apr} {cardIndex}
             </h5>
             <p
               className="text-white"
@@ -1074,7 +1090,7 @@ const TopPoolsListCard = ({
             )
           ) :  showDetails &&
             topList === "Staking" &&
-            cardIndex < 2 &&
+            cardIndex <= 2 &&
             chain === "eth" ? (
             <ConstantStaking1
               is_wallet_connected={isConnected}
@@ -1084,8 +1100,23 @@ const TopPoolsListCard = ({
               chainId={chainId}
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
+              expired={true}
             />
-          ) : showDetails &&
+          ) :  showDetails &&
+          topList === "Staking" &&
+          cardIndex === 3 &&
+          chain === "eth" ? (
+          <ConstantStakingDai
+            is_wallet_connected={isConnected}
+            coinbase={coinbase}
+            the_graph_result={the_graph_result}
+            lp_id={lp_id[cardIndex]}
+            chainId={chainId}
+            handleConnection={handleConnection}
+            handleSwitchNetwork={handleSwitchNetwork}
+            expired={true}
+          />
+        ) : showDetails &&
             topList === "Staking" &&
             cardIndex < 2 &&
             chain === "bnb" ? (
@@ -1099,7 +1130,7 @@ const TopPoolsListCard = ({
               handleSwitchNetwork={handleSwitchNetwork}
             />
           ) : showDetails &&
-            cardIndex > 2 &&
+            cardIndex > 3 &&
             topList === "Staking" &&
             chain === "eth" ? (
             <ConstantStakingiDYP1
@@ -1108,19 +1139,7 @@ const TopPoolsListCard = ({
               the_graph_result={the_graph_result}
               lp_id={lp_id[cardIndex]}
               chainId={chainId}
-              handleConnection={handleConnection}
-              handleSwitchNetwork={handleSwitchNetwork}
-            />
-          ) : showDetails &&
-            cardIndex === 2 &&
-            topList === "Staking" &&
-            chain === "eth" ? (
-            <ConstantStakingDai
-              is_wallet_connected={isConnected}
-              coinbase={coinbase}
-              the_graph_result={the_graph_result}
-              lp_id={lp_id[cardIndex]}
-              chainId={chainId}
+              expired={true}
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
             />
