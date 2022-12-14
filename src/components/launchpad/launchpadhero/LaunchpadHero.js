@@ -62,7 +62,7 @@ const LaunchpadHero = () => {
           </NavLink>
           </div>
           <div className="col-12 col-lg-3 current-tier-wrapper current-tier-hero-wrapper selected-tier-wrapper d-flex flex-column align-items-center justify-content-start gap-2 position-relative p-3">
-            <span className="current-tier">Current tier</span>
+            <span className="current-tier">Tier</span>
             <h6 className="current-tier-title">Gold</h6>
             {/* <h6 className="tier-title">2</h6> */}
             <img src={require(`../assets/goldBadge.svg`).default} alt="" className='tier-medal' />

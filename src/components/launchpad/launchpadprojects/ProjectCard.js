@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom'
 const ProjectCard = ({upcoming, expired, id}) => {
 
   return (
-    <NavLink to={`launchpad/details/${id}`}>
+    // <NavLink to={`launchpad/details/${id}`}>
       <div className={`launchpad-project-card d-flex flex-column p-0  ${upcoming === true && 'upcoming-project'}`}>
         <div className="project-header d-flex flex-column justify-content-center gap-5 p-3">
           <div className="d-flex align-items-center justify-content-between">
@@ -37,14 +37,14 @@ const ProjectCard = ({upcoming, expired, id}) => {
           </div>
         </div>
         <div className="project-card-footer d-flex justify-content-between align-items-end p-3">
-          <p className="time-left w-50">Dypius Launchpad
+          <p className="time-left">Dypius Launchpad
 Project coming soon</p>
           <div className="d-flex align-items-center justify-content-center arrow-wrapper">
             <img src={rightArrow} alt="" />
           </div>
         </div>
     </div>
-    </NavLink>
+    // </NavLink>
   )
 }
 

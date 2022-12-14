@@ -223,7 +223,7 @@ export default class Farms extends React.Component {
            <div className="d-flex flex-column gap-3">
             <h2 className="launchpad-hero-title">Yields</h2>
             <p className="launchpad-hero-desc">
-              This list does not imply endorsement by DeFi Yield Protocol. There
+              This list does not imply endorsement by Dypius. There
               might be Smart Contract risk and IL risk.
               <br />
               <b>

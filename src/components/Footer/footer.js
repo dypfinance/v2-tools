@@ -12,40 +12,47 @@ const Footer = () => {
     <div className="col-1"></div>
     <div className={`${windowSize.width < 786 ? 'col-12' : windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
     <div className="py-4 flex-column flex-lg-row px-0 container-lg d-flex justify-content-between gap-3 align-items-start align-items-lg-center">
-      <div className="footer-logo">
+      <div className="d-flex flex-row flex-lg-column justify-content-between justify-content-lg-center align-items-center align-items-lg-start col-12 col-lg-6 gap-4">
         <a target={"_blank"} href="https://dypius.com/">
-          <img src="/assets/img/logo-footer.svg" alt="Dypius"></img>
+          <img src="/assets/img/dypiusFooter.svg" alt="Dypius"></img>
         </a>
         <a target={"_blank"} href="https://dypius.com/#metaverse" style={{cursor: 'default', pointerEvents: 'none'}}>
           <img src="/assets/img/metaverse.svg" alt="METAVERSE"></img>
         </a>
       </div>
-      <div className="social-and-links d-flex align-items-center justify-content-center gap-3 gap-xxl-5">
+      <hr className="form-divider my-2 d-flex d-lg-none" style={{height: '2px'}} />
+      <div className="social-and-links d-flex align-items-end flex-column-reverse flex-lg-column justify-content-center gap-4">
       <div className="social-profile">
+      <span className="mobile-footer-title d-flex d-lg-none mb-3">Community</span>
         <ul>
           <li>
             <a target={"_blank"} href="https://twitter.com/dypfinance">
-              <img src="/assets/img/Social/twitter.svg" alt="Twitter"></img>
+              <img src="/assets/img/Social/twitter.svg" alt="Twitter"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
             <a target={"_blank"} href="https://t.me/dypfinance">
-              <img src="/assets/img/Social/telegram.svg" alt="Telegram"></img>
+              <img src="/assets/img/Social/telegram.svg" alt="Telegram"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
             <a target={"_blank"} href="https://discord.com/invite/dypcaws">
-              <img src="/assets/img/Social/discord.svg" alt="Discord"></img>
+              <img src="/assets/img/Social/discord.svg" alt="Discord"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
             <a target={"_blank"} href="https://www.instagram.com/dyp.finance/">
-              <img src="/assets/img/Social/instagram.svg" style={{height: 23, width: 23}} alt="Instagram"></img>
+              <img src="/assets/img/Social/instagram.svg" style={{height: 23, width: 23}} alt="Instagram"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
             <a target={"_blank"} href="https://dypfinance.medium.com/">
-              <img src="/assets/img/Social/medium.svg" alt="Medium"></img>
+              <img src="/assets/img/Social/medium.svg" alt="Medium"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
@@ -53,7 +60,8 @@ const Footer = () => {
               target={"_blank"}
               href="https://www.youtube.com/c/DeFiYieldProtocol/featured"
             >
-              <img src="/assets/img/Social/youtube.svg" alt="Youtube"></img>
+              <img src="/assets/img/Social/youtube.svg" alt="Youtube"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
@@ -61,17 +69,20 @@ const Footer = () => {
               target={"_blank"}
               href="https://www.linkedin.com/company/defi-yield-protocol"
             >
-              <img src="/assets/img/Social/linkedin.svg" alt="Linkedin"></img>
+              <img src="/assets/img/Social/linkedin.svg" alt="Linkedin"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
             <a target={"_blank"} href="https://github.com/dypfinance">
-              <img src="/assets/img/Social/github.svg" alt="Github"></img>
+              <img src="/assets/img/Social/github.svg" alt="Github"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
             <a target={"_blank"} href="mailto:business@dypius.com">
-              <img src="/assets/img/Social/email.svg" alt="Mail"></img>
+              <img src="/assets/img/Social/email.svg" alt="Mail"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
@@ -79,7 +90,8 @@ const Footer = () => {
               target={"_blank"}
               href="https://www.coingecko.com/en/coins/defi-yield-protocol"
             >
-              <img src="/assets/img/coingecko-logo.svg" alt="Coingecko" style={{width: 24, height: 24}}></img>
+              <img src="/assets/img/coingecko-logo.svg" alt="Coingecko"
+              height={24} width={24}></img>
             </a>
           </li>
           <li>
@@ -90,14 +102,42 @@ const Footer = () => {
               <img
                 src="/assets/img/coinmarketcap.svg"
                 alt="Coinmarketcap"
-                 style={{width: 24, height: 24}}
+                 height={24} width={24}
               ></img>
             </a>
           </li>
         </ul>
-      </div>
-      <div className="footer-menu">
+        {/* <div className="d-flex flex-column gap-3 d-lg-none mt-3">
+        <span className="mobile-footer-title d-flex d-lg-none">Dypius track</span>
         <ul>
+          <li>
+            <a
+              target={"_blank"}
+              href="https://www.coingecko.com/en/coins/defi-yield-protocol"
+            >
+              <img src="/assets/img/coingecko-logo.svg" alt="Coingecko"
+              height={24} width={24}></img>
+            </a>
+          </li>
+          <li>
+            <a
+              target={"_blank"}
+              href="https://coinmarketcap.com/currencies/defi-yield-protocol/"
+            >
+              <img
+                src="/assets/img/coinmarketcap.svg"
+                alt="Coinmarketcap"
+                 height={24} width={24}
+              ></img>
+            </a>
+          </li>
+        </ul>
+        </div> */}
+      </div>
+      <hr className="form-divider my-2 d-flex d-lg-none w-100" style={{height: '2px'}} />
+      <div className="footer-menu">
+        <span className="mobile-footer-title d-flex d-lg-none mb-3">Links</span>
+        <ul className='external-links'>
           <li>
             <a
               target={"_blank"}
@@ -130,6 +170,7 @@ const Footer = () => {
             </a>
           </li>
         </ul>
+
       </div>
       </div>
     </div>
