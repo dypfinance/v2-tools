@@ -67,7 +67,8 @@ export default function initBscFarming({
   coinbase,
   listType,
   handleSwitchNetwork,
-  expired
+  expired,
+  finalApr
 
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsbsc } =
@@ -1275,7 +1276,7 @@ export default function initBscFarming({
                     <div className="d-flex align-items-center justify-content-between gap-2">
                       <h6 className="earnrewards-text">APR:</h6>
                       <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {apy}%
+                        {finalApr}%
                         <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
                           open={this.state.aprTooltip}

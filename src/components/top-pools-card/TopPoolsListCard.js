@@ -91,37 +91,45 @@ const TopPoolsListCard = ({
   const { rebase_factors, rebase_factorsavax, rebase_factorsbsc } = window;
 
   const stakeArray = [
+    window.farming_new_4,
+    window.farming_new_3,
     window.farming_new_1,
     window.farming_new_2,
-    window.farming_new_3,
-    window.farming_new_4,
     window.farming_new_5,
   ];
+
   const constantArray = [
+    window.constant_staking_new8,
+    window.constant_staking_new7,
     window.constant_staking_new5,
     window.constant_staking_new6,
-    window.constant_staking_new7,
-    window.constant_staking_new8,
     window.constant_staking_new9,
   ];
 
-  const stakeArrayBuyBack = [
-    window.buyback_staking1_1,
-    window.buyback_staking1_2,
-  ];
-  const constantArrayBuyback = [
-    window.constant_staking_new3,
-    window.constant_staking_new4,
-  ];
+
+  const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2]; 
+
+  const lockarrayFarm = ["No Lock", 3, 30, 60, 90];
 
 
 
-  const feeArray = [0.3, 0.3, 0.4, 0.8, 1.2];
-  const feeArrayBuyback = [1, 3.5];
-  const aprArray = [30, 100];
-
-
-
+  const StakingNew1 = initStakingNew({
+    token: window.token_new,
+    staking: stakeArray[cardIndex-1],
+    chainId: chainId,
+    constant: constantArray[cardIndex-1],
+    liquidity: eth_address,
+    lp_symbol: "USD",
+    reward: "30,000",
+    lock: "3 Days",
+    finalApr: expiredPools ? expiredPools[cardIndex-1]?.apy_percent : 0,
+    rebase_factor: rebase_factors[0],
+    expiration_time: "14 December 2022",
+    fee: feeArray[cardIndex-1],
+    handleConnection: handleConnection,
+    lockTime: lockarrayFarm[cardIndex-1],
+    listType: listType,
+  });
 
 
   const stakeArrayiDYPActive = [
@@ -165,7 +173,6 @@ const TopPoolsListCard = ({
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
-  const lockarrayFarm = ["No Lock", 3, 30, 60, 90];
   const [mystakes, setMystakes] = useState([]);
 
   
@@ -195,24 +202,6 @@ const TopPoolsListCard = ({
     setMystakes(stakes);
   };
 
-
-
-  const StakingNew1 = initStakingNew({
-    token: window.token_new,
-    staking: stakeArray[cardIndex],
-    chainId: chainId,
-    constant: constantArray[cardIndex],
-    liquidity: eth_address,
-    lp_symbol: "USD",
-    reward: "30,000",
-    lock: "3 Days",
-    rebase_factor: rebase_factors[0],
-    expiration_time: "14 December 2022",
-    fee: feeArray[cardIndex],
-    handleConnection: handleConnection,
-    lockTime: lockarrayFarm[cardIndex],
-    listType: listType,
-  });
 
   const lockarrayFarmAvax = ["No Lock", 3, 30, 60, 90];
   const feearrayFarmAvax = [0.3, 0.3, 0.4, 0.8, 1.2];
@@ -245,18 +234,21 @@ const TopPoolsListCard = ({
 
   const FarmAvax = initFarmAvax({
     token: window.token_newavax,
-    staking: stakeArrayFarmAvax[cardIndex],
-    constant: constantArrayFarmAvax[cardIndex],
+    staking: stakeArrayFarmAvax[cardIndex-1],
+    constant: constantArrayFarmAvax[cardIndex-1],
+    finalApr: expiredPools ? expiredPools[cardIndex-1]?.apy_percent : 0,
     liquidity: wbnb_address,
     lp_symbol: "USD",
     reward: "30,000",
-    lock: lockarrayFarmAvax[cardIndex],
+    lock: lockarrayFarmAvax[cardIndex-1],
     rebase_factor: rebase_factorsavax[0],
     expiration_time: "6 December 2022",
-    fee: feearrayFarmAvax[cardIndex],
+    fee: feearrayFarmAvax[cardIndex-1],
     coinbase: coinbase,
-    lockTime: lockarrayFarm[cardIndex],
+    lockTime: lockarrayFarm[cardIndex-1],
     listType: listType,
+    chainId: chainId,
+
   });
 
 
@@ -565,21 +557,23 @@ const TopPoolsListCard = ({
     window.constant_stakingnewbsc_new9,
   ];
   const bscFarmArrayFee = [0.3, 0.3, 0.4, 0.8, 1.2];
+  const lockarrayFarmbsc = ["No Lock", 3, 30, 60, 90];
 
   const BscFarming = initBscFarming({
     token: window.token_newbsc,
-    staking: bscFarmArrayStake[cardIndex],
+    staking: bscFarmArrayStake[cardIndex-1],
     chainId: chainId,
-    constant: bscFarmArrayConst[cardIndex],
+    constant: bscFarmArrayConst[cardIndex-1],
     liquidity: wbsc_address,
     lp_symbol: "USD",
     reward: "30,000",
     lock: "3 Days",
     rebase_factor: rebase_factorsbsc[0],
     expiration_time: "19 November 2022",
-    fee: bscFarmArrayFee[cardIndex],
+    fee: bscFarmArrayFee[cardIndex-1],
     handleConnection: handleConnection,
-    lockTime: 3,
+    lockTime: lockarrayFarmbsc[cardIndex],
+    finalApr: expiredPools ? expiredPools[cardIndex-1]?.apy_percent : 0,
     listType: listType,
     handleSwitchNetwork: { handleSwitchNetwork },
   });
@@ -598,18 +592,7 @@ const TopPoolsListCard = ({
     window.constant_stakingbsc_new10,
     window.constant_stakingbsc_new11,
   ];
-  const otherInfoarrayStakeBsc = [
-    false,
-    false,
-    false,
-    false,
-    true,
-    true,
-    true,
-    false,
-    false,
-  ];
-
+ 
   const lockarrayStakeBscActive = [
     180,
     30,
@@ -900,7 +883,7 @@ const TopPoolsListCard = ({
                 lineHeight: "30px",
               }}
             >
-              {apr} {cardIndex}
+              {apr}
             </h5>
             <p
               className="text-white"
@@ -1085,16 +1068,19 @@ const TopPoolsListCard = ({
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
               />
             ) : chain === "bnb" ? (
               <BscFarming
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
+                lp_id={LP_IDBNB_Array[cardIndex-1]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+
               />
             ) : (
               <FarmAvax
@@ -1102,9 +1088,10 @@ const TopPoolsListCard = ({
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 the_graph_result={the_graph_resultavax}
-                lp_id={LP_IDAVAX_Array[cardIndex]}
+                lp_id={LP_IDAVAX_Array[cardIndex-1]}
                 chainId={chainId}
                 coinbase={coinbase}
+                expired={true}
               />
             )
           ) :  showDetails &&
