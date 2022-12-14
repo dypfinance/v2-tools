@@ -365,32 +365,22 @@ const EarnTopPicks = ({
     window.constant_staking_new9,
   ];
 
-  const stakeArrayBuyBack = [
-    window.buyback_staking1_1,
-    window.buyback_staking1_2,
-  ];
-  const constantArrayBuyback = [
-    window.constant_staking_new3,
-    window.constant_staking_new4,
-  ];
-
   const feeArray = [0.8, 0.4, 0.3, 0.3, 1.2];
-  const feeArrayBuyback = [1, 3.5];
-  const aprArray = [30, 100];
 
   const stakeArrayiDYPActive = [
     window.constant_staking_idyp_3,
     window.constant_staking_idyp_4,
   ];
 
-  const performancefeeArrayidyp = [1, 3.5, 0, 0];
+  
   const withdrawFeeiDyp = [1, 0, 0, 0];
-  const aprArrayiDyp = [15, 30, 20, 15];
+  
 
   const lockarrayFarm = ["No Lock", 3, 30, 60, 90];
 
   const StakingNew1 = initStakingNew({
     token: window.token_new,
+    finalApr: expiredDYPPools[cardIndex]?.apy_percent,
     staking: stakeArray[cardIndex],
     chainId: chainId,
     constant: constantArray[cardIndex],
@@ -402,17 +392,7 @@ const EarnTopPicks = ({
     expiration_time: "14 December 2022",
     fee: feeArray[cardIndex],
     handleConnection: handleConnection,
-    lockTime:
-      cardIndex !== undefined
-        ? expiredPools === false
-          ? activePools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-            ? "No Lock"
-            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-          ? "No Lock"
-          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-        : "No Lock",
-
+    lockTime: lockarrayFarm[cardIndex],
     listType: listType,
     handleSwitchNetwork: handleSwitchNetwork,
   });
@@ -432,10 +412,11 @@ const EarnTopPicks = ({
     window.constant_stakingnewbsc_new7,
   ];
   const bscFarmArrayFee = [0.3, 1.2, 0.3, 0.8, 0.4];
+  const lockarrayFarmbsc = ["No Lock", 3, 30, 60, 90];
 
+  
   const BscFarming = initBscFarming({
     staking: bscFarmArrayStake[cardIndex],
-
     token: window.token_newbsc,
     chainId: chainId,
     constant: bscFarmArrayConst[cardIndex],
@@ -447,17 +428,8 @@ const EarnTopPicks = ({
     expiration_time: "19 November 2022",
     fee: bscFarmArrayFee[cardIndex],
     handleConnection: handleConnection,
-    lockTime:
-      cardIndex !== undefined
-        ? expiredPools === false
-          ? activePools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-            ? "No Lock"
-            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-          ? "No Lock"
-          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-        : "No Lock",
-
+    finalApr: expiredDYPPools[cardIndex]?.apy_percent,
+    lockTime: lockarrayFarmbsc[cardIndex],
     listType: listType,
     handleSwitchNetwork: handleSwitchNetwork,
   });
@@ -511,18 +483,10 @@ const EarnTopPicks = ({
     expiration_time: "6 December 2022",
     fee: feearrayFarmAvax[cardIndex],
     coinbase: coinbase,
-    lockTime:
-      cardIndex !== undefined
-        ? expiredPools === false
-          ? activePools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-            ? "No Lock"
-            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-          ? "No Lock"
-          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-        : "No Lock",
+    lockTime:lockarrayFarmAvax[cardIndex],
     chainId: chainId,
     listType: listType,
+    finalApr: expiredDYPPools[cardIndex]?.apy_percent,
     handleSwitchNetwork: handleSwitchNetwork,
   });
 
@@ -530,20 +494,7 @@ const EarnTopPicks = ({
 
   //Buyback New
 
-  const bscStakeArray = [
-    window.buyback_stakingbsc1_1,
-    window.buyback_stakingbsc1_2,
-  ];
-  const bscConstArray = [
-    window.constant_stakingbsc_new3,
-    window.constant_stakingbsc_new4,
-  ];
-  const bscAprArray = [30, 100];
-  const bscFeeArray = [1, 3.5];
-  const bscLockArray = ["No Lock", 90];
-
-  const aprarrayStakeAvax = [30, 10];
-  const feearrayStakeAvax = [3.5, 1];
+ 
   const expirearrayStakeAvax = ["14 July 2023", "05 August 2023"];
 
   //constant_staking_new3

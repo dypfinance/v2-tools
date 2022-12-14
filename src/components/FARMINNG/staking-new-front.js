@@ -63,7 +63,8 @@ export default function initStakingNew({
   coinbase,
   listType,
   handleSwitchNetwork,
-  expired
+  expired,
+  finalApr
 
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dyps } =
@@ -1360,7 +1361,7 @@ export default function initStakingNew({
                     <div className="d-flex align-items-center justify-content-between gap-2">
                       <h6 className="earnrewards-text">APR:</h6>
                       <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {apy}%
+                        {finalApr}%
                         <ClickAwayListener onClickAway={aprClose}>
                         <Tooltip
                           open={this.state.aprTooltip}
@@ -1655,7 +1656,7 @@ export default function initStakingNew({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '1' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '1' ? "blurrypool" : ''}`}>
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
