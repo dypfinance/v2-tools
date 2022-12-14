@@ -50,6 +50,8 @@ const TopPoolsListCard = ({
   listType,
   display,
   expired,
+  expiredPools,
+  
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
   const bscCoins = [
@@ -79,7 +81,7 @@ const TopPoolsListCard = ({
   const [cardIndexiDyp, setcardIndexiDyp] = useState();
   const [cardIndexavax30, setcardIndexavax30] = useState();
   const [cardIndexavaxiDyp, setcardIndexavaxiDyp] = useState();
-
+ 
   const eth_address = "ETH";
   const wbnb_address = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7";
   const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
@@ -339,32 +341,38 @@ const TopPoolsListCard = ({
   
   const feearrayStakeAvax30 = [0.25, 0.5];
   const stakingarrayStakeAvax30 = [
-    window.constant_staking_newavax1,
     window.constant_staking_newavax2,
+    window.constant_staking_newavax1,
   ];
 
 
   const StakeAvax30 = stakeAvax30({
-    staking: stakingarrayStakeAvax30[cardIndexavax30],
-    apr: aprarrayStakeAvax30[cardIndexavax30],
+    staking: stakingarrayStakeAvax30[cardIndex - 1],
+    apr: expiredPools ? expiredPools[cardIndex-1]?.apy_percent : 0,
     liquidity: avax_address,
     expiration_time: "6 December 2022",
-    fee: feearrayStakeAvax30[cardIndexavax30],
+    fee: expiredPools ? expiredPools[cardIndex-1]?.performancefee : 0,
+    finalApr: expiredPools ? expiredPools[cardIndex]?.apy_performancefee : 0,
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime: expiredPools ? expiredPools[cardIndex-1]?.lock_time?.split(" ")[0] === "No"
+    ? "No Lock"
+    : expiredPools[cardIndex-1]?.lock_time?.split(" ")[0] : "No Lock",
     listType: listType,
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
   const StakeAvax3 = stakeAvax3({
+    finalApr: expiredPools ? expiredPools[cardIndex-1]?.apy_performancefee:0,
     staking: window.constant_stakingdaiavax,
     apr: 25,
     liquidity: avax_address,
     expiration_time: "Expired",
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime: expiredPools ? expiredPools[cardIndex-1]?.lock_time?.split(" ")[0] === "No"
+    ? "No Lock"
+    : expiredPools[cardIndex-1]?.lock_time?.split(" ")[0] : "No Lock",
     listType: listType,
     handleSwitchNetwork: { handleSwitchNetwork },
   });
@@ -380,8 +388,8 @@ const TopPoolsListCard = ({
   ];
 
   const stakingarrayStakeAvaxiDyp = [
-    window.constant_staking_idypavax_1,
     window.constant_staking_idypavax_2,
+    window.constant_staking_idypavax_1,
   ];
 
   const stakingarrayStakeAvaxiDypActive = [
@@ -418,18 +426,18 @@ const TopPoolsListCard = ({
   });
 
   const StakeAvaxiDyp = stakeAvaxiDyp({
-    staking: stakingarrayStakeAvaxiDyp[cardIndexavaxiDyp],
-    apr: aprarrayStakeAvaxiDyp[cardIndexavaxiDyp],
-    finalApr: aprarrayStakeAvaxiDyp[cardIndex -1] - feeSarrayStakeAvaxiDyp[cardIndex -1],
+    staking: stakingarrayStakeAvaxiDyp[cardIndex - 4],
+    apr: expiredPools ? expiredPools[cardIndex-1]?.apy_percent : 0,
+    finalApr: expiredPools ? expiredPools[cardIndex-1]?.apy_performancefee : 0,
     liquidity: avax_address,
-    expiration_time: expirearrayStakeAvaxiDyp[cardIndexavaxiDyp],
-    other_info: otherinfoarrayStakeAvaxiDyp[cardIndexavaxiDyp],
-    fee_s: feeSarrayStakeAvaxiDyp[cardIndexavaxiDyp],
-    fee_u: feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp],
+    expiration_time: expirearrayStakeAvaxiDyp[cardIndex - 4],
+    other_info: true,
+    fee_s: expiredPools ? expiredPools[cardIndex-1]?.performancefee : 0,
+    fee_u: feeUarrayStakeAvaxiDyp[cardIndex-4],
     listType: listType,
     handleSwitchNetwork: { handleSwitchNetwork },
     chainId: chainId,
-
+    lockTime: expiredPools ? expiredPools[cardIndex-1]?.lock_time?.split(" ")[0] : "No Lock",
   });
 
   const lockarray = ["No Lock", 90];
@@ -576,37 +584,15 @@ const TopPoolsListCard = ({
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
-  const feearrayStakeBsc = [ 0.25, 0.5, 0, 0, 1, 3.5];
   const feearrayStakeBscActive = [3.5, 1];
-
-  const expirearrayStakeBsc = [
-    "17 November 2022",
-    "17 November 2022",
-    "Expired",
-    "28 February 2023",
-    "28 February 2023",
-    "15 August 2023",
-    "15 August 2023",
-  ];
 
   const expirearrayStakeBscActive = [
     "14 July 2023",
     "5 August 2023",
   ];
 
-  const aprarrayStakeBsc = [25, 50, 25, 20, 45, 15, 30];
   const aprarrayStakeBscActive = [30, 10];
 
-
-  const stakearrayStakeBsc = [
-    window.constant_stakingbsc_new12,
-    window.constant_stakingbsc_new13,
-    window.constant_stakingdaibsc,
-    window.constant_stakingidyp_1,
-    window.constant_stakingidyp_2,
-    window.constant_stakingidyp_5,
-    window.constant_stakingidyp_6,
-  ];
   
   const stakearrayStakeBscActive = [
     window.constant_stakingbsc_new10,
@@ -645,50 +631,92 @@ const TopPoolsListCard = ({
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
-  const BscConstantStake = initbscConstantStaking({
-    staking: stakearrayStakeBsc[cardIndex],
-    apr: aprarrayStakeBsc[cardIndex],
-    finalApr: aprarrayStakeBsc[cardIndex -1] - feearrayStakeBsc[cardIndex -1],
-    liquidity: wbsc_address,
-    expiration_time: expirearrayStakeBsc[cardIndex],
-    fee: feearrayStakeBsc[cardIndex],
-    coinbase: coinbase,
-    chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
-    listType: listType,
-    other_info: otherInfoarrayStakeBsc[cardIndex],
-    handleSwitchNetwork: { handleSwitchNetwork },
-  });
+
+  const aprarrayStakeBsc = [0.27,0.14];
+  const feearrayStakeBsc = [0.5,0.25];
+
+  const lockarrayStakeBSC= [
+    90, 'No Lock',
+  ];
+
+  const lockarrayStakebsciDYP = [ 
+    "No Lock",
+    90,
+    90,
+    "No Lock",
+    90,
+    "No Lock",
+    90,
+  ];
+  
+  const feearrayStakeBsciDYP = [ 0, 0, 1, 3.5];
+
+  const aprarrayStakeBsciDYP = [25, 20, 45, 15, 30];
+
+  const stakearrayStakeBsciDyp = [
+    window.constant_stakingidyp_1,
+    window.constant_stakingidyp_2,
+    window.constant_stakingidyp_5,
+    window.constant_stakingidyp_6,
+  ];
+
+
+
+  const expirearrayStakeBsciDYP = [
+    
+    "28 February 2023",
+    "28 February 2023",
+    "15 August 2023",
+    "15 August 2023",
+  ];
+
+
+   const expirearrayStakeBsc = [
+    "17 November 2022",
+    "17 November 2022",
+  ];
+  
+  
+  
+  const stakearrayStakeBsc = [
+    window.constant_stakingbsc_new13,
+    window.constant_stakingbsc_new12,
+  ];
+  
 
   const BscConstantStake2 = initbscConstantStaking2({
-    staking: stakearrayStakeBsc[cardIndex],
-    apr: aprarrayStakeBsc[cardIndex],
-    finalApr: aprarrayStakeBsc[cardIndex -1] - feearrayStakeBsc[cardIndex -1],
+    staking: cardIndex === 3 ? stakearrayStakeBsc[cardIndex-2] : stakearrayStakeBsc[cardIndex-1],
+    apr:  expiredPools ? expiredPools[cardIndex-1]?.apy_percent : 0,
+    finalApr: expiredPools ? expiredPools[cardIndex-1]?.apy_performancefee : 0,
     liquidity: wbsc_address,
-    expiration_time: expirearrayStakeBsc[cardIndex],
-    fee: feearrayStakeBsc[cardIndex],
+    expiration_time: cardIndex === 3 ? expirearrayStakeBsc[cardIndex-2] : expirearrayStakeBsc[cardIndex-1],
+    fee: expiredPools ? expiredPools[cardIndex-1]?.performancefee: 0,
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime:  expiredPools ? expiredPools[cardIndex-1]?.lock_time?.split(" ")[0] === "No"
+    ? "No Lock"
+    : parseInt(expiredPools[cardIndex-1]?.lock_time?.split(" ")[0]) : 0,
     listType: listType,
-    other_info: otherInfoarrayStakeBsc[cardIndex],
+    other_info: true,
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
 
-
+  
   const BscConstantStakeDai = initbscConstantStakingDai({
-    staking: stakearrayStakeBsc[cardIndex],
-    finalApr: aprarrayStakeBsc[cardIndex -1] - feearrayStakeBsc[cardIndex -1],
-    apr: aprarrayStakeBsc[cardIndex],
+    staking: window.constant_stakingdaibsc,
+    finalApr: expiredPools ? expiredPools[cardIndex-1]?.apy_performancefee : 0,
+    apr: expiredPools ? expiredPools[cardIndex-1]?.apy_percent : 0,
     liquidity: wbsc_address,
-    expiration_time: expirearrayStakeBsc[cardIndex],
-    fee: feearrayStakeBsc[cardIndex],
+    expiration_time: "Expired",
+    fee: expiredPools ? expiredPools[cardIndex-1]?.performancefee : 0,
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime:  expiredPools ? expiredPools[cardIndex-1]?.lock_time?.split(" ")[0] === "No"
+    ? "No Lock"
+    : parseInt(expiredPools[cardIndex-1]?.lock_time?.split(" ")[0]) : 0,
     listType: listType,
-    other_info: otherInfoarrayStakeBsc[cardIndex],
+    other_info: true,
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
@@ -698,16 +726,13 @@ const TopPoolsListCard = ({
     window.constant_stakingidyp_5,
   ];
 
-  const stakearrayStakeBscidyp = [
-    window.constant_stakingidyp_1,
-    window.constant_stakingidyp_2,
-  ];
+
+
 
   const aprarrayStakeBscidypActive = [30, 15];
-  const aprarrayStakeBscidyp = [25, 50, 25, 20, 45, ];
+ 
 
   const feearrayStakeBscidypActive = [3.5,1];
-  const feearrayStakeBscidyp = [ 0.25, 0.5, 0, 0];
 
 
   const expirearrayStakeBscidypActive = [
@@ -715,29 +740,11 @@ const TopPoolsListCard = ({
     "15 August 2023",
   ];
 
-  const expirearrayStakeBscidyp = [
-    "17 November 2022",
-    "17 November 2022",
-    "Expired",
-    "28 February 2023",
-    "28 February 2023",
-  ];
-
 
   const lockarrayStakeBscidypActive = [
     90,
     "No Lock",
-  ];
-
-  const lockarrayStakeBscidyp = [
-    180,
-    30,
-    "No Lock",
-    90,
-    90,
-    "No Lock",
-    90
-  ];
+  ]
 
   const BscConstantStakingiDypActive = initbscConstantStakingiDyp({
     staking: stakearrayStakeBscidypActive[cardIndex-3],
@@ -755,18 +762,30 @@ const TopPoolsListCard = ({
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
+  const stakearrayStakeBscidyp = [
+    window.constant_stakingidyp_2,
+    window.constant_stakingidyp_1,
+  ];
+ const expirearrayStakeBscidyp = [
+  "28 February 2023",
+  "28 February 2023",
+];
+
+
   const BscConstantStakingiDyp = initbscConstantStakingiDyp({
-    staking: stakearrayStakeBsc[cardIndex],
-    apr: aprarrayStakeBsc[cardIndex],
-    finalApr: aprarrayStakeBsc[cardIndex -1] - feearrayStakeBsc[cardIndex -1],
+    staking: stakearrayStakeBscidyp[cardIndex-4],
+    apr:  expiredPools ? expiredPools[cardIndex-1]?.apy_percent : 0,
+    finalApr: expiredPools ? expiredPools[cardIndex-1]?.apy_performancefee : 0,
     liquidity: wbsc_address,
-    expiration_time: expirearrayStakeBsc[cardIndex],
-    fee: feearrayStakeBsc[cardIndex],
+    expiration_time: expirearrayStakeBscidyp[cardIndex-4],
+    fee_s: expiredPools ? expiredPools[cardIndex-1]?.performancefee :0,
     coinbase: coinbase,
     chainId: chainId,
-    lockTime: lockarrayStakeAvax[cardIndex],
+    lockTime:  expiredPools ? expiredPools[cardIndex-1]?.lock_time?.split(" ")[0] === "No"
+    ? "No Lock"
+    : parseInt(expiredPools[cardIndex-1]?.lock_time?.split(" ")[0]) : 0,
     listType: listType,
-    other_info: otherInfoarrayStakeBsc[cardIndex],
+    other_info: true,
     handleSwitchNetwork: { handleSwitchNetwork },
   });
 
@@ -881,7 +900,7 @@ const TopPoolsListCard = ({
                 lineHeight: "30px",
               }}
             >
-              {apr}
+              {apr} {cardIndex}
             </h5>
             <p
               className="text-white"
@@ -1117,19 +1136,6 @@ const TopPoolsListCard = ({
             expired={true}
           />
         ) : showDetails &&
-            topList === "Staking" &&
-            cardIndex < 2 &&
-            chain === "bnb" ? (
-            <BscConstantStake
-              is_wallet_connected={isConnected}
-              coinbase={coinbase}
-              the_graph_result={the_graph_resultbsc}
-              lp_id={LP_IDBNB_Array[cardIndex]}
-              chainId={chainId}
-              handleConnection={handleConnection}
-              handleSwitchNetwork={handleSwitchNetwork}
-            />
-          ) : showDetails &&
             cardIndex > 3 &&
             topList === "Staking" &&
             chain === "eth" ? (
@@ -1144,8 +1150,7 @@ const TopPoolsListCard = ({
               handleSwitchNetwork={handleSwitchNetwork}
             />
           ) : showDetails &&
-            cardIndex >= 2 &&
-            cardIndex < 4 &&
+          (cardIndex === 1 || cardIndex === 3) &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <BscConstantStake2
@@ -1156,9 +1161,10 @@ const TopPoolsListCard = ({
               chainId={chainId}
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
+              expired={true}
             />
           ) : showDetails &&
-            cardIndex === 4 &&
+            cardIndex === 2 &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <BscConstantStakeDai
@@ -1170,9 +1176,11 @@ const TopPoolsListCard = ({
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
               referrer={referrer}
+              expired={true}
+
             />
           ) : showDetails &&
-            cardIndex >= 5 &&
+            cardIndex >= 4 &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <BscConstantStakingiDyp
@@ -1183,25 +1191,13 @@ const TopPoolsListCard = ({
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
               referrer={referrer}
+              expired={true}
+
             />
           ) : showDetails &&
             topList === "Staking" &&
             chain === "avax" &&
-            cardIndex < 2 ? (
-            <StakeAvax
-              is_wallet_connected={isConnected}
-              handleConnection={handleConnection}
-              handleSwitchNetwork={handleSwitchNetwork}
-              the_graph_result={the_graph_resultavax}
-              chainId={chainId}
-              coinbase={coinbase}
-              referrer={referrer}
-            />
-          ) : showDetails &&
-            topList === "Staking" &&
-            chain === "avax" &&
-            cardIndex >= 2 &&
-            cardIndex < 4 ? (
+            cardIndex <= 2 ? (
             <StakeAvax30
               is_wallet_connected={isConnected}
               handleConnection={handleConnection}
@@ -1210,11 +1206,12 @@ const TopPoolsListCard = ({
               chainId={chainId}
               coinbase={coinbase}
               referrer={referrer}
+              expired={true}
             />
           ) : showDetails &&
             topList === "Staking" &&
             chain === "avax" &&
-            cardIndex === 4 ? (
+            cardIndex === 3 ? (
             <StakeAvax3
               is_wallet_connected={isConnected}
               handleConnection={handleConnection}
@@ -1223,11 +1220,12 @@ const TopPoolsListCard = ({
               chainId={chainId}
               coinbase={coinbase}
               referrer={referrer}
+              expired={true}
             />
           ) : showDetails &&
             topList === "Staking" &&
             chain === "avax" &&
-            cardIndex >= 5 ? (
+            cardIndex >= 4 ? (
             <StakeAvaxiDyp
               is_wallet_connected={isConnected}
               handleConnection={handleConnection}
@@ -1236,6 +1234,7 @@ const TopPoolsListCard = ({
               chainId={chainId}
               coinbase={coinbase}
               referrer={referrer}
+              expired={true}
             />
           ) : showDetails === true && topList === "Vault" ? (
             <VaultCard

@@ -927,7 +927,7 @@ export default function initbscConstantStaking2({
         this.setState({ withdrawTooltip: false });
       };
 
-
+      
       return (
         <div className="container-lg p-0">
           <div
@@ -1142,7 +1142,7 @@ export default function initbscConstantStaking2({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                        { token_balance ? getFormattedNumber(token_balance, 6) : '...'}{" "}
+                        { token_balance != '...' ? token_balance : '...'}{" "}
                           {token_symbol}
                         </b>
                       </h6>

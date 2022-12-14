@@ -6013,7 +6013,7 @@ const EarnTopPicks = ({
         ) : windowSize.width > 786 ? (
           <div className="px-0">
             <div className="top-picks-container">
-              {expiredDYPPools.slice(0, 4).map((pool, index) => (
+              {expiredDYPPools.slice(0, 2).map((pool, index) => (
                 <TopPoolsCard
                   expired={true}
                   display={
@@ -6064,6 +6064,11 @@ const EarnTopPicks = ({
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard(null);
+                    setActiveCard2(null);
+                    setActiveCard3(null);
+                    setActiveCard4(null);
+                    setActiveCard5(null);
+                    setActiveCard6(null);
                     setDetails();
                   }}
                   cardType={topList}
@@ -6196,11 +6201,10 @@ const EarnTopPicks = ({
                 expired={true}
               />
             ) : activeCard &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex >= 2 &&
-              cardIndex < 4 ? (
-              <StakeAvax30
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex < 2? (
+            <StakeAvax30
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
@@ -6211,10 +6215,10 @@ const EarnTopPicks = ({
                 referrer={referrer}
               />
             ) : activeCard &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex === 4 ? (
-              <StakeAvax3
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex === 2 ? (
+            <StakeAvax3
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
@@ -6225,10 +6229,10 @@ const EarnTopPicks = ({
                 referrer={referrer}
               />
             ) : activeCard &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex >= 5 ? (
-              <StakeAvaxiDyp
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex > 2 ? (
+            <StakeAvaxiDyp
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
@@ -6242,7 +6246,7 @@ const EarnTopPicks = ({
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {expiredDYPPools.slice(4, 8).map((pool, index) => (
+              {expiredDYPPools.slice(2, 4).map((pool, index) => (
                 <TopPoolsCard
                   expired={true}
                   display={
@@ -6280,23 +6284,27 @@ const EarnTopPicks = ({
                   }
                   onShowDetailsClick={() => {
                     setActiveCard(null);
-                    setActiveCard2(topPools[index + 4]);
+                    setActiveCard2(topPools[index + 2]);
                     setActiveCard3(null);
                     setActiveCard4(null);
                     setActiveCard5(null);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 4);
-                    handleCardIndexStake30(index + 4);
-                    handleCardIndexStakeiDyp(index + 4);
-                    setDetails(index + 3);
+                    handleCardIndexStake(index + 2);
+                    handleCardIndexStake30(index + 2);
+                    handleCardIndexStakeiDyp(index + 2);
+                    setDetails(index + 2);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard2(null);
+                    setActiveCard3(null);
+                    setActiveCard4(null);
+                    setActiveCard5(null);
+                    setActiveCard6(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 4 ? true : false}
+                  details={details === index + 2 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
                 />
@@ -6351,10 +6359,25 @@ const EarnTopPicks = ({
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
               />
-            ) : activeCard2 &&
+            )
+            : activeCard2 &&
               topList === "Staking" &&
-              cardIndex < 2 &&
-              chain === "bnb" ? (
+              cardIndex === 2 &&
+                chain === "eth" ? (
+                <ConstantStakingDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                lp_id={lp_id[cardIndex]}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+              />
+            )  : activeCard2 &&
+            (cardIndex === 0 || cardIndex === 2) &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
               <BscConstantStake2
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
@@ -6366,10 +6389,10 @@ const EarnTopPicks = ({
                 expired={true}
               />
             ) : activeCard2 &&
-              cardIndex > 2 &&
-              topList === "Staking" &&
-              chain === "eth" ? (
-              <ConstantStakingiDYP1
+            cardIndex >= 3 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <ConstantStakingiDYP1
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
@@ -6380,10 +6403,10 @@ const EarnTopPicks = ({
                 expired={true}
               />
             ) : activeCard2 &&
-              cardIndex === 4 &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <BscConstantStakeDai
+            cardIndex === 1 &&
+            topList === "Staking" &&
+            chain === "bnb" ? (
+            <BscConstantStakeDai
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
@@ -6395,7 +6418,7 @@ const EarnTopPicks = ({
                 referrer={referrer}
               />
             ) : activeCard2 &&
-              (cardIndex === 5 || cardIndex > 5) &&
+            cardIndex >= 3 &&
               topList === "Staking" &&
               chain === "bnb" ? (
               <BscConstantStakingiDyp
@@ -6411,8 +6434,7 @@ const EarnTopPicks = ({
             ) : activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex >= 2 &&
-              cardIndex < 4 ? (
+              cardIndex < 2? (
               <StakeAvax30
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
@@ -6426,7 +6448,7 @@ const EarnTopPicks = ({
             ) : activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex === 4 ? (
+              cardIndex === 2 ? (
               <StakeAvax3
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
@@ -6440,7 +6462,7 @@ const EarnTopPicks = ({
             ) : activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex >= 5 ? (
+              cardIndex > 2 ? (
               <StakeAvaxiDyp
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
@@ -6455,7 +6477,7 @@ const EarnTopPicks = ({
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
-              {expiredDYPPools.slice(8, 12).map((pool, index) => (
+              {expiredDYPPools.slice(4, 6).map((pool, index) => (
                 <TopPoolsCard
                   expired={true}
                   display={
@@ -6494,22 +6516,22 @@ const EarnTopPicks = ({
                   onShowDetailsClick={() => {
                     setActiveCard(null);
                     setActiveCard2(null);
-                    setActiveCard3(topPools[index + 8]);
+                    setActiveCard3(topPools[index + 4]);
                     setActiveCard4(null);
                     setActiveCard5(null);
                     setActiveCard6(null);
                     setActiveCardNFT(false);
-                    handleCardIndexStake(index + 8);
-                    handleCardIndexStake30(index + 8);
-                    handleCardIndexStakeiDyp(index + 8);
-                    setDetails(index + 8);
+                    handleCardIndexStake(index + 4);
+                    handleCardIndexStake30(index + 4);
+                    handleCardIndexStakeiDyp(index + 4);
+                    setDetails(index + 4);
                   }}
                   onHideDetailsClick={() => {
                     setActiveCard3(null);
                     setDetails();
                   }}
                   cardType={topList}
-                  details={details === index + 8 ? true : false}
+                  details={details === index + 4 ? true : false}
                   isNewPool={pool.isNewPool}
                   isStaked={pool.isStaked}
                 />
@@ -6653,8 +6675,7 @@ const EarnTopPicks = ({
             ) : activeCard3 &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex >= 2 &&
-              cardIndex < 4 ? (
+              cardIndex < 2? (
               <StakeAvax30
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
@@ -6666,10 +6687,10 @@ const EarnTopPicks = ({
                 referrer={referrer}
               />
             ) : activeCard3 &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex === 4 ? (
-              <StakeAvax3
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex === 2 ? (
+            <StakeAvax3
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
@@ -6680,10 +6701,10 @@ const EarnTopPicks = ({
                 referrer={referrer}
               />
             ) : activeCard3 &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex >= 5 ? (
-              <StakeAvaxiDyp
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex > 2 ? (
+            <StakeAvaxiDyp
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
@@ -7579,7 +7600,7 @@ const EarnTopPicks = ({
                 )
               ) : activeCard &&
                 topList === "Staking" &&
-                cardIndex < 3 &&
+                cardIndex < 2 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -7591,25 +7612,25 @@ const EarnTopPicks = ({
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
                 />
-              ) : activeCard &&
-                topList === "Staking" &&
-                cardIndex < 2 &&
-                chain === "bnb" ? (
-                <BscConstantStake
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                />
-              ) : activeCard &&
-                cardIndex > 2 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingiDYP1
+              )  : activeCard &&
+              topList === "Staking" &&
+              cardIndex === 2 &&
+              chain === "eth" ? (
+              <ConstantStakingDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
+            ): activeCard &&
+              cardIndex >= 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingiDYP1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -7620,11 +7641,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard &&
-                cardIndex >= 2 &&
-                cardIndex < 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStake2
+              (cardIndex === 0 || cardIndex === 2) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -7635,10 +7655,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard &&
-                cardIndex === 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakeDai
+              cardIndex === 1 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -7650,10 +7670,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard &&
-                cardIndex >= 5 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakingiDyp
+              cardIndex >= 3 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -7664,10 +7684,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex < 2 ? (
-                <StakeAvax
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex < 2? (
+              <StakeAvax30
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -7678,11 +7698,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 2 &&
-                cardIndex < 4 ? (
-                <StakeAvax30
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex === 2 ? (
+              <StakeAvax3
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -7692,25 +7711,11 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   referrer={referrer}
                 />
-              ) : activeCard &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex === 4 ? (
-                <StakeAvax3
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
-                />
-              ) : activeCard &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 5 ? (
-                <StakeAvaxiDyp
+              )  : activeCard &&
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex > 2 ? (
+              <StakeAvaxiDyp
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -7841,10 +7846,10 @@ const EarnTopPicks = ({
                   />
                 )
               ) : activeCard2 &&
-                topList === "Staking" &&
-                cardIndex < 3 &&
-                chain === "eth" ? (
-                <ConstantStaking1
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "eth" ? (
+              <ConstantStaking1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -7856,50 +7861,7 @@ const EarnTopPicks = ({
                 />
               ) : activeCard2 &&
                 topList === "Staking" &&
-                cardIndex < 2 &&
-                chain === "bnb" ? (
-                <BscConstantStake2
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                />
-              ) : activeCard2 &&
-                cardIndex > 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingiDYP1
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                  lp_id={lp_id[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                />
-              ) : activeCard2 &&
-                cardIndex === 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakeDai
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  referrer={referrer}
-                />
-              ) : activeCard2 &&
-                cardIndex >= 2 &&
-                cardIndex < 4 &&
+                (cardIndex === 0 || cardIndex === 2) &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
                 <BscConstantStake2
@@ -7913,10 +7875,39 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard2 &&
-                (cardIndex === 5 || cardIndex > 5) &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakingiDyp
+              cardIndex >= 3 &&
+              topList === "Staking" &&
+              chain === "eth" ? (
+              <ConstantStakingiDYP1
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_result}
+                  lp_id={lp_id[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                />
+              ) : activeCard2 &&
+              cardIndex === 1 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
+              ): activeCard2 &&
+              cardIndex >= 3 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -7927,10 +7918,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard2 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex < 2 ? (
-                <StakeAvax
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex < 2? (
+              <StakeAvax30
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -7941,11 +7932,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard2 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 2 &&
-                cardIndex < 4 ? (
-                <StakeAvax30
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex === 2 ? (
+              <StakeAvax3
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -7956,24 +7946,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard2 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex === 4 ? (
-                <StakeAvax3
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
-                />
-              ) : activeCard2 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 5 ? (
-                <StakeAvaxiDyp
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex > 2 ? (
+              <StakeAvaxiDyp
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8104,10 +8080,10 @@ const EarnTopPicks = ({
                   />
                 )
               ) : activeCard3 &&
-                topList === "Staking" &&
-                cardIndex < 3 &&
-                chain === "eth" ? (
-                <ConstantStaking1
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "eth" ? (
+              <ConstantStaking1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8118,10 +8094,24 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard3 &&
-                cardIndex > 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingiDYP1
+              topList === "Staking" &&
+              cardIndex === 2 &&
+              chain === "eth" ? (
+              <ConstantStakingDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
+            ) : activeCard3 &&
+            cardIndex >= 3 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <ConstantStakingiDYP1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8132,11 +8122,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard3 &&
-                cardIndex >= 2 &&
-                cardIndex < 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStake2
+              (cardIndex === 0 || cardIndex === 2) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8146,11 +8135,11 @@ const EarnTopPicks = ({
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
                 />
-              ) : activeCard3 &&
-                cardIndex === 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakeDai
+              ) : activeCard &&
+              cardIndex === 1 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8162,10 +8151,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard3 &&
-                cardIndex >= 5 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakingiDyp
+              cardIndex >= 3 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8176,10 +8165,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard3 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex < 2 ? (
-                <StakeAvax
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex < 2? (
+              <StakeAvax30
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8190,11 +8179,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard3 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 2 &&
-                cardIndex < 4 ? (
-                <StakeAvax30
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex === 2 ? (
+              <StakeAvax3
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8205,24 +8193,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard3 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex === 4 ? (
-                <StakeAvax3
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
-                />
-              ) : activeCard3 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 5 ? (
-                <StakeAvaxiDyp
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex > 2 ? (
+              <StakeAvaxiDyp
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8353,10 +8327,10 @@ const EarnTopPicks = ({
                   />
                 )
               ) : activeCard4 &&
-                topList === "Staking" &&
-                cardIndex < 3 &&
-                chain === "eth" ? (
-                <ConstantStaking1
+              topList === "Staking" &&
+              cardIndex < 2 &&
+              chain === "eth" ? (
+              <ConstantStaking1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8367,10 +8341,24 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard4 &&
-                cardIndex > 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingiDYP1
+              topList === "Staking" &&
+              cardIndex === 2 &&
+              chain === "eth" ? (
+              <ConstantStakingDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
+            ) : activeCard4 &&
+            cardIndex >= 3 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <ConstantStakingiDYP1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8381,11 +8369,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard4 &&
-                cardIndex >= 2 &&
-                cardIndex < 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStake2
+              (cardIndex === 0 || cardIndex === 2) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8396,10 +8383,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard4 &&
-                cardIndex === 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakeDai
+              cardIndex === 1 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8411,10 +8398,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard4 &&
-                cardIndex >= 5 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakingiDyp
+              cardIndex >= 3 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8424,11 +8411,11 @@ const EarnTopPicks = ({
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
                 />
-              ) : activeCard4 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex < 2 ? (
-                <StakeAvax
+              ): activeCard4 &&
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex < 2? (
+              <StakeAvax30
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8439,11 +8426,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard4 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 2 &&
-                cardIndex < 4 ? (
-                <StakeAvax30
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex === 2 ? (
+              <StakeAvax3
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8454,24 +8440,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard4 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex === 4 ? (
-                <StakeAvax3
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
-                />
-              ) : activeCard4 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 5 ? (
-                <StakeAvaxiDyp
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex > 2 ? (
+              <StakeAvaxiDyp
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8603,7 +8575,7 @@ const EarnTopPicks = ({
                 )
               ) : activeCard5 &&
                 topList === "Staking" &&
-                cardIndex < 3 &&
+                cardIndex < 2 &&
                 chain === "eth" ? (
                 <ConstantStaking1
                   is_wallet_connected={isConnected}
@@ -8616,10 +8588,24 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard5 &&
-                cardIndex > 3 &&
-                topList === "Staking" &&
-                chain === "eth" ? (
-                <ConstantStakingiDYP1
+              topList === "Staking" &&
+              cardIndex === 2 &&
+              chain === "eth" ? (
+              <ConstantStakingDai
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_result}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
+            ) : activeCard5 &&
+            cardIndex >= 3 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <ConstantStakingiDYP1
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -8630,11 +8616,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard5 &&
-                cardIndex >= 2 &&
-                cardIndex < 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStake2
+              (cardIndex === 0 || cardIndex === 2) &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStake2
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8645,10 +8630,10 @@ const EarnTopPicks = ({
                   expired={true}
                 />
               ) : activeCard5 &&
-                cardIndex === 4 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakeDai
+              cardIndex === 1 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakeDai
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8660,10 +8645,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard5 &&
-                cardIndex >= 5 &&
-                topList === "Staking" &&
-                chain === "bnb" ? (
-                <BscConstantStakingiDyp
+              cardIndex >= 3 &&
+              topList === "Staking" &&
+              chain === "bnb" ? (
+              <BscConstantStakingiDyp
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
@@ -8673,11 +8658,11 @@ const EarnTopPicks = ({
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
                 />
-              ) : activeCard5 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex < 2 ? (
-                <StakeAvax
+              )  : activeCard5 &&
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex < 2? (
+              <StakeAvax30
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8688,11 +8673,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard5 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 2 &&
-                cardIndex < 4 ? (
-                <StakeAvax30
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex === 2 ? (
+              <StakeAvax3
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -8703,24 +8687,10 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard5 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex === 4 ? (
-                <StakeAvax3
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
-                />
-              ) : activeCard5 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 5 ? (
-                <StakeAvaxiDyp
+              topList === "Staking" &&
+              chain === "avax" &&
+              cardIndex > 2 ? (
+              <StakeAvaxiDyp
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -10292,6 +10262,7 @@ const EarnTopPicks = ({
           {expiredDYPPools.map((pool, index) => (
             <TopPoolsListCard
               key={index}
+              expiredPools={expiredDYPPools}
               expired={true}
               chain={chain}
               top_pick={pool.top_pick}
