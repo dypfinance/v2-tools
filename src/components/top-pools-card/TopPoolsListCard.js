@@ -881,7 +881,7 @@ const TopPoolsListCard = ({
                 lineHeight: "30px",
               }}
             >
-              {apr} {cardIndex}
+              {apr}
             </h5>
             <p
               className="text-white"
