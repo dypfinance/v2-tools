@@ -416,9 +416,9 @@ const EarnContent = ({
         ) : (
           <div
             className="row justify-content-center align-items-center p-2 options-container"
-            style={{ marginTop: "30px", marginBottom: "40px" }}
+            style={{ marginTop: "24px", marginBottom: "24px" }}
           >
-            <div className="col-6 d-flex justify-content-start align-items-center gap-3">
+            <div className="col-6 d-flex px-0 px-lg-2 justify-content-start align-items-center gap-3">
               <div
                 className={`list-style ${
                   listStyle === "table" && "list-style-active"
@@ -442,7 +442,7 @@ const EarnContent = ({
                 />
               </div>
             </div>
-            <div className="col-6 d-flex justify-content-end align-items-center gap-1 gap-lg-3">
+            <div className="col-6 px-0 px-lg-2 d-flex justify-content-end align-items-center gap-1 gap-lg-3">
               
             <h5
                 className="text-white inactive-pools"
@@ -461,7 +461,7 @@ const EarnContent = ({
               </div>
              
             </div>
-            <div className="col-12 row d-flex gap-0 gap-xl-3 justify-content-center p-2">
+            <div className="col-12 row d-flex gap-0 gap-xl-3 justify-content-center px-0 px-lg-22 mt-3">
               {options.map((item, index) => (
                 <div
                   className={`earn-option col col-lg-3 col-xl-2 d-flex align-items-center justify-content-center ${

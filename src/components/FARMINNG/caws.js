@@ -19,6 +19,7 @@ import xMark from "../calculator/assets/xMark.svg";
 import weth from "./assets/weth.svg";
 import NftStakeCheckListModal from "../caws/NftMinting/components/NftMinting/NftStakeChecklistModal/NftStakeChecklistModal";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
+import useWindowSize from "../../functions/useWindowSize";
 
  
   const CawsDetails = ({ coinbase, isConnected, listType, handleSwitchNetwork, chainId, handleConnection }) => {
@@ -40,7 +41,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
   const [totalStakes, settotalStakes] = useState(0);
 
   const [hide, setHide] = useState('');
-
+  const windowSize = useWindowSize()
 
   const checkApproval = async () => {
     const address = coinbase;
@@ -258,7 +259,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
   return (
     <div className="container-lg p-0">
       <div
-        className={`allwrappercaws ${listType === "table" && "my-4"}`}
+        className={`allwrappercaws ${windowSize.width > 786 && "my-4"}`}
         style={{
           border: listType !== "table" && "none",
           borderRadius: listType !== "table" && "0px",
@@ -272,7 +273,8 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
                   src={ellipse}
                   alt=""
                   className="position-relative"
-                  style={{ top: 3 }}
+                  style={{ top: '-1px' }}
+
                 />
                 Active Pool
               </h6>
@@ -341,7 +343,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
           <div className="row w-100 justify-content-between gap-4 gap-lg-0">
             <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
               <div
-                className="d-flex flex-row flex-lg-column align-items-center align-items-lg- justify-content-between  gap-4"
+                className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between  gap-4"
                 style={{ height: "100%" }}
               >
                 <h6 className="start-title">Start Staking</h6>

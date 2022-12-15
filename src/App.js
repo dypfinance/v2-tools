@@ -35,6 +35,11 @@ import BuyDyp from "./components/buydyp/BuyDyp";
 import Swap from "./components/swap/Swap";
 import MobileMenu from "./components/sidebar/MobileMenu";
 import Disclaimer from "./components/disclaimer/Disclaimer";
+import ScrollToTop from "./functions/ScrollToTop";
+
+
+
+
 
 
 class App extends React.Component {
@@ -422,6 +427,7 @@ class App extends React.Component {
               className={`${this.state.windowWidth < 786 ?'col-12 px-1' : this.state.windowWidth < 1490 ? 'col-11' : 'col-10'}`}
             >
               <div className="right-content pr-0 my-4 my-lg-5">
+                <ScrollToTop />
                 <Switch>
                   <Route
                     exact
