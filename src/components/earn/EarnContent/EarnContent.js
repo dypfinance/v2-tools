@@ -394,7 +394,14 @@ const EarnContent = ({
               ))}
             </div>
             <div className="col-2 d-flex justify-content-end align-items-center gap-1 gap-lg-3">
-              <div
+             
+            <h5
+                className="text-white inactive-pools"
+                
+              >
+                Inactive pools
+              </h5>
+               <div
                 className={`pill-box ${myStakes && "pill-box-active"}`}
                 onClick={() => {
                   setMyStakes(!myStakes);
@@ -403,12 +410,7 @@ const EarnContent = ({
               >
                 <div className="pill"></div>
               </div>
-              <h5
-                className="text-white inactive-pools"
-                
-              >
-                Inactive pools
-              </h5>
+              
             </div>
           </div>
         ) : (
@@ -441,6 +443,13 @@ const EarnContent = ({
               </div>
             </div>
             <div className="col-6 d-flex justify-content-end align-items-center gap-1 gap-lg-3">
+              
+            <h5
+                className="text-white inactive-pools"
+                
+              >
+                Inactive pools
+              </h5>
               <div
                 className={`pill-box ${myStakes && "pill-box-active"}`}
                 onClick={() => {
@@ -450,12 +459,7 @@ const EarnContent = ({
               >
                 <div className="pill"></div>
               </div>
-              <h5
-                className="text-white inactive-pools"
-                
-              >
-                Inactive pools
-              </h5>
+             
             </div>
             <div className="col-12 row d-flex gap-0 gap-xl-3 justify-content-center p-2">
               {options.map((item, index) => (

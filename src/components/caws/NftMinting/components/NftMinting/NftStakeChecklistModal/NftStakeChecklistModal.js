@@ -261,9 +261,9 @@ const NftStakeCheckListModal = ({
 
   useEffect(() => {
     if (hideItem === 'staked') {
-      console.log('yes')
       setshowToStake(true)
-    } else if (hideItem === 'tostake') {
+
+    } else if (hideItem === 'tostake' || hideItem === '') {
       setshowStaked(true)
     };
   }, [hideItem]);
@@ -429,7 +429,7 @@ const NftStakeCheckListModal = ({
               </h5>
             </div>
           </div>
-          {showToStake ? (
+          {showToStake === true ? (
             <div className="justify-content-start">
               <button
                 onClick={() => {

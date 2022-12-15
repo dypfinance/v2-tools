@@ -267,7 +267,7 @@ const NewsModal = ({
               <div className="d-flex">
                 <a
                   className="resp-sharing-button__link"
-                  href={`https://twitter.com/intent/tweet/?text=${title}&url=${`https://tools.dyp.finance/news/${newsId}`}`}
+                  href={`https://twitter.com/intent/tweet/?text=${title}&url=${`https://app.dypius.com/news/${newsId}`}`}
                   target="_blank"
                   rel="noopener"
                   aria-label=""
@@ -277,7 +277,7 @@ const NewsModal = ({
 
                 <a
                   className="resp-sharing-button__link"
-                  href={`https://reddit.com/submit/?&url=${`https://tools.dyp.finance/news/${newsId}`}&resubmit=true&title=${title}`}
+                  href={`https://reddit.com/submit/?&url=${`https://app.dypius.com/news/${newsId}`}&resubmit=true&title=${title}`}
                   target="_blank"
                   rel="noopener"
                   aria-label=""
@@ -300,7 +300,7 @@ const NewsModal = ({
 
                 <a
                   className="resp-sharing-button__link"
-                  href={`https://telegram.me/share/url?url=${`https://tools.dyp.finance/news/${newsId}&text=${title}`}`}
+                  href={`https://telegram.me/share/url?url=${`https://app.dypius.com/news/${newsId}&text=${title}`}`}
                   target="_blank"
                   rel="noopener"
                   aria-label=""
@@ -325,7 +325,7 @@ const NewsModal = ({
                   alt="share news"
                   onClick={() =>
                     navigator.clipboard.writeText(
-                      `https://tools.dyp.finance/news/${newsId}`
+                      `https://app.dypius.com/news/${newsId}`
                     )
                   }
                   style={{ margin: "0.5em" }}

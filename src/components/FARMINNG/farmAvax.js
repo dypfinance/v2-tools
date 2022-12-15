@@ -624,7 +624,7 @@ export default function initFarmAvax({
             .claim(0, 0, deadline)
             .then(() => {
               this.setState({ claimStatus: "success" });
-              this.setState({ claimLoading: false });
+              this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
             })
             .catch((e) => {
               this.setState({ claimStatus: "failed" });
@@ -1957,7 +1957,7 @@ export default function initFarmAvax({
                           this.state.selectedPool === "" ||
                           this.state.claimStatus === "claimed" ||
                           this.state.claimStatus === "failed" ||
-                          this.state.claimStatus === "success"
+                          this.state.claimStatus === "success" || pendingDivs <=0
                             ? true
                             : false
                         }
@@ -1965,7 +1965,7 @@ export default function initFarmAvax({
                           this.state.claimStatus === "claimed" ||
                           this.state.selectedPool === "" ||
                           this.state.selectedPool === "wavax2" ||
-                          this.state.selectedPool === "dyp2"
+                          this.state.selectedPool === "dyp2" || pendingDivs <=0
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
@@ -2822,12 +2822,12 @@ export default function initFarmAvax({
                           disabled={
                             this.state.selectedPool === "" ||
                             this.state.withdrawStatus === "failed" ||
-                            this.state.withdrawStatus === "success"
+                            this.state.withdrawStatus === "success" || canWithdraw === false
                               ? true
                               : false
                           }
                           className={` w-100 btn filledbtn ${
-                            this.state.selectedPool === ""
+                            this.state.selectedPool === "" || canWithdraw === false
                               ? "disabled-btn"
                               : this.state.withdrawStatus === "failed"
                               ? "fail-button"

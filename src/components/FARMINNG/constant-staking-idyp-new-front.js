@@ -370,7 +370,7 @@ export default function initConstantStakingiDYP({
         .claim()
         .then(() => {
           this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false });
+          this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
         })
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
@@ -532,7 +532,7 @@ export default function initConstantStakingiDYP({
         .reInvest()
         .then(() => {
           this.setState({ reInvestStatus: "success" });
-          this.setState({ reInvestLoading: false });
+          this.setState({ reInvestLoading: false, pendingDivs: getFormattedNumber(0,6) });
         })
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
@@ -1073,13 +1073,13 @@ export default function initConstantStakingiDYP({
                       <button
                         disabled={
                           this.state.claimStatus === "claimed" ||
-                          this.state.claimStatus === "success"
+                          this.state.claimStatus === "success" || pendingDivs <=0
                             ? true
                             : false
                         }
                         className={`btn filledbtn ${
                           this.state.claimStatus === "claimed" &&
-                          this.state.claimStatus === "initial"
+                          this.state.claimStatus === "initial" || pendingDivs <=0
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
@@ -1108,14 +1108,13 @@ export default function initConstantStakingiDYP({
                           <>Claim</>
                         )}
                       </button>
-
+                      {this.props.expired === false &&
                       <button
-                        disabled={
-                          // this.state.reInvestStatus === "initial" ? true :
-                          false
+                         disabled={
+                          pendingDivs > 0 ? false : true
                         }
                         className={`btn outline-btn ${
-                          this.state.reInvestStatus === "invest"
+                          this.state.reInvestStatus === "invest" || pendingDivs <=0
                             ? "disabled-btn"
                             : this.state.reInvestStatus === "failed"
                             ? "fail-button"
@@ -1144,6 +1143,7 @@ export default function initConstantStakingiDYP({
                           <>Reinvest</>
                         )}
                       </button>
+    }
                     </div>
                   </div>
                   {this.state.errorMsg2 && (
@@ -1517,7 +1517,7 @@ export default function initConstantStakingiDYP({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                            {token_balance} {token_symbol}
+                          {depositedTokens} {" "} {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1566,13 +1566,13 @@ export default function initConstantStakingiDYP({
                           disabled={
                             this.state.withdrawAmount === "" ||
                             this.state.withdrawStatus === "failed" ||
-                            this.state.withdrawStatus === "success"
+                            this.state.withdrawStatus === "success"|| canWithdraw === false
                               ? true
                               : false
                           }
                           className={` w-100 btn filledbtn ${
                             this.state.withdrawAmount === "" &&
-                            this.state.withdrawStatus === "initial"
+                            this.state.withdrawStatus === "initial" || canWithdraw === false
                               ? "disabled-btn"
                               : this.state.withdrawStatus === "failed"
                               ? "fail-button"
