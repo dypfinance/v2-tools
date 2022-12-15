@@ -517,7 +517,9 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
             setshowChecklistModal(false);
             setamountToStake("");
           }}
-          nftItem={showStaked ? mystakes : showToStake ? myNFTs : showStaked}
+          // nftItem={showStaked ? mystakes : showToStake ? myNFTs : showStaked}
+          nftItem={hide === '' || hide === 'tostake' ? mystakes : myNFTs}
+
           onshowStaked={() => {
             setshowStaked(true);
             setshowToStake(false);

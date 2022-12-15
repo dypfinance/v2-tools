@@ -2811,13 +2811,13 @@ export default function initStakingNew({
                           disabled={
                             this.state.selectedPool === "" ||
                             this.state.withdrawStatus === "failed" ||
-                            this.state.withdrawStatus === "success"
+                            this.state.withdrawStatus === "success" || canWithdraw === false
                               ? true
                               : false
                           }
                           className={` w-100 btn filledbtn ${
                             this.state.selectedPool === "" &&
-                            this.state.withdrawStatus === "initial"
+                            this.state.withdrawStatus === "initial" || canWithdraw === false
                               ? "disabled-btn"
                               : this.state.withdrawStatus === "failed"
                               ? "fail-button"

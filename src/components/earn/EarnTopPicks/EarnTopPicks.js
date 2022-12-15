@@ -793,7 +793,7 @@ const EarnTopPicks = ({
   const StakeAvaxiDyp = stakeAvaxiDyp({
     staking:
       expiredPools === false
-        ? stakingarrayStakeAvaxiDypActive[cardIndex - 3]
+        ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
         : stakingarrayStakeAvaxiDypExpired[cardIndex - 3],
     apr:
       expiredPools === false
