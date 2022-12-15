@@ -318,7 +318,7 @@
 .connectbtn:focus {
   background: #14142a;
   border-radius: 8px;
-  border: 1px solid #57b6ab;
+  border: 1px solid #4ed5d2;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -717,10 +717,23 @@
 }
 .pool-coins:nth-child(5) {
   transform: translateX(-40px);
-  /* z-index: 2; */
+/* z-index: 2; */
 }
 
 @media screen and (max-width: 786px) {
+
+  .poolscardwrapper{
+    padding: 6px;
+  }
+
+  .details-wrapper{
+    bottom: 6px;
+  }
+
+/* .poolscardwrapper > .purplediv{
+  top: 6px !important;
+} */
+
   .firstblockwrapper{
     width: 100% !important;
   }

@@ -876,7 +876,8 @@ export default function initbscConstantStakingDai({
                       src={ellipse}
                       alt=""
                       className="position-relative"
-                      style={{ top: 3 }}
+                      style={{ top: '-1px' }}
+
                     />
                     Active status
                   </h6>

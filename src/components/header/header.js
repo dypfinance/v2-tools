@@ -325,6 +325,7 @@ const Header = ({
                   <div className="d-flex justify-content-between gap-3 align-items-center">
                     <DropdownButton
                       id="dropdown-basic-button"
+                      className="d-flex align-items-center justify-content-center"
                       title={
                         <span className="dropdown-title">
                           <img
@@ -335,6 +336,8 @@ const Header = ({
                                 ? bnb
                                 : avax
                             }
+                            height={16}
+                            width={16}
                             alt=""
                           />
                           <span className="change-chain-text d-none d-lg-flex">

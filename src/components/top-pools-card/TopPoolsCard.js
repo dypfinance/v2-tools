@@ -119,8 +119,8 @@ const TopPoolsCard = ({
         ></div>
         <div className="d-flex flex-column gap-0">
           <div
-            className="d-flex m-0 justify-content between gap-2 align-items-center justify-content-between"
-            style={{ padding: "0px 16px" }}
+            className="d-flex m-0 justify-content between gap-2 align-items-center justify-content-between title-apr-wrapper"
+            
           >
             <div className="d-flex align-items-center">
               {cardType === "Farming" || cardType === "Buyback"

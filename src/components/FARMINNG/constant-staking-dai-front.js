@@ -870,7 +870,8 @@ export default function initConstantStakingNewDai({
                       src={ellipse}
                       alt=""
                       className="position-relative"
-                      style={{ top: 3 }}
+                      style={{ top: '-1px' }}
+
                     />
                     Expired
                   </h6>

@@ -73,7 +73,7 @@
   font-size: 20px;
   line-height: 30px;
   letter-spacing: -0.018em;
-  color: #c0cbf7;
+  color: #f7f7fc;
 }
 
 .apr-amount {
@@ -243,7 +243,7 @@
   font-size: 12px;
   line-height: 12px;
   letter-spacing: -0.018em;
-  color: #75cac2;
+  color: #4ed5d2;
   text-shadow: 0px 0px 2px rgba(117, 202, 194, 0.6);
 }
 
@@ -288,6 +288,10 @@
   text-decoration: underline;
 }
 
+.title-apr-wrapper{
+  padding: 0 10px;
+}
+
 .green-btn {
   background: linear-gradient(
     272.84deg,
@@ -315,7 +319,7 @@
   line-height: 12px;
   letter-spacing: -0.018em;
   text-transform: uppercase;
-  color: rgba(117, 202, 194, 0.8);
+  color: #f7f7fc;
 }
 
 .styledinput {
@@ -387,7 +391,7 @@
   line-height: 12px;
   letter-spacing: -0.018em;
   text-transform: uppercase;
-  color: rgba(248, 132, 91, 0.8);
+  color: #f7f7fc;
 }
 
 .filledbtn:hover, .filledbtn:focus {
@@ -456,6 +460,22 @@
 }
 
 @media screen and (max-width: 786px) {
+
+  .poolscardwrapper{
+    padding: 6px;
+  }
+  .details-wrapper{
+    bottom: 6px;
+  }
+/* 
+  .poolscardwrapper > .purplediv{
+    top: 6px !important;
+  } */
+
+  .title-apr-wrapper{
+    padding-top: 6px;
+  }
+
   .earnrewards-container{
     width: 100% !important;
   }
