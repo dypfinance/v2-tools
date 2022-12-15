@@ -288,6 +288,10 @@
   text-decoration: underline;
 }
 
+.title-apr-wrapper{
+  padding: 0 10px;
+}
+
 .green-btn {
   background: linear-gradient(
     272.84deg,
@@ -456,6 +460,22 @@
 }
 
 @media screen and (max-width: 786px) {
+
+  .poolscardwrapper{
+    padding: 6px;
+  }
+  .details-wrapper{
+    bottom: 6px;
+  }
+/* 
+  .poolscardwrapper > .purplediv{
+    top: 6px !important;
+  } */
+
+  .title-apr-wrapper{
+    padding-top: 6px;
+  }
+
   .earnrewards-container{
     width: 100% !important;
   }

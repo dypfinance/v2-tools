@@ -8,7 +8,7 @@ const GovCard = () => {
   return (
     <NavLink to="/governance" className="govcard-wrapper">
       <div className="purplediv" style={{background: '#8890C4'}}></div>
-      <div className="d-flex flex-column gap-4 justify-content-between">
+      <div className="d-flex flex-column gap-2 justify-content-between">
         <div className="">
           <h6 className="govcard-title d-flex justify-content-between gap-2 align-items-center">
             Governance <img src={govLogo} alt="" />

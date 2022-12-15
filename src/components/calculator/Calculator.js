@@ -531,11 +531,11 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             <h6 className="d-flex gap-2 align-items-center calc-title">
               <img src={calculator} alt="" /> Calculator
             </h6>
-            {/* <img
+            <img
               src={calculatorChart}
               className="calculator-chart d-flex d-lg-none"
               alt=""
-            /> */}
+            />
 
             {/* {earnClass === "earn-calculator" && (
               <img
@@ -634,7 +634,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 onChange={(e) => handleInputUSD(e.target.value)}
               />
             </div> */}
-            <div className="input-container usd-input px-0">
+     <div className="input-container usd-input px-0">
               <input
                 type="number"
                 min={1}
@@ -678,8 +678,8 @@ const Calculator = ({ earnClass, onClose, ref }) => {
                 Days
               </label>
             </div>
-            <span className="calculator-purpose px-0">
-            This calculator is for informational purposes only.
+            <span className="calculator-purpose px-0 mt-3 mt-lg-0">
+            This calculator is for informational purposes only
             </span>
             
             {/* <div
@@ -762,7 +762,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
               *This calculator is for informational purposes only. Calculated
               yields assume that prices of the deposited assets don't change.
             </h6> */}
-          <div className="row w-100 gap-2 gap-xl-0 mx-0 align-items-center justify-content-between mt-5">
+          <div className="row w-100 gap-3 gap-lg-2 gap-xl-0 mx-0 align-items-center justify-content-between mt-4 mt-lg-5 position-relative calculator-chains-wrapper">
             <NavLink
               to={{
                 pathname: "earn",

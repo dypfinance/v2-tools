@@ -13,7 +13,7 @@ const FaqCard = ({option, pathName, title, section, pool, faqIndex}) => {
         <img src={faqlogo} alt=''/>
         <h6 className="faqtitle">{title}</h6>
         </div>
-        <img src={rightlogo} alt=''/>
+        <img src={rightlogo} style={{position: 'relative', right: '5px'}} alt=''/>
       </div>
     </HashLink>
   );

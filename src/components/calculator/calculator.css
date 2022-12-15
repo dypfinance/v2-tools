@@ -85,6 +85,11 @@ width: 31%;
   transition: all 0.25s;
 }
 
+.calculator-chains-wrapper{
+  top: 10px;
+}
+
+
 .pill-item-text{
   font-weight: 400;
 font-size: 14px;
@@ -114,8 +119,8 @@ color: #F7F7FC !important;
   background: #565891;
   height: 1px;
   width: 100%;
-  margin-bottom: 24px;
-  margin-top: 14px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 .inputlabel {
   font-weight: 400;
@@ -311,8 +316,8 @@ color: #F7F7FC !important;
 
 .calculator-chart{
   position: absolute;
-  width: 200px;
-  right: -25px;
+  width: 300px;
+  right: -40px;
 }
 
 @media screen and (max-width: 786px) {
@@ -329,7 +334,7 @@ color: #F7F7FC !important;
 
   .calculator-chart{
     position: absolute;
-    width: 140px;
+    width: 185px;
     right: 0px;
   }
 }
@@ -369,5 +374,13 @@ color: #F7F7FC !important;
 
   .calculator-purpose{
     width: 100%;
+  }
+  .calculator-chains-wrapper{
+    top: 0;
+    margin-top: 2rem!important;
+  }
+  
+  .separator {
+    margin-bottom: 12px;
   }
 }

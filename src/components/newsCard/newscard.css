@@ -19,7 +19,6 @@
 .news-shadow{
   position: absolute;
   width: 100%;
-  object-fit: none;
   bottom: 0;
 }
 
@@ -55,6 +54,8 @@
   font-size: 12px;
   line-height: 18px;
   color: #b5bbdf;
+  position: relative;
+  bottom: 12px;
 }
 
 .nc-hot-trend {
