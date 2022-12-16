@@ -544,6 +544,7 @@ const Dashboard = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                       handleConnection={handleConnection}
                       expired={false}
+                      renderedPage={"dashboard"}
                     />
                   ) : (
                     <></>
