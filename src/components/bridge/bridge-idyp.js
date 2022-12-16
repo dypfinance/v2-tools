@@ -227,29 +227,31 @@ export default function initBridgeidyp({
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount).times(10 ** TOKEN_DECIMALS).toFixed(0);
       try {
-        let url =
+        let signature =
           (this.props.sourceChain === "eth" &&
             this.props.destinationChain === "avax") ||
           (this.props.sourceChain === "avax" &&
             this.props.destinationChain === "eth")
             ? window.config.SIGNATURE_API_URLAVAXiDYP
-            : window.config.SIGNATURE_API_URLBSCiDYP +
-              `/api/withdraw-args?depositNetwork=${
-                this.state.network === "ETH"
-                  ? "ETH"
-                  : this.state.network === "AVAX"
-                  ? "AVAX"
-                  : "BSC"
-              }&txHash=${this.state.txHash}`;
+            : window.config.SIGNATURE_API_URLBSCiDYP;
+        let url =
+          signature +
+          `/api/withdraw-args?depositNetwork=${
+            this.state.network === "ETH"
+              ? "ETH"
+              : this.state.network === "AVAX"
+              ? "AVAX"
+              : "BSC"
+          }&txHash=${this.state.txHash}`;
         console.log({ url });
         let args = await window.jQuery.get(url);
         console.log({ args });
-        (this.state.network === "ETH" ? bridgeETH : bridgeBSC)
+        (this.state.network === "ETH" ? bridgeBSC : bridgeETH)
           .withdraw(args)
           .then(() => {
             this.setState({
               withdrawLoading: false,
-              withdrawStatus: "deposit",
+              withdrawStatus: "success",
             });
           })
           .catch((e) => {
@@ -286,7 +288,7 @@ export default function initBridgeidyp({
           let chainId = this.props.networkId;
           let network = window.config.chain_ids[chainId] || "UNKNOWN";
 
-          let token_balance = await (network == "AVAX" || network === 'BSC'
+          let token_balance = await (network == "AVAX" || network === "BSC"
             ? tokenBSC
             : tokenETH
           ).balanceOf(coinbase);
@@ -298,22 +300,24 @@ export default function initBridgeidyp({
 
           if (this.state.txHash) {
             try {
-              let url =
+              let signature =
                 (this.props.sourceChain === "eth" &&
                   this.props.destinationChain === "avax") ||
                 (this.props.sourceChain === "avax" &&
                   this.props.destinationChain === "eth")
                   ? window.config.SIGNATURE_API_URLAVAXiDYP
-                  : window.config.SIGNATURE_API_URLBSCiDYP +
-                    `/api/withdraw-args?depositNetwork=${
-                      this.state.network == "ETH"
-                        ? "ETH"
-                        : this.state.network === "AVAX"
-                        ? "AVAX"
-                        : "BSC"
-                    }&txHash=${
-                      this.state.txHash
-                    }&getWithdrawableUnixTimestamp=true`;
+                  : window.config.SIGNATURE_API_URLBSCiDYP;
+              let url =
+                signature +
+                `/api/withdraw-args?depositNetwork=${
+                  this.state.network == "ETH"
+                    ? "ETH"
+                    : this.state.network === "AVAX"
+                    ? "AVAX"
+                    : "BSC"
+                }&txHash=${
+                  this.state.txHash
+                }&getWithdrawableUnixTimestamp=true`;
               console.log({ url });
               let { withdrawableUnixTimestamp } = await window.jQuery.get(url);
               this.setState({ withdrawableUnixTimestamp });
@@ -340,6 +344,26 @@ export default function initBridgeidyp({
       }
     };
 
+    handleSwapChains = () => {
+      if (this.props.activebtn === "5") {
+        if (this.props.sourceChain === "eth") {
+          this.props.onSelectChain("eth");
+          this.props.onSelectSourceChain("bnb");
+        } else if (this.props.sourceChain === "bnb") {
+          this.props.onSelectChain("bnb");
+          this.props.onSelectSourceChain("eth");
+        }
+      } else if (this.props.activebtn === "7") {
+        if (this.props.sourceChain === "eth") {
+          this.props.onSelectChain("eth");
+          this.props.onSelectSourceChain("avax");
+        } else if (this.props.sourceChain === "avax") {
+          this.props.onSelectChain("avax");
+          this.props.onSelectSourceChain("eth");
+        }
+      }
+    };
+
     render() {
       let canWithdraw = false;
       let timeDiff = null;
@@ -358,15 +382,21 @@ export default function initBridgeidyp({
             <div className="row">
               <div>
                 <div className="d-flex flex-column">
-                  <h6 className="fromtitle mb-2">From</h6>
+                  <h6 className="fromtitle mb-2">Deposit</h6>
                   <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                     <div className="d-flex align-items-center justify-content-between gap-3">
                       <div
                         className={
-                          this.props.sourceChain === 'eth'
+                          this.props.sourceChain === "eth"
                             ? "optionbtn-active"
                             : "optionbtn-passive bridge-passive"
                         }
+                        onClick={() => {
+                          this.props.activebtn === "5"
+                            ? this.props.onSelectChain("bnb")
+                            : this.props.onSelectChain("avax");
+                          this.props.onSelectSourceChain("eth");
+                        }}
                       >
                         <h6 className="optiontext d-flex align-items-center gap-2">
                           <img src={eth} alt="" />
@@ -375,34 +405,52 @@ export default function initBridgeidyp({
                           </p>
                         </h6>
                       </div>
-                      <div
-                        className={
-                          this.props.sourceChain === "bnb"
-                            ? "optionbtn-active"
-                            : "optionbtn-passive bridge-passive"
-                        }
-                      >
-                        <h6 className="optiontext d-flex align-items-center gap-2">
-                          <img src={bnb} alt="" />
-                          <p className=" mb-0 optiontext d-none d-lg-flex">
-                            BNB Chain
-                          </p>
-                        </h6>
-                      </div>
-                      <div
-                        className={
-                          this.props.sourceChain === "avax"
-                            ? "optionbtn-active"
-                            : "optionbtn-passive bridge-passive"
-                        }
-                      >
-                        <h6 className="optiontext d-flex align-items-center gap-2">
-                          <img src={avax} alt="" />
-                          <p className=" mb-0 optiontext d-none d-lg-flex">
-                            Avalanche
-                          </p>
-                        </h6>
-                      </div>
+                      {this.props.activebtn !== "7" && (
+                        <div
+                          className={
+                            this.props.sourceChain === "bnb"
+                              ? "optionbtn-active"
+                              : "optionbtn-passive bridge-passive"
+                          }
+                          onClick={() => {
+                            this.setState({
+                              sourceChain: "bnb",
+                            });
+                            this.props.onSelectSourceChain("bnb");
+                            this.props.onSelectChain("eth");
+                          }}
+                        >
+                          <h6 className="optiontext d-flex align-items-center gap-2">
+                            <img src={bnb} alt="" />
+                            <p className=" mb-0 optiontext d-none d-lg-flex">
+                              BNB Chain
+                            </p>
+                          </h6>
+                        </div>
+                      )}
+                      {this.props.activebtn !== "5" && (
+                        <div
+                          className={
+                            this.props.sourceChain === "avax"
+                              ? "optionbtn-active"
+                              : "optionbtn-passive bridge-passive"
+                          }
+                          onClick={() => {
+                            this.setState({
+                              sourceChain: "avax",
+                            });
+                            this.props.onSelectSourceChain("avax");
+                            this.props.onSelectChain("eth");
+                          }}
+                        >
+                          <h6 className="optiontext d-flex align-items-center gap-2">
+                            <img src={avax} alt="" />
+                            <p className=" mb-0 optiontext d-none d-lg-flex">
+                              Avalanche
+                            </p>
+                          </h6>
+                        </div>
+                      )}
                     </div>
                     {this.props.isConnected === false ? (
                       <button
@@ -450,9 +498,9 @@ export default function initBridgeidyp({
                                   className="poolbalance-text"
                                   style={{ gap: "6px" }}
                                 >
-                                  {this.state.chainText === "ETH"
+                                  {this.props.sourceChain === "eth"
                                     ? "Ethereum"
-                                    : this.state.chainText !== "AVAX"
+                                    : this.props.sourceChain !== "avax"
                                     ? "BNB Chain"
                                     : "Avalanche"}{" "}
                                   Pool:{" "}
@@ -602,6 +650,7 @@ export default function initBridgeidyp({
                     </div>
                   </div>
                   <img
+                    onClick={this.handleSwapChains}
                     src={switchicon}
                     alt=""
                     style={{
@@ -611,6 +660,7 @@ export default function initBridgeidyp({
                       boxShadow: "0px 6px 12px rgba(78, 213, 210, 0.32)",
                       padding: 0,
                       borderRadius: 8,
+                      cursor: "pointer",
                     }}
                   />
                   <div className="col-12 position-relative">
@@ -623,11 +673,12 @@ export default function initBridgeidyp({
                             className="d-block text-left"
                           >
                             <div className="d-flex flex-column">
-                              <h6 className="fromtitle mb-2">to:</h6>
+                              <h6 className="fromtitle mb-2">Withdraw:</h6>
                               <div className="d-flex align-items-center justify-content-between gap-2">
                                 <div className="d-flex align-items-center justify-content-between gap-3">
                                   <div
-                                    className={ this.state.destinationChain === "eth"
+                                    className={
+                                      this.state.destinationChain === "eth"
                                         ? "optionbtn-active"
                                         : "optionbtn-passive bridge-passive"
                                     }
@@ -651,52 +702,58 @@ export default function initBridgeidyp({
                                       </p>
                                     </h6>
                                   </div>
-                                  <div
-                                    className={ this.state.destinationChain === "bnb"
-                                        ? "optionbtn-active"
-                                        : "optionbtn-passive bridge-passive"
-                                    }
-                                    onClick={() => {
-                                      this.props.onSelectChain("bnb");
-                                    }}
-                                    style={{
-                                      pointerEvents:
-                                        this.props.networkId === 43114 ||
-                                        this.props.networkId === 56
-                                          ? "none"
-                                          : "auto",
-                                    }}
-                                  >
-                                    <h6 className="optiontext d-flex align-items-center gap-2">
-                                      <img src={bnb} alt="" />
-                                      <p className=" mb-0 optiontext d-none d-lg-flex">
-                                        BNB Chain
-                                      </p>
-                                    </h6>
-                                  </div>
-                                  <div
-                                    className={ this.state.destinationChain === "avax"
-                                        ? "optionbtn-active"
-                                        : "optionbtn-passive bridge-passive"
-                                    }
-                                    onClick={() => {
-                                      this.props.onSelectChain("avax");
-                                    }}
-                                    style={{
-                                      pointerEvents:
-                                        this.props.networkId === 43114 ||
-                                        this.props.networkId === 56
-                                          ? "none"
-                                          : "auto",
-                                    }}
-                                  >
-                                    <h6 className="optiontext d-flex align-items-center gap-2">
-                                      <img src={avax} alt="" />
-                                      <p className=" mb-0 optiontext d-none d-lg-flex">
-                                        Avalanche
-                                      </p>
-                                    </h6>
-                                  </div>
+                                  {this.props.activebtn !== "7" && (
+                                    <div
+                                      className={
+                                        this.state.destinationChain === "bnb"
+                                          ? "optionbtn-active"
+                                          : "optionbtn-passive bridge-passive"
+                                      }
+                                      onClick={() => {
+                                        // this.props.onSelectChain("bnb");
+                                      }}
+                                      style={{
+                                        pointerEvents:
+                                          this.props.networkId === 43114 ||
+                                          this.props.networkId === 56
+                                            ? "none"
+                                            : "auto",
+                                      }}
+                                    >
+                                      <h6 className="optiontext d-flex align-items-center gap-2">
+                                        <img src={bnb} alt="" />
+                                        <p className=" mb-0 optiontext d-none d-lg-flex">
+                                          BNB Chain
+                                        </p>
+                                      </h6>
+                                    </div>
+                                  )}
+                                  {this.props.activebtn !== "5" && (
+                                    <div
+                                      className={
+                                        this.state.destinationChain === "avax"
+                                          ? "optionbtn-active"
+                                          : "optionbtn-passive bridge-passive"
+                                      }
+                                      onClick={() => {
+                                        this.props.onSelectChain("avax");
+                                      }}
+                                      style={{
+                                        pointerEvents:
+                                          this.props.networkId === 43114 ||
+                                          this.props.networkId === 56
+                                            ? "none"
+                                            : "auto",
+                                      }}
+                                    >
+                                      <h6 className="optiontext d-flex align-items-center gap-2">
+                                        <img src={avax} alt="" />
+                                        <p className=" mb-0 optiontext d-none d-lg-flex">
+                                          Avalanche
+                                        </p>
+                                      </h6>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -810,25 +867,25 @@ export default function initBridgeidyp({
                                     <img src={failMark} alt="" />
                                     Failed
                                   </>
-                                )}
+                                )}{" "}
+                                {this.state.withdrawableUnixTimestamp &&
+                                  Date.now() <
+                                    this.state.withdrawableUnixTimestamp *
+                                      1e3 && (
+                                    <span>
+                                      &nbsp;
+                                      <Countdown
+                                        onComplete={() => this.forceUpdate()}
+                                        key="withdrawable"
+                                        date={
+                                          this.state.withdrawableUnixTimestamp *
+                                          1e3
+                                        }
+                                        renderer={getRenderer(undefined, true)}
+                                      />
+                                    </span>
+                                  )}
                               </button>
-                              {this.state.withdrawableUnixTimestamp &&
-                                Date.now() <
-                                  this.state.withdrawableUnixTimestamp *
-                                    1e3 && (
-                                  <span>
-                                    &nbsp;
-                                    <Countdown
-                                      onComplete={() => this.forceUpdate()}
-                                      key="withdrawable"
-                                      date={
-                                        this.state.withdrawableUnixTimestamp *
-                                        1e3
-                                      }
-                                      renderer={getRenderer(undefined, true)}
-                                    />
-                                  </span>
-                                )}
                             </div>
 
                             <div className="separator"></div>
@@ -1023,6 +1080,7 @@ export default function initBridgeidyp({
                     </h6>
                   </TimelineContent>
                 </TimelineItem>
+
                 <TimelineItem>
                   <TimelineSeparator>
                     <TimelineDot
@@ -1034,10 +1092,14 @@ export default function initBridgeidyp({
                   <TimelineContent>
                     <h6 className="content-text">
                       <h6 className="content-title2">
-                        <b>{"Wait timer & withdraw"}</b>
+                        <b>
+                          {"Switch to destination chain. Wait timer & withdraw"}
+                        </b>
                       </h6>
-                      Wait for the timer to end and and click withdraw button to
-                      receive the assets in the desired chain.
+                      Firstly go to your wallet and switch into the chain you
+                      want to withdraw from. Wait for the timer to end and and
+                      click withdraw button to receive the assets in the desired
+                      chain.
                     </h6>
                   </TimelineContent>
                 </TimelineItem>

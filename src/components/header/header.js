@@ -20,6 +20,7 @@ import { NavLink } from "react-router-dom";
 import useWindowSize from "../../functions/useWindowSize";
 import toolsLogo from "../../assets/sidebarIcons/toolsLogo.svg";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const Header = ({
   toggleMobileSidebar,
@@ -48,7 +49,8 @@ const Header = ({
   const [bnbState, setBnbState] = useState(false);
   const [avaxState, setAvaxState] = useState(false);
   const [avatar, setAvatar] = useState("../../assets/img/person.svg");
-
+  const routeData = useLocation();
+  
 
   const fetchData = async () => {
     if (chainId === 1) {
@@ -323,6 +325,7 @@ const Header = ({
                     </span>
                   </NavLink>
                   <div className="d-flex justify-content-between gap-3 align-items-center">
+                    {routeData.pathname && routeData.pathname!=='/bridge' &&
                     <DropdownButton
                       id="dropdown-basic-button"
                       className="d-flex align-items-center justify-content-center"
@@ -365,7 +368,7 @@ const Header = ({
                         Avalanche
                       </Dropdown.Item>
                     </DropdownButton>
-
+}
                     {/* <DropdownButton
                 id="dropdown-basic-button2"
                 onClick={checklogout === "true" && showModal}
