@@ -70,3 +70,11 @@
   color: #4ED5D2;
 }
 
+@media screen and (max-width: 786px) {
+  .explorer-chart{
+    position: absolute;
+    right: 0;
+    top: 5px;
+    width: 150px;
+  }
+}

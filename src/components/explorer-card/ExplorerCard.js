@@ -9,7 +9,7 @@ const ExplorerCard = () => {
   return (
     <NavLink to="/pair-explorer" className="explorercard-wrapper d-flex position-relative">
       <div className="purplediv" style={{background: '#8890C4'}}></div>
-      <div className="col-6 d-flex flex-column gap-3 justify-content-between">
+      <div className="col-12 col-lg-6 d-flex flex-column gap-3 justify-content-between">
         <div className=" d-flex justify-content-between gap-2 align-items-center">
           <h6 className="explorercard-title d-flex gap-2 align-items-center">
             <img src={zoom} alt="" /> Explorer
@@ -31,7 +31,7 @@ const ExplorerCard = () => {
         </div>
       </div>
       <div className="col-6 d-flex justify-content-center align-items-center">
-        <img src={explorerChart} alt="" />
+        <img src={explorerChart} className="explorer-chart" alt="" />
       </div>
     </NavLink>
   );
