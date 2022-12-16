@@ -22,7 +22,7 @@ import { handleSwitchNetworkhook } from "../../functions/hooks";
 import useWindowSize from "../../functions/useWindowSize";
 
  
-  const CawsDetails = ({ coinbase, isConnected, listType, handleSwitchNetwork, chainId, handleConnection }) => {
+  const CawsDetails = ({ coinbase, isConnected, listType, handleSwitchNetwork, chainId, handleConnection, renderedPage }) => {
   const [myNFTs, setMyNFTs] = useState([]);
   const [amountToStake, setamountToStake] = useState("");
   const [mystakes, setMystakes] = useState([]);
@@ -369,7 +369,7 @@ import useWindowSize from "../../functions/useWindowSize";
                     )}
               </div>
             </div>
-            <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '1' && "blurrypool"}`}>
+            <div className={`otherside-border col-12 col-md-6 ${renderedPage === "dashboard" ? 'col-lg-3' : 'col-lg-4'} ${chainId !== '1' && "blurrypool"}`}>
               <div className="d-flex justify-content-between align-items-center gap-2">
                 <div className="d-flex align-items-center gap-3">
                   <h6 className="deposit-txt">Stake</h6>
@@ -433,7 +433,7 @@ import useWindowSize from "../../functions/useWindowSize";
                 )} */}
               </div>
             </div>
-            <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '1' && "blurrypool"}`}>
+            <div className={`otherside-border col-12 col-md-6 ${renderedPage === "dashboard" ? 'col-lg-5' : 'col-lg-4'}  ${chainId !== '1' && "blurrypool"}`}>
               <div className="d-flex justify-content-between gap-2 flex-column flex-lg-row">
                 <h6 className="withdraw-txt d-flex gap-2 align-items-center">
                   REWARDS
