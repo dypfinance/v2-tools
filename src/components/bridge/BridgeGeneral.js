@@ -49,71 +49,35 @@ const Bridge = ({
 
   const handleSourceChain = async (chainText) => {
     if (chainText === "eth") {
-      await handleSwitchNetworkhook("0x1")
-        .then(() => {
-          handleSwitchNetwork("1");
-          // setSourceChain(chainText);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      setSourceChain(chainText);
     }
 
     if (chainText === "bnb") {
-      await handleSwitchNetworkhook("0x38")
-        .then(() => {
-          handleSwitchNetwork("56");
-          // setSourceChain(chainText);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      setSourceChain(chainText);
     }
 
     if (chainText === "avax") {
-      await handleSwitchNetworkhook("0xa86a")
-        .then(() => {
-          handleSwitchNetwork("43114");
-          // setSourceChain(chainText);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      setSourceChain(chainText);
     }
   };
 
   const handleSourceChainiDyp = async (chainText) => {
     if (chainText === "eth") {
-      await handleSwitchNetworkhook("0x1")
-        .then(() => {
-          handleSwitchNetwork("1");
+     
           setSourceChainiDyp(chainText);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+     
     }
 
     if (chainText === "bnb") {
-      await handleSwitchNetworkhook("0x38")
-        .then(() => {
-          handleSwitchNetwork("56");
-          // setSourceChainiDyp(chainText);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      
+          setSourceChainiDyp(chainText);
+     
     }
 
     if (chainText === "avax") {
-      await handleSwitchNetworkhook("0xa86a")
-        .then(() => {
-          handleSwitchNetwork("43114");
-          // setSourceChainiDyp(chainText);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+     
+          setSourceChainiDyp(chainText);
+      
     }
   };
 
@@ -148,10 +112,10 @@ const Bridge = ({
   // useEffect(() => {
   //   if (sourceChainiDyp === "eth") {
   //     if (destinationChainiDyp === "avax") {
-        // setSourceBridgeiDyp(window.bridge_idypeth);
-        // setDestinationBridgeiDyp(window.bridge_idypbsc);
-        // setSourceTokeniDyp(window.token_idyp_eth);
-        // setDestinationTokeniDyp(window.token_idyp_bsc);
+  // setSourceBridgeiDyp(window.bridge_idypeth);
+  // setDestinationBridgeiDyp(window.bridge_idypbsc);
+  // setSourceTokeniDyp(window.token_idyp_eth);
+  // setDestinationTokeniDyp(window.token_idyp_bsc);
   //     } else if (destinationChainiDyp === "bnb") {
   //       setSourceBridgeiDyp(window.bridge_idypbsceth);
   //       setDestinationBridgeiDyp(window.bridge_idypbscbsc);
@@ -166,10 +130,10 @@ const Bridge = ({
   //     setDestinationTokeniDyp(window.token_idyp_bscbsc);
   //   } else if (sourceChainiDyp === "avax") {
   //     setDestinationChainiDyp("eth");
-      // setSourceBridgeiDyp(window.bridge_idypeth);
-      // setDestinationBridgeiDyp(window.bridge_idypbsc);
-      // setSourceTokeniDyp(window.token_idyp_eth);
-      // setDestinationTokeniDyp(window.token_idyp_bsc);
+  // setSourceBridgeiDyp(window.bridge_idypeth);
+  // setDestinationBridgeiDyp(window.bridge_idypbsc);
+  // setSourceTokeniDyp(window.token_idyp_eth);
+  // setDestinationTokeniDyp(window.token_idyp_bsc);
   //   }
 
   //   if (faqSection === "earnFaq") {
@@ -208,6 +172,7 @@ const Bridge = ({
         <h3 className="text-white mb-4">
           <img src={dyp} alt="" /> DYP Bridge
         </h3>
+        <h5 className="text-white mb-2">Choose route</h5>
         <div className="d-flex gap-3 mb-2">
           <div
             className={
@@ -230,27 +195,7 @@ const Bridge = ({
               <p className=" mb-0 optiontext d-none d-lg-flex">ETH/BNB</p>
             </h6>
           </div>
-          <div
-            className={
-              activebtn === "4"
-                ? "optionbtn-active"
-                : "optionbtn-passive bridge-passive"
-            }
-            onClick={() => {
-              setActiveBtn("4");
-              setSourceChain("bnb");
-              setDestinationChain("eth");
-              setSourceBridge(window.bridge_bsceth);
-              setDestinationBridge(window.bridge_bscbsc);
-              setSourceToken(window.token_dyp_bsceth);
-              setDestinationToken(window.token_dyp_bscbsc);
-            }}
-          >
-            <h6 className="optiontext d-flex align-items-center gap-2">
-              <img src={bnb} alt="" /> <img src={eth} alt="" />
-              <p className=" mb-0 optiontext d-none d-lg-flex">BNB/ETH</p>
-            </h6>
-          </div>
+
           <div
             className={
               activebtn === "2"
@@ -272,27 +217,6 @@ const Bridge = ({
               <p className=" mb-0 optiontext d-none d-lg-flex">ETH/AVAX</p>
             </h6>
           </div>
-          <div
-            className={
-              activebtn === "3"
-                ? "optionbtn-active"
-                : "optionbtn-passive bridge-passive"
-            }
-            onClick={() => {
-              setSourceChain("avax");
-              setDestinationChain("eth");
-              setActiveBtn("3");
-              setSourceBridge(window.bridge_eth);
-              setDestinationBridge(window.bridge_bsc);
-              setSourceToken(window.token_dyp_eth);
-              setDestinationToken(window.token_dyp_bsc);
-            }}
-          >
-            <h6 className="optiontext d-flex align-items-center gap-2">
-              <img src={avax} alt="" /> <img src={eth} alt="" />
-              <p className=" mb-0 optiontext d-none d-lg-flex">AVAX/ETH</p>
-            </h6>
-          </div>
         </div>
         <BridgeModal
           isConnected={isConnected}
@@ -307,6 +231,7 @@ const Bridge = ({
           }}
           coinbase={coinbase}
           sourceChain={sourceChain}
+          activebtn={activebtn}
         />
       </div>
       <div className="bigseparator mt-5 mb-5 col-6 col-xxl-5"></div>
@@ -314,6 +239,7 @@ const Bridge = ({
         <h3 className="text-white mb-4">
           <img src={idyp} alt="" /> iDYP Bridge
         </h3>
+        <h5 className="text-white mb-2">Choose route</h5>
         <div className="d-flex gap-3 mb-2">
           <div
             className={
@@ -336,27 +262,7 @@ const Bridge = ({
               <p className=" mb-0 optiontext d-none d-lg-flex">ETH/BNB</p>
             </h6>
           </div>
-          <div
-            className={
-              activebtn === "6"
-                ? "optionbtn-active"
-                : "optionbtn-passive bridge-passive"
-            }
-            onClick={() => {
-              setActiveBtn("6");
-              setSourceChainiDyp("bnb");
-              setDestinationChainiDyp("eth");
-              setSourceBridgeiDyp(window.bridge_idypeth);
-              setDestinationBridgeiDyp(window.bridge_idypbsc);
-              setSourceTokeniDyp(window.token_idyp_eth);
-              setDestinationTokeniDyp(window.token_idyp_bsc);
-            }}
-          >
-            <h6 className="optiontext d-flex align-items-center gap-2">
-              <img src={bnb} alt="" /> <img src={eth} alt="" />
-              <p className=" mb-0 optiontext d-none d-lg-flex">BNB/ETH</p>
-            </h6>
-          </div>
+
           <div
             className={
               activebtn === "7"
@@ -378,27 +284,6 @@ const Bridge = ({
               <p className=" mb-0 optiontext d-none d-lg-flex">ETH/AVAX</p>
             </h6>
           </div>
-          <div
-            className={
-              activebtn === "8"
-                ? "optionbtn-active"
-                : "optionbtn-passive bridge-passive"
-            }
-            onClick={() => {
-              setSourceChainiDyp("avax");
-              setDestinationChainiDyp("eth");
-              setActiveBtn("8");
-              setSourceBridgeiDyp(window.bridge_idypeth);
-              setDestinationBridgeiDyp(window.bridge_idypbsc);
-              setSourceTokeniDyp(window.token_idyp_eth);
-              setDestinationTokeniDyp(window.token_idyp_bsc);
-            }}
-          >
-            <h6 className="optiontext d-flex align-items-center gap-2">
-              <img src={avax} alt="" /> <img src={eth} alt="" />
-              <p className=" mb-0 optiontext d-none d-lg-flex">AVAX/ETH</p>
-            </h6>
-          </div>
         </div>
         <BridgeiDYPModal
           isConnected={isConnected}
@@ -413,6 +298,8 @@ const Bridge = ({
           }}
           sourceChain={sourceChainiDyp}
           coinbase={coinbase}
+          activebtn={activebtn}
+
         />
       </div>
       <BridgeFAQ faqIndex={routeData.state ? routeData.state.faqIndex : -1} />
