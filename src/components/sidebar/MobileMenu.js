@@ -18,6 +18,7 @@ import moreIconActive from "../../assets/sidebarIcons/moreIconActive.svg";
 import rightArrow from "../faqcard/assets/rightlogo.svg";
 import { NavLink, useLocation } from "react-router-dom";
 import xMark from "../Modal/xMark.svg";
+import OutsideClickHandler from "react-outside-click-handler";
 const MobileMenu = () => {
   const [activeIcon, setActiveIcon] = useState("");
   const [explorerModal, setExplorerModal] = useState(false);
@@ -162,6 +163,8 @@ const MobileMenu = () => {
           </div>
         </div>
       </div>
+      <div style={{position: 'absolute', left: '5%', width: '100%'}}>
+      <OutsideClickHandler onOutsideClick={() => setExplorerModal(false)}>
       <div
         className={`explorer-modal ${
           explorerModal && "explorer-modal-active"
@@ -223,6 +226,10 @@ const MobileMenu = () => {
           <img src={rightArrow} alt="" />
         </NavLink>
       </div>
+      </OutsideClickHandler>
+      </div>
+     <div style={{position: 'absolute', left: '5%', width: '100%'}}>
+     <OutsideClickHandler onOutsideClick={() => setMoreModal(false)}>
       <div
         className={`explorer-modal ${
           moreModal && "explorer-modal-active"
@@ -283,6 +290,8 @@ const MobileMenu = () => {
           <img src={rightArrow} alt="" />
         </NavLink>
       </div>
+      </OutsideClickHandler>
+     </div>
     </div>
   );
 };

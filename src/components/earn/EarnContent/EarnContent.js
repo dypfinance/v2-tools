@@ -277,6 +277,7 @@ const EarnContent = ({
   };
 
   useEffect(() => {
+    console.log(chainId);
     if (option === "Staking") {
       fetchEthApr();
       fetchAvaxApr();
@@ -394,14 +395,8 @@ const EarnContent = ({
               ))}
             </div>
             <div className="col-2 d-flex justify-content-end align-items-center gap-1 gap-lg-3">
-             
-            <h5
-                className="text-white inactive-pools"
-                
-              >
-                Inactive pools
-              </h5>
-               <div
+              <h5 className="text-white inactive-pools">Inactive pools</h5>
+              <div
                 className={`pill-box ${myStakes && "pill-box-active"}`}
                 onClick={() => {
                   setMyStakes(!myStakes);
@@ -410,7 +405,6 @@ const EarnContent = ({
               >
                 <div className="pill"></div>
               </div>
-              
             </div>
           </div>
         ) : (
@@ -443,13 +437,7 @@ const EarnContent = ({
               </div>
             </div>
             <div className="col-6 px-0 px-lg-2 d-flex justify-content-end align-items-center gap-1 gap-lg-3">
-              
-            <h5
-                className="text-white inactive-pools"
-                
-              >
-                Inactive pools
-              </h5>
+              <h5 className="text-white inactive-pools">Inactive pools</h5>
               <div
                 className={`pill-box ${myStakes && "pill-box-active"}`}
                 onClick={() => {
@@ -459,7 +447,6 @@ const EarnContent = ({
               >
                 <div className="pill"></div>
               </div>
-             
             </div>
             <div className="col-12 row d-flex gap-0 gap-xl-3 justify-content-center px-0 px-lg-22 mt-3">
               {options.map((item, index) => (
@@ -502,7 +489,7 @@ const EarnContent = ({
         {option !== "Farming" && (
           <>
             <div
-              className="row align-items-center gap-5 gap-lg-0 justify-content-between px-0"
+              className={`row align-items-center gap-5 gap-lg-0 justify-content-between px-0 ${option === "Vault" && expiredPools === true ? "d-none" : 'd-flex'}`}
               style={{ minHeight: "55px" }}
             >
               <div className="col-12 col-lg-4 col-xl-3 px-0">
@@ -644,6 +631,8 @@ const EarnContent = ({
                       </div>
                     </div>
                   </>
+                ) : option === "Vault" && chainId != 1 ? (
+                  <h4 className="text-white">Vault pools are available only on Ethereum Chain</h4>
                 ) : (
                   <>
                     <div
@@ -802,6 +791,18 @@ const EarnContent = ({
           <h6 className="no-farms">No farming pools available</h6>
           <span className="farm-soon">New pools coming soon...</span>
         </div>
+      ) : option === "Vault" && expiredPools === true ? (
+        <div className="row mx-0 w-100 align-items-center justify-content-center flex-column p-4 gap-4 purple-wrapper">
+        <img
+          src={
+            require("../../../assets/earnAssets/disabledVault.svg").default
+          }
+          style={{ width: "150px", height: "150px" }}
+          alt=""
+        />
+        <h6 className="no-farms">There are no expired Vault pools</h6>
+        {/* <span className="farm-soon">New pools coming soon...</span> */}
+      </div>
       ) : expiredPools === true ? (
         <EarnTopPicks
           topList={option}
@@ -824,24 +825,24 @@ const EarnContent = ({
         />
       ) : (
         <EarnTopPicks
-        topList={option}
-        listType={listStyle}
-        chain={stake}
-        coinbase={coinbase}
-        the_graph_result={the_graph_result}
-        lp_id={lp_id}
-        isConnected={isConnected}
-        chainId={chainId}
-        handleConnection={handleConnection}
-        the_graph_resultavax={the_graph_resultavax}
-        the_graph_resultbsc={the_graph_resultbsc}
-        referrer={referrer}
-        pool={pool}
-        routeOption={routeOption}
-        customChain={customChain}
-        handleSwitchNetwork={handleSwitchNetwork}
-        expiredPools={expiredPools}
-      />
+          topList={option}
+          listType={listStyle}
+          chain={stake}
+          coinbase={coinbase}
+          the_graph_result={the_graph_result}
+          lp_id={lp_id}
+          isConnected={isConnected}
+          chainId={chainId}
+          handleConnection={handleConnection}
+          the_graph_resultavax={the_graph_resultavax}
+          the_graph_resultbsc={the_graph_resultbsc}
+          referrer={referrer}
+          pool={pool}
+          routeOption={routeOption}
+          customChain={customChain}
+          handleSwitchNetwork={handleSwitchNetwork}
+          expiredPools={expiredPools}
+        />
       )}
       <EarnFaq faqTypes={option} faqIndex={faqIndex} />
     </>

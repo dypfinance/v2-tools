@@ -3627,7 +3627,8 @@ const EarnTopPicks = ({
                 <>
                   <div
                     className="top-picks-container"
-                    style={{ marginTop: "25px" }}
+                    style={{ marginTop: activePools.length >= 7 && "25px" }}
+
                   >
                     {activePools.slice(5, 6).map((pool, index) => (
                       <TopPoolsCard
@@ -3811,7 +3812,8 @@ const EarnTopPicks = ({
                 <>
                   <div
                     className="top-picks-container"
-                    style={{ marginTop: "25px" }}
+                    style={{ marginTop: activePools.length >= 8 && "25px" }}
+
                   >
                     {activePools.slice(6, 7).map((pool, index) => (
                       <TopPoolsCard

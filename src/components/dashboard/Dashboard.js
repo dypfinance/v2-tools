@@ -456,7 +456,7 @@ const Dashboard = ({
         <div className="d-flex flex-column gap-4 justify-content-between">
           <div className="d-flex flex-column flex-lg-row m-0 gap-3 justify-content-between">
             <Calculator />
-            <div className="d-flex flex-column gap-4 justify-content-between dashboard-cards-wrapper">
+            <div className="d-flex flex-column gap-3 gap-lg-4 justify-content-between dashboard-cards-wrapper">
               <ExplorerCard />
               <div className="d-flex flex-column flex-lg-row justify-content-between gap-3">
                 <GovCard />

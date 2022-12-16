@@ -11,6 +11,8 @@
     /* background-image: url('../../assets/sidebarBackground.webp'); */
     background-size: cover;
     overflow-y: scroll;
+    scrollbar-width: none !important;
+
 }
 
 .testbar::-webkit-scrollbar{
