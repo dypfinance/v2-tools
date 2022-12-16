@@ -588,6 +588,14 @@
   cursor: pointer;
 }
 
+.activeethavax {
+  background: linear-gradient(to bottom, #009fff, #ec2f4b) !important;
+}
+
+.activeethbnb {
+  background: linear-gradient(to bottom, #004ff9, #fff94c) !important;
+}
+
 .optionbtn-active .optiontext {
   font-style: normal;
   font-weight: 500;

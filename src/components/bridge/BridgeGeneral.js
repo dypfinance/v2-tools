@@ -63,21 +63,15 @@ const Bridge = ({
 
   const handleSourceChainiDyp = async (chainText) => {
     if (chainText === "eth") {
-     
-          setSourceChainiDyp(chainText);
-     
+      setSourceChainiDyp(chainText);
     }
 
     if (chainText === "bnb") {
-      
-          setSourceChainiDyp(chainText);
-     
+      setSourceChainiDyp(chainText);
     }
 
     if (chainText === "avax") {
-     
-          setSourceChainiDyp(chainText);
-      
+      setSourceChainiDyp(chainText);
     }
   };
 
@@ -124,10 +118,10 @@ const Bridge = ({
   //     }
   //   } else if (sourceChainiDyp === "bnb") {
   //     setDestinationChainiDyp("eth");
-  //     setSourceBridgeiDyp(window.bridge_idypbsceth);
-  //     setDestinationBridgeiDyp(window.bridge_idypbscbsc);
-  //     setSourceTokeniDyp(window.token_idyp_bsceth);
-  //     setDestinationTokeniDyp(window.token_idyp_bscbsc);
+      // setSourceBridgeiDyp(window.bridge_idypbsceth);
+      // setDestinationBridgeiDyp(window.bridge_idypbscbsc);
+      // setSourceTokeniDyp(window.token_idyp_bsceth);
+      // setDestinationTokeniDyp(window.token_idyp_bscbsc);
   //   } else if (sourceChainiDyp === "avax") {
   //     setDestinationChainiDyp("eth");
   // setSourceBridgeiDyp(window.bridge_idypeth);
@@ -177,7 +171,7 @@ const Bridge = ({
           <div
             className={
               activebtn === "1"
-                ? "optionbtn-active"
+                ? "optionbtn-active activeethbnb"
                 : "optionbtn-passive bridge-passive"
             }
             onClick={() => {
@@ -199,7 +193,7 @@ const Bridge = ({
           <div
             className={
               activebtn === "2"
-                ? "optionbtn-active"
+                ? "optionbtn-active activeethavax"
                 : "optionbtn-passive bridge-passive"
             }
             onClick={() => {
@@ -244,7 +238,7 @@ const Bridge = ({
           <div
             className={
               activebtn === "5"
-                ? "optionbtn-active"
+                ? "optionbtn-active activeethbnb"
                 : "optionbtn-passive bridge-passive"
             }
             onClick={() => {
@@ -266,7 +260,7 @@ const Bridge = ({
           <div
             className={
               activebtn === "7"
-                ? "optionbtn-active"
+                ? "optionbtn-active activeethavax"
                 : "optionbtn-passive bridge-passive"
             }
             onClick={() => {
@@ -299,7 +293,6 @@ const Bridge = ({
           sourceChain={sourceChainiDyp}
           coinbase={coinbase}
           activebtn={activebtn}
-
         />
       </div>
       <BridgeFAQ faqIndex={routeData.state ? routeData.state.faqIndex : -1} />

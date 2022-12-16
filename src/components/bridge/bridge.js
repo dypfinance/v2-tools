@@ -1087,12 +1087,16 @@ export default function initBridge({
                     />
                   </TimelineSeparator>
                   <TimelineContent>
-                    <h6 className="content-text">
+                  <h6 className="content-text">
                       <h6 className="content-title2">
-                        <b>{"Wait timer & withdraw"}</b>
+                        <b>
+                          {"Switch to destination chain. Wait timer & withdraw"}
+                        </b>
                       </h6>
-                      Wait for the timer to end and and click withdraw button to
-                      receive the assets in the desired chain.
+                      Firstly go to your wallet and switch into the chain you
+                      want to withdraw from. Wait for the timer to end and and
+                      click withdraw button to receive the assets in the desired
+                      chain.
                     </h6>
                   </TimelineContent>
                 </TimelineItem>
