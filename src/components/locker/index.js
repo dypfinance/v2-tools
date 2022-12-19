@@ -1359,12 +1359,7 @@ export default class Locker extends React.Component {
     if (this.state.recipientLocks.length > 0) {
       return (
         <div>
-          <strong style={{ fontSize: "18px" }} className="d-block mb-3 mt-3">
-            My locks
-          </strong>
-          <div
-            style={{ display: "flex", flexWrap: "wrap", gap: 20, rowGap: 45 }}
-          >
+          <div style={{ display: "flex", gap: 20 }}>
             {this.state.recipientLocks.map((lock) => (
               <div
                 style={{ position: "relative", maxWidth: 390, width: "100%" }}
@@ -1580,13 +1575,8 @@ export default class Locker extends React.Component {
     } else {
       return (
         <div>
-          <strong
-            style={{ fontSize: "18px", marginTop: "3rem" }}
-            className="d-block mb-3 mt-3"
-          >
-            My locks
-          </strong>
-          <div className="row justify-content-between p-0 ml-0">
+
+          <div className="pair-locker-wrapper px-0 mt-3">
             <Skeleton theme={this.props.theme} />
             <Skeleton theme={this.props.theme} />
             <Skeleton theme={this.props.theme} />
@@ -1971,7 +1961,6 @@ export default class Locker extends React.Component {
   };
 
   render() {
-
     const convertTimestampToDate = (timestamp) => {
       const result = new Intl.DateTimeFormat("en-US", {
         year: "numeric",
@@ -1991,537 +1980,555 @@ export default class Locker extends React.Component {
             on the project validity and security.
           </p>
         </div>
-       {this.state.placeholderState === false ?
-       <>
-        <div className="row  gap-4 gap-lg-0 mt-4 w-100 mx-0">
-          <div className="col-12 col-lg-7 px-0 px-lg-2 ps-lg-0">
-            <div className="px-3 py-4 locker-card liquidity-background d-flex gap-3 position-relative">
-              <div
-                className="purplediv"
-                style={{ left: "0px", background: "#EB5E39" }}
-              ></div>
-              <div className="liquidity-icon-holder d-flex align-items-center justify-content-center">
-                <img src={liquidityIcon} alt="" />
-              </div>
-              <div
-                className="d-flex flex-column gap-2"
-                style={{ marginTop: "7px" }}
-              >
-                <h6 className="locker-card-title">Locking Liquidity</h6>
-                <p className="locker-card-desc">
-                Locking liquidity makes the funds inaccessible for a predeterimned amount of time which creates user confidence. The liquidity is locked using time-locked smart contracts that DYP offers at not additional cost.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="col-12 col-lg-5 px-0 px-lg-2 pe-0">
-            <div className="px-3 py-4 locker-card security-background d-flex gap-3 h-100  position-relative">
-              <div className="purplediv" style={{ left: "0px" }}></div>
-              <div className="security-icon-holder d-flex align-items-center justify-content-center">
-                <img src={securityIcon} alt="" />
-              </div>
-              <div
-                className="d-flex flex-column gap-2"
-                style={{ marginTop: "7px" }}
-              >
-                <h6 className="locker-card-title">Verified Security</h6>
-                <p className="locker-card-desc">
-                  Each project that locks liquidity on DYP Locker will be given
-                  a verified security badge. Owners of the project can share it
-                  to their communities in order to increase credibility.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row flex-column-reverse flex-lg-row gap-4 gap-lg-0 mx-0 w-100 mt-5">
-          <div className="col-12 col-lg-7 px-0 px-lg-2 ps-0">
-            <div className="px-4 pt-4 pb-5 purple-wrapper position-relative">
-              <div
-                className="purplediv"
-                style={{ left: "0px", top: "20px", background: "#8E97CD" }}
-              ></div>
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex align-items-center gap-2">
-                  <img src={greySecurityIcon} alt="" />
-                  <h6 className="locker-function-title">Create lock</h6>
-                </div>
-                {/* <img src={moreInfo} alt="" height={24} width={24} /> */}
-              </div>
-              <hr className="form-divider my-4" style={{ height: "3px" }} />
-              <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-5">
-                <div
-                  className="d-flex align-items-end justify-content-start gap-3 create-lock-inputs"
-                  
-                >
+        {this.state.placeholderState === false ? (
+          <>
+            <div className="row  gap-4 gap-lg-0 mt-4 w-100 mx-0">
+              <div className="col-12 col-lg-7 px-0 px-lg-2 ps-lg-0">
+                <div className="px-3 py-4 locker-card liquidity-background d-flex gap-3 position-relative">
                   <div
-                    className="d-flex flex-column gap-5"
-                    style={{ width: "70%" }}
+                    className="purplediv"
+                    style={{ left: "0px", background: "#EB5E39" }}
+                  ></div>
+                  <div className="liquidity-icon-holder d-flex align-items-center justify-content-center">
+                    <img src={liquidityIcon} alt="" />
+                  </div>
+                  <div
+                    className="d-flex flex-column gap-2"
+                    style={{ marginTop: "7px" }}
                   >
-                    <div className="d-flex flex-column gap-3">
-                      <span className="create-lock-title">
-                        Your pair address
-                      </span>
-                      <div
-                        className="input-container px-0"
-                        style={{ width: "100%" }}
-                      >
-                        <input
-                          type="text"
-                          id="pair_address"
-                          name="pair_address"
-                          placeholder=" "
-                          className="text-input"
-                          style={{ width: "100%" }}
-                          disabled={this.props.match.params.pair_id}
-                          value={this.state.pair_address}
-                          onChange={(e) => {
-                            this.handlePairChange(e);
-                            this.loadPairInfo();
-                            this.selectBaseToken(e);
-                          }}
-                        />
-                        <label
-                          htmlFor="usd"
-                          className="label secondary-label"
-                          onClick={() => this.focusInput("pair_address")}
-                        >
-                          Enter pair address
-                        </label>
-                      </div>
+                    <h6 className="locker-card-title">Locking Liquidity</h6>
+                    <p className="locker-card-desc">
+                      Locking liquidity makes the funds inaccessible for a
+                      predeterimned amount of time which creates user
+                      confidence. The liquidity is locked using time-locked
+                      smart contracts that DYP offers at not additional cost.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-lg-5 px-0 px-lg-2 pe-0">
+                <div className="px-3 py-4 locker-card security-background d-flex gap-3 h-100  position-relative">
+                  <div className="purplediv" style={{ left: "0px" }}></div>
+                  <div className="security-icon-holder d-flex align-items-center justify-content-center">
+                    <img src={securityIcon} alt="" />
+                  </div>
+                  <div
+                    className="d-flex flex-column gap-2"
+                    style={{ marginTop: "7px" }}
+                  >
+                    <h6 className="locker-card-title">Verified Security</h6>
+                    <p className="locker-card-desc">
+                      Each project that locks liquidity on DYP Locker will be
+                      given a verified security badge. Owners of the project can
+                      share it to their communities in order to increase
+                      credibility.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row flex-column-reverse flex-lg-row gap-4 gap-lg-0 mx-0 w-100 mt-5">
+              <div className="col-12 col-lg-7 px-0 px-lg-2 ps-0">
+                <div className="px-4 pt-4 pb-5 purple-wrapper position-relative">
+                  <div
+                    className="purplediv"
+                    style={{ left: "0px", top: "20px", background: "#8E97CD" }}
+                  ></div>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <div className="d-flex align-items-center gap-2">
+                      <img src={greySecurityIcon} alt="" />
+                      <h6 className="locker-function-title">Create lock</h6>
                     </div>
-                    <div className="d-flex flex-column gap-3">
-                      <span className="create-lock-title">Select amount</span>
-                      <div className="d-flex align-items-center gap-3">
-                        <div
-                          className="input-container px-0"
-                          style={{ width: "100%" }}
-                        >
-                          <input
-                            id="pair_address"
-                            name="pair_address"
-                            placeholder=" "
-                            className="text-input"
+                    {/* <img src={moreInfo} alt="" height={24} width={24} /> */}
+                  </div>
+                  <hr className="form-divider my-4" style={{ height: "3px" }} />
+                  <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-5">
+                    <div className="d-flex align-items-end justify-content-start gap-3 create-lock-inputs">
+                      <div
+                        className="d-flex flex-column gap-5"
+                        style={{ width: "70%" }}
+                      >
+                        <div className="d-flex flex-column gap-3">
+                          <span className="create-lock-title">
+                            Your pair address
+                          </span>
+                          <div
+                            className="input-container px-0"
                             style={{ width: "100%" }}
-                            disabled
-                            onChange={(e) => {
-                              let amount = new window.BigNumber(e.target.value);
-                              amount = amount.times(1e18).toFixed(0);
-                              this.setState({ amount });
-                            }}
-                            value={this.state.amount}
-                            type="number"
-                            min={
-                              getFormattedNumber(
-                                this.state.lpBalance / 1e18,
-                                6
-                              ) * 0.25
-                            }
-                          />
-                          <label
-                            htmlFor="usd"
-                            className="label secondary-label"
-                            onClick={() => this.focusInput("pair_address")}
                           >
-                            Amount
-                          </label>
+                            <input
+                              type="text"
+                              id="pair_address"
+                              name="pair_address"
+                              placeholder=" "
+                              className="text-input"
+                              style={{ width: "100%" }}
+                              disabled={this.props.match.params.pair_id}
+                              value={this.state.pair_address}
+                              onChange={(e) => {
+                                this.handlePairChange(e);
+                                this.loadPairInfo();
+                                this.selectBaseToken(e);
+                              }}
+                            />
+                            <label
+                              htmlFor="usd"
+                              className="label secondary-label"
+                              onClick={() => this.focusInput("pair_address")}
+                            >
+                              Enter pair address
+                            </label>
+                          </div>
+                        </div>
+                        <div className="d-flex flex-column gap-3">
+                          <span className="create-lock-title">
+                            Select amount
+                          </span>
+                          <div className="d-flex align-items-center gap-3">
+                            <div
+                              className="input-container px-0"
+                              style={{ width: "100%" }}
+                            >
+                              <input
+                                id="pair_address"
+                                name="pair_address"
+                                placeholder=" "
+                                className="text-input"
+                                style={{ width: "100%" }}
+                                disabled
+                                onChange={(e) => {
+                                  let amount = new window.BigNumber(
+                                    e.target.value
+                                  );
+                                  amount = amount.times(1e18).toFixed(0);
+                                  this.setState({ amount });
+                                }}
+                                value={this.state.amount}
+                                type="number"
+                                min={
+                                  getFormattedNumber(
+                                    this.state.lpBalance / 1e18,
+                                    6
+                                  ) * 0.25
+                                }
+                              />
+                              <label
+                                htmlFor="usd"
+                                className="label secondary-label"
+                                onClick={() => this.focusInput("pair_address")}
+                              >
+                                Amount
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </div>
+                      <button
+                        className="btn maxbtn"
+                        style={{ marginBottom: "3px" }}
+                        onClick={() => {
+                          this.setState({
+                            amount: getFormattedNumber(
+                              this.state.lpBalance / 1e18,
+                              6
+                            ),
+                          });
+                        }}
+                      >
+                        Max
+                      </button>
                     </div>
-                  </div>
-                  <button
-                    className="btn maxbtn"
-                    style={{ marginBottom: "3px" }}
-                    onClick={() => {
-                      this.setState({
-                        amount: getFormattedNumber(
-                          this.state.lpBalance / 1e18,
-                          6
-                        ),
-                      });
-                    }}
-                  >
-                    Max
-                  </button>
-                </div>
-                <div className="d-flex flex-column gap-5">
-                  <div className="selected-token-wrapper py-3 ps-3 pe-5">
-                    <div className="d-flex flex-column gap-2">
-                      <span className="create-lock-title">
-                        Selected base token
-                      </span>
-                      <div className="d-flex align-items-center gap-2">
-                        <img
-                          src={
-                            this.state.selectedBaseTokenTicker === "WETH"
-                              ? ethStakeActive
-                              : avaxStakeActive
-                          }
-                          alt=""
-                          height={24}
-                          width={24}
-                        />
-                        <h6 className="create-lock-token">
-                          {this.state.selectedBaseTokenTicker}
+                    <div className="d-flex flex-column gap-5">
+                      <div className="selected-token-wrapper py-3 ps-3 pe-5">
+                        <div className="d-flex flex-column gap-2">
+                          <span className="create-lock-title">
+                            Selected base token
+                          </span>
+                          <div className="d-flex align-items-center gap-2">
+                            <img
+                              src={
+                                this.state.selectedBaseTokenTicker === "WETH"
+                                  ? ethStakeActive
+                                  : avaxStakeActive
+                              }
+                              alt=""
+                              height={24}
+                              width={24}
+                            />
+                            <h6 className="create-lock-token">
+                              {this.state.selectedBaseTokenTicker}
+                            </h6>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className="d-flex flex-column gap-2"
+                        style={{ paddingLeft: "5px" }}
+                      >
+                        <span className="create-lock-title">Balance</span>
+                        <h6 className="locker-balance">
+                          {getFormattedNumber(this.state.lpBalance / 1e18, 6)}
                         </h6>
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="d-flex flex-column gap-2"
-                    style={{ paddingLeft: "5px" }}
-                  >
-                    <span className="create-lock-title">Balance</span>
-                    <h6 className="locker-balance">
-                      {getFormattedNumber(this.state.lpBalance / 1e18, 6)}
-                    </h6>
-                  </div>
-                </div>
-              </div>
-              <hr className="form-divider my-4" style={{ height: "3px" }} />
-              <div className="d-flex flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between align-items-end">
-                <div className="d-flex flex-column gap-2">
-                  <span className="create-lock-title">Select unlock date</span>
-                  <div className="d-flex align-items-center gap-3">
-                    <span
-                      className={`create-lock-month ${
-                        this.state.unlockDatebtn === "1" && "selected-month"
-                      }`}
-                      onClick={() => {
-                        this.setState({
-                          unlockDate: new Date(
-                            Date.now() + 1 * 30 * 24 * 60 * 60 * 1000
-                          ),
-                        });
-                        this.setState({ unlockDatebtn: "1" });
-                      }}
-                    >
-                      1 month
-                    </span>
-                    <span
-                      className={`create-lock-month ${
-                        this.state.unlockDatebtn === "3" && "selected-month"
-                      }`}
-                      onClick={() => {
-                        this.setState({
-                          unlockDate: new Date(
-                            Date.now() + 3 * 30 * 24 * 60 * 60 * 1000
-                          ),
-                        });
-                        this.setState({ unlockDatebtn: "3" });
-                      }}
-                    >
-                      3 months
-                    </span>
-                    <span
-                      className={`create-lock-month ${
-                        this.state.unlockDatebtn === "6" && "selected-month"
-                      }`}
-                      onClick={() => {
-                        this.setState({
-                          unlockDate: new Date(
-                            Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
-                          ),
-                        });
-                        this.setState({ unlockDatebtn: "6" });
-                      }}
-                    >
-                      6 months
-                    </span>
-                  </div>
-                </div>
-                <div className="input-container px-0 calendar-input" >
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    placeholder=" "
-                    className="text-input"
-                    style={{ width: "100%" }}
-                    onChange={(unlockDate) => this.setState({ unlockDate })}
-                  />
-                  <img
-                    src={lockerCalendarIcon}
-                    alt=""
-                    className="locker-calendar"
-                  />
-                </div>
-              </div>
-              <div className="d-flex flex-column gap-3 mt-4 locker-slider-wrapper">
-                <span className="create-lock-title mb-5">Seleted % rate</span>
-                {/* <input type="range" className="w-50" /> */}
-
-                <Slider
-                  className="ms-0 ms-lg-3"
-                  step={25}
-                  dots
-                  min={25}
-                  dotStyle={{
-                    background: "#C0C9FF",
-                    height: 16,
-                    width: 16,
-                    bottom: "-8px",
-                    border: "1px solid #C0C9FF",
-                  }}
-                  activeDotStyle={{
-                    background: "#4ED5D2",
-                    border: "1px solid #4ED5D2",
-                  }}
-                  value={this.state.sliderValue}
-                  onChange={(e) => {
-                    this.handleAmountPercentInput(e);
-                    this.setState({ sliderValue: e });
-
-                    this.setState({
-                      amount:
-                        (getFormattedNumber(this.state.lpBalance / 1e18, 6) *
-                          e) /
-                        100,
-                    });
-                  }}
-                />
-                <div className="slider-text-wrapper ms-3">
-                  <span
-                    className={`slider-text ${
-                      this.state.sliderValue < 35
-                        ? "slider-text-active first-value"
-                        : null
-                    }`}
-                  >
-                    25%
-                  </span>
-                  <span
-                    className={`slider-text ${
-                      this.state.sliderValue > 35 && this.state.sliderValue < 65
-                        ? "slider-text-active second-value"
-                        : null
-                    }`}
-                  >
-                    50%
-                  </span>
-                  <span
-                    className={`slider-text ${
-                      this.state.sliderValue > 65 && this.state.sliderValue < 90
-                        ? "slider-text-active third-value"
-                        : null
-                    }`}
-                  >
-                    75%
-                  </span>
-                  <span
-                    className={`slider-text ${
-                      this.state.sliderValue > 90
-                        ? "slider-text-active fourth-value"
-                        : null
-                    }`}
-                  >
-                    100%
-                  </span>
-                </div>
-                <span className="select-percentage mt-4">
-                  *Select % of balance to lock
-                </span>
-              </div>
-              <hr className="form-divider my-4" />
-              <div className="d-flex align-items-center justify-content-between mx-3">
-                <button
-                  className={`btn filledbtn px-5 ${
-                    this.state.loadspinner === "success"
-                      ? "success-button"
-                      : this.state.loadspinner === "fail"
-                      ? "fail-button"
-                      : null
-                  }`}
-                  onClick={this.handleApprove}
-                >
-                  {this.state.loadspinner === "initial" ? (
-                    <>Approve</>
-                  ) : this.state.loadspinner === "loading" ? (
-                    <div
-                      class="spinner-border spinner-border-sm text-light"
-                      role="status"
-                    >
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
-                  ) : this.state.loadspinner === "success" ? (
-                    <>Success</>
-                  ) : (
-                    <>Failed</>
-                  )}
-                </button>
-                <button
-                  disabled={!this.state.lockActive}
-                  className={`btn disabled-btn px-5 ${
-                    this.state.loadspinnerLock === "success"
-                      ? "success-button"
-                      : this.state.loadspinnerLock === "fail"
-                      ? "fail-button"
-                      : null
-                  }`}
-                  onClick={this.handleLockSubmit}
-                >
-                  {this.state.loadspinnerLock === "initial" ? (
-                    <>Lock</>
-                  ) : this.state.loadspinnerLock === "success" ? (
-                    <>Success</>
-                  ) : this.state.loadspinnerLock === "fail" ? (
-                    <>Fail</>
-                  ) : (
-                    <div
-                      class="spinner-border spinner-border-sm text-light"
-                      role="status"
-                    >
-                      <span class="visually-hidden">Loading...</span>
-                    </div>
-                  )}
-                </button>
-              </div>
-              {this.state.status !== "" && (
-                <div className="mt-3 ms-3">
-                  <span className="required-star">{this.state.status}</span>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-12 col-lg-5 px-0 px-lg-2 position-relative pe-0">
-            <div className="p-4 purple-wrapper">
-              <div className="d-flex align-items-center gap-2">
-                <img src={coinStackIcon} alt="" />
-                <h6 className="locker-function-title">
-                  My DYP locker liquidity
-                </h6>
-              </div>
-              <hr className="form-divider my-3" />
-              <div className="locker-liquidity-wrapper p-3 d-flex align-items-center justify-content-between">
-                <img src={purpleLiquidityLocker} alt="" />
-                <div className="d-flex flex-column justify-content-center gap-2 align-items-end">
-                  <div
-                    className="d-flex align-items-center gap-2 cursor-pointer"
-                    onClick={() => this.setState({ showModal: true })}
-                  >
-                    <span className="locker-indicator">DYP locker status</span>
-                    <img src={moreInfo} alt="" height={20} width={20} />
-                  </div>
-                  <div className="locker-status d-flex align-items-center gap-3 p-2">
-                    <span className="locker-status-text">
-                      {!this.state.lpBalance ? 25 : this.getPercentageLocked()}{" "}
-                      % Locked
-                    </span>
-                    <span className="locker-status-text">
-                      <CountDownTimer
-                        date={
-                          this.state.recipientLocksLength
-                            ? this.convertTimestampToDate(
-                                Number(
-                                  this.state.recipientLocks[
-                                    this.state.recipientLocksLength - 1
-                                  ].unlockTimestamp
-                                )
-                              )
-                            : "00:00:00:00"
-                        }
-                      />
-                    </span>
-                  </div>
-                  <span className="locker-timer">Countdown timer</span>
-                </div>
-              </div>
-              <div className="col-5  mt-3">
-                <span className="create-lock-title">Info data</span>
-                <hr
-                  className="form-divider w-100 my-2"
-                  style={{ height: "3px" }}
-                />
-                <div className="d-flex flex-column gap-3">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span className="create-loxk-title">ID</span>
-                    <span className="create-loxk-title fw-bold">
-                      {" "}
-                      {this.state.recipientLocksLength
-                        ? this.state.recipientLocks[
-                            this.state.recipientLocksLength - 1
-                          ].id
-                        : ""}
-                    </span>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span className="create-loxk-title">Pair address</span>
-                    <span className="create-loxk-title fw-bold">
-                      <NavLink
-                        to={`/pair-explorer/${
-                          this.state.recipientLocksLength
-                            ? this.state.recipientLocks[
-                                this.state.recipientLocksLength - 1
-                              ].token
-                            : ""
-                        }`}
-                        style={{ color: "#A4A4A4" }}
-                      >
-                        ...
-                        {this.state.recipientLocksLength
-                          ? this.state.recipientLocks[
-                              this.state.recipientLocksLength - 1
-                            ].token.slice(35)
-                          : ""}
-                      </NavLink>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-       </>
-
-       :
-
-       <>
-       <div className="purple-wrapper p-3 mt-3 col-12 col-lg-5 position-relative">
-          <div className="purplediv" style={{left: '0px'}}></div>
-          <div className="d-flex align-items-center gap-2">
-                  <img src={greySecurityIcon} alt="" />
-                  <h6 className="locker-function-title">Create lock</h6>
-                </div>
-                <hr className="form-divider my-4" style={{height: '3px'}}  />
-                  <div className="d-flex align-items-end justify-content-between">
-                  <div className="d-flex flex-column gap-3">
+                  <hr className="form-divider my-4" style={{ height: "3px" }} />
+                  <div className="d-flex flex-column flex-lg-row gap-4 gap-lg-0 justify-content-between align-items-end">
+                    <div className="d-flex flex-column gap-2">
                       <span className="create-lock-title">
-                        Your pair address
+                        Select unlock date
                       </span>
-                      <div
-                        className="input-container px-0"
-                        style={{ width: "100%" }}
-                      >
-                        <input
-                          type="text"
-                          id="def_pair_address"
-                          name="def_pair_address"
-                          placeholder=" "
-                          className="text-input"
-                          style={{ width: "100%" }}
-                          disabled={this.props.match.params.pair_id}
-                          value={this.state.pair_address}
-                          onChange={(e) => {
-                            this.handlePairChange(e);
-                            this.loadPairInfo();
-                            this.selectBaseToken(e);
+                      <div className="d-flex align-items-center gap-3">
+                        <span
+                          className={`create-lock-month ${
+                            this.state.unlockDatebtn === "1" && "selected-month"
+                          }`}
+                          onClick={() => {
+                            this.setState({
+                              unlockDate: new Date(
+                                Date.now() + 1 * 30 * 24 * 60 * 60 * 1000
+                              ),
+                            });
+                            this.setState({ unlockDatebtn: "1" });
                           }}
-                        />
-                        <label
-                          htmlFor="usd"
-                          className="label secondary-label"
-                          onClick={() => this.focusInput("def_pair_address")}
                         >
-                          Enter pair address
-                        </label>
+                          1 month
+                        </span>
+                        <span
+                          className={`create-lock-month ${
+                            this.state.unlockDatebtn === "3" && "selected-month"
+                          }`}
+                          onClick={() => {
+                            this.setState({
+                              unlockDate: new Date(
+                                Date.now() + 3 * 30 * 24 * 60 * 60 * 1000
+                              ),
+                            });
+                            this.setState({ unlockDatebtn: "3" });
+                          }}
+                        >
+                          3 months
+                        </span>
+                        <span
+                          className={`create-lock-month ${
+                            this.state.unlockDatebtn === "6" && "selected-month"
+                          }`}
+                          onClick={() => {
+                            this.setState({
+                              unlockDate: new Date(
+                                Date.now() + 6 * 30 * 24 * 60 * 60 * 1000
+                              ),
+                            });
+                            this.setState({ unlockDatebtn: "6" });
+                          }}
+                        >
+                          6 months
+                        </span>
                       </div>
                     </div>
-                    <button className="btn filledbtn" onClick={() => this.handleSearchPair}>Search</button>
+                    <div className="input-container px-0 calendar-input">
+                      <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        placeholder=" "
+                        className="text-input"
+                        style={{ width: "100%" }}
+                        onChange={(unlockDate) => this.setState({ unlockDate })}
+                      />
+                      <img
+                        src={lockerCalendarIcon}
+                        alt=""
+                        className="locker-calendar"
+                      />
+                    </div>
                   </div>
-                </div> 
-          
-       </>
-      }
+                  <div className="d-flex flex-column gap-3 mt-4 locker-slider-wrapper">
+                    <span className="create-lock-title mb-5">
+                      Seleted % rate
+                    </span>
+                    {/* <input type="range" className="w-50" /> */}
+
+                    <Slider
+                      className="ms-0 ms-lg-3"
+                      step={25}
+                      dots
+                      min={25}
+                      dotStyle={{
+                        background: "#C0C9FF",
+                        height: 16,
+                        width: 16,
+                        bottom: "-8px",
+                        border: "1px solid #C0C9FF",
+                      }}
+                      activeDotStyle={{
+                        background: "#4ED5D2",
+                        border: "1px solid #4ED5D2",
+                      }}
+                      value={this.state.sliderValue}
+                      onChange={(e) => {
+                        this.handleAmountPercentInput(e);
+                        this.setState({ sliderValue: e });
+
+                        this.setState({
+                          amount:
+                            (getFormattedNumber(
+                              this.state.lpBalance / 1e18,
+                              6
+                            ) *
+                              e) /
+                            100,
+                        });
+                      }}
+                    />
+                    <div className="slider-text-wrapper ms-3">
+                      <span
+                        className={`slider-text ${
+                          this.state.sliderValue < 35
+                            ? "slider-text-active first-value"
+                            : null
+                        }`}
+                      >
+                        25%
+                      </span>
+                      <span
+                        className={`slider-text ${
+                          this.state.sliderValue > 35 &&
+                          this.state.sliderValue < 65
+                            ? "slider-text-active second-value"
+                            : null
+                        }`}
+                      >
+                        50%
+                      </span>
+                      <span
+                        className={`slider-text ${
+                          this.state.sliderValue > 65 &&
+                          this.state.sliderValue < 90
+                            ? "slider-text-active third-value"
+                            : null
+                        }`}
+                      >
+                        75%
+                      </span>
+                      <span
+                        className={`slider-text ${
+                          this.state.sliderValue > 90
+                            ? "slider-text-active fourth-value"
+                            : null
+                        }`}
+                      >
+                        100%
+                      </span>
+                    </div>
+                    <span className="select-percentage mt-4">
+                      *Select % of balance to lock
+                    </span>
+                  </div>
+                  <hr className="form-divider my-4" />
+                  <div className="d-flex align-items-center justify-content-between mx-3">
+                    <button
+                      className={`btn filledbtn px-5 ${
+                        this.state.loadspinner === "success"
+                          ? "success-button"
+                          : this.state.loadspinner === "fail"
+                          ? "fail-button"
+                          : null
+                      }`}
+                      onClick={this.handleApprove}
+                    >
+                      {this.state.loadspinner === "initial" ? (
+                        <>Approve</>
+                      ) : this.state.loadspinner === "loading" ? (
+                        <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      ) : this.state.loadspinner === "success" ? (
+                        <>Success</>
+                      ) : (
+                        <>Failed</>
+                      )}
+                    </button>
+                    <button
+                      disabled={!this.state.lockActive}
+                      className={`btn disabled-btn px-5 ${
+                        this.state.loadspinnerLock === "success"
+                          ? "success-button"
+                          : this.state.loadspinnerLock === "fail"
+                          ? "fail-button"
+                          : null
+                      }`}
+                      onClick={this.handleLockSubmit}
+                    >
+                      {this.state.loadspinnerLock === "initial" ? (
+                        <>Lock</>
+                      ) : this.state.loadspinnerLock === "success" ? (
+                        <>Success</>
+                      ) : this.state.loadspinnerLock === "fail" ? (
+                        <>Fail</>
+                      ) : (
+                        <div
+                          class="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      )}
+                    </button>
+                  </div>
+                  {this.state.status !== "" && (
+                    <div className="mt-3 ms-3">
+                      <span className="required-star">{this.state.status}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="col-12 col-lg-5 px-0 px-lg-2 position-relative pe-0">
+                <div className="p-4 purple-wrapper">
+                  <div className="d-flex align-items-center gap-2">
+                    <img src={coinStackIcon} alt="" />
+                    <h6 className="locker-function-title">
+                      My DYP locker liquidity
+                    </h6>
+                  </div>
+                  <hr className="form-divider my-3" />
+                  <div className="locker-liquidity-wrapper p-3 d-flex align-items-center justify-content-between">
+                    <img src={purpleLiquidityLocker} alt="" />
+                    <div className="d-flex flex-column justify-content-center gap-2 align-items-end">
+                      <div
+                        className="d-flex align-items-center gap-2 cursor-pointer"
+                        onClick={() => this.setState({ showModal: true })}
+                      >
+                        <span className="locker-indicator">
+                          DYP locker status
+                        </span>
+                        <img src={moreInfo} alt="" height={20} width={20} />
+                      </div>
+                      <div className="locker-status d-flex align-items-center gap-3 p-2">
+                        <span className="locker-status-text">
+                          {!this.state.lpBalance
+                            ? 25
+                            : this.getPercentageLocked()}{" "}
+                          % Locked
+                        </span>
+                        <span className="locker-status-text">
+                          <CountDownTimer
+                            date={
+                              this.state.recipientLocksLength
+                                ? this.convertTimestampToDate(
+                                    Number(
+                                      this.state.recipientLocks[
+                                        this.state.recipientLocksLength - 1
+                                      ].unlockTimestamp
+                                    )
+                                  )
+                                : "00:00:00:00"
+                            }
+                          />
+                        </span>
+                      </div>
+                      <span className="locker-timer">Countdown timer</span>
+                    </div>
+                  </div>
+                  <div className="col-5  mt-3">
+                    <span className="create-lock-title">Info data</span>
+                    <hr
+                      className="form-divider w-100 my-2"
+                      style={{ height: "3px" }}
+                    />
+                    <div className="d-flex flex-column gap-3">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span className="create-loxk-title">ID</span>
+                        <span className="create-loxk-title fw-bold">
+                          {" "}
+                          {this.state.recipientLocksLength
+                            ? this.state.recipientLocks[
+                                this.state.recipientLocksLength - 1
+                              ].id
+                            : ""}
+                        </span>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <span className="create-loxk-title">Pair address</span>
+                        <span className="create-loxk-title fw-bold">
+                          <NavLink
+                            to={`/pair-explorer/${
+                              this.state.recipientLocksLength
+                                ? this.state.recipientLocks[
+                                    this.state.recipientLocksLength - 1
+                                  ].token
+                                : ""
+                            }`}
+                            style={{ color: "#A4A4A4" }}
+                          >
+                            ...
+                            {this.state.recipientLocksLength
+                              ? this.state.recipientLocks[
+                                  this.state.recipientLocksLength - 1
+                                ].token.slice(35)
+                              : ""}
+                          </NavLink>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="purple-wrapper p-3 mt-3 col-12 col-lg-5 position-relative">
+              <div className="purplediv" style={{ left: "0px" }}></div>
+              <div className="d-flex align-items-center gap-2">
+                <img src={greySecurityIcon} alt="" />
+                <h6 className="locker-function-title">Create lock</h6>
+              </div>
+              <hr className="form-divider my-4" style={{ height: "3px" }} />
+              <div className="d-flex align-items-end justify-content-between">
+                <div className="d-flex flex-column gap-3">
+                  <span className="create-lock-title">Your pair address</span>
+                  <div
+                    className="input-container px-0"
+                    style={{ width: "100%" }}
+                  >
+                    <input
+                      type="text"
+                      id="def_pair_address"
+                      name="def_pair_address"
+                      placeholder=" "
+                      className="text-input"
+                      style={{ width: "100%" }}
+                      disabled={this.props.match.params.pair_id}
+                      value={this.state.pair_address}
+                      onChange={(e) => {
+                        this.handlePairChange(e);
+                        this.loadPairInfo();
+                        this.selectBaseToken(e);
+                      }}
+                    />
+                    <label
+                      htmlFor="usd"
+                      className="label secondary-label"
+                      onClick={() => this.focusInput("def_pair_address")}
+                    >
+                      Enter pair address
+                    </label>
+                  </div>
+                </div>
+                <button
+                  className="btn filledbtn"
+                  onClick={() => this.handleSearchPair}
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </>
+        )}
         <h6 className="locker-title mt-5">Pair locks</h6>
         <span className="total-dyp-locked">
           Total DYP-USDT locked:{" "}
@@ -2545,42 +2552,13 @@ export default class Locker extends React.Component {
                 .filter((lock) => lock.id === this.state.maxLpID)
                 .map((lock) => (
                   <PairLockerCard
-                  completed={lock.claimed === false
-                    ? Date.now() < lock.unlockTimestamp * 1e3
-                      ? true
-                      : false
-                    : false}
-                  active={
-                    lock.claimed === false
-                      ? Date.now() < lock.unlockTimestamp * 1e3
-                        ? true
-                        : true
-                      : false
-                  }
-                  topLocked={this.state.maxLpID === lock.id ? true : false}
-                  id={lock.id}
-                  pair_address={lock.token.slice(35)}
-                  lpAmount={getFormattedNumber(lock.amount / 1e18, 6)}
-                  dyp={getFormattedNumber(
-                    lock.platformTokensLocked / 1e18,
-                    6
-                  )}
-                  recipent={lock.recipient.slice(35)}
-                  unlock={convertTimestampToDate(lock.unlockTimestamp)}
-                  endsIn={convertTimestampToDate(lock.unlockTimestamp)}
-                  startsIn={convertTimestampToDate(lock.unlockTimestamp)}
-                />
-                ))}
-            {this.state.tokenLocks &&
-              this.state.tokenLocks
-                .filter((lock) => lock.id !== this.state.maxLpID)
-                .map((lock) => (
-                  <PairLockerCard
-                    completed={lock.claimed === false
-                      ? Date.now() < lock.unlockTimestamp * 1e3
-                        ? true
+                    completed={
+                      lock.claimed === false
+                        ? Date.now() < lock.unlockTimestamp * 1e3
+                          ? true
+                          : false
                         : false
-                      : false}
+                    }
                     active={
                       lock.claimed === false
                         ? Date.now() < lock.unlockTimestamp * 1e3
@@ -2602,16 +2580,50 @@ export default class Locker extends React.Component {
                     startsIn={convertTimestampToDate(lock.unlockTimestamp)}
                   />
                 ))}
-                {this.state.tokenLocks.length === 0 && 
-                  <>
-                   <Skeleton theme={this.props.theme}/>
-              <Skeleton theme={this.props.theme}/>
-              <Skeleton theme={this.props.theme}/>
-                  </>
-                }
+            {this.state.tokenLocks &&
+              this.state.tokenLocks
+                .filter((lock) => lock.id !== this.state.maxLpID)
+                .map((lock) => (
+                  <PairLockerCard
+                    completed={
+                      lock.claimed === false
+                        ? Date.now() < lock.unlockTimestamp * 1e3
+                          ? true
+                          : false
+                        : false
+                    }
+                    active={
+                      lock.claimed === false
+                        ? Date.now() < lock.unlockTimestamp * 1e3
+                          ? true
+                          : true
+                        : false
+                    }
+                    topLocked={this.state.maxLpID === lock.id ? true : false}
+                    id={lock.id}
+                    pair_address={lock.token.slice(35)}
+                    lpAmount={getFormattedNumber(lock.amount / 1e18, 6)}
+                    dyp={getFormattedNumber(
+                      lock.platformTokensLocked / 1e18,
+                      6
+                    )}
+                    recipent={lock.recipient.slice(35)}
+                    unlock={convertTimestampToDate(lock.unlockTimestamp)}
+                    endsIn={convertTimestampToDate(lock.unlockTimestamp)}
+                    startsIn={convertTimestampToDate(lock.unlockTimestamp)}
+                  />
+                ))}
+            {this.state.tokenLocks.length === 0 && (
+              <>
+                <Skeleton theme={this.props.theme} />
+                <Skeleton theme={this.props.theme} />
+                <Skeleton theme={this.props.theme} />
+              </>
+            )}
           </div>
         </div>
         <h6 className="locker-title mt-5">My locks</h6>
+        <div className="mb-5">{this.GetMyLocks()}</div>
         {this.state.showModal === true ? (
           <InfoModal
             visible={this.state.showModal}

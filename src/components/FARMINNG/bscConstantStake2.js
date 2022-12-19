@@ -61,8 +61,7 @@ export default function initbscConstantStaking2({
   chainId,
   handleSwitchNetwork,
   expired,
-  finalApr
-
+  finalApr,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsbsc } =
     window;
@@ -284,7 +283,6 @@ export default function initbscConstantStaking2({
     };
 
     componentWillUnmount() {
-
       clearInterval(window._refreshBalInterval);
     }
 
@@ -484,7 +482,10 @@ export default function initbscConstantStaking2({
         .claim(0, _amountOutMin, deadline)
         .then(() => {
           this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            claimLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
@@ -546,13 +547,13 @@ export default function initbscConstantStaking2({
             "0xbd100d061e120b2c67a24453cf6368e63f1be056"
           ].token_price_usd
         : 1;
-      let apy = new BigNumber(apr)
-        // .minus(fee)
-        // .div(1e2)
-        // .times(usd_per_idyp)
-        // .div(usd_per_token)
-        // .times(1e2)
-        // .toFixed(2);
+      let apy = new BigNumber(apr);
+      // .minus(fee)
+      // .div(1e2)
+      // .times(usd_per_idyp)
+      // .div(usd_per_token)
+      // .times(1e2)
+      // .toFixed(2);
 
       // let usd_per_dyps = this.props.the_graph_result.price_DYPS ? this.props.the_graph_result.price_DYPS : 1
       let usd_per_dyps = 0;
@@ -720,14 +721,18 @@ export default function initbscConstantStaking2({
       ];
       let _amountOutMin = await router.methods
         .getAmountsOut(amount, path)
-        .call().catch((e) => {
+        .call()
+        .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
+            this.setState({
+              reInvestStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
           }, 10000);
-
         });
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin)
@@ -750,18 +755,27 @@ export default function initbscConstantStaking2({
 
       console.log({ referralFee, _amountOutMin, deadline });
 
-      staking.reInvest(0, _amountOutMin, deadline).then(() => {
-        this.setState({ reInvestStatus: "success" });
-        this.setState({ reInvestLoading: false,pendingDivs: getFormattedNumber(0,6) });
-      })
-      .catch((e) => {
-        this.setState({ reInvestStatus: "failed" });
-        this.setState({ reInvestLoading: false });
-        this.setState({ errorMsg2: e?.message });
-        setTimeout(() => {
-          this.setState({  reInvestStatus: "initial", selectedPool: '', errorMsg2: '' });
-        }, 10000);
-      });
+      staking
+        .reInvest(0, _amountOutMin, deadline)
+        .then(() => {
+          this.setState({ reInvestStatus: "success" });
+          this.setState({
+            reInvestLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
+        })
+        .catch((e) => {
+          this.setState({ reInvestStatus: "failed" });
+          this.setState({ reInvestLoading: false });
+          this.setState({ errorMsg2: e?.message });
+          setTimeout(() => {
+            this.setState({
+              reInvestStatus: "initial",
+              selectedPool: "",
+              errorMsg2: "",
+            });
+          }, 10000);
+        });
     };
 
     convertTimestampToDate = (timestamp) => {
@@ -773,15 +787,15 @@ export default function initbscConstantStaking2({
       return result;
     };
 
-
-    handleBnbPool = async() => {
-      await handleSwitchNetworkhook("0x38").then(()=>{
-        this.props.handleSwitchNetwork('56')
-      }).catch((e)=>{
-        console.log(e)
-      })
-     };
-
+    handleBnbPool = async () => {
+      await handleSwitchNetworkhook("0x38")
+        .then(() => {
+          this.props.handleSwitchNetwork("56");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
 
     render() {
       let {
@@ -798,7 +812,6 @@ export default function initbscConstantStaking2({
         tvl,
       } = this.state;
 
-      
       token_balance = new BigNumber(token_balance).div(1e18).toString(10);
       token_balance = getFormattedNumber(token_balance, 6);
 
@@ -889,7 +902,6 @@ export default function initbscConstantStaking2({
 
       let is_connected = this.props.is_wallet_connected;
 
-
       const performanceOpen = () => {
         this.setState({ performanceTooltip: true });
       };
@@ -927,7 +939,6 @@ export default function initbscConstantStaking2({
         this.setState({ withdrawTooltip: false });
       };
 
-      
       return (
         <div className="container-lg p-0">
           <div
@@ -938,10 +949,12 @@ export default function initbscConstantStaking2({
             }}
           >
             <div className="leftside2 w-100">
-            <div className="activewrapper">
+              <div className="activewrapper">
                 <div
                   className={`d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between ${
-                    renderedPage === "dashboard" ? "gap-3 gap-lg-4" : "gap-3 gap-lg-5"
+                    renderedPage === "dashboard"
+                      ? "gap-3 gap-lg-4"
+                      : "gap-3 gap-lg-5"
                   }`}
                 >
                   <h6 className="activetxt">
@@ -949,8 +962,7 @@ export default function initbscConstantStaking2({
                       src={ellipse}
                       alt=""
                       className="position-relative"
-                      style={{ top: '-1px' }}
-
+                      style={{ top: "-1px" }}
                     />
                     Active status
                   </h6>
@@ -960,124 +972,122 @@ export default function initbscConstantStaking2({
                       DYP
                     </h6>
                   </div> */}
-                 <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
-                 <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
-                   <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Performance fee:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {fee}%
-                     <ClickAwayListener onClickAway={performanceClose}>
-                        <Tooltip
-                          open={this.state.performanceTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "Performance fee is subtracted from the displayed APR."
+                  <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
+                    <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Performance fee:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {fee}%
+                          <ClickAwayListener onClickAway={performanceClose}>
+                            <Tooltip
+                              open={this.state.performanceTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "Performance fee is subtracted from the displayed APR."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img
-                            src={moreinfo}
-                            alt=""
-                            onClick={performanceOpen}
-                          />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
+                            >
+                              <img
+                                src={moreinfo}
+                                alt=""
+                                onClick={performanceOpen}
+                              />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
 
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">APR:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                    {finalApr}%
-                      <ClickAwayListener onClickAway={aprClose}>
-                        <Tooltip
-                          open={this.state.aprTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">APR:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {finalApr}%
+                          <ClickAwayListener onClickAway={aprClose}>
+                            <Tooltip
+                              open={this.state.aprTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "APR reflects the interest rate of earnings on an account over the course of one year. "
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={aprOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
-                  </div>
-                  <div className="d-flex align-items-center justify-content-between gap-2">
-                    <h6 className="earnrewards-text">Lock time:</h6>
-                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                      {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
-                      <ClickAwayListener onClickAway={lockClose}>
-                        <Tooltip
-                          open={this.state.lockTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "The amount of time your deposited assets will be locked."
+                            >
+                              <img src={moreinfo} alt="" onClick={aprOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Lock time:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
+                          <ClickAwayListener onClickAway={lockClose}>
+                            <Tooltip
+                              open={this.state.lockTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "The amount of time your deposited assets will be locked."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={lockOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                    </h6>
+                            >
+                              <img src={moreinfo} alt="" onClick={lockOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                    </div>
+                    <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                      <h6
+                        className="bottomitems"
+                        onClick={() => this.setState({ showCalculator: true })}
+                      >
+                        <img src={poolsCalculatorIcon} alt="" />
+                        Calculator
+                      </h6>
+                      <a
+                        href={
+                          // chainId === 1
+                          // ?
+                          "https://pancakeswap.finance/swap?inputCurrencty=BNB&outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                          // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        }
+                        target={"_blank"}
+                        rel="noreferrer"
+                      >
+                        <h6 className="bottomitems">
+                          <img src={arrowup} alt="" />
+                          Get DYP
+                        </h6>
+                      </a>
+                      <div
+                        onClick={() => {
+                          this.showPopup();
+                        }}
+                      >
+                        <h6 className="bottomitems">
+                          <img src={purplestats} alt="" />
+                          Stats
+                        </h6>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
-                  <h6
-                    className="bottomitems"
-                    onClick={() => this.setState({ showCalculator: true })}
-                  >
-                    <img src={poolsCalculatorIcon} alt="" />
-                    Calculator
-                  </h6>
-                  <a
-                    href={
-                      // chainId === 1
-                      // ?
-                      "https://pancakeswap.finance/swap?inputCurrencty=BNB&outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                      // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-                    }
-                    target={"_blank"}
-                    rel="noreferrer"
-                  >
-                    <h6 className="bottomitems">
-                      <img src={arrowup} alt="" />
-                      Get DYP
-                    </h6>
-                  </a>
-                  <div
-                    onClick={() => {
-                      this.showPopup();
-                    }}
-                  >
-                    <h6 className="bottomitems">
-                      <img src={purplestats} alt="" />
-                      Stats
-                    </h6>
-                  </div>
-                </div>
-                 </div>
-
-                
-                 </div>
               </div>
             </div>
             <div className="pools-details-wrapper d-flex m-0  container-lg border-0">
@@ -1093,7 +1103,9 @@ export default function initbscConstantStaking2({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                    {this.props.coinbase === null ? (
+                    {this.props.coinbase === null ||
+                    this.props.coinbase === undefined ||
+                    this.props.isConnected === false ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1104,16 +1116,18 @@ export default function initbscConstantStaking2({
                       >
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : chainId === '56' ? (
+                    ) : chainId === "56" ? (
                       <div className="addressbtn btn">
                         <Address a={this.props.coinbase} chainId={56} />
                       </div>
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{this.handleBnbPool()}}
+                        onClick={() => {
+                          this.handleBnbPool();
+                        }}
                       >
-                       Change Network
+                        Change Network
                       </button>
                     )}
                   </div>
@@ -1123,7 +1137,13 @@ export default function initbscConstantStaking2({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                   <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '56' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4  ${
+                    chainId !== "56" || this.props.expired === true
+                      ? "blurrypool"
+                      : ""
+                  }`}
+                >
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1143,51 +1163,53 @@ export default function initbscConstantStaking2({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                        { token_balance != '...' ? token_balance : '...'}{" "}
+                          {token_balance != "..." ? token_balance : "..."}{" "}
                           {token_symbol}
                         </b>
                       </h6>
                     </div>
                     <ClickAwayListener onClickAway={depositClose}>
-                        <Tooltip
-                          open={this.state.depositTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                            {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
+                      <Tooltip
+                        open={this.state.depositTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                            }
                           </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={depositOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={depositOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
-                     <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
-                     <div className="position-relative">
-                        <h6 className="amount-txt">Amount</h6>
-                        <input
-                          type={"number"}
-                          className="styledinput"
-                          placeholder="0.0"
-                          style={{ width: "100%" }}
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                      {/* <div
+                      <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
+                        <div className="position-relative">
+                          <h6 className="amount-txt">Amount</h6>
+                          <input
+                            type={"number"}
+                            className="styledinput"
+                            placeholder="0.0"
+                            style={{ width: "100%" }}
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                depositAmount: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        {/* <div
                         className="input-container px-0"
                         style={{ width: "32%" }}
                       >
@@ -1213,13 +1235,13 @@ export default function initbscConstantStaking2({
                           DYP Amount
                         </label>
                       </div> */}
-                      <button
-                        className="btn maxbtn"
-                        onClick={this.handleSetMaxDeposit}
-                      >
-                        Max
-                      </button>
-                     </div>
+                        <button
+                          className="btn maxbtn"
+                          onClick={this.handleSetMaxDeposit}
+                        >
+                          Max
+                        </button>
+                      </div>
                       {/* <button
                       className="btn filledbtn"
                       onClick={this.handleApprove}
@@ -1280,7 +1302,11 @@ export default function initbscConstantStaking2({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '56' && "blurrypool" }`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "56" && "blurrypool"
+                  }`}
+                >
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6
@@ -1299,8 +1325,10 @@ export default function initbscConstantStaking2({
                           placement="top"
                           title={
                             <div className="tooltip-text">
-                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
-                          </div>
+                              {
+                                "Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."
+                              }
+                            </div>
                           }
                         >
                           <img src={moreinfo} alt="" onClick={rewardsOpen} />
@@ -1352,13 +1380,15 @@ export default function initbscConstantStaking2({
                         <button
                           disabled={
                             this.state.claimStatus === "claimed" ||
-                            this.state.claimStatus === "success" || pendingDivs <=0
+                            this.state.claimStatus === "success" ||
+                            pendingDivs <= 0
                               ? true
                               : false
                           }
                           className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed" &&
-                            this.state.claimStatus === "initial" || pendingDivs <=0
+                            (this.state.claimStatus === "claimed" &&
+                              this.state.claimStatus === "initial") ||
+                            pendingDivs <= 0
                               ? "disabled-btn"
                               : this.state.claimStatus === "failed"
                               ? "fail-button"
@@ -1387,42 +1417,41 @@ export default function initbscConstantStaking2({
                             <>Claim</>
                           )}
                         </button>
-                        {this.props.expired === false &&
-                        <button
-                        disabled={
-                          pendingDivs > 0 ? false : true
-                        }
-                          className={`btn outline-btn ${
-                            this.state.reInvestStatus === "invest" || pendingDivs <=0
-                              ? "disabled-btn"
-                              : this.state.reInvestStatus === "failed"
-                              ? "fail-button"
-                              : this.state.reInvestStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content" }}
-                          onClick={this.handleReinvest}
-                        >
-                          {this.state.reInvestLoading ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.reInvestStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.reInvestStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Reinvest</>
-                          )}
-                        </button>
-    }
+                        {this.props.expired === false && (
+                          <button
+                            disabled={pendingDivs > 0 ? false : true}
+                            className={`btn outline-btn ${
+                              this.state.reInvestStatus === "invest" ||
+                              pendingDivs <= 0
+                                ? "disabled-btn"
+                                : this.state.reInvestStatus === "failed"
+                                ? "fail-button"
+                                : this.state.reInvestStatus === "success"
+                                ? "success-button"
+                                : null
+                            } d-flex justify-content-center align-items-center gap-2`}
+                            style={{ height: "fit-content" }}
+                            onClick={this.handleReinvest}
+                          >
+                            {this.state.reInvestLoading ? (
+                              <div
+                                class="spinner-border spinner-border-sm text-light"
+                                role="status"
+                              >
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            ) : this.state.reInvestStatus === "failed" ? (
+                              <>
+                                <img src={failMark} alt="" />
+                                Failed
+                              </>
+                            ) : this.state.reInvestStatus === "success" ? (
+                              <>Success</>
+                            ) : (
+                              <>Reinvest</>
+                            )}
+                          </button>
+                        )}
                       </div>
                     </div>
                     {this.state.errorMsg2 && (
@@ -1431,25 +1460,31 @@ export default function initbscConstantStaking2({
                   </div>
                 </div>
 
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '56' && "blurrypool" }`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                    chainId !== "56" && "blurrypool"
+                  }`}
+                >
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
-                        <Tooltip
-                          open={this.state.withdrawTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                          {"Withdraw your deposited assets from the staking smart contract."}
-                        </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={withdrawOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                      <Tooltip
+                        open={this.state.withdrawTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Withdraw your deposited assets from the staking smart contract."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </h6>
 
                   <button
@@ -1773,8 +1808,7 @@ export default function initbscConstantStaking2({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                          {depositedTokens} {" "}
-                            {token_symbol}
+                            {depositedTokens} {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1808,7 +1842,8 @@ export default function initbscConstantStaking2({
                           disabled={
                             this.state.withdrawStatus === "failed" ||
                             this.state.withdrawStatus === "success" ||
-                            this.state.withdrawAmount === ""|| canWithdraw === false
+                            this.state.withdrawAmount === "" ||
+                            canWithdraw === false
                               ? true
                               : false
                           }
@@ -1817,8 +1852,9 @@ export default function initbscConstantStaking2({
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
                               ? "success-button"
-                              : this.state.withdrawAmount === "" &&
-                                this.state.withdrawStatus === "initial" || canWithdraw === false
+                              : (this.state.withdrawAmount === "" &&
+                                  this.state.withdrawStatus === "initial") ||
+                                canWithdraw === false
                               ? "disabled-btn"
                               : null
                           } d-flex justify-content-center align-items-center`}
@@ -1919,7 +1955,7 @@ export default function initbscConstantStaking2({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal()}
               handleConnection={this.props.handleConnection}
             />
           )}
@@ -1936,14 +1972,14 @@ export default function initbscConstantStaking2({
       </div> */}
 
           {this.state.showCalculator && (
-           <Modal
-           visible={this.state.showCalculator}
-           title="calculator"
-           modalId="calculatormodal"
-           setIsVisible={() => this.setState({showCalculator: false})}
-           >
-             <div className="pools-calculator">
-              {/* <div className="d-flex align-items-center justify-content-between">
+            <Modal
+              visible={this.state.showCalculator}
+              title="calculator"
+              modalId="calculatormodal"
+              setIsVisible={() => this.setState({ showCalculator: false })}
+            >
+              <div className="pools-calculator">
+                {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -1965,79 +2001,81 @@ export default function initbscConstantStaking2({
                   className="cursor-pointer"
                 />
               </div> */}
-              <hr />
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Days to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Days*"
-                    value={this.state.approxDays}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDays: e.target.value,
-                      })
-                    }
-                  />
+                <hr />
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Days to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Days*"
+                      value={this.state.approxDays}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDays: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Amount to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Value of deposit in USD"
+                      value={this.state.approxDeposit}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDeposit: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Amount to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Value of deposit in USD"
-                    value={this.state.approxDeposit}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDeposit: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </div>
-              <div className="d-flex flex-column gap-2 mt-4">
-                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>USD ${" "}
+                <div className="d-flex flex-column gap-2 mt-4">
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                    USD $ {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                  </h3>
+                  <h6
+                    style={{
+                      fontWeight: "300",
+                      fontSize: "15px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    Approx{" "}
                     {getFormattedNumber(
-                      this.getApproxReturn(),
+                      this.getApproxReturn() / this.getUsdPerETH(),
                       6
-                    )}{" "}</h3>
-                <h6
-                  style={{
-                    fontWeight: "300",
-                    fontSize: "15px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  Approx {getFormattedNumber(this.getApproxReturn() / this.getUsdPerETH(), 6)}
-                  DYP
-                </h6>
+                    )}
+                    DYP
+                  </h6>
+                </div>
+                <div className="mt-4">
+                  <p
+                    style={{
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    *This calculator is for informational purposes only.
+                    Calculated yields assume that prices of the deposited assets
+                    don't change.
+                  </p>
+                </div>
               </div>
-              <div className="mt-4">
-                <p
-                  style={{
-                    fontWeight: "400",
-                    fontSize: "13px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  *This calculator is for informational purposes only.
-                  Calculated yields assume that prices of the deposited assets
-                  don't change.
-                </p>
-              </div>
-            </div>
-           </Modal>
+            </Modal>
           )}
         </div>
         // <div>

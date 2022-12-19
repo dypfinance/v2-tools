@@ -64,8 +64,7 @@ export default function initConstantStakingNewDai({
   fee,
   handleSwitchNetwork,
   expired,
-  finalApr
-
+  finalApr,
 }) {
   let {
     reward_token,
@@ -241,7 +240,7 @@ export default function initConstantStakingNewDai({
       }
 
       // this.refreshBalance();
-        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       this.getPriceDYP();
     }
@@ -252,7 +251,7 @@ export default function initConstantStakingNewDai({
     };
 
     componentWillUnmount() {
-        clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -415,7 +414,10 @@ export default function initConstantStakingNewDai({
         .claim(0, _amountOutMin, deadline)
         .then(() => {
           this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            claimLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
@@ -510,7 +512,6 @@ export default function initConstantStakingNewDai({
         let _tvlConstantDAI = reward_token_daieth.balanceOf(
           staking._address
         ); /* TVL of DAI on Staking */
- 
 
         //Take DYPS Balance
         let _tvlDYPS = token_dyps.balanceOf(staking._address); /* TVL of DYPS */
@@ -683,7 +684,10 @@ export default function initConstantStakingNewDai({
         .reInvest(0, _amountOutMin, deadline)
         .then(() => {
           this.setState({ reInvestStatus: "success" });
-          this.setState({ reInvestLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            reInvestLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
@@ -705,13 +709,14 @@ export default function initConstantStakingNewDai({
     };
 
     handleEthPool = async () => {
-      await handleSwitchNetworkhook("0x1").then(()=>{
-        this.props.handleSwitchNetwork('1')
-      }).catch((e)=>{
-        console.log(e)
-      })
+      await handleSwitchNetworkhook("0x1")
+        .then(() => {
+          this.props.handleSwitchNetwork("1");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     };
-
 
     render() {
       let {
@@ -728,7 +733,7 @@ export default function initConstantStakingNewDai({
         tvl,
       } = this.state;
       token_balance = new BigNumber(token_balance).div(1e18).toString(10);
-      token_balance = getFormattedNumber(token_balance, 6); 
+      token_balance = getFormattedNumber(token_balance, 6);
 
       let { the_graph_result } = this.props;
 
@@ -870,8 +875,7 @@ export default function initConstantStakingNewDai({
                       src={ellipse}
                       alt=""
                       className="position-relative"
-                      style={{ top: '-1px' }}
-
+                      style={{ top: "-1px" }}
                     />
                     Expired
                   </h6>
@@ -915,7 +919,7 @@ export default function initConstantStakingNewDai({
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <h6 className="earnrewards-text">APR:</h6>
                         <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {finalApr}%
+                          {finalApr}%
                           <ClickAwayListener onClickAway={aprClose}>
                             <Tooltip
                               open={this.state.aprTooltip}
@@ -1012,7 +1016,9 @@ export default function initConstantStakingNewDai({
                       ? "Connect wallet to view and interact with deposits and withdraws"
                       : "Interact with deposits and withdraws"}
                   </h6> */}
-                    {this.props.coinbase === null ? (
+                    {this.props.coinbase === null ||
+                    this.props.coinbase === undefined ||
+                    this.props.isConnected === false ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1040,7 +1046,13 @@ export default function initConstantStakingNewDai({
               TBD Claim reward 0.01 ETH
             </button>
           </div> */}
-                 <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '1' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4  ${
+                    chainId !== "1" || this.props.expired === true
+                      ? "blurrypool"
+                      : ""
+                  }`}
+                >
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1060,8 +1072,7 @@ export default function initConstantStakingNewDai({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {token_balance}{" "}
-                          {token_symbol}
+                          {token_balance} {token_symbol}
                         </b>
                       </h6>
                     </div>
@@ -1199,7 +1210,11 @@ export default function initConstantStakingNewDai({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '1' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6
@@ -1273,13 +1288,15 @@ export default function initConstantStakingNewDai({
                         <button
                           disabled={
                             this.state.claimStatus === "claimed" ||
-                            this.state.claimStatus === "success" || pendingDivs <=0
+                            this.state.claimStatus === "success" ||
+                            pendingDivs <= 0
                               ? true
                               : false
                           }
                           className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed" &&
-                            this.state.claimStatus === "initial" || pendingDivs <=0
+                            (this.state.claimStatus === "claimed" &&
+                              this.state.claimStatus === "initial") ||
+                            pendingDivs <= 0
                               ? "disabled-btn"
                               : this.state.claimStatus === "failed"
                               ? "fail-button"
@@ -1308,42 +1325,41 @@ export default function initConstantStakingNewDai({
                             <>Claim</>
                           )}
                         </button>
-                        {this.props.expired === false &&
-                        <button
-                        disabled={
-                          pendingDivs > 0 ? false : true
-                        }
-                          className={`btn outline-btn ${
-                            this.state.reInvestStatus === "invest"|| pendingDivs <=0
-                              ? "disabled-btn"
-                              : this.state.reInvestStatus === "failed"
-                              ? "fail-button"
-                              : this.state.reInvestStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content" }}
-                          onClick={this.handleReinvest}
-                        >
-                          {this.state.reInvestLoading ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.reInvestStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.reInvestStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Reinvest</>
-                          )}
-                        </button>
-    }
+                        {this.props.expired === false && (
+                          <button
+                            disabled={pendingDivs > 0 ? false : true}
+                            className={`btn outline-btn ${
+                              this.state.reInvestStatus === "invest" ||
+                              pendingDivs <= 0
+                                ? "disabled-btn"
+                                : this.state.reInvestStatus === "failed"
+                                ? "fail-button"
+                                : this.state.reInvestStatus === "success"
+                                ? "success-button"
+                                : null
+                            } d-flex justify-content-center align-items-center gap-2`}
+                            style={{ height: "fit-content" }}
+                            onClick={this.handleReinvest}
+                          >
+                            {this.state.reInvestLoading ? (
+                              <div
+                                class="spinner-border spinner-border-sm text-light"
+                                role="status"
+                              >
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            ) : this.state.reInvestStatus === "failed" ? (
+                              <>
+                                <img src={failMark} alt="" />
+                                Failed
+                              </>
+                            ) : this.state.reInvestStatus === "success" ? (
+                              <>Success</>
+                            ) : (
+                              <>Reinvest</>
+                            )}
+                          </button>
+                        )}
                       </div>
                     </div>
                     {this.state.errorMsg2 && (
@@ -1352,7 +1368,11 @@ export default function initConstantStakingNewDai({
                   </div>
                 </div>
 
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '1' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
@@ -1696,8 +1716,7 @@ export default function initConstantStakingNewDai({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                          {depositedTokens} {" "}
-                            {token_symbol}
+                            {depositedTokens} {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1731,7 +1750,8 @@ export default function initConstantStakingNewDai({
                           disabled={
                             this.state.withdrawStatus === "failed" ||
                             this.state.withdrawStatus === "success" ||
-                            this.state.withdrawAmount === "" || canWithdraw === false
+                            this.state.withdrawAmount === "" ||
+                            canWithdraw === false
                               ? true
                               : false
                           }
@@ -1740,8 +1760,9 @@ export default function initConstantStakingNewDai({
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
                               ? "success-button"
-                              : this.state.withdrawAmount === "" &&
-                                this.state.withdrawStatus === "initial" || canWithdraw === false
+                              : (this.state.withdrawAmount === "" &&
+                                  this.state.withdrawStatus === "initial") ||
+                                canWithdraw === false
                               ? "disabled-btn"
                               : null
                           } d-flex justify-content-center align-items-center`}
@@ -1842,7 +1863,7 @@ export default function initConstantStakingNewDai({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal()}
               handleConnection={this.props.handleConnection}
             />
           )}
@@ -1933,11 +1954,9 @@ export default function initConstantStakingNewDai({
                   </div>
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
-                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>USD ${" "}
-                    {getFormattedNumber(
-                      this.getApproxReturn(),
-                      6
-                    )}{" "}</h3>
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                    USD $ {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                  </h3>
                   <h6
                     style={{
                       fontWeight: "300",
@@ -1945,7 +1964,11 @@ export default function initConstantStakingNewDai({
                       color: "#f7f7fc",
                     }}
                   >
-                    Approx {getFormattedNumber(this.getApproxReturn() / this.getUsdPerETH(), 6)}
+                    Approx{" "}
+                    {getFormattedNumber(
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )}
                     DYP
                   </h6>
                 </div>

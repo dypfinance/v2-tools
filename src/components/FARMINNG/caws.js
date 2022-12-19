@@ -21,8 +21,15 @@ import NftStakeCheckListModal from "../caws/NftMinting/components/NftMinting/Nft
 import { handleSwitchNetworkhook } from "../../functions/hooks";
 import useWindowSize from "../../functions/useWindowSize";
 
- 
-  const CawsDetails = ({ coinbase, isConnected, listType, handleSwitchNetwork, chainId, handleConnection, renderedPage }) => {
+const CawsDetails = ({
+  coinbase,
+  isConnected,
+  listType,
+  handleSwitchNetwork,
+  chainId,
+  handleConnection,
+  renderedPage,
+}) => {
   const [myNFTs, setMyNFTs] = useState([]);
   const [amountToStake, setamountToStake] = useState("");
   const [mystakes, setMystakes] = useState([]);
@@ -40,8 +47,8 @@ import useWindowSize from "../../functions/useWindowSize";
   const [countDownLeft, setCountDownLeft] = useState(59000);
   const [totalStakes, settotalStakes] = useState(0);
 
-  const [hide, setHide] = useState('');
-  const windowSize = useWindowSize()
+  const [hide, setHide] = useState("");
+  const windowSize = useWindowSize();
 
   const checkApproval = async () => {
     const address = coinbase;
@@ -210,15 +217,15 @@ import useWindowSize from "../../functions/useWindowSize";
       });
   };
 
-
   const handleEthPool = async () => {
-    await handleSwitchNetworkhook("0x1").then(()=>{
-      handleSwitchNetwork('1')
-    }).catch((e)=>{
-      console.log(e)
-    })
+    await handleSwitchNetworkhook("0x1")
+      .then(() => {
+        handleSwitchNetwork("1");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
-
 
   const totalStakedNft = async () => {
     let staking_contract = await new window.infuraWeb3.eth.Contract(
@@ -239,11 +246,6 @@ import useWindowSize from "../../functions/useWindowSize";
     totalStakedNft().then();
   }, []);
 
-
-
-
-
-
   useEffect(() => {
     if (isConnected) {
       myNft().then();
@@ -254,7 +256,6 @@ import useWindowSize from "../../functions/useWindowSize";
       calculateCountdown().then();
     }
   }, [isConnected, mystakes]);
-  
 
   return (
     <div className="container-lg p-0">
@@ -273,8 +274,7 @@ import useWindowSize from "../../functions/useWindowSize";
                   src={ellipse}
                   alt=""
                   className="position-relative"
-                  style={{ top: '-1px' }}
-
+                  style={{ top: "-1px" }}
                 />
                 Active Pool
               </h6>
@@ -329,7 +329,10 @@ import useWindowSize from "../../functions/useWindowSize";
               </div>
             </div>
             <div className="d-flex align-items-center justify-content-between gap-3">
-              <a href='https://opensea.io/collection/catsandwatchessocietycaws' target='_blank' rel="noreferrer"
+              <a
+                href="https://opensea.io/collection/catsandwatchessocietycaws"
+                target="_blank"
+                rel="noreferrer"
               >
                 <h6 className="bottomitems">
                   <img src={arrowup} alt="" />
@@ -348,28 +351,38 @@ import useWindowSize from "../../functions/useWindowSize";
               >
                 <h6 className="start-title">Start Staking</h6>
 
-                { coinbase === null ? (
-                      <button
-                        className="connectbtn btn"
-                        onClick={()=>{setShowModal(true)}}
-                      >
-                        <img src={wallet} alt="" /> Connect wallet
-                      </button>
-                    ) : chainId === '1' ? (
-                      <div className="addressbtn btn">
-                        <Address a={coinbase} chainId={1} />
-                      </div>
-                    ) : (
-                      <button
-                        className="connectbtn btn"
-                        onClick={()=>{handleEthPool()}}
-                      >
-                       Change Network
-                      </button>
-                    )}
+                {coinbase === null ||
+                coinbase === undefined ||
+                isConnected === false ? (
+                  <button
+                    className="connectbtn btn"
+                    onClick={() => {
+                      setShowModal(true);
+                    }}
+                  >
+                    <img src={wallet} alt="" /> Connect wallet
+                  </button>
+                ) : chainId === "1" ? (
+                  <div className="addressbtn btn">
+                    <Address a={coinbase} chainId={1} />
+                  </div>
+                ) : (
+                  <button
+                    className="connectbtn btn"
+                    onClick={() => {
+                      handleEthPool();
+                    }}
+                  >
+                    Change Network
+                  </button>
+                )}
               </div>
             </div>
-            <div className={`otherside-border col-12 col-md-6 ${renderedPage === "dashboard" ? 'col-lg-3' : 'col-lg-4'} ${chainId !== '1' && "blurrypool"}`}>
+            <div
+              className={`otherside-border col-12 col-md-6 ${
+                renderedPage === "dashboard" ? "col-lg-3" : "col-lg-4"
+              } ${chainId !== "1" && "blurrypool"}`}
+            >
               <div className="d-flex justify-content-between align-items-center gap-2">
                 <div className="d-flex align-items-center gap-3">
                   <h6 className="deposit-txt">Stake</h6>
@@ -409,7 +422,7 @@ import useWindowSize from "../../functions/useWindowSize";
                         setamountToStake(e.target.value);
                         setshowChecklistModal(true);
                         setOpenStakeChecklist(true);
-                        setHide('staked')
+                        setHide("staked");
                       }}
                     />
                   </div>
@@ -433,11 +446,18 @@ import useWindowSize from "../../functions/useWindowSize";
                 )} */}
               </div>
             </div>
-            <div className={`otherside-border col-12 col-md-6 ${renderedPage === "dashboard" ? 'col-lg-5' : 'col-lg-4'}  ${chainId !== '1' && "blurrypool"}`}>
+            <div
+              className={`otherside-border col-12 col-md-6 ${
+                renderedPage === "dashboard" ? "col-lg-5" : "col-lg-4"
+              }  ${chainId !== "1" && "blurrypool"}`}
+            >
               <div className="d-flex justify-content-between gap-2 flex-column flex-lg-row">
                 <h6 className="withdraw-txt d-flex gap-2 align-items-center">
                   REWARDS
-                  <h6 className="mybalance-text" style={{textTransform: 'capitalize'}}>
+                  <h6
+                    className="mybalance-text"
+                    style={{ textTransform: "capitalize" }}
+                  >
                     NFTs Staked:{""}
                     <b>{isConnected === false ? 0 : mystakes.length} CAWS</b>
                   </h6>
@@ -466,14 +486,15 @@ import useWindowSize from "../../functions/useWindowSize";
                     {getFormattedNumber(ethToUSD, 8)})
                   </h6>
                   <button
-                    className={`btn ${EthRewards === 0? 'disabled-btn' : 'filledbtn'} d-flex justify-content-center align-items-center`}
+                    className={`btn ${
+                      EthRewards === 0 ? "disabled-btn" : "filledbtn"
+                    } d-flex justify-content-center align-items-center`}
                     style={{ height: "fit-content" }}
                     onClick={() => {
                       claimRewards();
-                      setHide('tostake')
-
+                      setHide("tostake");
                     }}
-                    disabled={EthRewards === 0? true : false}
+                    disabled={EthRewards === 0 ? true : false}
                   >
                     <>Claim</>
                   </button>
@@ -481,7 +502,11 @@ import useWindowSize from "../../functions/useWindowSize";
               </div>
             </div>
 
-            <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '1' && "blurrypool"}`}>
+            <div
+              className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                chainId !== "1" && "blurrypool"
+              }`}
+            >
               <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                 Unstake
                 <Tooltip
@@ -503,8 +528,7 @@ import useWindowSize from "../../functions/useWindowSize";
                 onClick={() => {
                   setshowChecklistModal(true);
                   setOpenStakeChecklist(true);
-                  setHide('')
-
+                  setHide("");
                 }}
               >
                 Withdraw
@@ -520,8 +544,7 @@ import useWindowSize from "../../functions/useWindowSize";
             setamountToStake("");
           }}
           // nftItem={showStaked ? mystakes : showToStake ? myNFTs : showStaked}
-          nftItem={hide === '' || hide === 'tostake' ? mystakes : myNFTs}
-
+          nftItem={hide === "" || hide === "tostake" ? mystakes : myNFTs}
           onshowStaked={() => {
             setshowStaked(true);
             setshowToStake(false);
@@ -543,13 +566,15 @@ import useWindowSize from "../../functions/useWindowSize";
         />
       )}
 
-{showModal === true && (
-            <WalletModal
-              show={showModal}
-              handleClose={()=>{showModal()}}
-              handleConnection={handleConnection}
-            />
-          )}
+      {showModal === true && (
+        <WalletModal
+          show={showModal}
+          handleClose={() => {
+            setShowModal(false);
+          }}
+          handleConnection={handleConnection}
+        />
+      )}
     </div>
   );
 };
