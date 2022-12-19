@@ -367,95 +367,95 @@ export default function initbscConstantStakingDai({
 
     handleClaimDivs = async (e) => {
       //   e.preventDefault();
-      this.setState({ claimLoading: true });
+      // this.setState({ claimLoading: true });
 
-      if (
-        this.state.stakingTime != 0 &&
-        Date.now() - this.state.stakingTime >= this.state.cliffTime
-      ) {
+      // if (
+      //   this.state.stakingTime != 0 &&
+      //   Date.now() - this.state.stakingTime >= this.state.cliffTime
+      // ) {
         window.$.alert(
           "Contract Expired! Your lock time ended so please withdraw your funds and move to a new pool."
-        );
-        this.setState({ claimLoading: false });
+         );
+        // this.setState({ claimLoading: false });
 
-        return;
-      }
+      //   return;
+      // }
 
-      let address = this.state.coinbase;
-      let amount = await staking.getTotalPendingDivs(address);
+    //   let address = this.state.coinbase;
+    //   let amount = await staking.getTotalPendingDivs(address);
 
-      let router = await window.getPancakeswapRouterContract();
-      let WETH = await router.methods.WETH().call();
-      // let platformTokenAddress = window.config.reward_token_address
-      let rewardTokenAddress = window.config.reward_token_daibsc_address;
-      let path = [
-        ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
-      ];
-      let _amountOutMin = await router.methods
-        .getAmountsOut(amount, path)
-        .call()
-        .catch((e) => {
-          this.setState({ claimStatus: "failed" });
-          this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e?.message });
-          setTimeout(() => {
-            this.setState({
-              claimStatus: "initial",
-              selectedPool: "",
-              errorMsg2: "",
-            });
-          }, 10000);
-        });
-      _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
-      _amountOutMin = new BigNumber(_amountOutMin)
-        .times(100 - window.config.slippage_tolerance_percent)
-        .div(100)
-        .toFixed(0);
+    //   let router = await window.getPancakeswapRouterContract();
+    //   let WETH = await router.methods.WETH().call();
+    //   // let platformTokenAddress = window.config.reward_token_address
+    //   let rewardTokenAddress = window.config.reward_token_daibsc_address;
+    //   let path = [
+    //     ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
+    //   ];
+    //   let _amountOutMin = await router.methods
+    //     .getAmountsOut(amount, path)
+    //     .call()
+    //     .catch((e) => {
+    //       this.setState({ claimStatus: "failed" });
+    //       this.setState({ claimLoading: false });
+    //       this.setState({ errorMsg2: e?.message });
+    //       setTimeout(() => {
+    //         this.setState({
+    //           claimStatus: "initial",
+    //           selectedPool: "",
+    //           errorMsg2: "",
+    //         });
+    //       }, 10000);
+    //     });
+    //   _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
+    //   _amountOutMin = new BigNumber(_amountOutMin)
+    //     .times(100 - window.config.slippage_tolerance_percent)
+    //     .div(100)
+    //     .toFixed(0);
 
-      let deadline = Math.floor(
-        Date.now() / 1e3 + window.config.tx_max_wait_seconds
-      );
+    //   let deadline = Math.floor(
+    //     Date.now() / 1e3 + window.config.tx_max_wait_seconds
+    //   );
 
-      console.log({ amount, _amountOutMin, deadline });
+    //   console.log({ amount, _amountOutMin, deadline });
 
-      staking
-        .claim(0, _amountOutMin, deadline)
-        .then(() => {
-          this.setState({ claimStatus: "success" });
-          this.setState({
-            claimLoading: false,
-            pendingDivs: getFormattedNumber(0, 6),
-          });
-        })
-        .catch((e) => {
-          this.setState({ claimStatus: "failed" });
-          this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e?.message });
-          setTimeout(() => {
-            this.setState({
-              claimStatus: "initial",
-              selectedPool: "",
-              errorMsg2: "",
-            });
-          }, 10000);
-        });
-    };
+    //   staking
+    //     .claim(0, _amountOutMin, deadline)
+    //     .then(() => {
+    //       this.setState({ claimStatus: "success" });
+    //       this.setState({
+    //         claimLoading: false,
+    //         pendingDivs: getFormattedNumber(0, 6),
+    //       });
+    //     })
+    //     .catch((e) => {
+    //       this.setState({ claimStatus: "failed" });
+    //       this.setState({ claimLoading: false });
+    //       this.setState({ errorMsg2: e?.message });
+    //       setTimeout(() => {
+    //         this.setState({
+    //           claimStatus: "initial",
+    //           selectedPool: "",
+    //           errorMsg2: "",
+    //         });
+    //       }, 10000);
+    //     });
+    // };
 
-    handleSetMaxDeposit = (e) => {
-      e.preventDefault();
-      this.setState({
-        depositAmount: new BigNumber(this.state.token_balance)
-          .div(1e18)
-          .toFixed(18),
-      });
-    };
-    handleSetMaxWithdraw = (e) => {
-      e.preventDefault();
-      this.setState({
-        withdrawAmount: new BigNumber(this.state.depositedTokens)
-          .div(1e18)
-          .toFixed(18),
-      });
+    // handleSetMaxDeposit = (e) => {
+    //   e.preventDefault();
+    //   this.setState({
+    //     depositAmount: new BigNumber(this.state.token_balance)
+    //       .div(1e18)
+    //       .toFixed(18),
+    //   });
+    // };
+    // handleSetMaxWithdraw = (e) => {
+    //   e.preventDefault();
+    //   this.setState({
+    //     withdrawAmount: new BigNumber(this.state.depositedTokens)
+    //       .div(1e18)
+    //       .toFixed(18),
+    //   });
     };
 
     getAPY = () => {
@@ -1299,24 +1299,8 @@ export default function initbscConstantStakingDai({
                       </div>
                       <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                         <button
-                          disabled={
-                            this.state.claimStatus === "claimed" ||
-                            this.state.claimStatus === "success" ||
-                            pendingDivs <= 0
-                              ? true
-                              : false
-                          }
-                          className={`btn filledbtn ${
-                            (this.state.claimStatus === "claimed" &&
-                              this.state.claimStatus === "initial") ||
-                            pendingDivs <= 0
-                              ? "disabled-btn"
-                              : this.state.claimStatus === "failed"
-                              ? "fail-button"
-                              : this.state.claimStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
+                          disabled={ false }
+                          className={`btn disabled-btn`}
                           style={{ height: "fit-content" }}
                           onClick={this.handleClaimDivs}
                         >

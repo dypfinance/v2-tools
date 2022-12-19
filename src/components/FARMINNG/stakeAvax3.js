@@ -372,70 +372,62 @@ export default function stakeAva3({
     };
 
     handleClaimDivs = async (e) => {
-      //   e.preventDefault();
-      this.setState({ claimLoading: true });
-      // this.setState({ claimStatus: "claim" });
 
-      if (
-        this.state.stakingTime != 0 &&
-        Date.now() - this.state.stakingTime >= this.state.cliffTime
-      ) {
         window.$.alert(
           "Contract Expired! Your lock time ended so please withdraw your funds and move to a " +
           "new pool. Any unclaimed rewards will be automatically distributed to your wallet within 24 hours!"
         );
-        return;
-      }
+        // return;
+      
+      // let address = this.state.coinbase;
+      // let amount = await staking.getTotalPendingDivs(address);
 
-      let address = this.state.coinbase;
-      let amount = await staking.getTotalPendingDivs(address);
+      // let router = await window.getPangolinRouterContract();
+      // let WETH = await router.methods.WAVAX().call();
+      // // let platformTokenAddress = window.config.reward_token_address
+      // let rewardTokenAddress = window.config.reward_token_dai_address;
+      // let path = [
+      //   ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
+      // ];
+      // let _amountOutMin = await router.methods
+      //   .getAmountsOut(amount, path)
+      //   .call()
+      //   .catch((e) => {
+      //     this.setState({ claimStatus: "failed" });
+      //     this.setState({ claimLoading: false });
+      //     this.setState({ errorMsg2: e?.message });
+      //     setTimeout(() => {
+      //       this.setState({ claimStatus: "initial", errorMsg2: '' });
 
-      let router = await window.getPangolinRouterContract();
-      let WETH = await router.methods.WAVAX().call();
-      // let platformTokenAddress = window.config.reward_token_address
-      let rewardTokenAddress = window.config.reward_token_dai_address;
-      let path = [
-        ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
-      ];
-      let _amountOutMin = await router.methods
-        .getAmountsOut(amount, path)
-        .call()
-        .catch((e) => {
-          this.setState({ claimStatus: "failed" });
-          this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e?.message });
-          setTimeout(() => {
-            this.setState({ claimStatus: "initial", errorMsg2: '' });
+      //     }, 10000);
+      //   });
+      // _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
+      // _amountOutMin = new BigNumber(_amountOutMin)
+      //   .times(100 - window.config.slippage_tolerance_percent)
+      //   .div(100)
+      //   .toFixed(0);
 
-          }, 10000);
-        });
-      _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
-      _amountOutMin = new BigNumber(_amountOutMin)
-        .times(100 - window.config.slippage_tolerance_percent)
-        .div(100)
-        .toFixed(0);
+      // let deadline = Math.floor(
+      //   Date.now() / 1e3 + window.config.tx_max_wait_seconds
+      // );
 
-      let deadline = Math.floor(
-        Date.now() / 1e3 + window.config.tx_max_wait_seconds
-      );
+      // console.log({ _amountOutMin, deadline });
 
-      console.log({ _amountOutMin, deadline });
+      // staking
+      //   .claim(0, _amountOutMin, deadline)
+      //   .then(() => {
+      //     this.setState({ claimStatus: "success" });
+      //     this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0, 6) });
+      //   })
+      //   .catch((e) => {
+      //     this.setState({ claimStatus: "failed" });
+      //     this.setState({ claimLoading: false });
+      //     this.setState({ errorMsg2: e?.message });
+      //     setTimeout(() => {
+      //       this.setState({ claimStatus: "initial", errorMsg2: '' });
 
-      staking
-        .claim(0, _amountOutMin, deadline)
-        .then(() => {
-          this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0, 6) });
-        })
-        .catch((e) => {
-          this.setState({ claimStatus: "failed" });
-          this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e?.message });
-          setTimeout(() => {
-            this.setState({ claimStatus: "initial", errorMsg2: '' });
-
-          }, 10000);
-        });
+      //     }, 10000);
+      //   });
     };
 
     handleSetMaxDeposit = (e) => {
@@ -1273,20 +1265,9 @@ export default function stakeAva3({
                       <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                         <button
                           disabled={
-                            this.state.claimStatus === "claimed" ||
-                              this.state.claimStatus === "success" || pendingDivs <= 0
-                              ? true
-                              : false
+                            false
                           }
-                          className={`btn filledbtn ${this.state.claimStatus === "claimed" &&
-                              this.state.claimStatus === "initial" || pendingDivs <= 0
-                              ? "disabled-btn"
-                              : this.state.claimStatus === "failed"
-                                ? "fail-button"
-                                : this.state.claimStatus === "success"
-                                  ? "success-button"
-                                  : null
-                            } d-flex justify-content-center align-items-center gap-2`}
+                          className={`btn disabled-btn `}
                           style={{ height: "fit-content" }}
                           onClick={this.handleClaimDivs}
                         >
