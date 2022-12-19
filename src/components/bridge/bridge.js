@@ -486,8 +486,18 @@ export default function initBridge({
                                   Balance:
                                   <b>
                                     {" "}
-                                    {getFormattedNumber(
-                                      this.state.token_balance / 1e18,
+                                    { this.props.sourceChain === 'eth' ?
+                                    
+                                    
+                                    getFormattedNumber(
+                                      this.props.ethBalance  / 1e18,
+                                      6
+                                    )
+                                    : this.props.sourceChain === 'avax' ? getFormattedNumber(
+                                      this.props.avaxBalance  / 1e18,
+                                      6
+                                    ) :  getFormattedNumber(
+                                      this.props.bnbBalance  / 1e18,
                                       6
                                     )}
                                   </b>
@@ -506,12 +516,12 @@ export default function initBridge({
                                     : "Avalanche"}{" "}
                                   Pool:{" "}
                                   <b>
-                                    {this.state.chainText === "ETH"
+                                    {this.state.sourceChain === "eth"
                                       ? getFormattedNumber(
                                           this.state.ethPool,
                                           2
                                         )
-                                      : this.state.chainText === "AVAX"
+                                      : this.state.sourceChain === "avax"
                                       ? getFormattedNumber(
                                           this.state.avaxPool,
                                           2
@@ -775,14 +785,12 @@ export default function initBridge({
                                     : "Ethereum"}{" "}
                                   Pool:{" "}
                                   <b>
-                                    {this.state.chainText === "ETH" &&
-                                    this.props.destinationChain === "avax"
+                                    { this.props.destinationChain === "avax"
                                       ? getFormattedNumber(
                                           this.state.avaxPool,
                                           2
                                         )
-                                      : this.state.chainText === "ETH" &&
-                                        this.props.destinationChain === "bnb"
+                                      :  this.props.destinationChain === "bnb"
                                       ? getFormattedNumber(
                                           this.state.bnbPool,
                                           2
