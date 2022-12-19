@@ -492,7 +492,6 @@ const CawsDetails = ({
                     style={{ height: "fit-content" }}
                     onClick={() => {
                       claimRewards();
-                      setHide("tostake");
                     }}
                     disabled={EthRewards === 0 ? true : false}
                   >
@@ -544,14 +543,17 @@ const CawsDetails = ({
             setamountToStake("");
           }}
           // nftItem={showStaked ? mystakes : showToStake ? myNFTs : showStaked}
-          nftItem={hide === "" || hide === "tostake" ? mystakes : myNFTs}
+          nftItem={(hide === "" || hide === "tostake" || hide === "mystakes2") ? mystakes : myNFTs}
           onshowStaked={() => {
             setshowStaked(true);
             setshowToStake(false);
+            setHide('mystakes2')
           }}
           onshowToStake={() => {
             setshowStaked(false);
             setshowToStake(true);
+            setHide('tostake2')
+
           }}
           onClaimAll={() => {
             claimRewards();
