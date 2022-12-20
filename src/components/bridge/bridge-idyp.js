@@ -237,16 +237,16 @@ export default function initBridgeidyp({
         let url =
           signature +
           `/api/withdraw-args?depositNetwork=${
-            this.state.network === "ETH"
-              ? "ETH"
-              : this.state.network === "AVAX"
-              ? "AVAX"
-              : "BSC"
+            this.props.sourceChain === "eth"
+            ? "ETH"
+            : this.props.sourceChain === "avax"
+            ? "AVAX"
+            : "BSC"
           }&txHash=${this.state.txHash}`;
         console.log({ url });
         let args = await window.jQuery.get(url);
         console.log({ args });
-        (this.state.network === "ETH" ? bridgeBSC : bridgeETH)
+        (this.props.sourceChain == "eth" ? bridgeBSC : bridgeETH)
           .withdraw(args)
           .then(() => {
             this.setState({
@@ -310,9 +310,9 @@ export default function initBridgeidyp({
               let url =
                 signature +
                 `/api/withdraw-args?depositNetwork=${
-                  this.state.network == "ETH"
+                  this.props.sourceChain === "eth"
                     ? "ETH"
-                    : this.state.network === "AVAX"
+                    : this.props.sourceChain === "avax"
                     ? "AVAX"
                     : "BSC"
                 }&txHash=${
