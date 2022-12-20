@@ -12,7 +12,6 @@
     "@mui/lab": "^5.0.0-alpha.109",
     "@mui/material": "^5.10.14",
     "@mui/styled-engine-sc": "^5.10.14",
-    "@nitucr/1inch-widget": "1.1.5",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.1",
@@ -41,7 +40,7 @@
     "pg": "^8.5.1",
     "pg-hstore": "^2.3.3",
     "rc-slider": "^10.0.1",
-    "react": "^18.2.0",
+    "react": "~18.0.0",
     "react-bootstrap": "^1.5.2",
     "react-circular-progressbar": "^2.1.0",
     "react-clipboard.js": "^2.0.16",
@@ -81,11 +80,18 @@
       "react-app/jest"
     ]
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "nodemonConfig": {
     "watch": [
       "./app.js",
