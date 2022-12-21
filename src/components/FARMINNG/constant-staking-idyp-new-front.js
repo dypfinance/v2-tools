@@ -1671,7 +1671,7 @@ export default function initConstantStakingiDYP({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.hideModal()}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}

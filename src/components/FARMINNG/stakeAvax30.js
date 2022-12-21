@@ -1942,7 +1942,7 @@ export default function stakeAvax30({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.hideModal()}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}

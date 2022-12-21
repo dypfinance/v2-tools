@@ -694,6 +694,7 @@ export default function stakeAvaxiDyp({
         this.setState({ withdrawTooltip: false });
       };
 
+      
       return (
         <div className="container-lg p-0">
           <div
@@ -1642,10 +1643,10 @@ export default function stakeAvaxiDyp({
             </Modal>
           )}
 
-          {this.state.show && (
+          {this.state.show === true && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.hideModal()}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}

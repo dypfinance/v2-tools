@@ -330,6 +330,7 @@ const EarnContent = ({
     }
   };
 
+  
   return (
     <>
       <div className="row justify-content-center w-100">
@@ -634,7 +635,7 @@ const EarnContent = ({
                       </div>
                     </div>
                   </>
-                ) : option === "Vault" && chainId != 1 ? (
+                ) : option === "Vault" && chainId !== "1" ? (
                   <h4 className="text-white">
                     Vault pools are available only on Ethereum Chain
                   </h4>
@@ -806,6 +807,18 @@ const EarnContent = ({
             alt=""
           />
           <h6 className="no-farms">There are no expired Vault pools</h6>
+          {/* <span className="farm-soon">New pools coming soon...</span> */}
+        </div>
+      ) : option === "Vault" && chainId !== "1"  && expiredPools === false ? (
+        <div className="row mx-0 w-100 align-items-center justify-content-center flex-column p-4 gap-4 purple-wrapper">
+          <img
+            src={
+              require("../../../assets/earnAssets/disabledVault.svg").default
+            }
+            style={{ width: "150px", height: "150px" }}
+            alt=""
+          />
+          <h6 className="no-farms">There are no Vault pools in this chain</h6>
           {/* <span className="farm-soon">New pools coming soon...</span> */}
         </div>
       ) : expiredPools === true ? (

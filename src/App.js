@@ -114,6 +114,12 @@ class App extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.state.networkId !== prevProps.networkId) {
+      this.checkNetworkId();
+    }
+  }
+
   handleSwitchNetwork = (chainId) => {
     this.setState({ networkId: chainId });
   };
