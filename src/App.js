@@ -96,7 +96,7 @@ class App extends React.Component {
     }
   };
 
-  checkNetworkId() {
+  checkNetworkId=() =>{
     if (window.ethereum) {
       window.ethereum
         .request({ method: "net_version" })
@@ -114,11 +114,6 @@ class App extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.state.networkId !== prevProps.networkId) {
-      this.checkNetworkId();
-    }
-  }
 
   handleSwitchNetwork = (chainId) => {
     this.setState({ networkId: chainId });
@@ -384,7 +379,7 @@ class App extends React.Component {
 
   render() {
     const { LP_IDs_V2 } = window;
-    
+    const {ethereum} = window;
 
     const LP_ID_Array = [
       LP_IDs_V2.weth[3],
@@ -393,7 +388,7 @@ class App extends React.Component {
       LP_IDs_V2.weth[1],
       LP_IDs_V2.weth[4],
     ];
-    
+    ethereum?.on('chainChanged', this.checkNetworkId)
     document.addEventListener("touchstart", { passive: true }); 
     return (
       <div
