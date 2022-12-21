@@ -1132,9 +1132,7 @@ export default function initbscConstantStaking({
                           DYP
                         </span>
                         <span>
-                          {Number(pendingDivs) > 0
-                            ? pendingDivs
-                            : getFormattedNumber(0, 6)}
+                          {pendingDivs}
                         </span>
                         {/* <input
                           disabled

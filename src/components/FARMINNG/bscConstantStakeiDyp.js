@@ -1085,9 +1085,7 @@ export default function initbscConstantStakingiDyp({
                       </span>
                       <span>
                         {" "}
-                        {Number(pendingDivs) > 0
-                          ? pendingDivs
-                          : getFormattedNumber(0, 6)}{" "}
+                        {pendingDivs}{" "}
                       </span>
                     </div>
                     <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">

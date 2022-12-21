@@ -1360,9 +1360,7 @@ export default function stakeAvax30({
                           DYP
                         </span>
                         <span>
-                          {pendingDivs > 0
-                            ? pendingDivs
-                            : getFormattedNumber(0, 6)}
+                        {pendingDivs}
                         </span>
                         {/* <input
                           disabled

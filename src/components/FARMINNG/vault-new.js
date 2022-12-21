@@ -1324,9 +1324,7 @@ export default function initVaultNew({
                     <div className="form-row d-flex flex-column flex-lg-row gap-2 align-items-start align-items-lg-center justify-content-between">
                       <div className="position-relative">
                         <span>
-                          {pendingDivsEth > 0
-                            ? pendingDivsEth
-                            : getFormattedNumber(0, 8)}{" "}
+                        {pendingDivsEth}{" "}
                           {token_symbol}
                         </span>
                       </div>
