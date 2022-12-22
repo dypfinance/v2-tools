@@ -72,6 +72,7 @@ const referrerOptions = {
 
 
   return (
+    <div className="container-lg d-flex justify-content-center" style={{minHeight: '100vh'}}>
     <SwapWidget
     width={400}
     referrerOptions={referrerOptions}
@@ -80,6 +81,7 @@ const referrerOptions = {
     jsonRpcEndpoint={defaultJsonRpcEndpoint}
     defaultOutputTokenAddress={defaultOutputTokenAddress}
     defaultTypedValue={defaultTypedValue}/>
+    </div>
   )
 }
 
