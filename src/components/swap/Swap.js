@@ -44,27 +44,27 @@ const defaultJsonRpcEndpoint = {
 }
 const referrerOptions = {
   [SupportedChainId.MAINNET]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+    referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
     fee: '0.05',
   },
   [SupportedChainId.FANTOM]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+    referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
     fee: '0.05',
   },
   [SupportedChainId.POLYGON]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+    referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
     fee: '0.05',
   },
   [SupportedChainId.BINANCE]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+    referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
     fee: '0.05',
   },
   [SupportedChainId.AVALANCHE]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+    referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
     fee: '0.05',
   },
   [SupportedChainId.ARBITRUM_ONE]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+    referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
     fee: '0.05',
   },
   
