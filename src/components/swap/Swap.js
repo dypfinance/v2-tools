@@ -72,14 +72,16 @@ const referrerOptions = {
 
 
   return (
-    <SwapWidget
-    width={400}
-    referrerOptions={referrerOptions}
-    theme={nereusTheme}
-    locale="en"
-    jsonRpcEndpoint={defaultJsonRpcEndpoint}
-    defaultOutputTokenAddress={defaultOutputTokenAddress}
-    defaultTypedValue={defaultTypedValue}/>
+      <div className="container-lg d-flex justify-content-center" style={{minHeight: '100vh'}}>
+        <SwapWidget
+        width={400}
+        referrerOptions={referrerOptions}
+        theme={nereusTheme}
+        locale="en"
+        jsonRpcEndpoint={defaultJsonRpcEndpoint}
+        defaultOutputTokenAddress={defaultOutputTokenAddress}
+        defaultTypedValue={defaultTypedValue}/>
+      </div>
   )
 }
 
