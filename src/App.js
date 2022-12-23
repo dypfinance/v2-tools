@@ -32,7 +32,7 @@ import NftMinting from "./components/caws/NftMinting/index";
 import Bridge from "./components/bridge/BridgeGeneral";
 import Footer from "./components/Footer/footer";
 import BuyDyp from "./components/buydyp/BuyDyp";
-import Swap from "./components/swap/Swap";
+// import Swap from "./components/swap/Swap";
 import MobileMenu from "./components/sidebar/MobileMenu";
 import Disclaimer from "./components/disclaimer/Disclaimer";
 import ScrollToTop from "./functions/ScrollToTop";
@@ -569,11 +569,11 @@ class App extends React.Component {
                     path="/disclaimer"
                     render={() => <Disclaimer />}
                   />
-                  <Route
+                  {/* <Route
                     exact
                     path="/swap"
                     component={Swap}
-                  />
+                  /> */}
 
                   {/* <Route
                     exact
