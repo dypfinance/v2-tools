@@ -61,8 +61,7 @@ export default function stakeAvax30({
   renderedPage,
   handleSwitchNetwork,
   expired,
-  finalApr
-
+  finalApr,
 }) {
   let { reward_token, BigNumber, alertify, reward_token_idyp, token_dypsavax } =
     window;
@@ -501,7 +500,10 @@ export default function stakeAvax30({
         .claim(0, _amountOutMin, deadline)
         .then(() => {
           this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            claimLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
@@ -768,7 +770,10 @@ export default function stakeAvax30({
         .reInvest(0, 0, deadline)
         .then(() => {
           this.setState({ reInvestStatus: "success" });
-          this.setState({ reInvestLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            reInvestLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
@@ -789,19 +794,15 @@ export default function stakeAvax30({
       return result;
     };
 
-
-
-
-    handleAvaxPool = async() => {
-      await handleSwitchNetworkhook("0xa86a").then(()=>{
-        this.props.handleSwitchNetwork('43114')
-  
-      }).catch((e)=>{
-        console.log(e)
-      })
-     
+    handleAvaxPool = async () => {
+      await handleSwitchNetworkhook("0xa86a")
+        .then(() => {
+          this.props.handleSwitchNetwork("43114");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     };
-
 
     render() {
       let {
@@ -967,8 +968,7 @@ export default function stakeAvax30({
                       src={ellipse}
                       alt=""
                       className="position-relative"
-                      style={{ top: '-1px' }}
-
+                      style={{ top: "-1px" }}
                     />
                     Active status
                   </h6>
@@ -1012,7 +1012,7 @@ export default function stakeAvax30({
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <h6 className="earnrewards-text">APR:</h6>
                         <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {finalApr}%
+                          {finalApr}%
                           <ClickAwayListener onClickAway={aprClose}>
                             <Tooltip
                               open={this.state.aprTooltip}
@@ -1109,7 +1109,9 @@ export default function stakeAvax30({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                        {this.props.coinbase === null ? (
+                    {this.props.coinbase === null ||
+                    this.props.coinbase === undefined ||
+                    this.props.isConnected === false ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1121,16 +1123,18 @@ export default function stakeAvax30({
                         {" "}
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : chainId === '43114' ? (
+                    ) : chainId === "43114" ? (
                       <div className="addressbtn btn">
                         <Address a={this.props.coinbase} chainId={43114} />
                       </div>
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{this.handleAvaxPool()}}
+                        onClick={() => {
+                          this.handleAvaxPool();
+                        }}
                       >
-                       Change Network
+                        Change Network
                       </button>
                     )}
                   </div>
@@ -1140,7 +1144,13 @@ export default function stakeAvax30({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "43114" || this.props.expired === true
+                      ? "blurrypool"
+                      : ""
+                  }`}
+                >
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1160,7 +1170,7 @@ export default function stakeAvax30({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                        {token_balance !== '...'
+                          {token_balance !== "..."
                             ? token_balance
                             : getFormattedNumber(0, 6)}{" "}
                           {token_symbol}
@@ -1168,45 +1178,47 @@ export default function stakeAvax30({
                       </h6>
                     </div>
                     <ClickAwayListener onClickAway={depositClose}>
-                        <Tooltip
-                          open={this.state.depositTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                            {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
+                      <Tooltip
+                        open={this.state.depositTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                            }
                           </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={depositOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={depositOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
-                     <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
-                     <div className="position-relative">
-                        <h6 className="amount-txt">Amount</h6>
-                        <input
-                          type={"number"}
-                          className="styledinput"
-                          placeholder="0.0"
-                          style={{ width: "100%" }}
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                      {/* <div
+                      <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
+                        <div className="position-relative">
+                          <h6 className="amount-txt">Amount</h6>
+                          <input
+                            type={"number"}
+                            className="styledinput"
+                            placeholder="0.0"
+                            style={{ width: "100%" }}
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                depositAmount: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        {/* <div
                         className="input-container px-0"
                         style={{ width: "32%" }}
                       >
@@ -1232,13 +1244,13 @@ export default function stakeAvax30({
                           DYP Amount
                         </label>
                       </div> */}
-                      <button
-                        className="btn maxbtn"
-                        onClick={this.handleSetMaxDeposit}
-                      >
-                        Max
-                      </button>
-                     </div>
+                        <button
+                          className="btn maxbtn"
+                          onClick={this.handleSetMaxDeposit}
+                        >
+                          Max
+                        </button>
+                      </div>
                       {/* <button
                       className="btn filledbtn"
                       onClick={this.handleApprove}
@@ -1299,7 +1311,11 @@ export default function stakeAvax30({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "43114" && "blurrypool"
+                  }`}
+                >
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6
@@ -1318,8 +1334,10 @@ export default function stakeAvax30({
                           placement="top"
                           title={
                             <div className="tooltip-text">
-                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
-                          </div>
+                              {
+                                "Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."
+                              }
+                            </div>
                           }
                         >
                           <img src={moreinfo} alt="" onClick={rewardsOpen} />
@@ -1342,9 +1360,7 @@ export default function stakeAvax30({
                           DYP
                         </span>
                         <span>
-                          {pendingDivs > 0
-                            ? pendingDivs
-                            : getFormattedNumber(0, 6)}
+                        {pendingDivs}
                         </span>
                         {/* <input
                           disabled
@@ -1371,13 +1387,15 @@ export default function stakeAvax30({
                         <button
                           disabled={
                             this.state.claimStatus === "claimed" ||
-                            this.state.claimStatus === "success" || pendingDivs <= 0
+                            this.state.claimStatus === "success" ||
+                            pendingDivs <= 0
                               ? true
                               : false
                           }
                           className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed" &&
-                            this.state.claimStatus === "initial" || pendingDivs <= 0
+                            (this.state.claimStatus === "claimed" &&
+                              this.state.claimStatus === "initial") ||
+                            pendingDivs <= 0
                               ? "disabled-btn"
                               : this.state.claimStatus === "failed"
                               ? "fail-button"
@@ -1407,43 +1425,41 @@ export default function stakeAvax30({
                           )}
                         </button>
 
-                        {this.props.expired === false &&
-
-                        <button
-                          disabled={
-                            pendingDivs > 0 ? false : true
-                          }
-                          className={`btn outline-btn ${
-                            this.state.reInvestStatus === "invest" || pendingDivs <= 0
-                              ? "disabled-btn"
-                              : this.state.reInvestStatus === "failed"
-                              ? "fail-button"
-                              : this.state.reInvestStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content" }}
-                          onClick={this.handleReinvest}
-                        >
-                          {this.state.reInvestLoading ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.reInvestStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.reInvestStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Reinvest</>
-                          )}
-                        </button>
-                        }
+                        {this.props.expired === false && (
+                          <button
+                            disabled={pendingDivs > 0 ? false : true}
+                            className={`btn outline-btn ${
+                              this.state.reInvestStatus === "invest" ||
+                              pendingDivs <= 0
+                                ? "disabled-btn"
+                                : this.state.reInvestStatus === "failed"
+                                ? "fail-button"
+                                : this.state.reInvestStatus === "success"
+                                ? "success-button"
+                                : null
+                            } d-flex justify-content-center align-items-center gap-2`}
+                            style={{ height: "fit-content" }}
+                            onClick={this.handleReinvest}
+                          >
+                            {this.state.reInvestLoading ? (
+                              <div
+                                class="spinner-border spinner-border-sm text-light"
+                                role="status"
+                              >
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            ) : this.state.reInvestStatus === "failed" ? (
+                              <>
+                                <img src={failMark} alt="" />
+                                Failed
+                              </>
+                            ) : this.state.reInvestStatus === "success" ? (
+                              <>Success</>
+                            ) : (
+                              <>Reinvest</>
+                            )}
+                          </button>
+                        )}
                       </div>
                     </div>
                     {this.state.errorMsg2 && (
@@ -1452,25 +1468,31 @@ export default function stakeAvax30({
                   </div>
                 </div>
 
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '43114' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                    chainId !== "43114" && "blurrypool"
+                  }`}
+                >
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
-                        <Tooltip
-                          open={this.state.withdrawTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                          {"Withdraw your deposited assets from the staking smart contract."}
-                        </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={withdrawOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                      <Tooltip
+                        open={this.state.withdrawTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Withdraw your deposited assets from the staking smart contract."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </h6>
 
                   <button
@@ -1588,7 +1610,7 @@ export default function stakeAvax30({
                           Contract Expiration
                         </span>
                         <h6 className="stats-card-content">
-                          {expiration_time} 
+                          {expiration_time}
                         </h6>
                       </div>
                     </div>
@@ -1771,7 +1793,7 @@ export default function stakeAvax30({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                          {depositedTokens} {" "} {token_symbol}
+                            {depositedTokens} {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1805,7 +1827,8 @@ export default function stakeAvax30({
                           disabled={
                             this.state.withdrawStatus === "failed" ||
                             this.state.withdrawStatus === "success" ||
-                            this.state.withdrawAmount === "" || canWithdraw === false
+                            this.state.withdrawAmount === "" ||
+                            canWithdraw === false
                               ? true
                               : false
                           }
@@ -1814,8 +1837,9 @@ export default function stakeAvax30({
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
                               ? "success-button"
-                              : this.state.withdrawAmount === "" &&
-                                this.state.withdrawStatus === "initial" || canWithdraw === false
+                              : (this.state.withdrawAmount === "" &&
+                                  this.state.withdrawStatus === "initial") ||
+                                canWithdraw === false
                               ? "disabled-btn"
                               : null
                           } d-flex justify-content-center align-items-center`}
@@ -1916,7 +1940,7 @@ export default function stakeAvax30({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}
@@ -2006,11 +2030,7 @@ export default function stakeAvax30({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                  USD ${" "}
-                    {getFormattedNumber(
-                      this.getApproxReturn(),
-                      6
-                    )}{" "}
+                    USD $ {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
                   </h3>
                   <h6
                     style={{
@@ -2019,7 +2039,11 @@ export default function stakeAvax30({
                       color: "#f7f7fc",
                     }}
                   >
-                    {getFormattedNumber(this.getApproxReturn()/this.getUsdPerETH(), 6)} DYP
+                    {getFormattedNumber(
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
+                    DYP
                   </h6>
                 </div>
                 <div className="mt-4">

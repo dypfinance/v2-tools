@@ -96,7 +96,7 @@ class App extends React.Component {
     }
   };
 
-  checkNetworkId() {
+  checkNetworkId=() =>{
     if (window.ethereum) {
       window.ethereum
         .request({ method: "net_version" })
@@ -113,6 +113,7 @@ class App extends React.Component {
       });
     }
   }
+
 
   handleSwitchNetwork = (chainId) => {
     this.setState({ networkId: chainId });
@@ -218,7 +219,11 @@ class App extends React.Component {
       return;
     }
 
-    this.setState({ isConnected, coinbase: await window.getCoinbase() });
+    this.setState({ isConnected });
+    let coinbase= await window.getCoinbase()
+    if(coinbase !=null || coinbase != undefined) {
+      this.setState({coinbase: coinbase})
+    }
     this.setState({ show: false });
     return isConnected;
   };
@@ -306,6 +311,7 @@ class App extends React.Component {
 
   checkConnection() {
     const logout = localStorage.getItem("logout");
+   
     if (logout !== "true") {
       window.ethereum
         ?.request({ method: "eth_accounts" })
@@ -328,6 +334,7 @@ class App extends React.Component {
 
   logout = () => {
     localStorage.setItem("logout", "true");
+    this.setState({isConnected: false})
     this.checkConnection();
   };
   componentWillUnmount() {
@@ -372,6 +379,7 @@ class App extends React.Component {
 
   render() {
     const { LP_IDs_V2 } = window;
+    const {ethereum} = window;
 
     const LP_ID_Array = [
       LP_IDs_V2.weth[3],
@@ -380,9 +388,8 @@ class App extends React.Component {
       LP_IDs_V2.weth[1],
       LP_IDs_V2.weth[4],
     ];
-
-    document.addEventListener("touchstart", { passive: true });
-
+    ethereum?.on('chainChanged', this.checkNetworkId)
+    document.addEventListener("touchstart", { passive: true }); 
     return (
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}

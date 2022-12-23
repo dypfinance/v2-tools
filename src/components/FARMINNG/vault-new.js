@@ -40,8 +40,7 @@ export default function initVaultNew({
   chainId,
   lockTime,
   listType,
-  handleSwitchNetwork
-
+  handleSwitchNetwork,
 }) {
   let { BigNumber, alertify, token_dyps } = window;
   let token_symbol = UNDERLYING_SYMBOL;
@@ -766,13 +765,14 @@ export default function initVaultNew({
     };
 
     handleEthPool = async () => {
-      await handleSwitchNetworkhook("0x1").then(()=>{
-        this.props.handleSwitchNetwork('1')
-      }).catch((e)=>{
-        console.log(e)
-      })
+      await handleSwitchNetworkhook("0x1")
+        .then(() => {
+          this.props.handleSwitchNetwork("1");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     };
-
 
     render() {
       let {
@@ -886,7 +886,6 @@ export default function initVaultNew({
 
       let id = Math.random().toString(36);
 
-
       const performanceOpen = () => {
         this.setState({ performanceTooltip: true });
       };
@@ -941,8 +940,7 @@ export default function initVaultNew({
                       src={ellipse}
                       alt=""
                       className="position-relative"
-                      style={{ top: '-1px' }}
-
+                      style={{ top: "-1px" }}
                     />
                     Active status
                   </h6>
@@ -953,87 +951,87 @@ export default function initVaultNew({
                     </h6>
                   </div> */}
                   <div className="d-flex flex-row-reverse flex-lg-row align-items-end justify-content-between earnrewards-container">
-                  <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <h6 className="earnrewards-text">Performance fee:</h6>
-                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        0.3%
-                        <ClickAwayListener onClickAway={performanceClose}>
-                        <Tooltip
-                          open={this.state.performanceTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "Performance fee is subtracted from the displayed APR."
+                    <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Performance fee:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          0.3%
+                          <ClickAwayListener onClickAway={performanceClose}>
+                            <Tooltip
+                              open={this.state.performanceTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "Performance fee is subtracted from the displayed APR."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img
-                            src={moreinfo}
-                            alt=""
-                            onClick={performanceOpen}
-                          />
-                        </Tooltip>
-                      </ClickAwayListener>
-                      </h6>
-                    </div>
+                            >
+                              <img
+                                src={moreinfo}
+                                alt=""
+                                onClick={performanceOpen}
+                              />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
 
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <h6 className="earnrewards-text">APR:</h6>
-                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {getFormattedNumber(APY_TOTAL, 2)}%
-                        <ClickAwayListener onClickAway={aprClose}>
-                        <Tooltip
-                          open={this.state.aprTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "APR reflects the interest rate of earnings on an account over the course of one year. "
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">APR:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {getFormattedNumber(APY_TOTAL, 2)}%
+                          <ClickAwayListener onClickAway={aprClose}>
+                            <Tooltip
+                              open={this.state.aprTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "APR reflects the interest rate of earnings on an account over the course of one year. "
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={aprOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                      </h6>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between gap-2">
-                      <h6 className="earnrewards-text">Lock time:</h6>
-                      <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {lockTime}
-                        <ClickAwayListener onClickAway={lockClose}>
-                        <Tooltip
-                          open={this.state.lockTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                              {
-                                "The amount of time your deposited assets will be locked."
+                            >
+                              <img src={moreinfo} alt="" onClick={aprOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Lock time:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {lockTime}
+                          <ClickAwayListener onClickAway={lockClose}>
+                            <Tooltip
+                              open={this.state.lockTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "The amount of time your deposited assets will be locked."
+                                  }
+                                </div>
                               }
-                            </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={lockOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
-                      </h6>
+                            >
+                              <img src={moreinfo} alt="" onClick={lockOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
                     </div>
-                  </div>
-                  <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
-                  {/* <a
+                    <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                      {/* <a
                     href={
                       chainId === 1
                         ? "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
@@ -1047,28 +1045,26 @@ export default function initVaultNew({
                       Get DYP
                     </h6>
                   </a> */}
-                  <h6
-                    className="bottomitems"
-                    onClick={() => this.setState({ showCalculator: true })}
-                  >
-                    <img src={poolsCalculatorIcon} alt="" />
-                    Calculator
-                  </h6>
-                  <div
-                    onClick={() => {
-                      this.showPopup();
-                    }}
-                  >
-                    <h6 className="bottomitems">
-                      <img src={purplestats} alt="" />
-                      Stats
-                    </h6>
+                      <h6
+                        className="bottomitems"
+                        onClick={() => this.setState({ showCalculator: true })}
+                      >
+                        <img src={poolsCalculatorIcon} alt="" />
+                        Calculator
+                      </h6>
+                      <div
+                        onClick={() => {
+                          this.showPopup();
+                        }}
+                      >
+                        <h6 className="bottomitems">
+                          <img src={purplestats} alt="" />
+                          Stats
+                        </h6>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                  </div>
-                </div>
-
-                
               </div>
             </div>
             <div className="pools-details-wrapper justify-content-center  d-flex m-0 container-lg border-0">
@@ -1084,24 +1080,27 @@ export default function initVaultNew({
                       ? "Connect wallet to view and interact with deposits and withdraws"
                       : "Interact with deposits and withdraws"}
                   </h6> */}
-                    {this.props.coinbase === null ? (
+                    {this.props.coinbase === null ||
+                    this.props.coinbase === undefined ||
+                    this.props.isConnected === false ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
-                        
                       >
                         <img src={wallet} alt="" /> Connect wallet
                       </button>
-                    ) : chainId === '1' ? (
+                    ) : chainId === "1" ? (
                       <div className="addressbtn btn">
                         <Address a={this.props.coinbase} chainId={1} />
                       </div>
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{this.handleEthPool()}}
+                        onClick={() => {
+                          this.handleEthPool();
+                        }}
                       >
-                       Change Network
+                        Change Network
                       </button>
                     )}
                   </div>
@@ -1111,7 +1110,11 @@ export default function initVaultNew({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '1' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex align-items-center gap-2">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1140,54 +1143,54 @@ export default function initVaultNew({
                     /> */}
                       </h6>
                     </div>
-                    
+
                     <ClickAwayListener onClickAway={depositClose}>
-                        <Tooltip
-                          open={this.state.depositTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
+                      <Tooltip
+                        open={this.state.depositTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
                             {"Deposit your assets to the vault smart contract."}
                           </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={depositOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={depositOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-center w-100 gap-2">
-                      <div className="position-relative">
-                        <h6 className="amount-txt">Amount</h6>
-                        <input
-                          type={"number"}
-                          className="styledinput"
-                          placeholder="0.0"
-                          style={{ width: "100%" }}
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
-                        />
+                        <div className="position-relative">
+                          <h6 className="amount-txt">Amount</h6>
+                          <input
+                            type={"number"}
+                            className="styledinput"
+                            placeholder="0.0"
+                            style={{ width: "100%" }}
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                depositAmount: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        <button
+                          className="btn maxbtn"
+                          onClick={this.handleSetMaxDeposit}
+                        >
+                          Max
+                        </button>
                       </div>
-                      <button
-                        className="btn maxbtn"
-                        onClick={this.handleSetMaxDeposit}
-                      >
-                        Max
-                      </button>
-                      </div>
-                    
+
                       {/* <button
                       className="btn filledbtn"
                       onClick={this.handleApprove}
@@ -1248,7 +1251,11 @@ export default function initVaultNew({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '1' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-1">
@@ -1262,49 +1269,49 @@ export default function initVaultNew({
                           placement="top"
                           title={
                             <div className="tooltip-text">
-                            <h6 className="tvl-text mb-3">
-                              Rewards earned by your deposit to the vault smart
-                              contract are displayed in real-time. Rewards
-                              breakdown:
-                            </h6>
-                            <h6 className="tvl-text">
-                              {token_symbol} worth iDYP{" "}
-                              {/* {pendingDivsDyp}
+                              <h6 className="tvl-text mb-3">
+                                Rewards earned by your deposit to the vault
+                                smart contract are displayed in real-time.
+                                Rewards breakdown:
+                              </h6>
+                              <h6 className="tvl-text">
+                                {token_symbol} worth iDYP{" "}
+                                {/* {pendingDivsDyp}
 {pendingDivsComp}
 {pendingDivsToken} */}
-                              <h6
-                                className="tvl-amount"
-                                style={{ fontSize: 12 }}
-                              >
-                                {" "}
-                                {pendingDivsDyp}
+                                <h6
+                                  className="tvl-amount"
+                                  style={{ fontSize: 12 }}
+                                >
+                                  {" "}
+                                  {pendingDivsDyp}
+                                </h6>
                               </h6>
-                            </h6>
-                            <h6 className="tvl-text">
-                              {token_symbol} (Compound){" "}
-                              <h6
-                                className="tvl-amount"
-                                style={{ fontSize: 12 }}
-                              >
-                                {pendingDivsComp}
+                              <h6 className="tvl-text">
+                                {token_symbol} (Compound){" "}
+                                <h6
+                                  className="tvl-amount"
+                                  style={{ fontSize: 12 }}
+                                >
+                                  {pendingDivsComp}
+                                </h6>
                               </h6>
-                            </h6>
-                            <h6 className="tvl-text">
-                              {token_symbol}{" "}
-                              <h6
-                                className="tvl-amount"
-                                style={{ fontSize: 12 }}
-                              >
-                                {pendingDivsToken}
+                              <h6 className="tvl-text">
+                                {token_symbol}{" "}
+                                <h6
+                                  className="tvl-amount"
+                                  style={{ fontSize: 12 }}
+                                >
+                                  {pendingDivsToken}
+                                </h6>
                               </h6>
-                            </h6>
-                            {/* <h6 className="tvl-text">
+                              {/* <h6 className="tvl-text">
                             Earn Rewards in:{" "}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
                               {pendingDivsToken} {token_symbol}
                             </h6>
                           </h6> */}
-                          </div>
+                            </div>
                           }
                         >
                           <img src={moreinfo} alt="" onClick={rewardsOpen} />
@@ -1317,9 +1324,7 @@ export default function initVaultNew({
                     <div className="form-row d-flex flex-column flex-lg-row gap-2 align-items-start align-items-lg-center justify-content-between">
                       <div className="position-relative">
                         <span>
-                          {pendingDivsEth > 0
-                            ? pendingDivsEth
-                            : getFormattedNumber(0, 8)}{" "}
+                        {pendingDivsEth}{" "}
                           {token_symbol}
                         </span>
                       </div>
@@ -1368,25 +1373,31 @@ export default function initVaultNew({
                   )}
                 </div>
 
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '1' && "blurrypool"}`}>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
-                        <Tooltip
-                          open={this.state.withdrawTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                          {"Withdraw your deposited assets from the vault smart contract."}
-                        </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={withdrawOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                      <Tooltip
+                        open={this.state.withdrawTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Withdraw your deposited assets from the vault smart contract."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </h6>
 
                   <button
@@ -1711,7 +1722,8 @@ export default function initVaultNew({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                            {getFormattedNumber(depositedTokens, 6)} {token_symbol}
+                            {getFormattedNumber(depositedTokens, 6)}{" "}
+                            {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1855,7 +1867,7 @@ export default function initVaultNew({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}

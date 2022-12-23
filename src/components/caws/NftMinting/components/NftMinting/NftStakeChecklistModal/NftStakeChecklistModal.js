@@ -262,11 +262,10 @@ const NftStakeCheckListModal = ({
   useEffect(() => {
     if (hideItem === 'staked') {
       setshowToStake(true)
+      setshowStaked(false)
 
-    } else if (hideItem === 'tostake' || hideItem === '') {
-      setshowStaked(true)
-    };
-  }, [hideItem]);
+    } 
+  }, [hideItem, showStaked, showToStake]);
 
 
   const onEmptyState = () => {};

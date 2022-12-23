@@ -1137,7 +1137,7 @@ export default function initConstantStakingNew({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                    {this.props.coinbase === null ? (
+                   {this.props.coinbase === null || this.props.coinbase === undefined ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1364,9 +1364,7 @@ export default function initConstantStakingNew({
                           DYP
                         </span>
                         <span>
-                          {pendingDivs > 0
-                            ? pendingDivs
-                            : getFormattedNumber(0, 6)}
+                        {pendingDivs}
                         </span>
                         {/* <input
                           disabled
@@ -1962,7 +1960,7 @@ export default function initConstantStakingNew({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}

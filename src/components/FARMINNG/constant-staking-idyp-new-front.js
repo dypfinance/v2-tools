@@ -63,7 +63,7 @@ export default function initConstantStakingiDYP({
   listType,
   handleSwitchNetwork,
   expired,
-  finalApr
+  finalApr,
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dyps } = window;
   let token_symbol = "iDYP";
@@ -370,7 +370,10 @@ export default function initConstantStakingiDYP({
         .claim()
         .then(() => {
           this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            claimLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
@@ -532,7 +535,10 @@ export default function initConstantStakingiDYP({
         .reInvest()
         .then(() => {
           this.setState({ reInvestStatus: "success" });
-          this.setState({ reInvestLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            reInvestLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
@@ -693,8 +699,7 @@ export default function initConstantStakingiDYP({
                       src={ellipse}
                       alt=""
                       className="position-relative"
-                      style={{ top: '-1px' }}
-
+                      style={{ top: "-1px" }}
                     />
                     Active status
                   </h6>
@@ -738,7 +743,7 @@ export default function initConstantStakingiDYP({
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <h6 className="earnrewards-text">APR:</h6>
                         <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {finalApr}%
+                          {finalApr}%
                           <ClickAwayListener onClickAway={aprClose}>
                             <Tooltip
                               open={this.state.aprTooltip}
@@ -835,7 +840,9 @@ export default function initConstantStakingiDYP({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                    {this.props.coinbase === null ? (
+                    {this.props.coinbase === null ||
+                    this.props.coinbase === undefined ||
+                    this.props.isConnected === false ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1074,13 +1081,15 @@ export default function initConstantStakingiDYP({
                       <button
                         disabled={
                           this.state.claimStatus === "claimed" ||
-                          this.state.claimStatus === "success" || pendingDivs <=0
+                          this.state.claimStatus === "success" ||
+                          pendingDivs <= 0
                             ? true
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed" &&
-                          this.state.claimStatus === "initial" || pendingDivs <=0
+                          (this.state.claimStatus === "claimed" &&
+                            this.state.claimStatus === "initial") ||
+                          pendingDivs <= 0
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
@@ -1109,42 +1118,41 @@ export default function initConstantStakingiDYP({
                           <>Claim</>
                         )}
                       </button>
-                      {this.props.expired === false &&
-                      <button
-                         disabled={
-                          pendingDivs > 0 ? false : true
-                        }
-                        className={`btn outline-btn ${
-                          this.state.reInvestStatus === "invest" || pendingDivs <=0
-                            ? "disabled-btn"
-                            : this.state.reInvestStatus === "failed"
-                            ? "fail-button"
-                            : this.state.reInvestStatus === "success"
-                            ? "success-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
-                        style={{ height: "fit-content" }}
-                        onClick={this.handleReinvest}
-                      >
-                        {this.state.reInvestLoading ? (
-                          <div
-                            class="spinner-border spinner-border-sm text-light"
-                            role="status"
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : this.state.reInvestStatus === "failed" ? (
-                          <>
-                            <img src={failMark} alt="" />
-                            Failed
-                          </>
-                        ) : this.state.reInvestStatus === "success" ? (
-                          <>Success</>
-                        ) : (
-                          <>Reinvest</>
-                        )}
-                      </button>
-    }
+                      {this.props.expired === false && (
+                        <button
+                          disabled={pendingDivs > 0 ? false : true}
+                          className={`btn outline-btn ${
+                            this.state.reInvestStatus === "invest" ||
+                            pendingDivs <= 0
+                              ? "disabled-btn"
+                              : this.state.reInvestStatus === "failed"
+                              ? "fail-button"
+                              : this.state.reInvestStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleReinvest}
+                        >
+                          {this.state.reInvestLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.reInvestStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.reInvestStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Reinvest</>
+                          )}
+                        </button>
+                      )}
                     </div>
                   </div>
                   {this.state.errorMsg2 && (
@@ -1518,7 +1526,7 @@ export default function initConstantStakingiDYP({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                          {depositedTokens} {" "} {token_symbol}
+                            {depositedTokens} {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1567,13 +1575,15 @@ export default function initConstantStakingiDYP({
                           disabled={
                             this.state.withdrawAmount === "" ||
                             this.state.withdrawStatus === "failed" ||
-                            this.state.withdrawStatus === "success"|| canWithdraw === false
+                            this.state.withdrawStatus === "success" ||
+                            canWithdraw === false
                               ? true
                               : false
                           }
                           className={` w-100 btn filledbtn ${
-                            this.state.withdrawAmount === "" &&
-                            this.state.withdrawStatus === "initial" || canWithdraw === false
+                            (this.state.withdrawAmount === "" &&
+                              this.state.withdrawStatus === "initial") ||
+                            canWithdraw === false
                               ? "disabled-btn"
                               : this.state.withdrawStatus === "failed"
                               ? "fail-button"
@@ -1661,7 +1671,7 @@ export default function initConstantStakingiDYP({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}
@@ -1751,11 +1761,7 @@ export default function initConstantStakingiDYP({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    USD ${" "}
-                    {getFormattedNumber(
-                      this.getApproxReturn(),
-                      6
-                    )}{" "}
+                    USD $ {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
                   </h3>
                   <h6
                     style={{
@@ -1764,7 +1770,11 @@ export default function initConstantStakingiDYP({
                       color: "#f7f7fc",
                     }}
                   >
-                    {getFormattedNumber(this.getApproxReturn() / this.getUsdPerETH(), 6)} iDYP
+                    {getFormattedNumber(
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
+                    iDYP
                   </h6>
                 </div>
                 <div className="mt-4">

@@ -1088,14 +1088,23 @@ const EarnTopPicks = ({
           fetchAvaxBuyback();
         }, 500);
       }
-    } else if (topList === "Vault") {
+    } else if (topList === "Vault" && chainId === '1') {
       setTopPools([]);
+      
       setTimeout(() => {
         setTopPools(vault);
         setActivePools(vault);
         setExpiredPools([]);
       }, 500);
-    } else if (topList === "Farming") {
+    }
+    else if (topList === "Vault" && chainId !== '1') {
+      setTopPools([]);
+      setTimeout(() => {
+        setTopPools([]);
+        setActivePools([]);
+        setExpiredPools([]);
+      }, 500);
+    }  else if (topList === "Farming") {
       setTopPools([]);
       setTimeout(() => {
         setTopPools(farming);
@@ -1411,7 +1420,8 @@ const EarnTopPicks = ({
                       expired={false}
                       handleSwitchNetwork={handleSwitchNetwork}
                     />
-                  ) : activeCard && topList === "Vault" ? (
+                  ) : activeCard && topList === "Vault" &&
+                  chain === "eth" ? (
                     <VaultCard
                       is_wallet_connected={isConnected}
                       handleConnection={handleConnection}
@@ -1558,7 +1568,8 @@ const EarnTopPicks = ({
                     referrer={referrer}
                     expired={false}
                   />
-                ) : activeCard2 && topList === "Vault" ? (
+                ) : activeCard2 && topList === "Vault" &&
+                chain === "eth" ? (
                   <VaultCard
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
@@ -1698,7 +1709,8 @@ const EarnTopPicks = ({
                     coinbase={coinbase}
                     referrer={referrer}
                   />
-                ) : activeCard3 && topList === "Vault" ? (
+                ) : activeCard3 && topList === "Vault" &&
+                chain === "eth" ? (
                   <VaultCard
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}

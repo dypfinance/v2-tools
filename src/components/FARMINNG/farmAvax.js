@@ -624,7 +624,7 @@ export default function initFarmAvax({
             .claim(0, 0, deadline)
             .then(() => {
               this.setState({ claimStatus: "success" });
-              this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
+              this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0, 6) });
             })
             .catch((e) => {
               this.setState({ claimStatus: "failed" });
@@ -1057,14 +1057,14 @@ export default function initFarmAvax({
     };
 
 
-     handleAvaxPool = async() => {
-      await handleSwitchNetworkhook("0xa86a").then(()=>{
+    handleAvaxPool = async () => {
+      await handleSwitchNetworkhook("0xa86a").then(() => {
         this.props.handleSwitchNetwork('43114')
-  
-      }).catch((e)=>{
+
+      }).catch((e) => {
         console.log(e)
       })
-     
+
     };
 
 
@@ -1097,13 +1097,13 @@ export default function initFarmAvax({
 
       let usd_per_token = the_graph_result.token_data
         ? the_graph_result.token_data[
-            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-          ].token_price_usd
+          "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+        ].token_price_usd
         : 1;
       let usd_per_idyp = the_graph_result.token_data
         ? the_graph_result.token_data[
-            "0xbd100d061e120b2c67a24453cf6368e63f1be056"
-          ].token_price_usd
+          "0xbd100d061e120b2c67a24453cf6368e63f1be056"
+        ].token_price_usd
         : 1;
 
       let myShare = ((depositedTokens / tvl) * 100).toFixed(2);
@@ -1294,7 +1294,7 @@ export default function initFarmAvax({
       const withdrawClose = () => {
         this.setState({ withdrawTooltip: false });
       };
-      
+
       return (
         <div className="container-lg p-0">
           <div
@@ -1453,7 +1453,7 @@ export default function initFarmAvax({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                    {this.props.coinbase === null ? (
+                    {this.props.coinbase === null || this.props.coinbase === undefined || this.props.isConnected === false ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1545,7 +1545,7 @@ export default function initFarmAvax({
                         <b>
                           {getFormattedNumber(
                             this.state.selectedTokenBalance /
-                              10 ** this.state.selectedTokenDecimals,
+                            10 ** this.state.selectedTokenDecimals,
                             6
                           )}{" "}
                           {this.state.selectedTokenSymbol}
@@ -1604,30 +1604,28 @@ export default function initFarmAvax({
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
-                          this.state.depositLoading === true ||
-                          this.state.depositStatus === "success"
+                            this.state.depositLoading === true ||
+                            this.state.depositStatus === "success"
                             ? true
                             : false
                         }
-                        className={`btn filledbtn ${
-                          this.state.depositAmount === "" &&
+                        className={`btn filledbtn ${this.state.depositAmount === "" &&
                           this.state.depositStatus === "initial" &&
                           "disabled-btn"
-                        } ${
-                          this.state.depositStatus === "deposit" ||
-                          this.state.depositStatus === "success"
+                          } ${this.state.depositStatus === "deposit" ||
+                            this.state.depositStatus === "success"
                             ? "success-button"
                             : this.state.depositStatus === "fail"
-                            ? "fail-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
+                              ? "fail-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
                             : this.state.depositStatus === "initial" &&
                               this.state.depositAmount !== ""
-                            ? this.handleApprove()
-                            : console.log("");
+                              ? this.handleApprove()
+                              : console.log("");
                         }}
                       >
                         {this.state.depositLoading ? (
@@ -1739,7 +1737,7 @@ export default function initFarmAvax({
                           </div>
                           <div
                             className="d-flex align-items-center justify-content-center w-100 claimreward-header"
-                            // style={{ paddingLeft: "10px" }}
+                          // style={{ paddingLeft: "10px" }}
                           >
                             {/* <img
                             src={
@@ -1886,7 +1884,7 @@ export default function initFarmAvax({
 
                           <div
                             className="d-flex align-items-center justify-content-center w-100 claimreward-header "
-                            // style={{ paddingLeft: "10px" }}
+                          // style={{ paddingLeft: "10px" }}
                           >
                             <img
                               src={
@@ -1956,24 +1954,23 @@ export default function initFarmAvax({
                       <button
                         disabled={
                           this.state.selectedPool === "" ||
-                          this.state.claimStatus === "claimed" ||
-                          this.state.claimStatus === "failed" ||
-                          this.state.claimStatus === "success" || pendingDivs <=0
+                            this.state.claimStatus === "claimed" ||
+                            this.state.claimStatus === "failed" ||
+                            this.state.claimStatus === "success" || pendingDivs <= 0
                             ? true
                             : false
                         }
-                        className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed" ||
-                          this.state.selectedPool === "" ||
-                          this.state.selectedPool === "wavax2" ||
-                          this.state.selectedPool === "dyp2" || pendingDivs <=0
+                        className={`btn filledbtn ${this.state.claimStatus === "claimed" ||
+                            this.state.selectedPool === "" ||
+                            this.state.selectedPool === "wavax2" ||
+                            this.state.selectedPool === "dyp2" || pendingDivs <= 0
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
-                            ? "fail-button"
-                            : this.state.claimStatus === "success"
-                            ? "success-button"
-                            : null
-                        } d-flex justify-content-center align-items-center`}
+                              ? "fail-button"
+                              : this.state.claimStatus === "success"
+                                ? "success-button"
+                                : null
+                          } d-flex justify-content-center align-items-center`}
                         style={{ height: "fit-content" }}
                         onClick={() => {
                           this.state.selectedPool === "wavax"
@@ -2488,10 +2485,9 @@ export default function initFarmAvax({
                                     disabled
                                     value={
                                       Number(this.state.withdrawAmount) > 0
-                                        ? `${
-                                            this.state.withdrawAmount *
-                                            LP_AMPLIFY_FACTOR
-                                          } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                        ? `${this.state.withdrawAmount *
+                                        LP_AMPLIFY_FACTOR
+                                        } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
                                         : `${this.state.withdrawAmount} ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
                                     }
                                     onChange={(e) =>
@@ -2539,10 +2535,9 @@ export default function initFarmAvax({
                                       disabled
                                       value={
                                         Number(this.state.withdrawAmount) > 0
-                                          ? `${
-                                              this.state.withdrawAmount *
-                                              LP_AMPLIFY_FACTOR
-                                            } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
+                                          ? `${this.state.withdrawAmount *
+                                          LP_AMPLIFY_FACTOR
+                                          } ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
                                           : `${this.state.withdrawAmount} ${this.state.selectedRewardTokenLogo1.toUpperCase()}`
                                       }
                                       onChange={(e) =>
@@ -2550,7 +2545,7 @@ export default function initFarmAvax({
                                           withdrawAmount:
                                             Number(e.target.value) > 0
                                               ? e.target.value /
-                                                LP_AMPLIFY_FACTOR
+                                              LP_AMPLIFY_FACTOR
                                               : e.target.value,
                                         })
                                       }
@@ -2570,7 +2565,7 @@ export default function initFarmAvax({
                               </div>
                               <div
                                 className="d-flex align-items-center justify-content-center w-100 claimreward-header"
-                                // style={{ padding: "10px 0 0 10px" }}
+                              // style={{ padding: "10px 0 0 10px" }}
                               >
                                 {/* <img
                                 src={
@@ -2773,7 +2768,7 @@ export default function initFarmAvax({
                               </div>
                               <div
                                 className="d-flex align-items-center justify-content-center w-100 claimreward-header"
-                                // style={{ padding: "10px 0 0 10px" }}
+                              // style={{ padding: "10px 0 0 10px" }}
                               >
                                 <img
                                   src={
@@ -2822,20 +2817,19 @@ export default function initFarmAvax({
                         <button
                           disabled={
                             this.state.selectedPool === "" ||
-                            this.state.withdrawStatus === "failed" ||
-                            this.state.withdrawStatus === "success" || canWithdraw === false
+                              this.state.withdrawStatus === "failed" ||
+                              this.state.withdrawStatus === "success" || canWithdraw === false
                               ? true
                               : false
                           }
-                          className={` w-100 btn filledbtn ${
-                            this.state.selectedPool === "" || canWithdraw === false
+                          className={` w-100 btn filledbtn ${this.state.selectedPool === "" || canWithdraw === false
                               ? "disabled-btn"
                               : this.state.withdrawStatus === "failed"
-                              ? "fail-button"
-                              : this.state.withdrawStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center`}
+                                ? "fail-button"
+                                : this.state.withdrawStatus === "success"
+                                  ? "success-button"
+                                  : null
+                            } d-flex justify-content-center align-items-center`}
                           style={{ height: "fit-content" }}
                           onClick={() => {
                             this.state.selectedPool === "wavax2"
@@ -2913,7 +2907,7 @@ export default function initFarmAvax({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}

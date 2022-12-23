@@ -204,7 +204,7 @@ const Header = ({
   const checklogout = localStorage.getItem("logout");
   //  console.log(coinbase)
   const getEthBalance = async () => {
-    if (checklogout === "false" && coinbase) {
+    if (checklogout === "false") {
       const balance = await ethereum.request({
         method: "eth_getBalance",
         params: [coinbase, "latest"],
@@ -415,8 +415,9 @@ const Header = ({
                   </Dropdown.Item>
                 )}
               </DropdownButton> */}
-                    {checklogout === "false" ? (
+                    {checklogout === "false" && (coinbase !== undefined && coinbase !== null) ? (
                       <>
+                      
                         <div className="account-info d-none d-lg-flex align-items-center justify-content-center gap-2 gap-lg-3">
                           <span className="account-balance d-none d-lg-flex">
                             {currencyAmount}{" "}

@@ -244,7 +244,7 @@ export default function stakeAva3({
 
     componentDidMount() {
       // this.refreshBalance();
-        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
@@ -259,7 +259,7 @@ export default function stakeAva3({
     };
 
     componentWillUnmount() {
-        clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -275,7 +275,7 @@ export default function stakeAva3({
 
       if (other_info) {
         window.$.alert("This pool no longer accepts deposits!");
-      this.setState({ depositLoading: false });
+        this.setState({ depositLoading: false });
 
         return;
       }
@@ -291,7 +291,7 @@ export default function stakeAva3({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+            this.setState({ depositStatus: "initial", depositAmount: '', errorMsg: '' });
 
           }, 2000);
         });
@@ -339,7 +339,7 @@ export default function stakeAva3({
           this.setState({ depositLoading: false, depositStatus: "fail" });
           this.setState({ errorMsg: e?.message });
           setTimeout(() => {
-            this.setState({  depositStatus: "initial", depositAmount: '', errorMsg: '' });
+            this.setState({ depositStatus: "initial", depositAmount: '', errorMsg: '' });
 
           }, 10000);
         });
@@ -366,76 +366,68 @@ export default function stakeAva3({
           this.setState({ withdrawLoading: false });
           this.setState({ errorMsg3: e?.message });
           setTimeout(() => {
-            this.setState({  withdrawStatus: "initial", withdrawAmount: '', errorMsg3: '' });
+            this.setState({ withdrawStatus: "initial", withdrawAmount: '', errorMsg3: '' });
           }, 10000);
         });
     };
 
     handleClaimDivs = async (e) => {
-      //   e.preventDefault();
-      this.setState({ claimLoading: true });
-      // this.setState({ claimStatus: "claim" });
 
-      if (
-        this.state.stakingTime != 0 &&
-        Date.now() - this.state.stakingTime >= this.state.cliffTime
-      ) {
         window.$.alert(
           "Contract Expired! Your lock time ended so please withdraw your funds and move to a " +
-            "new pool. Any unclaimed rewards will be automatically distributed to your wallet within 24 hours!"
+          "new pool. Any unclaimed rewards will be automatically distributed to your wallet within 24 hours!"
         );
-        return;
-      }
+        // return;
+      
+      // let address = this.state.coinbase;
+      // let amount = await staking.getTotalPendingDivs(address);
 
-      let address = this.state.coinbase;
-      let amount = await staking.getTotalPendingDivs(address);
+      // let router = await window.getPangolinRouterContract();
+      // let WETH = await router.methods.WAVAX().call();
+      // // let platformTokenAddress = window.config.reward_token_address
+      // let rewardTokenAddress = window.config.reward_token_dai_address;
+      // let path = [
+      //   ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
+      // ];
+      // let _amountOutMin = await router.methods
+      //   .getAmountsOut(amount, path)
+      //   .call()
+      //   .catch((e) => {
+      //     this.setState({ claimStatus: "failed" });
+      //     this.setState({ claimLoading: false });
+      //     this.setState({ errorMsg2: e?.message });
+      //     setTimeout(() => {
+      //       this.setState({ claimStatus: "initial", errorMsg2: '' });
 
-      let router = await window.getPangolinRouterContract();
-      let WETH = await router.methods.WAVAX().call();
-      // let platformTokenAddress = window.config.reward_token_address
-      let rewardTokenAddress = window.config.reward_token_dai_address;
-      let path = [
-        ...new Set([rewardTokenAddress, WETH].map((a) => a.toLowerCase())),
-      ];
-      let _amountOutMin = await router.methods
-        .getAmountsOut(amount, path)
-        .call()
-        .catch((e) => {
-          this.setState({ claimStatus: "failed" });
-          this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e?.message });
-          setTimeout(() => {
-            this.setState({  claimStatus: "initial",  errorMsg2: '' });
+      //     }, 10000);
+      //   });
+      // _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
+      // _amountOutMin = new BigNumber(_amountOutMin)
+      //   .times(100 - window.config.slippage_tolerance_percent)
+      //   .div(100)
+      //   .toFixed(0);
 
-          }, 10000);
-        });
-      _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
-      _amountOutMin = new BigNumber(_amountOutMin)
-        .times(100 - window.config.slippage_tolerance_percent)
-        .div(100)
-        .toFixed(0);
+      // let deadline = Math.floor(
+      //   Date.now() / 1e3 + window.config.tx_max_wait_seconds
+      // );
 
-      let deadline = Math.floor(
-        Date.now() / 1e3 + window.config.tx_max_wait_seconds
-      );
+      // console.log({ _amountOutMin, deadline });
 
-      console.log({ _amountOutMin, deadline });
+      // staking
+      //   .claim(0, _amountOutMin, deadline)
+      //   .then(() => {
+      //     this.setState({ claimStatus: "success" });
+      //     this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0, 6) });
+      //   })
+      //   .catch((e) => {
+      //     this.setState({ claimStatus: "failed" });
+      //     this.setState({ claimLoading: false });
+      //     this.setState({ errorMsg2: e?.message });
+      //     setTimeout(() => {
+      //       this.setState({ claimStatus: "initial", errorMsg2: '' });
 
-      staking
-        .claim(0, _amountOutMin, deadline)
-        .then(() => {
-          this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
-        })
-        .catch((e) => {
-          this.setState({ claimStatus: "failed" });
-          this.setState({ claimLoading: false });
-          this.setState({ errorMsg2: e?.message });
-          setTimeout(() => {
-            this.setState({  claimStatus: "initial",  errorMsg2: '' });
-
-          }, 10000);
-        });
+      //     }, 10000);
+      //   });
     };
 
     handleSetMaxDeposit = (e) => {
@@ -607,8 +599,8 @@ export default function stakeAva3({
 
       let usd_per_token = this.props.the_graph_result.token_data
         ? this.props.the_graph_result.token_data[
-            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-          ].token_price_usd
+          "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+        ].token_price_usd
         : 1;
       let usd_per_eth = this.props.the_graph_result.token_data
         ? this.props.the_graph_result.usd_per_eth
@@ -668,7 +660,7 @@ export default function stakeAva3({
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  reInvestStatus: "initial",  errorMsg2: '' });
+            this.setState({ reInvestStatus: "initial", errorMsg2: '' });
 
           }, 10000);
         });
@@ -688,14 +680,14 @@ export default function stakeAva3({
         .reInvest(0, 0, deadline)
         .then(() => {
           this.setState({ reInvestStatus: "success" });
-          this.setState({ reInvestLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({ reInvestLoading: false, pendingDivs: getFormattedNumber(0, 6) });
         })
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
           this.setState({ reInvestLoading: false });
           this.setState({ errorMsg2: e?.message });
           setTimeout(() => {
-            this.setState({  reInvestStatus: "initial",  errorMsg2: '' });
+            this.setState({ reInvestStatus: "initial", errorMsg2: '' });
           }, 10000);
         });
     };
@@ -711,14 +703,14 @@ export default function stakeAva3({
 
 
 
-    handleAvaxPool = async() => {
-      await handleSwitchNetworkhook("0xa86a").then(()=>{
+    handleAvaxPool = async () => {
+      await handleSwitchNetworkhook("0xa86a").then(() => {
         this.props.handleSwitchNetwork('43114')
-  
-      }).catch((e)=>{
+
+      }).catch((e) => {
         console.log(e)
       })
-     
+
     };
 
 
@@ -858,15 +850,14 @@ export default function stakeAva3({
 
       return (
         <div className="container-lg p-0">
-          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
+          <div className={`allwrapper ${listType === 'table' && 'my-4'}`} style={{ border: listType !== 'table' && 'none', borderRadius: listType !== 'table' && '0px' }}>
             <div className="leftside2 w-100">
-            <div className="activewrapper">
+              <div className="activewrapper">
                 <div
-                  className={`d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between ${
-                    renderedPage === "dashboard"
+                  className={`d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between ${renderedPage === "dashboard"
                       ? "gap-3 gap-lg-4"
                       : "gap-3 gap-lg-5"
-                  }`}
+                    }`}
                 >
                   <h6 className="activetxt">
                     <img
@@ -918,7 +909,7 @@ export default function stakeAva3({
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <h6 className="earnrewards-text">APR:</h6>
                         <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                        {finalApr}%
+                          {finalApr}%
                           <ClickAwayListener onClickAway={aprClose}>
                             <Tooltip
                               open={this.state.aprTooltip}
@@ -1015,7 +1006,7 @@ export default function stakeAva3({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                     {this.props.coinbase === null ? (
+                    {this.props.coinbase === null || this.props.coinbase === undefined || this.props.isConnected === false ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1034,9 +1025,9 @@ export default function stakeAva3({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{this.handleAvaxPool()}}
+                        onClick={() => { this.handleAvaxPool() }}
                       >
-                       Change Network
+                        Change Network
                       </button>
                     )}
                   </div>
@@ -1046,7 +1037,7 @@ export default function stakeAva3({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-               <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
@@ -1066,7 +1057,7 @@ export default function stakeAva3({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                        {token_balance !== '...'
+                          {token_balance !== '...'
                             ? token_balance
                             : getFormattedNumber(0, 6)}{" "}
                           {token_symbol}
@@ -1074,45 +1065,45 @@ export default function stakeAva3({
                       </h6>
                     </div>
                     <ClickAwayListener onClickAway={depositClose}>
-                        <Tooltip
-                          open={this.state.depositTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
+                      <Tooltip
+                        open={this.state.depositTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
                             {"Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."}
                           </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={depositOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={depositOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
-                     <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
-                     <div className="position-relative">
-                        <h6 className="amount-txt">Amount</h6>
-                        <input
-                          type={"number"}
-                          className="styledinput"
-                          placeholder="0.0"
-                          style={{ width: "100%" }}
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                      {/* <div
+                      <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
+                        <div className="position-relative">
+                          <h6 className="amount-txt">Amount</h6>
+                          <input
+                            type={"number"}
+                            className="styledinput"
+                            placeholder="0.0"
+                            style={{ width: "100%" }}
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                depositAmount: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                        {/* <div
                         className="input-container px-0"
                         style={{ width: "32%" }}
                       >
@@ -1138,13 +1129,13 @@ export default function stakeAva3({
                           DYP Amount
                         </label>
                       </div> */}
-                      <button
-                        className="btn maxbtn"
-                        onClick={this.handleSetMaxDeposit}
-                      >
-                        Max
-                      </button>
-                     </div>
+                        <button
+                          className="btn maxbtn"
+                          onClick={this.handleSetMaxDeposit}
+                        >
+                          Max
+                        </button>
+                      </div>
                       {/* <button
                       className="btn filledbtn"
                       onClick={this.handleApprove}
@@ -1154,29 +1145,27 @@ export default function stakeAva3({
                       <button
                         disabled={
                           this.state.depositAmount === "" ||
-                          this.state.depositLoading === true
+                            this.state.depositLoading === true
                             ? true
                             : false
                         }
-                        className={`btn filledbtn ${
-                          this.state.depositAmount === "" &&
+                        className={`btn filledbtn ${this.state.depositAmount === "" &&
                           this.state.depositStatus === "initial" &&
                           "disabled-btn"
-                        } ${
-                          this.state.depositStatus === "deposit" ||
-                          this.state.depositStatus === "success"
+                          } ${this.state.depositStatus === "deposit" ||
+                            this.state.depositStatus === "success"
                             ? "success-button"
                             : this.state.depositStatus === "fail"
-                            ? "fail-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
+                              ? "fail-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
                         onClick={() => {
                           this.state.depositStatus === "deposit"
                             ? this.handleStake()
                             : this.state.depositStatus === "initial" &&
                               this.state.depositAmount !== ""
-                            ? this.handleApprove()
-                            : console.log("");
+                              ? this.handleApprove()
+                              : console.log("");
                         }}
                       >
                         {this.state.depositLoading ? (
@@ -1224,8 +1213,8 @@ export default function stakeAva3({
                           placement="top"
                           title={
                             <div className="tooltip-text">
-                            {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
-                          </div>
+                              {"Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."}
+                            </div>
                           }
                         >
                           <img src={moreinfo} alt="" onClick={rewardsOpen} />
@@ -1248,9 +1237,7 @@ export default function stakeAva3({
                           DYP
                         </span>
                         <span>
-                          {pendingDivs > 0
-                            ? pendingDivs
-                            : getFormattedNumber(0, 6)}
+                        {pendingDivs}
                         </span>
                         {/* <input
                           disabled
@@ -1276,21 +1263,9 @@ export default function stakeAva3({
                       <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                         <button
                           disabled={
-                            this.state.claimStatus === "claimed" ||
-                            this.state.claimStatus === "success"|| pendingDivs <= 0
-                              ? true
-                              : false
+                            false
                           }
-                          className={`btn filledbtn ${
-                            this.state.claimStatus === "claimed" &&
-                            this.state.claimStatus === "initial"|| pendingDivs <= 0
-                              ? "disabled-btn"
-                              : this.state.claimStatus === "failed"
-                              ? "fail-button"
-                              : this.state.claimStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
+                          className={`btn disabled-btn `}
                           style={{ height: "fit-content" }}
                           onClick={this.handleClaimDivs}
                         >
@@ -1314,41 +1289,40 @@ export default function stakeAva3({
                         </button>
 
                         {this.props.expired === false &&
-                        <button
-                        disabled={
-                          pendingDivs > 0 ? false : true
+                          <button
+                            disabled={
+                              pendingDivs > 0 ? false : true
+                            }
+                            className={`btn outline-btn ${this.state.reInvestStatus === "invest" || pendingDivs <= 0
+                                ? "disabled-btn"
+                                : this.state.reInvestStatus === "failed"
+                                  ? "fail-button"
+                                  : this.state.reInvestStatus === "success"
+                                    ? "success-button"
+                                    : null
+                              } d-flex justify-content-center align-items-center gap-2`}
+                            style={{ height: "fit-content" }}
+                            onClick={this.handleReinvest}
+                          >
+                            {this.state.reInvestLoading ? (
+                              <div
+                                class="spinner-border spinner-border-sm text-light"
+                                role="status"
+                              >
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            ) : this.state.reInvestStatus === "failed" ? (
+                              <>
+                                <img src={failMark} alt="" />
+                                Failed
+                              </>
+                            ) : this.state.reInvestStatus === "success" ? (
+                              <>Success</>
+                            ) : (
+                              <>Reinvest</>
+                            )}
+                          </button>
                         }
-                          className={`btn outline-btn ${
-                            this.state.reInvestStatus === "invest" || pendingDivs <= 0
-                              ? "disabled-btn" 
-                              : this.state.reInvestStatus === "failed"
-                              ? "fail-button"
-                              : this.state.reInvestStatus === "success"
-                              ? "success-button"
-                              : null
-                          } d-flex justify-content-center align-items-center gap-2`}
-                          style={{ height: "fit-content" }}
-                          onClick={this.handleReinvest}
-                        >
-                          {this.state.reInvestLoading ? (
-                            <div
-                              class="spinner-border spinner-border-sm text-light"
-                              role="status"
-                            >
-                              <span class="visually-hidden">Loading...</span>
-                            </div>
-                          ) : this.state.reInvestStatus === "failed" ? (
-                            <>
-                              <img src={failMark} alt="" />
-                              Failed
-                            </>
-                          ) : this.state.reInvestStatus === "success" ? (
-                            <>Success</>
-                          ) : (
-                            <>Reinvest</>
-                          )}
-                        </button>
-    }
                       </div>
                     </div>
                     {this.state.errorMsg2 && (
@@ -1361,21 +1335,21 @@ export default function stakeAva3({
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
-                        <Tooltip
-                          open={this.state.withdrawTooltip}
-                          disableFocusListener
-                          disableHoverListener
-                          disableTouchListener
-                          placement="top"
-                          title={
-                            <div className="tooltip-text">
-                          {"Withdraw your deposited assets from the staking smart contract."}
-                        </div>
-                          }
-                        >
-                          <img src={moreinfo} alt="" onClick={withdrawOpen} />
-                        </Tooltip>
-                      </ClickAwayListener>
+                      <Tooltip
+                        open={this.state.withdrawTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {"Withdraw your deposited assets from the staking smart contract."}
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
                   </h6>
 
                   <button
@@ -1404,13 +1378,13 @@ export default function stakeAva3({
               setIsVisible={() => {
                 this.setState({ popup: false });
               }}
-            width="fit-content"
+              width="fit-content"
 
             >
               <div className="earn-hero-content p4token-wrapper">
                 <div className="l-box pl-3 pr-3">
                   <div className="container px-0">
-                    
+
                     {/* <table className="table-stats table table-sm table-borderless mt-2">
                       <tbody>
                         <tr>
@@ -1458,7 +1432,7 @@ export default function stakeAva3({
                         </tr>
                       </tbody>
                     </table> */}
-                     <div className="stats-container my-4">
+                    <div className="stats-container my-4">
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">
                           My DYP Deposit
@@ -1627,7 +1601,7 @@ export default function stakeAva3({
               setIsVisible={() => {
                 this.setState({ showWithdrawModal: false });
               }}
-            width="fit-content"
+              width="fit-content"
 
             >
               <div className="earn-hero-content p4token-wrapper">
@@ -1663,7 +1637,7 @@ export default function stakeAva3({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                          {depositedTokens} {" "} {token_symbol}
+                            {depositedTokens} {" "} {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1696,20 +1670,19 @@ export default function stakeAva3({
                         <button
                           disabled={
                             this.state.withdrawStatus === "failed" ||
-                            this.state.withdrawStatus === "success" ||
-                            this.state.withdrawAmount === "" || canWithdraw === false
+                              this.state.withdrawStatus === "success" ||
+                              this.state.withdrawAmount === "" || canWithdraw === false
                               ? true
                               : false
                           }
-                          className={` w-100 btn filledbtn ${
-                            this.state.withdrawStatus === "failed"
+                          className={` w-100 btn filledbtn ${this.state.withdrawStatus === "failed"
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
-                              ? "success-button"
-                              : this.state.withdrawAmount === "" && this.state.withdrawStatus === "initial" || canWithdraw === false
-                              ? "disabled-btn"
-                              : null
-                          } d-flex justify-content-center align-items-center`}
+                                ? "success-button"
+                                : this.state.withdrawAmount === "" && this.state.withdrawStatus === "initial" || canWithdraw === false
+                                  ? "disabled-btn"
+                                  : null
+                            } d-flex justify-content-center align-items-center`}
                           style={{ height: "fit-content" }}
                           onClick={() => {
                             this.handleWithdraw();
@@ -1807,7 +1780,7 @@ export default function stakeAva3({
           {this.state.show && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}
@@ -1826,13 +1799,13 @@ export default function stakeAva3({
 
           {this.state.showCalculator && (
             <Modal
-            visible={this.state.showCalculator}
-            title="calculator"
-            modalId="calculatormodal"
-            setIsVisible={() => this.setState({showCalculator: false})}
+              visible={this.state.showCalculator}
+              title="calculator"
+              modalId="calculatormodal"
+              setIsVisible={() => this.setState({ showCalculator: false })}
             >
               <div className="pools-calculator">
-              {/* <div className="d-flex align-items-center justify-content-between">
+                {/* <div className="d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-3">
                   <img src={calculatorIcon} alt="" />
                   <h5
@@ -1854,79 +1827,79 @@ export default function stakeAva3({
                   className="cursor-pointer"
                 />
               </div> */}
-              <hr />
-              <div className="d-flex align-items-center justify-content-between">
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Days to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Days*"
-                    value={this.state.approxDays}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDays: e.target.value,
-                      })
-                    }
-                  />
+                <hr />
+                <div className="d-flex align-items-center justify-content-between">
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Days to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Days*"
+                      value={this.state.approxDays}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDays: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                  <div className="d-flex flex-column gap-3 w-50 me-5">
+                    <span style={{ fontSize: "15px", fontWeight: "500" }}>
+                      Amount to stake
+                    </span>
+                    <input
+                      style={{ height: "40px" }}
+                      type="number"
+                      className="form-control calcinput w-100"
+                      id="days"
+                      name="days"
+                      placeholder="Value of deposit in USD"
+                      value={this.state.approxDeposit}
+                      onChange={(e) =>
+                        this.setState({
+                          approxDeposit: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
-                <div className="d-flex flex-column gap-3 w-50 me-5">
-                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                    Amount to stake
-                  </span>
-                  <input
-                    style={{ height: "40px" }}
-                    type="number"
-                    className="form-control calcinput w-100"
-                    id="days"
-                    name="days"
-                    placeholder="Value of deposit in USD"
-                    value={this.state.approxDeposit}
-                    onChange={(e) =>
-                      this.setState({
-                        approxDeposit: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </div>
-              <div className="d-flex flex-column gap-2 mt-4">
-                <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                USD ${" "}
+                <div className="d-flex flex-column gap-2 mt-4">
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
+                    USD ${" "}
                     {getFormattedNumber(
                       this.getApproxReturn(),
                       6
                     )}{" "}
-                </h3>
-                <h6
-                  style={{
-                    fontWeight: "300",
-                    fontSize: "15px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  {getFormattedNumber(this.getApproxReturn()/this.getUsdPerETH(), 6)} WAVAX
-                </h6>
+                  </h3>
+                  <h6
+                    style={{
+                      fontWeight: "300",
+                      fontSize: "15px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    {getFormattedNumber(this.getApproxReturn() / this.getUsdPerETH(), 6)} WAVAX
+                  </h6>
+                </div>
+                <div className="mt-4">
+                  <p
+                    style={{
+                      fontWeight: "400",
+                      fontSize: "13px",
+                      color: "#f7f7fc",
+                    }}
+                  >
+                    *This calculator is for informational purposes only.
+                    Calculated yields assume that prices of the deposited assets
+                    don't change.
+                  </p>
+                </div>
               </div>
-              <div className="mt-4">
-                <p
-                  style={{
-                    fontWeight: "400",
-                    fontSize: "13px",
-                    color: "#f7f7fc",
-                  }}
-                >
-                  *This calculator is for informational purposes only.
-                  Calculated yields assume that prices of the deposited assets
-                  don't change.
-                </p>
-              </div>
-            </div>
             </Modal>
           )}
         </div>

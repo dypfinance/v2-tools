@@ -277,7 +277,6 @@ const EarnContent = ({
   };
 
   useEffect(() => {
-    console.log(chainId);
     if (option === "Staking") {
       fetchEthApr();
       fetchAvaxApr();
@@ -331,6 +330,7 @@ const EarnContent = ({
     }
   };
 
+  
   return (
     <>
       <div className="row justify-content-center w-100">
@@ -489,7 +489,11 @@ const EarnContent = ({
         {option !== "Farming" && (
           <>
             <div
-              className={`row align-items-center gap-5 gap-lg-0 justify-content-between px-0 ${option === "Vault" && expiredPools === true ? "d-none" : 'd-flex'}`}
+              className={`row align-items-center gap-5 gap-lg-0 justify-content-between px-0 ${
+                option === "Vault" && expiredPools === true
+                  ? "d-none"
+                  : "d-flex"
+              }`}
               style={{ minHeight: "55px" }}
             >
               <div className="col-12 col-lg-4 col-xl-3 px-0">
@@ -631,8 +635,10 @@ const EarnContent = ({
                       </div>
                     </div>
                   </>
-                ) : option === "Vault" && chainId != 1 ? (
-                  <h4 className="text-white">Vault pools are available only on Ethereum Chain</h4>
+                ) : option === "Vault" && chainId !== "1" ? (
+                  <h4 className="text-white">
+                    Vault pools are available only on Ethereum Chain
+                  </h4>
                 ) : (
                   <>
                     <div
@@ -793,16 +799,28 @@ const EarnContent = ({
         </div>
       ) : option === "Vault" && expiredPools === true ? (
         <div className="row mx-0 w-100 align-items-center justify-content-center flex-column p-4 gap-4 purple-wrapper">
-        <img
-          src={
-            require("../../../assets/earnAssets/disabledVault.svg").default
-          }
-          style={{ width: "150px", height: "150px" }}
-          alt=""
-        />
-        <h6 className="no-farms">There are no expired Vault pools</h6>
-        {/* <span className="farm-soon">New pools coming soon...</span> */}
-      </div>
+          <img
+            src={
+              require("../../../assets/earnAssets/disabledVault.svg").default
+            }
+            style={{ width: "150px", height: "150px" }}
+            alt=""
+          />
+          <h6 className="no-farms">There are no expired Vault pools</h6>
+          {/* <span className="farm-soon">New pools coming soon...</span> */}
+        </div>
+      ) : option === "Vault" && chainId !== "1"  && expiredPools === false ? (
+        <div className="row mx-0 w-100 align-items-center justify-content-center flex-column p-4 gap-4 purple-wrapper">
+          <img
+            src={
+              require("../../../assets/earnAssets/disabledVault.svg").default
+            }
+            style={{ width: "150px", height: "150px" }}
+            alt=""
+          />
+          <h6 className="no-farms">There are no Vault pools in this chain</h6>
+          {/* <span className="farm-soon">New pools coming soon...</span> */}
+        </div>
       ) : expiredPools === true ? (
         <EarnTopPicks
           topList={option}

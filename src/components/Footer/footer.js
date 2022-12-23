@@ -12,12 +12,12 @@ const Footer = () => {
     <div className="col-1"></div>
     <div className={`${windowSize.width < 786 ? 'col-12' : windowSize.width < 1490 ? 'col-11' : 'col-10'}`}>
     <div className="py-4 flex-column flex-lg-row px-0 container-lg d-flex justify-content-between gap-3 align-items-start align-items-lg-center">
-      <div className="d-flex flex-row flex-lg-column justify-content-between justify-content-lg-center align-items-center align-items-lg-start col-12 col-lg-6 gap-4">
+      <div className="d-flex flex-row flex-lg-column justify-content-between justify-content-lg-center align-items-center align-items-lg-start col-12 col-lg-6 gap-2">
         <a target={"_blank"} href="https://dypius.com/">
-          <img src="/assets/img/dypiusFooter.svg" alt="Dypius"></img>
+          <img src="/assets/img/dypiusFooter.svg" alt="Dypius" ></img>
         </a>
-        <a target={"_blank"} href="https://dypius.com/#metaverse" style={{cursor: 'default', pointerEvents: 'none', position: 'relative', bottom: '5px'}}>
-          <img src="/assets/img/metaverse.svg" alt="METAVERSE"></img>
+        <a target={"_blank"} href="https://worldofdypians.com" style={{ position: 'relative'}}>
+          <img src="/assets/img/metaverse.svg" alt="METAVERSE" style={{height: '30px'}}/>
         </a>
       </div>
       <hr className="form-divider my-2 d-flex d-lg-none" style={{height: '2px'}} />

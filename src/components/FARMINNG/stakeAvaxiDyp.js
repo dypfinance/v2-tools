@@ -62,7 +62,7 @@ export default function stakeAvaxiDyp({
   listType,
   handleSwitchNetwork,
   expired,
-  finalApr
+  finalApr,
 }) {
   let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;
   let token_symbol = "iDYP";
@@ -374,7 +374,10 @@ export default function stakeAvaxiDyp({
         .claim()
         .then(() => {
           this.setState({ claimStatus: "success" });
-          this.setState({ claimLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            claimLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ claimStatus: "failed" });
@@ -526,7 +529,10 @@ export default function stakeAvaxiDyp({
         .reInvest()
         .then(() => {
           this.setState({ reInvestStatus: "success" });
-          this.setState({ reInvestLoading: false, pendingDivs: getFormattedNumber(0,6) });
+          this.setState({
+            reInvestLoading: false,
+            pendingDivs: getFormattedNumber(0, 6),
+          });
         })
         .catch((e) => {
           this.setState({ reInvestStatus: "failed" });
@@ -689,7 +695,6 @@ export default function stakeAvaxiDyp({
       };
 
       
-
       return (
         <div className="container-lg p-0">
           <div
@@ -707,8 +712,7 @@ export default function stakeAvaxiDyp({
                       src={ellipse}
                       alt=""
                       className="position-relative"
-                      style={{ top: '-1px' }}
-
+                      style={{ top: "-1px" }}
                     />
                     Active status
                   </h6>
@@ -849,7 +853,9 @@ export default function stakeAvaxiDyp({
                         ? "Connect wallet to view and interact with deposits and withdraws"
                         : "Interact with deposits and withdraws"}
                     </h6> */}
-                    {this.props.coinbase === null ? (
+                    {this.props.coinbase === null ||
+                    this.props.coinbase === undefined ||
+                    this.props.isConnected === false ? (
                       <button
                         className="connectbtn btn"
                         onClick={this.showModal}
@@ -1089,13 +1095,15 @@ export default function stakeAvaxiDyp({
                       <button
                         disabled={
                           this.state.claimStatus === "claimed" ||
-                          this.state.claimStatus === "success" || pendingDivs <= 0
+                          this.state.claimStatus === "success" ||
+                          pendingDivs <= 0
                             ? true
                             : false
                         }
                         className={`btn filledbtn ${
-                          this.state.claimStatus === "claimed" &&
-                          this.state.claimStatus === "initial" || pendingDivs <= 0
+                          (this.state.claimStatus === "claimed" &&
+                            this.state.claimStatus === "initial") ||
+                          pendingDivs <= 0
                             ? "disabled-btn"
                             : this.state.claimStatus === "failed"
                             ? "fail-button"
@@ -1124,41 +1132,41 @@ export default function stakeAvaxiDyp({
                           <>Claim</>
                         )}
                       </button>
-                      {this.props.expired === false &&
-                      <button
-                        disabled={
-                          pendingDivs > 0 ? false : true
-                        }
-                        className={`btn outline-btn ${
-                          this.state.reInvestStatus === "invest" || pendingDivs <= 0
-                            ? "disabled-btn"
-                            : this.state.reInvestStatus === "failed"
-                            ? "fail-button"
-                            : this.state.reInvestStatus === "success"
-                            ? "success-button"
-                            : null
-                        } d-flex justify-content-center align-items-center gap-2`}
-                        style={{ height: "fit-content" }}
-                        onClick={this.handleReinvest}
-                      >
-                        {this.state.reInvestLoading ? (
-                          <div
-                            class="spinner-border spinner-border-sm text-light"
-                            role="status"
-                          >
-                            <span class="visually-hidden">Loading...</span>
-                          </div>
-                        ) : this.state.reInvestStatus === "failed" ? (
-                          <>
-                            <img src={failMark} alt="" />
-                            Failed
-                          </>
-                        ) : this.state.reInvestStatus === "success" ? (
-                          <>Success</>
-                        ) : (
-                          <>Reinvest</>
-                        )}
-                      </button>}
+                      {this.props.expired === false && (
+                        <button
+                          disabled={pendingDivs > 0 ? false : true}
+                          className={`btn outline-btn ${
+                            this.state.reInvestStatus === "invest" ||
+                            pendingDivs <= 0
+                              ? "disabled-btn"
+                              : this.state.reInvestStatus === "failed"
+                              ? "fail-button"
+                              : this.state.reInvestStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleReinvest}
+                        >
+                          {this.state.reInvestLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.reInvestStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.reInvestStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Reinvest</>
+                          )}
+                        </button>
+                      )}
                     </div>
                   </div>
                   {this.state.errorMsg2 && (
@@ -1490,8 +1498,7 @@ export default function stakeAvaxiDyp({
                         <div className="d-flex flex-column gap-1">
                           <h6 className="withsubtitle">Balance</h6>
                           <h6 className="withtitle">
-                           
-                            {depositedTokens} {" "} {token_symbol}
+                            {depositedTokens} {token_symbol}
                           </h6>
                         </div>
                       </div>
@@ -1525,7 +1532,8 @@ export default function stakeAvaxiDyp({
                           disabled={
                             this.state.withdrawStatus === "failed" ||
                             this.state.withdrawStatus === "success" ||
-                            this.state.withdrawAmount === "" || canWithdraw === false
+                            this.state.withdrawAmount === "" ||
+                            canWithdraw === false
                               ? true
                               : false
                           }
@@ -1534,8 +1542,9 @@ export default function stakeAvaxiDyp({
                               ? "fail-button"
                               : this.state.withdrawStatus === "success"
                               ? "success-button"
-                              : this.state.withdrawAmount === "" &&
-                                this.state.withdrawStatus === "initial" || canWithdraw === false
+                              : (this.state.withdrawAmount === "" &&
+                                  this.state.withdrawStatus === "initial") ||
+                                canWithdraw === false
                               ? "disabled-btn"
                               : null
                           } d-flex justify-content-center align-items-center`}
@@ -1634,10 +1643,10 @@ export default function stakeAvaxiDyp({
             </Modal>
           )}
 
-          {this.state.show && (
+          {this.state.show === true && (
             <WalletModal
               show={this.state.show}
-              handleClose={this.state.hideModal}
+              handleClose={this.hideModal}
               handleConnection={this.props.handleConnection}
             />
           )}

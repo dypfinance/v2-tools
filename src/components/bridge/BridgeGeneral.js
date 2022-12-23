@@ -46,6 +46,80 @@ const Bridge = ({
 
   const routeData = useLocation();
   const [faqSection, setFaqSection] = useState(routeData.state?.section);
+  const [ethBalance, setEthBalance] = useState("0.0");
+  const [bnbBalance, setBnbBalance] = useState("0.0");
+  const [avaxBalance, setAvaxBalance] = useState("0.0");
+
+  const [ethBalanceidyp, setEthBalanceidyp] = useState("0.0");
+  const [bnbBalanceidyp, setBnbBalanceidyp] = useState("0.0");
+  const [avaxBalanceidyp, setAvaxBalanceidyp] = useState("0.0");
+
+  const getAllBalance = async () => {
+  
+    const tokenAddress = "0x961C8c0B1aaD0c0b10a51FeF6a867E3091BCef17";
+    const walletAddress = coinbase;
+    const TokenABI = window.ERC20_ABI;
+    let bal1, bal2, bal3;
+    if (coinbase != undefined) {
+      const contract1 = new window.infuraWeb3.eth.Contract(TokenABI, tokenAddress);
+      const contract2 = new window.avaxWeb3.eth.Contract(TokenABI, tokenAddress);
+      const contract3 = new window.bscWeb3.eth.Contract(TokenABI, tokenAddress);
+
+      bal1 = await contract1.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          setEthBalance(data) ;
+        });
+      bal2 = await contract2.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          setAvaxBalance(data);
+        });
+
+      bal3 = await contract3.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          setBnbBalance(data);
+        });
+    }
+  };
+
+
+  const getAllBalanceiDyp = async () => {
+  
+    const tokenAddress = "0xbd100d061e120b2c67a24453cf6368e63f1be056";
+    const walletAddress = coinbase;
+    const TokenABI = window.ERC20_ABI;
+    let bal1, bal2, bal3;
+    if (coinbase != undefined) {
+      const contract1 = new window.infuraWeb3.eth.Contract(TokenABI, tokenAddress);
+      const contract2 = new window.avaxWeb3.eth.Contract(TokenABI, tokenAddress);
+      const contract3 = new window.bscWeb3.eth.Contract(TokenABI, tokenAddress);
+
+      bal1 = await contract1.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          setEthBalanceidyp(data) ;
+        });
+      bal2 = await contract2.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          setAvaxBalanceidyp(data);
+        });
+
+      bal3 = await contract3.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          setBnbBalanceidyp(data);
+        });
+    }
+  };
 
   const handleSourceChain = async (chainText) => {
     if (chainText === "eth") {
@@ -75,69 +149,11 @@ const Bridge = ({
     }
   };
 
-  // useEffect(() => {
-  //   if (sourceChain === "eth") {
-  //     if (destinationChain === "avax") {
-  // setSourceBridge(window.bridge_eth);
-  // setDestinationBridge(window.bridge_bsc);
-  // setSourceToken(window.token_dyp_eth);
-  // setDestinationToken(window.token_dyp_bsc);
-  //     } else if (destinationChain === "bnb") {
-  //       setSourceBridge(window.bridge_bsceth);
-  //       setDestinationBridge(window.bridge_bscbsc);
-  //       setSourceToken(window.token_dyp_bsceth);
-  //       setDestinationToken(window.token_dyp_bscbsc);
-  //     }
-  //   } else if (sourceChain === "bnb") {
-  //     setDestinationChain("eth");
-  // setSourceBridge(window.bridge_bsceth);
-  // setDestinationBridge(window.bridge_bscbsc);
-  // setSourceToken(window.token_dyp_bsceth);
-  // setDestinationToken(window.token_dyp_bscbsc);
-  //   } else if (sourceChain === "avax") {
-  //     setDestinationChain("eth");
-  //     setSourceBridge(window.bridge_eth);
-  //     setDestinationBridge(window.bridge_bsc);
-  //     setSourceToken(window.token_dyp_eth);
-  //     setDestinationToken(window.token_dyp_bsc);
-  //   }
-  // }, [destinationChain, sourceChain]);
-
-  // useEffect(() => {
-  //   if (sourceChainiDyp === "eth") {
-  //     if (destinationChainiDyp === "avax") {
-  // setSourceBridgeiDyp(window.bridge_idypeth);
-  // setDestinationBridgeiDyp(window.bridge_idypbsc);
-  // setSourceTokeniDyp(window.token_idyp_eth);
-  // setDestinationTokeniDyp(window.token_idyp_bsc);
-  //     } else if (destinationChainiDyp === "bnb") {
-  //       setSourceBridgeiDyp(window.bridge_idypbsceth);
-  //       setDestinationBridgeiDyp(window.bridge_idypbscbsc);
-  //       setSourceTokeniDyp(window.token_idyp_bsceth);
-  //       setDestinationTokeniDyp(window.token_idyp_bscbsc);
-  //     }
-  //   } else if (sourceChainiDyp === "bnb") {
-  //     setDestinationChainiDyp("eth");
-      // setSourceBridgeiDyp(window.bridge_idypbsceth);
-      // setDestinationBridgeiDyp(window.bridge_idypbscbsc);
-      // setSourceTokeniDyp(window.token_idyp_bsceth);
-      // setDestinationTokeniDyp(window.token_idyp_bscbsc);
-  //   } else if (sourceChainiDyp === "avax") {
-  //     setDestinationChainiDyp("eth");
-  // setSourceBridgeiDyp(window.bridge_idypeth);
-  // setDestinationBridgeiDyp(window.bridge_idypbsc);
-  // setSourceTokeniDyp(window.token_idyp_eth);
-  // setDestinationTokeniDyp(window.token_idyp_bsc);
-  //   }
-
-  //   if (faqSection === "earnFaq") {
-  //     setTimeout(() => {
-  //       window.scrollTo(0, 1500);
-  //       setFaqSection("none");
-  //     }, 500);
-  //   }
-  // }, [destinationChainiDyp, sourceChainiDyp]);
-
+  useEffect(()=>{
+    getAllBalance()
+    getAllBalanceiDyp()
+  },[sourceChain, destinationChain, sourceChainiDyp, destinationChainiDyp])
+  
   const BridgeModal = initBridge({
     bridgeETH: sourceBridge,
     bridgeBSC: destinationBridge,
@@ -226,12 +242,15 @@ const Bridge = ({
           coinbase={coinbase}
           sourceChain={sourceChain}
           activebtn={activebtn}
+          ethBalance={ethBalance}
+          bnbBalance={bnbBalance}
+          avaxBalance={avaxBalance}
         />
       </div>
       <div className="bigseparator mt-5 mb-5 col-6 col-xxl-5"></div>
       <div>
         <h3 className="text-white mb-4">
-          <img src={idyp} alt="" /> iDYP Bridge
+          <img src={idyp} alt="" style={{width: 32, height: 32}}/> iDYP Bridge
         </h3>
         <h5 className="text-white mb-2">Choose route</h5>
         <div className="d-flex gap-3 mb-2">
@@ -293,6 +312,9 @@ const Bridge = ({
           sourceChain={sourceChainiDyp}
           coinbase={coinbase}
           activebtn={activebtn}
+          ethBalance={ethBalanceidyp}
+          bnbBalance={bnbBalanceidyp}
+          avaxBalance={avaxBalanceidyp}
         />
       </div>
       <BridgeFAQ faqIndex={routeData.state ? routeData.state.faqIndex : -1} />
