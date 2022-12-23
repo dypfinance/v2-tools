@@ -78,10 +78,9 @@ const SubmitInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
     setErrors(validateInfo(values));
-
-    if (Object.keys(errors).length === 0) {
+    console.log(validateInfo(values));
+    if (Object.keys(validateInfo(values)).length === 0) {
       if (
         values.project_name !== "" &&
         values.ticker !== "" &&
@@ -117,10 +116,11 @@ const SubmitInfo = () => {
         telegram_channel: values.telegram_channel,
         coingecko: values.coingecko,
       };
-      console.log(data);
+      console.log(data.project_logo);
         const send = await axios
           .post("https://api-mail.dyp.finance/api/submit_form", data)
           .then(function (result) {
+            console.log(result.data.status);
             return result.data;
           })
           .catch(function (error) {
@@ -133,7 +133,7 @@ const SubmitInfo = () => {
           setErrors({})
           console.log("done!");
         } else {
-          alert("Something goes to wrong.");
+          alert("Something went wrong.");
           console.log("not done!");
 
         }
