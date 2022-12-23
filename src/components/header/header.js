@@ -39,8 +39,7 @@ const Header = ({
   const [gasPrice, setGasprice] = useState();
   const [ethPrice, setEthprice] = useState();
   const [username, setUsername] = useState();
-  // const [chainId, setChainId] = useState(1) 
- 
+  // const [chainId, setChainId] = useState(1)
 
   const windowSize = useWindowSize();
   const [hotpairs, setHotpairs] = useState([]);
@@ -50,7 +49,6 @@ const Header = ({
   const [avaxState, setAvaxState] = useState(false);
   const [avatar, setAvatar] = useState("../../assets/img/person.svg");
   const routeData = useLocation();
-  
 
   const fetchData = async () => {
     if (chainId === 1) {
@@ -101,56 +99,57 @@ const Header = ({
 
   const ethereum = window.ethereum;
 
-  const setActiveChain=()=>{
-    
+  const setActiveChain = () => {
     if (chainId === 1) {
       setAvaxState(false);
       setBnbState(false);
       setEthState(true);
-    } 
-     if (chainId === 43114) {
+    }
+    if (chainId === 43114) {
       setAvaxState(true);
       setBnbState(false);
       setEthState(false);
-    } 
-     if (chainId === 56) {
+    }
+    if (chainId === 56) {
       setAvaxState(false);
       setBnbState(true);
       setEthState(false);
     }
-  }
+  };
 
- 
   const handleEthPool = async () => {
-    await handleSwitchNetworkhook("0x1").then(()=>{
-      handleSwitchNetwork('1')
-    }).catch((e)=>{
-      console.log(e)
-    })
+    await handleSwitchNetworkhook("0x1")
+      .then(() => {
+        handleSwitchNetwork("1");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
-  const handleBnbPool = async() => {
-   await handleSwitchNetworkhook("0x38").then(()=>{
-    handleSwitchNetwork('56')
-   }).catch((e)=>{
-     console.log(e)
-   })
-    
+  const handleBnbPool = async () => {
+    await handleSwitchNetworkhook("0x38")
+      .then(() => {
+        handleSwitchNetwork("56");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
-  const handleAvaxPool = async() => {
-    await handleSwitchNetworkhook("0xa86a").then(()=>{
-      handleSwitchNetwork('43114')
-    }).catch((e)=>{
-      console.log(e)
-    })
-   
+  const handleAvaxPool = async () => {
+    await handleSwitchNetworkhook("0xa86a")
+      .then(() => {
+        handleSwitchNetwork("43114");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   function handleChainChanged() {
     // We recommend reloading the page, unless you must do otherwise
     // window.location.reload();
-
 
     if (window.location.href.includes("pair-explorer")) {
       if (chainId === 1) {
@@ -209,7 +208,7 @@ const Header = ({
         method: "eth_getBalance",
         params: [coinbase, "latest"],
       });
-   
+
       if (balance) {
         const infuraWeb3 = new Web3(window.config.infura_endpoint);
         const bscWeb3 = new Web3(window.config.bsc_endpoint);
@@ -237,7 +236,7 @@ const Header = ({
   };
 
   const welcomeTypes = ["Good morning", "Good afternoon", "Good evening"];
-  const [welcomeText, setwelcomeText] = useState('')
+  const [welcomeText, setwelcomeText] = useState("");
   const hour = new Date().getHours();
 
   const setGreeting = () => {
@@ -250,32 +249,27 @@ const Header = ({
     setGreeting();
   }, [hour]);
 
-
-
-
   useEffect(() => {
     getEthBalance();
-    if(chainId === 1) {
-      handleSwitchNetwork('1')
+    if (chainId === 1) {
+      handleSwitchNetwork("1");
     }
 
-    if(chainId === 56) {
-      handleSwitchNetwork('56')
+    if (chainId === 56) {
+      handleSwitchNetwork("56");
     }
 
-    if(chainId === 43114) {
-      handleSwitchNetwork('43114')
+    if (chainId === 43114) {
+      handleSwitchNetwork("43114");
     }
-
-  }, [chainId, currencyAmount,coinbase]);
+  }, [chainId, currencyAmount, coinbase]);
 
   useEffect(() => {
     fetchData().then();
     refreshHotPairs().then();
-    setActiveChain()
+    setActiveChain();
     ethereum?.on("chainChanged", handleChainChanged);
     ethereum?.on("chainChanged", handleChainChanged);
-
   }, [chainId, ethState]);
 
   useEffect(() => {
@@ -311,7 +305,8 @@ const Header = ({
                     {welcomeText}, {username}
                   </h4>
                   <span className="text-white headerdesc">
-                  Discover the latest trends, breaking news, and gain access to powerful dApps.
+                    Discover the latest trends, breaking news, and gain access
+                    to powerful dApps.
                   </span>
                 </div>
                 <NavLink to="/">
@@ -320,55 +315,53 @@ const Header = ({
                 <div className="d-flex m-0 justify-content-between gap-3 align-items-center">
                   <NavLink className="buydyp-btn btn" to="/buydyp">
                     <img src={coin} alt="" />
-                    <span className="buy-dyp-text">
-                      Buy DYP
-                    </span>
+                    <span className="buy-dyp-text">Buy DYP</span>
                   </NavLink>
                   <div className="d-flex justify-content-between gap-3 align-items-center">
-                    {routeData.pathname && routeData.pathname!=='/bridge' &&
-                    <DropdownButton
-                      id="dropdown-basic-button"
-                      className="d-flex align-items-center justify-content-center"
-                      title={
-                        <span className="dropdown-title">
-                          <img
-                            src={
-                              ethState === true
-                                ? eth
+                    {routeData.pathname && (routeData.pathname !== "/bridge" && routeData.pathname !== "/swap") && (
+                      <DropdownButton
+                        id="dropdown-basic-button"
+                        className="d-flex align-items-center justify-content-center"
+                        title={
+                          <span className="dropdown-title">
+                            <img
+                              src={
+                                ethState === true
+                                  ? eth
+                                  : bnbState === true
+                                  ? bnb
+                                  : avax
+                              }
+                              height={16}
+                              width={16}
+                              alt=""
+                            />
+                            <span className="change-chain-text d-none d-lg-flex">
+                              {ethState === true
+                                ? "Ethereum"
                                 : bnbState === true
-                                ? bnb
-                                : avax
-                            }
-                            height={16}
-                            width={16}
-                            alt=""
-                          />
-                          <span className="change-chain-text d-none d-lg-flex">
-                            {ethState === true
-                              ? "Ethereum"
-                              : bnbState === true
-                              ? "BNB Chain"
-                              : "Avalanche"}
-                          </span>
+                                ? "BNB Chain"
+                                : "Avalanche"}
+                            </span>
 
-                          <img src={dropdown} alt="" />
-                        </span>
-                      }
-                    >
-                      <Dropdown.Item onClick={() => handleEthPool()}>
-                        <img src={eth} alt="" />
-                        Ethereum
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => handleBnbPool()}>
-                        <img src={bnb} alt="" />
-                        BNB Chain
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => handleAvaxPool()}>
-                        <img src={avax} alt="" />
-                        Avalanche
-                      </Dropdown.Item>
-                    </DropdownButton>
-}
+                            <img src={dropdown} alt="" />
+                          </span>
+                        }
+                      >
+                        <Dropdown.Item onClick={() => handleEthPool()}>
+                          <img src={eth} alt="" />
+                          Ethereum
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleBnbPool()}>
+                          <img src={bnb} alt="" />
+                          BNB Chain
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleAvaxPool()}>
+                          <img src={avax} alt="" />
+                          Avalanche
+                        </Dropdown.Item>
+                      </DropdownButton>
+                    )}
                     {/* <DropdownButton
                 id="dropdown-basic-button2"
                 onClick={checklogout === "true" && showModal}
@@ -415,9 +408,10 @@ const Header = ({
                   </Dropdown.Item>
                 )}
               </DropdownButton> */}
-                    {checklogout === "false" && (coinbase !== undefined && coinbase !== null) ? (
+                    {checklogout === "false" &&
+                    coinbase !== undefined &&
+                    coinbase !== null && routeData.pathname !== "/swap" && (
                       <>
-                      
                         <div className="account-info d-none d-lg-flex align-items-center justify-content-center gap-2 gap-lg-3">
                           <span className="account-balance d-none d-lg-flex">
                             {currencyAmount}{" "}
@@ -461,7 +455,10 @@ const Header = ({
                           </Dropdown.Item>
                         </DropdownButton>
                       </>
-                    ) : (
+                    )}
+                    {checklogout === "true" &&
+                    coinbase !== undefined &&
+                    coinbase !== null && routeData.pathname !== "/swap" && (
                       <DropdownButton
                         onClick={checklogout === "true" && showModal}
                         id="dropdown-basic-button2"
