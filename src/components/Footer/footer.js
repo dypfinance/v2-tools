@@ -16,7 +16,7 @@ const Footer = () => {
         <a target={"_blank"} href="https://dypius.com/">
           <img src="/assets/img/dypiusFooter.svg" alt="Dypius" ></img>
         </a>
-        <a target={"_blank"} href="https://worldofdypians.com" style={{ position: 'relative'}}>
+        <a target={"_blank"} href="https://www.worldofdypians.com/" style={{ position: 'relative'}}>
           <img src="/assets/img/metaverse.svg" alt="METAVERSE" style={{height: '30px'}}/>
         </a>
       </div>
