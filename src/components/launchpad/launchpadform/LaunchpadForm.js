@@ -176,7 +176,7 @@ const LaunchpadForm = () => {
     e.preventDefault();
     console.log(formItems);
     setErrors(validateFormInfo(formItems))
-    if(Object.keys(errors).length === 0) {
+    if(Object.keys(validateFormInfo(formItems)).length === 0) {
       if(
         formItems.project_logo !== "" &&
         formItems.project_name !== "" &&

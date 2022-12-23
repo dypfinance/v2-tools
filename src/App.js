@@ -569,11 +569,11 @@ class App extends React.Component {
                     path="/disclaimer"
                     render={() => <Disclaimer />}
                   />
-                  {/* <Route
+                  <Route
                     exact
                     path="/swap"
-                    render={() => <Swap/>}
-                  /> */}
+                    component={Swap}
+                  />
 
                   {/* <Route
                     exact

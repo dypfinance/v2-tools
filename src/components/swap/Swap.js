@@ -1,7 +1,11 @@
 import React from 'react'
-// import { SwapWidget, nereusTheme } from '@nitucr/1inch-widget';
+import { SwapWidget, nereusTheme } from '@nitucr/1inch-widget';
+import useWindowSize from '../../functions/useWindowSize';
 
 const Swap = () => {
+
+
+    const windowSize = useWindowSize()
 
   const SupportedChainId = 
   {
@@ -43,46 +47,52 @@ const defaultJsonRpcEndpoint = {
   [SupportedChainId.AVALANCHE]: 'https://api.avax.network/ext/bc/C/rpc',
 }
 const referrerOptions = {
-  [SupportedChainId.MAINNET]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
-    fee: '0.05',
-  },
-  [SupportedChainId.FANTOM]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
-    fee: '0.05',
-  },
-  [SupportedChainId.POLYGON]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
-    fee: '0.05',
-  },
-  [SupportedChainId.BINANCE]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
-    fee: '0.05',
-  },
-  [SupportedChainId.AVALANCHE]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
-    fee: '0.05',
-  },
-  [SupportedChainId.ARBITRUM_ONE]: {
-    referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
-    fee: '0.05',
-  },
-  
+    [SupportedChainId.MAINNET]: {
+      referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+      referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
+      fee: '0.05',
+    },
+    [SupportedChainId.FANTOM]: {
+      referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+      referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
+      fee: '0.05',
+    },
+    [SupportedChainId.POLYGON]: {
+      referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+      referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
+      fee: '0.05',
+    },
+    [SupportedChainId.BINANCE]: {
+      referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+      referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
+      fee: '0.05',
+    },
+    [SupportedChainId.AVALANCHE]: {
+      referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+      referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
+      fee: '0.05',
+    },
+    [SupportedChainId.ARBITRUM_ONE]: {
+      referrerAddress: '0x634Ce32Ce9484A9Aee578ddc16E45418ccD7Bf9d',
+      referrerAddress: '0x910090Ea889B64B4e722ea4b8fF6D5e734dFb38F',
+      fee: '0.05',
+    },
+
 }
 
 
+
   return (
-    <div className="container-lg d-flex justify-content-center" style={{minHeight: '100vh'}}>
-            <iframe src="https://swap.dyp.finance/"
-              className='swap-iframe'
-                    width="400px"
-                    height="537px"
-                    id=""
-                    overflow={"hidden"}
-                    styles={{pointerEvents: "all"}}
-                    display="block"
-                    position="relative"/>
-        </div>
+    <div className="container-lg d-flex justify-content-center px-0" style={{minHeight: '100vh'}}>
+    <SwapWidget
+    width={windowSize.width > 786 ? 400 : "100%" }
+    referrerOptions={referrerOptions}
+    theme={nereusTheme}
+    locale="en"
+    jsonRpcEndpoint={defaultJsonRpcEndpoint}
+    defaultOutputTokenAddress={defaultOutputTokenAddress}
+    defaultTypedValue={defaultTypedValue}/>
+  </div>
   )
 }
 
