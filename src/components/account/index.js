@@ -913,13 +913,13 @@ export default class Subscription extends React.Component {
                       >
                         Active <br></br> Premium plan
                       </div>
-                      <div
+                      {/* <div
                         className="btn outline-btn px-5"
                         type=""
                         onClick={this.handleUnsubscribe}
                       >
                         Unsubscribe
-                      </div>
+                      </div> */}
                     </div>
                   </>
                 )}
