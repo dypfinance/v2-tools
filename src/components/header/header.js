@@ -277,6 +277,11 @@ const Header = ({
     fetchUsername();
   }, [coinbase, checklogout]);
 
+  console.log(
+    checklogout === "true" &&
+      (coinbase !== undefined || coinbase !== null) &&
+      routeData.pathname !== "/swap"
+  );
   return (
     <>
       <header className="header-wrap" style={{ zIndex: 5 }}>
@@ -318,50 +323,52 @@ const Header = ({
                     <span className="buy-dyp-text">Buy DYP</span>
                   </NavLink>
                   <div className="d-flex justify-content-between gap-3 align-items-center">
-                    {routeData.pathname && (routeData.pathname !== "/bridge" && routeData.pathname !== "/swap") && (
-                      <DropdownButton
-                        id="dropdown-basic-button"
-                        className="d-flex align-items-center justify-content-center"
-                        title={
-                          <span className="dropdown-title">
-                            <img
-                              src={
-                                ethState === true
-                                  ? eth
+                    {routeData.pathname &&
+                      routeData.pathname !== "/bridge" &&
+                      routeData.pathname !== "/swap" && (
+                        <DropdownButton
+                          id="dropdown-basic-button"
+                          className="d-flex align-items-center justify-content-center"
+                          title={
+                            <span className="dropdown-title">
+                              <img
+                                src={
+                                  ethState === true
+                                    ? eth
+                                    : bnbState === true
+                                    ? bnb
+                                    : avax
+                                }
+                                height={16}
+                                width={16}
+                                alt=""
+                              />
+                              <span className="change-chain-text d-none d-lg-flex">
+                                {ethState === true
+                                  ? "Ethereum"
                                   : bnbState === true
-                                  ? bnb
-                                  : avax
-                              }
-                              height={16}
-                              width={16}
-                              alt=""
-                            />
-                            <span className="change-chain-text d-none d-lg-flex">
-                              {ethState === true
-                                ? "Ethereum"
-                                : bnbState === true
-                                ? "BNB Chain"
-                                : "Avalanche"}
-                            </span>
+                                  ? "BNB Chain"
+                                  : "Avalanche"}
+                              </span>
 
-                            <img src={dropdown} alt="" />
-                          </span>
-                        }
-                      >
-                        <Dropdown.Item onClick={() => handleEthPool()}>
-                          <img src={eth} alt="" />
-                          Ethereum
-                        </Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleBnbPool()}>
-                          <img src={bnb} alt="" />
-                          BNB Chain
-                        </Dropdown.Item>
-                        <Dropdown.Item onClick={() => handleAvaxPool()}>
-                          <img src={avax} alt="" />
-                          Avalanche
-                        </Dropdown.Item>
-                      </DropdownButton>
-                    )}
+                              <img src={dropdown} alt="" />
+                            </span>
+                          }
+                        >
+                          <Dropdown.Item onClick={() => handleEthPool()}>
+                            <img src={eth} alt="" />
+                            Ethereum
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleBnbPool()}>
+                            <img src={bnb} alt="" />
+                            BNB Chain
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={() => handleAvaxPool()}>
+                            <img src={avax} alt="" />
+                            Avalanche
+                          </Dropdown.Item>
+                        </DropdownButton>
+                      )}
                     {/* <DropdownButton
                 id="dropdown-basic-button2"
                 onClick={checklogout === "true" && showModal}
@@ -408,78 +415,79 @@ const Header = ({
                   </Dropdown.Item>
                 )}
               </DropdownButton> */}
-                    {checklogout === "false" &&
-                    coinbase !== undefined &&
-                    coinbase !== null && routeData.pathname !== "/swap" && (
-                      <>
-                        <div className="account-info d-none d-lg-flex align-items-center justify-content-center gap-2 gap-lg-3">
-                          <span className="account-balance d-none d-lg-flex">
-                            {currencyAmount}{" "}
-                            {chainId === 1
-                              ? "ETH"
-                              : chainId === 56
-                              ? "BNB"
-                              : "AVAX"}
-                          </span>
-                          <span className="account-address">
-                            {windowSize.width > 786
-                              ? shortAddress(coinbase)
-                              : coinbase?.slice(0, 6) + "..."}
-                          </span>
-                        </div>
-                        <DropdownButton
-                          id="dropdown-basic-button4"
-                          title={
-                            <img
-                              src={avatar}
-                              style={{
-                                height: 40,
-                                width: 40,
-                                borderRadius: "50%",
-                                border: "2px solid #4ED5D2",
-                                margin: "auto",
-                              }}
-                              alt=""
-                            />
-                          }
-                        >
-                          <Dropdown.Item
-                            onClick={() => window.location.assign("/account")}
-                          >
-                            <img src={user} alt="" />
-                            My account
-                          </Dropdown.Item>
-                          <Dropdown.Item onClick={() => logout()}>
-                            <img src={logoutimg} alt="" />
-                            Disconnect wallet
-                          </Dropdown.Item>
-                        </DropdownButton>
-                      </>
-                    )}
                     {checklogout === "true" &&
-                    coinbase !== undefined &&
-                    coinbase !== null && routeData.pathname !== "/swap" && (
-                      <DropdownButton
-                        onClick={checklogout === "true" && showModal}
-                        id="dropdown-basic-button2"
-                        title={
-                          <div
-                            className="d-flex align-items-center gap-2  position-relative"
-                            style={{ bottom: "5px", fontSize: "12px" }}
-                          >
-                            <img
-                              src={walletIcon}
-                              alt=""
-                              className="position-relative"
-                              // style={{ top: 4 }}
-                            />
-                            <span className="connecttitle d-none d-lg-flex">
-                              Connect Wallet
+                      coinbase !== undefined &&
+                      coinbase !== null &&
+                      routeData.pathname !== "/swap" && (
+                        <>
+                          <div className="account-info d-none d-lg-flex align-items-center justify-content-center gap-2 gap-lg-3">
+                            <span className="account-balance d-none d-lg-flex">
+                              {currencyAmount}{" "}
+                              {chainId === 1
+                                ? "ETH"
+                                : chainId === 56
+                                ? "BNB"
+                                : "AVAX"}
+                            </span>
+                            <span className="account-address">
+                              {windowSize.width > 786
+                                ? shortAddress(coinbase)
+                                : coinbase?.slice(0, 6) + "..."}
                             </span>
                           </div>
-                        }
-                      ></DropdownButton>
-                    )}
+                          <DropdownButton
+                            id="dropdown-basic-button4"
+                            title={
+                              <img
+                                src={avatar}
+                                style={{
+                                  height: 40,
+                                  width: 40,
+                                  borderRadius: "50%",
+                                  border: "2px solid #4ED5D2",
+                                  margin: "auto",
+                                }}
+                                alt=""
+                              />
+                            }
+                          >
+                            <Dropdown.Item
+                              onClick={() => window.location.assign("/account")}
+                            >
+                              <img src={user} alt="" />
+                              My account
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => logout()}>
+                              <img src={logoutimg} alt="" />
+                              Disconnect wallet
+                            </Dropdown.Item>
+                          </DropdownButton>
+                        </>
+                      )}
+                    {checklogout === "true" &&
+                      (coinbase !== undefined || coinbase !== null) &&
+                      routeData.pathname !== "/swap" && (
+                        <DropdownButton
+                          onClick={checklogout === "true" && showModal}
+                          id="dropdown-basic-button2"
+                          title={
+                            <div
+                              className="d-flex align-items-center gap-2  position-relative"
+                              style={{ bottom: "5px", fontSize: "12px" }}
+                            >
+                              <img
+                                src={walletIcon}
+                                alt=""
+                                className="position-relative"
+                                // style={{ top: 4 }}
+                              />
+                              <span className="connecttitle d-none d-lg-flex">
+                                Connect Wallet
+                              </span>
+                            </div>
+                          }
+                        ></DropdownButton>
+                      )}
                   </div>
                 </div>
               </div>
