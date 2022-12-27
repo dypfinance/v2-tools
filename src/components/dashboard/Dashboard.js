@@ -11,20 +11,14 @@ import LaunchpadCard from "../launchpad-card/LaunchpadCard";
 import ChainlinkCard from "../chainlink-card/ChainlinkCard";
 import TrendingNews from "../newsCard/TrendingNews";
 import rightarrow from "./assets/right-arrow.svg";
-import initStakingNew from "../FARMINNG/staking-new-front";
 import { NavLink } from "react-router-dom";
-import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
 import initConstantStakingiDYP from "../FARMINNG/constant-staking-idyp-new-front";
-import initbscConstantStakingiDyp from "../FARMINNG/bscConstantStakeiDyp";
-import initVaultNew from "../FARMINNG/vault-new";
 import useWindowSize from "../../functions/useWindowSize";
 import axios from "axios";
 import getFormattedNumber from "../../functions/get-formatted-number";
 import initbscConstantStaking from "../FARMINNG/bscConstantStake";
 import stakeAvax from "../FARMINNG/stakeAvax";
-import stakeAvaxiDyp from "../FARMINNG/stakeAvaxiDyp";
 import { FadeLoader } from "react-spinners";
-import CawsCard from "../top-pools-card/CawsCard";
 import CawsDetails from "../FARMINNG/caws";
 
 const Dashboard = ({
@@ -40,7 +34,7 @@ const Dashboard = ({
   handleSwitchNetwork,
 }) => {
   const [topPools, setTopPools] = useState([]);
-  const [poolTvl, setTvl] = useState(0);
+  
 
   const [chainId, setChainId] = useState(network);
 
