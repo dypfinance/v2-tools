@@ -277,11 +277,6 @@ const Header = ({
     fetchUsername();
   }, [coinbase, checklogout]);
 
-  console.log(
-    checklogout === "true" &&
-      (coinbase !== undefined || coinbase !== null) &&
-      routeData.pathname !== "/swap"
-  );
   return (
     <>
       <header className="header-wrap" style={{ zIndex: 5 }}>
