@@ -559,6 +559,10 @@ export default function initConstantStakingiDYP({
       return result;
     };
 
+     focusInput = (field) => {
+      document.getElementById(field).focus();
+    };
+
     render() {
       let {
         disburseDuration,
@@ -959,8 +963,12 @@ export default function initConstantStakingiDYP({
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
+                          name='amount_deposit'
+                          id='amount_deposit'
+
                         />
-                        <label htmlFor="usd" className="label">
+                        <label htmlFor="usd" className="label"
+                        onClick={() => this.focusInput("amount_deposit")}>
                           Amount
                         </label>
                       </div>
