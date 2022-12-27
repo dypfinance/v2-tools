@@ -165,11 +165,11 @@ const Sidebar = (props) => {
       },
     ],
     },
-    // {
-    //   label: "Swap",
-    //   icon: "swapIcon",
-    //   link: "/swap"
-    // },
+    {
+      label: "Swap",
+      icon: "swapIcon",
+      link: "/swap"
+    },
     {
       label: "News",
       icon: "newsIcon",
