@@ -34,7 +34,6 @@ const Dashboard = ({
   handleSwitchNetwork,
 }) => {
   const [topPools, setTopPools] = useState([]);
-  
 
   const [chainId, setChainId] = useState(network);
 
@@ -143,79 +142,12 @@ const Dashboard = ({
       tag: "stake",
     },
   ];
-
-  const cardsBsc = [
-    {
-      tokenLogo: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
-      tvl:
-        topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
-          : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
-      isNewPool: true,
-      isStaked: false,
-      cardType: "Staking",
-      tag: "stake",
-    },
-    {
-      tokenLogo: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
-      tvl:
-        topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
-          : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
-      isNewPool: true,
-      isStaked: false,
-      cardType: "Staking",
-      tag: "stake",
-    },
-  ];
-
-  const cardsAvax = [
-    {
-      tokenLogo: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[0]?.apy_percent + "%" : "30%",
-      tvl:
-        topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[0]?.tvl_usd)
-          : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[0]?.lock_time : "No lock",
-      isNewPool: true,
-      isStaked: false,
-      cardType: "Staking",
-      tag: "stake",
-    },
-    {
-      tokenLogo: "dyplogo.svg",
-      top_pick: false,
-      tokenName: "DYP",
-      apr: topPools.length > 0 ? topPools[1]?.apy_percent + "%" : "30%",
-      tvl:
-        topPools.length > 0
-          ? "$" + getFormattedNumber(topPools[1]?.tvl_usd)
-          : "$48543.20",
-      lockTime: topPools.length > 0 ? topPools[1]?.lock_time : "No lock",
-      isNewPool: true,
-      isStaked: false,
-      cardType: "Staking",
-      tag: "stake",
-    },
-  ];
-
+ 
   const [activeCard, setActiveCard] = useState();
   const [cardIndex, setcardIndex] = useState();
   const [details, setDetails] = useState();
   const [popularNewsData, setPopularNewsData] = useState([]);
   const [activeCard2, setActiveCard2] = useState();
-  const [cards, setCards] = useState(cardsEth);
   const [loading, setLoading] = useState(true);
 
   // let network = parseInt(network);
@@ -303,9 +235,8 @@ const Dashboard = ({
     window.constant_staking_new10,
     window.constant_staking_new11,
   ];
-  const feearrayStakeAvax = [3.5, 1];
 
-  const aprarrayStakeAvax = [30, 10];
+  
 
   const avax_address = "AVAX";
   const expirearrayStakeAvax = ["14 July 2023", "05 August 2023"];
@@ -423,7 +354,6 @@ const Dashboard = ({
       fetchAvaxStaking();
     }
   };
- 
 
   const handleReload = () => {
     window.location.reload();
@@ -516,9 +446,7 @@ const Dashboard = ({
                   )}
                 </div>
                 {activeCard && chainId === 1 ? (
-                 
-                  chainId === 1 &&
-                  cardIndex === 1 ? (
+                  chainId === 1 && cardIndex === 1 ? (
                     <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
@@ -544,57 +472,49 @@ const Dashboard = ({
                     <></>
                   )
                 ) : activeCard && chainId === 56 && cardIndex === 0 ? (
-                
-                    <BscConstantStake
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
-                      chainId={chainId.toString()}
-                      expired={false}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
-                  
+                  <BscConstantStake
+                    is_wallet_connected={isConnected}
+                    coinbase={coinbase}
+                    the_graph_result={the_graph_resultbsc}
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    chainId={chainId.toString()}
+                    expired={false}
+                    handleConnection={handleConnection}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                  />
                 ) : activeCard && chainId === 56 && cardIndex === 1 ? (
-                  
-                    <BscConstantStake1
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
-                      chainId={chainId.toString()}
-                      expired={false}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
-                
+                  <BscConstantStake1
+                    is_wallet_connected={isConnected}
+                    coinbase={coinbase}
+                    the_graph_result={the_graph_resultbsc}
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    chainId={chainId.toString()}
+                    expired={false}
+                    handleConnection={handleConnection}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                  />
                 ) : activeCard && chainId === 43114 && cardIndex === 0 ? (
-                 
-                    <StakeAvax
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      the_graph_result={the_graph_resultavax}
-                      chainId={chainId.toString()}
-                      coinbase={coinbase}
-                      referrer={referrer}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      expired={false}
-                    />
-                 
+                  <StakeAvax
+                    is_wallet_connected={isConnected}
+                    handleConnection={handleConnection}
+                    the_graph_result={the_graph_resultavax}
+                    chainId={chainId.toString()}
+                    coinbase={coinbase}
+                    referrer={referrer}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                  />
                 ) : activeCard && chainId === 43114 && cardIndex === 1 ? (
-                 
-                    <StakeAvax1
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      the_graph_result={the_graph_resultavax}
-                      chainId={chainId.toString()}
-                      coinbase={coinbase}
-                      referrer={referrer}
-                      expired={false}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
-               
+                  <StakeAvax1
+                    is_wallet_connected={isConnected}
+                    handleConnection={handleConnection}
+                    the_graph_result={the_graph_resultavax}
+                    chainId={chainId.toString()}
+                    coinbase={coinbase}
+                    referrer={referrer}
+                    expired={false}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                  />
                 ) : (
                   <></>
                 )}
@@ -602,8 +522,8 @@ const Dashboard = ({
             ) : (
               <div className="d-flex flex-column gap-4">
                 <div className="row m-0 gap-4 toppool-allwrapper">
-                {topPools.length > 0 && loading === false ? (
-                    topPools.slice(0,1).map((item, index) => {
+                  {topPools.length > 0 && loading === false ? (
+                    topPools.slice(0, 1).map((item, index) => {
                       return (
                         <TopPoolsCard
                           key={index}
@@ -625,10 +545,12 @@ const Dashboard = ({
                           onShowDetailsClick={() => {
                             setActiveCard(topPools[index]);
                             setcardIndex(index);
+                            setActiveCard2(null);
                             setDetails(index);
                           }}
                           onHideDetailsClick={() => {
                             setActiveCard(null);
+                            setActiveCard2(null);
                             setDetails();
                           }}
                           cardType={"table"}
@@ -647,19 +569,7 @@ const Dashboard = ({
                   )}
                 </div>
                 {activeCard ? (
-                 chainId === 1 &&
-                 cardIndex === 1 ? (
-                    <ConstantStakingiDYP1
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      lp_id={lp_id[cardIndex]}
-                      chainId={chainId.toString()}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      expired={false}
-                    />
-                  ) : (
+                 
                     <CawsDetails
                       coinbase={coinbase}
                       isConnected={isConnected}
@@ -669,12 +579,12 @@ const Dashboard = ({
                       handleConnection={handleConnection}
                       expired={false}
                     />
-                  )
+                  
                 ) : (
                   <></>
                 )}
                 <div className="row m-0 gap-4 toppool-allwrapper">
-                {topPools.length > 0 && loading === false ? (
+                  {topPools.length > 0 && loading === false ? (
                     topPools.slice(1, topPools.length).map((item, index) => {
                       return (
                         <TopPoolsCard
@@ -695,16 +605,19 @@ const Dashboard = ({
                               : "cawslogo.svg"
                           }
                           onShowDetailsClick={() => {
-                            setActiveCard(topPools[index]);
-                            setcardIndex(index);
-                            setDetails(index);
+                            setActiveCard2(topPools[index+1]);
+                            setActiveCard(null);
+                            setcardIndex(index+1);
+                            setDetails(index+1);
                           }}
                           onHideDetailsClick={() => {
-                            setActiveCard(null);
+                            setActiveCard2(null);
                             setDetails();
+                            setActiveCard(null);
+
                           }}
                           cardType={"table"}
-                          details={details === index ? true : false}
+                          details={details === index+1 ? true : false}
                           expired={false}
                         />
                       );
@@ -718,8 +631,8 @@ const Dashboard = ({
                     </div>
                   )}
                 </div>
-                {activeCard2 ? (
-                 chainId === 1 && cardIndex === 1 ? (
+                {activeCard2 && chainId === 1 && cardIndex === 1  ? (
+                  chainId === 1 && cardIndex === 1 ? (
                     <ConstantStakingiDYP1
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
