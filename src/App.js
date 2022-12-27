@@ -37,11 +37,6 @@ import MobileMenu from "./components/sidebar/MobileMenu";
 import Disclaimer from "./components/disclaimer/Disclaimer";
 import ScrollToTop from "./functions/ScrollToTop";
 
-
-
-
-
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -96,7 +91,7 @@ class App extends React.Component {
     }
   };
 
-  checkNetworkId=() =>{
+  checkNetworkId = () => {
     if (window.ethereum) {
       window.ethereum
         .request({ method: "net_version" })
@@ -112,8 +107,7 @@ class App extends React.Component {
         networkId: "1",
       });
     }
-  }
-
+  };
 
   handleSwitchNetwork = (chainId) => {
     this.setState({ networkId: chainId });
@@ -220,9 +214,9 @@ class App extends React.Component {
     }
 
     this.setState({ isConnected });
-    let coinbase= await window.getCoinbase()
-    if(coinbase !=null || coinbase != undefined) {
-      this.setState({coinbase: coinbase})
+    let coinbase = await window.getCoinbase();
+    if (coinbase != null || coinbase != undefined) {
+      this.setState({ coinbase: coinbase });
     }
     this.setState({ show: false });
     return isConnected;
@@ -311,7 +305,7 @@ class App extends React.Component {
 
   checkConnection() {
     const logout = localStorage.getItem("logout");
-   
+
     if (logout !== "true") {
       window.ethereum
         ?.request({ method: "eth_accounts" })
@@ -334,7 +328,7 @@ class App extends React.Component {
 
   logout = () => {
     localStorage.setItem("logout", "true");
-    this.setState({isConnected: false})
+    this.setState({ isConnected: false });
     this.checkConnection();
   };
   componentWillUnmount() {
@@ -379,7 +373,7 @@ class App extends React.Component {
 
   render() {
     const { LP_IDs_V2 } = window;
-    const {ethereum} = window;
+    const { ethereum } = window;
 
     const LP_ID_Array = [
       LP_IDs_V2.weth[3],
@@ -388,8 +382,8 @@ class App extends React.Component {
       LP_IDs_V2.weth[1],
       LP_IDs_V2.weth[4],
     ];
-    ethereum?.on('chainChanged', this.checkNetworkId)
-    document.addEventListener("touchstart", { passive: true }); 
+    ethereum?.on("chainChanged", this.checkNetworkId);
+    document.addEventListener("touchstart", { passive: true });
     return (
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
@@ -424,6 +418,7 @@ class App extends React.Component {
                 isOpenInMobile={this.state.isOpenInMobile}
                 showModal={this.showModal}
                 hideModal={this.hideModal}
+                logout={this.logout}
                 show={this.state.show}
                 checkConnection={this.checkConnection}
                 isPremium={this.state.isPremium}
@@ -431,7 +426,13 @@ class App extends React.Component {
               />
             </div>
             <div
-              className={`${this.state.windowWidth < 786 ?'col-12 px-1' : this.state.windowWidth < 1490 ? 'col-11' : 'col-10'}`}
+              className={`${
+                this.state.windowWidth < 786
+                  ? "col-12 px-1"
+                  : this.state.windowWidth < 1490
+                  ? "col-11"
+                  : "col-10"
+              }`}
             >
               <div className="right-content pr-0 my-4 my-lg-5">
                 <ScrollToTop />
@@ -506,7 +507,6 @@ class App extends React.Component {
                         {...props}
                         networkId={parseInt(this.state.explorerNetworkId)}
                         onSelectChain={this.onSelectChain}
-
                       />
                     )}
                   />
@@ -542,7 +542,6 @@ class App extends React.Component {
                         handleConnection={this.handleConnection}
                         coinbase={this.state.coinbase}
                         handleSwitchNetwork={this.handleSwitchNetwork}
-
                       />
                     )}
                   />
@@ -569,11 +568,7 @@ class App extends React.Component {
                     path="/disclaimer"
                     render={() => <Disclaimer />}
                   />
-                  <Route
-                    exact
-                    path="/swap"
-                    component={Swap}
-                  />
+                  <Route exact path="/swap" component={Swap} />
 
                   {/* <Route
                     exact
@@ -606,50 +601,52 @@ class App extends React.Component {
                     )}
                   />
                   <Route exact path="/buydyp" render={() => <BuyDyp />} />
-                  {this.state.networkId === '43114' ? 
-                  <Route
-                    exact
-                    path="/governance"
-                    render={() => (
-                      <Governancedev
-                        coinbase={this.state.coinbase}
-                        connected={this.state.isConnected}
-                        handleConnection={this.handleConnection}
-                      />
-                    )}
-                  />
-                  : this.state.networkId === '1' ?
-                  <Route
-                  exact
-                  path="/governance"
-                  render={() => (
-                    <GovernanceEth
-                      coinbase={this.state.coinbase}
-                      connected={this.state.isConnected}
-                      handleConnection={this.handleConnection}
+                  {this.state.networkId === "43114" ? (
+                    <Route
+                      exact
+                      path="/governance"
+                      render={() => (
+                        <Governancedev
+                          coinbase={this.state.coinbase}
+                          connected={this.state.isConnected}
+                          handleConnection={this.handleConnection}
+                        />
+                      )}
+                    />
+                  ) : this.state.networkId === "1" ? (
+                    <Route
+                      exact
+                      path="/governance"
+                      render={() => (
+                        <GovernanceEth
+                          coinbase={this.state.coinbase}
+                          connected={this.state.isConnected}
+                          handleConnection={this.handleConnection}
+                        />
+                      )}
+                    />
+                  ) : (
+                    <Route
+                      exact
+                      path="/governance"
+                      render={() => (
+                        <Governancebsc
+                          coinbase={this.state.coinbase}
+                          connected={this.state.isConnected}
+                          handleConnection={this.handleConnection}
+                        />
+                      )}
                     />
                   )}
-                /> : <Route
-                exact
-                path="/governance"
-                render={() => (
-                  <Governancebsc
-                    coinbase={this.state.coinbase}
-                    connected={this.state.isConnected}
-                    handleConnection={this.handleConnection}
-                  />
-                )}
-              /> 
-}
                   <Route
                     exact
                     path="/"
                     render={() => (
                       <Dashboard
-                      the_graph_resultavax={
-                        this.state.the_graph_result_AVAX_V2
-                      }
-                      the_graph_resultbsc={this.state.the_graph_result_BSC_V2}
+                        the_graph_resultavax={
+                          this.state.the_graph_result_AVAX_V2
+                        }
+                        the_graph_resultbsc={this.state.the_graph_result_BSC_V2}
                         coinbase={this.state.coinbase}
                         the_graph_result={this.state.the_graph_result_ETH_V2}
                         lp_id={LP_ID_Array}
@@ -657,7 +654,6 @@ class App extends React.Component {
                         network={parseInt(this.state.networkId)}
                         handleConnection={this.handleConnection}
                         referrer={this.state.referrer}
-
                       />
                     )}
                   />
