@@ -279,6 +279,17 @@ const MobileMenu = () => {
           <img src={rightArrow} alt="" />
         </NavLink> */}
         <NavLink
+          to="/swap"
+          onClick={() => setMoreModal(false)}
+          className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
+        >
+          <div className="d-flex align-items-center gap-2">
+            <img src={swapIcon} alt="" />
+            <h3 className="sideitem-text">Swap</h3>
+          </div>
+          <img src={rightArrow} alt="" />
+        </NavLink>
+        <NavLink
           to="/news"
           onClick={() => setMoreModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
