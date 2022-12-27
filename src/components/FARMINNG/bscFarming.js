@@ -2938,7 +2938,12 @@ export default function initBscFarming({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
+                    $
+                    {getFormattedNumber(
+                      this.getApproxReturnUSD() / this.getUsdPerETH(),
+                      6
+                    )} USD
+
                   </h3>
                   <h6
                     style={{
@@ -2947,11 +2952,8 @@ export default function initBscFarming({
                       color: "#f7f7fc",
                     }}
                   >
-                    Approx{" "}
-                    {getFormattedNumber(
-                      this.getApproxReturnUSD() / this.getUsdPerETH(),
-                      6
-                    )}{" "}
+                    Approx {" "}{getFormattedNumber(this.getApproxReturnUSD(), 2)}{" "}
+                   {" "}
                     WBNB
                   </h6>
                 </div>

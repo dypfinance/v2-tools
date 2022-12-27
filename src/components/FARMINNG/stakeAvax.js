@@ -1155,9 +1155,7 @@ export default function stakeAvax({
                         >
                           DYP
                         </span>
-                        <span>
-                        {pendingDivs}
-                        </span>
+                        <span>{pendingDivs}</span>
                         {/* <input
                           disabled
                           value={
@@ -1807,7 +1805,12 @@ export default function stakeAvax({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    USD $ {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                    ${" "}
+                    {getFormattedNumber(
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
+                    USD
                   </h3>
                   <h6
                     style={{
@@ -1816,11 +1819,7 @@ export default function stakeAvax({
                       color: "#f7f7fc",
                     }}
                   >
-                    {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
-                      6
-                    )}{" "}
-                    DYP
+                   Approx {" "}{getFormattedNumber(this.getApproxReturn(), 2)} DYP
                   </h6>
                 </div>
                 <div className="mt-4">

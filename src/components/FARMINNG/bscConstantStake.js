@@ -1824,7 +1824,10 @@ export default function initbscConstantStaking({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    USD $ {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                   $ {getFormattedNumber(
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )} {" "} USD 
                   </h3>
                   <h6
                     style={{
@@ -1834,10 +1837,7 @@ export default function initbscConstantStaking({
                     }}
                   >
                     Approx{" "}
-                    {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
-                      6
-                    )}
+                    {getFormattedNumber(this.getApproxReturn(), 2)}
                     DYP
                   </h6>
                 </div>
