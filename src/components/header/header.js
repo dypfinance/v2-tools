@@ -201,7 +201,7 @@ const Header = ({
   };
   const [currencyAmount, setCurrencyAmount] = useState(0);
   const checklogout = localStorage.getItem("logout");
-  //  console.log(coinbase)
+  //  console.log(isConnected)
   const getEthBalance = async () => {
     if (checklogout === "false") {
       const balance = await ethereum.request({
@@ -410,7 +410,7 @@ const Header = ({
                   </Dropdown.Item>
                 )}
               </DropdownButton> */}
-                    {checklogout === "true" &&
+                    {isConnected === true &&
                       coinbase !== undefined &&
                       coinbase !== null &&
                       routeData.pathname !== "/swap" && (
@@ -459,11 +459,11 @@ const Header = ({
                           </DropdownButton>
                         </>
                       )}
-                    {checklogout === "true" &&
+                    {isConnected === false &&
                       (coinbase !== undefined || coinbase !== null) &&
                       routeData.pathname !== "/swap" && (
                         <DropdownButton
-                          onClick={checklogout === "true" && showModal}
+                          onClick={isConnected === false && showModal}
                           id="dropdown-basic-button2"
                           title={
                             <div
