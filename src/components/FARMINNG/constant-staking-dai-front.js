@@ -1072,7 +1072,9 @@ export default function initConstantStakingNewDai({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {token_balance} {token_symbol}
+                        {token_balance !== "..."
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "} {token_symbol}
                         </b>
                       </h6>
                     </div>

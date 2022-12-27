@@ -681,7 +681,6 @@ export default function initConstantStakingiDYP({
       const withdrawClose = () => {
         this.setState({ withdrawTooltip: false });
       };
-
       return (
         <div className="container-lg p-0">
           <div
@@ -899,7 +898,10 @@ export default function initConstantStakingiDYP({
                         10 ** this.state.selectedTokenDecimals,
                       6
                     )} */}
-                          {token_balance} {token_symbol}
+                           {token_balance !== "..."
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "}
+                          {token_symbol}
                         </b>
                         {/* <select
                     disabled={!is_connected}

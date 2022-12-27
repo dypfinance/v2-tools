@@ -1184,7 +1184,9 @@ export default function initConstantStakingNew({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          { token_balance }{" "}
+                        {token_balance !== "..."
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "}
                           {token_symbol}
                         </b>
                       </h6>

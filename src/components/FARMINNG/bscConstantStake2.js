@@ -1163,7 +1163,7 @@ export default function initbscConstantStaking2({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {token_balance != "..." ? token_balance : "..."}{" "}
+                          {token_balance !== "..." ? token_balance : "..."}{" "}
                           {token_symbol}
                         </b>
                       </h6>

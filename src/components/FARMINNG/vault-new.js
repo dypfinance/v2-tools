@@ -1134,7 +1134,9 @@ export default function initVaultNew({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {token_balance} {token_symbol}
+                        {token_balance !== "..."
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "} {token_symbol}
                         </b>
                         {/* <img
                       src={require(`./assets/dyp.svg`).default}
