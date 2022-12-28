@@ -992,6 +992,7 @@ export default class PairExplorer extends React.Component {
                           color: "#fff",
                           borderRadius: "8px",
                         }}
+                        
                       />
                       <ul
                         className="output"
@@ -1453,7 +1454,7 @@ export default class PairExplorer extends React.Component {
                   </div>
                 </div>
                 <div
-                  className="form-container p-3 position-relative"
+                  className="form-container p-3 position-relative d-flex flex-column justify-content-between"
                   style={{ height: "216px" }}
                 >
                   <div
@@ -1467,7 +1468,7 @@ export default class PairExplorer extends React.Component {
                     <div className="content-title-top">
                       <div className="d-flex gap-2 align-items-center">
                         <img src="/assets/img/star.svg"></img>
-                        <h2>FAVORITES</h2>
+                        <h2 className="favorites-text-title">Favorites</h2>
                       </div>
                       {this.state.favorites.length > 0 && (
                         <NavLink
@@ -1545,7 +1546,7 @@ export default class PairExplorer extends React.Component {
               </div>
 
               <div
-                className="form-container p-3 position-relative"
+                className="form-container p-3 position-relative d-flex flex-column justify-content-between"
                 style={{ height: "296px" }}
               >
                 <div className="box-inner pb-0">
@@ -1649,7 +1650,7 @@ export default class PairExplorer extends React.Component {
               </div>
 
               <div
-                className="form-container p-3 position-relative progress-container "
+                className="form-container p-3 position-relative progress-container d-flex flex-column justify-content-between"
                 style={{ height: "331px" }}
               >
                 <div
@@ -1979,6 +1980,7 @@ export default class PairExplorer extends React.Component {
                         color: "#fff",
                         borderRadius: "8px",
                       }}
+                      className="pair-explorer-input"
                     />
                     <ul
                       className="output"

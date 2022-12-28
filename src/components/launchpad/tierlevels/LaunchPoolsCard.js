@@ -38,16 +38,19 @@ const LaunchPoolsCard = ({
       </div>
       <div className="d-flex justify-content-between align-items-center">
         <span className="launch-pool-placeholder">APR:</span>
-        <div className="span launch-pool-value">{apr}</div>
+        <div className="span launch-pool-value" style={{filter: 'blur(5px)'}}>{apr}</div>
       </div>
       <div className="d-flex justify-content-between align-items-center">
         <span className="launch-pool-placeholder">Total staked:</span>
-        <div className="span launch-pool-value">{tvl}</div>
+        <div className="span launch-pool-value" style={{filter: 'blur(5px)'}}>{tvl}</div>
       </div>
       <div className="d-flex align-items-center justify-content-center">
         <button
-          className={`btn ${details === false ? "filledbtn" : "outline-btn"}`}
-          onClick={() => handleDetails()}
+        disabled
+          className={`btn disabled-btn
+          
+          `}
+          // onClick={() => handleDetails()}
         >
           {details === false ? "Stake now" : "Close"}
         </button>

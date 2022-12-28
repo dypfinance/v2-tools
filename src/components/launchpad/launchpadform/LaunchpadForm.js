@@ -225,8 +225,11 @@ const LaunchpadForm = () => {
             console.log(send.status);
             if(send.status === 1){
               setSuccess(true)
+              alert('Form submitted succesfully!')
             }else{
               setSuccess(false)
+              alert('Something went wrong')
+
             }
         }
         recaptchaRef.current.reset();
@@ -264,7 +267,7 @@ const LaunchpadForm = () => {
           <div className="row flex-column flex-lg-row align-items-center justify-content-between first-form mt-5">
             <div className="col-12 col-lg-2 align-items-center align-items-lg-start d-flex flex-column gap-3">
               <div className="form-title">Project logo</div>
-              <div className="upload-container d-flex justify-content-center align-items-center position-relative">
+              <div className={`upload-container ${errors.project_logo && 'error-upload-container'} d-flex justify-content-center align-items-center position-relative`}>
                 <input
                   type="file"
                   id="file-upload"
@@ -430,7 +433,7 @@ const LaunchpadForm = () => {
             <span className={`image-tip mt-3 ${imageError && "required-star"}`}>
             *Logos must have a 1:1 aspect ratio, a maximum size of 250 × 250 pixels, and a maximum file size of 150 kilobytes (kb) - jpg, jpeg, png.
             </span>
-            {errors.project_logo && <span className="error-text" style={{ top: "20px" }}>
+            {errors.project_logo && <span className="error-text">
               {errors.project_logo}
             </span>}
           </div>
