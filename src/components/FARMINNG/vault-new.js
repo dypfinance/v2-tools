@@ -573,6 +573,10 @@ export default function initVaultNew({
     getAPY = () => {
       return apr;
     };
+    
+    getUsdPerETH = () => {
+      return this.props.the_graph_result.usd_per_eth || 0;
+    };
 
     refreshBalance = async () => {
       let coinbase = this.state.coinbase;
@@ -1956,7 +1960,7 @@ export default function initVaultNew({
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}> ${getFormattedNumber(
                       
-                      this.getApproxReturnUSD() / this.getUsdPerETH(),
+                      this.getApproxReturn() / this.getUsdPerETH(),
                       6
                     )} USD</h3>
                   <h6
