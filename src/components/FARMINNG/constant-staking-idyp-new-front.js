@@ -965,10 +965,11 @@ export default function initConstantStakingiDYP({
                           style={{ width: "100%" }}
                           name='amount_deposit'
                           id='amount_deposit'
+                          onClick={() => this.focusInput("amount_deposit")}
 
                         />
                         <label htmlFor="usd" className="label"
-                        onClick={() => this.focusInput("amount_deposit")}>
+                       >
                           Amount
                         </label>
                       </div>
