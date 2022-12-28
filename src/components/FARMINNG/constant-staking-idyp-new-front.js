@@ -965,9 +965,9 @@ export default function initConstantStakingiDYP({
                           style={{ width: "100%" }}
                           name='amount_deposit'
                           id='amount_deposit'
-
+                          key="amount_deposit"
                         />
-                        <label htmlFor="usd" className="label"
+                        <label className="label"
                        >
                           Amount
                         </label>
@@ -1550,6 +1550,8 @@ export default function initConstantStakingiDYP({
                           type="number"
                           autoComplete="off"
                           value={this.state.withdrawAmount}
+                          key="amount_withdraw"
+
                           onChange={(e) =>
                               this.setState({
                                 withdrawAmount: e.target.value,
@@ -1559,7 +1561,7 @@ export default function initConstantStakingiDYP({
                           className="text-input"
                           style={{ width: "100%" }}
                         />
-                        <label htmlFor="usd" className="label">
+                        <label className="label">
                         Withdraw Amount
                         </label>
                       </div>
