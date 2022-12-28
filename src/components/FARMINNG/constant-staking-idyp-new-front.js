@@ -902,10 +902,10 @@ export default function initConstantStakingiDYP({
                         10 ** this.state.selectedTokenDecimals,
                       6
                     )} */}
-                           {/* {token_balance !== "..."
+                           {token_balance !== "..."
                             ? token_balance
                             : getFormattedNumber(0, 6)}{" "}
-                          {token_symbol} */}
+                          {token_symbol}
                         </b>
                         {/* <select
                     disabled={!is_connected}
@@ -950,16 +950,16 @@ export default function initConstantStakingiDYP({
                         <input
                           type="number"
                           autoComplete="off"
-                          // value={
-                          //   Number(this.state.depositAmount) > 0
-                          //     ? this.state.depositAmount
-                          //     : this.state.depositAmount
-                          // }
-                          // onChange={(e) =>
-                          //   this.setState({
-                          //     depositAmount: e.target.value,
-                          //   })
-                          // }
+                          value={
+                            Number(this.state.depositAmount) > 0
+                              ? this.state.depositAmount
+                              : this.state.depositAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              depositAmount: e.target.value,
+                            })
+                          }
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
@@ -1088,9 +1088,9 @@ export default function initConstantStakingiDYP({
                       >
                         iDYP
                       </span>
-                      {/* <span>{pendingDivs}</span> */}
+                      <span>{pendingDivs}</span>
                     </div>
-                    {/* <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
+                    <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                       <button
                         disabled={
                           this.state.claimStatus === "claimed" ||
@@ -1166,7 +1166,7 @@ export default function initConstantStakingiDYP({
                           )}
                         </button>
                       )}
-                    </div> */}
+                    </div>
                   </div>
                   {this.state.errorMsg2 && (
                     <h6 className="errormsg">{this.state.errorMsg2}</h6>
