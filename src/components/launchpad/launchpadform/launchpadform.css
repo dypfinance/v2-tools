@@ -4,16 +4,15 @@
   border-radius: 12px;
 }
 
-
-.progress-container{
+.progress-container {
   height: 331px;
 }
 
-.progress-table{
+.progress-table {
   width: 48%;
 }
 
-.progress-circle{
+.progress-circle {
   width: 48%;
 }
 
@@ -25,13 +24,11 @@
   color: #857dfa !important;
 }
 
-
-.form-sub-title{
+.form-sub-title {
   font-weight: 500;
   font-size: 18px;
   line-height: 24px;
-  color: #F7F7FC !important;
-  
+  color: #f7f7fc !important;
 }
 
 .upload-container {
@@ -42,12 +39,16 @@
   width: 110px;
 }
 
+.error-upload-container {
+  border: 1px dashed rgba(248, 132, 91, 1);
+}
+
 .form-grid {
   grid-template-columns: repeat(2, 1fr);
   gap: 38px;
 }
 
-.additional-grid{
+.additional-grid {
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
@@ -84,17 +85,16 @@
   color: rgba(248, 132, 91, 1) !important;
 }
 
-.error-text{
+.error-text {
   position: absolute;
   color: rgba(248, 132, 91, 1) !important;
   font-size: 12px;
   left: 0;
   bottom: -15px;
-  
 }
 
-.error-border{
-border: 1px solid rgba(248, 132, 91, 1) !important;
+.error-border {
+  border: 1px solid rgba(248, 132, 91, 1) !important;
 }
 
 .input-icon {
@@ -120,45 +120,45 @@ border: 1px solid rgba(248, 132, 91, 1) !important;
   color: #857dfa !important;
 }
 
-.launchpad-item{
+.launchpad-item {
   cursor: pointer;
-  background: #26264F !important;
-  color: #8E97CD !important; 
+  background: #26264f !important;
+  color: #8e97cd !important;
   font-weight: 500 !important;
-font-size: 10px !important;
-line-height: 18px !important; 
+  font-size: 10px !important;
+  line-height: 18px !important;
 }
 
-.launchpad-item:hover{
-  background: #1E1C40 !important;
-  color: #F7F7FC !important;
+.launchpad-item:hover {
+  background: #1e1c40 !important;
+  color: #f7f7fc !important;
 }
 
 @media screen and (max-width: 786px) {
-  .form-grid{
+  .form-grid {
     grid-template-columns: auto;
   }
 
-  .additional-grid{
+  .additional-grid {
     grid-template-columns: auto;
   }
-  .submit-form-title{
+  .submit-form-title {
     width: 100% !important;
   }
 
-  .funding-grid{
+  .funding-grid {
     grid-template-columns: auto;
   }
 
-  .progress-container{
+  .progress-container {
     height: 100% !important;
   }
 
-  .progress-table{
+  .progress-table {
     width: 100%;
   }
-  
-  .progress-circle{
+
+  .progress-circle {
     width: 100%;
   }
 }

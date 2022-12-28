@@ -1631,10 +1631,10 @@ body.theme-dark img.graph-two {
 .score-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: start;
   margin: 5px;
-  /* gap: 10px; */
+  gap: 10px;
   /* width: 40%; */
 }
 
