@@ -950,16 +950,16 @@ export default function initConstantStakingiDYP({
                         <input
                           type="number"
                           autoComplete="off"
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
+                          // value={
+                          //   Number(this.state.depositAmount) > 0
+                          //     ? this.state.depositAmount
+                          //     : this.state.depositAmount
+                          // }
+                          // onChange={(e) =>
+                          //   this.setState({
+                          //     depositAmount: e.target.value,
+                          //   })
+                          // }
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
