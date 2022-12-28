@@ -948,13 +948,11 @@ export default function initbscConstantStakingiDyp({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="position-relative">
-                        <h6 className="amount-txt">Amount</h6>
+                      
+                      <div className="input-container usd-input px-0">
                         <input
-                          type={"text"}
-                          className="styledinput"
-                          placeholder="0.0"
-                          style={{ width: "100%" }}
+                          type="number"
+                          autoComplete="off"
                           value={
                             Number(this.state.depositAmount) > 0
                               ? this.state.depositAmount
@@ -965,8 +963,13 @@ export default function initbscConstantStakingiDyp({
                               depositAmount: e.target.value,
                             })
                           }
-                          // onChange={(e) => setDepositValue(e.target.value)}
+                          placeholder=" "
+                          className="text-input"
+                          style={{ width: "100%" }}
                         />
+                        <label htmlFor="usd" className="label">
+                        Amount
+                        </label>
                       </div>
                       <button
                         className="btn maxbtn"
@@ -1542,21 +1545,24 @@ export default function initbscConstantStakingiDyp({
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between gap-2">
-                        <div className="position-relative w-100">
-                          <h6 className="amount-txt">Withdraw Amount</h6>
-                          <input
-                            type={"text"}
-                            className="styledinput"
-                            placeholder="0.0"
-                            style={{ width: "100%" }}
-                            value={this.state.withdrawAmount}
+                        <div className="input-container usd-input px-0">
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          value={this.state.withdrawAmount}
                             onChange={(e) =>
                               this.setState({
                                 withdrawAmount: e.target.value,
                               })
                             }
-                          />
-                        </div>
+                          placeholder=" "
+                          className="text-input"
+                          style={{ width: "100%" }}
+                        />
+                        <label htmlFor="usd" className="label">
+                        Withdraw Amount
+                        </label>
+                      </div>
                         <button
                           className="btn maxbtn"
                           onClick={this.handleSetMaxWithdraw}
@@ -1772,7 +1778,10 @@ export default function initbscConstantStakingiDyp({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    USD $ {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                     $ {getFormattedNumber(
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )} {" "}USD
                   </h3>
                   <h6
                     style={{
@@ -1782,10 +1791,7 @@ export default function initbscConstantStakingiDyp({
                     }}
                   >
                     Approx{" "}
-                    {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
-                      6
-                    )}{" "}
+                    {getFormattedNumber(this.getApproxReturn(), 2)}{" "}
                     iDYP
                   </h6>
                 </div>

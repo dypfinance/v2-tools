@@ -264,10 +264,10 @@ const Bridge = ({
               setActiveBtn("5");
               setSourceChainiDyp("eth");
               setDestinationChainiDyp("bnb");
-              setSourceBridgeiDyp(window.bridge_idypeth);
-              setDestinationBridgeiDyp(window.bridge_idypbsc);
-              setSourceTokeniDyp(window.token_idyp_eth);
-              setDestinationTokeniDyp(window.token_idyp_bsc);
+              setSourceBridgeiDyp(window.bridge_idypbsceth);
+              setDestinationBridgeiDyp(window.bridge_idypbscbsc);
+              setSourceTokeniDyp(window.token_idyp_bsceth);
+              setDestinationTokeniDyp(window.token_idyp_bscbsc);
             }}
           >
             <h6 className="optiontext d-flex align-items-center gap-2">

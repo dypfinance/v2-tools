@@ -599,7 +599,7 @@ export default class Locker extends React.Component {
   GetPairLockInfo = () => {
     return (
       <div className="mb-4">
-        <p style={{ color: "#A4A4A4", fontSize: 12 }}>
+        <span className="total-dyp-locked">
           Total{" "}
           {this.state.pair
             ? `${this.state.pair.token0.symbol}-${this.state.pair.token1.symbol}`
@@ -613,7 +613,7 @@ export default class Locker extends React.Component {
             )}
             %)
           </span>
-        </p>
+        </span>
         {typeof this.state.usdValueOfLP !== "undefined" && (
           <p>
             USD Value Locked:{" "}
@@ -1575,7 +1575,6 @@ export default class Locker extends React.Component {
     } else {
       return (
         <div>
-
           <div className="pair-locker-wrapper px-0 mt-3">
             <Skeleton theme={this.props.theme} />
             <Skeleton theme={this.props.theme} />
@@ -1961,6 +1960,7 @@ export default class Locker extends React.Component {
   };
 
   render() {
+    
     const convertTimestampToDate = (timestamp) => {
       const result = new Intl.DateTimeFormat("en-US", {
         year: "numeric",
@@ -2391,7 +2391,7 @@ export default class Locker extends React.Component {
                   <div className="d-flex align-items-center gap-2">
                     <img src={coinStackIcon} alt="" />
                     <h6 className="locker-function-title">
-                      My DYP locker liquidity
+                      My DYP locker liquidity 
                     </h6>
                   </div>
                   <hr className="form-divider my-3" />
@@ -2409,9 +2409,9 @@ export default class Locker extends React.Component {
                       </div>
                       <div className="locker-status d-flex align-items-center gap-3 p-2">
                         <span className="locker-status-text">
-                          {!this.state.lpBalance
+                          {this.state.lpBalance == '0'
                             ? 25
-                            : this.getPercentageLocked()}{" "}
+                            : this.getPercentageLocked()}
                           % Locked
                         </span>
                         <span className="locker-status-text">
@@ -2425,7 +2425,7 @@ export default class Locker extends React.Component {
                                       ].unlockTimestamp
                                     )
                                   )
-                                : "00:00:00:00"
+                                : 'Fri, 02 Feb 1996 03:04:05 GMT'
                             }
                           />
                         </span>
@@ -2530,18 +2530,7 @@ export default class Locker extends React.Component {
           </>
         )}
         <h6 className="locker-title mt-5">Pair locks</h6>
-        <span className="total-dyp-locked">
-          Total DYP-USDT locked:{" "}
-          <b>
-            {" "}
-            {getFormattedNumber(this.state.totalLpLocked / 1e18, 18)} (
-            {getFormattedNumber(
-              (this.state.totalLpLocked / this.state.lpTotalSupply) * 100,
-              2
-            )}
-            %)
-          </b>
-        </span>
+        <span className="total-dyp-locked">{this.GetPairLockInfo()}</span>
         <div className="row mx-0 w-100 mt-2">
           <div className="pair-locker-wrapper px-0 mt-3">
             {/* <PairLockerCard completed={true} active={true} topLocked={true} />
@@ -2622,8 +2611,12 @@ export default class Locker extends React.Component {
             )}
           </div>
         </div>
-        <h6 className="locker-title mt-5">My locks</h6>
-        <div className="mb-5">{this.GetMyLocks()}</div>
+        {this.state.recipientLocks.length > 0 && (
+          <>
+            <h6 className="locker-title mt-5">My locks</h6>
+            <div className="mb-5">{this.GetMyLocks()}</div>
+          </>
+        )}
         {this.state.showModal === true ? (
           <InfoModal
             visible={this.state.showModal}

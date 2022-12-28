@@ -675,7 +675,7 @@ export default function initBridgeidyp({
                   <div className="col-12 position-relative">
                     <div className="purplediv"></div>
                     <div className="l-box">
-                      <form className="pb-0">
+                      <div className="pb-0">
                         <div className="form-group">
                           <label
                             htmlFor="deposit-amount"
@@ -918,7 +918,7 @@ export default function initBridgeidyp({
                             )}
                           </div>
                         </div>
-                      </form>
+                      </div>
                     </div>
                   </div>
                 </div>

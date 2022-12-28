@@ -1585,25 +1585,30 @@ export default function initStakingNew({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-start gap-2 w-100">
-                        <div className="position-relative">
-                          <h6 className="amount-txt">Amount</h6>
-                          <input
-                            type={"number"}
-                            className="styledinput"
-                            placeholder="0.0"
-                            style={{ width: "100%" }}
-                            value={
-                              Number(this.state.depositAmount) > 0
-                                ? this.state.depositAmount
-                                : this.state.depositAmount
-                            }
-                            onChange={(e) =>
-                              this.setState({
-                                depositAmount: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
+                        
+                        <div className="input-container usd-input px-0">
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          value={
+                            Number(this.state.depositAmount) > 0
+                              ? this.state.depositAmount
+                              : this.state.depositAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              depositAmount: e.target.value,
+                            })
+                          }
+                          placeholder=" "
+                          className="text-input"
+                          style={{ width: "100%" }}
+                        />
+                        <label htmlFor="usd" className="label">
+                        Amount
+                        </label>
+                      </div>
+
                         <button
                           className="btn maxbtn"
                           onClick={this.handleSetMaxDeposit}
@@ -3024,7 +3029,11 @@ export default function initStakingNew({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
+                    ${getFormattedNumber(
+                      
+                      this.getApproxReturnUSD() / this.getUsdPerETH(),
+                      6
+                    )} USD
                   </h3>
                   <h6
                     style={{
@@ -3034,10 +3043,8 @@ export default function initStakingNew({
                     }}
                   >
                     Approx{" "}
-                    {getFormattedNumber(
-                      this.getApproxReturnUSD() / this.getUsdPerETH(),
-                      6
-                    )}{" "}
+                   
+                    {getFormattedNumber(this.getApproxReturnUSD(), 2)} {" "}
                     WETH
                   </h6>
                 </div>

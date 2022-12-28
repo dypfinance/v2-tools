@@ -388,7 +388,8 @@ class App extends React.Component {
       LP_IDs_V2.weth[1],
       LP_IDs_V2.weth[4],
     ];
-    ethereum?.on('chainChanged', this.checkNetworkId)
+    if(window.location.pathname.includes('bridge') === false)
+   { ethereum?.on('chainChanged', this.checkNetworkId)}
     document.addEventListener("touchstart", { passive: true }); 
     return (
       <div

@@ -573,6 +573,10 @@ export default function initVaultNew({
     getAPY = () => {
       return apr;
     };
+    
+    getUsdPerETH = () => {
+      return this.props.the_graph_result.usd_per_eth || 0;
+    };
 
     refreshBalance = async () => {
       let coinbase = this.state.coinbase;
@@ -1134,7 +1138,9 @@ export default function initVaultNew({
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                          {token_balance} {token_symbol}
+                        {token_balance !== "..."
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "} {token_symbol}
                         </b>
                         {/* <img
                       src={require(`./assets/dyp.svg`).default}
@@ -1164,25 +1170,31 @@ export default function initVaultNew({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-center w-100 gap-2">
-                        <div className="position-relative">
-                          <h6 className="amount-txt">Amount</h6>
-                          <input
-                            type={"number"}
-                            className="styledinput"
-                            placeholder="0.0"
-                            style={{ width: "100%" }}
-                            value={
-                              Number(this.state.depositAmount) > 0
-                                ? this.state.depositAmount
-                                : this.state.depositAmount
-                            }
-                            onChange={(e) =>
-                              this.setState({
-                                depositAmount: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
+                       
+                        <div className="input-container usd-input px-0">
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          value={
+                            Number(this.state.depositAmount) > 0
+                              ? this.state.depositAmount
+                              : this.state.depositAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              depositAmount: e.target.value,
+                            })
+                          }
+                          placeholder=" "
+                          className="text-input"
+                          style={{ width: "100%" }}
+                        />
+                        <label htmlFor="usd" className="label">
+                        Amount
+                        </label>
+                      </div>
+
+
                         <button
                           className="btn maxbtn"
                           onClick={this.handleSetMaxDeposit}
@@ -1729,21 +1741,24 @@ export default function initVaultNew({
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between gap-2">
-                        <div className="position-relative">
-                          <h6 className="amount-txt">Withdraw Amount</h6>
-                          <input
-                            type={"text"}
-                            className="styledinput"
-                            placeholder="0.0"
-                            style={{ width: "100%" }}
-                            value={this.state.withdrawAmount}
+                        <div className="input-container usd-input px-0">
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          value={this.state.withdrawAmount}
                             onChange={(e) =>
                               this.setState({
                                 withdrawAmount: e.target.value,
                               })
                             }
-                          />
-                        </div>
+                          placeholder=" "
+                          className="text-input"
+                          style={{ width: "100%" }}
+                        />
+                        <label htmlFor="usd" className="label">
+                        Withdraw Amount
+                        </label>
+                      </div>
                         <button
                           className="btn maxbtn"
                           onClick={this.handleSetMaxWithdraw}
@@ -1943,7 +1958,11 @@ export default function initVaultNew({
                   </div>
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
-                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}>tbd</h3>
+                  <h3 style={{ fontWeight: "500", fontSize: "39px" }}> ${getFormattedNumber(
+                      
+                      this.getApproxReturn() / this.getUsdPerETH(),
+                      6
+                    )} USD</h3>
                   <h6
                     style={{
                       fontWeight: "300",
@@ -1951,7 +1970,7 @@ export default function initVaultNew({
                       color: "#f7f7fc",
                     }}
                   >
-                    Approx {getFormattedNumber(this.getApproxReturn(), 6)}{" "}
+                    Approx {" "}{getFormattedNumber(this.getApproxReturn(), 2)}
                     {token_symbol}
                   </h6>
                 </div>

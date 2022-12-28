@@ -3762,7 +3762,7 @@ body.theme-dark input[type="email"],
 body.theme-dark input[type="number"],
 body.theme-dark select.form-control {
   background: var(--grey);
-  color: var(--black2);
+  color: var(--white);
   border: none;
 }
 
