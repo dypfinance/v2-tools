@@ -1152,7 +1152,7 @@ export default function initConstantStakingNew({
                     ) : (
                       <button
                         className="connectbtn btn"
-                        onClick={()=>{ this.state.handleEthPool()}}
+                        onClick={()=>{ this.handleEthPool()}}
                       >
                        Change Network
                       </button>
