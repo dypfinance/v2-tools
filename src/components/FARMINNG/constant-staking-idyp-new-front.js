@@ -26,27 +26,6 @@ import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
-import {
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  FormHelperText,
-} from "@mui/material";
-import styled from "styled-components";
-
-const StyledTextField = styled(TextField)(({ }) => ({
-  "& .MuiOutlinedInput-root": {
-    borderRadius: "8px",
-  },
-  "& .MuiInputLabel-root": {
-    color: "#A0A3BD",
-    fontWeight: 400,
-    fontFamily: 'Poppins',
-
-  },
-}));
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -904,17 +883,46 @@ export default function initConstantStakingiDYP({
                   <div className="d-flex justify-content-between align-items-center gap-2">
                     <div className="d-flex justify-content-center align-items-center gap-3">
                       <h6 className="deposit-txt">Deposit</h6>
-                    
+                      {/* <h6 className="deposit-txt d-flex align-items-center gap-2">
+                        <img
+                          src={
+                            require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                              .default
+                          }
+                          alt=""
+                          style={{ width: 14, height: 14 }}
+                        />
+                        {token_symbol}
+                      </h6> */}
                       <h6 className="mybalance-text">
                         Balance:
                         <b>
-                         
+                          {/* {getFormattedNumber(
+                      this.state.selectedTokenBalance /
+                        10 ** this.state.selectedTokenDecimals,
+                      6
+                    )} */}
                            {token_balance !== "..."
                             ? token_balance
                             : getFormattedNumber(0, 6)}{" "}
                           {token_symbol}
                         </b>
-                        
+                        {/* <select
+                    disabled={!is_connected}
+                    value={this.state.selectedBuybackToken}
+                    onChange={(e) =>
+                      this.handleSelectedTokenChange(e.target.value)
+                    }
+                    className="inputfarming p-0"
+                    style={{ border: "none" }}
+                  >
+                    {Object.keys(window.buyback_tokens_farming).map((t) => (
+                      <option key={t} value={t}>
+                        {" "}
+                        {window.buyback_tokens_farming[t].symbol}{" "}
+                      </option>
+                    ))}
+                  </select> */}
                       </h6>
                     </div>
                     <ClickAwayListener onClickAway={depositClose}>
@@ -936,29 +944,9 @@ export default function initConstantStakingiDYP({
                       </Tooltip>
                     </ClickAwayListener>
                   </div>
-                
-
                   <div className="d-flex flex-column gap-2 justify-content-between">
-                    <div className="d-flex align-items-center justify-content-between gap-2 position-relative">
-                    <StyledTextField
-                      error={false}
-                      required
-                      label="Amount"
-                      name="amount"
-                      id="amount"
-                      value={
-                        Number(this.state.depositAmount) > 0
-                          ? this.state.depositAmount
-                          : this.state.depositAmount
-                      }
-                      onChange={(e) =>
-                        this.setState({
-                          depositAmount: e.target.value,
-                        })
-                      }
-                      // helperText={errors.name}
-                    />
-                      {/* <div className="input-container px-0">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <div className="input-container usd-input px-0">
                         <input
                           type="number"
                           autoComplete="off"
@@ -983,7 +971,7 @@ export default function initConstantStakingiDYP({
                        >
                           Amount
                         </label>
-                      </div> */}
+                      </div>
 
                       <button
                         className="btn maxbtn"
