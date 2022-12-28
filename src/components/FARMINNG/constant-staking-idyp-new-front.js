@@ -26,22 +26,6 @@ import calculatorIcon from "../calculator/assets/calculator.svg";
 import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
-import {
-  TextField
-} from "@mui/material";
-import styled from "styled-components";
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  "& .MuiOutlinedInput-root": {
-    borderRadius: "8px",
-  },
-  "& .MuiInputLabel-root": {
-    color: "#A0A3BD",
-    fontWeight: 400,
-    fontFamily: 'Poppins',
-
-  },
-}));
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -962,7 +946,7 @@ export default function initConstantStakingiDYP({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
-                      {/* <div className="input-container usd-input px-0">
+                      <div className="input-container usd-input px-0">
                         <input
                           type="number"
                           autoComplete="off"
@@ -987,18 +971,8 @@ export default function initConstantStakingiDYP({
                        >
                           Amount
                         </label>
-                      </div> */}
- <StyledTextField
-                      error={false}
-                      required
-                      label="Name"
-                      name="name"
-                      id="name"
-                      key="amount_deposit"
-                      // value={values.name}
-                      // onChange={handleChange}
-                      // helperText={errors.name}
-                    />
+                      </div>
+
                       <button
                         className="btn maxbtn"
                         onClick={this.handleSetMaxDeposit}
