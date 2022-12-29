@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import walletIcon from "../assets/wallet.svg";
 import votesIcon from "../assets/votesIcon.svg";
 import tooltipIcon from "../assets/tooltipIcon.svg";
-import dropdownIndicator from '../assets/dropdownIndicator.svg'
+import dropdownIndicator from "../assets/dropdownIndicator.svg";
 
 const GovernanceBalance = () => {
   const [proposalType, setProposalType] = useState("disburse");
@@ -21,24 +21,23 @@ const GovernanceBalance = () => {
   tooltipButton?.addEventListener("mouseenter", showTooltip);
   tooltipButton?.addEventListener("mouseleave", hideTooltip);
 
-
   const dropdownPools = [
     {
-      title: 'Ether Pools',
-      icon: 'eth.svg'
+      title: "Ether Pools",
+      icon: "eth.svg",
     },
     {
-      title: 'BNB Pools',
-      icon: 'bnb.svg'
+      title: "BNB Pools",
+      icon: "bnb.svg",
     },
     {
-      title: 'AVAX Pools',
-      icon: 'avax.svg'
+      title: "AVAX Pools",
+      icon: "avax.svg",
     },
-  ]
+  ];
 
-  const [showDropdown, setShowDropdown] = useState(false)
-  const [selectedPool, setSelectedPool] = useState(dropdownPools[0])
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedPool, setSelectedPool] = useState(dropdownPools[0]);
 
   return (
     <div className="row w-100 mt-5 justify-content-between ">
@@ -83,40 +82,76 @@ const GovernanceBalance = () => {
               Other/Free Text
             </span>
           </div>
-          {proposalType === 'disburse' ?
-        <div className="position-relative my-4">
-        <h6 className="amount-txt">Select pool</h6>
-        <div
-          className="styledinput d-flex justify-content-between align-items-center px-2"
-          style={{ width: "60%", cursor: 'pointer' }}
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-        <div className="d-flex align-items-center gap-2">
-          <img src={require(`../../calculator/assets/${selectedPool.icon}`).default} alt="" />
-          <span className="text-white" style={{fontSize: '15px', fontWeight: '500'}}>{selectedPool.title}</span>
-        </div>
-          <img src={dropdownIndicator} alt=""  style={{minHeight: '20px', minWidth: '20px'}}/>
-        </div>
-        <div className={`${showDropdown ? 'd-flex' : 'd-none'} pools-dropdown styledinput h-auto p-2 flex-column gap-3`}>
-          {dropdownPools.map((pool, index) => (
-            <div key={index} className="pool-item p-2 d-flex align-items-center justify-content-start gap-2" onClick={() => {setSelectedPool(pool); setShowDropdown(false)}}>
-                       <img src={require(`../../calculator/assets/${pool.icon}`).default} alt="" />
-          <span className="text-white" style={{fontSize: '15px', fontWeight: '500'}}>{pool.title}</span>
+          {proposalType === "disburse" ? (
+            <div className="position-relative my-4">
+              <h6 className="amount-txt">Select pool</h6>
+              <div
+                className="styledinput d-flex justify-content-between align-items-center px-2"
+                style={{ width: "60%", cursor: "pointer" }}
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
+                <div className="d-flex align-items-center gap-2">
+                  <img
+                    src={
+                      require(`../../calculator/assets/${selectedPool.icon}`)
+                        .default
+                    }
+                    alt=""
+                  />
+                  <span
+                    className="text-white"
+                    style={{ fontSize: "15px", fontWeight: "500" }}
+                  >
+                    {selectedPool.title}
+                  </span>
+                </div>
+                <img
+                  src={dropdownIndicator}
+                  alt=""
+                  style={{ minHeight: "20px", minWidth: "20px" }}
+                />
+              </div>
+              <div
+                className={`${
+                  showDropdown ? "d-flex" : "d-none"
+                } pools-dropdown styledinput h-auto p-2 flex-column gap-3`}
+              >
+                {dropdownPools.map((pool, index) => (
+                  <div
+                    key={index}
+                    className="pool-item p-2 d-flex align-items-center justify-content-start gap-2"
+                    onClick={() => {
+                      setSelectedPool(pool);
+                      setShowDropdown(false);
+                    }}
+                  >
+                    <img
+                      src={
+                        require(`../../calculator/assets/${pool.icon}`).default
+                      }
+                      alt=""
+                    />
+                    <span
+                      className="text-white"
+                      style={{ fontSize: "15px", fontWeight: "500" }}
+                    >
+                      {pool.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-      :
-<div className="position-relative mt-4">
-            <h6 className="amount-txt">Enter proposal text</h6>
-            <textarea
-              type={"text"}
-              className="styledinput w-100 h-100"
-              rows={5}
-            />
-          </div>
-        }
-          
+          ) : (
+            <div className="position-relative mt-4">
+              <h6 className="amount-txt">Enter proposal text</h6>
+              <textarea
+                type={"text"}
+                className="styledinput w-100 h-100"
+                rows={5}
+              />
+            </div>
+          )}
+
           <hr className="balance-divider" />
           <button className="btn filledbtn w-100 withdraw-btn">
             Submit proposal

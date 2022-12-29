@@ -801,10 +801,10 @@ export default class Governance extends React.Component {
     if (this.state.proposals?.length == 0 && logout === "false") {
       this.refreshProposals();
     this.getProposal();
-    this.fetchProposals(); 
+ 
 
     }
-
+   this.fetchProposals(); 
     this.checkConnection();
     this.getProposal();
     window._refreshBalInterval = setInterval(this.checkConnection, 1000);
