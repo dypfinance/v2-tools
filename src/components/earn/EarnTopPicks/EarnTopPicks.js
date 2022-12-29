@@ -3070,16 +3070,7 @@ const EarnTopPicks = ({
                     cardIndex >= 0 &&
                     topList === "Staking" &&
                     chain === "eth" ? (
-                    <ConstantStakingiDYP1Active
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      expired={false}
-                      the_graph_result={the_graph_result}
-                      lp_id={lp_id[cardIndex]}
-                      chainId={chainId}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                    />
+                    <input type='text'/>
                   ) : activeCard2 &&
                     cardIndex >= 2 &&
                     topList === "Staking" &&
