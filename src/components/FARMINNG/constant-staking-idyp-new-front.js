@@ -241,13 +241,13 @@ export default function initConstantStakingiDYP({
 
     componentDidMount() {
       // this.refreshBalance();
-      // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
-      // if (this.props.coinbase !== this.state.coinbase) {
-      //   this.setState({ coinbase: this.props.coinbase });
-      // }
+      if (this.props.coinbase !== this.state.coinbase) {
+        this.setState({ coinbase: this.props.coinbase });
+      }
 
-      // this.getTotalTvl().then();
+      this.getTotalTvl().then();
     }
 
     getTotalTvl = async () => {
@@ -259,7 +259,7 @@ export default function initConstantStakingiDYP({
     };
 
     componentWillUnmount() {
-      // clearInterval(window._refreshBalInterval);
+      clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -559,7 +559,9 @@ export default function initConstantStakingiDYP({
       return result;
     };
 
-    
+     focusInput = (field) => {
+      document.getElementById(field).focus();
+    };
 
     render() {
       let {
