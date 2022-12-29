@@ -241,13 +241,13 @@ export default function initConstantStakingiDYP({
 
     componentDidMount() {
       // this.refreshBalance();
-      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      // window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
 
-      if (this.props.coinbase !== this.state.coinbase) {
-        this.setState({ coinbase: this.props.coinbase });
-      }
+      // if (this.props.coinbase !== this.state.coinbase) {
+      //   this.setState({ coinbase: this.props.coinbase });
+      // }
 
-      this.getTotalTvl().then();
+      // this.getTotalTvl().then();
     }
 
     getTotalTvl = async () => {
@@ -259,7 +259,7 @@ export default function initConstantStakingiDYP({
     };
 
     componentWillUnmount() {
-      clearInterval(window._refreshBalInterval);
+      // clearInterval(window._refreshBalInterval);
     }
 
     handleDeposit = (e) => {
@@ -559,9 +559,7 @@ export default function initConstantStakingiDYP({
       return result;
     };
 
-    focusInput = (field) => {
-      document.getElementById(field).focus();
-    };
+    
 
     render() {
       let {
@@ -577,7 +575,114 @@ export default function initConstantStakingiDYP({
         coinbase,
         tvl,
       } = this.state;
- 
+
+      token_balance = new BigNumber(token_balance).div(1e18).toString(10);
+      token_balance = getFormattedNumber(token_balance, 6);
+
+      pendingDivs = new BigNumber(pendingDivs)
+        .div(10 ** TOKEN_DECIMALS)
+        .toString(10);
+      pendingDivs = getFormattedNumber(pendingDivs, 6);
+
+      totalEarnedTokens = new BigNumber(totalEarnedTokens)
+        .div(10 ** TOKEN_DECIMALS)
+        .toString(10);
+      totalEarnedTokens = getFormattedNumber(totalEarnedTokens, 6);
+
+      referralFeeEarned = getFormattedNumber(referralFeeEarned / 1e18, 6);
+
+      depositedTokens = new BigNumber(depositedTokens).div(1e18).toString(10);
+      depositedTokens = getFormattedNumber(depositedTokens, 6);
+
+      tvl = new BigNumber(tvl).div(1e18).toString(10);
+      tvl = getFormattedNumber(tvl, 3);
+
+      stakingTime = stakingTime * 1e3;
+      cliffTime = cliffTime * 1e3;
+
+      let showDeposit = true;
+      let lockDate;
+
+      if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
+        let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
+        let lockTimeExpire = parseInt(Date.now()) + parseInt(cliffTime);
+        lockTimeExpire = lockTimeExpire.toString().substr(0, 10);
+        //console.log("now " + lockTimeExpire)
+        //console.log('last ' + lastDay)
+        if (lockTimeExpire > lastDay) {
+          showDeposit = false;
+        }
+        lockDate = lockTimeExpire;
+      }
+
+      let cliffTimeInWords = "lockup period";
+
+      let canWithdraw = true;
+      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+        if (Date.now() - stakingTime <= cliffTime) {
+          canWithdraw = false;
+          cliffTimeInWords = moment
+            .duration(cliffTime - (Date.now() - stakingTime))
+            .humanize(true);
+        }
+      }
+
+      let total_stakers = this.state.total_stakers;
+      let tvl_usd = (this.state.tvl / 1e18) * this.state.usdPerToken;
+
+      let tvlDYPS = this.state.tvlDyps / 1e18;
+
+      tvl_usd = tvl_usd + tvlDYPS;
+
+      tvl_usd = getFormattedNumber(tvl_usd, 2);
+      total_stakers = getFormattedNumber(total_stakers, 0);
+
+      //console.log(total_stakers)
+
+      let isOwner =
+        String(this.state.coinbase).toLowerCase() ===
+        String(window.config.admin_address).toLowerCase();
+
+      let id = Math.random().toString(36);
+
+      let is_connected = this.props.isConnected;
+
+      const performanceOpen = () => {
+        this.setState({ performanceTooltip: true });
+      };
+      const performanceClose = () => {
+        this.setState({ performanceTooltip: false });
+      };
+      const aprOpen = () => {
+        this.setState({ aprTooltip: true });
+      };
+      const aprClose = () => {
+        this.setState({ aprTooltip: false });
+      };
+      const lockOpen = () => {
+        this.setState({ lockTooltip: true });
+      };
+      const lockClose = () => {
+        this.setState({ lockTooltip: false });
+      };
+      const depositOpen = () => {
+        this.setState({ depositTooltip: true });
+      };
+      const depositClose = () => {
+        this.setState({ depositTooltip: false });
+      };
+      const rewardsOpen = () => {
+        this.setState({ rewardsTooltip: true });
+      };
+      const rewardsClose = () => {
+        this.setState({ rewardsTooltip: false });
+      };
+      const withdrawOpen = () => {
+        this.setState({ withdrawTooltip: true });
+      };
+      const withdrawClose = () => {
+        this.setState({ withdrawTooltip: false });
+      };
       return (
         <div className="container-lg p-0">
           <div
@@ -587,10 +692,998 @@ export default function initConstantStakingiDYP({
               borderRadius: listType !== "table" && "0px",
             }}
           >
-            <input type={'text'}/>
-           
+            <div className="leftside2 w-100">
+              <div className="activewrapper">
+                <div className="d-flex flex-column flex-lg-row w-100 align-items-start align-items-lg-center justify-content-between gap-3 gap-lg-5">
+                  <h6 className="activetxt">
+                    <img
+                      src={ellipse}
+                      alt=""
+                      className="position-relative"
+                      style={{ top: "-1px" }}
+                    />
+                    Active status
+                  </h6>
+                  {/* <div className="d-flex align-items-center justify-content-between gap-2">
+                    <h6 className="earnrewards-text">Earn rewards in:</h6>
+                    <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                      iDYP
+                    </h6>
+                  </div> */}
+                  <div className="d-flex flex-row-reverse flex-lg-row align-items-center justify-content-between earnrewards-container">
+                    <div className="d-flex flex-column flex-lg-row align-items-end align-items-lg-center gap-3 gap-lg-5">
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Performance fee:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {fee_s}%
+                          <ClickAwayListener onClickAway={performanceClose}>
+                            <Tooltip
+                              open={this.state.performanceTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "Performance fee is subtracted from the displayed APR."
+                                  }
+                                </div>
+                              }
+                            >
+                              <img
+                                src={moreinfo}
+                                alt=""
+                                onClick={performanceOpen}
+                              />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">APR:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {finalApr}%
+                          <ClickAwayListener onClickAway={aprClose}>
+                            <Tooltip
+                              open={this.state.aprTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "APR reflects the interest rate of earnings on an account over the course of one year. "
+                                  }
+                                </div>
+                              }
+                            >
+                              <img src={moreinfo} alt="" onClick={aprOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <h6 className="earnrewards-text">Lock time:</h6>
+                        <h6 className="earnrewards-token d-flex align-items-center gap-1">
+                          {lockTime} {lockTime !== "No Lock" ? "Days" : ""}
+                          <ClickAwayListener onClickAway={lockClose}>
+                            <Tooltip
+                              open={this.state.lockTooltip}
+                              disableFocusListener
+                              disableHoverListener
+                              disableTouchListener
+                              placement="top"
+                              title={
+                                <div className="tooltip-text">
+                                  {
+                                    "The amount of time your deposited assets will be locked."
+                                  }
+                                </div>
+                              }
+                            >
+                              <img src={moreinfo} alt="" onClick={lockOpen} />
+                            </Tooltip>
+                          </ClickAwayListener>
+                        </h6>
+                      </div>
+                    </div>
+                    <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+                      <h6
+                        className="bottomitems"
+                        onClick={() => this.setState({ showCalculator: true })}
+                      >
+                        <img src={poolsCalculatorIcon} alt="" />
+                        Calculator
+                      </h6>
+                      <a
+                        href={
+                          // chainId === 1
+                          // ?
+                          "https://app.uniswap.org/#/swap?use=V2&inputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                          // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                        }
+                        target={"_blank"}
+                        rel="noreferrer"
+                      >
+                        <h6 className="bottomitems">
+                          <img src={arrowup} alt="" />
+                          Get iDYP
+                        </h6>
+                      </a>
+                      <div
+                        onClick={() => {
+                          this.showPopup();
+                        }}
+                      >
+                        <h6 className="bottomitems">
+                          <img src={purplestats} alt="" />
+                          Stats
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="pools-details-wrapper d-flex m-0 container-lg border-0">
+              <div className="row gap-4 gap-lg-0 w-100 justify-content-between">
+                <div className="firstblockwrapper col-12 col-md-6 col-lg-2">
+                  <div
+                    className="d-flex flex-row flex-lg-column align-items-center align-items-lg-start justify-content-between gap-4"
+                    style={{ height: "100%" }}
+                  >
+                    <h6 className="start-title">Start Staking</h6>
+                    {/* <h6 className="start-desc">
+                      {this.props.coinbase === null
+                        ? "Connect wallet to view and interact with deposits and withdraws"
+                        : "Interact with deposits and withdraws"}
+                    </h6> */}
+                    {this.props.coinbase === null ||
+                    this.props.coinbase === undefined ||
+                    this.props.isConnected === false ? (
+                      <button
+                        className="connectbtn btn"
+                        onClick={this.showModal}
+                      >
+                        <img src={wallet} alt="" /> Connect wallet
+                      </button>
+                    ) : chainId === "1" ? (
+                      <div className="addressbtn btn">
+                        <Address a={this.props.coinbase} chainId={1} />
+                      </div>
+                    ) : (
+                      <button
+                        className="connectbtn btn"
+                        onClick={() => {
+                          this.handleEthPool();
+                        }}
+                      >
+                        Change Network
+                      </button>
+                    )}
+                  </div>
+                </div>
+                {/* <div className="otherside">
+              <button className="btn green-btn">
+                TBD Claim reward 0.01 ETH
+              </button>
+            </div> */}
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4  ${
+                    chainId !== "1" || this.props.expired === true
+                      ? "blurrypool"
+                      : ""
+                  }`}
+                >
+                  <div className="d-flex justify-content-between align-items-center gap-2">
+                    <div className="d-flex justify-content-center align-items-center gap-3">
+                      <h6 className="deposit-txt">Deposit</h6>
+                      {/* <h6 className="deposit-txt d-flex align-items-center gap-2">
+                        <img
+                          src={
+                            require(`./assets/${this.state.selectedTokenLogo.toLowerCase()}.svg`)
+                              .default
+                          }
+                          alt=""
+                          style={{ width: 14, height: 14 }}
+                        />
+                        {token_symbol}
+                      </h6> */}
+                      <h6 className="mybalance-text">
+                        Balance:
+                        <b>
+                          {/* {getFormattedNumber(
+                      this.state.selectedTokenBalance /
+                        10 ** this.state.selectedTokenDecimals,
+                      6
+                    )} */}
+                           {token_balance !== "..."
+                            ? token_balance
+                            : getFormattedNumber(0, 6)}{" "}
+                          {token_symbol}
+                        </b>
+                        {/* <select
+                    disabled={!is_connected}
+                    value={this.state.selectedBuybackToken}
+                    onChange={(e) =>
+                      this.handleSelectedTokenChange(e.target.value)
+                    }
+                    className="inputfarming p-0"
+                    style={{ border: "none" }}
+                  >
+                    {Object.keys(window.buyback_tokens_farming).map((t) => (
+                      <option key={t} value={t}>
+                        {" "}
+                        {window.buyback_tokens_farming[t].symbol}{" "}
+                      </option>
+                    ))}
+                  </select> */}
+                      </h6>
+                    </div>
+                    <ClickAwayListener onClickAway={depositClose}>
+                      <Tooltip
+                        open={this.state.depositTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={depositOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
+                  </div>
+                  <div className="d-flex flex-column gap-2 justify-content-between">
+                    <div className="d-flex align-items-center justify-content-between gap-2">
+                      <div className="input-container usd-input px-0">
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          value={
+                            Number(this.state.depositAmount) > 0
+                              ? this.state.depositAmount
+                              : this.state.depositAmount
+                          }
+                          onChange={(e) =>
+                            this.setState({
+                              depositAmount: e.target.value,
+                            })
+                          }
+                          placeholder=" "
+                          className="text-input"
+                          style={{ width: "100%" }}
+                          name='amount_deposit'
+                          id='amount_deposit'
+                          key="amount_deposit"
+                        />
+                        <label className="label"
+                       >
+                          Amount
+                        </label>
+                      </div>
+
+                      <button
+                        className="btn maxbtn"
+                        onClick={this.handleSetMaxDeposit}
+                      >
+                        Max
+                      </button>
+                      {/* <button
+                      className="btn filledbtn"
+                      onClick={this.handleApprove}
+                    >
+                      Approve
+                    </button> */}
+                      <button
+                        disabled={
+                          this.state.depositAmount === "" ||
+                          this.state.depositLoading === true ||
+                          this.state.depositStatus === "success"
+                            ? true
+                            : false
+                        }
+                        className={`btn filledbtn ${
+                          this.state.depositAmount === "" &&
+                          this.state.depositStatus === "initial" &&
+                          "disabled-btn"
+                        } ${
+                          this.state.depositStatus === "deposit" ||
+                          this.state.depositStatus === "success"
+                            ? "success-button"
+                            : this.state.depositStatus === "fail"
+                            ? "fail-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        onClick={() => {
+                          this.state.depositStatus === "deposit"
+                            ? this.handleStake()
+                            : this.state.depositStatus === "initial" &&
+                              this.state.depositAmount !== ""
+                            ? this.handleApprove()
+                            : console.log("");
+                        }}
+                      >
+                        {this.state.depositLoading ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.depositStatus === "initial" ? (
+                          <>Approve</>
+                        ) : this.state.depositStatus === "deposit" ? (
+                          <>Deposit</>
+                        ) : this.state.depositStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        )}
+                      </button>
+                      {/* <button
+                      className="btn filledbtn"
+                      onClick={this.handleStake}
+                    >
+                      Deposit
+                    </button> */}
+                    </div>
+                    {this.state.errorMsg && (
+                      <h6 className="errormsg">{this.state.errorMsg}</h6>
+                    )}
+                  </div>
+                </div>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
+                  <div className="d-flex justify-content-between gap-2">
+                    <h6 className="withdraw-txt">Rewards</h6>
+                    <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
+                      Rewards are displayed in real-time
+                      <ClickAwayListener onClickAway={rewardsClose}>
+                        <Tooltip
+                          open={this.state.rewardsTooltip}
+                          disableFocusListener
+                          disableHoverListener
+                          disableTouchListener
+                          placement="top"
+                          title={
+                            <div className="tooltip-text">
+                              {
+                                "Rewards earned by your deposit to the staking smart contract are displayed in real-time. The reinvest function does not reset the lock-in period."
+                              }
+                            </div>
+                          }
+                        >
+                          <img src={moreinfo} alt="" onClick={rewardsOpen} />
+                        </Tooltip>
+                      </ClickAwayListener>
+                    </h6>
+                  </div>
+
+                  <div className="form-row flex-column flex-lg-row d-flex gap-2 align-item-start align-items-lg-center justify-content-between">
+                    <div className="d-flex flex-column">
+                      <span
+                        style={{
+                          fontWeight: "500",
+                          fontSize: "12px",
+                          lineHeight: "18px",
+                          color: "#c0c9ff",
+                        }}
+                      >
+                        iDYP
+                      </span>
+                      <span>{pendingDivs}</span>
+                    </div>
+                    <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
+                      <button
+                        disabled={
+                          this.state.claimStatus === "claimed" ||
+                          this.state.claimStatus === "success" ||
+                          pendingDivs <= 0
+                            ? true
+                            : false
+                        }
+                        className={`btn filledbtn ${
+                          (this.state.claimStatus === "claimed" &&
+                            this.state.claimStatus === "initial") ||
+                          pendingDivs <= 0
+                            ? "disabled-btn"
+                            : this.state.claimStatus === "failed"
+                            ? "fail-button"
+                            : this.state.claimStatus === "success"
+                            ? "success-button"
+                            : null
+                        } d-flex justify-content-center align-items-center gap-2`}
+                        style={{ height: "fit-content" }}
+                        onClick={this.handleClaimDivs}
+                      >
+                        {this.state.claimLoading ? (
+                          <div
+                            class="spinner-border spinner-border-sm text-light"
+                            role="status"
+                          >
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        ) : this.state.claimStatus === "failed" ? (
+                          <>
+                            <img src={failMark} alt="" />
+                            Failed
+                          </>
+                        ) : this.state.claimStatus === "success" ? (
+                          <>Success</>
+                        ) : (
+                          <>Claim</>
+                        )}
+                      </button>
+                      {this.props.expired === false && (
+                        <button
+                          disabled={pendingDivs > 0 ? false : true}
+                          className={`btn outline-btn ${
+                            this.state.reInvestStatus === "invest" ||
+                            pendingDivs <= 0
+                              ? "disabled-btn"
+                              : this.state.reInvestStatus === "failed"
+                              ? "fail-button"
+                              : this.state.reInvestStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center gap-2`}
+                          style={{ height: "fit-content" }}
+                          onClick={this.handleReinvest}
+                        >
+                          {this.state.reInvestLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.reInvestStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.reInvestStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Reinvest</>
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  {this.state.errorMsg2 && (
+                    <h6 className="errormsg">{this.state.errorMsg2}</h6>
+                  )}
+                  {/* <button
+                    title={claimTitle}
+                    disabled={!is_connected}
+                    className="btn  btn-primary btn-block l-outline-btn"
+                    type="submit"
+                  >
+                    CLAIM
+                  </button> */}
+                  {/* <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    this.handleClaimDyp();
+                  }}
+                  title={claimTitle}
+                  disabled={!is_connected}
+                  className="btn  btn-primary btn-block l-outline-btn"
+                  type="submit"
+                >
+                  CLAIM
+                </button> */}
+                </div>
+                <div
+                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                    chainId !== "1" && "blurrypool"
+                  }`}
+                >
+                  <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
+                    WITHDRAW
+                    <ClickAwayListener onClickAway={withdrawClose}>
+                      <Tooltip
+                        open={this.state.withdrawTooltip}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        placement="top"
+                        title={
+                          <div className="tooltip-text">
+                            {
+                              "Withdraw your deposited assets from the staking smart contract."
+                            }
+                          </div>
+                        }
+                      >
+                        <img src={moreinfo} alt="" onClick={withdrawOpen} />
+                      </Tooltip>
+                    </ClickAwayListener>
+                  </h6>
+
+                  <button
+                    className="btn outline-btn"
+                    onClick={() => {
+                      this.setState({ showWithdrawModal: true });
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-         
+          {this.state.popup && (
+            <Modal
+              visible={this.state.popup}
+              modalId="tymodal"
+              icon="stats"
+              title="stats"
+              setIsVisible={() => {
+                this.setState({ popup: false });
+              }}
+              width="fit-content"
+            >
+              <div className="earn-hero-content p4token-wrapper">
+                <div className="l-box pl-3 pr-3">
+                  <div className="container px-0">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                        <h6 className="d-flex gap-2 align-items-center statstext">
+                          <img src={stats} alt="" />
+                          Stats
+                        </h6>
+                        <h6 className="d-flex gap-2 align-items-center myaddrtext">
+                          My address
+                          <a
+                            href={`${window.config._etherscanbaseURL}/address/${this.props.coinbase}`}
+                            target={"_blank"}
+                            rel="noreferrer"
+                          >
+                            <h6 className="addresstxt">
+                              {this.props.coinbase?.slice(0, 10) + "..."}
+                            </h6>
+                          </a>
+                          <img src={arrowup} alt="" />
+                        </h6>
+                      </div> */}
+                    </div>
+                    {/* <table className="table-stats table table-sm table-borderless mt-2">
+                      <tbody>
+                        <tr>
+                          <td className="text-right">
+                            <th>My iDYP Deposit</th>
+                            <div>
+                              <strong>{depositedTokens}</strong>{" "}
+                              <small>iDYP</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>My iDYP Balance</th>
+                            <div>
+                              <strong>{token_balance}</strong>{" "}
+                              <small>iDYP</small>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <th>Referral Fee Earned </th>
+                            <div>
+                              <strong>{referralFeeEarned}</strong>{" "}
+                              <small>iDYP</small>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td className="text-right">
+                            <th>Total iDYP Locked</th>
+                            <div>
+                              <strong>{tvl}</strong> <small>iDYP</small>
+                            </div>
+                          </td>
+                          <td className="text-right">
+                            <th>TVL USD</th>
+                            <div>
+                              <strong>${tvl_usd}</strong> <small>USD</small>
+                            </div>
+                          </td>
+
+                          <td className="text-right">
+                            <th>Contract Expiration</th>
+                            <small>{expiration_time}</small>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table> */}
+                    <div className="stats-container my-4">
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          My iDYP Deposit
+                        </span>
+                        <h6 className="stats-card-content">
+                          {depositedTokens} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          My iDYP Balance
+                        </span>
+                        <h6 className="stats-card-content">
+                          {token_balance} {token_symbol}
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Referral Fee Earned
+                        </span>
+                        <h6 className="stats-card-content">
+                          {referralFeeEarned} iDYP
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Total iDYP Locked
+                        </span>
+                        <h6 className="stats-card-content">
+                          {tvl} {token_symbol}
+                        </h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">TVL USD</span>
+                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                      </div>
+                      <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
+                        <span className="stats-card-title">
+                          Contract Expiration
+                        </span>
+                        <h6 className="stats-card-content">
+                          {expiration_time}
+                        </h6>
+                      </div>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <div className="referralwrapper col-8">
+                        <div className="d-flex gap-2 align-items-start justify-content-between">
+                          <img src={referralimg} alt="" />
+                          <div
+                            className="d-flex gap-2 flex-column"
+                            style={{ width: "60%" }}
+                          >
+                            <div>
+                              <span style={{ fontSize: ".8rem" }}>
+                                <h6
+                                  className="referraltitle"
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  <Clipboard
+                                    component="h6"
+                                    onSuccess={(e) => {
+                                      setTimeout(
+                                        () => ReactTooltip.hide(),
+                                        2000
+                                      );
+                                    }}
+                                    data-event="click"
+                                    data-for={id}
+                                    data-tip="Copied To Clipboard!"
+                                    data-clipboard-text={this.getReferralLink()}
+                                    className="referraltitle"
+                                  >
+                                    Referral Link:
+                                    <span
+                                      title="Copy link to clipboard"
+                                      style={{
+                                        cursor: "pointer",
+                                      }}
+                                    ></span>
+                                  </Clipboard>
+                                  <ReactTooltip id={id} effect="solid" />
+                                </h6>
+                                <br />
+                                {/* <a
+                                className="text-muted small"
+                                href={this.getReferralLink()}
+                              >
+                                {" "}
+                                {this.getReferralLink()}{" "}
+                              </a> */}
+                              </span>
+                            </div>
+
+                            <h6 className="referraldesc">
+                              Refferal link gives you 5% for each invite friend
+                              you bring to buy DYP example
+                            </h6>
+                          </div>
+                          <Clipboard
+                            component="div"
+                            onSuccess={(e) => {
+                              setTimeout(() => ReactTooltip.hide(), 2000);
+                            }}
+                            data-event="click"
+                            data-for={id}
+                            data-tip="Copied To Clipboard!"
+                            data-clipboard-text={this.getReferralLink()}
+                            className=""
+                          >
+                            <button className="copybtn btn">
+                              <img src={copy} alt="" /> Copy{" "}
+                            </button>{" "}
+                          </Clipboard>
+                          <ReactTooltip id={id} effect="solid" />
+                          &nbsp;{" "}
+                        </div>
+                      </div>
+                      <div className="col-3 d-flex flex-column gap-1">
+                        <span
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
+                          }}
+                        >
+                          My address
+                        </span>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
+                          className="stats-link"
+                        >
+                          {shortAddress(coinbase)}{" "}
+                          <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`https://github.com/dypfinance/staking-governance-security-audits`}
+                          className="stats-link"
+                        >
+                          Audit <img src={statsLinkIcon} alt="" />
+                        </a>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                          className="stats-link"
+                        >
+                          View transaction <img src={statsLinkIcon} alt="" />
+                        </a>
+                      </div>
+                    </div>
+                    {/* <div className="mt-4">
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`${window.config.etherscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                        className="maxbtn"
+                        style={{ color: "#7770e0" }}
+                      >
+                        Etherscan
+                        <img src={arrowup} alt="" />
+                      </a>
+                    </div> */}
+                  </div>
+                </div>
+              </div>
+            </Modal>
+          )}
+
+          {this.state.showWithdrawModal && (
+            <Modal
+              visible={this.state.showWithdrawModal}
+              modalId="withdrawmodal"
+              title="withdraw"
+              setIsVisible={() => {
+                this.setState({ showWithdrawModal: false });
+              }}
+              width="fit-content"
+            >
+              <div className="earn-hero-content p4token-wrapper">
+                <div className="l-box pl-3 pr-3">
+                  <div className="container px-0">
+                    <div className="row" style={{ marginLeft: "0px" }}>
+                      {/* <div className="d-flex justify-content-between gap-2 align-items-center p-0">
+                        <h6 className="d-flex gap-2 align-items-center statstext">
+                          <img src={stats} alt="" />
+                          Withdraw
+                        </h6>
+                      </div> */}
+                      <h6 className="withdrawdesc mt-2 p-0">
+                        {lockTime === "No Lock"
+                          ? "Your deposit has no lock-in period. You can withdraw your assets anytime, or continue to earn rewards every day."
+                          : `The pool has a lock time. You can withdraw your deposited assets after the lock time expires.`}
+                      </h6>
+                    </div>
+
+                    <div className="d-flex flex-column mt-2">
+                      <div className="d-flex  gap-2 justify-content-between align-items-center mt-2">
+                        <div className="d-flex flex-column gap-1">
+                          <h6 className="withsubtitle mt-3">Timer</h6>
+                          <h6 className="withtitle" style={{ fontWeight: 300 }}>
+                            {lockTime === "No Lock" ? (
+                              "No Lock"
+                            ) : (
+                              <Countdown
+                                date={this.convertTimestampToDate(
+                                  Number(lockDate)
+                                )}
+                                renderer={renderer}
+                              />
+                            )}
+                          </h6>
+                        </div>
+                      </div>
+                      <div className="separator"></div>
+                      <div className="d-flex  gap-2 justify-content-between align-items-center mb-4">
+                        <div className="d-flex flex-column gap-1">
+                          <h6 className="withsubtitle">Balance</h6>
+                          <h6 className="withtitle">
+                            {depositedTokens} {token_symbol}
+                          </h6>
+                        </div>
+                      </div>
+
+                      <div className="d-flex align-items-center justify-content-between gap-2">
+                        <div className="input-container usd-input px-0">
+                        <input
+                          type="number"
+                          autoComplete="off"
+                          value={this.state.withdrawAmount}
+                          key="amount_withdraw"
+
+                          onChange={(e) =>
+                              this.setState({
+                                withdrawAmount: e.target.value,
+                              })
+                            }
+                          placeholder=" "
+                          className="text-input"
+                          style={{ width: "100%" }}
+                        />
+                        <label className="label">
+                        Withdraw Amount
+                        </label>
+                      </div>
+
+                        <button
+                          className="btn maxbtn"
+                          onClick={this.handleSetMaxWithdraw}
+                        >
+                          Max
+                        </button>
+                      </div>
+
+                      <div className="d-flex flex-column align-items-start justify-content-between gap-2 mt-4">
+                        {/* <button
+                        disabled={this.state.withdrawAmount === "" ? true : false}
+                          className={`btn filledbtn ${this.state.withdrawAmount === "" && 'disabled-btn'} w-100`}
+                          onClick={(e) => {
+                            // e.preventDefault();
+                            this.handleWithdraw();
+                          }}
+                          title={
+                            canWithdraw
+                              ? ""
+                              : `You recently staked, you can unstake ${cliffTimeInWords}`
+                          }
+                        >
+                          Withdraw
+                        </button> */}
+                        <button
+                          disabled={
+                            this.state.withdrawAmount === "" ||
+                            this.state.withdrawStatus === "failed" ||
+                            this.state.withdrawStatus === "success" ||
+                            canWithdraw === false
+                              ? true
+                              : false
+                          }
+                          className={` w-100 btn filledbtn ${
+                            (this.state.withdrawAmount === "" &&
+                              this.state.withdrawStatus === "initial") ||
+                            canWithdraw === false
+                              ? "disabled-btn"
+                              : this.state.withdrawStatus === "failed"
+                              ? "fail-button"
+                              : this.state.withdrawStatus === "success"
+                              ? "success-button"
+                              : null
+                          } d-flex justify-content-center align-items-center`}
+                          style={{ height: "fit-content" }}
+                          onClick={() => this.handleWithdraw()}
+                        >
+                          {this.state.withdrawLoading ? (
+                            <div
+                              class="spinner-border spinner-border-sm text-light"
+                              role="status"
+                            >
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          ) : this.state.withdrawStatus === "failed" ? (
+                            <>
+                              <img src={failMark} alt="" />
+                              Failed
+                            </>
+                          ) : this.state.withdrawStatus === "success" ? (
+                            <>Success</>
+                          ) : (
+                            <>Withdraw</>
+                          )}
+                        </button>
+                        <span
+                          className="mt-2"
+                          style={{
+                            fontWeight: "400",
+                            fontSize: "12px",
+                            lineHeight: "18px",
+                            color: "#C0C9FF",
+                          }}
+                        >
+                          *No withdrawal fee
+                        </span>
+                        {/* <div className="form-row">
+                              <div className="col-6">
+                                <button
+                                  title={
+                                    canWithdraw
+                                      ? ""
+                                      : `You recently staked, you can unstake ${cliffTimeInWords}`
+                                  }
+                                  disabled={!canWithdraw || !is_connected}
+                                  className="btn  btn-primary btn-block l-outline-btn"
+                                  type="submit"
+                                >
+                                  WITHDRAW
+                                </button>
+                              </div>
+                              <div className="col-6">
+                                <button
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    this.handleWithdrawDyp();
+                                  }}
+                                  title={
+                                    canWithdraw
+                                      ? ""
+                                      : `You recently staked, you can unstake ${cliffTimeInWords}`
+                                  }
+                                  disabled={!canWithdraw || !is_connected}
+                                  className="btn  btn-primary btn-block l-outline-btn"
+                                  type="submit"
+                                >
+                                  WITHDRAW
+                                </button>
+                              </div>
+                            </div> */}
+                      </div>
+                      {this.state.errorMsg3 && (
+                        <h6 className="errormsg">{this.state.errorMsg3}</h6>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Modal>
+          )}
 
           {this.state.show && (
             <WalletModal
