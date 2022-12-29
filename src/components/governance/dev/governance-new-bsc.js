@@ -764,11 +764,11 @@ export default class Governance extends React.Component {
     this.refreshDYPBalance();
     
     const logout = localStorage.getItem("logout");
-
+ this.fetchProposals();
     if (this.state.proposals?.length == 0 && logout === "false") {
       this.refreshProposals();
     this.getProposal();
-    this.fetchProposals();
+   
     window._refreshBalInterval2 = setInterval(this.getProposal, 3000);
     }
     this.checkConnection();

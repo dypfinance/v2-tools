@@ -1320,7 +1320,13 @@ export default function initbscConstantStakingDai({
                       </div>
                       <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                         <button
-                          disabled={ false }
+                           disabled={
+                            this.state.claimStatus === "claimed" ||
+                            this.state.claimStatus === "success" ||
+                            pendingDivs <= 0
+                              ? true
+                              : false
+                          }
                           className={`btn disabled-btn`}
                           style={{ height: "fit-content" }}
                           onClick={this.handleClaimDivs}

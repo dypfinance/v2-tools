@@ -559,7 +559,7 @@ export default function initConstantStakingiDYP({
       return result;
     };
 
-     focusInput = (field) => {
+    focusInput = (field) => {
       document.getElementById(field).focus();
     };
 
@@ -902,7 +902,7 @@ export default function initConstantStakingiDYP({
                         10 ** this.state.selectedTokenDecimals,
                       6
                     )} */}
-                           {token_balance !== "..."
+                          {token_balance !== "..."
                             ? token_balance
                             : getFormattedNumber(0, 6)}{" "}
                           {token_symbol}
@@ -963,14 +963,11 @@ export default function initConstantStakingiDYP({
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
-                          name='amount_deposit'
-                          id='amount_deposit'
-
+                          name="amount_deposit"
+                          id="amount_deposit"
+                          key="amount_deposit"
                         />
-                        <label htmlFor="usd" className="label"
-                       >
-                          Amount
-                        </label>
+                        <label className="label">Amount</label>
                       </div>
 
                       <button
@@ -1546,23 +1543,22 @@ export default function initConstantStakingiDYP({
 
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <div className="input-container usd-input px-0">
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          value={this.state.withdrawAmount}
-                          onChange={(e) =>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            value={this.state.withdrawAmount}
+                            key="amount_withdraw"
+                            onChange={(e) =>
                               this.setState({
                                 withdrawAmount: e.target.value,
                               })
                             }
-                          placeholder=" "
-                          className="text-input"
-                          style={{ width: "100%" }}
-                        />
-                        <label htmlFor="usd" className="label">
-                        Withdraw Amount
-                        </label>
-                      </div>
+                            placeholder=" "
+                            className="text-input"
+                            style={{ width: "100%" }}
+                          />
+                          <label className="label">Withdraw Amount</label>
+                        </div>
 
                         <button
                           className="btn maxbtn"
