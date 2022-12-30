@@ -8,12 +8,10 @@ import "./top-pools.css";
 import { shortAddress } from "../../functions/shortAddress";
 import ellipse from "./assets/ellipse.svg";
 import Clipboard from "react-clipboard.js";
-import successMark from "../../assets/successMark.svg";
 import failMark from "../../assets/failMark.svg";
 import ReactTooltip from "react-tooltip";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
-import stats from "./assets/stats.svg";
 import purplestats from "./assets/purpleStat.svg";
 import referralimg from "./assets/referral.svg";
 import copy from "./assets/copy.svg";
@@ -22,8 +20,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
-import calculatorIcon from "../calculator/assets/calculator.svg";
-import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
 
@@ -240,10 +236,14 @@ export default function initConstantStakingiDYP({
     };
 
     componentDidMount() {
-      // this.refreshBalance();
-      window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      this.refreshBalance();
 
-      if (this.props.coinbase !== this.state.coinbase) {
+      if (
+        this.props.coinbase !== this.state.coinbase &&
+        this.props.coinbase !== null &&
+        this.props.coinbase !== undefined
+      ) {
+        window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
         this.setState({ coinbase: this.props.coinbase });
       }
 
@@ -417,17 +417,16 @@ export default function initConstantStakingiDYP({
       let { the_graph_result } = this.props;
       // let usd_per_dyps = the_graph_result.price_DYPS ? the_graph_result.price_DYPS : 1
       let usd_per_dyps = 0;
-
       try {
-        let _bal = reward_token.balanceOf(this.state.coinbase);
+        let _bal = reward_token.balanceOf(coinbase);
         // console.log(reward_token)
-        let _pDivs = staking.getTotalPendingDivs(this.state.coinbase);
-        let _tEarned = staking.totalEarnedTokens(this.state.coinbase);
-        let _stakingTime = staking.stakingTime(this.state.coinbase);
-        let _dTokens = staking.depositedTokens(this.state.coinbase);
-        let _lClaimTime = staking.lastClaimedTime(this.state.coinbase);
+        let _pDivs = staking.getTotalPendingDivs(coinbase);
+        let _tEarned = staking.totalEarnedTokens(coinbase);
+        let _stakingTime = staking.stakingTime(coinbase);
+        let _dTokens = staking.depositedTokens(coinbase);
+        let _lClaimTime = staking.lastClaimedTime(coinbase);
         let _tvl = reward_token.balanceOf(staking._address);
-        let _rFeeEarned = staking.totalReferralFeeEarned(this.state.coinbase);
+        let _rFeeEarned = staking.totalReferralFeeEarned(coinbase);
         let tStakers = staking.getNumberOfHolders();
 
         //Take DYPS Balance
@@ -559,7 +558,7 @@ export default function initConstantStakingiDYP({
       return result;
     };
 
-     focusInput = (field) => {
+    focusInput = (field) => {
       document.getElementById(field).focus();
     };
 
@@ -902,7 +901,7 @@ export default function initConstantStakingiDYP({
                         10 ** this.state.selectedTokenDecimals,
                       6
                     )} */}
-                           {token_balance !== "..."
+                          {token_balance !== "..."
                             ? token_balance
                             : getFormattedNumber(0, 6)}{" "}
                           {token_symbol}
@@ -946,9 +945,12 @@ export default function initConstantStakingiDYP({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="input-container usd-input px-0"
-                        onClick={()=>{this.focusInput('amount_deposit')}}
-                        >
+                      <div
+                        className="input-container usd-input px-0"
+                        onClick={() => {
+                          this.focusInput("amount_deposit");
+                        }}
+                      >
                         <input
                           type="number"
                           autoComplete="off"
@@ -965,13 +967,16 @@ export default function initConstantStakingiDYP({
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
-                          name='amount_deposit'
-                          id='amount_deposit'
+                          name="amount_deposit"
+                          id="amount_deposit"
                           key="amount_deposit"
                         />
-                        <label className="label"
-                        onClick={()=>{this.focusInput('amount_deposit')}}
-                       >
+                        <label
+                          className="label"
+                          onClick={() => {
+                            this.focusInput("amount_deposit");
+                          }}
+                        >
                           Amount
                         </label>
                       </div>
@@ -1549,25 +1554,22 @@ export default function initConstantStakingiDYP({
 
                       <div className="d-flex align-items-center justify-content-between gap-2">
                         <div className="input-container usd-input px-0">
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          value={this.state.withdrawAmount}
-                          key="amount_withdraw"
-
-                          onChange={(e) =>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            value={this.state.withdrawAmount}
+                            key="amount_withdraw"
+                            onChange={(e) =>
                               this.setState({
                                 withdrawAmount: e.target.value,
                               })
                             }
-                          placeholder=" "
-                          className="text-input"
-                          style={{ width: "100%" }}
-                        />
-                        <label className="label">
-                        Withdraw Amount
-                        </label>
-                      </div>
+                            placeholder=" "
+                            className="text-input"
+                            style={{ width: "100%" }}
+                          />
+                          <label className="label">Withdraw Amount</label>
+                        </div>
 
                         <button
                           className="btn maxbtn"
