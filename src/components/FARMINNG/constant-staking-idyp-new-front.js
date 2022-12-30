@@ -946,7 +946,9 @@ export default function initConstantStakingiDYP({
                   </div>
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex align-items-center justify-content-between gap-2">
-                      <div className="input-container usd-input px-0">
+                      <div className="input-container usd-input px-0"
+                        onClick={()=>{this.focusInput('amount_deposit')}}
+                        >
                         <input
                           type="number"
                           autoComplete="off"
@@ -968,6 +970,7 @@ export default function initConstantStakingiDYP({
                           key="amount_deposit"
                         />
                         <label className="label"
+                        onClick={()=>{this.focusInput('amount_deposit')}}
                        >
                           Amount
                         </label>
