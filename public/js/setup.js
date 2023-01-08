@@ -2111,6 +2111,10 @@ window.CONSTANT_STAKINGBSC_NEW11_ABI = window.CONSTANT_STAKING_OLD_ABI;
 window.CONSTANT_STAKINGBSC_NEW12_ABI = window.CONSTANT_STAKING_OLD_ABI;
 window.CONSTANT_STAKINGBSC_NEW13_ABI = window.CONSTANT_STAKING_OLD_ABI;
 
+
+window.CONSTANT_STAKINGOLD_130 = window.CONSTANT_STAKING_OLD_ABI;
+window.CONSTANT_STAKINGOLD_140 = window.CONSTANT_STAKING_OLD_ABI;
+
 //DYP-USDC
 window.token_usdc_3 = new TOKEN("TOKEN_USDC3");
 window.staking_usdc_3 = new STAKING("STAKING_USDC3", "TOKEN_USDC3");
@@ -27152,7 +27156,7 @@ Object.keys(window.config)
       k.startsWith("new_governance") ||
       k.startsWith("new_governanceavax") ||
       k.startsWith("new_governancebsc") ||
-
+      k.startsWith("constant_stakingold_130") || k.startsWith("constant_stakingold_140") ||
       k.startsWith("buyback_stakingbsc1_1") ||
       k.startsWith("buyback_stakingbsc1_2") ||
       (k.startsWith("constant_stakingold_") && k.endsWith("_address"))
@@ -27279,6 +27283,10 @@ Object.keys(window.config)
       : k.startsWith("constant_stakingbsc_new10")
       ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new11")
+      ? window.CONSTANT_STAKING_OLD_ABI
+      : k.startsWith("constant_stakingold_130")
+      ? window.CONSTANT_STAKING_OLD_ABI
+      : k.startsWith("constant_stakingold_140")
       ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new12")
       ? window.CONSTANT_STAKING_OLD_ABI
