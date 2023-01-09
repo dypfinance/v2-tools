@@ -13,13 +13,13 @@ import CawsDetails from "../FARMINNG/caws";
 import initBscFarming from "../FARMINNG/bscFarming";
 import initbscConstantStaking from "../FARMINNG/bscConstantStake";
 import initbscConstantStaking2 from "../FARMINNG/bscConstantStake2";
-import initbscConstantStakingiDyp from "../FARMINNG/bscConstantStakeiDyp";
-import initConstantStakingNewDai from "../FARMINNG/constant-staking-dai-front";
+
 import InitConstantStakingiDYP from "../FARMINNG/constant-staking-idyp-new-front";
 import StakeAvaxIDyp from "../FARMINNG/stakeAvaxiDyp";
 import StakeBscIDyp from "../FARMINNG/bscConstantStakeiDyp";
 import StakeBscDai from "../FARMINNG/bscConstantStakeDai";
 import StakeAvaxDai from "../FARMINNG/stakeAvax3";
+import StakeEthDai from "../FARMINNG/constant-staking-dai-front";
 
 const TopPoolsListCard = ({
   tokenLogo,
@@ -493,43 +493,6 @@ const TopPoolsListCard = ({
   ];
   const expirearrayStakeBscidyp = ["28 February 2023", "28 February 2023"];
 
-  const BscConstantStakingiDyp = initbscConstantStakingiDyp({
-    staking: stakearrayStakeBscidyp[cardIndex - 4],
-    apr: expiredPools ? expiredPools[cardIndex - 1]?.apy_percent : 0,
-    finalApr: expiredPools
-      ? expiredPools[cardIndex - 1]?.apy_performancefee
-      : 0,
-    liquidity: wbsc_address,
-    expiration_time: expirearrayStakeBscidyp[cardIndex - 4],
-    fee_s: expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0,
-    coinbase: coinbase,
-    chainId: chainId,
-    lockTime: expiredPools
-      ? expiredPools[cardIndex - 1]?.lock_time?.split(" ")[0] === "No"
-        ? "No Lock"
-        : parseInt(expiredPools[cardIndex - 1]?.lock_time?.split(" ")[0])
-      : 0,
-    listType: listType,
-    other_info: true,
-    handleSwitchNetwork: { handleSwitchNetwork },
-  });
-
-  const ConstantStakingDai = initConstantStakingNewDai({
-    staking: window.constant_stakingdaieth,
-    apr: 25,
-    finalApr: 25,
-    liquidity: eth_address,
-    expiration_time: "Expired",
-    other_info: true,
-    fee: 0,
-    coinbase: coinbase,
-    handleConnection: handleConnection,
-    chainId: chainId,
-    lockTime: 90,
-    listType: listType,
-    handleSwitchNetwork: { handleSwitchNetwork },
-  });
-
   const handleDetails = () => {
     if (showDetails === false) {
       setShowDetails(true);
@@ -893,15 +856,25 @@ const TopPoolsListCard = ({
             topList === "Staking" &&
             cardIndex === 5 &&
             chain === "eth" ? (
-            <ConstantStakingDai
+            <StakeEthDai
+              staking={window.constant_stakingdaieth}
+              apr={25}
+              liquidity={eth_address}
+              expiration_time={"Expired"}
+              finalApr={25}
+              fee={0}
+              lockTime={90}
+              listType={listType}
+              other_info={true}
               is_wallet_connected={isConnected}
               coinbase={coinbase}
               the_graph_result={the_graph_result}
-              lp_id={lp_id[cardIndex]}
               chainId={chainId}
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
               expired={true}
+              referrer={referrer}
+              lp_id={lp_id[cardIndex]}
             />
           ) : showDetails &&
             cardIndex >= 3 &&

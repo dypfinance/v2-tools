@@ -6,9 +6,7 @@ import axios from "axios";
 import getFormattedNumber from "../../../functions/getFormattedNumber2";
 import initStakingNew from "../../FARMINNG/staking-new-front";
 import initConstantStakingNew from "../../FARMINNG/constant-staking-new-front";
-import initConstantStakingNewDai from "../../FARMINNG/constant-staking-dai-front";
 import initConstantStakingiDYP from "../../FARMINNG/constant-staking-idyp-new-front";
-import initVaultNew from "../../FARMINNG/vault-new";
 import initFarmAvax from "../../FARMINNG/farmAvax";
 import stakeAvax from "../../FARMINNG/stakeAvax";
 import stakeAvax30 from "../../FARMINNG/stakeAvax30";
@@ -23,6 +21,8 @@ import StakeAvaxIDyp from "../../FARMINNG/stakeAvaxiDyp";
 import StakeBscIDyp from "../../FARMINNG/bscConstantStakeiDyp";
 import StakeBscDai from "../../FARMINNG/bscConstantStakeDai";
 import StakeAvaxDai from "../../FARMINNG/stakeAvax3";
+import StakeEthDai from "../../FARMINNG/constant-staking-dai-front";
+import Vault from "../../FARMINNG/vault-new";
 
 const EarnTopPicks = ({
   topList,
@@ -647,7 +647,6 @@ const EarnTopPicks = ({
     handleSwitchNetwork: handleSwitchNetwork,
   });
 
-
   const feeUarrayStakeAvaxiDyp = [0, 0.25, 0, 0.25];
 
   const expirearrayStakeAvaxiDyp = [
@@ -714,31 +713,6 @@ const EarnTopPicks = ({
         : "No Lock",
     listType: listType,
     handleSwitchNetwork: handleSwitchNetwork,
-  });
-
-  const ConstantStakingDai = initConstantStakingNewDai({
-    staking: window.constant_stakingdaieth,
-    apr:
-      expiredPools === false
-        ? activePools[cardIndex]?.apy_percent
-        : expiredDYPPools[cardIndex]?.apy_percent,
-    liquidity: eth_address,
-    expiration_time: "Expired",
-    other_info: true,
-    fee:
-      expiredPools === false
-        ? activePools[cardIndex]?.performancefee
-        : expiredDYPPools[cardIndex]?.performancefee,
-    coinbase: coinbase,
-    handleConnection: handleConnection,
-    chainId: chainId,
-    lockTime: 90,
-    listType: listType,
-    handleSwitchNetwork: handleSwitchNetwork,
-    finalApr:
-      expiredPools === false
-        ? activePools[cardIndex]?.apy_performancefee
-        : expiredDYPPools[cardIndex]?.apy_performancefee,
   });
 
   const stakeArrayiDYP = [
@@ -818,20 +792,8 @@ const EarnTopPicks = ({
   const vaultsymbolArray = ["WETH", "WBTC", "USDC", "USDT", "DAI"];
   const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
 
-  const VaultCard = initVaultNew({
-    vault: vaultArray[cardIndex],
-    token: tokenvaultArray[cardIndex],
-    platformTokenApyPercent: vaultplatformArray[cardIndex],
-    UNDERLYING_DECIMALS: vaultdecimalsArray[cardIndex],
-    UNDERLYING_SYMBOL: vaultsymbolArray[cardIndex],
-    expiration_time: "04 March 2023",
-    coinbase: coinbase,
-    lockTime: "No Lock",
-    handleConnection: handleConnection,
-    chainId: chainId,
-    listType: listType,
-    handleSwitchNetwork: handleSwitchNetwork,
-  });
+
+  
 
   useEffect(() => {
     setActiveCard();
@@ -1367,15 +1329,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard && topList === "Vault" && chain === "eth" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      expired={false}
-                    />
+                    <Vault
+              vault={vaultArray[cardIndex]}
+
+              token= {tokenvaultArray[cardIndex]}
+    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+    expiration_time= {"04 March 2023"}
+    coinbase= {coinbase}
+    lockTime= {"No Lock"}
+    handleConnection= {handleConnection}
+    chainId={chainId}
+    listType= {listType}
+    handleSwitchNetwork= {handleSwitchNetwork}
+expired={false}
+isConnected={isConnected}
+ the_graph_result={the_graph_result}
+            />
                   ) : (
                     <></>
                   )}
@@ -1651,15 +1622,24 @@ const EarnTopPicks = ({
                     }
                   />
                 ) : activeCard2 && topList === "Vault" && chain === "eth" ? (
-                  <VaultCard
-                    is_wallet_connected={isConnected}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    chainId={chainId}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    expired={false}
-                  />
+                  <Vault
+              vault={vaultArray[cardIndex]}
+
+              token= {tokenvaultArray[cardIndex]}
+    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+    expiration_time= {"04 March 2023"}
+    coinbase= {coinbase}
+    lockTime= {"No Lock"}
+    handleConnection= {handleConnection}
+    chainId={chainId}
+    listType= {listType}
+    handleSwitchNetwork= {handleSwitchNetwork}
+expired={false}
+isConnected={isConnected}
+ the_graph_result={the_graph_result}
+            />
                 ) : (
                   <></>
                 )}
@@ -1897,15 +1877,24 @@ const EarnTopPicks = ({
                     }
                   />
                 ) : activeCard3 && topList === "Vault" && chain === "eth" ? (
-                  <VaultCard
-                    is_wallet_connected={isConnected}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    chainId={chainId}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    expired={false}
-                  />
+                  <Vault
+                  vault={vaultArray[cardIndex]}
+    
+                  token= {tokenvaultArray[cardIndex]}
+        platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+        UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+        UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+        expiration_time= {"04 March 2023"}
+        coinbase= {coinbase}
+        lockTime= {"No Lock"}
+        handleConnection= {handleConnection}
+        chainId={chainId}
+        listType= {listType}
+        handleSwitchNetwork= {handleSwitchNetwork}
+    expired={false}
+    isConnected={isConnected}
+     the_graph_result={the_graph_result}
+                />
                 ) : (
                   <></>
                 )}
@@ -2146,15 +2135,24 @@ const EarnTopPicks = ({
                     }
                   />
                 ) : activeCard4 && topList === "Vault" ? (
-                  <VaultCard
-                    is_wallet_connected={isConnected}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    chainId={chainId}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    expired={false}
-                  />
+                  <Vault
+              vault={vaultArray[cardIndex]}
+
+              token= {tokenvaultArray[cardIndex]}
+    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+    expiration_time= {"04 March 2023"}
+    coinbase= {coinbase}
+    lockTime= {"No Lock"}
+    handleConnection= {handleConnection}
+    chainId={chainId}
+    listType= {listType}
+    handleSwitchNetwork= {handleSwitchNetwork}
+expired={false}
+isConnected={isConnected}
+ the_graph_result={the_graph_result}
+            />
                 ) : (
                   <></>
                 )}
@@ -2500,15 +2498,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      expired={false}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )
@@ -2799,15 +2806,24 @@ const EarnTopPicks = ({
                     }
                   />
                 ) : activeCard2 && topList === "Vault" ? (
-                  <VaultCard
-                    is_wallet_connected={isConnected}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    chainId={chainId}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    expired={false}
-                  />
+                  <Vault
+                  vault={vaultArray[cardIndex]}
+    
+                  token= {tokenvaultArray[cardIndex]}
+        platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+        UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+        UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+        expiration_time= {"04 March 2023"}
+        coinbase= {coinbase}
+        lockTime= {"No Lock"}
+        handleConnection= {handleConnection}
+        chainId={chainId}
+        listType= {listType}
+        handleSwitchNetwork= {handleSwitchNetwork}
+    expired={false}
+    isConnected={isConnected}
+     the_graph_result={the_graph_result}
+                />
                 ) : (
                   <></>
                 )}
@@ -3052,15 +3068,24 @@ const EarnTopPicks = ({
                     }
                   />
                 ) : activeCard3 && topList === "Vault" ? (
-                  <VaultCard
-                    is_wallet_connected={isConnected}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    chainId={chainId}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    expired={false}
-                  />
+                  <Vault
+              vault={vaultArray[cardIndex]}
+
+              token= {tokenvaultArray[cardIndex]}
+    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+    expiration_time= {"04 March 2023"}
+    coinbase= {coinbase}
+    lockTime= {"No Lock"}
+    handleConnection= {handleConnection}
+    chainId={chainId}
+    listType= {listType}
+    handleSwitchNetwork= {handleSwitchNetwork}
+expired={false}
+isConnected={isConnected}
+ the_graph_result={the_graph_result}
+            />
                 ) : (
                   <></>
                 )}
@@ -3305,15 +3330,24 @@ const EarnTopPicks = ({
                     }
                   />
                 ) : activeCard4 && topList === "Vault" ? (
-                  <VaultCard
-                    is_wallet_connected={isConnected}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    chainId={chainId}
-                    coinbase={coinbase}
-                    expired={false}
-                    the_graph_result={the_graph_result}
-                  />
+                  <Vault
+                  vault={vaultArray[cardIndex]}
+    
+                  token= {tokenvaultArray[cardIndex]}
+        platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+        UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+        UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+        expiration_time= {"04 March 2023"}
+        coinbase= {coinbase}
+        lockTime= {"No Lock"}
+        handleConnection= {handleConnection}
+        chainId={chainId}
+        listType= {listType}
+        handleSwitchNetwork= {handleSwitchNetwork}
+    expired={false}
+    isConnected={isConnected}
+     the_graph_result={the_graph_result}
+                />
                 ) : (
                   <></>
                 )}
@@ -3560,15 +3594,24 @@ const EarnTopPicks = ({
                     }
                   />
                 ) : activeCard5 && topList === "Vault" ? (
-                  <VaultCard
-                    is_wallet_connected={isConnected}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    chainId={chainId}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    expired={false}
-                  />
+                  <Vault
+                  vault={vaultArray[cardIndex]}
+    
+                  token= {tokenvaultArray[cardIndex]}
+        platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+        UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+        UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+        expiration_time= {"04 March 2023"}
+        coinbase= {coinbase}
+        lockTime= {"No Lock"}
+        handleConnection= {handleConnection}
+        chainId={chainId}
+        listType= {listType}
+        handleSwitchNetwork= {handleSwitchNetwork}
+    expired={false}
+    isConnected={isConnected}
+     the_graph_result={the_graph_result}
+                />
                 ) : (
                   <></>
                 )}
@@ -3815,15 +3858,24 @@ const EarnTopPicks = ({
                     }
                   />
                 ) : activeCard6 && topList === "Vault" ? (
-                  <VaultCard
-                    is_wallet_connected={isConnected}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    chainId={chainId}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    expired={false}
-                  />
+                  <Vault
+              vault={vaultArray[cardIndex]}
+
+              token= {tokenvaultArray[cardIndex]}
+    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+    expiration_time= {"04 March 2023"}
+    coinbase= {coinbase}
+    lockTime= {"No Lock"}
+    handleConnection= {handleConnection}
+    chainId={chainId}
+    listType= {listType}
+    handleSwitchNetwork= {handleSwitchNetwork}
+expired={false}
+isConnected={isConnected}
+ the_graph_result={the_graph_result}
+            />
                 ) : (
                   <></>
                 )}
@@ -4160,15 +4212,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      expired={false}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -4475,15 +4536,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard2 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      expired={false}
-                      the_graph_result={the_graph_result}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -4790,15 +4860,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard3 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      expired={false}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -5057,15 +5136,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard4 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      expired={false}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -5370,15 +5458,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard5 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      expired={false}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -5682,15 +5779,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard6 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      expired={false}
-                      the_graph_result={the_graph_result}
-                    />
+                    <Vault
+              vault={vaultArray[cardIndex]}
+
+              token= {tokenvaultArray[cardIndex]}
+    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+    expiration_time= {"04 March 2023"}
+    coinbase= {coinbase}
+    lockTime= {"No Lock"}
+    handleConnection= {handleConnection}
+    chainId={chainId}
+    listType= {listType}
+    handleSwitchNetwork= {handleSwitchNetwork}
+expired={false}
+isConnected={isConnected}
+ the_graph_result={the_graph_result}
+            />
                   ) : (
                     <></>
                   )}
@@ -5994,15 +6100,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard7 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      expired={false}
-                    />
+                    <Vault
+              vault={vaultArray[cardIndex]}
+
+              token= {tokenvaultArray[cardIndex]}
+    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+    expiration_time= {"04 March 2023"}
+    coinbase= {coinbase}
+    lockTime= {"No Lock"}
+    handleConnection= {handleConnection}
+    chainId={chainId}
+    listType= {listType}
+    handleSwitchNetwork= {handleSwitchNetwork}
+expired={false}
+isConnected={isConnected}
+ the_graph_result={the_graph_result}
+            />
                   ) : (
                     <></>
                   )}
@@ -6306,15 +6421,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard8 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      expired={false}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -6654,15 +6778,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard9 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      expired={false}
-                      the_graph_result={the_graph_result}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -7002,15 +7135,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard10 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      expired={false}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -7349,15 +7491,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard11 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      expired={false}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -7698,15 +7849,24 @@ const EarnTopPicks = ({
                       }
                     />
                   ) : activeCard12 && topList === "Vault" ? (
-                    <VaultCard
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      expired={false}
-                    />
+                    <Vault
+                    vault={vaultArray[cardIndex]}
+      
+                    token= {tokenvaultArray[cardIndex]}
+          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
+          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
+          expiration_time= {"04 March 2023"}
+          coinbase= {coinbase}
+          lockTime= {"No Lock"}
+          handleConnection= {handleConnection}
+          chainId={chainId}
+          listType= {listType}
+          handleSwitchNetwork= {handleSwitchNetwork}
+      expired={false}
+      isConnected={isConnected}
+       the_graph_result={the_graph_result}
+                  />
                   ) : (
                     <></>
                   )}
@@ -8334,7 +8494,7 @@ const EarnTopPicks = ({
                 />
               )
             ) : activeCard2 &&
-              cardIndex > 2 &&
+              cardIndex === 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <InitConstantStakingiDYP
@@ -8394,15 +8554,32 @@ const EarnTopPicks = ({
               cardIndex === 4 &&
               topList === "Staking" &&
               chain === "eth" ? (
-              <ConstantStakingDai
+              <StakeEthDai
+                staking={window.constant_stakingdaieth}
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={eth_address}
+                expiration_time={"Expired"}
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredPools
+                    ? expiredPools[cardIndex - 1]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredPools[cardIndex - 1]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
+                lp_id={lp_id[cardIndex]}
               />
             ) : activeCard2 &&
               cardIndex > 2 &&
@@ -8560,33 +8737,42 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex === 2 ? (
-                <StakeAvaxDai
+              <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
-                apr= {expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={ avax_address}
-                expiration_time={ "Expired"}
-                finalApr={  expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee}
-                    fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                    lockTime=  {cardIndex !== undefined
-                        ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                       :"No Lock" }
-                    listType= {listType}
-                    other_info= {true}
-                                  is_wallet_connected={isConnected}
-                                  coinbase={coinbase}
-                                  the_graph_result={the_graph_resultavax}
-                                  chainId={chainId}
-                                  handleConnection={handleConnection}
-                                  handleSwitchNetwork={handleSwitchNetwork}
-                                  expired={true}
-                                  referrer={referrer}
-                                />
+                apr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_percent
+                    : expiredDYPPools[cardIndex]?.apy_percent
+                }
+                liquidity={avax_address}
+                expiration_time={"Expired"}
+                finalApr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
+                }
+                fee={
+                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                }
+                lockTime={
+                  cardIndex !== undefined
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
             ) : activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
@@ -8915,33 +9101,42 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex === 4 ? (
-                <StakeAvaxDai
+              <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
-                apr= {expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={ avax_address}
-                expiration_time={ "Expired"}
-                finalApr={  expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee}
-                    fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                    lockTime=  {cardIndex !== undefined
-                        ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                       :"No Lock" }
-                    listType= {listType}
-                    other_info= {true}
-                                  is_wallet_connected={isConnected}
-                                  coinbase={coinbase}
-                                  the_graph_result={the_graph_resultavax}
-                                  chainId={chainId}
-                                  handleConnection={handleConnection}
-                                  handleSwitchNetwork={handleSwitchNetwork}
-                                  expired={true}
-                                  referrer={referrer}
-                                />
+                apr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_percent
+                    : expiredDYPPools[cardIndex]?.apy_percent
+                }
+                liquidity={avax_address}
+                expiration_time={"Expired"}
+                finalApr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
+                }
+                fee={
+                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                }
+                lockTime={
+                  cardIndex !== undefined
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
             ) : activeCard3 &&
               topList === "Staking" &&
               chain === "avax" &&
@@ -9003,17 +9198,7 @@ const EarnTopPicks = ({
                     : "No Lock"
                 }
               />
-            ) : activeCard3 && topList === "Vault" ? (
-              <VaultCard
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                chainId={chainId}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-              />
-            ) : (
+            ) :  (
               <></>
             )}
             <div
@@ -9284,33 +9469,42 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex === 4 ? (
-                <StakeAvaxDai
+              <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
-                apr= {expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={ avax_address}
-                expiration_time={ "Expired"}
-                finalApr={  expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee}
-                    fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                    lockTime=  {cardIndex !== undefined
-                        ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                       :"No Lock" }
-                    listType= {listType}
-                    other_info= {true}
-                                  is_wallet_connected={isConnected}
-                                  coinbase={coinbase}
-                                  the_graph_result={the_graph_resultavax}
-                                  chainId={chainId}
-                                  handleConnection={handleConnection}
-                                  handleSwitchNetwork={handleSwitchNetwork}
-                                  expired={true}
-                                  referrer={referrer}
-                                />
+                apr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_percent
+                    : expiredDYPPools[cardIndex]?.apy_percent
+                }
+                liquidity={avax_address}
+                expiration_time={"Expired"}
+                finalApr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
+                }
+                fee={
+                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                }
+                lockTime={
+                  cardIndex !== undefined
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
             ) : activeCard4 &&
               topList === "Staking" &&
               chain === "avax" &&
@@ -9697,33 +9891,42 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex === 2 ? (
-                <StakeAvaxDai
+              <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
-                apr= {expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={ avax_address}
-                expiration_time={ "Expired"}
-                finalApr={  expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee}
-                    fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                    lockTime=  {cardIndex !== undefined
-                        ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                       :"No Lock" }
-                    listType= {listType}
-                    other_info= {true}
-                                  is_wallet_connected={isConnected}
-                                  coinbase={coinbase}
-                                  the_graph_result={the_graph_resultavax}
-                                  chainId={chainId}
-                                  handleConnection={handleConnection}
-                                  handleSwitchNetwork={handleSwitchNetwork}
-                                  expired={true}
-                                  referrer={referrer}
-                                />
+                apr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_percent
+                    : expiredDYPPools[cardIndex]?.apy_percent
+                }
+                liquidity={avax_address}
+                expiration_time={"Expired"}
+                finalApr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
+                }
+                fee={
+                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                }
+                lockTime={
+                  cardIndex !== undefined
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
             ) : (
               <></>
             )}
@@ -10173,15 +10376,32 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               cardIndex === 4 &&
               chain === "eth" ? (
-              <ConstantStakingDai
+              <StakeEthDai
+                staking={window.constant_stakingdaieth}
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={eth_address}
+                expiration_time={"Expired"}
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredPools
+                    ? expiredPools[cardIndex - 1]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredPools[cardIndex - 1]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_result}
-                lp_id={lp_id[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
+                lp_id={lp_id[cardIndex]}
               />
             ) : activeCard3 &&
               topList === "Staking" &&
@@ -10198,7 +10418,7 @@ const EarnTopPicks = ({
                 expired={true}
               />
             ) : activeCard3 &&
-              cardIndex > 2 &&
+              cardIndex === 3 &&
               topList === "Staking" &&
               chain === "eth" ? (
               <InitConstantStakingiDYP
@@ -10400,33 +10620,42 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex === 2 ? (
-                <StakeAvaxDai
+              <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
-                apr= {expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={ avax_address}
-                expiration_time={ "Expired"}
-                finalApr={  expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee}
-                    fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                    lockTime=  {cardIndex !== undefined
-                        ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                       :"No Lock" }
-                    listType= {listType}
-                    other_info= {true}
-                                  is_wallet_connected={isConnected}
-                                  coinbase={coinbase}
-                                  the_graph_result={the_graph_resultavax}
-                                  chainId={chainId}
-                                  handleConnection={handleConnection}
-                                  handleSwitchNetwork={handleSwitchNetwork}
-                                  expired={true}
-                                  referrer={referrer}
-                                />
+                apr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_percent
+                    : expiredDYPPools[cardIndex]?.apy_percent
+                }
+                liquidity={avax_address}
+                expiration_time={"Expired"}
+                finalApr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
+                }
+                fee={
+                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                }
+                lockTime={
+                  cardIndex !== undefined
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
             ) : activeCard3 &&
               topList === "Staking" &&
               chain === "avax" &&
@@ -10488,17 +10717,7 @@ const EarnTopPicks = ({
                     : "No Lock"
                 }
               />
-            ) : activeCard3 && topList === "Vault" ? (
-              <VaultCard
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                chainId={chainId}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-              />
-            ) : (
+            ) :  (
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
@@ -10829,33 +11048,42 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex === 4 ? (
-                <StakeAvaxDai
+              <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
-                apr= {expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={ avax_address}
-                expiration_time={ "Expired"}
-                finalApr={  expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee}
-                    fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                    lockTime=  {cardIndex !== undefined
-                        ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                       :"No Lock" }
-                    listType= {listType}
-                    other_info= {true}
-                                  is_wallet_connected={isConnected}
-                                  coinbase={coinbase}
-                                  the_graph_result={the_graph_resultavax}
-                                  chainId={chainId}
-                                  handleConnection={handleConnection}
-                                  handleSwitchNetwork={handleSwitchNetwork}
-                                  expired={true}
-                                  referrer={referrer}
-                                />
+                apr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_percent
+                    : expiredDYPPools[cardIndex]?.apy_percent
+                }
+                liquidity={avax_address}
+                expiration_time={"Expired"}
+                finalApr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
+                }
+                fee={
+                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                }
+                lockTime={
+                  cardIndex !== undefined
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
             ) : activeCard4 &&
               topList === "Staking" &&
               chain === "avax" &&
@@ -10917,17 +11145,7 @@ const EarnTopPicks = ({
                     : "No Lock"
                 }
               />
-            ) : activeCard4 && topList === "Vault" ? (
-              <VaultCard
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                chainId={chainId}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-              />
-            ) : (
+            )   : (
               <></>
             )}
             <div
@@ -11261,33 +11479,42 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex === 4 ? (
-                <StakeAvaxDai
+              <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
-                apr= {expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={ avax_address}
-                expiration_time={ "Expired"}
-                finalApr={  expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee}
-                    fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                    lockTime=  {cardIndex !== undefined
-                        ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                       :"No Lock" }
-                    listType= {listType}
-                    other_info= {true}
-                                  is_wallet_connected={isConnected}
-                                  coinbase={coinbase}
-                                  the_graph_result={the_graph_resultavax}
-                                  chainId={chainId}
-                                  handleConnection={handleConnection}
-                                  handleSwitchNetwork={handleSwitchNetwork}
-                                  expired={true}
-                                  referrer={referrer}
-                                />
+                apr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_percent
+                    : expiredDYPPools[cardIndex]?.apy_percent
+                }
+                liquidity={avax_address}
+                expiration_time={"Expired"}
+                finalApr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
+                }
+                fee={
+                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                }
+                lockTime={
+                  cardIndex !== undefined
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
             ) : activeCard5 &&
               topList === "Staking" &&
               chain === "avax" &&
@@ -11349,17 +11576,7 @@ const EarnTopPicks = ({
                     : "No Lock"
                 }
               />
-            ) : activeCard5 && topList === "Vault" ? (
-              <VaultCard
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                chainId={chainId}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-              />
-            ) : (
+            ) :  (
               <></>
             )}
             <div
@@ -11695,33 +11912,42 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               chain === "avax" &&
               cardIndex === 4 ? (
-                <StakeAvaxDai
+              <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
-                apr= {expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={ avax_address}
-                expiration_time={ "Expired"}
-                finalApr={  expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee}
-                    fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                    lockTime=  {cardIndex !== undefined
-                        ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                       :"No Lock" }
-                    listType= {listType}
-                    other_info= {true}
-                                  is_wallet_connected={isConnected}
-                                  coinbase={coinbase}
-                                  the_graph_result={the_graph_resultavax}
-                                  chainId={chainId}
-                                  handleConnection={handleConnection}
-                                  handleSwitchNetwork={handleSwitchNetwork}
-                                  expired={true}
-                                  referrer={referrer}
-                                />
+                apr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_percent
+                    : expiredDYPPools[cardIndex]?.apy_percent
+                }
+                liquidity={avax_address}
+                expiration_time={"Expired"}
+                finalApr={
+                  expiredPools === false
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
+                }
+                fee={
+                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                }
+                lockTime={
+                  cardIndex !== undefined
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
+                      ? "No Lock"
+                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                    : "No Lock"
+                }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
+              />
             ) : activeCard6 &&
               topList === "Staking" &&
               chain === "avax" &&
@@ -11783,17 +12009,7 @@ const EarnTopPicks = ({
                     : "No Lock"
                 }
               />
-            ) : activeCard6 && topList === "Vault" ? (
-              <VaultCard
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                chainId={chainId}
-                coinbase={coinbase}
-                the_graph_result={the_graph_result}
-              />
-            ) : (
+            )   : (
               <></>
             )}
           </div>
@@ -12046,17 +12262,7 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   referrer={referrer}
                 />
-              ) : activeCard && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )  : (
                 <></>
               )}
             </>
@@ -12314,42 +12520,43 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 1 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
-              ) : activeCard2 && topList === "Vault" ? (
-                <VaultCard
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
                   is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
+                  referrer={referrer}
                 />
               ) : (
                 <></>
@@ -12548,17 +12755,7 @@ const EarnTopPicks = ({
                   coinbase={coinbase}
                   referrer={referrer}
                 />
-              ) : activeCard3 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )   : (
                 <></>
               )}
             </>
@@ -12845,17 +13042,7 @@ const EarnTopPicks = ({
                       : "No Lock"
                   }
                 />
-              ) : activeCard4 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )  : (
                 <></>
               )}
             </>
@@ -12983,7 +13170,24 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 cardIndex === 4 &&
                 chain === "eth" ? (
-                <ConstantStakingDai
+                <StakeEthDai
+                  staking={window.constant_stakingdaieth}
+                  apr={expiredDYPPools[cardIndex]?.apy_percent}
+                  liquidity={eth_address}
+                  expiration_time={"Expired"}
+                  finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                  fee={expiredDYPPools[cardIndex]?.performancefee}
+                  lockTime={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.lock_time?.split(
+                          " "
+                        )[0] === "No"
+                        ? "No Lock"
+                        : expiredPools[cardIndex - 1]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_result}
@@ -12992,6 +13196,7 @@ const EarnTopPicks = ({
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
                   referrer={referrer}
+                  lp_id={lp_id[cardIndex]}
                 />
               ) : activeCard5 &&
                 (cardIndex === 0 || cardIndex === 2) &&
@@ -13126,33 +13331,44 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 2 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
               ) : activeCard5 &&
                 topList === "Staking" &&
                 chain === "avax" &&
@@ -13214,16 +13430,6 @@ const EarnTopPicks = ({
                         : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
                       : "No Lock"
                   }
-                />
-              ) : activeCard5 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
                 />
               ) : (
                 <></>
@@ -13466,33 +13672,44 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 4 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
               ) : activeCard6 &&
                 topList === "Staking" &&
                 chain === "avax" &&
@@ -13555,17 +13772,7 @@ const EarnTopPicks = ({
                       : "No Lock"
                   }
                 />
-              ) : activeCard6 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )  : (
                 <></>
               )}
             </>
@@ -13806,33 +14013,44 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 4 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
               ) : activeCard7 &&
                 topList === "Staking" &&
                 chain === "avax" &&
@@ -13895,17 +14113,7 @@ const EarnTopPicks = ({
                       : "No Lock"
                   }
                 />
-              ) : activeCard7 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )  : (
                 <></>
               )}
             </>
@@ -14146,33 +14354,44 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 4 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
               ) : activeCard8 &&
                 topList === "Staking" &&
                 chain === "avax" &&
@@ -14235,17 +14454,7 @@ const EarnTopPicks = ({
                       : "No Lock"
                   }
                 />
-              ) : activeCard8 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )  : (
                 <></>
               )}
             </>
@@ -14486,33 +14695,44 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 4 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
               ) : activeCard9 &&
                 topList === "Staking" &&
                 chain === "avax" &&
@@ -14575,17 +14795,7 @@ const EarnTopPicks = ({
                       : "No Lock"
                   }
                 />
-              ) : activeCard9 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )  : (
                 <></>
               )}
             </>
@@ -14826,33 +15036,44 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 4 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
               ) : activeCard10 &&
                 topList === "Staking" &&
                 chain === "avax" &&
@@ -14915,17 +15136,7 @@ const EarnTopPicks = ({
                       : "No Lock"
                   }
                 />
-              ) : activeCard10 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )   : (
                 <></>
               )}
             </>
@@ -15166,33 +15377,44 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 4 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
               ) : activeCard11 &&
                 topList === "Staking" &&
                 chain === "avax" &&
@@ -15255,17 +15477,7 @@ const EarnTopPicks = ({
                       : "No Lock"
                   }
                 />
-              ) : activeCard11 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )  : (
                 <></>
               )}
             </>
@@ -15508,33 +15720,44 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 4 ? (
-                  <StakeAvaxDai
+                <StakeAvaxDai
                   staking={window.constant_stakingdaiavax}
-                  apr= {expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent}
-                  liquidity={ avax_address}
-                  expiration_time={ "Expired"}
-                  finalApr={  expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee}
-                      fee={expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0}
-                      lockTime=  {cardIndex !== undefined
-                          ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                         :"No Lock" }
-                      listType= {listType}
-                      other_info= {true}
-                                    is_wallet_connected={isConnected}
-                                    coinbase={coinbase}
-                                    the_graph_result={the_graph_resultavax}
-                                    chainId={chainId}
-                                    handleConnection={handleConnection}
-                                    handleSwitchNetwork={handleSwitchNetwork}
-                                    expired={true}
-                                    referrer={referrer}
-                                  />
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
+                  is_wallet_connected={isConnected}
+                  coinbase={coinbase}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  handleConnection={handleConnection}
+                  handleSwitchNetwork={handleSwitchNetwork}
+                  expired={true}
+                  referrer={referrer}
+                />
               ) : activeCard12 &&
                 topList === "Staking" &&
                 chain === "avax" &&
@@ -15597,17 +15820,7 @@ const EarnTopPicks = ({
                       : "No Lock"
                   }
                 />
-              ) : activeCard12 && topList === "Vault" ? (
-                <VaultCard
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_result}
-                />
-              ) : (
+              )  : (
                 <></>
               )}
             </>
