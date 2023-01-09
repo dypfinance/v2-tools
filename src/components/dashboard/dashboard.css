@@ -14,6 +14,10 @@
   border-radius: 8px;
 }
 
+.regular-news{
+  width: 49%;
+}
+
 .view-more-title {
   width: fit-content;
   font-style: normal;
@@ -48,7 +52,7 @@
   grid-template-columns: auto;
   gap: 13px;
 }
-w
+
 @media screen and (max-width: 1399px) {
   .faq-grid{
     grid-template-columns: auto auto;
@@ -70,6 +74,12 @@ w
     width: 24%;
   }
 }
+@media screen and (max-width: 992px) {
+  .regular-news{
+    width: 100%;
+  }
+}
+
 
 @media screen and (max-width: 786px) {
   .faq-items-wrapper{

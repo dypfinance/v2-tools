@@ -285,7 +285,7 @@ const Header = ({
             <div className="col-1"></div>
             <div
               className={`${
-                windowSize.width < 786
+                windowSize.width < 991
                   ? "col-12"
                   : windowSize.width < 1490
                   ? "col-11"

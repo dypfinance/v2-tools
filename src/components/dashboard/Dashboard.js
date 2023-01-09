@@ -378,11 +378,11 @@ const Dashboard = ({
     <div className="container-lg dashboardwrapper px-0">
       <div className="d-flex m-0 flex-column flex-xxl-row justify-content-between gap-4">
         <div className="d-flex flex-column gap-4 justify-content-between">
-          <div className="d-flex flex-column flex-lg-row m-0 gap-3 justify-content-between">
+          <div className="d-flex flex-column flex-md-row m-0 gap-3 justify-content-between">
             <Calculator />
             <div className="d-flex flex-column gap-3 gap-lg-4 justify-content-between dashboard-cards-wrapper">
               <ExplorerCard />
-              <div className="d-flex flex-column flex-lg-row justify-content-between gap-3">
+              <div className="d-flex flex-column flex-md-row justify-content-between gap-3">
                 <GovCard />
                 <BridgeCard />
               </div>
@@ -668,7 +668,7 @@ const Dashboard = ({
             >
               View all <img src={rightarrow} alt="" />
             </NavLink>
-            <div className="d-flex flex-column flex-lg-row gap-3 justify-content-between px-0">
+            <div className="d-flex flex-column flex-md-row gap-3 justify-content-between px-0">
               {popularNewsData !== [] && (
                 <>
                   {" "}
@@ -678,7 +678,8 @@ const Dashboard = ({
                     date={popularNewsData[0]?.date}
                     link={popularNewsData[0]?.id}
                   />
-                  <NewsCard
+              <div className="d-flex flex-column flex-lg-row gap-3 regular-news">
+              <NewsCard
                     image={popularNewsData[1]?.image}
                     title={popularNewsData[1]?.title}
                     date={popularNewsData[1]?.date}
@@ -690,12 +691,13 @@ const Dashboard = ({
                     date={popularNewsData[2]?.date}
                     link={popularNewsData[2]?.id}
                   />
+              </div>
                 </>
               )}
             </div>
           </div>
         </div>
-        <div className="right-side-wrapper d-flex flex-column flex-lg-row flex-xxl-column gap-4">
+        <div className="right-side-wrapper d-flex flex-column flex-md-row flex-xxl-column gap-4">
           <div className="launchpad-section-wrapper d-flex flex-column gap-3 gap-xxl-1">
             <h6 className="header">Launchpad</h6>
             <LaunchpadCard />
