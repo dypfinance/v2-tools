@@ -1047,7 +1047,7 @@ export default function initConstantStakingNewDai({
             </button>
           </div> */}
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4  ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4  ${
                     chainId !== "1" || this.props.expired === true
                       ? "blurrypool"
                       : ""
@@ -1217,7 +1217,7 @@ export default function initConstantStakingNewDai({
                   </div>
                 </div>
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "1" && "blurrypool"
                   }`}
                 >
@@ -1363,7 +1363,7 @@ export default function initConstantStakingNewDai({
                 </div>
 
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-2 ${
                     chainId !== "1" && "blurrypool"
                   }`}
                 >

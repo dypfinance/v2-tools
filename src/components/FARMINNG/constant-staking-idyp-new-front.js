@@ -754,7 +754,7 @@ const InitConstantStakingiDYP = ({
             </div>
 
             <div
-              className={`otherside-border col-12 col-md-6 col-lg-4  ${
+              className={`otherside-border col-12 col-md-12 col-lg-4  ${
                 chainId !== "1" || expired === true ? "blurrypool" : ""
               }`}
             >
@@ -881,7 +881,7 @@ const InitConstantStakingiDYP = ({
               </div>
             </div>
             <div
-              className={`otherside-border col-12 col-md-6 col-lg-4 ${
+              className={`otherside-border col-12 col-md-12 col-lg-4 ${
                 chainId !== "1" && "blurrypool"
               }`}
             >
@@ -1004,7 +1004,7 @@ const InitConstantStakingiDYP = ({
               {errorMsg2 && <h6 className="errormsg">{errorMsg2}</h6>}
             </div>
             <div
-              className={`otherside-border col-12 col-md-6 col-lg-2 ${
+              className={`otherside-border col-12 col-md-12 col-lg-2 ${
                 chainId !== "1" && "blurrypool"
               }`}
             >

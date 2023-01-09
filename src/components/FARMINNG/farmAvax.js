@@ -1482,7 +1482,7 @@ export default function initFarmAvax({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div className={`otherside-border col-12 col-md-12 col-lg-4  ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
                   <div className="d-flex justify-content-between align-items-start gap-2">
                     <div className="d-flex flex-column flex-lg-row align-items-start gap-3">
                       <div className="d-flex align-items-start gap-3">
@@ -1657,7 +1657,7 @@ export default function initFarmAvax({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
+                <div className={`otherside-border col-12 col-md-12 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
@@ -2027,7 +2027,7 @@ export default function initFarmAvax({
                   </div>
                 </div>
 
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '43114' && "blurrypool"}`}>
+                <div className={`otherside-border col-12 col-md-12 col-lg-2 ${chainId !== '43114' && "blurrypool"}`}>
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>

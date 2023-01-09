@@ -751,7 +751,7 @@ const StakeAvaxIDyp = ({
             </div>
 
             <div
-              className={`otherside-border col-12 col-md-6 col-lg-4  ${
+              className={`otherside-border col-12 col-md-12 col-lg-4  ${
                 chainId !== "43114" || expired === true ? "blurrypool" : ""
               }`}
             >
@@ -878,7 +878,7 @@ const StakeAvaxIDyp = ({
               </div>
             </div>
             <div
-              className={`otherside-border col-12 col-md-6 col-lg-4 ${
+              className={`otherside-border col-12 col-md-12 col-lg-4 ${
                 chainId !== "43114" && "blurrypool"
               }`}
             >
@@ -1001,7 +1001,7 @@ const StakeAvaxIDyp = ({
               {errorMsg2 && <h6 className="errormsg">{errorMsg2}</h6>}
             </div>
             <div
-              className={`otherside-border col-12 col-md-6 col-lg-2 ${
+              className={`otherside-border col-12 col-md-12 col-lg-2 ${
                 chainId !== "43114" && "blurrypool"
               }`}
             >

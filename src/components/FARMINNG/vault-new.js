@@ -1115,7 +1115,7 @@ export default function initVaultNew({
               </button>
             </div> */}
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "1" && "blurrypool"
                   }`}
                 >
@@ -1264,7 +1264,7 @@ export default function initVaultNew({
                   </div>
                 </div>
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "1" && "blurrypool"
                   }`}
                 >
@@ -1386,7 +1386,7 @@ export default function initVaultNew({
                 </div>
 
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-2 ${
                     chainId !== "1" && "blurrypool"
                   }`}
                 >

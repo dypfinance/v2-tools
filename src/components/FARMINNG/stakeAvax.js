@@ -941,7 +941,7 @@ export default function stakeAvax({
               </button>
             </div> */}
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "43114" || this.props.expired === true
                       ? "blurrypool"
                       : ""
@@ -1112,7 +1112,7 @@ export default function stakeAvax({
                   </div>
                 </div>
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "43114" && "blurrypool"
                   }`}
                 >
@@ -1266,7 +1266,7 @@ export default function stakeAvax({
                 </div>
 
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-2 ${
                     chainId !== "43114" && "blurrypool"
                   }`}
                 >
