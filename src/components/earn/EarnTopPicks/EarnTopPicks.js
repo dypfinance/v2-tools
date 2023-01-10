@@ -14,12 +14,12 @@ import CawsDetails from "../../FARMINNG/caws";
 import { FadeLoader } from "react-spinners";
 import useWindowSize from "../../../functions/useWindowSize";
 import initBscFarming from "../../FARMINNG/bscFarming";
-import initbscConstantStaking from "../../FARMINNG/bscConstantStake";
-import initbscConstantStaking2 from "../../FARMINNG/bscConstantStake2";
 import InitConstantStakingiDYP from "../../FARMINNG/constant-staking-idyp-new-front";
 import StakeAvaxIDyp from "../../FARMINNG/stakeAvaxiDyp";
 import StakeBscIDyp from "../../FARMINNG/bscConstantStakeiDyp";
 import StakeBscDai from "../../FARMINNG/bscConstantStakeDai";
+import StakeBsc from "../../FARMINNG/bscConstantStake";
+import StakeBsc2 from "../../FARMINNG/bscConstantStake2";
 import StakeAvaxDai from "../../FARMINNG/stakeAvax3";
 import StakeEthDai from "../../FARMINNG/constant-staking-dai-front";
 import Vault from "../../FARMINNG/vault-new";
@@ -537,77 +537,10 @@ const EarnTopPicks = ({
 
   const expirearrayStakeBscDyp2 = ["14 July 2023", "5 August 2023"];
 
-  const BscConstantStake = initbscConstantStaking({
-    staking: stakearrayStakeBscDyp2[cardIndex],
-    apr:
-      expiredPools === false
-        ? activePools[cardIndex]?.apy_percent
-        : expiredDYPPools[cardIndex]?.apy_percent,
-    liquidity: wbsc_address,
-    finalApr:
-      expiredPools === false
-        ? activePools[cardIndex]?.apy_performancefee
-        : expiredDYPPools[cardIndex]?.apy_performancefee,
-    fee:
-      expiredPools === false
-        ? activePools[cardIndex]?.performancefee
-        : expiredDYPPools[cardIndex]?.performancefee,
-    expiration_time: expirearrayStakeBscDyp2[cardIndex],
-
-    coinbase: coinbase,
-    chainId: chainId,
-    lockTime:
-      cardIndex !== undefined
-        ? expiredPools === false
-          ? activePools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-            ? "No Lock"
-            : parseInt(activePools[cardIndex]?.lock_time?.split(" ")[0])
-          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-          ? "No Lock"
-          : parseInt(expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0])
-        : "No Lock",
-    listType: listType,
-    other_info:
-      cardIndex !== undefined
-        ? expiredPools === false
-          ? activePools[cardIndex]?.expired === "Yes"
-            ? true
-            : false
-          : expiredDYPPools[cardIndex]?.expired === "Yes"
-          ? true
-          : false
-        : false,
-    handleSwitchNetwork: handleSwitchNetwork,
-  });
-
   const stakearrayStakeBscExpired = [
     window.constant_stakingbsc_new13,
     window.constant_stakingbsc_new12,
   ];
-
-  const BscConstantStake2 = initbscConstantStaking2({
-    staking:
-      cardIndex === 2
-        ? stakearrayStakeBscExpired[cardIndex - 1]
-        : stakearrayStakeBscExpired[cardIndex],
-    apr: expiredDYPPools[cardIndex]?.apy_percent,
-    expiration_time:
-      cardIndex === 2
-        ? expirearrayStakeBscExpired[cardIndex - 1]
-        : expirearrayStakeBscExpired[cardIndex],
-    finalApr: expiredDYPPools[cardIndex]?.apy_performancefee,
-    liquidity: wbsc_address,
-    fee: expiredDYPPools[cardIndex]?.performancefee,
-    coinbase: coinbase,
-    chainId: chainId,
-    lockTime:
-      expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-        ? "No Lock"
-        : parseInt(expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]),
-    listType: listType,
-    other_info: true,
-    handleSwitchNetwork: handleSwitchNetwork,
-  });
 
   const stakearrayStakeBsciDyp2 = [
     window.constant_stakingidyp_6,
@@ -791,9 +724,6 @@ const EarnTopPicks = ({
   const vaultdecimalsArray = [18, 8, 6, 6, 18];
   const vaultsymbolArray = ["WETH", "WBTC", "USDC", "USDT", "DAI"];
   const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
-
-
-  
 
   useEffect(() => {
     setActiveCard();
@@ -1102,15 +1032,69 @@ const EarnTopPicks = ({
                     topList === "Staking" &&
                     cardIndex < 2 &&
                     chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard &&
                     cardIndex >= 0 &&
@@ -1330,23 +1314,22 @@ const EarnTopPicks = ({
                     />
                   ) : activeCard && topList === "Vault" && chain === "eth" ? (
                     <Vault
-              vault={vaultArray[cardIndex]}
-
-              token= {tokenvaultArray[cardIndex]}
-    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-    expiration_time= {"04 March 2023"}
-    coinbase= {coinbase}
-    lockTime= {"No Lock"}
-    handleConnection= {handleConnection}
-    chainId={chainId}
-    listType= {listType}
-    handleSwitchNetwork= {handleSwitchNetwork}
-expired={false}
-isConnected={isConnected}
- the_graph_result={the_graph_result}
-            />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -1418,15 +1401,66 @@ isConnected={isConnected}
                 topList === "Staking" &&
                 cardIndex < 2 &&
                 chain === "bnb" ? (
-                  <BscConstantStake
+                  <StakeBsc
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    staking={stakearrayStakeBscDyp2[cardIndex]}
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={wbsc_address}
+                    expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    fee={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
+                    listType={listType}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
+                          : false
+                        : false
+                    }
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_resultbsc}
-                    lp_id={LP_IDBNB_Array[cardIndex]}
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
                     expired={false}
+                    referrer={referrer}
                   />
                 ) : activeCard2 &&
                   cardIndex >= 0 &&
@@ -1623,23 +1657,22 @@ isConnected={isConnected}
                   />
                 ) : activeCard2 && topList === "Vault" && chain === "eth" ? (
                   <Vault
-              vault={vaultArray[cardIndex]}
-
-              token= {tokenvaultArray[cardIndex]}
-    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-    expiration_time= {"04 March 2023"}
-    coinbase= {coinbase}
-    lockTime= {"No Lock"}
-    handleConnection= {handleConnection}
-    chainId={chainId}
-    listType= {listType}
-    handleSwitchNetwork= {handleSwitchNetwork}
-expired={false}
-isConnected={isConnected}
- the_graph_result={the_graph_result}
-            />
+                    vault={vaultArray[cardIndex]}
+                    token={tokenvaultArray[cardIndex]}
+                    platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                    UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                    expiration_time={"04 March 2023"}
+                    coinbase={coinbase}
+                    lockTime={"No Lock"}
+                    handleConnection={handleConnection}
+                    chainId={chainId}
+                    listType={listType}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    isConnected={isConnected}
+                    the_graph_result={the_graph_result}
+                  />
                 ) : (
                   <></>
                 )}
@@ -1704,15 +1737,66 @@ isConnected={isConnected}
                 topList === "Staking" &&
                 cardIndex < 2 &&
                 chain === "bnb" ? (
-                  <BscConstantStake
+                  <StakeBsc
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    staking={stakearrayStakeBscDyp2[cardIndex]}
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={wbsc_address}
+                    expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    fee={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
+                    listType={listType}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
+                          : false
+                        : false
+                    }
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_resultbsc}
-                    lp_id={LP_IDBNB_Array[cardIndex]}
-                    expired={false}
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    referrer={referrer}
                   />
                 ) : activeCard3 &&
                   cardIndex >= 0 &&
@@ -1878,23 +1962,22 @@ isConnected={isConnected}
                   />
                 ) : activeCard3 && topList === "Vault" && chain === "eth" ? (
                   <Vault
-                  vault={vaultArray[cardIndex]}
-    
-                  token= {tokenvaultArray[cardIndex]}
-        platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-        UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-        UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-        expiration_time= {"04 March 2023"}
-        coinbase= {coinbase}
-        lockTime= {"No Lock"}
-        handleConnection= {handleConnection}
-        chainId={chainId}
-        listType= {listType}
-        handleSwitchNetwork= {handleSwitchNetwork}
-    expired={false}
-    isConnected={isConnected}
-     the_graph_result={the_graph_result}
-                />
+                    vault={vaultArray[cardIndex]}
+                    token={tokenvaultArray[cardIndex]}
+                    platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                    UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                    expiration_time={"04 March 2023"}
+                    coinbase={coinbase}
+                    lockTime={"No Lock"}
+                    handleConnection={handleConnection}
+                    chainId={chainId}
+                    listType={listType}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    isConnected={isConnected}
+                    the_graph_result={the_graph_result}
+                  />
                 ) : (
                   <></>
                 )}
@@ -1962,15 +2045,66 @@ isConnected={isConnected}
                 topList === "Staking" &&
                 cardIndex < 2 &&
                 chain === "bnb" ? (
-                  <BscConstantStake
+                  <StakeBsc
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    staking={stakearrayStakeBscDyp2[cardIndex]}
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={wbsc_address}
+                    expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    fee={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
+                    listType={listType}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
+                          : false
+                        : false
+                    }
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_resultbsc}
-                    lp_id={LP_IDBNB_Array[cardIndex]}
-                    expired={false}
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    referrer={referrer}
                   />
                 ) : activeCard4 &&
                   cardIndex >= 0 &&
@@ -2136,23 +2270,22 @@ isConnected={isConnected}
                   />
                 ) : activeCard4 && topList === "Vault" ? (
                   <Vault
-              vault={vaultArray[cardIndex]}
-
-              token= {tokenvaultArray[cardIndex]}
-    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-    expiration_time= {"04 March 2023"}
-    coinbase= {coinbase}
-    lockTime= {"No Lock"}
-    handleConnection= {handleConnection}
-    chainId={chainId}
-    listType= {listType}
-    handleSwitchNetwork= {handleSwitchNetwork}
-expired={false}
-isConnected={isConnected}
- the_graph_result={the_graph_result}
-            />
+                    vault={vaultArray[cardIndex]}
+                    token={tokenvaultArray[cardIndex]}
+                    platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                    UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                    expiration_time={"04 March 2023"}
+                    coinbase={coinbase}
+                    lockTime={"No Lock"}
+                    handleConnection={handleConnection}
+                    chainId={chainId}
+                    listType={listType}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    isConnected={isConnected}
+                    the_graph_result={the_graph_result}
+                  />
                 ) : (
                   <></>
                 )}
@@ -2271,15 +2404,69 @@ isConnected={isConnected}
                   topList === "Staking" &&
                   cardIndex < 2 &&
                   chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard &&
                     cardIndex >= 0 &&
@@ -2499,23 +2686,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )
@@ -2588,15 +2774,66 @@ isConnected={isConnected}
                 topList === "Staking" &&
                 cardIndex < 2 &&
                 chain === "bnb" ? (
-                  <BscConstantStake
+                  <StakeBsc
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    staking={stakearrayStakeBscDyp2[cardIndex]}
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={wbsc_address}
+                    expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    fee={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
+                    listType={listType}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
+                          : false
+                        : false
+                    }
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_resultbsc}
-                    lp_id={LP_IDBNB_Array[cardIndex]}
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
                     expired={false}
+                    referrer={referrer}
                   />
                 ) : activeCard2 &&
                   cardIndex >= 0 &&
@@ -2807,23 +3044,22 @@ isConnected={isConnected}
                   />
                 ) : activeCard2 && topList === "Vault" ? (
                   <Vault
-                  vault={vaultArray[cardIndex]}
-    
-                  token= {tokenvaultArray[cardIndex]}
-        platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-        UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-        UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-        expiration_time= {"04 March 2023"}
-        coinbase= {coinbase}
-        lockTime= {"No Lock"}
-        handleConnection= {handleConnection}
-        chainId={chainId}
-        listType= {listType}
-        handleSwitchNetwork= {handleSwitchNetwork}
-    expired={false}
-    isConnected={isConnected}
-     the_graph_result={the_graph_result}
-                />
+                    vault={vaultArray[cardIndex]}
+                    token={tokenvaultArray[cardIndex]}
+                    platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                    UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                    expiration_time={"04 March 2023"}
+                    coinbase={coinbase}
+                    lockTime={"No Lock"}
+                    handleConnection={handleConnection}
+                    chainId={chainId}
+                    listType={listType}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    isConnected={isConnected}
+                    the_graph_result={the_graph_result}
+                  />
                 ) : (
                   <></>
                 )}
@@ -2895,15 +3131,66 @@ isConnected={isConnected}
                 topList === "Staking" &&
                 cardIndex < 2 &&
                 chain === "bnb" ? (
-                  <BscConstantStake
+                  <StakeBsc
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    staking={stakearrayStakeBscDyp2[cardIndex]}
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={wbsc_address}
+                    expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    fee={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
+                    listType={listType}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
+                          : false
+                        : false
+                    }
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_resultbsc}
-                    lp_id={LP_IDBNB_Array[cardIndex]}
                     chainId={chainId}
-                    expired={false}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    referrer={referrer}
                   />
                 ) : activeCard3 &&
                   cardIndex >= 0 &&
@@ -3069,23 +3356,22 @@ isConnected={isConnected}
                   />
                 ) : activeCard3 && topList === "Vault" ? (
                   <Vault
-              vault={vaultArray[cardIndex]}
-
-              token= {tokenvaultArray[cardIndex]}
-    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-    expiration_time= {"04 March 2023"}
-    coinbase= {coinbase}
-    lockTime= {"No Lock"}
-    handleConnection= {handleConnection}
-    chainId={chainId}
-    listType= {listType}
-    handleSwitchNetwork= {handleSwitchNetwork}
-expired={false}
-isConnected={isConnected}
- the_graph_result={the_graph_result}
-            />
+                    vault={vaultArray[cardIndex]}
+                    token={tokenvaultArray[cardIndex]}
+                    platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                    UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                    expiration_time={"04 March 2023"}
+                    coinbase={coinbase}
+                    lockTime={"No Lock"}
+                    handleConnection={handleConnection}
+                    chainId={chainId}
+                    listType={listType}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    isConnected={isConnected}
+                    the_graph_result={the_graph_result}
+                  />
                 ) : (
                   <></>
                 )}
@@ -3157,15 +3443,66 @@ isConnected={isConnected}
                 topList === "Staking" &&
                 cardIndex < 2 &&
                 chain === "bnb" ? (
-                  <BscConstantStake
+                  <StakeBsc
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    staking={stakearrayStakeBscDyp2[cardIndex]}
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={wbsc_address}
+                    expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    fee={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
+                    listType={listType}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
+                          : false
+                        : false
+                    }
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_resultbsc}
-                    lp_id={LP_IDBNB_Array[cardIndex]}
                     chainId={chainId}
                     handleConnection={handleConnection}
-                    expired={false}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    referrer={referrer}
                   />
                 ) : activeCard4 &&
                   cardIndex >= 0 &&
@@ -3331,23 +3668,22 @@ isConnected={isConnected}
                   />
                 ) : activeCard4 && topList === "Vault" ? (
                   <Vault
-                  vault={vaultArray[cardIndex]}
-    
-                  token= {tokenvaultArray[cardIndex]}
-        platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-        UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-        UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-        expiration_time= {"04 March 2023"}
-        coinbase= {coinbase}
-        lockTime= {"No Lock"}
-        handleConnection= {handleConnection}
-        chainId={chainId}
-        listType= {listType}
-        handleSwitchNetwork= {handleSwitchNetwork}
-    expired={false}
-    isConnected={isConnected}
-     the_graph_result={the_graph_result}
-                />
+                    vault={vaultArray[cardIndex]}
+                    token={tokenvaultArray[cardIndex]}
+                    platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                    UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                    expiration_time={"04 March 2023"}
+                    coinbase={coinbase}
+                    lockTime={"No Lock"}
+                    handleConnection={handleConnection}
+                    chainId={chainId}
+                    listType={listType}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    isConnected={isConnected}
+                    the_graph_result={the_graph_result}
+                  />
                 ) : (
                   <></>
                 )}
@@ -3421,15 +3757,66 @@ isConnected={isConnected}
                 topList === "Staking" &&
                 cardIndex < 2 &&
                 chain === "bnb" ? (
-                  <BscConstantStake
+                  <StakeBsc
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    staking={stakearrayStakeBscDyp2[cardIndex]}
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={wbsc_address}
+                    expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    fee={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
+                    listType={listType}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
+                          : false
+                        : false
+                    }
                     is_wallet_connected={isConnected}
-                    expired={false}
                     coinbase={coinbase}
                     the_graph_result={the_graph_resultbsc}
-                    lp_id={LP_IDBNB_Array[cardIndex]}
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    referrer={referrer}
                   />
                 ) : activeCard5 &&
                   cardIndex >= 0 &&
@@ -3595,23 +3982,22 @@ isConnected={isConnected}
                   />
                 ) : activeCard5 && topList === "Vault" ? (
                   <Vault
-                  vault={vaultArray[cardIndex]}
-    
-                  token= {tokenvaultArray[cardIndex]}
-        platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-        UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-        UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-        expiration_time= {"04 March 2023"}
-        coinbase= {coinbase}
-        lockTime= {"No Lock"}
-        handleConnection= {handleConnection}
-        chainId={chainId}
-        listType= {listType}
-        handleSwitchNetwork= {handleSwitchNetwork}
-    expired={false}
-    isConnected={isConnected}
-     the_graph_result={the_graph_result}
-                />
+                    vault={vaultArray[cardIndex]}
+                    token={tokenvaultArray[cardIndex]}
+                    platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                    UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                    expiration_time={"04 March 2023"}
+                    coinbase={coinbase}
+                    lockTime={"No Lock"}
+                    handleConnection={handleConnection}
+                    chainId={chainId}
+                    listType={listType}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    isConnected={isConnected}
+                    the_graph_result={the_graph_result}
+                  />
                 ) : (
                   <></>
                 )}
@@ -3685,15 +4071,66 @@ isConnected={isConnected}
                 topList === "Staking" &&
                 cardIndex < 2 &&
                 chain === "bnb" ? (
-                  <BscConstantStake
+                  <StakeBsc
+                    lp_id={LP_IDBNB_Array[cardIndex]}
+                    staking={stakearrayStakeBscDyp2[cardIndex]}
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={wbsc_address}
+                    expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    fee={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
+                    listType={listType}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
+                          : false
+                        : false
+                    }
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_resultbsc}
-                    lp_id={LP_IDBNB_Array[cardIndex]}
                     chainId={chainId}
                     handleConnection={handleConnection}
-                    expired={false}
                     handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    referrer={referrer}
                   />
                 ) : activeCard6 &&
                   cardIndex >= 0 &&
@@ -3859,23 +4296,22 @@ isConnected={isConnected}
                   />
                 ) : activeCard6 && topList === "Vault" ? (
                   <Vault
-              vault={vaultArray[cardIndex]}
-
-              token= {tokenvaultArray[cardIndex]}
-    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-    expiration_time= {"04 March 2023"}
-    coinbase= {coinbase}
-    lockTime= {"No Lock"}
-    handleConnection= {handleConnection}
-    chainId={chainId}
-    listType= {listType}
-    handleSwitchNetwork= {handleSwitchNetwork}
-expired={false}
-isConnected={isConnected}
- the_graph_result={the_graph_result}
-            />
+                    vault={vaultArray[cardIndex]}
+                    token={tokenvaultArray[cardIndex]}
+                    platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                    UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                    expiration_time={"04 March 2023"}
+                    coinbase={coinbase}
+                    lockTime={"No Lock"}
+                    handleConnection={handleConnection}
+                    chainId={chainId}
+                    listType={listType}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    isConnected={isConnected}
+                    the_graph_result={the_graph_result}
+                  />
                 ) : (
                   <></>
                 )}
@@ -3985,15 +4421,69 @@ isConnected={isConnected}
                   topList === "Staking" &&
                   cardIndex < 2 &&
                   chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
                       handleConnection={handleConnection}
-                      expired={false}
                       handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard &&
                     cardIndex >= 0 &&
@@ -4213,23 +4703,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -4309,15 +4798,69 @@ isConnected={isConnected}
                   topList === "Staking" &&
                   cardIndex < 2 &&
                   chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
-                      expired={false}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard2 &&
                     cardIndex >= 0 &&
@@ -4537,23 +5080,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard2 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -4695,15 +5237,69 @@ isConnected={isConnected}
                     cardIndex < 2 &&
                     topList === "Staking" &&
                     chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
                       handleConnection={handleConnection}
-                      expired={false}
                       handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard3 &&
                     cardIndex >= 2 &&
@@ -4861,23 +5457,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard3 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -4971,15 +5566,69 @@ isConnected={isConnected}
                     cardIndex < 2 &&
                     topList === "Staking" &&
                     chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
-                      expired={false}
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard4 &&
                     cardIndex >= 2 &&
@@ -5137,23 +5786,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard4 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -5278,15 +5926,69 @@ isConnected={isConnected}
                     cardIndex < 4 &&
                     topList === "Staking" &&
                     chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
-                      expired={false}
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard5 &&
                     cardIndex >= 2 &&
@@ -5459,23 +6161,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard5 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -5555,15 +6256,69 @@ isConnected={isConnected}
                   topList === "Staking" &&
                   cardIndex < 2 &&
                   chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
-                      expired={false}
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard6 &&
                     cardIndex >= 0 &&
@@ -5780,23 +6535,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard6 && topList === "Vault" ? (
                     <Vault
-              vault={vaultArray[cardIndex]}
-
-              token= {tokenvaultArray[cardIndex]}
-    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-    expiration_time= {"04 March 2023"}
-    coinbase= {coinbase}
-    lockTime= {"No Lock"}
-    handleConnection= {handleConnection}
-    chainId={chainId}
-    listType= {listType}
-    handleSwitchNetwork= {handleSwitchNetwork}
-expired={false}
-isConnected={isConnected}
- the_graph_result={the_graph_result}
-            />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -5876,15 +6630,69 @@ isConnected={isConnected}
                   topList === "Staking" &&
                   cardIndex < 2 &&
                   chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
                       handleConnection={handleConnection}
-                      expired={false}
                       handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard7 &&
                     cardIndex >= 0 &&
@@ -6101,23 +6909,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard7 && topList === "Vault" ? (
                     <Vault
-              vault={vaultArray[cardIndex]}
-
-              token= {tokenvaultArray[cardIndex]}
-    platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-    UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-    UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-    expiration_time= {"04 March 2023"}
-    coinbase= {coinbase}
-    lockTime= {"No Lock"}
-    handleConnection= {handleConnection}
-    chainId={chainId}
-    listType= {listType}
-    handleSwitchNetwork= {handleSwitchNetwork}
-expired={false}
-isConnected={isConnected}
- the_graph_result={the_graph_result}
-            />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -6197,15 +7004,69 @@ isConnected={isConnected}
                   topList === "Staking" &&
                   cardIndex < 2 &&
                   chain === "bnb" ? (
-                    <BscConstantStake
+                    <StakeBsc
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      staking={stakearrayStakeBscDyp2[cardIndex]}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={wbsc_address}
+                      expiration_time={expirearrayStakeBscDyp2[cardIndex]}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : parseInt(
+                                  activePools[cardIndex]?.lock_time?.split(
+                                    " "
+                                  )[0]
+                                )
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                            ? "No Lock"
+                            : parseInt(
+                                expiredDYPPools[cardIndex]?.lock_time?.split(
+                                  " "
+                                )[0]
+                              )
+                          : "No Lock"
+                      }
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                            ? true
+                            : false
+                          : false
+                      }
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
                       the_graph_result={the_graph_resultbsc}
-                      lp_id={LP_IDBNB_Array[cardIndex]}
                       chainId={chainId}
                       handleConnection={handleConnection}
-                      expired={false}
                       handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
                     />
                   ) : activeCard8 &&
                     cardIndex >= 0 &&
@@ -6422,23 +7283,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard8 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -6779,23 +7639,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard9 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -7136,23 +7995,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard10 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -7492,23 +8350,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard11 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -7850,23 +8707,22 @@ isConnected={isConnected}
                     />
                   ) : activeCard12 && topList === "Vault" ? (
                     <Vault
-                    vault={vaultArray[cardIndex]}
-      
-                    token= {tokenvaultArray[cardIndex]}
-          platformTokenApyPercent= {vaultplatformArray[cardIndex]}
-          UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
-          UNDERLYING_SYMBOL= {vaultsymbolArray[cardIndex]}
-          expiration_time= {"04 March 2023"}
-          coinbase= {coinbase}
-          lockTime= {"No Lock"}
-          handleConnection= {handleConnection}
-          chainId={chainId}
-          listType= {listType}
-          handleSwitchNetwork= {handleSwitchNetwork}
-      expired={false}
-      isConnected={isConnected}
-       the_graph_result={the_graph_result}
-                  />
+                      vault={vaultArray[cardIndex]}
+                      token={tokenvaultArray[cardIndex]}
+                      platformTokenApyPercent={vaultplatformArray[cardIndex]}
+                      UNDERLYING_DECIMALS={vaultdecimalsArray[cardIndex]}
+                      UNDERLYING_SYMBOL={vaultsymbolArray[cardIndex]}
+                      expiration_time={"04 March 2023"}
+                      coinbase={coinbase}
+                      lockTime={"No Lock"}
+                      handleConnection={handleConnection}
+                      chainId={chainId}
+                      listType={listType}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      isConnected={isConnected}
+                      the_graph_result={the_graph_result}
+                    />
                   ) : (
                     <></>
                   )}
@@ -8169,15 +9025,40 @@ isConnected={isConnected}
                 (cardIndex === 0 || cardIndex === 2) &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
-                <BscConstantStake2
+                <StakeBsc2
+                  staking={
+                    cardIndex === 2
+                      ? stakearrayStakeBscExpired[cardIndex - 1]
+                      : stakearrayStakeBscExpired[cardIndex]
+                  }
+                  apr={expiredDYPPools[cardIndex]?.apy_percent}
+                  liquidity={wbsc_address}
+                  expiration_time={
+                    cardIndex === 2
+                      ? expirearrayStakeBscExpired[cardIndex - 1]
+                      : expirearrayStakeBscExpired[cardIndex]
+                  }
+                  finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                  fee={expiredDYPPools[cardIndex]?.performancefee}
+                  lockTime={
+                    expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                    "No"
+                      ? "No Lock"
+                      : parseInt(
+                          expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                        )
+                  }
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  listType={listType}
+                  other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
+                  referrer={referrer}
                 />
               ) : activeCard &&
                 cardIndex === 1 &&
@@ -9198,7 +10079,7 @@ isConnected={isConnected}
                     : "No Lock"
                 }
               />
-            ) :  (
+            ) : (
               <></>
             )}
             <div
@@ -9692,15 +10573,39 @@ isConnected={isConnected}
               topList === "Staking" &&
               cardIndex < 2 &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard &&
               cardIndex > 2 &&
@@ -9794,15 +10699,39 @@ isConnected={isConnected}
               cardIndex < 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -10048,15 +10977,39 @@ isConnected={isConnected}
               (cardIndex === 0 || cardIndex === 2) &&
               topList === "Staking" &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard2 &&
               cardIndex >= 3 &&
@@ -10407,15 +11360,39 @@ isConnected={isConnected}
               topList === "Staking" &&
               cardIndex < 2 &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard3 &&
               cardIndex === 3 &&
@@ -10509,15 +11486,39 @@ isConnected={isConnected}
               cardIndex < 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard3 &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -10717,7 +11718,7 @@ isConnected={isConnected}
                     : "No Lock"
                 }
               />
-            ) :  (
+            ) : (
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
@@ -10834,15 +11835,39 @@ isConnected={isConnected}
               topList === "Staking" &&
               cardIndex < 2 &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard4 &&
               cardIndex > 2 &&
@@ -10936,15 +11961,39 @@ isConnected={isConnected}
               cardIndex < 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard4 &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -11145,7 +12194,7 @@ isConnected={isConnected}
                     : "No Lock"
                 }
               />
-            )   : (
+            ) : (
               <></>
             )}
             <div
@@ -11265,15 +12314,39 @@ isConnected={isConnected}
               topList === "Staking" &&
               cardIndex < 2 &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard5 &&
               cardIndex > 2 &&
@@ -11367,15 +12440,39 @@ isConnected={isConnected}
               cardIndex < 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard5 &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -11576,7 +12673,7 @@ isConnected={isConnected}
                     : "No Lock"
                 }
               />
-            ) :  (
+            ) : (
               <></>
             )}
             <div
@@ -11698,15 +12795,39 @@ isConnected={isConnected}
               topList === "Staking" &&
               cardIndex < 2 &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard6 &&
               cardIndex > 2 &&
@@ -11800,15 +12921,39 @@ isConnected={isConnected}
               cardIndex < 4 &&
               topList === "Staking" &&
               chain === "bnb" ? (
-              <BscConstantStake2
+              <StakeBsc2
+                staking={
+                  cardIndex === 2
+                    ? stakearrayStakeBscExpired[cardIndex - 1]
+                    : stakearrayStakeBscExpired[cardIndex]
+                }
+                apr={expiredDYPPools[cardIndex]?.apy_percent}
+                liquidity={wbsc_address}
+                expiration_time={
+                  cardIndex === 2
+                    ? expirearrayStakeBscExpired[cardIndex - 1]
+                    : expirearrayStakeBscExpired[cardIndex]
+                }
+                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                fee={expiredDYPPools[cardIndex]?.performancefee}
+                lockTime={
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                    ? "No Lock"
+                    : parseInt(
+                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      )
+                }
+                lp_id={LP_IDBNB_Array[cardIndex]}
+                listType={listType}
+                other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
+                referrer={referrer}
               />
             ) : activeCard6 &&
               (cardIndex === 5 || cardIndex > 5) &&
@@ -12009,7 +13154,7 @@ isConnected={isConnected}
                     : "No Lock"
                 }
               />
-            )   : (
+            ) : (
               <></>
             )}
           </div>
@@ -12137,15 +13282,40 @@ isConnected={isConnected}
                 (cardIndex === 0 || cardIndex === 2) &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
-                <BscConstantStake2
+                <StakeBsc2
+                  staking={
+                    cardIndex === 2
+                      ? stakearrayStakeBscExpired[cardIndex - 1]
+                      : stakearrayStakeBscExpired[cardIndex]
+                  }
+                  apr={expiredDYPPools[cardIndex]?.apy_percent}
+                  liquidity={wbsc_address}
+                  expiration_time={
+                    cardIndex === 2
+                      ? expirearrayStakeBscExpired[cardIndex - 1]
+                      : expirearrayStakeBscExpired[cardIndex]
+                  }
+                  finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                  fee={expiredDYPPools[cardIndex]?.performancefee}
+                  lockTime={
+                    expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                    "No"
+                      ? "No Lock"
+                      : parseInt(
+                          expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                        )
+                  }
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  listType={listType}
+                  other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
+                  referrer={referrer}
                 />
               ) : activeCard &&
                 cardIndex === 1 &&
@@ -12262,7 +13432,7 @@ isConnected={isConnected}
                   coinbase={coinbase}
                   referrer={referrer}
                 />
-              )  : (
+              ) : (
                 <></>
               )}
             </>
@@ -12391,15 +13561,40 @@ isConnected={isConnected}
                 (cardIndex === 0 || cardIndex === 2) &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
-                <BscConstantStake2
+                <StakeBsc2
+                  staking={
+                    cardIndex === 2
+                      ? stakearrayStakeBscExpired[cardIndex - 1]
+                      : stakearrayStakeBscExpired[cardIndex]
+                  }
+                  apr={expiredDYPPools[cardIndex]?.apy_percent}
+                  liquidity={wbsc_address}
+                  expiration_time={
+                    cardIndex === 2
+                      ? expirearrayStakeBscExpired[cardIndex - 1]
+                      : expirearrayStakeBscExpired[cardIndex]
+                  }
+                  finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                  fee={expiredDYPPools[cardIndex]?.performancefee}
+                  lockTime={
+                    expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                    "No"
+                      ? "No Lock"
+                      : parseInt(
+                          expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                        )
+                  }
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  listType={listType}
+                  other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
+                  referrer={referrer}
                 />
               ) : activeCard2 &&
                 cardIndex >= 3 &&
@@ -12700,15 +13895,40 @@ isConnected={isConnected}
                 (cardIndex === 0 || cardIndex === 2) &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
-                <BscConstantStake2
+                <StakeBsc2
+                  staking={
+                    cardIndex === 2
+                      ? stakearrayStakeBscExpired[cardIndex - 1]
+                      : stakearrayStakeBscExpired[cardIndex]
+                  }
+                  apr={expiredDYPPools[cardIndex]?.apy_percent}
+                  liquidity={wbsc_address}
+                  expiration_time={
+                    cardIndex === 2
+                      ? expirearrayStakeBscExpired[cardIndex - 1]
+                      : expirearrayStakeBscExpired[cardIndex]
+                  }
+                  finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                  fee={expiredDYPPools[cardIndex]?.performancefee}
+                  lockTime={
+                    expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                    "No"
+                      ? "No Lock"
+                      : parseInt(
+                          expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                        )
+                  }
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  listType={listType}
+                  other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
+                  referrer={referrer}
                 />
               ) : activeCard &&
                 cardIndex === 1 &&
@@ -12755,7 +13975,7 @@ isConnected={isConnected}
                   coinbase={coinbase}
                   referrer={referrer}
                 />
-              )   : (
+              ) : (
                 <></>
               )}
             </>
@@ -13042,7 +14262,7 @@ isConnected={isConnected}
                       : "No Lock"
                   }
                 />
-              )  : (
+              ) : (
                 <></>
               )}
             </>
@@ -13202,15 +14422,40 @@ isConnected={isConnected}
                 (cardIndex === 0 || cardIndex === 2) &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
-                <BscConstantStake2
+                <StakeBsc2
+                  staking={
+                    cardIndex === 2
+                      ? stakearrayStakeBscExpired[cardIndex - 1]
+                      : stakearrayStakeBscExpired[cardIndex]
+                  }
+                  apr={expiredDYPPools[cardIndex]?.apy_percent}
+                  liquidity={wbsc_address}
+                  expiration_time={
+                    cardIndex === 2
+                      ? expirearrayStakeBscExpired[cardIndex - 1]
+                      : expirearrayStakeBscExpired[cardIndex]
+                  }
+                  finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
+                  fee={expiredDYPPools[cardIndex]?.performancefee}
+                  lockTime={
+                    expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                    "No"
+                      ? "No Lock"
+                      : parseInt(
+                          expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                        )
+                  }
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  listType={listType}
+                  other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
+                  referrer={referrer}
                 />
               ) : activeCard5 &&
                 cardIndex === 1 &&
@@ -13772,7 +15017,7 @@ isConnected={isConnected}
                       : "No Lock"
                   }
                 />
-              )  : (
+              ) : (
                 <></>
               )}
             </>
@@ -14113,7 +15358,7 @@ isConnected={isConnected}
                       : "No Lock"
                   }
                 />
-              )  : (
+              ) : (
                 <></>
               )}
             </>
@@ -14454,7 +15699,7 @@ isConnected={isConnected}
                       : "No Lock"
                   }
                 />
-              )  : (
+              ) : (
                 <></>
               )}
             </>
@@ -14795,7 +16040,7 @@ isConnected={isConnected}
                       : "No Lock"
                   }
                 />
-              )  : (
+              ) : (
                 <></>
               )}
             </>
@@ -15136,7 +16381,7 @@ isConnected={isConnected}
                       : "No Lock"
                   }
                 />
-              )   : (
+              ) : (
                 <></>
               )}
             </>
@@ -15477,7 +16722,7 @@ isConnected={isConnected}
                       : "No Lock"
                   }
                 />
-              )  : (
+              ) : (
                 <></>
               )}
             </>
@@ -15820,7 +17065,7 @@ isConnected={isConnected}
                       : "No Lock"
                   }
                 />
-              )  : (
+              ) : (
                 <></>
               )}
             </>

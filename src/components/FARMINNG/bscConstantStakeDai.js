@@ -380,7 +380,7 @@ const StakeBscDai = ({
           depositAmount("");
           setdepositStatus("initial");
           seterrorMsg("");
-        }, 2000);
+        }, 10000);
       });
   };
 
