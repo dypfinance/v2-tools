@@ -287,7 +287,9 @@ const InitConstantStakingiDYP = ({
         setcontractDeployTime(contractDeployTime);
       });
 
-      staking.REWARD_INTERVAL().then((disburseDuration) => {});
+      staking.REWARD_INTERVAL().then((disburseDuration) => {
+        setdisburseDuration(disburseDuration)
+      });
     }
     if (the_graph_result) {
       let usdPerToken = the_graph_result.token_price_usd || 0;
@@ -342,7 +344,7 @@ const InitConstantStakingiDYP = ({
           depositAmount("");
           setdepositStatus("initial");
           seterrorMsg("");
-        }, 2000);
+        }, 10000);
       });
   };
 
@@ -427,7 +429,7 @@ const InitConstantStakingiDYP = ({
         setTimeout(() => {
           setclaimStatus("initial");
           seterrorMsg2("");
-        }, 2000);
+        }, 10000);
       });
   };
 
@@ -490,7 +492,7 @@ const InitConstantStakingiDYP = ({
         setTimeout(() => {
           setreInvestStatus("initial");
           seterrorMsg2("");
-        }, 2000);
+        }, 10000);
       });
   };
 

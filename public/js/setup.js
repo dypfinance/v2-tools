@@ -1608,6 +1608,9 @@ window.config = {
   constant_stakingnew_new2_address:
     "0x8A30Be7B2780b503ff27dBeaCdecC4Fe2587Af5d",
 
+    constant_stakingnew_new3_address:
+    "0xeb7dd6B50dB34f7ff14898D0Be57A99A9F158C4D",
+
   //Buyback new
   buyback_staking1_1_address: "0xdCBB5B2148f0cf1Abd7757Ba04A5821fEaD80587",
   buyback_staking1_2_address: "0xDC65C4277d626d6A29C9Dc42Eb396d354fa5E85b",
@@ -2236,6 +2239,10 @@ window.constant_staking_new1 = new CONSTANT_STAKING_NEW(
 window.constant_staking_new2 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW2"
 );
+
+window.constant_staking_new3 = new CONSTANT_STAKING_NEW(
+  "CONSTANT_STAKINGNEW_NEW3"
+);
 window.constant_staking_newdai = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEWDAI"
 );
@@ -2252,6 +2259,8 @@ window.CONSTANT_STAKINGIDYPAVAX_4_ABI = window.CONSTANT_STAKING_IDYP_ABI;
 
 window.CONSTANT_STAKINGNEW_NEW1_ABI = window.CONSTANT_STAKINGNEW_ABI;
 window.CONSTANT_STAKINGNEW_NEW2_ABI = window.CONSTANT_STAKINGNEW_ABI;
+window.CONSTANT_STAKINGNEW_NEW3_ABI = window.CONSTANT_STAKINGNEW_ABI;
+
 
 window.CONSTANT_STAKINGNEW_NEWAVAX1_ABI = window.CONSTANT_STAKINGNEW_ABI;
 window.CONSTANT_STAKINGNEW_NEWAVAX2_ABI = window.CONSTANT_STAKINGNEW_ABI;
@@ -27097,6 +27106,8 @@ Object.keys(window.config)
 
 
       k.startsWith("constant_stakingnew_new2") ||
+      k.startsWith("constant_stakingnew_new3") ||
+
       k.startsWith("constant_stakingidypavax_3") ||
       k.startsWith("constant_stakingidypavax_4") ||
       k.startsWith("constant_stakingnew_newavax1") ||
@@ -27261,6 +27272,8 @@ Object.keys(window.config)
       ? window.CONSTANT_STAKING_IDYP_ABI
 
       : k.startsWith("constant_stakingnew_new2")
+      ? window.CONSTANT_STAKINGNEW_ABI
+      : k.startsWith("constant_stakingnew_new3")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingidypavax_4")
       ? window.CONSTANT_STAKING_IDYP_ABI
