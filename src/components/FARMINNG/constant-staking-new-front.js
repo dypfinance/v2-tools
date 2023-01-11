@@ -180,6 +180,7 @@ const StakeEth = ({
   const [depositTooltip, setdepositTooltip] = useState(false);
   const [rewardsTooltip, setrewardsTooltip] = useState(false);
   const [withdrawTooltip, setwithdrawTooltip] = useState(false);
+  const [unlockDate, setunlockDate] = useState('')
 
   const showModal = () => {
     setshow(true);
@@ -461,7 +462,8 @@ const StakeEth = ({
           Date.now() + lockTime * 1 * 24 * 60 * 60 * 1000
         );
         // console.log(newdate)
-        this.setState({ unlockDate: newdate });
+        setunlockDate(newdate)
+        
       }
     }
 
