@@ -808,7 +808,7 @@ const StakeNewEth = ({
                     title={
                       <div className="tooltip-text">
                         {
-                          "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                          "The initial pool size is capped at 5M DYP. Additional opportunities to stake DYP are planned to be introduced over time."
                         }
                       </div>
                     }
@@ -1104,7 +1104,7 @@ const StakeNewEth = ({
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total DYP Locked</span>
                     <h6 className="stats-card-content">
-                      { getFormattedNumber(tvl/ 1e16, 2) } {token_symbol}
+                      { getFormattedNumber(tvl/ 1e18, 2) } {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
