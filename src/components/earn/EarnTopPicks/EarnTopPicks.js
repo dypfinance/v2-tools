@@ -9193,6 +9193,8 @@ const EarnTopPicks = ({
                         : "flex"
                       : "flex"
                   }
+                  isNewPool={pool.new_pool === 'Yes' ? true : false}
+
                 />
               ))}
             </div>
