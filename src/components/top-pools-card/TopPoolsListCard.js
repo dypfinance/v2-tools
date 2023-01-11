@@ -11,7 +11,6 @@ import initStakingNew from "../FARMINNG/staking-new-front";
 
 import stakeAvax from "../FARMINNG/stakeAvax";
 import stakeAvax30 from "../FARMINNG/stakeAvax30";
-import initConstantStakingNew from "../FARMINNG/constant-staking-new-front";
 
 import InitConstantStakingiDYP from "../FARMINNG/constant-staking-idyp-new-front";
 import StakeAvaxIDyp from "../FARMINNG/stakeAvaxiDyp";
@@ -21,6 +20,7 @@ import StakeBsc from "../FARMINNG/bscConstantStake";
 import StakeBsc2 from "../FARMINNG/bscConstantStake2";
 import StakeAvaxDai from "../FARMINNG/stakeAvax3";
 import StakeEthDai from "../FARMINNG/constant-staking-dai-front";
+import StakeEth from "../FARMINNG/constant-staking-new-front";
 import Vault from "../FARMINNG/vault-new";
 
 const TopPoolsListCard = ({
@@ -305,22 +305,6 @@ const TopPoolsListCard = ({
   const feeArrayStake = [0.25, 0.5];
   const aprArrayStake = [25, 50];
 
-  const ConstantStaking1 = initConstantStakingNew({
-    staking: stakeArrayStakeNew[cardIndex - 1],
-    apr: aprArrayStake[cardIndex],
-    finalApr: aprArrayStake[cardIndex - 1] - feeArrayStake[cardIndex - 1],
-    liquidity: eth_address,
-    expiration_time: "14 December 2022",
-    other_info: false,
-    fee: feeArrayStake[cardIndex],
-    coinbase: coinbase,
-    handleConnection: handleConnection,
-    chainId: chainId,
-    lockTime: lockarray[cardIndex],
-    listType: listType,
-    handleSwitchNetwork: { handleSwitchNetwork },
-  });
-
   const stakeArrayiDYP = [
     window.constant_staking_idyp_2,
     window.constant_staking_idyp_1,
@@ -543,7 +527,7 @@ const TopPoolsListCard = ({
                 lineHeight: "26px",
               }}
             >
-              APR
+              APR {cardIndex}
             </p>
           </div>
         </div>
@@ -648,7 +632,7 @@ const TopPoolsListCard = ({
               referrer={referrer}
             />
           ) : showDetails &&
-            cardIndex >= 1 &&
+            (cardIndex === 1 || cardIndex === 3) &&
             topList === "Staking" &&
             chain === "eth" ? (
             <InitConstantStakingiDYP
@@ -672,6 +656,30 @@ const TopPoolsListCard = ({
               fee_u={withdrawFeeiDypActive[cardIndex - 1]}
               referrer={referrer}
               lockTime={lockarray[cardIndex - 1]}
+            />
+          ) : showDetails &&
+            cardIndex === 2 &&
+            topList === "Staking" &&
+            chain === "eth" ? (
+            <StakeEth
+              staking={window.constant_staking_new3}
+              apr={7.35}
+              liquidity={eth_address}
+              expiration_time={"14 December 2022"}
+              finalApr={7.35}
+              fee={0}
+              lockTime={90}
+              lp_id={lp_id[cardIndex]}
+              listType={listType}
+              other_info={false}
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              chainId={chainId}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              expired={false}
+              referrer={referrer}
             />
           ) : showDetails &&
             cardIndex > 2 &&
@@ -808,15 +816,27 @@ const TopPoolsListCard = ({
             topList === "Staking" &&
             cardIndex <= 2 &&
             chain === "eth" ? (
-            <ConstantStaking1
+            <StakeEth
+              staking={stakeArrayStakeNew[cardIndex - 1]}
+              apr={aprArrayStake[cardIndex]}
+              liquidity={eth_address}
+              expiration_time={"14 December 2022"}
+              finalApr={
+                aprArrayStake[cardIndex - 1] - feeArrayStake[cardIndex - 1]
+              }
+              fee={feeArrayStake[cardIndex]}
+              lockTime={lockarray[cardIndex]}
+              lp_id={lp_id[cardIndex]}
+              listType={listType}
+              other_info={false}
               is_wallet_connected={isConnected}
               coinbase={coinbase}
               the_graph_result={the_graph_result}
-              lp_id={lp_id[cardIndex]}
               chainId={chainId}
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
               expired={true}
+              referrer={referrer}
             />
           ) : showDetails &&
             topList === "Staking" &&

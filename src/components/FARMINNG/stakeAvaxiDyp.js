@@ -581,6 +581,9 @@ const StakeAvaxIDyp = ({
 
   tvl_usd = getFormattedNumber(tvl_usd, 2); 
 
+
+
+
   return (
     <div className="container-lg p-0">
       <div
@@ -792,9 +795,7 @@ const StakeAvaxIDyp = ({
                 <div className="d-flex align-items-center justify-content-between gap-2">
                   <div
                     className="input-container usd-input px-0"
-                    onClick={() => {
-                      focusInput("amount_deposit");
-                    }}
+                   
                   >
                     <input
                       type="number"
@@ -1251,13 +1252,16 @@ const StakeAvaxIDyp = ({
                         type="number"
                         autoComplete="off"
                         value={withdrawAmount}
-                        key="amount_withdraw"
                         onChange={(e) => setwithdrawAmount(e.target.value)}
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
+                        name="amount_withdraw"
+                        id="amount_withdraw"
+                        key="amount_withdraw"
                       />
-                      <label className="label">Withdraw Amount</label>
+                      <label className="label"
+                      onClick={() => focusInput("amount_withdraw")}>Withdraw Amount</label>
                     </div>
 
                     <button

@@ -802,6 +802,10 @@ const StakeEth = ({
 
   let cliffTimeInWords = "lockup period";
 
+  const focusInput = (field) => {
+    document.getElementById(field).focus();
+  };
+  
   let canWithdraw = true;
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
     if (Date.now() - stakingTime <= cliffTime) {
@@ -819,7 +823,6 @@ const StakeEth = ({
   tvl_usd = tvl_usd + tvlDYPS;
 
   tvl_usd = getFormattedNumber(tvl_usd, 2);
-
   return (
     <div className="container-lg p-0">
       <div
@@ -1075,8 +1078,11 @@ const StakeEth = ({
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
+                        name="amount_deposit"
+                        id="amount_deposit"
+                        key="amount_deposit"
                       />
-                      <label htmlFor="usd" className="label">
+                      <label htmlFor="usd" className="label" onClick={() => focusInput("amount_deposit")}>
                         Amount
                       </label>
                     </div>
@@ -1671,8 +1677,12 @@ const StakeEth = ({
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
+                        name="amount_withdraw"
+                        id="amount_withdraw"
+                        key="amount_withdraw"
                       />
-                      <label htmlFor="usd" className="label">
+                      <label htmlFor="usd" className="label"
+                       onClick={() => focusInput("amount_withdraw")}>
                         Withdraw Amount
                       </label>
                     </div>

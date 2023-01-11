@@ -189,6 +189,7 @@ const InitConstantStakingiDYP = ({
   const hidePopup = () => {
     setpopup(false);
   };
+  
 
   const refreshBalance = async () => {
     let coinbase = coinbase2;
@@ -202,9 +203,11 @@ const InitConstantStakingiDYP = ({
     let usd_per_dyps = 0;
     try {
       let _bal = reward_token.balanceOf(coinbase);
-
+      
+      
       if (staking) {
         let _pDivs = staking.getTotalPendingDivs(coinbase);
+        
         let _tEarned = staking.totalEarnedTokens(coinbase);
         let _stakingTime = staking.stakingTime(coinbase);
         let _dTokens = staking.depositedTokens(coinbase);
@@ -797,9 +800,7 @@ const InitConstantStakingiDYP = ({
                 <div className="d-flex align-items-center justify-content-between gap-2">
                   <div
                     className="input-container usd-input px-0"
-                    onClick={() => {
-                      focusInput("amount_deposit");
-                    }}
+                   
                   >
                     <input
                       type="number"
@@ -1256,13 +1257,17 @@ const InitConstantStakingiDYP = ({
                         type="number"
                         autoComplete="off"
                         value={withdrawAmount}
-                        key="amount_withdraw"
                         onChange={(e) => setwithdrawAmount(e.target.value)}
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
+                        name="amount_withdraw"
+                        id="amount_withdraw"
+                        key="amount_withdraw"
                       />
-                      <label className="label">Withdraw Amount</label>
+                      <label className="label"
+                      onClick={() => focusInput("amount_withdraw")}
+                      >Withdraw Amount</label>
                     </div>
 
                     <button

@@ -1295,6 +1295,11 @@ export default function initFarmAvax({
         this.setState({ withdrawTooltip: false });
       };
 
+      const focusInput = (field) => {
+        document.getElementById(field).focus();
+      };
+    
+
       return (
         <div className="container-lg p-0">
           <div
@@ -1591,8 +1596,12 @@ export default function initFarmAvax({
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
+                          name="amount_deposit"
+                          id="amount_deposit"
+                          key="amount_deposit"
                         />
-                        <label htmlFor="usd" className="label">
+                        <label htmlFor="usd" className="label"
+                         onClick={() => focusInput("amount_deposit")}>
                          Amount
                         </label>
                       </div>

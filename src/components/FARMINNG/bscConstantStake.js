@@ -620,6 +620,11 @@ const StakeBsc = ({
 
   tvl_usd = getFormattedNumber(tvl_usd, 2);
 
+
+  const focusInput = (field) => {
+    document.getElementById(field).focus();
+  };
+
   return (
     <div className="container-lg p-0">
       <div
@@ -886,8 +891,12 @@ const StakeBsc = ({
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
+                        name="amount_deposit"
+                        id="amount_deposit"
+                        key="amount_deposit"
                       />
-                      <label htmlFor="usd" className="label">
+                      <label htmlFor="usd" className="label"
+                      onClick={() => focusInput("amount_deposit")}>
                         Amount
                       </label>
                     </div>
@@ -1486,8 +1495,14 @@ const StakeBsc = ({
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
+                        name="amount_withdraw"
+                        id="amount_withdraw"
+                        key="amount_withdraw"
+
                       />
-                      <label htmlFor="usd" className="label">
+                      <label htmlFor="usd" className="label"
+                       onClick={() => focusInput("amount_withdraw")}
+                      >
                         Withdraw Amount
                       </label>
                     </div>
