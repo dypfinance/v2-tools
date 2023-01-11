@@ -356,7 +356,7 @@ const Dashboard = ({
                 {activeCard && chainId === 1 ? (
                   chainId === 1 && cardIndex === 1 ? (
                     <StakeEth
-              staking={window.constant_staking_new3}
+              staking={window.constant_staking_newi3}
               apr={7.35}
               liquidity={eth_address}
               expiration_time={"11 January 2024"}
@@ -593,7 +593,7 @@ const Dashboard = ({
                 {activeCard2 && chainId === 1 && cardIndex === 1 ? (
                   chainId === 1 && cardIndex === 1 ? (
                     <StakeEth
-                    staking={window.constant_staking_new3}
+                    staking={window.constant_staking_newi3}
                     apr={7.35}
                     liquidity={eth_address}
                     expiration_time={"11 January 2024"}

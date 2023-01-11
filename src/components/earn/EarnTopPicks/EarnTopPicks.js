@@ -1127,7 +1127,7 @@ const EarnTopPicks = ({
                     topList === "Staking" &&
                     chain === "eth" ? (
                     <StakeEth
-                      staking={window.constant_staking_new3}
+                      staking={window.constant_staking_newi3}
                       apr={
                         expiredPools === false
                           ? activePools[cardIndex]?.apy_percent
@@ -2490,7 +2490,7 @@ const EarnTopPicks = ({
                 cardIndex === 0 &&
                 chain === "eth" ? (
                   <StakeEth
-                    staking={window.constant_staking_new3}
+                    staking={window.constant_staking_newi3}
                     apr={
                       expiredPools === false
                         ? activePools[cardIndex]?.apy_percent
@@ -4592,7 +4592,7 @@ const EarnTopPicks = ({
                     topList === "Staking" &&
                     chain === "eth" ? (
                       <StakeEth
-                    staking={window.constant_staking_new3}
+                    staking={window.constant_staking_newi3}
                     apr={
                       expiredPools === false
                         ? activePools[cardIndex]?.apy_percent
@@ -4967,7 +4967,7 @@ const EarnTopPicks = ({
                     topList === "Staking" &&
                     chain === "eth" ? (
                     <StakeEth
-                      staking={window.constant_staking_new3}
+                      staking={window.constant_staking_newi3}
                       apr={
                         expiredPools === false
                           ? activePools[cardIndex]?.apy_percent

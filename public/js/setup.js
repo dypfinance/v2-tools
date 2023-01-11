@@ -1608,7 +1608,7 @@ window.config = {
   constant_stakingnew_new2_address:
     "0x8A30Be7B2780b503ff27dBeaCdecC4Fe2587Af5d",
 
-    constant_stakingnew_new3_address:
+    constant_stakingnew_newi3_address:
     "0xeb7dd6B50dB34f7ff14898D0Be57A99A9F158C4D",
 
   //Buyback new
@@ -2240,8 +2240,8 @@ window.constant_staking_new2 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW2"
 );
 
-window.constant_staking_new3 = new CONSTANT_STAKING_NEW(
-  "CONSTANT_STAKINGNEW_NEW3"
+window.constant_staking_newi3 = new CONSTANT_STAKING_NEW(
+  "CONSTANT_STAKINGNEW_NEWI3"
 );
 window.constant_staking_newdai = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEWDAI"
@@ -27106,7 +27106,7 @@ Object.keys(window.config)
 
 
       k.startsWith("constant_stakingnew_new2") ||
-      k.startsWith("constant_stakingnew_new3") ||
+      k.startsWith("constant_stakingnew_newi3") ||
 
       k.startsWith("constant_stakingidypavax_3") ||
       k.startsWith("constant_stakingidypavax_4") ||
@@ -27273,7 +27273,7 @@ Object.keys(window.config)
 
       : k.startsWith("constant_stakingnew_new2")
       ? window.CONSTANT_STAKINGNEW_ABI
-      : k.startsWith("constant_stakingnew_new3")
+      : k.startsWith("constant_stakingnew_newi3")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingidypavax_4")
       ? window.CONSTANT_STAKING_IDYP_ABI

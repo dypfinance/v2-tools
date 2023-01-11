@@ -667,7 +667,7 @@ const TopPoolsListCard = ({
             topList === "Staking" &&
             chain === "eth" ? (
             <StakeEth
-              staking={window.constant_staking_new3}
+              staking={window.constant_staking_newi3}
               apr={7.35}
               liquidity={eth_address}
               expiration_time={"11 January 2024"}
