@@ -237,7 +237,11 @@ const Vault = ({
           .toFixed(6);
         settoken_balance(balance_formatted);
         setstakingTime(stakingTime);
-        setdepositedTokens(depositedTokens);
+        
+        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(2);
+
+        setdepositedTokens(depositedTokens_formatted);
+
         setlastClaimedTime(lastClaimedTime);
         settotal_stakers(total_stakers);
 settvlUSD(tvlUSD2)

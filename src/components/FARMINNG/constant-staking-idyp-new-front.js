@@ -260,7 +260,9 @@ const InitConstantStakingiDYP = ({
         setstakingTime(stakingTime);
         
       
-        setdepositedTokens(depositedTokens);
+        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(2);
+
+        setdepositedTokens(depositedTokens_formatted);
 
         setlastClaimedTime(lastClaimedTime);
 
