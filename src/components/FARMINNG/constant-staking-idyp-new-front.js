@@ -439,13 +439,13 @@ const InitConstantStakingiDYP = ({
   };
 
   const handleSetMaxDeposit = () => {
-    const depositAmount = new BigNumber(token_balance).div(1e18).toFixed(18);
+    const depositAmount = token_balance;
 
     setdepositAmount(depositAmount);
   };
 
   const handleSetMaxWithdraw = () => {
-    const withdraw = new BigNumber(depositedTokens).div(1e18).toFixed(18);
+    const withdraw = depositedTokens;
     setwithdrawAmount(withdraw);
   };
 

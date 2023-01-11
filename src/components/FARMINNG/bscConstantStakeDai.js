@@ -461,15 +461,11 @@ const StakeBscDai = ({
   };
 
   const handleSetMaxDeposit = () => {
-    const depositAmountFormatted = new BigNumber(token_balance)
-      .div(1e18)
-      .toFixed(18);
+    const depositAmountFormatted = token_balance
     setdepositAmount(depositAmountFormatted);
   };
   const handleSetMaxWithdraw = () => {
-    const withdrawAmountFormatted = new BigNumber(depositedTokens)
-      .div(1e18)
-      .toFixed(18);
+    const withdrawAmountFormatted = depositedTokens
     setwithdrawAmount(withdrawAmountFormatted);
   };
 

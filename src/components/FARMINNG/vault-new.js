@@ -674,9 +674,7 @@ settvlUSD(tvlUSD2)
   const handleSetMaxDeposit = (e) => {
     // e.preventDefault();
 
-    const depositAmount2 = new BigNumber(token_balance)
-      .div(10 ** UNDERLYING_DECIMALS)
-      .toFixed(UNDERLYING_DECIMALS);
+    const depositAmount2 = token_balance
 
     setdepositAmount(depositAmount2);
   };
@@ -691,9 +689,7 @@ settvlUSD(tvlUSD2)
   const handleSetMaxWithdraw = (e) => {
     // e.preventDefault();
 
-    const withdrawAmount2 = new BigNumber(depositedTokens)
-      .div(10 ** UNDERLYING_DECIMALS)
-      .toFixed(UNDERLYING_DECIMALS);
+    const withdrawAmount2 = depositedTokens
     setwithdrawAmount(withdrawAmount2);
   };
 

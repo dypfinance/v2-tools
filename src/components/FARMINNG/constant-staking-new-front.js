@@ -633,13 +633,13 @@ const StakeEth = ({
   };
 
   const handleSetMaxDeposit = (e) => {
-    const depositAmount = new BigNumber(token_balance).div(1e18).toFixed(18);
+    const depositAmount =token_balance;
 
     setdepositAmount(depositAmount);
   };
 
   const handleSetMaxWithdraw = (e) => {
-    const withdraw = new BigNumber(depositedTokens).div(1e18).toFixed(18);
+    const withdraw = depositedTokens;
     setwithdrawAmount(withdraw);
   };
 
@@ -801,9 +801,11 @@ const StakeEth = ({
     if (lockTimeExpire > lastDay) {
       showDeposit = false;
     }
+    console.log(lockTimeExpire)
     lockDate = lockTimeExpire;
   }
 
+  
   let cliffTimeInWords = "lockup period";
 
   const focusInput = (field) => {
