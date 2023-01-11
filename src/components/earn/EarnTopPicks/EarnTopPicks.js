@@ -868,7 +868,6 @@ const EarnTopPicks = ({
     } else setcardIndex(index);
   };
 
-  
   return topPools.length > 0 && expiredPools === false ? (
     <div className={`row w-100 justify-content-center gap-4`}>
       {expiredPools === false ? (
@@ -899,46 +898,53 @@ const EarnTopPicks = ({
                       />
                     )}
 
-                    {activePools.slice(0, (topList==='Staking' && chain === 'eth') ? 2 : 3).map((pool, index) => (
-                      <TopPoolsCard
-                        key={index}
-                        chain={chain}
-                        top_pick={pool.top_pick}
-                        tokenName={pool.pair_name}
-                        apr={pool.apy_percent + "%"}
-                        tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                        lockTime={
-                          pool.lock_time ? pool.lock_time : locktimeFarm[index]
-                        }
-                        tokenLogo={
-                          pool.icon
-                            ? pool.icon
-                            : pool.pair_name === "DYP"
-                            ? "dyplogo.svg"
-                            : "idypius.svg"
-                        }
-                        onShowDetailsClick={() => {
-                          setActiveCard(topPools[index]);
-                          setActiveCard2(null);
-                          setActiveCard3(null);
-                          setActiveCard4(null);
-                          setActiveCardNFT(false);
-                          handleCardIndexStake(index);
-                          handleCardIndexStake30(index);
-                          handleCardIndexStakeiDyp(index);
-                          setDetails(index);
-                        }}
-                        onHideDetailsClick={() => {
-                          setActiveCard(null);
-                          setDetails();
-                        }}
-                        cardType={topList}
-                        details={details === index ? true : false}
-                        isNewPool={pool.isNewPool}
-                        isStaked={pool.isStaked}
-                        expired={false}
-                      />
-                    ))}
+                    {activePools
+                      .slice(
+                        0,
+                        topList === "Staking" && chain === "eth" ? 2 : 3
+                      )
+                      .map((pool, index) => (
+                        <TopPoolsCard
+                          key={index}
+                          chain={chain}
+                          top_pick={pool.top_pick}
+                          tokenName={pool.pair_name}
+                          apr={pool.apy_percent + "%"}
+                          tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                          lockTime={
+                            pool.lock_time
+                              ? pool.lock_time
+                              : locktimeFarm[index]
+                          }
+                          tokenLogo={
+                            pool.icon
+                              ? pool.icon
+                              : pool.pair_name === "DYP"
+                              ? "dyplogo.svg"
+                              : "idypius.svg"
+                          }
+                          onShowDetailsClick={() => {
+                            setActiveCard(topPools[index]);
+                            setActiveCard2(null);
+                            setActiveCard3(null);
+                            setActiveCard4(null);
+                            setActiveCardNFT(false);
+                            handleCardIndexStake(index);
+                            handleCardIndexStake30(index);
+                            handleCardIndexStakeiDyp(index);
+                            setDetails(index);
+                          }}
+                          onHideDetailsClick={() => {
+                            setActiveCard(null);
+                            setDetails();
+                          }}
+                          cardType={topList}
+                          details={details === index ? true : false}
+                          isNewPool={pool.isNewPool}
+                          isStaked={pool.isStaked}
+                          expired={false}
+                        />
+                      ))}
                   </div>
                   {activeCardNFT && (
                     <CawsDetails
@@ -1055,7 +1061,7 @@ const EarnTopPicks = ({
                       referrer={referrer}
                     />
                   ) : activeCard &&
-                    cardIndex === 0  &&
+                    cardIndex === 0 &&
                     topList === "Staking" &&
                     chain === "eth" ? (
                     <InitConstantStakingiDYP
@@ -1116,65 +1122,68 @@ const EarnTopPicks = ({
                           : "No Lock"
                       }
                     />
-                  ) : activeCard && cardIndex === 1 && topList === "Staking" && chain === 'eth'
-                  ? (
+                  ) : activeCard &&
+                    cardIndex === 1 &&
+                    topList === "Staking" &&
+                    chain === "eth" ? (
                     <StakeEth
-                    staking={window.constant_staking_new3}
-                    apr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent
-                    }
-                    liquidity={eth_address}
-                    expiration_time={"14 December 2022"}
-                    finalApr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee
-                    }
-                    fee={
-                      expiredPools
-                        ? expiredPools[cardIndex - 1]?.performancefee
-                        : 0
-                    }
-                    lockTime={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
-                            "No"
+                      staking={window.constant_staking_new3}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={eth_address}
+                      expiration_time={"14 December 2022"}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools
+                          ? expiredPools[cardIndex - 1]?.performancefee
+                          : 0
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : activePools[cardIndex]?.lock_time?.split(" ")[0]
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
                             ? "No Lock"
-                            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                        : "No Lock"
-                    }
-                    lp_id={LP_IDBNB_Array[cardIndex]}
-                    listType={listType}
-                    other_info={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.expired === "Yes"
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                          : "No Lock"
+                      }
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
                             ? true
                             : false
-                          : expiredDYPPools[cardIndex]?.expired === "Yes"
-                          ? true
                           : false
-                        : false
-                    }
-                    
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    expired={false}
-                    referrer={referrer}
-                  />
-
+                      }
+                      is_wallet_connected={isConnected}
+                      coinbase={coinbase}
+                      the_graph_result={the_graph_result}
+                      chainId={chainId}
+                      handleConnection={handleConnection}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
+                    />
                   ) : activeCard &&
                     cardIndex >= 2 &&
                     topList === "Staking" &&
@@ -1355,64 +1364,99 @@ const EarnTopPicks = ({
                   className="top-picks-container"
                   style={{ marginTop: "25px" }}
                 >
-                  {activePools.slice((topList==='Staking' && chain === 'eth') ? 2 : 3, (topList==='Staking' && chain === 'eth') ? 5 : 6).map((pool, index) => (
-                    <TopPoolsCard
-                      display={
-                        pool.expired
-                          ? pool.expired === "Yes"
-                            ? "none"
+                  {activePools
+                    .slice(
+                      (topList === "Staking" && chain === "eth") ? 2 : 3,
+                      (topList === "Staking" && chain === "eth") ? 5 : 6
+                    )
+                    .map((pool, index) => (
+                      <TopPoolsCard
+                        display={
+                          pool.expired
+                            ? pool.expired === "Yes"
+                              ? "none"
+                              : ""
                             : ""
-                          : ""
-                      }
-                      key={index}
-                      chain={chain}
-                      top_pick={pool.top_pick}
-                      tokenName={
-                        pool.tokenName
-                          ? pool.tokenName
-                          : pool.pair_name
-                          ? pool.pair_name
-                          : ""
-                      }
-                      apr={
-                        pool.apy_percent
-                          ? pool.apy_percent + "%"
-                          : pool.apy + "%"
-                      }
-                      tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                      lockTime={
-                        pool.lock_time
-                          ? pool.lock_time
-                          : locktimeFarm[index + ((topList==='Staking' && chain === 'eth') ? 2 : 3)]
-                      }
-                      tokenLogo={
-                        pool.icon
-                          ? pool.icon
-                          : pool.pair_name === "DYP"
-                          ? "dyplogo.svg"
-                          : "idypius.svg"
-                      }
-                      onShowDetailsClick={() => {
-                        setActiveCard(null);
-                        setActiveCard2(topPools[index + ((topList==='Staking' && chain === 'eth') ? 2 : 3)]);
-                        setActiveCard3(null);
-                        setActiveCardNFT(false);
-                        handleCardIndexStake(index + ((topList==='Staking' && chain === 'eth') ? 2 : 3));
-                        handleCardIndexStake30(index + ((topList==='Staking' && chain === 'eth') ? 2 : 3));
-                        handleCardIndexStakeiDyp(index + ((topList==='Staking' && chain === 'eth') ? 2 : 3));
-                        setDetails(index + ((topList==='Staking' && chain === 'eth') ? 2 : 3));
-                      }}
-                      onHideDetailsClick={() => {
-                        setActiveCard2(null);
-                        setDetails();
-                      }}
-                      cardType={topList}
-                      details={details === (index + ((topList==='Staking' && chain === 'eth') ? 2 : 3)) ? true : false}
-                      isNewPool={pool.isNewPool}
-                      isStaked={pool.isStaked}
-                      expired={false}
-                    />
-                  ))}
+                        }
+                        key={index}
+                        chain={chain}
+                        top_pick={pool.top_pick}
+                        tokenName={
+                          pool.tokenName
+                            ? pool.tokenName
+                            : pool.pair_name
+                            ? pool.pair_name
+                            : ""
+                        }
+                        apr={
+                          pool.apy_percent
+                            ? pool.apy_percent + "%"
+                            : pool.apy + "%"
+                        }
+                        tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                        lockTime={
+                          pool.lock_time
+                            ? pool.lock_time
+                            : locktimeFarm[
+                                index +
+                                  (topList === "Staking" && chain === "eth"
+                                    ? 2
+                                    : 3)
+                              ]
+                        }
+                        tokenLogo={
+                          pool.icon
+                            ? pool.icon
+                            : pool.pair_name === "DYP"
+                            ? "dyplogo.svg"
+                            : "idypius.svg"
+                        }
+                        onShowDetailsClick={() => {
+                          setActiveCard(null);
+                          setActiveCard2(
+                            topPools[
+                              index +
+                                (topList === "Staking" && chain === "eth"
+                                  ? 2
+                                  : 3)
+                            ]
+                          );
+                          setActiveCard3(null);
+                          setActiveCardNFT(false);
+                          handleCardIndexStake(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 2 : 3)
+                          );
+                          handleCardIndexStake30(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 2 : 3)
+                          );
+                          handleCardIndexStakeiDyp(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 2 : 3)
+                          );
+                          setDetails(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 2 : 3)
+                          );
+                        }}
+                        onHideDetailsClick={() => {
+                          setActiveCard2(null);
+                          setDetails();
+                        }}
+                        cardType={topList}
+                        details={
+                          details ===
+                          index +
+                            (topList === "Staking" && chain === "eth" ? 2 : 3)
+                            ? true
+                            : false
+                        }
+                        isNewPool={pool.isNewPool}
+                        isStaked={pool.isStaked}
+                        expired={false}
+                      />
+                    ))}
                 </div>
                 {activeCard2 &&
                 topList === "Staking" &&
@@ -1480,19 +1524,39 @@ const EarnTopPicks = ({
                     referrer={referrer}
                   />
                 ) : activeCard2 &&
-                  cardIndex ===2 &&
+                  cardIndex === 2 &&
                   topList === "Staking" &&
                   chain === "eth" ? (
                   <InitConstantStakingiDYP
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
+                    staking={window.constant_staking_idyp_4}
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
+                            "No"
+                            ? "No Lock"
+                            : parseInt(
+                                activePools[cardIndex]?.lock_time?.split(" ")[0]
+                              )
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : parseInt(
+                              expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                            )
+                        : "No Lock"
+                    }
                     the_graph_result={the_graph_result}
                     lp_id={lp_id[cardIndex]}
                     chainId={chainId}
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
                     expired={false}
-                    staking={stakeArrayiDYPActive[cardIndex]}
                     finalApr={
                       expiredPools === false
                         ? activePools[cardIndex]?.apy_performancefee
@@ -1524,7 +1588,6 @@ const EarnTopPicks = ({
                     fee_u={withdrawFeeiDyp[cardIndex]}
                     referrer={referrer}
                     listType={listType}
-
                   />
                 ) : activeCard2 &&
                   cardIndex >= 3 &&
@@ -1699,58 +1762,88 @@ const EarnTopPicks = ({
                   className="top-picks-container"
                   style={{ marginTop: "25px" }}
                 >
-                  {activePools.slice((topList==='Staking' && chain === 'eth') ? 5 : 6, (topList==='Staking' && chain === 'eth') ? 8 : 9).map((pool, index) => (
-                    <TopPoolsCard
-                      display={
-                        pool.expired
-                          ? pool.expired === "Yes"
-                            ? "none"
+                  {activePools
+                    .slice(
+                      topList === "Staking" && chain === "eth" ? 5 : 6,
+                      topList === "Staking" && chain === "eth" ? 8 : 9
+                    )
+                    .map((pool, index) => (
+                      <TopPoolsCard
+                        display={
+                          pool.expired
+                            ? pool.expired === "Yes"
+                              ? "none"
+                              : ""
                             : ""
-                          : ""
-                      }
-                      key={index}
-                      chain={chain}
-                      top_pick={pool.top_pick}
-                      tokenName={
-                        pool.tokenName
-                          ? pool.tokenName
-                          : pool.pair_name
-                          ? pool.pair_name
-                          : ""
-                      }
-                      apr={pool.apy_percent + "%"}
-                      tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                      lockTime={
-                        pool.lock_time ? pool.lock_time : locktimeFarm[index]
-                      }
-                      tokenLogo={
-                        pool.icon
-                          ? pool.icon
-                          : pool.pair_name === "iDYP"
-                          ? "idypius.svg"
-                          : "dyplogo.svg"
-                      }
-                      onShowDetailsClick={() => {
-                        setActiveCard(null);
-                        setActiveCard2(null);
-                        setActiveCard3(topPools[index + ((topList==='Staking' && chain === 'eth') ? 5 : 6)]);
-                        setActiveCardNFT(false);
-                        handleCardIndexStake(index + ((topList==='Staking' && chain === 'eth') ? 5 : 6));
-                        handleCardIndexStake30(index + ((topList==='Staking' && chain === 'eth') ? 5 : 6));
-                        handleCardIndexStakeiDyp(index + ((topList==='Staking' && chain === 'eth') ? 5 : 6));
-                        setDetails(index + ((topList==='Staking' && chain === 'eth') ? 5 : 6));
-                      }}
-                      onHideDetailsClick={() => {
-                        setActiveCard3(null);
-                        setDetails();
-                      }}
-                      cardType={topList}
-                      details={details === index + ((topList==='Staking' && chain === 'eth') ? 5 : 6) ? true : false}
-                      isNewPool={pool.isNewPool}
-                      isStaked={pool.isStaked}
-                      expired={false}
-                    />
-                  ))}
+                        }
+                        key={index}
+                        chain={chain}
+                        top_pick={pool.top_pick}
+                        tokenName={
+                          pool.tokenName
+                            ? pool.tokenName
+                            : pool.pair_name
+                            ? pool.pair_name
+                            : ""
+                        }
+                        apr={pool.apy_percent + "%"}
+                        tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                        lockTime={
+                          pool.lock_time ? pool.lock_time : locktimeFarm[index]
+                        }
+                        tokenLogo={
+                          pool.icon
+                            ? pool.icon
+                            : pool.pair_name === "iDYP"
+                            ? "idypius.svg"
+                            : "dyplogo.svg"
+                        }
+                        onShowDetailsClick={() => {
+                          setActiveCard(null);
+                          setActiveCard2(null);
+                          setActiveCard3(
+                            topPools[
+                              index +
+                                (topList === "Staking" && chain === "eth"
+                                  ? 5
+                                  : 6)
+                            ]
+                          );
+                          setActiveCardNFT(false);
+                          handleCardIndexStake(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 5 : 6)
+                          );
+                          handleCardIndexStake30(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 5 : 6)
+                          );
+                          handleCardIndexStakeiDyp(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 5 : 6)
+                          );
+                          setDetails(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 5 : 6)
+                          );
+                        }}
+                        onHideDetailsClick={() => {
+                          setActiveCard3(null);
+                          setDetails();
+                        }}
+                        cardType={topList}
+                        details={
+                          details ===
+                          index +
+                            (topList === "Staking" && chain === "eth" ? 5 : 6)
+                            ? true
+                            : false
+                        }
+                        isNewPool={pool.isNewPool}
+                        isStaked={pool.isStaked}
+                        expired={false}
+                      />
+                    ))}
                 </div>
                 {activeCard3 &&
                 topList === "Staking" &&
@@ -1816,20 +1909,6 @@ const EarnTopPicks = ({
                     handleSwitchNetwork={handleSwitchNetwork}
                     expired={false}
                     referrer={referrer}
-                  />
-                ) : activeCard3 &&
-                  cardIndex >= 0 &&
-                  topList === "Staking" &&
-                  chain === "eth" ? (
-                  <InitConstantStakingiDYP
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    lp_id={lp_id[cardIndex]}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    expired={false}
                   />
                 ) : activeCard3 &&
                   cardIndex >= 5 &&
@@ -2333,65 +2412,67 @@ const EarnTopPicks = ({
                     />
                   )}
 
-                  {activePools.slice(0, ((topList==='Staking' && chain === 'eth') ? 1 : 2)).map((pool, index) => (
-                    <TopPoolsCard
-                      display={
-                        pool.expired
-                          ? pool.expired === "Yes"
-                            ? "none"
+                  {activePools
+                    .slice(0, topList === "Staking" && chain === "eth" ? 1 : 2)
+                    .map((pool, index) => (
+                      <TopPoolsCard
+                        display={
+                          pool.expired
+                            ? pool.expired === "Yes"
+                              ? "none"
+                              : ""
                             : ""
-                          : ""
-                      }
-                      key={index}
-                      chain={chain}
-                      top_pick={pool.top_pick}
-                      tokenName={
-                        pool.tokenName
-                          ? pool.tokenName
-                          : pool.pair_name
-                          ? pool.pair_name
-                          : ""
-                      }
-                      apr={pool.apy_percent + "%"}
-                      tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                      lockTime={
-                        pool.lockTime
-                          ? pool.lockTime
-                          : pool.lock_time
-                          ? pool.lock_time
-                          : locktimeFarm[index]
-                      }
-                      tokenLogo={
-                        pool.icon
-                          ? pool.icon
-                          : pool.pair_name === "iDYP"
-                          ? "idypius.svg"
-                          : "dyplogo.svg"
-                      }
-                      onShowDetailsClick={() => {
-                        setActiveCard(topPools[index]);
-                        setActiveCard2(null);
-                        setActiveCard3(null);
-                        setActiveCard4(null);
-                        setActiveCard5(null);
-                        setActiveCard6(null);
-                        setActiveCardNFT(false);
-                        handleCardIndexStake(index);
-                        handleCardIndexStake30(index);
-                        handleCardIndexStakeiDyp(index);
-                        setDetails(index);
-                      }}
-                      onHideDetailsClick={() => {
-                        setActiveCard(null);
-                        setDetails();
-                      }}
-                      cardType={topList}
-                      details={details === index ? true : false}
-                      isNewPool={pool.isNewPool}
-                      isStaked={pool.isStaked}
-                      expired={false}
-                    />
-                  ))}
+                        }
+                        key={index}
+                        chain={chain}
+                        top_pick={pool.top_pick}
+                        tokenName={
+                          pool.tokenName
+                            ? pool.tokenName
+                            : pool.pair_name
+                            ? pool.pair_name
+                            : ""
+                        }
+                        apr={pool.apy_percent + "%"}
+                        tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                        lockTime={
+                          pool.lockTime
+                            ? pool.lockTime
+                            : pool.lock_time
+                            ? pool.lock_time
+                            : locktimeFarm[index]
+                        }
+                        tokenLogo={
+                          pool.icon
+                            ? pool.icon
+                            : pool.pair_name === "iDYP"
+                            ? "idypius.svg"
+                            : "dyplogo.svg"
+                        }
+                        onShowDetailsClick={() => {
+                          setActiveCard(topPools[index]);
+                          setActiveCard2(null);
+                          setActiveCard3(null);
+                          setActiveCard4(null);
+                          setActiveCard5(null);
+                          setActiveCard6(null);
+                          setActiveCardNFT(false);
+                          handleCardIndexStake(index);
+                          handleCardIndexStake30(index);
+                          handleCardIndexStakeiDyp(index);
+                          setDetails(index);
+                        }}
+                        onHideDetailsClick={() => {
+                          setActiveCard(null);
+                          setDetails();
+                        }}
+                        cardType={topList}
+                        details={details === index ? true : false}
+                        isNewPool={pool.isNewPool}
+                        isStaked={pool.isStaked}
+                        expired={false}
+                      />
+                    ))}
                 </div>
                 {activeCardNFT && (
                   <CawsDetails
@@ -2409,7 +2490,7 @@ const EarnTopPicks = ({
                 cardIndex === 2 &&
                 chain === "eth" ? (
                   <StakeEth
-                  staking={window.constant_staking_new3}
+                    staking={window.constant_staking_new3}
                     apr={
                       expiredPools === false
                         ? activePools[cardIndex]?.apy_percent
@@ -2454,7 +2535,6 @@ const EarnTopPicks = ({
                           : false
                         : false
                     }
-                    
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_result}
@@ -2587,7 +2667,6 @@ const EarnTopPicks = ({
                           : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
                         : "No Lock"
                     }
-                    
                   />
                 ) : activeCard &&
                   cardIndex >= 2 &&
@@ -2762,65 +2841,95 @@ const EarnTopPicks = ({
                   className="top-picks-container"
                   style={{ marginTop: "25px" }}
                 >
-                  {activePools.slice((topList === 'Staking' && chain==='eth') ? 1 : 2, (topList === 'Staking' && chain==='eth') ? 3 : 4).map((pool, index) => (
-                    <TopPoolsCard
-                      display={
-                        pool.expired
-                          ? pool.expired === "Yes"
-                            ? "none"
+                  {activePools
+                    .slice(
+                      topList === "Staking" && chain === "eth" ? 1 : 2,
+                      topList === "Staking" && chain === "eth" ? 3 : 4
+                    )
+                    .map((pool, index) => (
+                      <TopPoolsCard
+                        display={
+                          pool.expired
+                            ? pool.expired === "Yes"
+                              ? "none"
+                              : ""
                             : ""
-                          : ""
-                      }
-                      expired={false}
-                      key={index}
-                      chain={chain}
-                      top_pick={pool.top_pick}
-                      tokenName={
-                        pool.tokenName
-                          ? pool.tokenName
-                          : pool.pair_name
-                          ? pool.pair_name
-                          : ""
-                      }
-                      apr={pool.apy_percent + "%"}
-                      tvl={"$" + getFormattedNumber(pool.tvl_usd)}
-                      lockTime={
-                        pool.lockTime
-                          ? pool.lockTime
-                          : pool.lock_time
-                          ? pool.lock_time
-                          : locktimeFarm[index]
-                      }
-                      tokenLogo={
-                        pool.icon
-                          ? pool.icon
-                          : pool.pair_name === "iDYP"
-                          ? "idypius.svg"
-                          : "dyplogo.svg"
-                      }
-                      onShowDetailsClick={() => {
-                        setActiveCard(null);
-                        setActiveCard2(topPools[index + ((topList === 'Staking' && chain==='eth') ? 1 : 2)]);
-                        setActiveCard3(null);
-                        setActiveCard4(null);
-                        setActiveCard5(null);
-                        setActiveCard6(null);
-                        setActiveCardNFT(false);
-                        handleCardIndexStake(index + ((topList === 'Staking' && chain==='eth') ? 1 : 2));
-                        handleCardIndexStake30(index + ((topList === 'Staking' && chain==='eth') ? 1 : 2));
-                        handleCardIndexStakeiDyp(index + ((topList === 'Staking' && chain==='eth') ? 1 : 2));
-                        setDetails(index + ((topList === 'Staking' && chain==='eth') ? 1 : 2));
-                      }}
-                      onHideDetailsClick={() => {
-                        setActiveCard2(null);
-                        setDetails();
-                      }}
-                      cardType={topList}
-                      details={details === index + ((topList === 'Staking' && chain==='eth') ? 1 : 2) ? true : false}
-                      isNewPool={pool.isNewPool}
-                      isStaked={pool.isStaked}
-                    />
-                  ))}
+                        }
+                        expired={false}
+                        key={index}
+                        chain={chain}
+                        top_pick={pool.top_pick}
+                        tokenName={
+                          pool.tokenName
+                            ? pool.tokenName
+                            : pool.pair_name
+                            ? pool.pair_name
+                            : ""
+                        }
+                        apr={pool.apy_percent + "%"}
+                        tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                        lockTime={
+                          pool.lockTime
+                            ? pool.lockTime
+                            : pool.lock_time
+                            ? pool.lock_time
+                            : locktimeFarm[index]
+                        }
+                        tokenLogo={
+                          pool.icon
+                            ? pool.icon
+                            : pool.pair_name === "iDYP"
+                            ? "idypius.svg"
+                            : "dyplogo.svg"
+                        }
+                        onShowDetailsClick={() => {
+                          setActiveCard(null);
+                          setActiveCard2(
+                            topPools[
+                              index +
+                                (topList === "Staking" && chain === "eth"
+                                  ? 1
+                                  : 2)
+                            ]
+                          );
+                          setActiveCard3(null);
+                          setActiveCard4(null);
+                          setActiveCard5(null);
+                          setActiveCard6(null);
+                          setActiveCardNFT(false);
+                          handleCardIndexStake(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 1 : 2)
+                          );
+                          handleCardIndexStake30(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 1 : 2)
+                          );
+                          handleCardIndexStakeiDyp(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 1 : 2)
+                          );
+                          setDetails(
+                            index +
+                              (topList === "Staking" && chain === "eth" ? 1 : 2)
+                          );
+                        }}
+                        onHideDetailsClick={() => {
+                          setActiveCard2(null);
+                          setDetails();
+                        }}
+                        cardType={topList}
+                        details={
+                          details ===
+                          index +
+                            (topList === "Staking" && chain === "eth" ? 1 : 2)
+                            ? true
+                            : false
+                        }
+                        isNewPool={pool.isNewPool}
+                        isStaked={pool.isStaked}
+                      />
+                    ))}
                 </div>
                 {activeCard2 &&
                 topList === "Staking" &&
@@ -2888,7 +2997,7 @@ const EarnTopPicks = ({
                     referrer={referrer}
                   />
                 ) : activeCard2 &&
-                  cardIndex ===2 &&
+                  cardIndex === 2 &&
                   topList === "Staking" &&
                   chain === "eth" ? (
                   <InitConstantStakingiDYP
@@ -2900,7 +3009,7 @@ const EarnTopPicks = ({
                     handleConnection={handleConnection}
                     handleSwitchNetwork={handleSwitchNetwork}
                     expired={false}
-                    staking={stakeArrayiDYPActive[cardIndex-1]}
+                    staking={stakeArrayiDYPActive[cardIndex - 1]}
                     listType={listType}
                     finalApr={
                       expiredPools === false
@@ -2946,10 +3055,10 @@ const EarnTopPicks = ({
                         : "No Lock"
                     }
                   />
-                ): activeCard2 &&
-                topList === "Staking" &&
-                cardIndex === 1 &&
-                chain === "eth" ? (
+                ) : activeCard2 &&
+                  topList === "Staking" &&
+                  cardIndex === 1 &&
+                  chain === "eth" ? (
                   <StakeEth
                     staking={stakeArrayStakeNew[cardIndex]}
                     apr={
@@ -2996,7 +3105,6 @@ const EarnTopPicks = ({
                           : false
                         : false
                     }
-                    
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_result}
@@ -3006,7 +3114,7 @@ const EarnTopPicks = ({
                     expired={false}
                     referrer={referrer}
                   />
-                ): activeCard2 &&
+                ) : activeCard2 &&
                   cardIndex >= 2 &&
                   topList === "Staking" &&
                   chain === "bnb" ? (
@@ -5036,65 +5144,68 @@ const EarnTopPicks = ({
                           : "No Lock"
                       }
                     />
-                  ) : activeCard2 && cardIndex === 1 && topList === "Staking" && chain === 'eth'
-                  ? (
+                  ) : activeCard2 &&
+                    cardIndex === 1 &&
+                    topList === "Staking" &&
+                    chain === "eth" ? (
                     <StakeEth
-                    staking={window.constant_staking_new3}
-                    apr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent
-                    }
-                    liquidity={eth_address}
-                    expiration_time={"14 December 2022"}
-                    finalApr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee
-                    }
-                    fee={
-                      expiredPools
-                        ? expiredPools[cardIndex - 1]?.performancefee
-                        : 0
-                    }
-                    lockTime={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
-                            "No"
+                      staking={window.constant_staking_new3}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={eth_address}
+                      expiration_time={"14 December 2022"}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools
+                          ? expiredPools[cardIndex - 1]?.performancefee
+                          : 0
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : activePools[cardIndex]?.lock_time?.split(" ")[0]
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
                             ? "No Lock"
-                            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                        : "No Lock"
-                    }
-                    lp_id={LP_IDBNB_Array[cardIndex]}
-                    listType={listType}
-                    other_info={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.expired === "Yes"
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                          : "No Lock"
+                      }
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
                             ? true
                             : false
-                          : expiredDYPPools[cardIndex]?.expired === "Yes"
-                          ? true
                           : false
-                        : false
-                    }
-                     
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    expired={false}
-                    referrer={referrer}
-                  />
-
+                      }
+                      is_wallet_connected={isConnected}
+                      coinbase={coinbase}
+                      the_graph_result={the_graph_result}
+                      chainId={chainId}
+                      handleConnection={handleConnection}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
+                    />
                   ) : activeCard2 &&
                     cardIndex >= 2 &&
                     topList === "Staking" &&
@@ -5343,9 +5454,9 @@ const EarnTopPicks = ({
                     ))}
                   </div>
                   {activeCard3 &&
-                    cardIndex < 2 &&
-                    topList === "Staking" &&
-                    chain === "bnb" ? (
+                  cardIndex < 2 &&
+                  topList === "Staking" &&
+                  chain === "bnb" ? (
                     <StakeBsc
                       lp_id={LP_IDBNB_Array[cardIndex]}
                       staking={stakearrayStakeBscDyp2[cardIndex]}
@@ -5411,129 +5522,130 @@ const EarnTopPicks = ({
                       referrer={referrer}
                     />
                   ) : activeCard3 &&
-                  cardIndex === 2 &&
-                  topList === "Staking" &&
-                  chain === "eth" ? (
-                  <InitConstantStakingiDYP
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    lp_id={lp_id[cardIndex]}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    expired={false}
-                    staking={stakeArrayiDYPActive[cardIndex-1]}
-                    listType={listType}
-                    finalApr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee
-                    }
-                    apr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent
-                    }
-                    liquidity={eth_address}
-                    expiration_time={expirationArray[cardIndex]}
-                    other_info={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.expired === "Yes"
+                    cardIndex === 2 &&
+                    topList === "Staking" &&
+                    chain === "eth" ? (
+                    <InitConstantStakingiDYP
+                      is_wallet_connected={isConnected}
+                      coinbase={coinbase}
+                      the_graph_result={the_graph_result}
+                      lp_id={lp_id[cardIndex]}
+                      chainId={chainId}
+                      handleConnection={handleConnection}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      staking={stakeArrayiDYPActive[cardIndex - 1]}
+                      listType={listType}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={eth_address}
+                      expiration_time={expirationArray[cardIndex]}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
                             ? true
                             : false
-                          : expiredDYPPools[cardIndex]?.expired === "Yes"
-                          ? true
                           : false
-                        : false
-                    }
-                    fee_s={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.performancefee
-                        : expiredDYPPools[cardIndex]?.performancefee
-                    }
-                    fee_u={withdrawFeeiDyp[cardIndex]}
-                    lockTime={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0] === "No"
+                      }
+                      fee_s={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      fee_u={withdrawFeeiDyp[cardIndex]}
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : activePools[cardIndex]?.lock_time?.split(" ")[0]
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
                             ? "No Lock"
-                            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0]
-                        : "No Lock"
-                    }
-                  />
-                ) : activeCard3 && cardIndex === 1 && topList === "Staking" && chain === 'eth'
-                  ? (
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                          : "No Lock"
+                      }
+                    />
+                  ) : activeCard3 &&
+                    cardIndex === 1 &&
+                    topList === "Staking" &&
+                    chain === "eth" ? (
                     <StakeEth
-                    staking={window.constant_staking_new3}
-                    apr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent
-                    }
-                    liquidity={eth_address}
-                    expiration_time={"14 December 2022"}
-                    finalApr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee
-                    }
-                    fee={
-                      expiredPools
-                        ? expiredPools[cardIndex - 1]?.performancefee
-                        : 0
-                    }
-                    lockTime={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
-                            "No"
+                      staking={window.constant_staking_new3}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={eth_address}
+                      expiration_time={"14 December 2022"}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee={
+                        expiredPools
+                          ? expiredPools[cardIndex - 1]?.performancefee
+                          : 0
+                      }
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : activePools[cardIndex]?.lock_time?.split(" ")[0]
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
                             ? "No Lock"
-                            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                        : "No Lock"
-                    }
-                    lp_id={LP_IDBNB_Array[cardIndex]}
-                    listType={listType}
-                    other_info={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.expired === "Yes"
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                          : "No Lock"
+                      }
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
                             ? true
                             : false
-                          : expiredDYPPools[cardIndex]?.expired === "Yes"
-                          ? true
                           : false
-                        : false
-                    }
-                     
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    expired={false}
-                    referrer={referrer}
-                  />
-
-                  ) :
-                  
-                  activeCard3 &&
+                      }
+                      is_wallet_connected={isConnected}
+                      coinbase={coinbase}
+                      the_graph_result={the_graph_result}
+                      chainId={chainId}
+                      handleConnection={handleConnection}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
+                    />
+                  ) : activeCard3 &&
                     cardIndex >= 2 &&
                     topList === "Staking" &&
                     chain === "bnb" ? (
@@ -9199,11 +9311,6 @@ const EarnTopPicks = ({
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
                   }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
                   lockTime={
                     cardIndex !== undefined
                       ? expiredPools === false
@@ -10109,9 +10216,6 @@ const EarnTopPicks = ({
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
                 }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
-                }
                 lockTime={
                   cardIndex !== undefined
                     ? expiredPools === false
@@ -10169,9 +10273,6 @@ const EarnTopPicks = ({
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
                 }
                 lockTime={
                   cardIndex !== undefined
@@ -10571,9 +10672,6 @@ const EarnTopPicks = ({
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
                 }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
-                }
                 lockTime={
                   cardIndex !== undefined
                     ? expiredPools === false
@@ -10631,9 +10729,6 @@ const EarnTopPicks = ({
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
                 }
                 lockTime={
                   cardIndex !== undefined
@@ -11042,9 +11137,6 @@ const EarnTopPicks = ({
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
                 }
                 lockTime={
                   cardIndex !== undefined
@@ -11494,9 +11586,6 @@ const EarnTopPicks = ({
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
                 }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
-                }
                 lockTime={
                   cardIndex !== undefined
                     ? expiredPools === false
@@ -11892,9 +11981,6 @@ const EarnTopPicks = ({
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
                 }
                 lockTime={
                   cardIndex !== undefined
@@ -12446,9 +12532,6 @@ const EarnTopPicks = ({
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
                 }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
-                }
                 lockTime={
                   cardIndex !== undefined
                     ? expiredPools === false
@@ -12971,9 +13054,6 @@ const EarnTopPicks = ({
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
                 }
                 lockTime={
                   cardIndex !== undefined
@@ -13499,9 +13579,6 @@ const EarnTopPicks = ({
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
                 }
                 lockTime={
                   cardIndex !== undefined
@@ -14034,11 +14111,6 @@ const EarnTopPicks = ({
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
                   }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
                   lockTime={
                     cardIndex !== undefined
                       ? expiredPools === false
@@ -14361,11 +14433,6 @@ const EarnTopPicks = ({
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
                   }
                   lockTime={
                     cardIndex !== undefined
@@ -14732,11 +14799,6 @@ const EarnTopPicks = ({
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
                   }
                   lockTime={
                     cardIndex !== undefined
@@ -15292,11 +15354,6 @@ const EarnTopPicks = ({
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
                   }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
                   lockTime={
                     cardIndex !== undefined
                       ? expiredPools === false
@@ -15756,11 +15813,6 @@ const EarnTopPicks = ({
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
                   }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
                   lockTime={
                     cardIndex !== undefined
                       ? expiredPools === false
@@ -16146,11 +16198,6 @@ const EarnTopPicks = ({
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
                   }
                   lockTime={
                     cardIndex !== undefined
@@ -16538,11 +16585,6 @@ const EarnTopPicks = ({
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
                   }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
                   lockTime={
                     cardIndex !== undefined
                       ? expiredPools === false
@@ -16928,11 +16970,6 @@ const EarnTopPicks = ({
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
                   }
                   lockTime={
                     cardIndex !== undefined
@@ -17320,11 +17357,6 @@ const EarnTopPicks = ({
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
                   }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
                   lockTime={
                     cardIndex !== undefined
                       ? expiredPools === false
@@ -17710,11 +17742,6 @@ const EarnTopPicks = ({
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
                   }
                   lockTime={
                     cardIndex !== undefined
@@ -18103,11 +18130,6 @@ const EarnTopPicks = ({
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
                       : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
                   }
                   lockTime={
                     cardIndex !== undefined

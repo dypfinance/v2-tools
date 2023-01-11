@@ -1053,7 +1053,7 @@ const StakeEth = ({
                     title={
                       <div className="tooltip-text">
                         {
-                          "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                          "The initial pool size is capped at 5M DYP. Additional opportunities to stake DYP are planned to be introduced over time."
                         }
                       </div>
                     }

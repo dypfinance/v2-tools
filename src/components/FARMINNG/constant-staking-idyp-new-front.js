@@ -70,7 +70,7 @@ const InitConstantStakingiDYP = ({
   let token_symbol = "iDYP";
   let reward_token = reward_token_idyp;
   // token, staking
-
+  
   const TOKEN_DECIMALS = window.config.token_decimals;
 
   function download(filename, text) {
@@ -554,6 +554,8 @@ const InitConstantStakingiDYP = ({
   let showDeposit = true;
   let lockDate;
 
+
+ 
   if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
     let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
     let lockTimeExpire = parseInt(Date.now()) + parseInt(cliffTime);
@@ -565,6 +567,8 @@ const InitConstantStakingiDYP = ({
     }
     lockDate = lockTimeExpire;
   }
+  
+ 
 
   let cliffTimeInWords = "lockup period";
 
