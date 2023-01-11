@@ -1181,6 +1181,8 @@ const EarnTopPicks = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
                       referrer={referrer}
+              totalTvl={activePools[cardIndex].tvl_usd}
+
                     />
                   ) : activeCard &&
                     cardIndex >= 2 &&
@@ -2538,6 +2540,8 @@ const EarnTopPicks = ({
                     handleSwitchNetwork={handleSwitchNetwork}
                     expired={false}
                     referrer={referrer}
+              totalTvl={activePools[cardIndex].tvl_usd}
+
                   />
                 ) : activeCard &&
                   topList === "Staking" &&
@@ -4629,6 +4633,8 @@ const EarnTopPicks = ({
                           : false
                         : false
                     }
+              totalTvl={activePools[cardIndex].tvl_usd}
+
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
                     the_graph_result={the_graph_result}
@@ -5011,6 +5017,8 @@ const EarnTopPicks = ({
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
+              totalTvl={activePools[cardIndex].tvl_usd}
+
                       referrer={referrer}
                     />
                   ) : activeCard2 &&
@@ -8987,7 +8995,7 @@ const EarnTopPicks = ({
                       : "flex"
                   }
                   isNewPool={pool.new_pool === 'Yes' ? true : false}
-
+                  totalTvl={pool.tvl_usd}
                 />
               ))}
             </div>

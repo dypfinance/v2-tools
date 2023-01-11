@@ -279,7 +279,6 @@ const Dashboard = ({
   }, [network, chainId]);
 
   const windowSize = useWindowSize();
-
   return (
     <div className="container-lg dashboardwrapper px-0">
       <div className="d-flex m-0 flex-column flex-xxl-row justify-content-between gap-4">
@@ -373,6 +372,7 @@ const Dashboard = ({
               handleSwitchNetwork={handleSwitchNetwork}
               expired={false}
               referrer={referrer}
+              totalTvl={topPools[1].tvl_usd}
             />
                   ) : activeCard && chainId === 1 && cardIndex === 0 ? (
                     <CawsDetails
@@ -610,6 +610,8 @@ const Dashboard = ({
                     handleSwitchNetwork={handleSwitchNetwork}
                     expired={false}
                     referrer={referrer}
+              totalTvl={topPools[1].tvl_usd}
+
                   />
                   ) : (
                     <CawsDetails

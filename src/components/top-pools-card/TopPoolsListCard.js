@@ -55,6 +55,8 @@ const TopPoolsListCard = ({
   display,
   expired,
   expiredPools,
+  totalTvl
+
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
   const bscCoins = [
@@ -686,6 +688,8 @@ const TopPoolsListCard = ({
               handleSwitchNetwork={handleSwitchNetwork}
               expired={false}
               referrer={referrer}
+              totalTvl={totalTvl}
+
             />
           ) : showDetails &&
             cardIndex > 2 &&
