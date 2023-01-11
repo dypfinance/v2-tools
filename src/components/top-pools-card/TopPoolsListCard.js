@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import greenArrow from "./assets/greenarrow.svg";
 import orangeArrow from "./assets/orangearrow.svg";
 import topPick from "./assets/toppick.svg";
+import newPool from "./assets/newPool.png";
+
 import "./top-pools.css";
 import CawsDetails from "../FARMINNG/caws";
 
@@ -33,6 +35,7 @@ const TopPoolsListCard = ({
   onShowDetailsClick,
   onHideDetailsClick,
   top_pick,
+  isNewPool,
   cardType,
   chain,
   topList,
@@ -572,6 +575,8 @@ const TopPoolsListCard = ({
           style={{ width: "170px" }}
         >
           {top_pick && <img src={topPick} alt="" />}
+          {/* {isNewPool && <img src={newPool} alt="" />} */}
+
           <h6
             className="details-text gap-1 d-flex align-items-center cursor-pointer justify-content-end"
             style={{
@@ -665,7 +670,7 @@ const TopPoolsListCard = ({
               staking={window.constant_staking_new3}
               apr={7.35}
               liquidity={eth_address}
-              expiration_time={"14 December 2022"}
+              expiration_time={"11 January 2024"}
               finalApr={7.35}
               fee={0}
               lockTime={90}
@@ -820,7 +825,7 @@ const TopPoolsListCard = ({
               staking={stakeArrayStakeNew[cardIndex - 1]}
               apr={aprArrayStake[cardIndex]}
               liquidity={eth_address}
-              expiration_time={"14 December 2022"}
+              expiration_time={"11 January 2024"}
               finalApr={
                 aprArrayStake[cardIndex - 1] - feeArrayStake[cardIndex - 1]
               }

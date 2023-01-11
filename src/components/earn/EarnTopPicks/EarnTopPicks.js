@@ -940,7 +940,7 @@ const EarnTopPicks = ({
                           }}
                           cardType={topList}
                           details={details === index ? true : false}
-                          isNewPool={pool.isNewPool}
+                          isNewPool={pool.new_pool === 'Yes' ? true : false}
                           isStaked={pool.isStaked}
                           expired={false}
                         />
@@ -1134,7 +1134,7 @@ const EarnTopPicks = ({
                           : expiredDYPPools[cardIndex]?.apy_percent
                       }
                       liquidity={eth_address}
-                      expiration_time={"14 December 2022"}
+                      expiration_time={"11 January 2024"}
                       finalApr={
                         expiredPools === false
                           ? activePools[cardIndex]?.apy_performancefee
@@ -1452,7 +1452,7 @@ const EarnTopPicks = ({
                             ? true
                             : false
                         }
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                         expired={false}
                       />
@@ -1839,7 +1839,7 @@ const EarnTopPicks = ({
                             ? true
                             : false
                         }
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                         expired={false}
                       />
@@ -2133,7 +2133,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 9 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         expired={false}
                         isStaked={pool.isStaked}
                       />
@@ -2468,7 +2468,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                         expired={false}
                       />
@@ -2497,7 +2497,7 @@ const EarnTopPicks = ({
                         : expiredDYPPools[cardIndex]?.apy_percent
                     }
                     liquidity={eth_address}
-                    expiration_time={"14 December 2022"}
+                    expiration_time={"11 January 2024"}
                     finalApr={
                       expiredPools === false
                         ? activePools[cardIndex]?.apy_performancefee
@@ -2926,7 +2926,7 @@ const EarnTopPicks = ({
                             ? true
                             : false
                         }
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -3067,7 +3067,7 @@ const EarnTopPicks = ({
                         : expiredDYPPools[cardIndex]?.apy_percent
                     }
                     liquidity={eth_address}
-                    expiration_time={"14 December 2022"}
+                    expiration_time={"11 January 2024"}
                     finalApr={
                       expiredPools === false
                         ? activePools[cardIndex]?.apy_performancefee
@@ -3342,7 +3342,7 @@ const EarnTopPicks = ({
                       }}
                       cardType={topList}
                       details={details === index + 4 ? true : false}
-                      isNewPool={pool.isNewPool}
+                      isNewPool={pool.new_pool === 'Yes' ? true : false}
                       isStaked={pool.isStaked}
                     />
                   ))}
@@ -3654,7 +3654,7 @@ const EarnTopPicks = ({
                       }}
                       cardType={topList}
                       details={details === index + 6 ? true : false}
-                      isNewPool={pool.isNewPool}
+                      isNewPool={pool.new_pool === 'Yes' ? true : false}
                       isStaked={pool.isStaked}
                     />
                   ))}
@@ -3968,7 +3968,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 8 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -4282,7 +4282,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 10 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -4631,7 +4631,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -5009,7 +5009,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 1 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -5156,7 +5156,7 @@ const EarnTopPicks = ({
                           : expiredDYPPools[cardIndex]?.apy_percent
                       }
                       liquidity={eth_address}
-                      expiration_time={"14 December 2022"}
+                      expiration_time={"11 January 2024"}
                       finalApr={
                         expiredPools === false
                           ? activePools[cardIndex]?.apy_performancefee
@@ -5448,7 +5448,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 2 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -5595,7 +5595,7 @@ const EarnTopPicks = ({
                           : expiredDYPPools[cardIndex]?.apy_percent
                       }
                       liquidity={eth_address}
-                      expiration_time={"14 December 2022"}
+                      expiration_time={"11 January 2024"}
                       finalApr={
                         expiredPools === false
                           ? activePools[cardIndex]?.apy_performancefee
@@ -5887,7 +5887,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 3 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -6216,7 +6216,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 4 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -6591,7 +6591,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 5 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -6965,7 +6965,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 6 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -7339,7 +7339,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 7 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -7713,7 +7713,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 8 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -8069,7 +8069,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 9 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -8425,7 +8425,7 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 10 ? true : false}
-                        isNewPool={pool.isNewPool}
+                        isNewPool={pool.new_pool === 'Yes' ? true : false}
                         isStaked={pool.isStaked}
                       />
                     ))}
@@ -8782,7 +8782,7 @@ const EarnTopPicks = ({
                           }}
                           cardType={topList}
                           details={details === index + 11 ? true : false}
-                          isNewPool={pool.isNewPool}
+                          isNewPool={pool.new_pool === 'Yes' ? true : false}
                           isStaked={pool.isStaked}
                         />
                       ))}
@@ -9305,7 +9305,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -10210,7 +10210,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -10268,7 +10268,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -10666,7 +10666,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -10724,7 +10724,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -11132,7 +11132,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -11580,7 +11580,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -11976,7 +11976,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -12526,7 +12526,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -13049,7 +13049,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -13574,7 +13574,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={eth_address}
-                expiration_time={"14 December 2022"}
+                expiration_time={"11 January 2024"}
                 finalApr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_performancefee
@@ -14105,7 +14105,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -14428,7 +14428,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -14794,7 +14794,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -15348,7 +15348,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -15807,7 +15807,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -16193,7 +16193,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -16579,7 +16579,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -16965,7 +16965,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -17351,7 +17351,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -17737,7 +17737,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee
@@ -18125,7 +18125,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={eth_address}
-                  expiration_time={"14 December 2022"}
+                  expiration_time={"11 January 2024"}
                   finalApr={
                     expiredPools === false
                       ? activePools[cardIndex]?.apy_performancefee

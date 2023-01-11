@@ -801,7 +801,7 @@ const StakeEth = ({
     if (lockTimeExpire > lastDay) {
       showDeposit = false;
     }
-    console.log(lockTimeExpire)
+    
     lockDate = lockTimeExpire;
   }
 
@@ -822,11 +822,9 @@ const StakeEth = ({
     }
   }
 
-  let tvl_usd = tvl * usdPerToken;
+  let tvl_usd = tvlusd / 1e18;
 
-  let tvlDYPS = tvlDyps / 1e18;
-
-  tvl_usd = tvl_usd + tvlDYPS;
+  // tvl_usd = tvl_usd + tvlDYPS;
 
   tvl_usd = getFormattedNumber(tvl_usd, 2);
   return (

@@ -313,6 +313,7 @@ const Dashboard = ({
                       return (
                         <TopPoolsCard
                           key={index}
+                          isNewPool={item.new_pool === 'Yes' ? true : false}
                           chain={network}
                           top_pick={item.top_pick}
                           tokenName={item.pair_name}
@@ -358,7 +359,7 @@ const Dashboard = ({
               staking={window.constant_staking_new3}
               apr={7.35}
               liquidity={eth_address}
-              expiration_time={"14 December 2022"}
+              expiration_time={"11 January 2024"}
               finalApr={7.35}
               fee={0}
               lockTime={90}
@@ -513,6 +514,8 @@ const Dashboard = ({
                           cardType={"table"}
                           details={details === index ? true : false}
                           expired={false}
+                          isNewPool={item.new_pool === 'Yes' ? true : false}
+
                         />
                       );
                     })
@@ -573,6 +576,8 @@ const Dashboard = ({
                           cardType={"table"}
                           details={details === index + 1 ? true : false}
                           expired={false}
+                          isNewPool={item.new_pool === 'Yes' ? true : false}
+
                         />
                       );
                     })
@@ -591,7 +596,7 @@ const Dashboard = ({
                     staking={window.constant_staking_new3}
                     apr={7.35}
                     liquidity={eth_address}
-                    expiration_time={"14 December 2022"}
+                    expiration_time={"11 January 2024"}
                     finalApr={7.35}
                     fee={0}
                     lockTime={90}
