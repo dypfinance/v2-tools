@@ -530,7 +530,7 @@ const TopPoolsListCard = ({
                 lineHeight: "26px",
               }}
             >
-              APR {cardIndex}
+              APR
             </p>
           </div>
         </div>
@@ -637,7 +637,7 @@ const TopPoolsListCard = ({
               referrer={referrer}
             />
           ) : showDetails &&
-            (cardIndex === 1 || cardIndex === 3) &&
+            (cardIndex === 2 || cardIndex === 3) &&
             topList === "Staking" &&
             chain === "eth" ? (
             <InitConstantStakingiDYP
@@ -663,7 +663,7 @@ const TopPoolsListCard = ({
               lockTime={lockarray[cardIndex - 1]}
             />
           ) : showDetails &&
-            cardIndex === 2 &&
+            cardIndex === 1 &&
             topList === "Staking" &&
             chain === "eth" ? (
             <StakeEth
