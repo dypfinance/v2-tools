@@ -12,7 +12,6 @@ import ChainlinkCard from "../chainlink-card/ChainlinkCard";
 import TrendingNews from "../newsCard/TrendingNews";
 import rightarrow from "./assets/right-arrow.svg";
 import { NavLink } from "react-router-dom";
-
 import useWindowSize from "../../functions/useWindowSize";
 import axios from "axios";
 import getFormattedNumber from "../../functions/get-formatted-number";
@@ -21,7 +20,7 @@ import { FadeLoader } from "react-spinners";
 import CawsDetails from "../FARMINNG/caws";
 
 import StakeBsc from "../FARMINNG/bscConstantStake";
-import StakeEth from "../FARMINNG/constant-staking-new-front";
+import StakeNewEth from "../FARMINNG/stakeNewEth";
 
 const Dashboard = ({
   isConnected,
@@ -355,13 +354,13 @@ const Dashboard = ({
                 </div>
                 {activeCard && chainId === 1 ? (
                   chainId === 1 && cardIndex === 1 ? (
-                    <StakeEth
+                    <StakeNewEth
               staking={window.constant_staking_newi3}
               apr={7.35}
               liquidity={eth_address}
               expiration_time={"11 January 2024"}
               finalApr={7.35}
-              fee={0}
+              fee_s={0}
               lockTime={90}
               lp_id={lp_id[cardIndex]}
               listType={'table'}
@@ -592,13 +591,13 @@ const Dashboard = ({
                 </div>
                 {activeCard2 && chainId === 1 && cardIndex === 1 ? (
                   chainId === 1 && cardIndex === 1 ? (
-                    <StakeEth
+                    <StakeNewEth
                     staking={window.constant_staking_newi3}
                     apr={7.35}
                     liquidity={eth_address}
                     expiration_time={"11 January 2024"}
                     finalApr={7.35}
-                    fee={0}
+                    fee_s={0}
                     lockTime={90}
                     lp_id={lp_id[cardIndex]}
                     listType={'table'}

@@ -627,6 +627,23 @@ const StakeBsc = ({
     document.getElementById(field).focus();
   };
 
+  const checkApproval = async (amount) => {
+    const result = await window
+      .checkapproveStakePool(coinbase, reward_token._address, staking._address)
+      .then((data) => {
+        console.log(data);
+        return data;
+      });
+
+    if (Number(result) >= Number(amount) && Number(result) !== 0) {
+      setdepositStatus('deposit')
+      
+    } else {
+      setdepositStatus('initial')
+    }
+  };
+
+
   return (
     <div className="container-lg p-0">
       <div
@@ -889,7 +906,10 @@ const StakeBsc = ({
                             ? depositAmount
                             : depositAmount
                         }
-                        onChange={(e) => setdepositAmount(e.target.value)}
+                        onChange={(e) => {
+                          setdepositAmount(e.target.value);
+                          checkApproval(e.target.value);
+                        }}
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}

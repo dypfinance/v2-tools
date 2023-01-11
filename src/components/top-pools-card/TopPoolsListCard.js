@@ -24,6 +24,7 @@ import StakeAvaxDai from "../FARMINNG/stakeAvax3";
 import StakeEthDai from "../FARMINNG/constant-staking-dai-front";
 import StakeEth from "../FARMINNG/constant-staking-new-front";
 import Vault from "../FARMINNG/vault-new";
+import StakeNewEth from "../FARMINNG/stakeNewEth";
 
 const TopPoolsListCard = ({
   tokenLogo,
@@ -666,13 +667,13 @@ const TopPoolsListCard = ({
             cardIndex === 1 &&
             topList === "Staking" &&
             chain === "eth" ? (
-            <StakeEth
+            <StakeNewEth
               staking={window.constant_staking_newi3}
               apr={7.35}
               liquidity={eth_address}
               expiration_time={"11 January 2024"}
               finalApr={7.35}
-              fee={0}
+              fee_s={0}
               lockTime={90}
               lp_id={lp_id[cardIndex]}
               listType={listType}

@@ -180,7 +180,7 @@ const StakeEth = ({
   const [depositTooltip, setdepositTooltip] = useState(false);
   const [rewardsTooltip, setrewardsTooltip] = useState(false);
   const [withdrawTooltip, setwithdrawTooltip] = useState(false);
-  const [unlockDate, setunlockDate] = useState('')
+  const [unlockDate, setunlockDate] = useState("");
 
   const showModal = () => {
     setshow(true);
@@ -340,7 +340,9 @@ const StakeEth = ({
 
         setstakingTime(stakingTime);
 
-        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(2);
+        let depositedTokens_formatted = new BigNumber(depositedTokens)
+          .div(1e18)
+          .toFixed(2);
 
         setdepositedTokens(depositedTokens_formatted);
 
@@ -464,8 +466,7 @@ const StakeEth = ({
           Date.now() + lockTime * 1 * 24 * 60 * 60 * 1000
         );
         // console.log(newdate)
-        setunlockDate(newdate)
-        
+        setunlockDate(newdate);
       }
     }
 
@@ -633,7 +634,7 @@ const StakeEth = ({
   };
 
   const handleSetMaxDeposit = (e) => {
-    const depositAmount =token_balance;
+    const depositAmount = token_balance;
 
     setdepositAmount(depositAmount);
   };
@@ -801,17 +802,16 @@ const StakeEth = ({
     if (lockTimeExpire > lastDay) {
       showDeposit = false;
     }
-    
+
     lockDate = lockTimeExpire;
   }
 
-  
   let cliffTimeInWords = "lockup period";
 
   const focusInput = (field) => {
     document.getElementById(field).focus();
   };
-  
+
   let canWithdraw = true;
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
     if (Date.now() - stakingTime <= cliffTime) {
@@ -827,6 +827,22 @@ const StakeEth = ({
   // tvl_usd = tvl_usd + tvlDYPS;
 
   tvl_usd = getFormattedNumber(tvl_usd, 2);
+
+  const checkApproval = async (amount) => {
+    const result = await window
+      .checkapproveStakePool(coinbase, reward_token._address, staking._address)
+      .then((data) => {
+        console.log(data);
+        return data;
+      });
+
+    if (Number(result) >= Number(amount) && Number(result) !== 0) {
+      setdepositStatus("deposit");
+    } else {
+      setdepositStatus("initial");
+    }
+  };
+
   return (
     <div className="container-lg p-0">
       <div
@@ -1078,7 +1094,10 @@ const StakeEth = ({
                             ? depositAmount
                             : depositAmount
                         }
-                        onChange={(e) => setdepositAmount(e.target.value)}
+                        onChange={(e) => {
+                          setdepositAmount(e.target.value);
+                          checkApproval(e.target.value);
+                        }}
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
@@ -1086,7 +1105,11 @@ const StakeEth = ({
                         id="amount_deposit"
                         key="amount_deposit"
                       />
-                      <label htmlFor="usd" className="label" onClick={() => focusInput("amount_deposit")}>
+                      <label
+                        htmlFor="usd"
+                        className="label"
+                        onClick={() => focusInput("amount_deposit")}
+                      >
                         Amount
                       </label>
                     </div>
@@ -1685,8 +1708,11 @@ const StakeEth = ({
                         id="amount_withdraw"
                         key="amount_withdraw"
                       />
-                      <label htmlFor="usd" className="label"
-                       onClick={() => focusInput("amount_withdraw")}>
+                      <label
+                        htmlFor="usd"
+                        className="label"
+                        onClick={() => focusInput("amount_withdraw")}
+                      >
                         Withdraw Amount
                       </label>
                     </div>

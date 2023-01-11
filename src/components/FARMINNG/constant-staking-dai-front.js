@@ -705,6 +705,23 @@ const StakeEthDai = ({
   };
 
 
+  const checkApproval = async (amount) => {
+    const result = await window
+      .checkapproveStakePool(coinbase, reward_token._address, staking._address)
+      .then((data) => {
+        console.log(data);
+        return data;
+      });
+
+    if (Number(result) >= Number(amount) && Number(result) !== 0) {
+      setdepositStatus('deposit')
+      
+    } else {
+      setdepositStatus('initial')
+    }
+  };
+
+
   return (
     <div className="container-lg p-0">
       <div
@@ -953,21 +970,7 @@ const StakeEthDai = ({
               <div className="d-flex flex-column gap-2 justify-content-between">
                 <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                   <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
-                    <div className="position-relative">
-                      <h6 className="amount-txt">Amount</h6>
-                      <input
-                        type={"number"}
-                        className="styledinput"
-                        placeholder="0.0"
-                        style={{ width: "100%" }}
-                        value={
-                          Number(depositAmount) > 0
-                            ? depositAmount
-                            : depositAmount
-                        }
-                        onChange={(e) => setdepositAmount(e.target.value)}
-                      />
-                    </div>
+                   
                     <div className="input-container px-0">
                       <input
                         type="number"
@@ -977,7 +980,10 @@ const StakeEthDai = ({
                             ? depositAmount
                             : depositAmount
                         }
-                        onChange={(e) => setdepositAmount(e.target.value)}
+                        onChange={(e) => {
+                          setdepositAmount(e.target.value);
+                          checkApproval(e.target.value);
+                        }}
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}

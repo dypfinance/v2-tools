@@ -949,7 +949,21 @@ export default function stakeAvax30({
         document.getElementById(field).focus();
       };
     
-      
+      const checkApproval = async (amount) => {
+        const result = await window
+          .checkapproveStakePool(this.state.coinbase, reward_token._address, staking._address)
+          .then((data) => {
+            console.log(data);
+            return data;
+          });
+    
+        if (Number(result) >= Number(amount) && Number(result) !== 0) {
+          this.setState({depositStatus: 'deposit'})
+        } else {
+          this.setState({depositStatus: 'initial'})
+        }
+      };
+
       return (
         <div className="container-lg p-0">
           <div
@@ -1215,9 +1229,10 @@ export default function stakeAvax30({
                               : this.state.depositAmount
                           }
                           onChange={(e) =>
-                            this.setState({
+                           { this.setState({
                               depositAmount: e.target.value,
-                            })
+                            });
+                          checkApproval(e.target.value)}
                           }
                           placeholder=" "
                           className="text-input"

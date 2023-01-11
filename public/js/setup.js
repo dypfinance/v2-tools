@@ -1608,7 +1608,7 @@ window.config = {
   constant_stakingnew_new2_address:
     "0x8A30Be7B2780b503ff27dBeaCdecC4Fe2587Af5d",
 
-    constant_stakingnew_newi3_address:
+    constant_staking_newi3_address:
     "0xeb7dd6B50dB34f7ff14898D0Be57A99A9F158C4D",
 
   //Buyback new
@@ -2240,8 +2240,8 @@ window.constant_staking_new2 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW2"
 );
 
-window.constant_staking_newi3 = new CONSTANT_STAKING_NEW(
-  "CONSTANT_STAKINGNEW_NEWI3"
+window.constant_staking_newi3 = new CONSTANT_STAKING_OLD(
+  "CONSTANT_STAKING_NEWI3"
 );
 window.constant_staking_newdai = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEWDAI"
@@ -2260,6 +2260,7 @@ window.CONSTANT_STAKINGIDYPAVAX_4_ABI = window.CONSTANT_STAKING_IDYP_ABI;
 window.CONSTANT_STAKINGNEW_NEW1_ABI = window.CONSTANT_STAKINGNEW_ABI;
 window.CONSTANT_STAKINGNEW_NEW2_ABI = window.CONSTANT_STAKINGNEW_ABI;
 window.CONSTANT_STAKINGNEW_NEW3_ABI = window.CONSTANT_STAKINGNEW_ABI;
+window.CONSTANT_STAKING_NEWI3 = window.CONSTANT_STAKING_OLD_ABI;
 
 
 window.CONSTANT_STAKINGNEW_NEWAVAX1_ABI = window.CONSTANT_STAKINGNEW_ABI;
@@ -2390,6 +2391,14 @@ window.constant_staking_idypavax_5 = new CONSTANT_STAKING_NEWAVAX(
 window.constant_staking_idypavax_6 = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGIDYPAVAX_6"
 );
+
+const checkapproveStakePool=async(useraddr, tokenaddr, stakingaddr)=> {
+  let token_contract = await getTokenContract(tokenaddr);
+
+  return await token_contract.methods.allowance(useraddr, stakingaddr).call();
+}
+
+window.checkapproveStakePool = checkapproveStakePool
 
 //governance eth
 
@@ -27106,7 +27115,6 @@ Object.keys(window.config)
 
 
       k.startsWith("constant_stakingnew_new2") ||
-      k.startsWith("constant_stakingnew_newi3") ||
 
       k.startsWith("constant_stakingidypavax_3") ||
       k.startsWith("constant_stakingidypavax_4") ||
@@ -27170,6 +27178,7 @@ Object.keys(window.config)
       k.startsWith("constant_stakingold_130") || k.startsWith("constant_stakingold_140") ||
       k.startsWith("buyback_stakingbsc1_1") ||
       k.startsWith("buyback_stakingbsc1_2") ||
+      k.startsWith("constant_staking_newi3") ||
       (k.startsWith("constant_stakingold_") && k.endsWith("_address"))
   )
   .forEach((k) => {
@@ -27181,6 +27190,8 @@ Object.keys(window.config)
       ? window.BUYBACK_STAKINGBSC1_1_ABI
       : k.startsWith("buyback_stakingbsc1_2")
       ? window.BUYBACK_STAKINGBSC1_2_ABI
+      : k.startsWith("constant_staking_newi3")
+      ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("stakingavax_")
       ? window.STAKINGAVAX_ABI
       : k.startsWith("reward_token_dyps")
@@ -27272,8 +27283,6 @@ Object.keys(window.config)
       ? window.CONSTANT_STAKING_IDYP_ABI
 
       : k.startsWith("constant_stakingnew_new2")
-      ? window.CONSTANT_STAKINGNEW_ABI
-      : k.startsWith("constant_stakingnew_newi3")
       ? window.CONSTANT_STAKINGNEW_ABI
       : k.startsWith("constant_stakingidypavax_4")
       ? window.CONSTANT_STAKING_IDYP_ABI

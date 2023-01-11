@@ -23,6 +23,7 @@ import StakeAvaxDai from "../../FARMINNG/stakeAvax3";
 import StakeEthDai from "../../FARMINNG/constant-staking-dai-front";
 import StakeEth from "../../FARMINNG/constant-staking-new-front";
 import Vault from "../../FARMINNG/vault-new";
+import StakeNewEth from "../../FARMINNG/stakeNewEth";
 
 const EarnTopPicks = ({
   topList,
@@ -1126,7 +1127,7 @@ const EarnTopPicks = ({
                     cardIndex === 0 &&
                     topList === "Staking" &&
                     chain === "eth" ? (
-                    <StakeEth
+                    <StakeNewEth
                       staking={window.constant_staking_newi3}
                       apr={
                         expiredPools === false
@@ -1140,10 +1141,7 @@ const EarnTopPicks = ({
                           ? activePools[cardIndex]?.apy_performancefee
                           : expiredDYPPools[cardIndex]?.apy_performancefee
                       }
-                      fee={
-                        expiredPools
-                          ? expiredPools[cardIndex - 1]?.performancefee
-                          : 0
+                      fee_s={0
                       }
                       lockTime={
                         cardIndex !== undefined
@@ -2489,7 +2487,7 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 cardIndex === 0 &&
                 chain === "eth" ? (
-                  <StakeEth
+                  <StakeNewEth
                     staking={window.constant_staking_newi3}
                     apr={
                       expiredPools === false
@@ -2503,10 +2501,7 @@ const EarnTopPicks = ({
                         ? activePools[cardIndex]?.apy_performancefee
                         : expiredDYPPools[cardIndex]?.apy_performancefee
                     }
-                    fee={
-                      expiredPools
-                        ? expiredPools[cardIndex - 1]?.performancefee
-                        : 0
+                    fee_s={0
                     }
                     lockTime={
                       cardIndex !== undefined
@@ -4591,7 +4586,7 @@ const EarnTopPicks = ({
                     cardIndex >= 0 &&
                     topList === "Staking" &&
                     chain === "eth" ? (
-                      <StakeEth
+                      <StakeNewEth
                     staking={window.constant_staking_newi3}
                     apr={
                       expiredPools === false
@@ -4605,10 +4600,7 @@ const EarnTopPicks = ({
                         ? activePools[cardIndex]?.apy_performancefee
                         : expiredDYPPools[cardIndex]?.apy_performancefee
                     }
-                    fee={
-                      expiredPools
-                        ? expiredPools[cardIndex - 1]?.performancefee
-                        : 0
+                    fee_s={0
                     }
                     lockTime={
                       cardIndex !== undefined
@@ -4966,7 +4958,7 @@ const EarnTopPicks = ({
                     cardIndex === 0 &&
                     topList === "Staking" &&
                     chain === "eth" ? (
-                    <StakeEth
+                    <StakeNewEth
                       staking={window.constant_staking_newi3}
                       apr={
                         expiredPools === false
@@ -4980,10 +4972,7 @@ const EarnTopPicks = ({
                           ? activePools[cardIndex]?.apy_performancefee
                           : expiredDYPPools[cardIndex]?.apy_performancefee
                       }
-                      fee={
-                        expiredPools
-                          ? expiredPools[cardIndex - 1]?.performancefee
-                          : 0
+                      fee_s={0
                       }
                       lockTime={
                         cardIndex !== undefined
