@@ -19,8 +19,9 @@ import getFormattedNumber from "../../functions/get-formatted-number";
 import stakeAvax from "../FARMINNG/stakeAvax";
 import { FadeLoader } from "react-spinners";
 import CawsDetails from "../FARMINNG/caws";
-import InitConstantStakingiDYP from "../FARMINNG/constant-staking-idyp-new-front";
+
 import StakeBsc from "../FARMINNG/bscConstantStake";
+import StakeEth from "../FARMINNG/constant-staking-new-front";
 
 const Dashboard = ({
   isConnected,
@@ -82,7 +83,7 @@ const Dashboard = ({
     await axios
       .get(`https://api.dyp.finance/api/get_staking_info_eth`)
       .then((res) => {
-        const dypIdyp = res.data.stakingInfoiDYPEth;
+        const dypIdyp = res.data.stakingInfoDYPEth;
 
         const cleanCards = dypIdyp.filter((item) => {
           return item.expired !== "Yes";
@@ -353,40 +354,26 @@ const Dashboard = ({
                 </div>
                 {activeCard && chainId === 1 ? (
                   chainId === 1 && cardIndex === 1 ? (
-                    <InitConstantStakingiDYP
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      lp_id={lp_id[cardIndex]}
-                      chainId={network.toString()}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      expired={false}
-                      staking={window.constant_staking_idyp_3}
-                      listType={"table"}
-                      finalApr={
-                        topPools[1]?.apy_performancefee
-                          ? topPools[1]?.apy_performancefee
-                          : 30
-                      }
-                      apr={
-                        topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30
-                      }
-                      liquidity={eth_address}
-                      expiration_time={"15 August 2023"}
-                      other_info={false}
-                      fee_s={
-                        topPools[1]?.performancefee
-                          ? topPools[1]?.performancefee
-                          : 30
-                      }
-                      fee_u={0}
-                      lockTime={
-                        parseInt(topPools[1]?.lock_time?.split(" ")[0]) === "No"
-                          ? "No Lock"
-                          : topPools[1]?.lock_time?.split(" ")[0]
-                      }
-                    />
+                    <StakeEth
+              staking={window.constant_staking_new3}
+              apr={7.35}
+              liquidity={eth_address}
+              expiration_time={"14 December 2022"}
+              finalApr={7.35}
+              fee={0}
+              lockTime={90}
+              lp_id={lp_id[cardIndex]}
+              listType={'table'}
+              other_info={false}
+              is_wallet_connected={isConnected}
+              coinbase={coinbase}
+              the_graph_result={the_graph_result}
+              chainId={chainId.toString()}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              expired={false}
+              referrer={referrer}
+            />
                   ) : activeCard && chainId === 1 && cardIndex === 0 ? (
                     <CawsDetails
                       coinbase={coinbase}
@@ -600,40 +587,26 @@ const Dashboard = ({
                 </div>
                 {activeCard2 && chainId === 1 && cardIndex === 1 ? (
                   chainId === 1 && cardIndex === 1 ? (
-                    <InitConstantStakingiDYP
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      lp_id={lp_id[cardIndex]}
-                      chainId={network.toString()}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      expired={false}
-                      staking={window.constant_staking_idyp_3}
-                      listType={"table"}
-                      finalApr={
-                        topPools[1]?.apy_performancefee
-                          ? topPools[1]?.apy_performancefee
-                          : 30
-                      }
-                      apr={
-                        topPools[1]?.apy_percent ? topPools[1]?.apy_percent : 30
-                      }
-                      liquidity={eth_address}
-                      expiration_time={"15 August 2023"}
-                      other_info={false}
-                      fee_s={
-                        topPools[1]?.performancefee
-                          ? topPools[1]?.performancefee
-                          : 30
-                      }
-                      fee_u={0}
-                      lockTime={
-                        parseInt(topPools[1]?.lock_time?.split(" ")[0]) === "No"
-                          ? "No Lock"
-                          : topPools[1]?.lock_time?.split(" ")[0]
-                      }
-                    />
+                    <StakeEth
+                    staking={window.constant_staking_new3}
+                    apr={7.35}
+                    liquidity={eth_address}
+                    expiration_time={"14 December 2022"}
+                    finalApr={7.35}
+                    fee={0}
+                    lockTime={90}
+                    lp_id={lp_id[cardIndex]}
+                    listType={'table'}
+                    other_info={false}
+                    is_wallet_connected={isConnected}
+                    coinbase={coinbase}
+                    the_graph_result={the_graph_result}
+                    chainId={chainId.toString()}
+                    handleConnection={handleConnection}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    referrer={referrer}
+                  />
                   ) : (
                     <CawsDetails
                       coinbase={coinbase}

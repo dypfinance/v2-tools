@@ -1001,7 +1001,7 @@ export default function stakeAvax({
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
                         
-                        <div className="input-container usd-input px-0">
+                        <div className="input-container px-0">
                         <input
                           type="number"
                           autoComplete="off"
@@ -1587,7 +1587,7 @@ export default function stakeAvax({
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between gap-2">\
-                        <div className="input-container usd-input px-0">
+                        <div className="input-container px-0">
                         <input
                           type="number"
                           autoComplete="off"

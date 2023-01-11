@@ -974,7 +974,7 @@ const StakeAvaxDai = ({
                         onChange={(e) => setdepositAmount(e.target.value)}
                       />
                     </div>
-                    <div className="input-container usd-input px-0">
+                    <div className="input-container px-0">
                       <input
                         type="number"
                         autoComplete="off"
@@ -1570,7 +1570,7 @@ const StakeAvaxDai = ({
                   </div>
 
                   <div className="d-flex align-items-center justify-content-between gap-2">
-                    <div className="input-container usd-input px-0">
+                    <div className="input-container px-0">
                       <input
                         type="number"
                         autoComplete="off"

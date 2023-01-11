@@ -794,7 +794,7 @@ const StakeAvaxIDyp = ({
               <div className="d-flex flex-column gap-2 justify-content-between">
                 <div className="d-flex align-items-center justify-content-between gap-2">
                   <div
-                    className="input-container usd-input px-0"
+                    className="input-container px-0"
                    
                   >
                     <input
@@ -1247,7 +1247,7 @@ const StakeAvaxIDyp = ({
                   </div>
 
                   <div className="d-flex align-items-center justify-content-between gap-2">
-                    <div className="input-container usd-input px-0">
+                    <div className="input-container px-0">
                       <input
                         type="number"
                         autoComplete="off"
