@@ -877,7 +877,6 @@ export default function stakeAvax30({
       cliffTime = cliffTime * 1e3;
 
       let showDeposit = true;
-      let lockDate;
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -888,19 +887,21 @@ export default function stakeAvax30({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
 
-      let canWithdraw = true;
+      let canWithdraw;
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
+      }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
+        if (Date.now() <= cliffTime + stakingTime) {
+          canWithdraw = true;
           cliffTimeInWords = moment
             .duration(cliffTime - (Date.now() - stakingTime))
             .humanize(true);
-        }
+        } else canWithdraw = false;
       }
 
       let total_stakers = this.state.total_stakers;
@@ -1542,12 +1543,9 @@ export default function stakeAvax30({
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
+                    disabled={Number(this.state.depositedTokens) > 0 ? false : true}
                     className={
-                      // this.state.depositStatus === "success" ?
                       "outline-btn btn"
-                      // :
-                      //  "btn disabled-btn"
                     }
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
@@ -1825,9 +1823,7 @@ export default function stakeAvax30({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(
-                                  Number(lockDate)
-                                )}
+                              date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}

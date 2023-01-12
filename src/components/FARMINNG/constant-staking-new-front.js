@@ -795,7 +795,6 @@ const StakeEth = ({
   };
 
   let showDeposit = true;
-  let lockDate;
 
   if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
     let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -806,8 +805,6 @@ const StakeEth = ({
     if (lockTimeExpire > lastDay) {
       showDeposit = false;
     }
-
-    lockDate = lockTimeExpire;
   }
 
   let cliffTimeInWords = "lockup period";
@@ -816,14 +813,17 @@ const StakeEth = ({
     document.getElementById(field).focus();
   };
 
-  let canWithdraw = true;
+  let canWithdraw;
+  if (lockTime === "No Lock") {
+    canWithdraw = true;
+  }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-    if (Date.now() - stakingTime <= cliffTime) {
-      canWithdraw = false;
+    if (Date.now() <= cliffTime + stakingTime) {
+      canWithdraw = true;
       cliffTimeInWords = moment
         .duration(cliffTime - (Date.now() - stakingTime))
         .humanize(true);
-    }
+    } else canWithdraw = false;
   }
 
   let tvl_usd = tvlusd / 1e18;
@@ -1403,12 +1403,9 @@ settokendata(propertyDyp[0][1].token_price_usd)
               </h6>
 
               <button
-                // disabled={depositStatus === "success" ? false : true}
+                 disabled={Number(depositedTokens) > 0 ? false : true}
                 className={
-                  // depositStatus === "success" ?
                   "outline-btn btn"
-                  // :
-                  //  "btn disabled-btn"
                 }
                 onClick={() => {
                   setshowWithdrawModal(true);
@@ -1700,7 +1697,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate(Number(lockDate))}
+                          date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                             renderer={renderer}
                           />
                         )}

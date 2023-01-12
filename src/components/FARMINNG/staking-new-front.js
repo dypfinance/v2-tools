@@ -1204,8 +1204,6 @@ export default function initStakingNew({
       lastSwapExecutionTime = lastSwapExecutionTime * 1e3;
 
       let showDeposit = true;
-      let lockDate;
-
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
         let lockTimeExpire = parseInt(Date.now()) + parseInt(cliffTime);
@@ -1213,7 +1211,6 @@ export default function initStakingNew({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1228,14 +1225,17 @@ export default function initStakingNew({
         }
       }
 
-      let canWithdraw = true;
+      let canWithdraw;
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
+      }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
+        if (Date.now() <= cliffTime + stakingTime) {
+          canWithdraw = true;
           cliffTimeInWords = moment
             .duration(cliffTime - (Date.now() - stakingTime))
             .humanize(true);
-        }
+        } else canWithdraw = false;
       }
 
       let lp_data = this.props.the_graph_result.lp_data;
@@ -2093,12 +2093,9 @@ export default function initStakingNew({
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
+                     disabled={Number(this.state.depositedTokens) > 0 ? false : true}
                     className={
-                      // this.state.depositStatus === "success" ?
                       "outline-btn btn"
-                      // :
-                      //  "btn disabled-btn"
                     }
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
@@ -2450,9 +2447,7 @@ export default function initStakingNew({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(
-                                  Number(lockDate)
-                                )}
+                                date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}

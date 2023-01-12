@@ -1185,7 +1185,6 @@ export default function initFarmAvax({
       lastSwapExecutionTime = lastSwapExecutionTime * 1e3;
 
       let showDeposit = true;
-      let lockDate;
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -1194,7 +1193,6 @@ export default function initFarmAvax({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1209,16 +1207,19 @@ export default function initFarmAvax({
         }
       }
 
-      let canWithdraw = true;
+
+      let canWithdraw;
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
+      }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
+        if (Date.now() <= cliffTime + stakingTime) {
+          canWithdraw = true;
           cliffTimeInWords = moment
             .duration(cliffTime - (Date.now() - stakingTime))
             .humanize(true);
-        }
+        } else canWithdraw = false;
       }
-
       let lp_data = this.props.the_graph_result.lp_data;
       let apy = lp_data ? lp_data[this.props.lp_id].apy : 0;
 
@@ -2060,7 +2061,7 @@ export default function initFarmAvax({
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
+                   disabled={Number(this.state.depositedTokens) > 0 ? false : true}
                     className={
                       // this.state.depositStatus === "success" ?
                       "outline-btn btn"
@@ -2438,9 +2439,7 @@ export default function initFarmAvax({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(
-                                  Number(lockDate)
-                                )}
+                                date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}

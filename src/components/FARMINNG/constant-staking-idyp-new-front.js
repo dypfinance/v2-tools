@@ -557,7 +557,6 @@ const InitConstantStakingiDYP = ({
   };
 
   let showDeposit = true;
-  let lockDate;
 
 
  
@@ -570,21 +569,23 @@ const InitConstantStakingiDYP = ({
     if (lockTimeExpire > lastDay) {
       showDeposit = false;
     }
-    lockDate = lockTimeExpire;
   }
   
  
 
   let cliffTimeInWords = "lockup period";
 
-  let canWithdraw = true;
+  let canWithdraw;
+  if (lockTime === "No Lock") {
+    canWithdraw = true;
+  }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-    if (Date.now() - stakingTime <= cliffTime) {
-      canWithdraw = false;
+    if (Date.now() <= cliffTime + stakingTime) {
+      canWithdraw = true;
       cliffTimeInWords = moment
         .duration(cliffTime - (Date.now() - stakingTime))
         .humanize(true);
-    }
+    } else canWithdraw = false;
   }
 
   let tvl_usd = tvl * tokendata;
@@ -1084,6 +1085,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
               </h6>
 
               <button
+              disabled={Number(depositedTokens) > 0 ? false : true}
                 className="btn outline-btn"
                 onClick={() => {
                   setshowWithdrawModal(true);
@@ -1284,7 +1286,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate(Number(lockDate))}
+                          date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                             renderer={renderer}
                           />
                         )}
@@ -1381,40 +1383,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                     >
                       *No withdrawal fee
                     </span>
-                    {/* <div className="form-row">
-                            <div className="col-6">
-                              <button
-                                title={
-                                  canWithdraw
-                                    ? ""
-                                    : `You recently staked, you can unstake ${cliffTimeInWords}`
-                                }
-                                disabled={!canWithdraw || !is_connected}
-                                className="btn  btn-primary btn-block l-outline-btn"
-                                type="submit"
-                              >
-                                WITHDRAW
-                              </button>
-                            </div>
-                            <div className="col-6">
-                              <button
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  this.handleWithdrawDyp();
-                                }}
-                                title={
-                                  canWithdraw
-                                    ? ""
-                                    : `You recently staked, you can unstake ${cliffTimeInWords}`
-                                }
-                                disabled={!canWithdraw || !is_connected}
-                                className="btn  btn-primary btn-block l-outline-btn"
-                                type="submit"
-                              >
-                                WITHDRAW
-                              </button>
-                            </div>
-                          </div> */}
+                   
                   </div>
                   {errorMsg3 && <h6 className="errormsg">{errorMsg3}</h6>}
                 </div>

@@ -552,7 +552,6 @@ const StakeBscIDyp = ({
   };
 
   let showDeposit = true;
-  let lockDate;
 
   if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
     let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -563,21 +562,22 @@ const StakeBscIDyp = ({
     if (lockTimeExpire > lastDay) {
       showDeposit = false;
     }
-    lockDate = lockTimeExpire;
   }
 
   let cliffTimeInWords = "lockup period";
 
-  let canWithdraw = true;
+  let canWithdraw;
+  if (lockTime === "No Lock") {
+    canWithdraw = true;
+  }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-    if (Date.now() - stakingTime <= cliffTime) {
-      canWithdraw = false;
+    if (Date.now() <= cliffTime + stakingTime) {
+      canWithdraw = true;
       cliffTimeInWords = moment
         .duration(cliffTime - (Date.now() - stakingTime))
         .humanize(true);
-    }
+    } else canWithdraw = false;
   }
-
   let tvl_usd = tvl * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
@@ -1072,6 +1072,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
 
               <button
                 className="btn outline-btn"
+                disabled={Number(depositedTokens) > 0 ? false : true}
                 onClick={() => {
                   setshowWithdrawModal(true);
                 }}
@@ -1271,7 +1272,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate(Number(lockDate))}
+                          date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                             renderer={renderer}
                           />
                         )}

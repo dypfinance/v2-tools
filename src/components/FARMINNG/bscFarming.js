@@ -1103,7 +1103,6 @@ export default function initBscFarming({
       lastSwapExecutionTime = lastSwapExecutionTime * 1e3;
 
       let showDeposit = true;
-      let lockDate;
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -1112,7 +1111,6 @@ export default function initBscFarming({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1127,14 +1125,17 @@ export default function initBscFarming({
         }
       }
 
-      let canWithdraw = true;
+      let canWithdraw;
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
+      }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
+        if (Date.now() <= cliffTime + stakingTime) {
+          canWithdraw = true;
           cliffTimeInWords = moment
             .duration(cliffTime - (Date.now() - stakingTime))
             .humanize(true);
-        }
+        } else canWithdraw = false;
       }
 
       let lp_data = this.props.the_graph_result.lp_data;
@@ -2348,9 +2349,7 @@ export default function initBscFarming({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(
-                                  Number(lockDate)
-                                )}
+                                date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}
