@@ -351,18 +351,18 @@ const StakeBsc = ({
     }
   };
   useEffect(() => {
-    refreshBalance();
-
     if (coinbase !== coinbase2 && coinbase !== null && coinbase !== undefined) {
       setcoinbase(coinbase);
-      const interval = setInterval(async () => {
-        refreshBalance();
-      }, 1000);
-      return () => clearInterval(interval);
     }
     getPriceDYP();
   }, [coinbase, coinbase2]);
 
+  useEffect(() => {
+      const interval = setInterval(() => {
+        refreshBalance();
+      }, 1000);
+      return () => clearInterval(interval);
+  }, [coinbase, coinbase2]);
 
 
   const handleApprove = (e) => {
@@ -612,7 +612,7 @@ const StakeBsc = ({
     }
   }
 
-  let tvl_usd = tvl * usdPerToken;
+  let tvl_usd = tvl * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
 
@@ -656,10 +656,8 @@ settokendata(propertyDyp[0][1].token_price_usd)
 
 
   useEffect(()=>{
-    if(showCalculator === true) {
       getUsdPerDyp()
-    }
-  },[showCalculator, tokendata])
+  },[])
 
   
 

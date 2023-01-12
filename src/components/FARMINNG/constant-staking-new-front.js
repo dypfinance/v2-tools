@@ -383,16 +383,18 @@ const StakeEth = ({
   };
 
   useEffect(() => {
-    refreshBalance();
-
     if (coinbase !== coinbase2 && coinbase !== null && coinbase !== undefined) {
       setcoinbase(coinbase);
-      const interval = setInterval(async () => {
+    }
+    getPriceDYP();
+  }, [coinbase, coinbase2]);
+
+
+  useEffect(() => {
+      const interval = setInterval(() => {
         refreshBalance();
       }, 1000);
       return () => clearInterval(interval);
-    }
-    getPriceDYP();
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
@@ -860,10 +862,8 @@ settokendata(propertyDyp[0][1].token_price_usd)
 
 
   useEffect(()=>{
-    if(showCalculator === true) {
       getUsdPerDyp()
-    }
-  },[showCalculator, tokendata])
+  },[])
 
 
   return (

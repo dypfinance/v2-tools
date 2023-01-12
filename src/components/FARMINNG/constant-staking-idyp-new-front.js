@@ -305,21 +305,22 @@ const InitConstantStakingiDYP = ({
   };
 
   useEffect(() => {
-    refreshBalance();
-
     if (coinbase !== coinbase2 && coinbase !== null && coinbase !== undefined) {
       setcoinbase(coinbase);
-      const interval = setInterval(async () => {
-        refreshBalance();
-      }, 1000);
-      return () => clearInterval(interval);
     }
     getTotalTvl();
   }, [coinbase, coinbase2]);
 
+
+  useEffect(() => {
+      const interval = setInterval(() => {
+        refreshBalance();
+      }, 1000);
+      return () => clearInterval(interval);
+  }, [coinbase, coinbase2]);
+
   const getTotalTvl = async () => {
     let apy1 = 15;
-
     let apy2 = 30;
     setapy1(apy1);
     setapy2(apy2);
@@ -586,7 +587,7 @@ const InitConstantStakingiDYP = ({
     }
   }
 
-  let tvl_usd = tvl * usdPerToken;
+  let tvl_usd = tvl * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
 
@@ -628,10 +629,8 @@ settokendata(propertyiDyp[1][1].token_price_usd)
 
 
   useEffect(()=>{
-    if(showCalculator === true) {
       getUsdPerDyp()
-    }
-  },[showCalculator, tokendata])
+  },[])
 
 
   return (

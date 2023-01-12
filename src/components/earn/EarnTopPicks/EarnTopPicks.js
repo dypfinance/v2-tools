@@ -110,7 +110,7 @@ const EarnTopPicks = ({
   var farming = [];
 
   const fetchUserPools = async () => {
-    if (coinbase.includes("0x")) {
+    if (coinbase && coinbase.includes("0x")) {
       const result = await axios
         .get(`https://api.dyp.finance/api/user_pools/${coinbase}`)
         .then((data) => {

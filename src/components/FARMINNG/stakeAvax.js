@@ -425,6 +425,8 @@ export default function stakeAvax({
           .toFixed(18),
       });
     };
+
+
     handleSetMaxWithdraw = (e) => {
       e.preventDefault();
       this.setState({
@@ -611,6 +613,7 @@ export default function stakeAvax({
           }, 2000);
         });
     };
+    
     convertTimestampToDate = (timestamp) => {
       const result = new Intl.DateTimeFormat("en-US", {
         year: "numeric",

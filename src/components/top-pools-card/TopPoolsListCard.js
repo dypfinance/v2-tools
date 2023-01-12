@@ -651,19 +651,19 @@ const TopPoolsListCard = ({
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
               expired={false}
-              staking={stakeArrayiDYPActive[cardIndex - 1]}
+              staking={stakeArrayiDYPActive[cardIndex - 2]}
               finalApr={
-                aprArrayiDypActive[cardIndex - 1] -
-                performancefeeArrayidypActive[cardIndex - 1]
+                aprArrayiDypActive[cardIndex - 2] -
+                performancefeeArrayidypActive[cardIndex - 2]
               }
-              apr={aprArrayiDypActive[cardIndex - 1]}
+              apr={aprArrayiDypActive[cardIndex - 2]}
               liquidity={eth_address}
-              expiration_time={expirationArrayActive[cardIndex - 1]}
+              expiration_time={expirationArrayActive[cardIndex - 2]}
               other_info={false}
-              fee_s={performancefeeArrayidypActive[cardIndex - 1]}
-              fee_u={withdrawFeeiDypActive[cardIndex - 1]}
+              fee_s={performancefeeArrayidypActive[cardIndex - 2]}
+              fee_u={withdrawFeeiDypActive[cardIndex - 2]}
               referrer={referrer}
-              lockTime={lockarray[cardIndex - 1]}
+              lockTime={lockarray[cardIndex - 2]}
             />
           ) : showDetails &&
             cardIndex === 1 &&

@@ -42,7 +42,7 @@ const Dashboard = ({
   const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
 
   const fetchUserPools = async () => {
-    if (coinbase.includes("0x")) {
+    if (coinbase && coinbase.includes("0x")) {
       const result = await axios
         .get(`https://api.dyp.finance/api/user_pools/${coinbase}`)
         .then((data) => {

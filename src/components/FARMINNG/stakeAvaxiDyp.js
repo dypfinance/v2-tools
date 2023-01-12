@@ -300,16 +300,17 @@ const StakeAvaxIDyp = ({
   };
 
   useEffect(() => {
-    refreshBalance();
-
     if (coinbase !== coinbase2 && coinbase !== null && coinbase !== undefined) {
       setcoinbase(coinbase);
+    }
+    getTotalTvl();
+  }, [coinbase, coinbase2]);
+
+  useEffect(() => {
       const interval = setInterval(async () => {
         refreshBalance();
       }, 1000);
       return () => clearInterval(interval);
-    }
-    getTotalTvl();
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
@@ -577,7 +578,7 @@ const StakeAvaxIDyp = ({
     }
   }
 
-  let tvl_usd = tvl * usdPerToken;
+  let tvl_usd = tvl * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
 

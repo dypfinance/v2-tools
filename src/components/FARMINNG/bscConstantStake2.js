@@ -790,7 +790,7 @@ const StakeBsc2 = ({
     }
   }
 
-  let tvl_usd = tvl * usdPerToken;
+  let tvl_usd = tvl * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
 
@@ -835,10 +835,8 @@ settokendata(propertyDyp[0][1].token_price_usd)
 
 
   useEffect(()=>{
-    if(showCalculator === true) {
       getUsdPerDyp()
-    }
-  },[showCalculator, tokendata])
+  },[])
 
   
 

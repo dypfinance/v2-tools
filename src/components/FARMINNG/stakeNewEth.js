@@ -323,16 +323,18 @@ const StakeNewEth = ({
   };
 
   useEffect(() => {
-    refreshBalance();
-
     if (coinbase !== coinbase2 && coinbase !== null && coinbase !== undefined) {
       setcoinbase(coinbase);
-      const interval = setInterval(async () => {
+    }
+    getTotalTvl();
+  }, [coinbase, coinbase2]);
+
+
+  useEffect(() => {
+      const interval = setInterval( () => {
         refreshBalance();
       }, 1000);
       return () => clearInterval(interval);
-    }
-    getTotalTvl();
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
@@ -614,20 +616,19 @@ settokendata(propertyDyp[0][1].token_price_usd)
     }
   }
 
-  let tvl_usd = tvl/ 1e18 * usdPerToken;
+  let tvl_usd = tvl/ 1e18 * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
 
   tvl_usd = tvl_usd + tvlDYPS;
 
   tvl_usd = getFormattedNumber(tvl_usd, 2);
+  // console.log(tvl_usd)
 
 
 useEffect(()=>{
-  if(showCalculator === true) {
     getUsdPerDyp()
-  }
-},[showCalculator, tokendata])
+},[])
 
   return (
     <div className="container-lg p-0">
@@ -1131,7 +1132,7 @@ useEffect(()=>{
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">{getFormattedNumber(totalTvl,2) } USD</h6>
+                    <h6 className="stats-card-content">{tvl_usd } USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
