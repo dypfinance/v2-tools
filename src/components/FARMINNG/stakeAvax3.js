@@ -486,7 +486,8 @@ const StakeAvaxDai = ({
   };
 
   const getApproxReturn = () => {
-    let usd_per_token = the_graph_result.token_data
+    if(the_graph_result)
+{    let usd_per_token = the_graph_result.token_data
       ? the_graph_result.token_data[
           "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
         ].token_price_usd
@@ -498,7 +499,7 @@ const StakeAvaxDai = ({
     return (
       ((approxDeposit * usd_per_token * apr) / usd_per_eth / 100 / 365) *
       approxDays
-    );
+    );}
   };
 
   const getReferralLink = () => {

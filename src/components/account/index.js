@@ -56,8 +56,224 @@ export default class Subscription extends React.Component {
       showInput: false,
       openTooltip: false,
       dypBalance: "0.0",
+      userPools:[],
+      ethStake:[],
+      bnbStake:[],
+      avaxStake:[],
+      ethFarm:[],
+      bscFarm:[],
+      avaxFarm:[],
+
     };
   }
+
+
+
+   fetchUserPools = async () => {
+    if (this.props.coinbase && this.props.coinbase.includes("0x")) {
+      const result = await axios
+        .get(`https://api.dyp.finance/api/user_pools/${this.props.coinbase}`)
+        .then((data) => {
+          return data.data.PoolsUserIn;
+        });
+        this.setState({userPools: result})
+        // console.log(result)
+    
+    }
+  };
+
+
+  
+  
+  fetchEthStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_eth`)
+      .then((res) => {
+        const dypIdyp = res.data.stakingInfoDYPEth.concat(
+          res.data.stakingInfoiDYPEth
+        );
+
+        const expiredEth = dypIdyp.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeEth = dypIdyp.filter((item) => {
+          return item.expired !== "Yes";
+        });
+        
+        const sortedExpired = expiredEth.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const allEthPools = [...activeEth, ...sortedExpired]
+        this.setState({ethStake: allEthPools})
+        
+        
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  
+  fetchBnbStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
+      .then((res) => {
+        const dypIdypBnb = res.data.stakingInfoDYPBnb.concat(
+          res.data.stakingInfoiDYPBnb
+        );
+
+        const expiredBnb = dypIdypBnb.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeBnb = dypIdypBnb.filter((item) => {
+          return item.expired !== "Yes";
+        });
+        const sortedActive = activeBnb.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredBnb.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        
+        
+        const allBnbPools = [...sortedActive, ...sortedExpired]
+        this.setState({bnbStake: allBnbPools})
+        
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
+  
+  fetchAvaxStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_avax`)
+      .then((res) => {
+        const dypIdypAvax = res.data.stakingInfoDYPAvax.concat(
+          res.data.stakingInfoiDYPAvax
+        );
+
+        const expiredAvax = dypIdypAvax.filter((item) => {
+          return item.expired !== "No";
+        });
+
+        const activeAvax = dypIdypAvax.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedActive = activeAvax.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredAvax.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        
+        const avaxAllPools = [...sortedActive, ...sortedExpired]
+        this.setState({avaxStake: avaxAllPools})
+        
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+  
+   fetchEthFarming = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_eth_v2")
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_eth_v2.lp_data);
+        let farming = [];
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+
+        const expiredFarmingEth = farming.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeFarmingEth = farming.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedActive = activeFarmingEth.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredFarmingEth.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        
+        
+        const ethAllPools = [...sortedActive, ...sortedExpired]
+        this.setState({ethFarm: ethAllPools})
+      })
+      .catch((err) => console.error(err));
+  };
+  
+  
+  fetchBscFarming = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_bsc_v2")
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_bsc_v2.lp_data);
+        let farming = [];
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+        const expiredFarmingBsc = farming.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeFarmingBsc = farming.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedActive = activeFarmingBsc.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredFarmingBsc.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        const bnbAllpools = [...sortedActive, ...sortedExpired]
+       this.setState({bscFarm: bnbAllpools})
+      })
+      .catch((err) => console.error(err));
+  };
+  
+  fetchAvaxFarming = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_avax_v2")
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_avax_v2.lp_data);
+        let farming = [];
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+        const expiredFarmingAvax = farming.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeFarmingAvax = farming.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedActive = activeFarmingAvax.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredFarmingAvax.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        const avaxAllPools = [...sortedActive, ...sortedExpired]
+
+      })
+      .catch((err) => console.error(err));
+  };
 
   fetchfavData() {
     window
@@ -89,31 +305,6 @@ export default class Subscription extends React.Component {
     }
   }
 
-  // checkConnection() {
-  //   const logout = localStorage.getItem("logout");
-  //   if (logout !== "true") {
-  //     if (window.ethereum) {
-  //       window.ethereum
-  //         .request({ method: "eth_accounts" })
-  //         .then((data) => {
-  //           this.setState({
-  //             coinbase: this.props.coinbase,
-  //           });
-  //           this.fetchAvatar().then();
-  //         })
-  //         .catch(console.error);
-  //     } else {
-  //       this.setState({
-  //         networkId: "1",
-  //       });
-  //     }
-  //   } else {
-  //     this.setState({
-  //       coinbase: undefined,
-  //     });
-  //     this.setState({ image: Placeholder });
-  //   }
-  // }
 
   fetchUsername = async () => {
     await axios
@@ -177,6 +368,13 @@ export default class Subscription extends React.Component {
     setTimeout(() => {
       this.fetchAvatar();
       this.fetchUsername();
+     this.fetchUserPools()
+     this.fetchAvaxFarming();
+     this.fetchAvaxStaking();
+     this.fetchBnbStaking();
+     this.fetchBscFarming();
+     this.fetchEthFarming();
+     this.fetchEthStaking();
     }, 300);
     if (this.props.networkId === 1) {
       this.fetchfavData();

@@ -213,8 +213,9 @@ const StakeBsc = ({
       coinbase = window.coinbase_address;
       setcoinbase(coinbase);
     }
-
-    let lp_data = the_graph_result.token_data;
+    let lp_data;
+    if(the_graph_result)
+ {   lp_data = the_graph_result.token_data;}
     //console.log({lp_data})
 
     //Calculate APY

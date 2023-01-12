@@ -214,36 +214,6 @@ const EarnTopPicks = ({
       });
   };
 
-  const fetchEthBuyback = async () => {
-    await axios
-      .get(`https://api.dyp.finance/api/get_buyback_info_eth`)
-      .then((res) => {
-        setTopPools(res.data.BuybackETHInfo);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const fetchBnbBuyback = async () => {
-    await axios
-      .get(`https://api.dyp.finance/api/get_buyback_info_bnb`)
-      .then((res) => {
-        setTopPools(res.data.BuybackBNBInfo);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const fetchAvaxBuyback = async () => {
-    await axios
-      .get(`https://api.dyp.finance/api/get_buyback_info_avax`)
-      .then((res) => {
-        setTopPools(res.data.BuybackAVAXInfo);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const fetchEthFarming = async () => {
     await axios
@@ -332,6 +302,36 @@ const EarnTopPicks = ({
       .catch((err) => console.error(err));
   };
 
+  const fetchEthBuyback = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_eth`)
+      .then((res) => {
+        setTopPools(res.data.BuybackETHInfo);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchBnbBuyback = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_bnb`)
+      .then((res) => {
+        setTopPools(res.data.BuybackBNBInfo);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const fetchAvaxBuyback = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_buyback_info_avax`)
+      .then((res) => {
+        setTopPools(res.data.BuybackAVAXInfo);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const [customPool, setCustomPool] = useState(pool);
   const [filteredPools, setFilteredPools] = useState([]);
   const [unfilteredPools, setUnfilteredPools] = useState([]);

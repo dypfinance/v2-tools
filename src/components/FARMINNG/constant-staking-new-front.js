@@ -214,8 +214,9 @@ const StakeEth = ({
     }
 
     getTotalTvl();
-
-    let lp_data = the_graph_result.token_data;
+    let lp_data;
+if(the_graph_result)
+  {  lp_data = the_graph_result.token_data;}
     //console.log({lp_data})
     //Calculate APY
     let usd_per_token;
@@ -398,7 +399,8 @@ const StakeEth = ({
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
-    let usd_per_token = the_graph_result.token_data
+    if(the_graph_result)
+  {  let usd_per_token = the_graph_result.token_data
       ? the_graph_result.token_data[
           "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
         ].token_price_usd
@@ -426,7 +428,7 @@ const StakeEth = ({
       .toFixed(2);
 
     setapy1(apy1);
-    setapy2(apy2);
+    setapy2(apy2);}
   };
 
   const handleApprove = async (e) => {

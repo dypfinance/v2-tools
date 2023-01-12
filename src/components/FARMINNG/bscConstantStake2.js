@@ -204,7 +204,8 @@ const StakeBsc2 = ({
   };
 
   const getTotalTvl = async () => {
-    let usd_per_token = the_graph_result.token_data
+    if(the_graph_result)
+   { let usd_per_token = the_graph_result.token_data
       ? the_graph_result.token_data[
           "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
         ].token_price_usd
@@ -231,7 +232,7 @@ const StakeBsc2 = ({
       .times(1e2)
       .toFixed(2);
     setapy1(apy1);
-    setapy2(apy2);
+    setapy2(apy2);}
   };
 
   const refreshBalance = async () => {
