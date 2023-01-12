@@ -301,7 +301,7 @@ const TopPoolsListCard = ({
   const feeSarrayStakeAvaxiDypActive = [3.5, 1];
   const feeUarrayStakeAvaxiDypActive = [0, 0];
 
-  const lockarray = [90, "No Lock"];
+  const lockarray = [ "No Lock",90];
 
   const stakeArrayStakeNew = [
     window.constant_staking_new2,

@@ -5070,65 +5070,68 @@ const EarnTopPicks = ({
                       referrer={referrer}
                     />
                   ) : activeCard2 &&
-                    cardIndex === 0 &&
-                    topList === "Staking" &&
-                    chain === "eth" ? (
-                    <StakeNewEth
-                      staking={window.constant_staking_newi3}
-                      apr={
-                        expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent
-                      }
-                      liquidity={eth_address}
-                      expiration_time={"11 January 2024"}
-                      finalApr={
-                        expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee
-                      }
-                      fee_s={0}
-                      lockTime={
-                        cardIndex !== undefined
-                          ? expiredPools === false
-                            ? activePools[cardIndex]?.lock_time?.split(
-                                " "
-                              )[0] === "No"
-                              ? "No Lock"
-                              : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(
-                                " "
-                              )[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(
-                                " "
-                              )[0]
-                          : "No Lock"
-                      }
-                      lp_id={LP_IDBNB_Array[cardIndex]}
-                      listType={listType}
-                      other_info={
-                        cardIndex !== undefined
-                          ? expiredPools === false
-                            ? activePools[cardIndex]?.expired === "Yes"
-                              ? true
-                              : false
-                            : expiredDYPPools[cardIndex]?.expired === "Yes"
+                  cardIndex === 1 &&
+                  topList === "Staking" &&
+                  chain === "eth" ? (
+                  <InitConstantStakingiDYP
+                    is_wallet_connected={isConnected}
+                    coinbase={coinbase}
+                    the_graph_result={the_graph_result}
+                    lp_id={lp_id[cardIndex]}
+                    chainId={chainId}
+                    handleConnection={handleConnection}
+                    handleSwitchNetwork={handleSwitchNetwork}
+                    expired={false}
+                    staking={stakeArrayiDYPActive[cardIndex - 1]}
+                    listType={listType}
+                    finalApr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_performancefee
+                        : expiredDYPPools[cardIndex]?.apy_performancefee
+                    }
+                    apr={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.apy_percent
+                        : expiredDYPPools[cardIndex]?.apy_percent
+                    }
+                    liquidity={eth_address}
+                    expiration_time={expirationArray[cardIndex]}
+                    other_info={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.expired === "Yes"
                             ? true
                             : false
+                          : expiredDYPPools[cardIndex]?.expired === "Yes"
+                          ? true
                           : false
-                      }
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_result}
-                      chainId={chainId}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      expired={false}
-                      totalTvl={activePools[cardIndex].tvl_usd}
-                      referrer={referrer}
-                    />
-                  ) : activeCard2 &&
+                        : false
+                    }
+                    fee_s={
+                      expiredPools === false
+                        ? activePools[cardIndex]?.performancefee
+                        : expiredDYPPools[cardIndex]?.performancefee
+                    }
+                    fee_u={withdrawFeeiDyp[cardIndex]}
+                    lockTime={
+                      cardIndex !== undefined
+                        ? expiredPools === false
+                          ? activePools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                            ? "No Lock"
+                            : activePools[cardIndex]?.lock_time?.split(" ")[0]
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0] === "No"
+                          ? "No Lock"
+                          : expiredDYPPools[cardIndex]?.lock_time?.split(
+                              " "
+                            )[0]
+                        : "No Lock"
+                    }
+                  />
+                ) : activeCard2 &&
                     cardIndex >= 2 &&
                     topList === "Staking" &&
                     chain === "bnb" ? (
@@ -5452,7 +5455,7 @@ const EarnTopPicks = ({
                       referrer={referrer}
                     />
                   ) : activeCard3 &&
-                    cardIndex === 1 &&
+                    cardIndex === 2 &&
                     topList === "Staking" &&
                     chain === "eth" ? (
                     <InitConstantStakingiDYP
