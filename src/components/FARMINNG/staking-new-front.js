@@ -205,6 +205,7 @@ export default function initStakingNew({
         depositTooltip: false,
         rewardsTooltip: false,
         withdrawTooltip: false,
+        tokendata: 0,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -289,12 +290,25 @@ export default function initStakingNew({
       }
     };
 
+    getUsdPerDyp = async () => {
+      await axios
+        .get("https://api.dyp.finance/api/the_graph_eth_v2")
+        .then((data) => {
+          const propertyDyp = Object.entries(
+            data.data.the_graph_eth_v2.token_data
+          );
+          this.setState({ tokendata: propertyDyp[0][1].token_price_usd });
+        });
+    };
+
     componentDidMount() {
       // this.refreshBalance();
       window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
+      this.getUsdPerDyp();
+
       this.getPriceDYP();
       this.getTokenData();
     }
@@ -1588,35 +1602,37 @@ export default function initStakingNew({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-start gap-2 w-100">
-                        
                         <div className="input-container px-0">
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
-                          placeholder=" "
-                          className="text-input"
-                          style={{ width: "100%" }}
-                          name="amount_deposit"
-                          id="amount_deposit"
-                          key="amount_deposit"
-                        />
-                        <label htmlFor="usd" className="label"
-                         onClick={() => {
-                          focusInput("amount_deposit");
-                        }}>
-                        Amount
-                        </label>
-                      </div>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                depositAmount: e.target.value,
+                              })
+                            }
+                            placeholder=" "
+                            className="text-input"
+                            style={{ width: "100%" }}
+                            name="amount_deposit"
+                            id="amount_deposit"
+                            key="amount_deposit"
+                          />
+                          <label
+                            htmlFor="usd"
+                            className="label"
+                            onClick={() => {
+                              focusInput("amount_deposit");
+                            }}
+                          >
+                            Amount
+                          </label>
+                        </div>
 
                         <button
                           className="btn maxbtn"
@@ -3038,11 +3054,7 @@ export default function initStakingNew({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    ${getFormattedNumber(
-                      
-                      this.getApproxReturnUSD() / this.getUsdPerETH(),
-                      6
-                    )} USD
+                    ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
                   </h3>
                   <h6
                     style={{
@@ -3052,8 +3064,10 @@ export default function initStakingNew({
                     }}
                   >
                     Approx{" "}
-                   
-                    {getFormattedNumber(this.getApproxReturnUSD(), 2)} {" "}
+                    {getFormattedNumber(
+                      this.getApproxReturnUSD() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
                     WETH
                   </h6>
                 </div>

@@ -11,7 +11,6 @@ import Clipboard from "react-clipboard.js";
 import ReactTooltip from "react-tooltip";
 import arrowup from "./assets/arrow-up.svg";
 import moreinfo from "./assets/more-info.svg";
-import stats from "./assets/stats.svg";
 import purplestats from "./assets/purpleStat.svg";
 import referralimg from "./assets/referral.svg";
 import copy from "./assets/copy.svg";
@@ -20,12 +19,10 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Countdown from "react-countdown";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import statsLinkIcon from "./assets/statsLinkIcon.svg";
-import CountDownTimer from "../locker/Countdown";
 import { shortAddress } from "../../functions/shortAddress";
-import calculatorIcon from "../calculator/assets/calculator.svg";
-import xMark from "../calculator/assets/xMark.svg";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
+import axios from "axios";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -187,6 +184,7 @@ const StakeBsc = ({
   const [depositTooltip, setdepositTooltip] = useState(false);
   const [rewardsTooltip, setrewardsTooltip] = useState(false);
   const [withdrawTooltip, setwithdrawTooltip] = useState(false);
+  const [tokendata, settokendata] = useState();
 
   const showModal = () => {
     setshow(true);
@@ -643,6 +641,27 @@ const StakeBsc = ({
     }
   };
 
+  const getUsdPerDyp = async() => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_eth_v2")
+      .then((data) => {
+        const propertyDyp = Object.entries(
+          data.data.the_graph_eth_v2.token_data
+        ); 
+settokendata(propertyDyp[0][1].token_price_usd)
+        return propertyDyp[0][1].token_price_usd;
+      }); 
+
+  };
+
+
+  useEffect(()=>{
+    if(showCalculator === true) {
+      getUsdPerDyp()
+    }
+  },[showCalculator, tokendata])
+
+  
 
   return (
     <div className="container-lg p-0">
@@ -1734,7 +1753,7 @@ const StakeBsc = ({
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                $ {getFormattedNumber(getApproxReturn() / getUsdPerETH(), 6)}{" "}
+                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)}{" "}
                 USD
               </h3>
               <h6

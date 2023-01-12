@@ -25,6 +25,7 @@ import xMark from "../calculator/assets/xMark.svg";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
+import axios from "axios";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -180,6 +181,8 @@ export default function stakeAvax30({
         depositTooltip: false,
         rewardsTooltip: false,
         withdrawTooltip: false,
+        tokendata: 0
+
       };
 
       this.showModal = this.showModal.bind(this);
@@ -242,6 +245,20 @@ export default function stakeAvax30({
       }
     };
 
+    getUsdPerDyp = async() => {
+      await axios
+        .get("https://api.dyp.finance/api/the_graph_eth_v2")
+        .then((data) => {
+          const propertyDyp = Object.entries(
+            data.data.the_graph_eth_v2.token_data
+          ); 
+          this.setState({tokendata: propertyDyp[0][1].token_price_usd})
+
+        }); 
+  
+    };
+  
+
     componentDidMount() {
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
@@ -249,6 +266,7 @@ export default function stakeAvax30({
 
       // this.refreshBalance();
       window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      this.getUsdPerDyp();
 
       this.getPriceDYP();
     }
@@ -2067,7 +2085,7 @@ export default function stakeAvax30({
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                      $ {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
+                      this.getApproxReturn() * this.state.tokendata,
                       6
                     )}{" "}USD
                   </h3>

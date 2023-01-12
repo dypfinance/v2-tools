@@ -37,9 +37,20 @@ const Dashboard = ({
   const [topPools, setTopPools] = useState([]);
 
   const [chainId, setChainId] = useState(network);
+  const [userPools, setuserPools] = useState([]);
 
   const wbsc_address = "0x2170Ed0880ac9A755fd29B2688956BD959F933F8";
 
+  const fetchUserPools = async () => {
+    if (coinbase.includes("0x")) {
+      const result = await axios
+        .get(`https://api.dyp.finance/api/user_pools/${coinbase}`)
+        .then((data) => {
+          return data.data.PoolsUserIn;
+        });
+      setuserPools(result);
+    }
+  };
   const fetchBnbStaking = async () => {
     return await axios
       .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
@@ -276,7 +287,8 @@ const Dashboard = ({
     checkNetworkId();
     setLoading(false);
     fetchPopularNewsData();
-  }, [network, chainId]);
+    fetchUserPools()
+  }, [network, chainId,coinbase]);
 
   const windowSize = useWindowSize();
   return (
@@ -312,6 +324,15 @@ const Dashboard = ({
                         <TopPoolsCard
                           key={index}
                           isNewPool={item.new_pool === 'Yes' ? true : false}
+                          isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === item.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                           chain={network}
                           top_pick={item.top_pick}
                           tokenName={item.pair_name}
@@ -514,7 +535,15 @@ const Dashboard = ({
                           details={details === index ? true : false}
                           expired={false}
                           isNewPool={item.new_pool === 'Yes' ? true : false}
-
+                          isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === item.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                         />
                       );
                     })
@@ -576,7 +605,15 @@ const Dashboard = ({
                           details={details === index + 1 ? true : false}
                           expired={false}
                           isNewPool={item.new_pool === 'Yes' ? true : false}
-
+                          isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === item.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                         />
                       );
                     })

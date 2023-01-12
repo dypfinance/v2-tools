@@ -22,6 +22,7 @@ import statsLinkIcon from "./assets/statsLinkIcon.svg";
 import { shortAddress } from "../../functions/shortAddress";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
+import axios from "axios";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -181,6 +182,7 @@ const StakeEth = ({
   const [rewardsTooltip, setrewardsTooltip] = useState(false);
   const [withdrawTooltip, setwithdrawTooltip] = useState(false);
   const [unlockDate, setunlockDate] = useState("");
+  const [tokendata, settokendata] = useState();
 
   const showModal = () => {
     setshow(true);
@@ -842,6 +844,27 @@ const StakeEth = ({
       setdepositStatus("initial");
     }
   };
+
+  const getUsdPerDyp = async() => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_eth_v2")
+      .then((data) => {
+        const propertyDyp = Object.entries(
+          data.data.the_graph_eth_v2.token_data
+        ); 
+settokendata(propertyDyp[0][1].token_price_usd)
+        return propertyDyp[0][1].token_price_usd;
+      }); 
+
+  };
+
+
+  useEffect(()=>{
+    if(showCalculator === true) {
+      getUsdPerDyp()
+    }
+  },[showCalculator, tokendata])
+
 
   return (
     <div className="container-lg p-0">
@@ -1925,10 +1948,7 @@ const StakeEth = ({
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                 {" "}
-                $ {getFormattedNumber(
-                  getApproxReturn() / getUsdPerETH(),
-                  6
-                )}{" "}
+                ${getFormattedNumber(getApproxReturn() * tokendata, 6)}{" "}
                 USD
               </h3>
               <h6

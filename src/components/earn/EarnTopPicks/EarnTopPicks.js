@@ -103,9 +103,24 @@ const EarnTopPicks = ({
   const [listing, setListing] = useState(listType);
   const [cawsCard, setCawsCard] = useState([]);
   const [cawsCard2, setCawsCard2] = useState([]);
+  const [userPools, setuserPools] = useState([]);
+
   const [tvlTotal, setTvlTotal] = useState();
 
   var farming = [];
+
+  const fetchUserPools = async () => {
+    if (coinbase.includes("0x")) {
+      const result = await axios
+        .get(`https://api.dyp.finance/api/user_pools/${coinbase}`)
+        .then((data) => {
+          return data.data.PoolsUserIn;
+        });
+      setuserPools(result);
+    }
+  };
+
+  // console.log(userPools)
 
   const fetchEthStaking = async () => {
     await axios
@@ -837,7 +852,9 @@ const EarnTopPicks = ({
     }
     setShowDetails(false);
     setListing(listType);
-  }, [topList, listType, chain, expiredPools]);
+
+    fetchUserPools();
+  }, [topList, listType, chain, expiredPools, coinbase]);
 
   const handleCardIndexStake = (index) => {
     if (topList === "Staking") {
@@ -941,8 +958,16 @@ const EarnTopPicks = ({
                           }}
                           cardType={topList}
                           details={details === index ? true : false}
-                          isNewPool={pool.new_pool === 'Yes' ? true : false}
-                          isStaked={pool.isStaked}
+                          isNewPool={pool.new_pool === "Yes" ? true : false}
+                          isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                           expired={false}
                         />
                       ))}
@@ -1074,7 +1099,7 @@ const EarnTopPicks = ({
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
-                      staking={stakeArrayiDYPActive[cardIndex-1]}
+                      staking={stakeArrayiDYPActive[cardIndex - 1]}
                       listType={listType}
                       finalApr={
                         expiredPools === false
@@ -1141,8 +1166,7 @@ const EarnTopPicks = ({
                           ? activePools[cardIndex]?.apy_performancefee
                           : expiredDYPPools[cardIndex]?.apy_performancefee
                       }
-                      fee_s={0
-                      }
+                      fee_s={0}
                       lockTime={
                         cardIndex !== undefined
                           ? expiredPools === false
@@ -1181,8 +1205,7 @@ const EarnTopPicks = ({
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
                       referrer={referrer}
-              totalTvl={activePools[cardIndex].tvl_usd}
-
+                      totalTvl={activePools[cardIndex].tvl_usd}
                     />
                   ) : activeCard &&
                     cardIndex >= 2 &&
@@ -1366,8 +1389,8 @@ const EarnTopPicks = ({
                 >
                   {activePools
                     .slice(
-                      (topList === "Staking" && chain === "eth") ? 2 : 3,
-                      (topList === "Staking" && chain === "eth") ? 5 : 6
+                      topList === "Staking" && chain === "eth" ? 2 : 3,
+                      topList === "Staking" && chain === "eth" ? 5 : 6
                     )
                     .map((pool, index) => (
                       <TopPoolsCard
@@ -1452,8 +1475,16 @@ const EarnTopPicks = ({
                             ? true
                             : false
                         }
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                          userPools.length > 0
+                            ? userPools.find(
+                                (obj) => obj.contract_address === pool.id
+                              )
+                              ? true
+                              : false
+                            : false
+                        }
                         expired={false}
                       />
                     ))}
@@ -1839,8 +1870,16 @@ const EarnTopPicks = ({
                             ? true
                             : false
                         }
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                          userPools.length > 0
+                            ? userPools.find(
+                                (obj) => obj.contract_address === pool.id
+                              )
+                              ? true
+                              : false
+                            : false
+                        }
                         expired={false}
                       />
                     ))}
@@ -2133,9 +2172,17 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 9 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
                         expired={false}
-                        isStaked={pool.isStaked}
+                        isStaked={
+                          userPools.length > 0
+                            ? userPools.find(
+                                (obj) => obj.contract_address === pool.id
+                              )
+                              ? true
+                              : false
+                            : false
+                        }
                       />
                     ))}
                 </div>
@@ -2468,8 +2515,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                          userPools.length > 0
+                            ? userPools.find(
+                                (obj) => obj.contract_address === pool.id
+                              )
+                              ? true
+                              : false
+                            : false
+                        }
                         expired={false}
                       />
                     ))}
@@ -2503,8 +2558,7 @@ const EarnTopPicks = ({
                         ? activePools[cardIndex]?.apy_performancefee
                         : expiredDYPPools[cardIndex]?.apy_performancefee
                     }
-                    fee_s={0
-                    }
+                    fee_s={0}
                     lockTime={
                       cardIndex !== undefined
                         ? expiredPools === false
@@ -2540,8 +2594,7 @@ const EarnTopPicks = ({
                     handleSwitchNetwork={handleSwitchNetwork}
                     expired={false}
                     referrer={referrer}
-              totalTvl={activePools[cardIndex].tvl_usd}
-
+                    totalTvl={activePools[cardIndex].tvl_usd}
                   />
                 ) : activeCard &&
                   topList === "Staking" &&
@@ -2866,8 +2919,16 @@ const EarnTopPicks = ({
                             ? true
                             : false
                         }
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                          userPools.length > 0
+                            ? userPools.find(
+                                (obj) => obj.contract_address === pool.id
+                              )
+                              ? true
+                              : false
+                            : false
+                        }
                       />
                     ))}
                 </div>
@@ -3223,8 +3284,16 @@ const EarnTopPicks = ({
                       }}
                       cardType={topList}
                       details={details === index + 4 ? true : false}
-                      isNewPool={pool.new_pool === 'Yes' ? true : false}
-                      isStaked={pool.isStaked}
+                      isNewPool={pool.new_pool === "Yes" ? true : false}
+                      isStaked={
+                        userPools.length > 0
+                          ? userPools.find(
+                              (obj) => obj.contract_address === pool.id
+                            )
+                            ? true
+                            : false
+                          : false
+                      }
                     />
                   ))}
                 </div>
@@ -3535,8 +3604,16 @@ const EarnTopPicks = ({
                       }}
                       cardType={topList}
                       details={details === index + 6 ? true : false}
-                      isNewPool={pool.new_pool === 'Yes' ? true : false}
-                      isStaked={pool.isStaked}
+                      isNewPool={pool.new_pool === "Yes" ? true : false}
+                      isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                     />
                   ))}
                 </div>
@@ -3849,8 +3926,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 8 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                 </div>
@@ -4163,8 +4248,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 10 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                 </div>
@@ -4512,8 +4605,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -4590,61 +4691,61 @@ const EarnTopPicks = ({
                     cardIndex >= 0 &&
                     topList === "Staking" &&
                     chain === "eth" ? (
-                      <StakeNewEth
-                    staking={window.constant_staking_newi3}
-                    apr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent
-                    }
-                    liquidity={eth_address}
-                    expiration_time={"11 January 2024"}
-                    finalApr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee
-                    }
-                    fee_s={0
-                    }
-                    lockTime={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
-                            "No"
+                    <StakeNewEth
+                      staking={window.constant_staking_newi3}
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={eth_address}
+                      expiration_time={"11 January 2024"}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      fee_s={0}
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : activePools[cardIndex]?.lock_time?.split(" ")[0]
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
                             ? "No Lock"
-                            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                        : "No Lock"
-                    }
-                    lp_id={LP_IDBNB_Array[cardIndex]}
-                    listType={listType}
-                    other_info={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.expired === "Yes"
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                          : "No Lock"
+                      }
+                      lp_id={LP_IDBNB_Array[cardIndex]}
+                      listType={listType}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
                             ? true
                             : false
-                          : expiredDYPPools[cardIndex]?.expired === "Yes"
-                          ? true
                           : false
-                        : false
-                    }
-              totalTvl={activePools[cardIndex].tvl_usd}
-
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    expired={false}
-                    referrer={referrer}
-                  />
-
+                      }
+                      totalTvl={activePools[cardIndex].tvl_usd}
+                      is_wallet_connected={isConnected}
+                      coinbase={coinbase}
+                      the_graph_result={the_graph_result}
+                      chainId={chainId}
+                      handleConnection={handleConnection}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      referrer={referrer}
+                    />
                   ) : activeCard &&
                     cardIndex >= 2 &&
                     topList === "Staking" &&
@@ -4887,8 +4988,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 1 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -4960,7 +5069,7 @@ const EarnTopPicks = ({
                       expired={false}
                       referrer={referrer}
                     />
-                  )  : activeCard2 &&
+                  ) : activeCard2 &&
                     cardIndex === 0 &&
                     topList === "Staking" &&
                     chain === "eth" ? (
@@ -4978,8 +5087,7 @@ const EarnTopPicks = ({
                           ? activePools[cardIndex]?.apy_performancefee
                           : expiredDYPPools[cardIndex]?.apy_performancefee
                       }
-                      fee_s={0
-                      }
+                      fee_s={0}
                       lockTime={
                         cardIndex !== undefined
                           ? expiredPools === false
@@ -5017,8 +5125,7 @@ const EarnTopPicks = ({
                       handleConnection={handleConnection}
                       handleSwitchNetwork={handleSwitchNetwork}
                       expired={false}
-              totalTvl={activePools[cardIndex].tvl_usd}
-
+                      totalTvl={activePools[cardIndex].tvl_usd}
                       referrer={referrer}
                     />
                   ) : activeCard2 &&
@@ -5263,8 +5370,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 2 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -5640,8 +5755,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 3 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -5650,63 +5773,63 @@ const EarnTopPicks = ({
                   topList === "Staking" &&
                   chain === "eth" ? (
                     <InitConstantStakingiDYP
-                    is_wallet_connected={isConnected}
-                    coinbase={coinbase}
-                    the_graph_result={the_graph_result}
-                    lp_id={lp_id[cardIndex]}
-                    chainId={chainId}
-                    handleConnection={handleConnection}
-                    handleSwitchNetwork={handleSwitchNetwork}
-                    expired={false}
-                    staking={stakeArrayiDYPActive[cardIndex-1]}
-                    listType={listType}
-                    finalApr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_performancefee
-                        : expiredDYPPools[cardIndex]?.apy_performancefee
-                    }
-                    apr={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.apy_percent
-                        : expiredDYPPools[cardIndex]?.apy_percent
-                    }
-                    liquidity={eth_address}
-                    expiration_time={expirationArray[cardIndex]}
-                    other_info={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.expired === "Yes"
+                      is_wallet_connected={isConnected}
+                      coinbase={coinbase}
+                      the_graph_result={the_graph_result}
+                      lp_id={lp_id[cardIndex]}
+                      chainId={chainId}
+                      handleConnection={handleConnection}
+                      handleSwitchNetwork={handleSwitchNetwork}
+                      expired={false}
+                      staking={stakeArrayiDYPActive[cardIndex - 1]}
+                      listType={listType}
+                      finalApr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_performancefee
+                          : expiredDYPPools[cardIndex]?.apy_performancefee
+                      }
+                      apr={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.apy_percent
+                          : expiredDYPPools[cardIndex]?.apy_percent
+                      }
+                      liquidity={eth_address}
+                      expiration_time={expirationArray[cardIndex]}
+                      other_info={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.expired === "Yes"
+                              ? true
+                              : false
+                            : expiredDYPPools[cardIndex]?.expired === "Yes"
                             ? true
                             : false
-                          : expiredDYPPools[cardIndex]?.expired === "Yes"
-                          ? true
                           : false
-                        : false
-                    }
-                    fee_s={
-                      expiredPools === false
-                        ? activePools[cardIndex]?.performancefee
-                        : expiredDYPPools[cardIndex]?.performancefee
-                    }
-                    fee_u={withdrawFeeiDyp[cardIndex]}
-                    lockTime={
-                      cardIndex !== undefined
-                        ? expiredPools === false
-                          ? activePools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0] === "No"
+                      }
+                      fee_s={
+                        expiredPools === false
+                          ? activePools[cardIndex]?.performancefee
+                          : expiredDYPPools[cardIndex]?.performancefee
+                      }
+                      fee_u={withdrawFeeiDyp[cardIndex]}
+                      lockTime={
+                        cardIndex !== undefined
+                          ? expiredPools === false
+                            ? activePools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
+                              ? "No Lock"
+                              : activePools[cardIndex]?.lock_time?.split(" ")[0]
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0] === "No"
                             ? "No Lock"
-                            : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0] === "No"
-                          ? "No Lock"
-                          : expiredDYPPools[cardIndex]?.lock_time?.split(
-                              " "
-                            )[0]
-                        : "No Lock"
-                    }
-                  />
+                            : expiredDYPPools[cardIndex]?.lock_time?.split(
+                                " "
+                              )[0]
+                          : "No Lock"
+                      }
+                    />
                   ) : activeCard4 &&
                     cardIndex < 2 &&
                     topList === "Staking" &&
@@ -6017,8 +6140,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 4 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -6392,8 +6523,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 5 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -6766,8 +6905,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 6 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -7140,8 +7287,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 7 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -7514,8 +7669,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 8 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -7870,8 +8033,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 9 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -8226,8 +8397,16 @@ const EarnTopPicks = ({
                         }}
                         cardType={topList}
                         details={details === index + 10 ? true : false}
-                        isNewPool={pool.new_pool === 'Yes' ? true : false}
-                        isStaked={pool.isStaked}
+                        isNewPool={pool.new_pool === "Yes" ? true : false}
+                        isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                       />
                     ))}
                   </div>
@@ -8583,8 +8762,16 @@ const EarnTopPicks = ({
                           }}
                           cardType={topList}
                           details={details === index + 11 ? true : false}
-                          isNewPool={pool.new_pool === 'Yes' ? true : false}
-                          isStaked={pool.isStaked}
+                          isNewPool={pool.new_pool === "Yes" ? true : false}
+                          isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                         />
                       ))}
                   </div>
@@ -8994,7 +9181,7 @@ const EarnTopPicks = ({
                         : "flex"
                       : "flex"
                   }
-                  isNewPool={pool.new_pool === 'Yes' ? true : false}
+                  isNewPool={pool.new_pool === "Yes" ? true : false}
                   totalTvl={pool.tvl_usd}
                 />
               ))}
@@ -9056,7 +9243,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -9527,7 +9722,15 @@ const EarnTopPicks = ({
                   cardType={topList}
                   details={details === index + 3 ? true : false}
                   isNewPool={pool.isNewPool}
-                  isStaked={pool.isStaked}
+                  isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                 />
               ))}
             </div>
@@ -9962,7 +10165,15 @@ const EarnTopPicks = ({
                   cardType={topList}
                   details={details === index + 10 ? true : false}
                   isNewPool={pool.isNewPool}
-                  isStaked={pool.isStaked}
+                  isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                 />
               ))}
             </div>
@@ -10418,7 +10629,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 9 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
             </div>
@@ -10883,7 +11102,15 @@ const EarnTopPicks = ({
                   cardType={topList}
                   details={details === index ? true : false}
                   isNewPool={pool.isNewPool}
-                  isStaked={pool.isStaked}
+                  isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                 />
               ))}
             </div>
@@ -11332,7 +11559,15 @@ const EarnTopPicks = ({
                   cardType={topList}
                   details={details === index + 2 ? true : false}
                   isNewPool={pool.isNewPool}
-                  isStaked={pool.isStaked}
+                  isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                 />
               ))}
             </div>
@@ -11728,7 +11963,15 @@ const EarnTopPicks = ({
                   cardType={topList}
                   details={details === index + 4 ? true : false}
                   isNewPool={pool.isNewPool}
-                  isStaked={pool.isStaked}
+                  isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                 />
               ))}
             </div>
@@ -12278,7 +12521,15 @@ const EarnTopPicks = ({
                   cardType={topList}
                   details={details === index + 9 ? true : false}
                   isNewPool={pool.isNewPool}
-                  isStaked={pool.isStaked}
+                  isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                 />
               ))}
             </div>
@@ -12801,7 +13052,15 @@ const EarnTopPicks = ({
                   cardType={topList}
                   details={details === index + 12 ? true : false}
                   isNewPool={pool.isNewPool}
-                  isStaked={pool.isStaked}
+                  isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                 />
               ))}
             </div>
@@ -13326,7 +13585,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 15 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
             </div>
@@ -13856,7 +14123,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -14180,7 +14455,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 1 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -14546,7 +14829,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 2 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -14813,7 +15104,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 3 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -15100,7 +15399,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 4 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -15559,7 +15866,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 5 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -15945,7 +16260,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 6 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -16331,7 +16654,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 7 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -16717,7 +17048,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 8 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -17103,7 +17442,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 9 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -17489,7 +17836,15 @@ const EarnTopPicks = ({
                     cardType={topList}
                     details={details === index + 10 ? true : false}
                     isNewPool={pool.isNewPool}
-                    isStaked={pool.isStaked}
+                    isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                   />
                 ))}
               </div>
@@ -17877,7 +18232,15 @@ const EarnTopPicks = ({
                       cardType={topList}
                       details={details === index + 11 ? true : false}
                       isNewPool={pool.isNewPool}
-                      isStaked={pool.isStaked}
+                      isStaked={
+                            userPools.length > 0
+                              ? userPools.find(
+                                  (obj) => obj.contract_address === pool.id
+                                )
+                                ? true
+                                : false
+                              : false
+                          }
                     />
                   ))}
               </div>
