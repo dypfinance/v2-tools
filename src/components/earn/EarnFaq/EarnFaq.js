@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import metamaskVideo from "../../../assets/earnAssets/metamaskVideo.png";
-import stakeVideo from "../../../assets/earnAssets/stakeVideo.png";
-import playButton from "../../../assets/earnAssets/playButton.svg";
+import stakeVideo from "./comingsoon.svg";
 import axios from "axios";
-import arrowActive from "./arrowActive.svg";
+import arrowActive from "./comingsoon.svg";
 import arrowPassive from "./arrowPassive.svg";
 
 import Collapse from "react-bootstrap/Collapse";
@@ -124,8 +122,7 @@ const EarnFaq = ({ faqTypes, faqIndex }) => {
         <div className="video-container p-3">
           <div className="video-item">
             <div className="video-wrapper position-relative">
-              <img src={metamaskVideo} alt="" className="video" />
-              <img src={playButton} alt="" className="play-button" />
+            <img src={stakeVideo} alt="" className="video" />
             </div>
             <p style={{ color: "#7a81b4", fontSize: "13px" }}>How to set up</p>
             <h5 style={{ color: "#C0CBF7", fontSize: "17px" }}>
@@ -135,7 +132,6 @@ const EarnFaq = ({ faqTypes, faqIndex }) => {
           <div className="video-item">
             <div className="video-wrapper position-relative">
               <img src={stakeVideo} alt="" className="video" />
-              <img src={playButton} alt="" className="play-button" />
             </div>
             <p style={{ color: "#7a81b4", fontSize: "13px" }}>How to stake</p>
             <h5 style={{ color: "#C0CBF7", fontSize: "17px" }}>
