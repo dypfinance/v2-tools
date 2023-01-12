@@ -689,18 +689,19 @@ export default function stakeAvax({
 
       let cliffTimeInWords = "lockup period";
 
-      let canWithdraw;
+     
+      let canWithdraw = true
       if (lockTime === "No Lock") {
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() <= cliffTime + stakingTime) {
-          canWithdraw = true;
-          cliffTimeInWords = moment
-            .duration(cliffTime - (Date.now() - stakingTime))
-            .humanize(true);
-        } else canWithdraw = false;
+          if (Date.now() - (stakingTime +cliffTime )<0) {
+              canWithdraw = false
+              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+          }
       }
+  // console.log(Date.now() - (stakingTime +cliffTime ))
+
       let total_stakers = this.state.total_stakers;
       //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
       let tvl_usd = this.state.tvlUSD / 1e18;
@@ -780,7 +781,7 @@ export default function stakeAvax({
           this.setState({depositStatus: 'initial'})
         }
       };
-
+// console.log((Number(stakingTime) + Number(cliffTime)))
       return (
         <div className="container-lg p-0">
           <div
@@ -1600,7 +1601,7 @@ export default function stakeAvax({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                                date={(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}
@@ -1617,7 +1618,7 @@ export default function stakeAvax({
                         </div>
                       </div>
 
-                      <div className="d-flex align-items-center justify-content-between gap-2">\
+                      <div className="d-flex align-items-center justify-content-between gap-2">
                         <div className="input-container px-0">
                         <input
                           type="number"

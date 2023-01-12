@@ -776,17 +776,15 @@ const StakeBsc2 = ({
   }
 
   let cliffTimeInWords = "lockup period";
-  let canWithdraw;
+  let canWithdraw = true
   if (lockTime === "No Lock") {
     canWithdraw = true;
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-    if (Date.now() <= cliffTime + stakingTime) {
-      canWithdraw = true;
-      cliffTimeInWords = moment
-        .duration(cliffTime - (Date.now() - stakingTime))
-        .humanize(true);
-    } else canWithdraw = false;
+      if (Date.now() - (stakingTime +cliffTime )<0) {
+          canWithdraw = false
+          cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+      }
   }
 
   let tvl_usd = tvl * tokendata;

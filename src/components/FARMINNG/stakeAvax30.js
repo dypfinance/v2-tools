@@ -891,19 +891,16 @@ export default function stakeAvax30({
 
       let cliffTimeInWords = "lockup period";
 
-      let canWithdraw;
+      let canWithdraw = true
       if (lockTime === "No Lock") {
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() <= cliffTime + stakingTime) {
-          canWithdraw = true;
-          cliffTimeInWords = moment
-            .duration(cliffTime - (Date.now() - stakingTime))
-            .humanize(true);
-        } else canWithdraw = false;
+          if (Date.now() - (stakingTime +cliffTime )<0) {
+              canWithdraw = false
+              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+          }
       }
-
       let total_stakers = this.state.total_stakers;
       //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
       let tvl_usd = this.state.tvlUSD / 1e18;
