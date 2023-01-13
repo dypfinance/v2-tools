@@ -324,7 +324,7 @@ const CawsDetails = ({
               <div className="d-flex align-items-center justify-content-between gap-2">
                 <h6 className="earnrewards-text">Total NFTs staked</h6>
                 <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                  {totalStakes}/1000
+                  {totalStakes}/10000
                 </h6>
               </div>
             </div>
