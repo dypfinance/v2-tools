@@ -269,7 +269,6 @@ const Header = ({
     refreshHotPairs().then();
     setActiveChain();
     ethereum?.on("chainChanged", handleChainChanged);
-    ethereum?.on("chainChanged", handleChainChanged);
   }, [chainId, ethState]);
 
   useEffect(() => {

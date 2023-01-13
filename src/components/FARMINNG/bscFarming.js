@@ -1990,7 +1990,7 @@ export default function initBscFarming({
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
+                    disabled={Number(this.state.depositedTokens) > 0 ? false : true}
                     className={
                       // this.state.depositStatus === "success" ?
                       "outline-btn btn"

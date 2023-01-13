@@ -196,7 +196,24 @@ color: #F7F7FC !important;
     grid-template-columns: repeat(4, 1fr) ;
 }
 
+.poolrows {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media screen and (max-width: 991px) {
+  .poolrows{
+  grid-template-columns: repeat(2, 1fr);
+
+  }
+}
+
+
 @media screen and (max-width: 786px) {
+  .poolrows{
+    grid-template-columns: repeat(1, 1fr);
+  
+    }
   .account-dyp-amount{
     text-align: left;
   }

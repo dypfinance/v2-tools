@@ -15,6 +15,7 @@ import cawsLabel from "./assets/cawsLabel.svg";
 import buybackTag from "../../assets/earnAssets/buybackTag.svg";
 
 const TopPoolsCard = ({
+  isAccount,
   tokenLogo,
   cardId,
   tokenName,
@@ -92,7 +93,7 @@ const TopPoolsCard = ({
         onClick={() => handleDetails()}
         style={{ display: display }}
       >
-        {isStaked && <img src={staked} className="staked" alt="staked" />}
+        {isStaked && <img src={staked} className="staked" alt="staked" style={{right: isAccount === true? 60 : ''}}/>}
         {top_pick === true && (
           <img src={topPick} className="toppick" alt="top pick" />
         )}

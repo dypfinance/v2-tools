@@ -131,7 +131,7 @@ const StakeBsc2 = ({
     }
   };
 
-  const [token_balance, settoken_balance] = useState("...");
+  const [token_balance, settoken_balance] = useState("");
   const [pendingDivs, setpendingDivs] = useState("");
   const [totalEarnedTokens, settotalEarnedTokens] = useState("");
   const [cliffTime, setcliffTime] = useState("");
@@ -277,8 +277,9 @@ const StakeBsc2 = ({
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin).div(1e18).toFixed(18);
 
-      let _bal = reward_token.balanceOf(coinbase);
+    
       if (staking) {
+        let _bal = reward_token.balanceOf(coinbase);
         let _pDivs = staking.getTotalPendingDivs(coinbase);
 
         let _tEarned = staking.totalEarnedTokens(coinbase);
@@ -401,16 +402,20 @@ const StakeBsc2 = ({
   };
 
   useEffect(() => {
-    refreshBalance();
-
     if (coinbase !== coinbase2 && coinbase !== null && coinbase !== undefined) {
       setcoinbase(coinbase);
-      const interval = setInterval(async () => {
+    }
+    getPriceDYP();
+  }, [coinbase, coinbase2]);
+
+
+  useEffect(() => {
+   
+      const interval = setInterval( () => {
         refreshBalance();
       }, 1000);
       return () => clearInterval(interval);
-    }
-    getPriceDYP();
+  
   }, [coinbase, coinbase2]);
 
   const handleApprove = (e) => {
@@ -838,8 +843,6 @@ settokendata(propertyDyp[0][1].token_price_usd)
   },[])
 
   
-
-
   return (
     <div className="container-lg p-0">
       <div

@@ -605,7 +605,7 @@ const StakeBsc = ({
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-          if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now())) && lockTime !== "No Lock") {
+        if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate((Date.now()/1000)))&& lockTime !== "No Lock") {
               canWithdraw = false
               cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
           }
