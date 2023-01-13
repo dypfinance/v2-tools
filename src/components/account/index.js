@@ -307,7 +307,8 @@ export default class Subscription extends React.Component {
 
 
   fetchUsername = async () => {
-    await axios
+    if(this.props.coinbase)
+   { await axios
       .get(
         `https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`
       )
@@ -320,7 +321,7 @@ export default class Subscription extends React.Component {
       })
       .catch((err) => {
         console.log(err);
-      });
+      });}
   };
 
   postUsername = async (userInput) => {
@@ -761,7 +762,7 @@ export default class Subscription extends React.Component {
                   ? "align-items-start flex-column"
                   : "align-items-center flex-row"
               }`}
-              style={{ height: 38 }}
+              // style={{ height: 38 }}
             >
               <h6 className="account-username">
                 Username: {this.state.username}
@@ -810,6 +811,7 @@ export default class Subscription extends React.Component {
                   className="cursor-pointer"
                   alt=""
                   onClick={() => this.setState({ showInput: true })}
+                  style={{zIndex:5}}
                 />
               )}
             </div>

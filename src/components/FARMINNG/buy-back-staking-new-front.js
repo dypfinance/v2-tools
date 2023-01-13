@@ -1408,7 +1408,7 @@ export default function initBuybackStakingNew({
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-          if (Date.now() - (stakingTime +cliffTime )<0) {
+          if (this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now())) {
               canWithdraw = false
               cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
           }

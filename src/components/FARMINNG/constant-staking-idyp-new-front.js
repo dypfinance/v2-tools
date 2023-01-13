@@ -580,7 +580,7 @@ const InitConstantStakingiDYP = ({
     canWithdraw = true;
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-      if (Date.now() - (stakingTime +cliffTime )<0) {
+      if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now()- Number(cliffTime))) && lockTime !== "No Lock") {
           canWithdraw = false
           cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
       }

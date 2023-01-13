@@ -605,7 +605,7 @@ const StakeBsc = ({
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-          if (Date.now() - (stakingTime +cliffTime )<0) {
+          if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now())) && lockTime !== "No Lock") {
               canWithdraw = false
               cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
           }
@@ -653,6 +653,8 @@ const StakeBsc = ({
   useEffect(() => {
     getUsdPerDyp();
   }, []);
+  // console.log((Number(stakingTime) + Number(cliffTime)))
+  // console.log(convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now()) , (Number(stakingTime) + Number(cliffTime)))
 
   return (
     <div className="container-lg p-0">

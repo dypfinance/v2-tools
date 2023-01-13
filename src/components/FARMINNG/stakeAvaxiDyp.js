@@ -216,7 +216,9 @@ const StakeAvaxIDyp = ({
         let tStakers = staking.getNumberOfHolders();
 
         //Take DYPS Balance
-        let _tvlDYPS = token_dypsavax.balanceOf(staking._address); /* TVL of DYPS */
+        let _tvlDYPS = token_dypsavax.balanceOf(
+          staking._address
+        ); /* TVL of DYPS */
 
         let [
           token_balance,
@@ -257,9 +259,10 @@ const StakeAvaxIDyp = ({
         settotalEarnedTokens(earnedTokens_formatted);
 
         setstakingTime(stakingTime);
-        
-      
-        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(2);
+
+        let depositedTokens_formatted = new BigNumber(depositedTokens)
+          .div(1e18)
+          .toFixed(2);
 
         setdepositedTokens(depositedTokens_formatted);
 
@@ -307,10 +310,10 @@ const StakeAvaxIDyp = ({
   }, [coinbase, coinbase2]);
 
   useEffect(() => {
-      const interval = setInterval(async () => {
-        refreshBalance();
-      }, 1000);
-      return () => clearInterval(interval);
+    const interval = setInterval(async () => {
+      refreshBalance();
+    }, 1000);
+    return () => clearInterval(interval);
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
@@ -333,7 +336,7 @@ const StakeAvaxIDyp = ({
 
     let amount = depositAmount;
     amount = new BigNumber(amount).times(1e18).toFixed(0);
-   await reward_token
+    await reward_token
       .approve(staking._address, amount)
       .then(() => {
         setdepositLoading(false);
@@ -371,7 +374,7 @@ const StakeAvaxIDyp = ({
     if (!window.web3.utils.isAddress(referrer)) {
       referrer = window.config.ZERO_ADDRESS;
     }
-   await staking
+    await staking
       .stake(amount, referrer)
       .then(() => {
         setdepositLoading(false);
@@ -395,7 +398,7 @@ const StakeAvaxIDyp = ({
 
     let amount = withdrawAmount;
     amount = new BigNumber(amount).times(1e18).toFixed(0);
-   await staking
+    await staking
       .unstake(amount)
       .then(() => {
         setwithdrawLoading(false);
@@ -438,7 +441,7 @@ const StakeAvaxIDyp = ({
 
   const handleSetMaxDeposit = () => {
     const depositAmount = token_balance;
-    checkApproval(token_balance)
+    checkApproval(token_balance);
 
     setdepositAmount(depositAmount);
   };
@@ -458,7 +461,6 @@ const StakeAvaxIDyp = ({
 
   const getApproxReturn = () => {
     let APY = getAPY() - fee_s;
-    
 
     return ((approxDeposit * APY) / 100 / 365) * approxDays;
   };
@@ -505,7 +507,7 @@ const StakeAvaxIDyp = ({
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
-    }).format(timestamp * 1000);
+    }).format(timestamp);
     return result;
   };
 
@@ -567,26 +569,30 @@ const StakeAvaxIDyp = ({
 
   let cliffTimeInWords = "lockup period";
 
-  let canWithdraw = true
+  let canWithdraw = true;
   if (lockTime === "No Lock") {
     canWithdraw = true;
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-      if (Date.now() - (stakingTime +cliffTime )<0) {
-          canWithdraw = false
-          cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
-      }
+    if (
+      (convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000) >=
+        convertTimestampToDate(Date.now()))&&
+      lockTime !== "No Lock"
+    ) {
+      canWithdraw = false;
+      cliffTimeInWords = moment
+        .duration(cliffTime - (Date.now() - stakingTime))
+        .humanize(true);
+    }
   }
-
+  // console.log(convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000), convertTimestampToDate(Date.now()));
   let tvl_usd = tvl * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
 
   tvl_usd = tvl_usd + tvlDYPS;
 
-  tvl_usd = getFormattedNumber(tvl_usd, 2); 
-
-
+  tvl_usd = getFormattedNumber(tvl_usd, 2);
 
   const checkApproval = async (amount) => {
     const result = await window
@@ -596,33 +602,30 @@ const StakeAvaxIDyp = ({
         return data;
       });
 
-    if (Number(result) >= Number(amount) && Number(result)!==0) {
+    if (Number(result) >= Number(amount) && Number(result) !== 0) {
       setdepositStatus("deposit");
     } else {
       setdepositStatus("initial");
     }
   };
 
-
-  const getUsdPerDyp = async() => {
+  const getUsdPerDyp = async () => {
     await axios
       .get("https://api.dyp.finance/api/the_graph_eth_v2")
       .then((data) => {
         const propertyiDyp = Object.entries(
           data.data.the_graph_eth_v2.token_data
-        ); 
-settokendata(propertyiDyp[1][1].token_price_usd)
+        );
+        settokendata(propertyiDyp[1][1].token_price_usd);
         return propertyiDyp[1][1].token_price_usd;
-      }); 
-
+      });
   };
 
-
-  useEffect(()=>{
-    if(showCalculator === true) {
-      getUsdPerDyp()
+  useEffect(() => {
+    if (showCalculator === true) {
+      getUsdPerDyp();
     }
-  },[showCalculator, tokendata])
+  }, [showCalculator, tokendata]);
 
   return (
     <div className="container-lg p-0">
@@ -833,10 +836,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
               </div>
               <div className="d-flex flex-column gap-2 justify-content-between">
                 <div className="d-flex align-items-center justify-content-between gap-2">
-                  <div
-                    className="input-container px-0"
-                   
-                  >
+                  <div className="input-container px-0">
                     <input
                       type="number"
                       autoComplete="off"
@@ -845,7 +845,10 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                           ? depositAmount
                           : depositAmount
                       }
-                      onChange={(e) => {setdepositAmount(e.target.value); checkApproval(e.target.value)}}
+                      onChange={(e) => {
+                        setdepositAmount(e.target.value);
+                        checkApproval(e.target.value);
+                      }}
                       placeholder=" "
                       className="text-input"
                       style={{ width: "100%" }}
@@ -1069,7 +1072,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
               </h6>
 
               <button
-              disabled={Number(depositedTokens) > 0 ? false : true}
+                disabled={Number(depositedTokens) > 0 ? false : true}
                 className="btn outline-btn"
                 onClick={() => {
                   setshowWithdrawModal(true);
@@ -1270,7 +1273,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                          date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                            date={convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000)}
                             renderer={renderer}
                           />
                         )}
@@ -1301,8 +1304,12 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                         id="amount_withdraw"
                         key="amount_withdraw"
                       />
-                      <label className="label"
-                      onClick={() => focusInput("amount_withdraw")}>Withdraw Amount</label>
+                      <label
+                        className="label"
+                        onClick={() => focusInput("amount_withdraw")}
+                      >
+                        Withdraw Amount
+                      </label>
                     </div>
 
                     <button
@@ -1460,8 +1467,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)}{" "}
-                USD
+                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)} USD
               </h3>
               <h6
                 style={{
