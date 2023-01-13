@@ -540,6 +540,8 @@ export default function stakeAvax30({
           .div(1e18)
           .toFixed(18),
       });
+    this.checkApproval(this.state.token_balance)
+
     };
     handleSetMaxWithdraw = (e) => {
       e.preventDefault();

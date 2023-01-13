@@ -614,6 +614,7 @@ const StakeBsc2 = ({
   const handleSetMaxDeposit = (e) => {
     // e.preventDefault();
     const depositAmount = token_balance;
+    checkApproval(token_balance);
 
     setdepositAmount(depositAmount);
   };

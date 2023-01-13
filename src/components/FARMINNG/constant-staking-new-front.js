@@ -641,6 +641,7 @@ if(the_graph_result)
 
   const handleSetMaxDeposit = (e) => {
     const depositAmount = token_balance;
+    checkApproval(token_balance);
 
     setdepositAmount(depositAmount);
   };

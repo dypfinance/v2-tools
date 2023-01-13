@@ -466,6 +466,8 @@ const StakeBscDai = ({
 
   const handleSetMaxDeposit = () => {
     const depositAmountFormatted = token_balance
+    checkApproval(token_balance);
+
     setdepositAmount(depositAmountFormatted);
   };
   const handleSetMaxWithdraw = () => {

@@ -443,7 +443,7 @@ const InitConstantStakingiDYP = ({
 
   const handleSetMaxDeposit = () => {
     const depositAmount = token_balance;
-
+    checkApproval(token_balance);
     setdepositAmount(depositAmount);
   };
 
