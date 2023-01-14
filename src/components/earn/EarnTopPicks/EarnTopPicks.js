@@ -15412,13 +15412,7 @@ const EarnTopPicks = ({
                   finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
                   fee={expiredDYPPools[cardIndex]?.performancefee}
                   lockTime={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.lock_time?.split(
-                          " "
-                        )[0] === "No"
-                        ? "No Lock"
-                        : expiredPools[cardIndex - 1]?.lock_time?.split(" ")[0]
-                      : "No Lock"
+                    90
                   }
                   listType={listType}
                   other_info={true}

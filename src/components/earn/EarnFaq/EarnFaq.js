@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import stakeVideo from "./comingsoon.svg";
 import axios from "axios";
-import arrowActive from "./comingsoon.svg";
+import arrowActive from "./arrowActive.svg";
 import arrowPassive from "./arrowPassive.svg";
 
 import Collapse from "react-bootstrap/Collapse";
