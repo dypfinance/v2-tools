@@ -481,7 +481,7 @@ class TOKENBSC {
 }
 
 class CONSTANT_STAKING_NEW {
-  constructor(ticker = "CONSTANT_STAKING_30", token = "REWARD_TOKEN") {
+  constructor(ticker = "CONSTANT_STAKINGNEW", token = "REWARD_TOKEN") {
     this.ticker = ticker;
     this.token = token;
     let address = window.config[ticker.toLowerCase() + "_address"];
