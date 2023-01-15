@@ -1213,7 +1213,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={`${window.config.snowtrace_baseURL}/address/${coinbase}`}
+                      href={`${window.config.bscscan_baseURL}/address/${coinbase}`}
                       className="stats-link"
                     >
                       {shortAddress(coinbase)}{" "}
@@ -1230,7 +1230,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={`${window.config.snowtrace_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                      href={`${window.config.bscscan_baseURL}/token/${reward_token._address}?a=${coinbase}`}
                       className="stats-link"
                     >
                       View transaction <img src={statsLinkIcon} alt="" />
