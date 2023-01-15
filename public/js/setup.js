@@ -518,17 +518,8 @@ class CONSTANT_STAKING_NEW {
         this[fn_name] = async function (...args) {
           let contract = await getContract({ key: this.ticker });
           let value = 0;
-          //console.log(value)
           let gas = window.config.default_gas_amount;
-          // try {
-          // 	let estimatedGas = await contract.methods[fn_name](...args).estimateGas({ gas })
-          // 	if (estimatedGas) {
-          // 		gas = Math.min(estimatedGas, gas)
-          // 		console.log('estimatedgas'+gas)
-          // 	}
-          // } catch (e) {
-          // 	console.warn(e)
-          // }
+          console.log('methodname',contract.methods)
           return await contract.methods[fn_name](...args).send({
             value,
             gas,
@@ -1721,7 +1712,6 @@ window.config = {
   MAX_LOCKS_TO_LOAD_PER_CALL: 10,
   pangolin_router_address: "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106",
   pancakeswap_router_address: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
-  uniswap_router_address: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
 
   compound_api_key: null,
   compound_network: "mainnet",
@@ -27857,10 +27847,9 @@ async function getPancakeswapRouterContract(
 }
 
 async function getUniswapRouterContract(
-  address = window.config.uniswap_router_address,
-  abi = window.UNISWAP_ROUTER_ABI
+  address = window.config.uniswap_router_address
 ) {
-  return new window.infuraWeb3.eth.Contract(abi, address, { from: undefined });
+  return new window.infuraWeb3.eth.Contract(window.UNISWAP_ROUTER_ABI, address, { from: await getCoinbase() });
 }
 
 async function getPriceiDYP() {

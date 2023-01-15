@@ -264,7 +264,7 @@ const StakeBscIDyp = ({
 
         setstakingTime(stakingTime);
 
-        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(2);
+        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(6);
 
         setdepositedTokens(depositedTokens_formatted);
 
