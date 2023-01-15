@@ -1280,7 +1280,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                          date={convertTimestampToDate(1673636815)}
+                          date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                             renderer={renderer}
                             onComplete={()=>{setcanwithdraw(true);setisCompleted(true)}}
                           />
