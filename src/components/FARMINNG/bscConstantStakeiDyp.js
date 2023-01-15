@@ -175,6 +175,10 @@ const StakeBscIDyp = ({
   const [rewardsTooltip, setrewardsTooltip] = useState(false);
   const [withdrawTooltip, setwithdrawTooltip] = useState(false);
   const [tokendata, settokendata] = useState();
+  const [canwithdraw, setcanwithdraw] = useState(true);
+  const [isCompleted, setisCompleted] = useState(false);
+
+
 
   const showModal = () => {
     setshow(true);
@@ -566,17 +570,20 @@ const StakeBscIDyp = ({
   }
 
   let cliffTimeInWords = "lockup period";
-
-  let canWithdraw = true
-  if (lockTime === "No Lock") {
-    canWithdraw = true;
+useEffect(()=>{
+    if (lockTime === "No Lock") {
+    setcanwithdraw(true)
+    
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-    if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate((Date.now()/1000)))&& lockTime !== "No Lock") {
-          canWithdraw = false
+    if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate((Date.now()/1000)))&& lockTime !== "No Lock" && isCompleted !== true) {
+        setcanwithdraw(false)
           cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
       }
   }
+
+},[lockTime, canwithdraw, cliffTime, stakingTime, isCompleted])
+  
 
   // console.log(Date.now() - (stakingTime +cliffTime ))
   let tvl_usd = tvl * tokendata;
@@ -1273,8 +1280,9 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                          date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                          date={convertTimestampToDate(1673636815)}
                             renderer={renderer}
+                            onComplete={()=>{setcanwithdraw(true);setisCompleted(true)}}
                           />
                         )}
                       </h6>
@@ -1322,14 +1330,14 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                         withdrawAmount === "" ||
                         withdrawStatus === "failed" ||
                         withdrawStatus === "success" ||
-                        canWithdraw === false
+                        canwithdraw === false
                           ? true
                           : false
                       }
                       className={` w-100 btn filledbtn ${
                         (withdrawAmount === "" &&
                           withdrawStatus === "initial") ||
-                        canWithdraw === false
+                        canwithdraw === false
                           ? "disabled-btn"
                           : withdrawStatus === "failed"
                           ? "fail-button"
