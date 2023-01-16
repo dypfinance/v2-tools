@@ -513,7 +513,7 @@ const CawsDetails = ({
                   title={
                     <div className="tooltip-text">
                       {
-                        "Withdraw your deposited assets from the buyback smart contract."
+                        "Withdraw your deposited NFTs from the staking smart contract."
                       }
                     </div>
                   }
