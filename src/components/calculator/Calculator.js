@@ -525,7 +525,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
             </h6>
             <img
               src={calculatorChart}
-              className="calculator-chart d-flex d-lg-none"
+              className="calculator-chart d-flex d-md-none"
               alt=""
             />
 
@@ -564,7 +564,7 @@ const Calculator = ({ earnClass, onClose, ref }) => {
           <div className="pills-container gap-3 d-flex justify-content-start row m-0 w-100 position-relative">
           <img
               src={calculatorChart}
-              className="calculator-chart d-none d-lg-flex"
+              className="calculator-chart d-none d-xl-flex"
               alt=""
             />
             {pillsNames &&

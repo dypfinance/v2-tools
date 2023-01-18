@@ -31,7 +31,7 @@ const ExplorerCard = () => {
         </div>
       </div>
       <div className="col-6 d-flex justify-content-center align-items-center">
-        <img src={explorerChart} className="explorer-chart" alt="" />
+        <img src={explorerChart} className="explorer-chart d-none d-lg-flex" alt="" />
       </div>
     </NavLink>
   );

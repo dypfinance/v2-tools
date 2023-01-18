@@ -4,7 +4,7 @@
   border-radius: 12px;
   /* border: 1px solid #8e97cd00; */
   padding: 10px;
-  width: 24%;
+  /* width: 24%; */
   transition: all .25s;
   cursor: pointer;
 }
@@ -37,7 +37,7 @@
 .newsimg2 {
     border-radius: 12px;
     height: 150px;
-    /* width: 100%; */
+    width: 100%;
     object-fit: fill;
 }
 
@@ -81,7 +81,7 @@
   align-items: center;
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 991px) {
   .newscard-wrapper{
     width: 100% !important; 
   }
