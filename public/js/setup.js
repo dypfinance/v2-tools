@@ -481,7 +481,7 @@ class TOKENBSC {
 }
 
 class CONSTANT_STAKING_NEW {
-  constructor(ticker = "CONSTANT_STAKING_30", token = "REWARD_TOKEN") {
+  constructor(ticker = "CONSTANT_STAKINGNEW", token = "REWARD_TOKEN") {
     this.ticker = ticker;
     this.token = token;
     let address = window.config[ticker.toLowerCase() + "_address"];
@@ -518,17 +518,8 @@ class CONSTANT_STAKING_NEW {
         this[fn_name] = async function (...args) {
           let contract = await getContract({ key: this.ticker });
           let value = 0;
-          //console.log(value)
           let gas = window.config.default_gas_amount;
-          // try {
-          // 	let estimatedGas = await contract.methods[fn_name](...args).estimateGas({ gas })
-          // 	if (estimatedGas) {
-          // 		gas = Math.min(estimatedGas, gas)
-          // 		console.log('estimatedgas'+gas)
-          // 	}
-          // } catch (e) {
-          // 	console.warn(e)
-          // }
+          console.log('methodname',contract.methods)
           return await contract.methods[fn_name](...args).send({
             value,
             gas,
@@ -1608,6 +1599,9 @@ window.config = {
   constant_stakingnew_new2_address:
     "0x8A30Be7B2780b503ff27dBeaCdecC4Fe2587Af5d",
 
+    constant_staking_newi3_address:
+    "0xeb7dd6B50dB34f7ff14898D0Be57A99A9F158C4D",
+
   //Buyback new
   buyback_staking1_1_address: "0xdCBB5B2148f0cf1Abd7757Ba04A5821fEaD80587",
   buyback_staking1_2_address: "0xDC65C4277d626d6A29C9Dc42Eb396d354fa5E85b",
@@ -1718,7 +1712,6 @@ window.config = {
   MAX_LOCKS_TO_LOAD_PER_CALL: 10,
   pangolin_router_address: "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106",
   pancakeswap_router_address: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
-  uniswap_router_address: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
 
   compound_api_key: null,
   compound_network: "mainnet",
@@ -2111,6 +2104,10 @@ window.CONSTANT_STAKINGBSC_NEW11_ABI = window.CONSTANT_STAKING_OLD_ABI;
 window.CONSTANT_STAKINGBSC_NEW12_ABI = window.CONSTANT_STAKING_OLD_ABI;
 window.CONSTANT_STAKINGBSC_NEW13_ABI = window.CONSTANT_STAKING_OLD_ABI;
 
+
+window.CONSTANT_STAKINGOLD_130 = window.CONSTANT_STAKING_OLD_ABI;
+window.CONSTANT_STAKINGOLD_140 = window.CONSTANT_STAKING_OLD_ABI;
+
 //DYP-USDC
 window.token_usdc_3 = new TOKEN("TOKEN_USDC3");
 window.staking_usdc_3 = new STAKING("STAKING_USDC3", "TOKEN_USDC3");
@@ -2232,6 +2229,10 @@ window.constant_staking_new1 = new CONSTANT_STAKING_NEW(
 window.constant_staking_new2 = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEW2"
 );
+
+window.constant_staking_newi3 = new CONSTANT_STAKING_OLD(
+  "CONSTANT_STAKING_NEWI3"
+);
 window.constant_staking_newdai = new CONSTANT_STAKING_NEW(
   "CONSTANT_STAKINGNEW_NEWDAI"
 );
@@ -2248,6 +2249,9 @@ window.CONSTANT_STAKINGIDYPAVAX_4_ABI = window.CONSTANT_STAKING_IDYP_ABI;
 
 window.CONSTANT_STAKINGNEW_NEW1_ABI = window.CONSTANT_STAKINGNEW_ABI;
 window.CONSTANT_STAKINGNEW_NEW2_ABI = window.CONSTANT_STAKINGNEW_ABI;
+window.CONSTANT_STAKINGNEW_NEW3_ABI = window.CONSTANT_STAKINGNEW_ABI;
+window.CONSTANT_STAKING_NEWI3 = window.CONSTANT_STAKING_OLD_ABI;
+
 
 window.CONSTANT_STAKINGNEW_NEWAVAX1_ABI = window.CONSTANT_STAKINGNEW_ABI;
 window.CONSTANT_STAKINGNEW_NEWAVAX2_ABI = window.CONSTANT_STAKINGNEW_ABI;
@@ -2377,6 +2381,14 @@ window.constant_staking_idypavax_5 = new CONSTANT_STAKING_NEWAVAX(
 window.constant_staking_idypavax_6 = new CONSTANT_STAKING_NEWAVAX(
   "CONSTANT_STAKINGIDYPAVAX_6"
 );
+
+const checkapproveStakePool=async(useraddr, tokenaddr, stakingaddr)=> {
+  let token_contract = await getTokenContract(tokenaddr);
+
+  return await token_contract.methods.allowance(useraddr, stakingaddr).call();
+}
+
+window.checkapproveStakePool = checkapproveStakePool
 
 //governance eth
 
@@ -27093,6 +27105,7 @@ Object.keys(window.config)
 
 
       k.startsWith("constant_stakingnew_new2") ||
+
       k.startsWith("constant_stakingidypavax_3") ||
       k.startsWith("constant_stakingidypavax_4") ||
       k.startsWith("constant_stakingnew_newavax1") ||
@@ -27152,9 +27165,10 @@ Object.keys(window.config)
       k.startsWith("new_governance") ||
       k.startsWith("new_governanceavax") ||
       k.startsWith("new_governancebsc") ||
-
+      k.startsWith("constant_stakingold_130") || k.startsWith("constant_stakingold_140") ||
       k.startsWith("buyback_stakingbsc1_1") ||
       k.startsWith("buyback_stakingbsc1_2") ||
+      k.startsWith("constant_staking_newi3") ||
       (k.startsWith("constant_stakingold_") && k.endsWith("_address"))
   )
   .forEach((k) => {
@@ -27166,6 +27180,8 @@ Object.keys(window.config)
       ? window.BUYBACK_STAKINGBSC1_1_ABI
       : k.startsWith("buyback_stakingbsc1_2")
       ? window.BUYBACK_STAKINGBSC1_2_ABI
+      : k.startsWith("constant_staking_newi3")
+      ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("stakingavax_")
       ? window.STAKINGAVAX_ABI
       : k.startsWith("reward_token_dyps")
@@ -27279,6 +27295,10 @@ Object.keys(window.config)
       : k.startsWith("constant_stakingbsc_new10")
       ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new11")
+      ? window.CONSTANT_STAKING_OLD_ABI
+      : k.startsWith("constant_stakingold_130")
+      ? window.CONSTANT_STAKING_OLD_ABI
+      : k.startsWith("constant_stakingold_140")
       ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new12")
       ? window.CONSTANT_STAKING_OLD_ABI
@@ -27827,10 +27847,9 @@ async function getPancakeswapRouterContract(
 }
 
 async function getUniswapRouterContract(
-  address = window.config.uniswap_router_address,
-  abi = window.UNISWAP_ROUTER_ABI
+  address = window.config.uniswap_router_address
 ) {
-  return new window.infuraWeb3.eth.Contract(abi, address, { from: undefined });
+  return new window.infuraWeb3.eth.Contract(window.UNISWAP_ROUTER_ABI, address, { from: await getCoinbase() });
 }
 
 async function getPriceiDYP() {

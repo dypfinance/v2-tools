@@ -25,6 +25,7 @@ import xMark from "../calculator/assets/xMark.svg";
 import poolsCalculatorIcon from "./assets/poolsCalculatorIcon.svg";
 import { ClickAwayListener } from "@material-ui/core";
 import { handleSwitchNetworkhook } from "../../functions/hooks";
+import axios from "axios";
 
 const renderer = ({ days, hours, minutes, seconds }) => {
   return (
@@ -180,6 +181,8 @@ export default function stakeAvax30({
         depositTooltip: false,
         rewardsTooltip: false,
         withdrawTooltip: false,
+        tokendata: 0
+
       };
 
       this.showModal = this.showModal.bind(this);
@@ -242,6 +245,20 @@ export default function stakeAvax30({
       }
     };
 
+    getUsdPerDyp = async() => {
+      await axios
+        .get("https://api.dyp.finance/api/the_graph_eth_v2")
+        .then((data) => {
+          const propertyDyp = Object.entries(
+            data.data.the_graph_eth_v2.token_data
+          ); 
+          this.setState({tokendata: propertyDyp[0][1].token_price_usd})
+
+        }); 
+  
+    };
+  
+
     componentDidMount() {
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
@@ -249,6 +266,7 @@ export default function stakeAvax30({
 
       // this.refreshBalance();
       window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
+      this.getUsdPerDyp();
 
       this.getPriceDYP();
     }
@@ -522,6 +540,8 @@ export default function stakeAvax30({
           .div(1e18)
           .toFixed(18),
       });
+    this.checkApproval(this.state.token_balance)
+
     };
     handleSetMaxWithdraw = (e) => {
       e.preventDefault();
@@ -859,7 +879,6 @@ export default function stakeAvax30({
       cliffTime = cliffTime * 1e3;
 
       let showDeposit = true;
-      let lockDate;
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -870,21 +889,20 @@ export default function stakeAvax30({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
 
-      let canWithdraw = true;
-      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
-          cliffTimeInWords = moment
-            .duration(cliffTime - (Date.now() - stakingTime))
-            .humanize(true);
-        }
+      let canWithdraw = true
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
       }
-
+      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+          if ((this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now()- Number(cliffTime)))&& lockTime !== "No Lock") {
+              canWithdraw = false
+              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+          }
+      }
       let total_stakers = this.state.total_stakers;
       //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
       let tvl_usd = this.state.tvlUSD / 1e18;
@@ -943,6 +961,25 @@ export default function stakeAvax30({
       };
       const withdrawClose = () => {
         this.setState({ withdrawTooltip: false });
+      };
+
+      const focusInput = (field) => {
+        document.getElementById(field).focus();
+      };
+    
+      const checkApproval = async (amount) => {
+        const result = await window
+          .checkapproveStakePool(this.state.coinbase, reward_token._address, staking._address)
+          .then((data) => {
+            console.log(data);
+            return data;
+          });
+    
+        if (Number(result) >= Number(amount) && Number(result) !== 0) {
+          this.setState({depositStatus: 'deposit'})
+        } else {
+          this.setState({depositStatus: 'initial'})
+        }
       };
 
       return (
@@ -1145,7 +1182,7 @@ export default function stakeAvax30({
               </button>
             </div> */}
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "43114" || this.props.expired === true
                       ? "blurrypool"
                       : ""
@@ -1200,7 +1237,7 @@ export default function stakeAvax30({
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
                       
-                        <div className="input-container usd-input px-0">
+                        <div className="input-container px-0">
                         <input
                           type="number"
                           autoComplete="off"
@@ -1210,15 +1247,20 @@ export default function stakeAvax30({
                               : this.state.depositAmount
                           }
                           onChange={(e) =>
-                            this.setState({
+                           { this.setState({
                               depositAmount: e.target.value,
-                            })
+                            });
+                          checkApproval(e.target.value)}
                           }
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
+                          name="amount_deposit"
+                          id="amount_deposit"
+                          key="amount_deposit"
                         />
-                        <label htmlFor="usd" className="label">
+                        <label htmlFor="usd" className="label"
+                        onClick={() => focusInput("amount_deposit")}>
                          Amount
                         </label>
                       </div>
@@ -1316,7 +1358,7 @@ export default function stakeAvax30({
                   </div>
                 </div>
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "43114" && "blurrypool"
                   }`}
                 >
@@ -1473,7 +1515,7 @@ export default function stakeAvax30({
                 </div>
 
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-2 ${
                     chainId !== "43114" && "blurrypool"
                   }`}
                 >
@@ -1500,12 +1542,9 @@ export default function stakeAvax30({
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
+                    disabled={Number(this.state.depositedTokens) > 0 ? false : true}
                     className={
-                      // this.state.depositStatus === "success" ?
                       "outline-btn btn"
-                      // :
-                      //  "btn disabled-btn"
                     }
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
@@ -1783,9 +1822,7 @@ export default function stakeAvax30({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(
-                                  Number(lockDate)
-                                )}
+                              date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}
@@ -1804,7 +1841,7 @@ export default function stakeAvax30({
 
                       <div className="d-flex align-items-center justify-content-between gap-2">
                        
-                        <div className="input-container usd-input px-0">
+                        <div className="input-container px-0">
                         <input
                           type="number"
                           autoComplete="off"
@@ -1817,8 +1854,12 @@ export default function stakeAvax30({
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
+                          name="amount_withdraw"
+                        id="amount_withdraw"
+                        key="amount_withdraw"
                         />
-                        <label htmlFor="usd" className="label">
+                        <label htmlFor="usd" className="label"
+                         onClick={() => focusInput("amount_withdraw")}>
                         Withdraw Amount
                         </label>
                       </div>
@@ -2039,7 +2080,7 @@ export default function stakeAvax30({
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                      $ {getFormattedNumber(
-                      this.getApproxReturn() / this.getUsdPerETH(),
+                      this.getApproxReturn() * this.state.tokendata,
                       6
                     )}{" "}USD
                   </h3>

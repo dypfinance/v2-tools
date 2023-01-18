@@ -1185,7 +1185,6 @@ export default function initFarmAvax({
       lastSwapExecutionTime = lastSwapExecutionTime * 1e3;
 
       let showDeposit = true;
-      let lockDate;
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -1194,7 +1193,6 @@ export default function initFarmAvax({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1209,16 +1207,17 @@ export default function initFarmAvax({
         }
       }
 
-      let canWithdraw = true;
-      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
-          cliffTimeInWords = moment
-            .duration(cliffTime - (Date.now() - stakingTime))
-            .humanize(true);
-        }
-      }
 
+      let canWithdraw = true
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
+      }
+      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+          if ((this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now()))&& lockTime !== "No Lock") {
+              canWithdraw = false
+              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+          }
+      }
       let lp_data = this.props.the_graph_result.lp_data;
       let apy = lp_data ? lp_data[this.props.lp_id].apy : 0;
 
@@ -1294,6 +1293,11 @@ export default function initFarmAvax({
       const withdrawClose = () => {
         this.setState({ withdrawTooltip: false });
       };
+
+      const focusInput = (field) => {
+        document.getElementById(field).focus();
+      };
+    
 
       return (
         <div className="container-lg p-0">
@@ -1482,7 +1486,7 @@ export default function initFarmAvax({
                 TBD Claim reward 0.01 ETH
               </button>
             </div> */}
-                <div className={`otherside-border col-12 col-md-6 col-lg-4  ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
+                <div className={`otherside-border col-12 col-md-12 col-lg-4  ${chainId !== '43114' || this.props.expired === true ? "blurrypool" : ''}`}>
                   <div className="d-flex justify-content-between align-items-start gap-2">
                     <div className="d-flex flex-column flex-lg-row align-items-start gap-3">
                       <div className="d-flex align-items-start gap-3">
@@ -1574,7 +1578,7 @@ export default function initFarmAvax({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-start gap-2 w-100">
-                        <div className="input-container usd-input px-0">
+                        <div className="input-container px-0">
                         <input
                           type="number"
                           autoComplete="off"
@@ -1591,8 +1595,12 @@ export default function initFarmAvax({
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
+                          name="amount_deposit"
+                          id="amount_deposit"
+                          key="amount_deposit"
                         />
-                        <label htmlFor="usd" className="label">
+                        <label htmlFor="usd" className="label"
+                         onClick={() => focusInput("amount_deposit")}>
                          Amount
                         </label>
                       </div>
@@ -1657,7 +1665,7 @@ export default function initFarmAvax({
                     )}
                   </div>
                 </div>
-                <div className={`otherside-border col-12 col-md-6 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
+                <div className={`otherside-border col-12 col-md-12 col-lg-4 ${chainId !== '43114' && "blurrypool"}`}>
                   <div className="d-flex justify-content-between gap-2 ">
                     <h6 className="withdraw-txt">Rewards</h6>
                     <h6 className="withdraw-littletxt d-flex align-items-center gap-2">
@@ -2027,7 +2035,7 @@ export default function initFarmAvax({
                   </div>
                 </div>
 
-                <div className={`otherside-border col-12 col-md-6 col-lg-2 ${chainId !== '43114' && "blurrypool"}`}>
+                <div className={`otherside-border col-12 col-md-12 col-lg-2 ${chainId !== '43114' && "blurrypool"}`}>
                   <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
                     WITHDRAW
                     <ClickAwayListener onClickAway={withdrawClose}>
@@ -2051,7 +2059,7 @@ export default function initFarmAvax({
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
+                   disabled={Number(this.state.depositedTokens) > 0 ? false : true}
                     className={
                       // this.state.depositStatus === "success" ?
                       "outline-btn btn"
@@ -2429,9 +2437,7 @@ export default function initFarmAvax({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(
-                                  Number(lockDate)
-                                )}
+                                date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}

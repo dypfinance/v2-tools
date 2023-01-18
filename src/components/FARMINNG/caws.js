@@ -324,7 +324,7 @@ const CawsDetails = ({
               <div className="d-flex align-items-center justify-content-between gap-2">
                 <h6 className="earnrewards-text">Total NFTs staked</h6>
                 <h6 className="earnrewards-token d-flex align-items-center gap-1">
-                  {totalStakes}/1000
+                  {totalStakes}/10000
                 </h6>
               </div>
             </div>
@@ -482,7 +482,7 @@ const CawsDetails = ({
                 <div className="d-flex align-items-center justify-content-between gap-2"></div>
                 <div className="form-row d-flex gap-2 align-items-end justify-content-between">
                   <h6 className="rewardstxtCaws d-flex align-items-center gap-2">
-                    <img src={weth} alt="" /> {EthRewards} ETH (
+                    <img src={weth} alt="" /> {EthRewards} ETH ($
                     {getFormattedNumber(ethToUSD, 8)})
                   </h6>
                   <button
@@ -513,7 +513,7 @@ const CawsDetails = ({
                   title={
                     <div className="tooltip-text">
                       {
-                        "Withdraw your deposited assets from the buyback smart contract."
+                        "Withdraw your deposited NFTs from the staking smart contract."
                       }
                     </div>
                   }

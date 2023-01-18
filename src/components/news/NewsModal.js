@@ -90,7 +90,7 @@ const NewsModal = ({
     } else if (logout === "true") {
       setCanVote(false);
     }
-  }, [alreadyVoted, bal1, bal2, isPremium]);
+  }, [alreadyVoted, bal1, bal2, isPremium, logout]);
 
   const handleLikeStates = () => {
     if (
@@ -201,10 +201,10 @@ const NewsModal = ({
 
   useEffect(() => {
     fetchVotingdata();
-  }, []);
+  }, [newsId]);
 
   var options = { year: "numeric", month: "short", day: "numeric" };
-
+ 
   const formattedDate = new Date(fullDate);
 
   return (

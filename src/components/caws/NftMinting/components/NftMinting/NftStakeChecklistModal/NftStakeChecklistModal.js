@@ -790,7 +790,7 @@ const NftStakeCheckListModal = ({
                     <div className="d-flex justify-content-between">
                       <h6 className="rewardstxtCaws d-flex align-items-center gap-2">
                         <img src={require("./weth.svg").default} alt="" />{" "}
-                        {ETHrewards} ETH ({formattedNum(ethToUSD, true)})
+                        {ETHrewards} ETH (${formattedNum(ethToUSD, true)})
                       </h6>
                       {/* <img
                           src={EthLogo}
