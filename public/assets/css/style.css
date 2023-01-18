@@ -4367,11 +4367,11 @@ right: -8% !important;
   }
 
   .rightside {
-    width: 59% !important;
+    width: 57% !important;
   }
 }
 
-@media only screen and (max-width: 1348px) {
+@media only screen and (max-width: 991px) {
   .graph-wrap {
     flex-direction: column !important;
   }
