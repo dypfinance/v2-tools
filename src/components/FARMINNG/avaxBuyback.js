@@ -1395,14 +1395,15 @@ export default function avaxBuyback({
 
       let cliffTimeInWords = "lockup period";
 
-      let canWithdraw = true;
+      let canWithdraw = true
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
+      }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
-          cliffTimeInWords = moment
-            .duration(cliffTime - (Date.now() - stakingTime))
-            .humanize(true);
-        }
+          if (Date.now() - (stakingTime +cliffTime )<0) {
+              canWithdraw = false
+              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+          }
       }
 
       let total_stakers = this.state.total_stakers;

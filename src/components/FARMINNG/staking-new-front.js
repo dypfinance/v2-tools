@@ -205,6 +205,7 @@ export default function initStakingNew({
         depositTooltip: false,
         rewardsTooltip: false,
         withdrawTooltip: false,
+        tokendata: 0,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -289,12 +290,25 @@ export default function initStakingNew({
       }
     };
 
+    getUsdPerDyp = async () => {
+      await axios
+        .get("https://api.dyp.finance/api/the_graph_eth_v2")
+        .then((data) => {
+          const propertyDyp = Object.entries(
+            data.data.the_graph_eth_v2.token_data
+          );
+          this.setState({ tokendata: propertyDyp[0][1].token_price_usd });
+        });
+    };
+
     componentDidMount() {
       // this.refreshBalance();
       window._refreshBalInterval = setInterval(this.refreshBalance, 3000);
       if (this.props.coinbase !== this.state.coinbase) {
         this.setState({ coinbase: this.props.coinbase });
       }
+      this.getUsdPerDyp();
+
       this.getPriceDYP();
       this.getTokenData();
     }
@@ -1190,8 +1204,6 @@ export default function initStakingNew({
       lastSwapExecutionTime = lastSwapExecutionTime * 1e3;
 
       let showDeposit = true;
-      let lockDate;
-
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
         let lockTimeExpire = parseInt(Date.now()) + parseInt(cliffTime);
@@ -1199,7 +1211,6 @@ export default function initStakingNew({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1214,14 +1225,15 @@ export default function initStakingNew({
         }
       }
 
-      let canWithdraw = true;
+      let canWithdraw = true
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
+      }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
-          cliffTimeInWords = moment
-            .duration(cliffTime - (Date.now() - stakingTime))
-            .humanize(true);
-        }
+          if ((this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now()))&& lockTime !== "No Lock") {
+              canWithdraw = false
+              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+          }
       }
 
       let lp_data = this.props.the_graph_result.lp_data;
@@ -1300,6 +1312,9 @@ export default function initStakingNew({
         this.setState({ withdrawTooltip: false });
       };
 
+      const focusInput = (field) => {
+        document.getElementById(field).focus();
+      };
       return (
         <div className="container-lg p-0">
           <div
@@ -1488,7 +1503,7 @@ export default function initStakingNew({
               </button>
             </div> */}
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "43114" || this.props.expired === true
                       ? "blurrypool"
                       : ""
@@ -1585,29 +1600,37 @@ export default function initStakingNew({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-start gap-2 w-100">
-                        
-                        <div className="input-container usd-input px-0">
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                            this.setState({
-                              depositAmount: e.target.value,
-                            })
-                          }
-                          placeholder=" "
-                          className="text-input"
-                          style={{ width: "100%" }}
-                        />
-                        <label htmlFor="usd" className="label">
-                        Amount
-                        </label>
-                      </div>
+                        <div className="input-container px-0">
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) =>
+                              this.setState({
+                                depositAmount: e.target.value,
+                              })
+                            }
+                            placeholder=" "
+                            className="text-input"
+                            style={{ width: "100%" }}
+                            name="amount_deposit"
+                            id="amount_deposit"
+                            key="amount_deposit"
+                          />
+                          <label
+                            htmlFor="usd"
+                            className="label"
+                            onClick={() => {
+                              focusInput("amount_deposit");
+                            }}
+                          >
+                            Amount
+                          </label>
+                        </div>
 
                         <button
                           className="btn maxbtn"
@@ -1673,7 +1696,7 @@ export default function initStakingNew({
                   </div>
                 </div>
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4  ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4  ${
                     chainId !== "1" ? "blurrypool" : ""
                   }`}
                 >
@@ -2041,7 +2064,7 @@ export default function initStakingNew({
                 </div>
 
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-2 ${
                     chainId !== "1" && "blurrypool"
                   }`}
                 >
@@ -2068,12 +2091,9 @@ export default function initStakingNew({
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
+                     disabled={Number(this.state.depositedTokens) > 0 ? false : true}
                     className={
-                      // this.state.depositStatus === "success" ?
                       "outline-btn btn"
-                      // :
-                      //  "btn disabled-btn"
                     }
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
@@ -2425,9 +2445,7 @@ export default function initStakingNew({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(
-                                  Number(lockDate)
-                                )}
+                                date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}
@@ -3029,11 +3047,7 @@ export default function initStakingNew({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                    ${getFormattedNumber(
-                      
-                      this.getApproxReturnUSD() / this.getUsdPerETH(),
-                      6
-                    )} USD
+                    ${getFormattedNumber(this.getApproxReturnUSD(), 2)} USD
                   </h3>
                   <h6
                     style={{
@@ -3043,8 +3057,10 @@ export default function initStakingNew({
                     }}
                   >
                     Approx{" "}
-                   
-                    {getFormattedNumber(this.getApproxReturnUSD(), 2)} {" "}
+                    {getFormattedNumber(
+                      this.getApproxReturnUSD() / this.getUsdPerETH(),
+                      6
+                    )}{" "}
                     WETH
                   </h6>
                 </div>

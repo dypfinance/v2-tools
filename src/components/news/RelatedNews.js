@@ -67,7 +67,7 @@ const RelatedNews = ({
       setCanVote(false)
     }
 
-  }, [alreadyVoted, bal1, bal2, isPremium]);
+  }, [alreadyVoted, bal1, bal2, isPremium, logout]);
 
 
   const handleLikeStates = () => {
@@ -347,7 +347,7 @@ const RelatedNews = ({
                 }}
               />
 
-              <span className="votes-amount"> {Number(upvote) - Number(downvote)}</span>
+              <span className="votes-amount"> {Number(upvotes) - Number(downvotes)}</span>
               <img
               style={{transform: 'rotate(0deg)'}}
                 src={

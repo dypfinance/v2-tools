@@ -1403,16 +1403,16 @@ export default function initBuybackStakingNew({
 
       let cliffTimeInWords = "lockup period";
 
-      let canWithdraw = true;
-      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
-          cliffTimeInWords = moment
-            .duration(cliffTime - (Date.now() - stakingTime))
-            .humanize(true);
-        }
+      let canWithdraw = true
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
       }
-
+      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+          if (this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now())) {
+              canWithdraw = false
+              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+          }
+      }
       let total_stakers = this.state.total_stakers;
       // let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
       let tvl_usd = this.state.tvl / 1e18;

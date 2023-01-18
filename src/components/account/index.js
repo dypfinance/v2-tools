@@ -12,13 +12,7 @@ import axios from "axios";
 import openNameChange from "./assets/openNameChange.svg";
 import { ClickAwayListener, Tooltip } from "@material-ui/core";
 import { shortAddress } from "../../functions/shortAddress";
-// import { benefits } from "./benefits";
-// import Check from "./check.svg";
-// import Cross from "./cross.svg";
-// import Free from "./free.svg";
-// import Premium from "./premium.svg";
-// import FreeWhite from "./free-white.svg";
-// import Collapsible from "react-collapsible";
+import TopPoolsCard from "../top-pools-card/TopPoolsCard";
 
 const { BigNumber } = window;
 
@@ -56,8 +50,200 @@ export default class Subscription extends React.Component {
       showInput: false,
       openTooltip: false,
       dypBalance: "0.0",
+      userPools: [],
+      ethStake: [],
+      bnbStake: [],
+      avaxStake: [],
+      ethFarm: [],
+      bscFarm: [],
+      avaxFarm: [],
     };
   }
+
+  fetchUserPools = async () => {
+    if (this.props.coinbase && this.props.coinbase.includes("0x")) {
+      const result = await axios
+        .get(`https://api.dyp.finance/api/user_pools/${this.props.coinbase}`)
+        .then((data) => {
+          return data.data.PoolsUserIn;
+        });
+      this.setState({ userPools: result });
+      // console.log(result)
+    }
+  };
+
+  fetchEthStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_eth`)
+      .then((res) => {
+        const dypIdyp = res.data.stakingInfoDYPEth.concat(
+          res.data.stakingInfoiDYPEth
+        );
+
+        const expiredEth = dypIdyp.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeEth = dypIdyp.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedExpired = expiredEth.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const allEthPools = [...activeEth, ...sortedExpired];
+        this.setState({ ethStake: allEthPools });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  fetchBnbStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_bnb`)
+      .then((res) => {
+        const dypIdypBnb = res.data.stakingInfoDYPBnb.concat(
+          res.data.stakingInfoiDYPBnb
+        );
+
+        const expiredBnb = dypIdypBnb.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeBnb = dypIdypBnb.filter((item) => {
+          return item.expired !== "Yes";
+        });
+        const sortedActive = activeBnb.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredBnb.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        const allBnbPools = [...sortedActive, ...sortedExpired];
+        this.setState({ bnbStake: allBnbPools });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  fetchAvaxStaking = async () => {
+    await axios
+      .get(`https://api.dyp.finance/api/get_staking_info_avax`)
+      .then((res) => {
+        const dypIdypAvax = res.data.stakingInfoDYPAvax.concat(
+          res.data.stakingInfoiDYPAvax
+        );
+
+        const expiredAvax = dypIdypAvax.filter((item) => {
+          return item.expired !== "No";
+        });
+
+        const activeAvax = dypIdypAvax.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedActive = activeAvax.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredAvax.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        const avaxAllPools = [...sortedActive, ...sortedExpired];
+        this.setState({ avaxStake: avaxAllPools });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  fetchEthFarming = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_eth_v2")
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_eth_v2.lp_data);
+        let farming = [];
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+
+        const expiredFarmingEth = farming.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeFarmingEth = farming.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedActive = activeFarmingEth.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredFarmingEth.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        const ethAllPools = [...sortedActive, ...sortedExpired];
+        this.setState({ ethFarm: ethAllPools });
+      })
+      .catch((err) => console.error(err));
+  };
+
+  fetchBscFarming = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_bsc_v2")
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_bsc_v2.lp_data);
+        let farming = [];
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+        const expiredFarmingBsc = farming.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeFarmingBsc = farming.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedActive = activeFarmingBsc.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredFarmingBsc.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        const bnbAllpools = [...sortedActive, ...sortedExpired];
+        this.setState({ bscFarm: bnbAllpools });
+      })
+      .catch((err) => console.error(err));
+  };
+
+  fetchAvaxFarming = async () => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_avax_v2")
+      .then((res) => {
+        let temparray = Object.entries(res.data.the_graph_avax_v2.lp_data);
+        let farming = [];
+        temparray.map((item) => {
+          farming.push(item[1]);
+        });
+        const expiredFarmingAvax = farming.filter((item) => {
+          return item.expired !== "No";
+        });
+        const activeFarmingAvax = farming.filter((item) => {
+          return item.expired !== "Yes";
+        });
+
+        const sortedActive = activeFarmingAvax.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+        const sortedExpired = expiredFarmingAvax.sort(function (a, b) {
+          return b.tvl_usd - a.tvl_usd;
+        });
+
+        const avaxAllPools = [...sortedActive, ...sortedExpired];
+      })
+      .catch((err) => console.error(err));
+  };
 
   fetchfavData() {
     window
@@ -89,47 +275,23 @@ export default class Subscription extends React.Component {
     }
   }
 
-  // checkConnection() {
-  //   const logout = localStorage.getItem("logout");
-  //   if (logout !== "true") {
-  //     if (window.ethereum) {
-  //       window.ethereum
-  //         .request({ method: "eth_accounts" })
-  //         .then((data) => {
-  //           this.setState({
-  //             coinbase: this.props.coinbase,
-  //           });
-  //           this.fetchAvatar().then();
-  //         })
-  //         .catch(console.error);
-  //     } else {
-  //       this.setState({
-  //         networkId: "1",
-  //       });
-  //     }
-  //   } else {
-  //     this.setState({
-  //       coinbase: undefined,
-  //     });
-  //     this.setState({ image: Placeholder });
-  //   }
-  // }
-
   fetchUsername = async () => {
-    await axios
-      .get(
-        `https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`
-      )
-      .then((res) => {
-        if (res.data?.username) {
-          this.setState({ username: res.data?.username });
-        } else {
-          this.setState({ username: "Dypian" });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (this.props.coinbase) {
+      await axios
+        .get(
+          `https://api-image.dyp.finance/api/v1/username/${this.props.coinbase}`
+        )
+        .then((res) => {
+          if (res.data?.username) {
+            this.setState({ username: res.data?.username });
+          } else {
+            this.setState({ username: "Dypian" });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   postUsername = async (userInput) => {
@@ -154,21 +316,23 @@ export default class Subscription extends React.Component {
 
   getDypBalance = async () => {
     const logout = localStorage.getItem("logout");
-    if (logout === 'false') {
+    if (logout === "false") {
       if (this.props.networkId === 43114) {
         this.setState({ dypBalance: localStorage.getItem("balance2") });
-      }
-
-     else if (this.props.networkId === 1) {
+      } else if (this.props.networkId === 1) {
         this.setState({ dypBalance: localStorage.getItem("balance1") });
-      }
-
-     else if (this.props.networkId === 56) {
+      } else if (this.props.networkId === 56) {
         this.setState({ dypBalance: localStorage.getItem("balance3") });
-      } 
-      else this.setState({dypBalance: '0.0'})
+      } else this.setState({ dypBalance: "0.0" });
     }
   };
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.coinbase !== prevProps.coinbase) {
+      this.fetchUserPools();
+    }
+  }
 
   componentDidMount() {
     this.handleSubscriptionTokenChange(this.state.usdtAddress);
@@ -177,6 +341,13 @@ export default class Subscription extends React.Component {
     setTimeout(() => {
       this.fetchAvatar();
       this.fetchUsername();
+      this.fetchUserPools();
+      this.fetchAvaxFarming();
+      this.fetchAvaxStaking();
+      this.fetchBnbStaking();
+      this.fetchBscFarming();
+      this.fetchEthFarming();
+      this.fetchEthStaking();
     }, 300);
     if (this.props.networkId === 1) {
       this.fetchfavData();
@@ -563,7 +734,7 @@ export default class Subscription extends React.Component {
                   ? "align-items-start flex-column"
                   : "align-items-center flex-row"
               }`}
-              style={{ height: 38 }}
+              // style={{ height: 38 }}
             >
               <h6 className="account-username">
                 Username: {this.state.username}
@@ -612,6 +783,7 @@ export default class Subscription extends React.Component {
                   className="cursor-pointer"
                   alt=""
                   onClick={() => this.setState({ showInput: true })}
+                  style={{ zIndex: 5 }}
                 />
               )}
             </div>
@@ -1361,19 +1533,315 @@ export default class Subscription extends React.Component {
           )}
         </form> */}
 
-        {/* <h4 className="d-block mb-5 mt-5" id="my-fav">
-          My Earnings
-        </h4>
-        <div
-          className="row p-0 m-0"
-          style={{
-            gap: 10,
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr 1fr",
-          }}
-        ></div> */}
+        {this.state.userPools && this.state.userPools.length > 0 && (
+          <>
+            <h4 className="d-block mb-5 mt-5" id="my-fav">
+              My Earnings
+            </h4>
+            <div
+              style={{
+                gap: "50px 0px",
+                display: "grid",
+                gridTemplateColumns: "repeat(1, 1fr)",
+              }}
+            >
+              <div
+                className="row p-0 m-0 poolrows"
+                style={{
+                  gap: "50px 0px",
+                }}
+              >
+                {this.state.ethStake &&
+                  this.state.ethStake
+                    .slice(0, this.state.ethStake.length)
+                    .map((pool, index) => (
+                      <NavLink
+                        to="/earn"
+                        style={{
+                          display:
+                            this.state.userPools.length > 0
+                              ? this.state.userPools.find(
+                                  (obj) => obj.contract_address == pool.id
+                                )
+                                ? "block"
+                                : "none"
+                              : "none",
+                          position: "relative",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display:
+                              this.state.userPools.length > 0
+                                ? this.state.userPools.find(
+                                    (obj) => obj.contract_address == pool.id
+                                  )
+                                  ? "block"
+                                  : "none"
+                                : "none",
+                            position: "relative",
+                          }}
+                        >
+                          <div
+                            className="d-flex justify-content-center align-items-center"
+                            style={{
+                              position: "absolute",
+                              top: "-23px",
+                              left: "33%",
+                              width: "106px",
+                              height: "34px",
+                              transform: "translateX(-50%)",
+                              borderRadius: "50px",
+                              background:
+                                "linear-gradient(93.99deg, #4ED5CD 0%, #524FD8 100%)",
+                              gap: "5px",
+                              zIndex: 1,
+                            }}
+                          >
+                            <img src="/assets/img/ethereum.svg"></img>
+                            <div style={{ color: "#F7F7FC" }}>Ethereum</div>
+                          </div>
+                          <TopPoolsCard
+                            key={index}
+                            chain={this.props.networkId}
+                            top_pick={pool.top_pick}
+                            tokenName={pool.pair_name}
+                            apr={pool.apy_percent + "%"}
+                            tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                            lockTime={
+                              pool.lock_time ? pool.lock_time : "No Lock"
+                            }
+                            tokenLogo={
+                              pool.icon
+                                ? pool.icon
+                                : pool.pair_name === "DYP"
+                                ? "dyplogo.svg"
+                                : "idypius.svg"
+                            }
+                            onShowDetailsClick={() => {}}
+                            onHideDetailsClick={() => {}}
+                            cardType={"table"}
+                            details={false}
+                            isNewPool={pool.new_pool === "Yes" ? true : false}
+                            isStaked={
+                              this.state.userPools.length > 0
+                                ? this.state.userPools.find(
+                                    (obj) => obj.contract_address == pool.id
+                                  )
+                                  ? true
+                                  : false
+                                : false
+                            }
+                            isAccount={true}
+                            expired={pool.expired === "Yes" ? true : false}
+                          />
+                        </div>
+                      </NavLink>
+                    ))}
+              </div>
+              <div
+                className="row p-0 m-0 poolrows"
+                style={{
+                  gap: "50px 0px",
+                }}
+              >
+                {this.state.bnbStake &&
+                  this.state.bnbStake
+                    .slice(0, this.state.bnbStake.length)
+                    .map((pool, index) => (
+                      <NavLink
+                        to="/earn"
+                        style={{
+                          display:
+                            this.state.userPools.length > 0
+                              ? this.state.userPools.find(
+                                  (obj) => obj.contract_address == pool.id
+                                )
+                                ? "block"
+                                : "none"
+                              : "none",
+                          position: "relative",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display:
+                              this.state.userPools.length > 0
+                                ? this.state.userPools.find(
+                                    (obj) => obj.contract_address == pool.id
+                                  )
+                                  ? "block"
+                                  : "none"
+                                : "none",
+                            position: "relative",
+                          }}
+                        >
+                          <div
+                            className="d-flex justify-content-center align-items-center"
+                            style={{
+                              position: "absolute",
+                              top: "-23px",
+                              left: "33%",
+                              width: "115px",
+                              height: "34px",
+                              transform: "translateX(-50%)",
+                              borderRadius: "50px",
+                              background:
+                                "linear-gradient(93.99deg, #DAAA0A 0%, #EDB90B 100%)",
+                              gap: "5px",
+                              zIndex: 1,
+                            }}
+                          >
+                            <img
+                              src={require("../../assets/bnblogo.svg").default}
+                              alt=""
+                              style={{ height: 20, width: 20 }}
+                            ></img>
+                            <div style={{ color: "#F7F7FC" }}>BNB Chain</div>
+                          </div>
 
-        <div className="mycawsCollection position-relative mb-5">
+                          <TopPoolsCard
+                            key={index}
+                            chain={this.props.networkId}
+                            top_pick={pool.top_pick}
+                            tokenName={pool.pair_name}
+                            apr={pool.apy_percent + "%"}
+                            tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                            lockTime={
+                              pool.lock_time ? pool.lock_time : "No Lock"
+                            }
+                            tokenLogo={
+                              pool.icon
+                                ? pool.icon
+                                : pool.pair_name === "DYP"
+                                ? "dyplogo.svg"
+                                : "idypius.svg"
+                            }
+                            onShowDetailsClick={() => {}}
+                            onHideDetailsClick={() => {}}
+                            cardType={"table"}
+                            details={false}
+                            isNewPool={pool.new_pool === "Yes" ? true : false}
+                            isStaked={
+                              this.state.userPools.length > 0
+                                ? this.state.userPools.find(
+                                    (obj) => obj.contract_address == pool.id
+                                  )
+                                  ? true
+                                  : false
+                                : false
+                            }
+                            isAccount={true}
+                            expired={pool.expired === "Yes" ? true : false}
+                          />
+                        </div>
+                      </NavLink>
+                    ))}
+              </div>
+
+              <div
+                className="row p-0 m-0 poolrows"
+                style={{
+                  gap: "50px 0px",
+                }}
+              >
+                {this.state.avaxStake &&
+                  this.state.avaxStake
+                    .slice(0, this.state.avaxStake.length)
+                    .map((pool, index) => (
+                      <NavLink
+                        to="/earn"
+                        style={{
+                          display:
+                            this.state.userPools.length > 0
+                              ? this.state.userPools.find(
+                                  (obj) => obj.contract_address == pool.id
+                                )
+                                ? "block"
+                                : "none"
+                              : "none",
+                          position: "relative",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display:
+                              this.state.userPools.length > 0
+                                ? this.state.userPools.find(
+                                    (obj) => obj.contract_address == pool.id
+                                  )
+                                  ? "block"
+                                  : "none"
+                                : "none",
+                            position: "relative",
+                          }}
+                        >
+                          <div
+                            className="d-flex justify-content-center align-items-center"
+                            style={{
+                              position: "absolute",
+                              top: "-23px",
+                              left: "33%",
+                              width: "115px",
+                              height: "34px",
+                              transform: "translateX(-50%)",
+                              borderRadius: "50px",
+                              background:
+                                "linear-gradient(93.99deg, #DF2C2D 0%, #F86465 100%)",
+                              gap: "5px",
+                              zIndex: 1,
+                            }}
+                          >
+                            <img
+                              src={require("../../assets/wavax.svg").default}
+                              alt=""
+                              style={{ height: 20, width: 20 }}
+                            ></img>
+                            <div style={{ color: "#F7F7FC" }}>Avalanche</div>
+                          </div>
+
+                          <TopPoolsCard
+                            key={index}
+                            chain={this.props.networkId}
+                            top_pick={pool.top_pick}
+                            tokenName={pool.pair_name}
+                            apr={pool.apy_percent + "%"}
+                            tvl={"$" + getFormattedNumber(pool.tvl_usd)}
+                            lockTime={
+                              pool.lock_time ? pool.lock_time : "No Lock"
+                            }
+                            tokenLogo={
+                              pool.icon
+                                ? pool.icon
+                                : pool.pair_name === "DYP"
+                                ? "dyplogo.svg"
+                                : "idypius.svg"
+                            }
+                            onShowDetailsClick={() => {}}
+                            onHideDetailsClick={() => {}}
+                            cardType={"table"}
+                            details={false}
+                            isNewPool={pool.new_pool === "Yes" ? true : false}
+                            isStaked={
+                              this.state.userPools.length > 0
+                                ? this.state.userPools.find(
+                                    (obj) => obj.contract_address == pool.id
+                                  )
+                                  ? true
+                                  : false
+                                : false
+                            }
+                            isAccount={true}
+                            expired={pool.expired === "Yes" ? true : false}
+                          />
+                        </div>
+                      </NavLink>
+                    ))}
+              </div>
+            </div>
+          </>
+        )}
+        <div className="mycawsCollection position-relative mb-5" style={{marginTop: mycaws.length === 0 ? '6rem' : ''}}>
           <div className="d-flex gap-2 justify-content-between align-items-center">
             <div className="col-2">
               <h6 className="mycawscollection-title">My Caws Collection</h6>

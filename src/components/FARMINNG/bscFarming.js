@@ -1103,7 +1103,6 @@ export default function initBscFarming({
       lastSwapExecutionTime = lastSwapExecutionTime * 1e3;
 
       let showDeposit = true;
-      let lockDate;
 
       if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
         let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
@@ -1112,7 +1111,6 @@ export default function initBscFarming({
         if (lockTimeExpire > lastDay) {
           showDeposit = false;
         }
-        lockDate = lockTimeExpire;
       }
 
       let cliffTimeInWords = "lockup period";
@@ -1127,14 +1125,15 @@ export default function initBscFarming({
         }
       }
 
-      let canWithdraw = true;
+      let canWithdraw = true
+      if (lockTime === "No Lock") {
+        canWithdraw = true;
+      }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if (Date.now() - stakingTime <= cliffTime) {
-          canWithdraw = false;
-          cliffTimeInWords = moment
-            .duration(cliffTime - (Date.now() - stakingTime))
-            .humanize(true);
-        }
+          if ((this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now())) && lockTime !== "No Lock") {
+              canWithdraw = false
+              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+          }
       }
 
       let lp_data = this.props.the_graph_result.lp_data;
@@ -1211,6 +1210,10 @@ export default function initBscFarming({
       };
       const withdrawClose = () => {
         this.setState({ withdrawTooltip: false });
+      };
+
+      const focusInput = (field) => {
+        document.getElementById(field).focus();
       };
 
       return (
@@ -1401,7 +1404,7 @@ export default function initBscFarming({
               </button>
             </div> */}
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4  ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4  ${
                     chainId !== "56" || this.props.expired === true
                       ? "blurrypool"
                       : ""
@@ -1499,7 +1502,7 @@ export default function initBscFarming({
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-start gap-2 w-100">
                       
-                        <div className="input-container usd-input px-0">
+                        <div className="input-container px-0">
                         <input
                           type="number"
                           autoComplete="off"
@@ -1516,8 +1519,12 @@ export default function initBscFarming({
                           placeholder=" "
                           className="text-input"
                           style={{ width: "100%" }}
+                          name="amount_deposit"
+                          id="amount_deposit"
+                          key="amount_deposit"
                         />
-                        <label htmlFor="usd" className="label">
+                        <label htmlFor="usd" className="label"
+                         onClick={() => focusInput("amount_deposit")}>
                         Amount
                         </label>
                       </div>
@@ -1586,7 +1593,7 @@ export default function initBscFarming({
                   </div>
                 </div>
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-4 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-4 ${
                     chainId !== "56" && "blurrypool"
                   }`}
                 >
@@ -1956,7 +1963,7 @@ export default function initBscFarming({
                 </div>
 
                 <div
-                  className={`otherside-border col-12 col-md-6 col-lg-2 ${
+                  className={`otherside-border col-12 col-md-12 col-lg-2 ${
                     chainId !== "56" && "blurrypool"
                   }`}
                 >
@@ -1983,7 +1990,7 @@ export default function initBscFarming({
                   </h6>
 
                   <button
-                    // disabled={this.state.depositStatus === "success" ? false : true}
+                    disabled={Number(this.state.depositedTokens) > 0 ? false : true}
                     className={
                       // this.state.depositStatus === "success" ?
                       "outline-btn btn"
@@ -2340,9 +2347,7 @@ export default function initBscFarming({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(
-                                  Number(lockDate)
-                                )}
+                                date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                                 renderer={renderer}
                               />
                             )}
@@ -2942,10 +2947,11 @@ export default function initBscFarming({
                   </div>
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
+                
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                     $
                     {getFormattedNumber(
-                      this.getApproxReturnUSD() / this.getUsdPerETH(),
+                      this.getApproxReturnUSD(),2,
                       6
                     )} USD
 
@@ -2957,7 +2963,7 @@ export default function initBscFarming({
                       color: "#f7f7fc",
                     }}
                   >
-                    Approx {" "}{getFormattedNumber(this.getApproxReturnUSD(), 2)}{" "}
+                    Approx {" "}{getFormattedNumber(this.getApproxReturnUSD() / this.getUsdPerETH())}{" "}
                    {" "}
                     WBNB
                   </h6>

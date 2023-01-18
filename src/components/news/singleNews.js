@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import VotePassive from "./assets/votepassive.svg";
-import Upvote from "./assets/upvote.svg";
-import Downvote from "./assets/downvote.svg";
 import ToolTip from "./ToolTip";
 import OutsideClickHandler from "react-outside-click-handler";
-import Clock from "./assets/clock.svg";
 import passiveUpvote from './assets/passiveUpvote.svg'
 import passiveDownvote from './assets/passiveDownvote.svg'
 import activeUpvote from './assets/activeUpvote.svg'
@@ -45,6 +41,8 @@ coinbase
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
 
+
+  
   useEffect(() => {
     if(bal1 === 0 && bal2 === 0 && isPremium === true) {
       setCanVote(true)
@@ -65,7 +63,7 @@ coinbase
       setCanVote(false)
     }
 
-  }, [alreadyVoted, bal1, bal2, isPremium]);
+  }, [alreadyVoted, bal1, bal2, isPremium, logout]);
 
   const handleLikeStates = () => {
     if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
@@ -120,7 +118,6 @@ coinbase
         if (data.data.status === "success") {
 
           // onVotesFetch()
-
           setUpvote(upvote + 1);
 
         } else {
@@ -179,6 +176,7 @@ coinbase
 
   const formattedDate = new Date(fullDate)
 
+  
   return (
     <div className="singlenews-body">
       <div className="row m-0 justify-content-between" style={{ gap: 20 }}>

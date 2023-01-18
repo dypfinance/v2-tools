@@ -13,7 +13,7 @@ import Carousel from "better-react-carousel";
 import { useParams } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Slider from "react-slick";
-import pressReleaseNext from './assets/pressReleaseNext.svg'
+import pressReleaseNext from "./assets/pressReleaseNext.svg";
 
 const News = ({ theme, isPremium, coinbase }) => {
   const settings = {
@@ -38,7 +38,7 @@ const News = ({ theme, isPremium, coinbase }) => {
           slidesToScroll: 1,
           fade: false,
           arrows: false,
-          dots: true
+          dots: true,
         },
       },
     ],
@@ -53,7 +53,7 @@ const News = ({ theme, isPremium, coinbase }) => {
     slidesToScroll: 1,
     arrows: false,
     autoplay: false,
-    dotsClass : "news__dots",
+    dotsClass: "news__dots",
     responsive: [
       {
         breakpoint: 1138,
@@ -72,8 +72,6 @@ const News = ({ theme, isPremium, coinbase }) => {
       },
     ],
   };
-
-
 
   const newsPerRow = 9;
   const [activeClass, setActiveClass] = useState("latestnews");
@@ -106,7 +104,9 @@ const News = ({ theme, isPremium, coinbase }) => {
   };
 
   const fetchVotingdata = async () => {
-    const response = await fetch(`https://news-manage.dyp.finance/api/v1/votes/all`)
+    const response = await fetch(
+      `https://news-manage.dyp.finance/api/v1/votes/all`
+    )
       .then((res) => {
         return res.json();
       })
@@ -159,7 +159,6 @@ const News = ({ theme, isPremium, coinbase }) => {
   };
 
   const checkSingleVotes = async () => {
-
     const topnews = [
       ...otherNewsData,
       ...popularNewsData,
@@ -177,7 +176,6 @@ const News = ({ theme, isPremium, coinbase }) => {
           .catch(console.error);
       }
     }
-
   };
 
   const fetchOtherNewsData = async () => {
@@ -197,11 +195,11 @@ const News = ({ theme, isPremium, coinbase }) => {
     if (account !== undefined) {
       setIsConnected(true);
     } else setIsConnected(false);
-  },[account]);
+  }, [account]);
 
   useEffect(() => {
     fetchVotingdata().then();
-    // checkSingleVotes() 
+    // checkSingleVotes()
   }, [showModal, newsItemId, activeNews]);
 
   const { news_id } = useParams();
@@ -534,19 +532,16 @@ const News = ({ theme, isPremium, coinbase }) => {
     }
   };
 
-
-  const slider = useRef()
+  const slider = useRef();
   const carousel = useRef();
-
-
 
   const nextMain = () => {
     carousel.current.slickNext();
-  }
+  };
 
   const prevMain = () => {
     carousel.current.slickPrev();
-  }
+  };
 
   const nextSlide = () => {
     slider.current.slickNext();
@@ -556,126 +551,137 @@ const News = ({ theme, isPremium, coinbase }) => {
   };
 
 
-
+  
   return (
-    <div onScroll={onScroll} ref={listInnerRef} className="container-lg p-0" id="header">
-        {/* {!showModal ? <h1 className="news-title">Popular News</h1> : ""} */}
-        <div className="row m-0 main-news-content-wrapper">
-          {showModal === true ? (
-            <NewsModal
-              style={{ width: "fit-content" }}
-              onSelectOtherNews={(key) => {
-                window.scrollTo(0, 0);
-                handleSelecTopNews(key);
-                handleFetchNewsContent("special", key);
-                setIsParam(false);
-              }}
-              title={activeNews.title}
-              link={activeNews.link}
-              image={activeNews.image}
-              content={newsContent}
-              theme={theme}
-              coinbase={coinbase}
-              // upvotes={
-              //   votes.length !== 0
-              //     ? votes.find((obj) => obj.id === activeNews.id)?.up !== undefined ? votes.find((obj) => obj.id === activeNews.id)?.up : 0
-              //     : 0
-              // }
-              // downvotes={
-              //   votes.length !== 0
-              //     ? votes.find((obj) => obj.id === activeNews.id)?.down !== undefined
-              //       ? votes.find((obj) => obj.id === activeNews.id)?.down
-              //       : 0
-              //     : 0
-              // }
-              upvotes={activeNews.vote.up}
-                            downvotes={activeNews.vote.down}
-              day={activeNews.date?.slice(0, 10)}
-              month={activeNews.month}
-              year={activeNews.year}
-              fullDate={activeNews.date}
-              latestNewsData={topVotes(votes)}
-              newsId={activeNews.id}
-              pressData={pressNewsData}
-              onHandleUpvote={(id) => {
-                handleUpVoting(id);
-              }}
-              onHandleDownvote={(id) => {
-                handleDownVoting(id);
-              }}
-              onHandlePressUpvote={(id) => {
-                handleUpVoting(id);
-              }}
-              onHandlePressDownvote={(id) => {
-                handleDownVoting(id);
-              }}
-              isConnected={isConnected}
-              onModalClose={() => {
-                news_id !== undefined
-                  ? window.location.replace("/news")
-                  : setShowModal(false);
-              }}
-              isPremium={isPremium}
-            />
-          ) : newsData.length > 0 ? (
-            <>
-              <div className="col-12 col-lg-8 px-0 px-lg-2 ps-0">
+    <div
+      onScroll={onScroll}
+      ref={listInnerRef}
+      className="container-lg p-0"
+      id="header"
+    >
+      {/* {!showModal ? <h1 className="news-title">Popular News</h1> : ""} */}
+      <div className="row m-0 main-news-content-wrapper">
+        {showModal === true ? (
+          <NewsModal
+            style={{ width: "fit-content" }}
+            onSelectOtherNews={(key) => {
+              window.scrollTo(0, 0);
+              handleSelecTopNews(key);
+              handleFetchNewsContent("special", key);
+              setIsParam(false);
+            }}
+            title={activeNews.title}
+            link={activeNews.link}
+            image={activeNews.image}
+            content={newsContent}
+            theme={theme}
+            coinbase={coinbase}
+            upvotes={activeNews.vote.up}
+            downvotes={activeNews.vote.down}
+            day={activeNews.date?.slice(0, 10)}
+            month={activeNews.month}
+            year={activeNews.year}
+            fullDate={activeNews.date}
+            latestNewsData={topVotes(votes)}
+            newsId={activeNews.id}
+            pressData={pressNewsData}
+            onHandleUpvote={(id) => {
+              handleUpVoting(id);
+            }}
+            onHandleDownvote={(id) => {
+              handleDownVoting(id);
+            }}
+            onHandlePressUpvote={(id) => {
+              handleUpVoting(id);
+            }}
+            onHandlePressDownvote={(id) => {
+              handleDownVoting(id);
+            }}
+            isConnected={isConnected}
+            onModalClose={() => {
+              news_id !== undefined
+                ? window.location.replace("/news")
+                : setShowModal(false);
+            }}
+            isPremium={isPremium}
+          />
+        ) : newsData.length > 0 ? (
+          <>
+            <div className="col-12 col-lg-8 px-0 px-lg-2 ps-0">
               <div className="position-relative p-3 featured-slider-wrapper">
-              <Slider {...mainSettings} ref={carousel}>
-                {popularNewsData.length > 0 &&
+                <Slider {...mainSettings} ref={carousel}>
+                  {popularNewsData.length > 0 &&
                     popularNewsData.slice(0, 5).map((item, index) => {
                       return (
-                          <div className="" key={index}>
-                            <MainNews
-                              image={item.image}
-                              title={item.title}
-                              link={item.link}
-                              day={item.date}
-                              theme={theme}
-                              coinbase={coinbase}
-                              upvotes={
-                                votes.length !== 0
-                                  ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                        <div className="" key={index}>
+                          <MainNews
+                            image={item.image}
+                            title={item.title}
+                            link={item.link}
+                            day={item.date}
+                            theme={theme}
+                            coinbase={coinbase}
+                            upvotes={
+                              votes.length !== 0
+                                ? votes.find((obj) => obj.id === item.id)
+                                    ?.up !== undefined
+                                  ? votes.find((obj) => obj.id === item.id)?.up
                                   : 0
-                              }
-                              downvotes={
-                                votes.length !== 0
-                                  ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                                    ? votes.find((obj) => obj.id === item.id)?.down
-                                    : 0
+                                : 0
+                            }
+                            downvotes={
+                              votes.length !== 0
+                                ? votes.find((obj) => obj.id === item.id)
+                                    ?.down !== undefined
+                                  ? votes.find((obj) => obj.id === item.id)
+                                      ?.down
                                   : 0
-                              }
-                              newsId={item.id}
-                              onShowModalClick={() => {
-                                setShowModal(true);
-                                setActiveNews(popularNewsData[index]);
-                                handleFetchNewsContent("popular", item.id);
-                                console.log(index);
-                              }}
-                              onVotesFetch={fetchVotingdata}
-                              isConnected={isConnected}
-                              isPremium={isPremium}
-                            />
-                          </div>
+                                : 0
+                            }
+                            newsId={item.id}
+                            onShowModalClick={() => {
+                              setShowModal(true);
+                              setActiveNews(popularNewsData[index]);
+                              handleFetchNewsContent("popular", item.id);
+                            
+                            }}
+                            onVotesFetch={fetchVotingdata}
+                            isConnected={isConnected}
+                            isPremium={isPremium}
+                          />
+                        </div>
                       );
                     })}
                 </Slider>
                 <div className="d-flex align-items-center gap-2 featured-slider-arrows">
-          <img src={pressReleaseNext} height={40} width={40} className="cursor-pointer d-none d-lg-flex"  alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevMain} />
-          <img src={pressReleaseNext} height={40} width={40} className="cursor-pointer d-none d-lg-flex"  alt="prev-button" onClick={nextMain} />
-
+                  <img
+                    src={pressReleaseNext}
+                    height={40}
+                    width={40}
+                    className="cursor-pointer d-none d-lg-flex"
+                    alt="prev-button"
+                    style={{ transform: "rotate(180deg)" }}
+                    onClick={prevMain}
+                  />
+                  <img
+                    src={pressReleaseNext}
+                    height={40}
+                    width={40}
+                    className="cursor-pointer d-none d-lg-flex"
+                    alt="prev-button"
+                    onClick={nextMain}
+                  />
                 </div>
               </div>
-               
-              </div>
-              <div
-                className=" col-12 col-lg-4 px-0 px-lg-2 pe-0"
-                style={{
-                  display: !showModal ? "flex" : "none",
-                }}
-              >
-               <div className="singlenews-side px-3 py-2">
-               <div className="button-wrapper px-0">
+            </div>
+            <div
+              className=" col-12 col-lg-4 px-0 px-lg-2 pe-0"
+              style={{
+                display: !showModal ? "flex" : "none",
+              }}
+            >
+              <div className="singlenews-side px-3 py-2">
+                <div className="button-wrapper px-0">
                   <h6
                     className={
                       activeClass === "latestnews"
@@ -705,7 +711,10 @@ const News = ({ theme, isPremium, coinbase }) => {
                   activeClass === "latestnews" &&
                   popularNewsData.slice(0, 4).map((item, key) => {
                     return (
-                      <div className="banner-item top-rated-news pl-0" key={key}>
+                      <div
+                        className="banner-item top-rated-news pl-0"
+                        key={key}
+                      >
                         <SingleNews
                           image={item.image}
                           title={item.title}
@@ -750,7 +759,10 @@ const News = ({ theme, isPremium, coinbase }) => {
                     .slice(0, 4)
                     .map((item, key) => {
                       return (
-                        <div className="banner-item top-rated-news pl-0" key={key}>
+                        <div
+                          className="banner-item top-rated-news pl-0"
+                          key={key}
+                        >
                           <SingleNews
                             image={item.image}
                             title={item.title}
@@ -789,24 +801,24 @@ const News = ({ theme, isPremium, coinbase }) => {
                 ) : (
                   <></>
                 )}
-               </div>
               </div>
-            </>
-          ) : (
-            <div
-              style={{
-                padding: "60px",
-                display: "flex",
-                justifyContent: "center",
-                width: "100%",
-              }}
-            >
-              <CircularProgress color="inherit" size={75} />
             </div>
-          )}
-        </div>
+          </>
+        ) : (
+          <div
+            style={{
+              padding: "60px",
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            <CircularProgress color="inherit" size={75} />
+          </div>
+        )}
+      </div>
       <div className="press-release-wrapper">
-        <h1 className="news-title" style={{paddingBottom: '20px'}}>
+        <h1 className="news-title" style={{ paddingBottom: "20px" }}>
           Press Release
         </h1>
         {/* <div
@@ -830,66 +842,73 @@ const News = ({ theme, isPremium, coinbase }) => {
           className="press-release-container d-flex justify-content-center position-relative  p-3"
           // style={{ width: "96%", margin: "auto", background: "none" }}
         >
-          <img src={pressReleaseNext} className="press-prev-btn" alt="prev-button" style={{transform: 'rotate(180deg)'}} onClick={prevSlide} />
-         <div className="press-release-slider-container">
-         <Slider {...settings} ref={slider}>
-            {pressNewsData.length > 0 &&
-              pressNewsData.slice(0, 8).map((item, key) => {
-                return (
-                  <div
-                    style={{ background: "none" }}
-                    key={key}
-                    onDragEnd={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <PressRealease
-                      image={item.image}
-                      title={item.title}
-                      link={item.link}
-                      date={item.date}
-                      isPremium={isPremium}
-                      isConnected={isConnected}
-                      onVotesFetch={fetchVotingdata}
-                      newsId={item.id}
-                      onSinglePressHighlightClick={() => {
-                        setActiveNews(pressNewsData[key]);
-                        handleFetchNewsContent("press", item.id);
-                        setShowModal(true);
-                        console.log(key);
-                        window.scrollTo(0, 0);
+          <img
+            src={pressReleaseNext}
+            className="press-prev-btn"
+            alt="prev-button"
+            style={{ transform: "rotate(180deg)" }}
+            onClick={prevSlide}
+          />
+          <div className="press-release-slider-container">
+            <Slider {...settings} ref={slider}>
+              {pressNewsData.length > 0 &&
+                pressNewsData.slice(0, 8).map((item, key) => {
+                  return (
+                    <div
+                      style={{ background: "none" }}
+                      key={key}
+                      onDragEnd={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                       }}
-                      // upvotes={
-                      //   votes.length !== 0
-                      //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                      //     : 0
-                      // }
-                      // downvotes={
-                      //   votes.length !== 0
-                      //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                      //       ? votes.find((obj) => obj.id === item.id)?.down
-                      //       : 0
-                      //     : 0
-                      // }
-                      upvotes={item.vote.up}
-                            downvotes={item.vote.down}
-                      coinbase={coinbase}
-                    />
-                  </div>
-                );
-              })}
-          </Slider>
-         </div>
-          <img src={pressReleaseNext} alt="next-button" className="press-next-btn" onClick={nextSlide} />
-
+                    >
+                      <PressRealease
+                        image={item.image}
+                        title={item.title}
+                        link={item.link}
+                        date={item.date}
+                        isPremium={isPremium}
+                        isConnected={isConnected}
+                        onVotesFetch={fetchVotingdata}
+                        newsId={item.id}
+                        onSinglePressHighlightClick={() => {
+                          setActiveNews(pressNewsData[key]);
+                          handleFetchNewsContent("press", item.id);
+                          setShowModal(true);
+                          console.log(key);
+                          window.scrollTo(0, 0);
+                        }}
+                        // upvotes={
+                        //   votes.length !== 0
+                        //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
+                        //     : 0
+                        // }
+                        // downvotes={
+                        //   votes.length !== 0
+                        //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
+                        //       ? votes.find((obj) => obj.id === item.id)?.down
+                        //       : 0
+                        //     : 0
+                        // }
+                        upvotes={item.vote.up}
+                        downvotes={item.vote.down}
+                        coinbase={coinbase}
+                      />
+                    </div>
+                  );
+                })}
+            </Slider>
+          </div>
+          <img
+            src={pressReleaseNext}
+            alt="next-button"
+            className="press-next-btn"
+            onClick={nextSlide}
+          />
         </div>
       </div>
       <div className="press-release-wrapper" style={{ paddingTop: 0 }}>
-        <h1
-          className="news-title"
-          style={{paddingBottom: '20px'}}
-        >
+        <h1 className="news-title" style={{ paddingBottom: "20px" }}>
           Other News
         </h1>
         <div className="row m-0 othernews-row-wrapper">

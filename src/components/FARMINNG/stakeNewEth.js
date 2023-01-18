@@ -45,7 +45,7 @@ const renderer = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-const StakeAvaxIDyp = ({
+const StakeNewEth = ({
   staking,
   is_wallet_connected,
   apr,
@@ -66,10 +66,11 @@ const StakeAvaxIDyp = ({
   lp_id,
   coinbase,
   referrer,
+  totalTvl
 }) => {
-  let { reward_token_idyp, BigNumber, alertify, token_dypsavax } = window;
-  let token_symbol = "iDYP";
-  let reward_token = reward_token_idyp;
+  let { reward_token, BigNumber, alertify, token_dyps } = window;
+  let token_symbol = "DYP";
+  let reward_tokenn = reward_token;
   // token, staking
 
   const TOKEN_DECIMALS = window.config.token_decimals;
@@ -176,6 +177,7 @@ const StakeAvaxIDyp = ({
   const [withdrawTooltip, setwithdrawTooltip] = useState(false);
   const [tokendata, settokendata] = useState();
 
+
   const showModal = () => {
     setshow(true);
   };
@@ -192,6 +194,23 @@ const StakeAvaxIDyp = ({
     setpopup(false);
   };
 
+  const checkApproval = async (amount) => {
+    const result = await window
+      .checkapproveStakePool(coinbase, reward_token._address, staking._address)
+      .then((data) => {
+        console.log(data);
+        return data;
+      }).catch((e)=>{
+        console.log(e)
+      })
+
+    if (Number(result) >= Number(amount) && Number(result)!==0) {
+      setdepositStatus("deposit");
+    } else {
+      setdepositStatus("initial");
+    }
+  };
+
   const refreshBalance = async () => {
     let coinbase = coinbase2;
 
@@ -203,22 +222,21 @@ const StakeAvaxIDyp = ({
     // let usd_per_dyps = the_graph_result.price_DYPS ? the_graph_result.price_DYPS : 1
     let usd_per_dyps = 0;
     try {
-      let _bal = reward_token.balanceOf(coinbase);
+      let _bal = reward_tokenn.balanceOf(coinbase);
 
       if (staking) {
         let _pDivs = staking.getTotalPendingDivs(coinbase);
+
         let _tEarned = staking.totalEarnedTokens(coinbase);
         let _stakingTime = staking.stakingTime(coinbase);
         let _dTokens = staking.depositedTokens(coinbase);
         let _lClaimTime = staking.lastClaimedTime(coinbase);
-        let _tvl = reward_token.balanceOf(staking._address);
+        let _tvl = reward_tokenn.balanceOf(staking._address);
         let _rFeeEarned = staking.totalReferralFeeEarned(coinbase);
         let tStakers = staking.getNumberOfHolders();
 
         //Take DYPS Balance
-        let _tvlDYPS = token_dypsavax.balanceOf(
-          staking._address
-        ); /* TVL of DYPS */
+        let _tvlDYPS = token_dyps.balanceOf(staking._address); /* TVL of DYPS */
 
         let [
           token_balance,
@@ -268,8 +286,8 @@ const StakeAvaxIDyp = ({
 
         setlastClaimedTime(lastClaimedTime);
 
-        let tvl_formatted = new BigNumber(tvl).div(1e18).toFixed(6);
-        settvl(tvl_formatted);
+        
+        settvl(tvl);
 
         setsettvlDyps(tvlDyps);
         setreferralFeeEarned(referralFeeEarned);
@@ -294,7 +312,9 @@ const StakeAvaxIDyp = ({
         setcontractDeployTime(contractDeployTime);
       });
 
-      staking.REWARD_INTERVAL().then((disburseDuration) => {});
+      staking.REWARD_INTERVAL().then((disburseDuration) => {
+        setdisburseDuration(disburseDuration);
+      });
     }
     if (the_graph_result) {
       let usdPerToken = the_graph_result.token_price_usd || 0;
@@ -309,11 +329,12 @@ const StakeAvaxIDyp = ({
     getTotalTvl();
   }, [coinbase, coinbase2]);
 
+
   useEffect(() => {
-    const interval = setInterval(async () => {
-      refreshBalance();
-    }, 1000);
-    return () => clearInterval(interval);
+      const interval = setInterval( () => {
+        refreshBalance();
+      }, 1000);
+      return () => clearInterval(interval);
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
@@ -336,7 +357,7 @@ const StakeAvaxIDyp = ({
 
     let amount = depositAmount;
     amount = new BigNumber(amount).times(1e18).toFixed(0);
-    await reward_token
+    await reward_tokenn
       .approve(staking._address, amount)
       .then(() => {
         setdepositLoading(false);
@@ -350,7 +371,7 @@ const StakeAvaxIDyp = ({
           depositAmount("");
           setdepositStatus("initial");
           seterrorMsg("");
-        }, 2000);
+        }, 10000);
       });
   };
 
@@ -435,13 +456,13 @@ const StakeAvaxIDyp = ({
         setTimeout(() => {
           setclaimStatus("initial");
           seterrorMsg2("");
-        }, 2000);
+        }, 10000);
       });
   };
 
   const handleSetMaxDeposit = () => {
     const depositAmount = token_balance;
-    checkApproval(token_balance);
+    checkApproval(token_balance)
 
     setdepositAmount(depositAmount);
   };
@@ -459,6 +480,21 @@ const StakeAvaxIDyp = ({
     return the_graph_result.usd_per_eth || 0;
   };
 
+  // console.log(the_graph_result.token_data)
+  const getUsdPerDyp = async() => {
+    await axios
+      .get("https://api.dyp.finance/api/the_graph_eth_v2")
+      .then((data) => {
+        const propertyDyp = Object.entries(
+          data.data.the_graph_eth_v2.token_data
+        ); 
+settokendata(propertyDyp[0][1].token_price_usd)
+        return propertyDyp[0][1].token_price_usd;
+      }); 
+
+  };
+
+// console.log(tokendata)
   const getApproxReturn = () => {
     let APY = getAPY() - fee_s;
 
@@ -498,7 +534,7 @@ const StakeAvaxIDyp = ({
         setTimeout(() => {
           setreInvestStatus("initial");
           seterrorMsg2("");
-        }, 2000);
+        }, 10000);
       });
   };
 
@@ -507,7 +543,7 @@ const StakeAvaxIDyp = ({
       year: "numeric",
       month: "2-digit",
       day: "2-digit",
-    }).format(timestamp);
+    }).format(timestamp * 1000);
     return result;
   };
 
@@ -569,63 +605,29 @@ const StakeAvaxIDyp = ({
 
   let cliffTimeInWords = "lockup period";
 
-  let canWithdraw = true;
+  let canWithdraw = true
   if (lockTime === "No Lock") {
     canWithdraw = true;
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-    if (
-      (convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000) >=
-        convertTimestampToDate(Date.now()))&&
-      lockTime !== "No Lock"
-    ) {
-      canWithdraw = false;
-      cliffTimeInWords = moment
-        .duration(cliffTime - (Date.now() - stakingTime))
-        .humanize(true);
-    }
+    if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate((Date.now()/1000)))&& lockTime !== "No Lock") {
+          canWithdraw = false
+          cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+      }
   }
-  // console.log(convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000), convertTimestampToDate(Date.now()));
-  let tvl_usd = tvl * tokendata;
+  let tvl_usd = tvl/ 1e18 * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
 
   tvl_usd = tvl_usd + tvlDYPS;
 
   tvl_usd = getFormattedNumber(tvl_usd, 2);
+  // console.log(tvl_usd)
 
-  const checkApproval = async (amount) => {
-    const result = await window
-      .checkapproveStakePool(coinbase, reward_token._address, staking._address)
-      .then((data) => {
-        console.log(data);
-        return data;
-      });
 
-    if (Number(result) >= Number(amount) && Number(result) !== 0) {
-      setdepositStatus("deposit");
-    } else {
-      setdepositStatus("initial");
-    }
-  };
-
-  const getUsdPerDyp = async () => {
-    await axios
-      .get("https://api.dyp.finance/api/the_graph_eth_v2")
-      .then((data) => {
-        const propertyiDyp = Object.entries(
-          data.data.the_graph_eth_v2.token_data
-        );
-        settokendata(propertyiDyp[1][1].token_price_usd);
-        return propertyiDyp[1][1].token_price_usd;
-      });
-  };
-
-  useEffect(() => {
-    if (showCalculator === true) {
-      getUsdPerDyp();
-    }
-  }, [showCalculator, tokendata]);
+useEffect(()=>{
+    getUsdPerDyp()
+},[])
 
   return (
     <div className="container-lg p-0">
@@ -739,14 +741,17 @@ const StakeAvaxIDyp = ({
                   </h6>
                   <a
                     href={
-                      "https://app.pangolin.exchange/#/swap?&outputCurrency=0xbd100d061e120b2c67a24453cf6368e63f1be056"
+                      // chainId === 1
+                      // ?
+                      "https://app.uniswap.org/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+                      // : "https://app.pangolin.exchange/#/swap?outputCurrency=0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
                     }
                     target={"_blank"}
                     rel="noreferrer"
                   >
                     <h6 className="bottomitems">
                       <img src={arrowup} alt="" />
-                      Get iDYP
+                      Get DYP
                     </h6>
                   </a>
                   <div
@@ -779,9 +784,9 @@ const StakeAvaxIDyp = ({
                   <button className="connectbtn btn" onClick={showModal}>
                     <img src={wallet} alt="" /> Connect wallet
                   </button>
-                ) : chainId === "43114" ? (
+                ) : chainId === "1" ? (
                   <div className="addressbtn btn">
-                    <Address a={coinbase} chainId={43114} />
+                    <Address a={coinbase} chainId={1} />
                   </div>
                 ) : (
                   <button
@@ -798,7 +803,7 @@ const StakeAvaxIDyp = ({
 
             <div
               className={`otherside-border col-12 col-md-12 col-lg-4  ${
-                chainId !== "43114" || expired === true ? "blurrypool" : ""
+                chainId !== "1" || expired === true ? "blurrypool" : ""
               }`}
             >
               <div className="d-flex justify-content-between align-items-center gap-2">
@@ -825,7 +830,7 @@ const StakeAvaxIDyp = ({
                     title={
                       <div className="tooltip-text">
                         {
-                          "Deposit your assets to the staking smart contract. For lock time pools, the lock time resets if you add more deposits after making one previously."
+                          "The initial pool size is capped at 5M DYP. Additional opportunities to stake DYP are planned to be introduced over time."
                         }
                       </div>
                     }
@@ -923,7 +928,7 @@ const StakeAvaxIDyp = ({
             </div>
             <div
               className={`otherside-border col-12 col-md-12 col-lg-4 ${
-                chainId !== "43114" && "blurrypool"
+                chainId !== "1" && "blurrypool"
               }`}
             >
               <div className="d-flex justify-content-between gap-2">
@@ -961,7 +966,7 @@ const StakeAvaxIDyp = ({
                       color: "#c0c9ff",
                     }}
                   >
-                    iDYP
+                    DYP
                   </span>
                   <span>{pendingDivs}</span>
                 </div>
@@ -1046,7 +1051,7 @@ const StakeAvaxIDyp = ({
             </div>
             <div
               className={`otherside-border col-12 col-md-12 col-lg-2 ${
-                chainId !== "43114" && "blurrypool"
+                chainId !== "1" && "blurrypool"
               }`}
             >
               <h6 className="deposit-txt d-flex align-items-center gap-2 justify-content-between">
@@ -1072,11 +1077,11 @@ const StakeAvaxIDyp = ({
               </h6>
 
               <button
-                disabled={Number(depositedTokens) > 0 ? false : true}
                 className="btn outline-btn"
                 onClick={() => {
                   setshowWithdrawModal(true);
                 }}
+                disabled={Number(depositedTokens) > 0 ? false : true}
               >
                 Withdraw
               </button>
@@ -1100,15 +1105,15 @@ const StakeAvaxIDyp = ({
               <div className="container px-0">
                 <div className="stats-container my-4">
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                    <span className="stats-card-title">My iDYP Deposit</span>
+                    <span className="stats-card-title">My DYP Deposit</span>
                     <h6 className="stats-card-content">
-                      {depositedTokens} iDYP
+                      {getFormattedNumber(depositedTokens,2) } DYP
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                    <span className="stats-card-title">My iDYP Balance</span>
+                    <span className="stats-card-title">My DYP Balance</span>
                     <h6 className="stats-card-content">
-                      {token_balance} {token_symbol}
+                      {getFormattedNumber(token_balance,6) } {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1116,18 +1121,18 @@ const StakeAvaxIDyp = ({
                       Referral Fee Earned
                     </span>
                     <h6 className="stats-card-content">
-                      {referralFeeEarned} iDYP
+                      {referralFeeEarned} DYP
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
-                    <span className="stats-card-title">Total iDYP Locked</span>
+                    <span className="stats-card-title">Total DYP Locked</span>
                     <h6 className="stats-card-content">
-                      {tvl} {token_symbol}
+                      { getFormattedNumber(tvl/ 1e18, 2) } {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                    <h6 className="stats-card-content">{tvl_usd } USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1213,7 +1218,7 @@ const StakeAvaxIDyp = ({
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={`${window.config.snowtrace_baseURL}/address/${coinbase}`}
+                      href={`${window.config.etherscan_baseURL}/address/${coinbase}`}
                       className="stats-link"
                     >
                       {shortAddress(coinbase)}{" "}
@@ -1230,7 +1235,7 @@ const StakeAvaxIDyp = ({
                     <a
                       target="_blank"
                       rel="noopener noreferrer"
-                      href={`${window.config.snowtrace_baseURL}/token/${reward_token._address}?a=${coinbase}`}
+                      href={`${window.config.etherscan_baseURL}/token/${reward_tokenn._address}?a=${coinbase}`}
                       className="stats-link"
                     >
                       View transaction <img src={statsLinkIcon} alt="" />
@@ -1273,7 +1278,7 @@ const StakeAvaxIDyp = ({
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000)}
+                            date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
                             renderer={renderer}
                           />
                         )}
@@ -1451,7 +1456,7 @@ const StakeAvaxIDyp = ({
               </div>
               <div className="d-flex flex-column gap-3 w-50 me-5">
                 <span style={{ fontSize: "15px", fontWeight: "500" }}>
-                  iDYP to Deposit
+                  DYP to Deposit
                 </span>
                 <input
                   style={{ height: "40px" }}
@@ -1467,7 +1472,8 @@ const StakeAvaxIDyp = ({
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)} USD
+                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)}{" "}
+                USD
               </h3>
               <h6
                 style={{
@@ -1476,7 +1482,7 @@ const StakeAvaxIDyp = ({
                   color: "#f7f7fc",
                 }}
               >
-                Approx {getFormattedNumber(getApproxReturn(), 2)} iDYP
+                Approx {getFormattedNumber(getApproxReturn(), 2)} DYP
               </h6>
             </div>
             <div className="mt-4">
@@ -2234,4 +2240,4 @@ const StakeAvaxIDyp = ({
   );
 };
 
-export default StakeAvaxIDyp;
+export default StakeNewEth;
