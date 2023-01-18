@@ -1651,7 +1651,7 @@ export default class PairExplorer extends React.Component {
 
               <div
                 className="form-container p-3 position-relative progress-container d-flex flex-column justify-content-between"
-                style={{ height: "331px" }}
+                style={{ minHeight: "331px", height: '100%' }}
               >
                 <div
                   style={{
@@ -1755,7 +1755,7 @@ export default class PairExplorer extends React.Component {
                       </div>
                     </div>
                   ) : (
-                    <div className="graph-progress flex-column flex-lg-row gap-3 gap-lg-0">
+                    <div className="graph-progress flex-column flex-md-row gap-3 gap-lg-0">
                       <div
                         className="progress-title m-0 pb-2 progress-circle"
                         style={{
