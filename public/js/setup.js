@@ -2101,8 +2101,8 @@ window.constant_stakingbsc_new13 = new CONSTANT_STAKINGBSC_NEW(
 
 window.CONSTANT_STAKINGBSC_NEW10_ABI = window.CONSTANT_STAKING_OLD_ABI;
 window.CONSTANT_STAKINGBSC_NEW11_ABI = window.CONSTANT_STAKING_OLD_ABI;
-window.CONSTANT_STAKINGBSC_NEW12_ABI = window.CONSTANT_STAKING_OLD_ABI;
-window.CONSTANT_STAKINGBSC_NEW13_ABI = window.CONSTANT_STAKING_OLD_ABI;
+window.CONSTANT_STAKINGBSC_NEW12_ABI = window.CONSTANT_STAKINGBSC_NEW_ABI;
+window.CONSTANT_STAKINGBSC_NEW13_ABI = window.CONSTANT_STAKINGBSC_NEW_ABI;
 
 
 window.CONSTANT_STAKINGOLD_130 = window.CONSTANT_STAKING_OLD_ABI;
@@ -27301,9 +27301,9 @@ Object.keys(window.config)
       : k.startsWith("constant_stakingold_140")
       ? window.CONSTANT_STAKING_OLD_ABI
       : k.startsWith("constant_stakingbsc_new12")
-      ? window.CONSTANT_STAKING_OLD_ABI
+      ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingbsc_new13")
-      ? window.CONSTANT_STAKING_OLD_ABI
+      ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingbsc_new14")
       ? window.CONSTANT_STAKINGBSC_NEW_ABI
       : k.startsWith("constant_stakingnew_newavax2")
