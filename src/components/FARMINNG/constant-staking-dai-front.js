@@ -719,8 +719,11 @@ const StakeEthDai = ({
         console.log(data);
         return data;
       });
+      let result_formatted = new BigNumber(result)
+      .div(1e18)
+      .toFixed(6);
 
-    if (Number(result) >= Number(amount) && Number(result) !== 0) {
+    if (Number(result_formatted) >= Number(amount) && Number(result_formatted) !== 0) {
       setdepositStatus('deposit')
       
     } else {

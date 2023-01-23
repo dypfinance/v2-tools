@@ -9493,10 +9493,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
-                  staking={
-                    expiredPools === false
-                      ? stakearrayStakeBsciDyp2[cardIndex - 2]
-                      : stakearrayStakeBsciDyp2Expired[cardIndex - 3]
+                  staking={stakearrayStakeBsciDyp2Expired[cardIndex - 3]
                   }
                   listType={listType}
                   finalApr={

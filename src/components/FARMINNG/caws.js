@@ -482,17 +482,15 @@ const CawsDetails = ({
                 <div className="d-flex align-items-center justify-content-between gap-2"></div>
                 <div className="form-row d-flex gap-2 align-items-end justify-content-between">
                   <h6 className="rewardstxtCaws d-flex align-items-center gap-2">
-                    <img src={weth} alt="" /> {EthRewards} ETH ($
-                    {getFormattedNumber(ethToUSD, 8)})
+                    <img src={weth} alt="" /> {getFormattedNumber(EthRewards, 6) } ETH ($
+                    {getFormattedNumber(ethToUSD, 6)})
                   </h6>
                   <button
                     className={`btn ${
                       EthRewards === 0 ? "disabled-btn" : "filledbtn"
                     } d-flex justify-content-center align-items-center`}
                     style={{ height: "fit-content" }}
-                    onClick={() => {
-                      claimRewards();
-                    }}
+                    onClick={claimRewards}
                     disabled={EthRewards === 0 ? true : false}
                   >
                     <>Claim</>
