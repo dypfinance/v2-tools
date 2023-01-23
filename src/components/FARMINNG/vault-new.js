@@ -34,7 +34,7 @@ const Vault = ({
   handleSwitchNetwork,
   the_graph_result,
   handleConnection,
-  isConnected
+  isConnected,
 }) => {
   let { BigNumber, alertify, token_dyps } = window;
   let token_symbol = UNDERLYING_SYMBOL;
@@ -229,25 +229,31 @@ const Vault = ({
 
         let usdValueDYPS = new BigNumber(tvlDYPS)
           .times(usd_per_dyps)
-          .toFixed(18);
+          .toFixed(10);
+         
+        let tvlUSD2 = new BigNumber(usdValueDYPS).div(10 ** TOKEN_DECIMALS)
+        .toString(10)
 
-        let tvlUSD2 = new BigNumber(usdValueDYPS).div(1e18).toFixed(0);
-        let balance_formatted = new BigNumber(token_balance)
-          .div(1e18)
-          .toFixed(6);
-        settoken_balance(balance_formatted);
-        setstakingTime(stakingTime);
-        
-        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(6);
+        const balance_formatted = new BigNumber(token_balance)
+          .div(10 ** TOKEN_DECIMALS)
+          .toString(10);
 
-        setdepositedTokens(depositedTokens_formatted);
+        settoken_balance(getFormattedNumber(balance_formatted, 6));
+
+        setstakingTime(stakingTime * 1e3);
+
+        let depositedTokens_formatted = new BigNumber(depositedTokens)
+              .div(10 ** TOKEN_DECIMALS)
+              .toString(10);
+
+        setdepositedTokens(getFormattedNumber(depositedTokens_formatted, 6));
 
         setlastClaimedTime(lastClaimedTime);
         settotal_stakers(total_stakers);
-settvlUSD(tvlUSD2)
-         
+        settvlUSD(tvlUSD2);
+
         let owner2 = await vault.owner();
-        setowner(owner2) 
+        setowner(owner2);
 
         let _pDivsToken = vault.tokenDivsOwing(coinbase);
 
@@ -280,22 +286,30 @@ settvlUSD(tvlUSD2)
           _pBalToken,
         ]);
 
-        const pendingDivsEth2 = new BigNumber(pendingDivsEth)
+        
+       const pendingDivsEth1 = new BigNumber(pendingDivsEth)
           .plus(pendingBalEth)
           .toFixed(0);
-        setpendingDivsEth(pendingDivsEth2);
 
-        const pendingDivsToken2 = new BigNumber(pendingDivsToken)
-          .plus(pendingBalToken)
-          .toFixed(0);
-        setpendingDivsToken(pendingDivsToken2);
+        const pendingDivsEth2 = new BigNumber(pendingDivsEth1).div(10 ** 18).toString(10);
+        setpendingDivsEth(getFormattedNumber(pendingDivsEth2, 6));
 
-        const pendingDivsDyp2 = new BigNumber(pendingDivsDyp)
-          .plus(pendingBalDyp)
-          .toFixed(0);
-        setpendingDivsDyp(pendingDivsDyp2);
+        let pendingDivsToken1 = new BigNumber(pendingDivsToken)
+        .plus(pendingBalToken)
+        .toFixed(0);
 
-        setpendingDivsComp(pendingDivsComp);
+        const pendingDivsToken2 = new BigNumber(pendingDivsToken1).div(10 ** TOKEN_DECIMALS).toString(10);
+        setpendingDivsToken(getFormattedNumber(pendingDivsToken2, 6));
+
+       let pendingDivsDyp1 = new BigNumber(pendingDivsDyp)
+        .plus(pendingBalDyp)
+        .toFixed(0);
+
+        const pendingDivsDyp2 = new BigNumber(pendingDivsDyp1).div(10 ** TOKEN_DECIMALS).toString(10);
+        setpendingDivsDyp(getFormattedNumber(pendingDivsDyp2, 6));
+
+       const  pendingDivsComp2 = new BigNumber(pendingDivsComp).div(10 ** TOKEN_DECIMALS).toString(10);
+        setpendingDivsComp(getFormattedNumber(pendingDivsComp2, 6));
         pendingRewardsInToken = pendingDivsDyp;
       }
     } catch (e) {
@@ -318,26 +332,37 @@ settvlUSD(tvlUSD2)
 
       vault
         .totalEarnedCompoundDivs(coinbase)
-        .then((totalEarnedComp) => settotalEarnedComp(totalEarnedComp))
+        .then((totalEarnedComp) => {
+         let totalEarnedComp2 = new BigNumber(totalEarnedComp)
+          .div(10 ** TOKEN_DECIMALS)
+             .toString(10);
+          settotalEarnedComp(getFormattedNumber(totalEarnedComp2, 6))})
         .catch(console.log);
       vault
         .totalEarnedEthDivs(coinbase)
-        .then((totalEarnedEth) => settotalEarnedEth(totalEarnedEth))
+        .then((totalEarnedEth) => {
+        let  totalEarnedEth2 = new BigNumber(totalEarnedEth).div(10 ** 18).toString(10);
+          settotalEarnedEth(getFormattedNumber(totalEarnedEth2, 6))
+        })
         .catch(console.log);
       vault
         .totalEarnedTokenDivs(coinbase)
-        .then((totalEarnedToken) => settotalEarnedToken(totalEarnedToken))
+        .then((totalEarnedToken) => {
+       let   totalEarnedToken2 = new BigNumber(totalEarnedToken).div(10 ** TOKEN_DECIMALS).toString(10);
+          settotalEarnedToken(getFormattedNumber(totalEarnedToken2, 6))})
 
         .catch(console.log);
       vault
         .totalEarnedPlatformTokenDivs(coinbase)
-        .then((totalEarnedDyp) => settotalEarnedDyp(totalEarnedDyp))
+        .then((totalEarnedDyp) => {
+          let totalEarnedDyp2 = new BigNumber(totalEarnedDyp).div(10 ** 18).toString(10);
+          settotalEarnedDyp(getFormattedNumber(totalEarnedDyp2, 6))})
         .catch(console.log);
 
       vault
         .LOCKUP_DURATION()
         .then((cliffTime) => {
-          setcliffTime(Number(cliffTime));
+          setcliffTime(Number(cliffTime * 1e3));
         })
         .catch(console.error);
 
@@ -368,14 +393,8 @@ settvlUSD(tvlUSD2)
   };
 
   useEffect(() => {
-    refreshBalance();
-
     if (coinbase !== coinbase2 && coinbase !== null && coinbase !== undefined) {
       setcoinbase(coinbase);
-      const interval = setInterval(async () => {
-        refreshBalance();
-      }, 1000);
-      return () => clearInterval(interval);
     }
     vault
       .getTvlUsdAndApyPercent(UNDERLYING_DECIMALS)
@@ -394,6 +413,13 @@ settvlUSD(tvlUSD2)
       .then((res) => res.json())
       .then((data) => setgasPrice(data.fast / 10))
       .catch(console.error);
+  }, [coinbase, coinbase2]);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      refreshBalance();
+    }, 3000);
+    return () => clearInterval(interval);
   }, [coinbase, coinbase2]);
 
   const handleApprove = async (e) => {
@@ -426,7 +452,7 @@ settvlUSD(tvlUSD2)
 
     let amount = withdrawAmount;
     amount = new BigNumber(amount).times(10 ** UNDERLYING_DECIMALS).toFixed(0);
-    let value = await  getMinEthFeeInWei();
+    let value = await getMinEthFeeInWei();
 
     let FEE_PERCENT_X_100 = await vault.FEE_PERCENT_X_100();
     let FEE_PERCENT_TO_BUYBACK_X_100 =
@@ -531,7 +557,7 @@ settvlUSD(tvlUSD2)
   const handleStake = async (e) => {
     let amount = depositAmount;
     amount = new BigNumber(amount).times(10 ** UNDERLYING_DECIMALS).toFixed(0);
-    let value = await  getMinEthFeeInWei();
+    let value = await getMinEthFeeInWei();
     setdepositLoading(true);
 
     let FEE_PERCENT_TO_BUYBACK_X_100 =
@@ -638,7 +664,6 @@ settvlUSD(tvlUSD2)
     } catch (e) {
       seterrorMsg2(e?.message);
 
-
       console.warn(e);
     }
 
@@ -674,7 +699,7 @@ settvlUSD(tvlUSD2)
   const handleSetMaxDeposit = (e) => {
     // e.preventDefault();
 
-    const depositAmount2 = token_balance
+    const depositAmount2 = token_balance;
 
     setdepositAmount(depositAmount2);
   };
@@ -689,7 +714,7 @@ settvlUSD(tvlUSD2)
   const handleSetMaxWithdraw = (e) => {
     // e.preventDefault();
 
-    const withdrawAmount2 = depositedTokens
+    const withdrawAmount2 = depositedTokens;
     setwithdrawAmount(withdrawAmount2);
   };
 
@@ -716,53 +741,11 @@ settvlUSD(tvlUSD2)
       });
   };
 
-  // pendingDivsEth = new BigNumber(pendingDivsEth).div(10 ** 18).toString(10);
-  //     pendingDivsEth = getFormattedNumber(pendingDivsEth, 8);
+  
 
-  //     pendingDivsToken = new BigNumber(pendingDivsToken)
-  //       .div(10 ** TOKEN_DECIMALS)
-  //       .toString(10);
-  //     pendingDivsToken = getFormattedNumber(pendingDivsToken, TOKEN_DECIMALS);
 
-  //     pendingDivsDyp = new BigNumber(pendingDivsDyp)
-  //       .div(10 ** TOKEN_DECIMALS)
-  //       .toString(10);
-  //     pendingDivsDyp = getFormattedNumber(pendingDivsDyp, TOKEN_DECIMALS);
 
-  //     pendingDivsComp = new BigNumber(pendingDivsComp)
-  //       .div(10 ** TOKEN_DECIMALS)
-  //       .toString(10);
-  //     pendingDivsComp = getFormattedNumber(pendingDivsComp, TOKEN_DECIMALS);
-
-  //     token_balance = new BigNumber(token_balance)
-  //       .div(10 ** TOKEN_DECIMALS)
-  //       .toString(10);
-  //     token_balance = getFormattedNumber(token_balance, 6);
-
-  //     totalEarnedToken = new BigNumber(totalEarnedToken)
-  //       .div(10 ** TOKEN_DECIMALS)
-  //       .toString(10);
-  //     totalEarnedToken = getFormattedNumber(totalEarnedToken, 6);
-
-  //     totalEarnedComp = new BigNumber(totalEarnedComp)
-  //       .div(10 ** TOKEN_DECIMALS)
-  //       .toString(10);
-  //     totalEarnedComp = getFormattedNumber(totalEarnedComp, 6);
-
-  //     totalEarnedDyp = new BigNumber(totalEarnedDyp).div(10 ** 18).toString(10);
-  //     totalEarnedDyp = getFormattedNumber(totalEarnedDyp, 6);
-
-  //     totalEarnedEth = new BigNumber(totalEarnedEth).div(10 ** 18).toString(10);
-  //     totalEarnedEth = getFormattedNumber(totalEarnedEth, 6);
-
-  //     depositedTokens = new BigNumber(depositedTokens)
-  //       .div(10 ** TOKEN_DECIMALS)
-  //       .toString(10);
-  //     depositedTokens = getFormattedNumber(depositedTokens, 6);
-
-  //     stakingTime = stakingTime * 1e3;
-  //     cliffTime = cliffTime * 1e3;
-  let APY_TOTAL =  apy_percent + platformTokenApyPercent;
+  let APY_TOTAL = apy_percent + platformTokenApyPercent;
   const performanceOpen = () => {
     setperformanceTooltip(true);
   };
@@ -816,7 +799,6 @@ settvlUSD(tvlUSD2)
   const focusInput = (field) => {
     document.getElementById(field).focus();
   };
-
 
   return (
     <div className="container-lg p-0">
@@ -942,14 +924,14 @@ settvlUSD(tvlUSD2)
           </a> */}
                   <h6
                     className="bottomitems"
-                    onClick={() => setshowCalculator(true) }
+                    onClick={() => setshowCalculator(true)}
                   >
                     <img src={poolsCalculatorIcon} alt="" />
                     Calculator
                   </h6>
                   <div
                     onClick={() => {
-                     showPopup();
+                      showPopup();
                     }}
                   >
                     <h6 className="bottomitems">
@@ -976,8 +958,8 @@ settvlUSD(tvlUSD2)
               : "Interact with deposits and withdraws"}
           </h6> */}
                 {coinbase === null ||
-                 coinbase === undefined ||
-                 isConnected === false ? (
+                coinbase === undefined ||
+                isConnected === false ? (
                   <button className="connectbtn btn" onClick={showModal}>
                     <img src={wallet} alt="" /> Connect wallet
                   </button>
@@ -1068,21 +1050,21 @@ settvlUSD(tvlUSD2)
                             ? depositAmount
                             : depositAmount
                         }
-                        onChange={(e) =>
-                          setdepositAmount(e.target.value)
-                          
-                        }
+                        onChange={(e) => setdepositAmount(e.target.value)}
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
                         name="amount_deposit"
-                          id="amount_deposit"
-                          key="amount_deposit"
+                        id="amount_deposit"
+                        key="amount_deposit"
                       />
-                      <label htmlFor="usd" className="label"
-                       onClick={() => {
-                        focusInput("amount_deposit");
-                      }}>
+                      <label
+                        htmlFor="usd"
+                        className="label"
+                        onClick={() => {
+                          focusInput("amount_deposit");
+                        }}
+                      >
                         Amount
                       </label>
                     </div>
@@ -1103,8 +1085,7 @@ settvlUSD(tvlUSD2)
             </button> */}
                   <button
                     disabled={
-                      depositAmount === "" ||
-                      depositLoading === true
+                      depositAmount === "" || depositLoading === true
                         ? true
                         : false
                     }
@@ -1113,8 +1094,7 @@ settvlUSD(tvlUSD2)
                       depositStatus === "initial" &&
                       "disabled-btn"
                     } ${
-                      depositStatus === "deposit" ||
-                      depositStatus === "success"
+                      depositStatus === "deposit" || depositStatus === "success"
                         ? "success-button"
                         : depositStatus === "fail"
                         ? "fail-button"
@@ -1123,8 +1103,7 @@ settvlUSD(tvlUSD2)
                     onClick={() => {
                       depositStatus === "deposit"
                         ? handleStake()
-                        : depositStatus === "initial" &&
-                          depositAmount !== ""
+                        : depositStatus === "initial" && depositAmount !== ""
                         ? handleApprove()
                         : console.log("");
                     }}
@@ -1150,9 +1129,7 @@ settvlUSD(tvlUSD2)
                     )}
                   </button>
                 </div>
-                {errorMsg && (
-                  <h6 className="errormsg">{errorMsg}</h6>
-                )}
+                {errorMsg && <h6 className="errormsg">{errorMsg}</h6>}
               </div>
             </div>
             <div
@@ -1224,13 +1201,14 @@ settvlUSD(tvlUSD2)
                   </div>
                   <button
                     disabled={
-                      claimStatus === "claimed" ||
-                      claimStatus === "success"
+                      claimStatus === "claimed" || claimStatus === "success" ||
+                      pendingDivsEth <= 0
                         ? true
                         : false
                     }
                     className={`btn filledbtn ${
-                      claimStatus === "claimed"
+                      claimStatus === "claimed" ||
+                      pendingDivsEth <= 0
                         ? "disabled-btn"
                         : claimStatus === "failed"
                         ? "fail-button"
@@ -1241,8 +1219,7 @@ settvlUSD(tvlUSD2)
                     style={{ height: "fit-content" }}
                     onClick={handleClaimDivs}
                   >
-                    {claimLoading &&
-                    claimStatus === "initial" ? (
+                    {claimLoading && claimStatus === "initial" ? (
                       <div
                         class="spinner-border spinner-border-sm text-light"
                         role="status"
@@ -1262,9 +1239,7 @@ settvlUSD(tvlUSD2)
                   </button>
                 </div>
               </div>
-              {errorMsg2 && (
-                <h6 className="errormsg">{errorMsg2}</h6>
-              )}
+              {errorMsg2 && <h6 className="errormsg">{errorMsg2}</h6>}
             </div>
 
             <div
@@ -1303,8 +1278,7 @@ settvlUSD(tvlUSD2)
                   //  "btn disabled-btn"
                 }
                 onClick={() => {
-                  setshowWithdrawModal(true)
-                  
+                  setshowWithdrawModal(true);
                 }}
               >
                 Withdraw
@@ -1319,8 +1293,7 @@ settvlUSD(tvlUSD2)
           modalId="tymodal"
           title="stats"
           setIsVisible={() => {
-            setpopup(false)
-            
+            setpopup(false);
           }}
           width="fit-content"
         >
@@ -1417,9 +1390,7 @@ settvlUSD(tvlUSD2)
                     {getFormattedNumber(
                       !totaldepositedTokens
                         ? "..."
-                        : (depositedTokens /
-                          totaldepositedTokens) *
-                            100,
+                        : (depositedTokens / totaldepositedTokens) * 100,
                       2
                     )}
                   </h6>
@@ -1581,8 +1552,7 @@ settvlUSD(tvlUSD2)
           modalId="withdrawmodal"
           title="withdraw"
           setIsVisible={() => {
-            setshowWithdrawModal(false)
-            
+            setshowWithdrawModal(false);
           }}
           width="fit-content"
         >
@@ -1622,10 +1592,7 @@ settvlUSD(tvlUSD2)
                         type="number"
                         autoComplete="off"
                         value={withdrawAmount}
-                        onChange={(e) =>
-                          setwithdrawAmount(e.target.value)
-                          
-                        }
+                        onChange={(e) => setwithdrawAmount(e.target.value)}
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
@@ -1633,8 +1600,11 @@ settvlUSD(tvlUSD2)
                         id="amount_withdraw"
                         key="amount_withdraw"
                       />
-                      <label htmlFor="usd" className="label"
-                       onClick={() => focusInput("amount_withdraw")}>
+                      <label
+                        htmlFor="usd"
+                        className="label"
+                        onClick={() => focusInput("amount_withdraw")}
+                      >
                         Withdraw Amount
                       </label>
                     </div>
@@ -1748,9 +1718,7 @@ settvlUSD(tvlUSD2)
                       </div>
                     </div> */}
                   </div>
-                  {errorMsg3 && (
-                    <h6 className="errormsg">{errorMsg3}</h6>
-                  )}
+                  {errorMsg3 && <h6 className="errormsg">{errorMsg3}</h6>}
                 </div>
               </div>
             </div>
@@ -1770,7 +1738,7 @@ settvlUSD(tvlUSD2)
           visible={showCalculator}
           title="calculator"
           modalId="calculatormodal"
-          setIsVisible={()=>  setshowCalculator(false)}
+          setIsVisible={() => setshowCalculator(false)}
         >
           <div className="pools-calculator">
             {/* <div className="d-flex align-items-center justify-content-between">
@@ -1809,10 +1777,7 @@ settvlUSD(tvlUSD2)
                   name="days"
                   placeholder="Days*"
                   value={approxDays}
-                  onChange={(e) =>
-                    setapproxDays(e.target.value)
-                    
-                  }
+                  onChange={(e) => setapproxDays(e.target.value)}
                 />
               </div>
               <div className="d-flex flex-column gap-3 w-50 me-5">
@@ -1827,22 +1792,14 @@ settvlUSD(tvlUSD2)
                   name="days"
                   placeholder="Value of deposit in USD"
                   value={approxDeposit}
-                  onChange={(e) =>
-                    setapproxDeposit(e.target.value)
-                     
-                  }
+                  onChange={(e) => setapproxDeposit(e.target.value)}
                 />
               </div>
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                 {" "}
-                $
-                {getFormattedNumber(
-                  getApproxReturn() / getUsdPerETH(),
-                  6
-                )}{" "}
-                USD
+                ${getFormattedNumber(getApproxReturn() / getUsdPerETH(), 6)} USD
               </h3>
               <h6
                 style={{
