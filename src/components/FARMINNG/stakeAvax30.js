@@ -1827,7 +1827,7 @@ export default function stakeAvax30({
                               "No Lock"
                             ) : (
                               <Countdown
-                              date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                              date={Number(stakingTime) + Number(cliffTime)}
                                 renderer={renderer}
                               />
                             )}

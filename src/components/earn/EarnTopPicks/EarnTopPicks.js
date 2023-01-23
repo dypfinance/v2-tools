@@ -503,22 +503,22 @@ const EarnTopPicks = ({
 
   //Buyback New
 
-  const expirearrayStakeAvax = ["14 July 2023", "05 August 2023"];
+  const expirearrayStakeAvax = [ "05 August 2023","14 July 2023"];
 
   //constant_staking_new3
   const stakingarrayStakeAvax = [
-    window.constant_staking_new10,
     window.constant_staking_new11,
+    window.constant_staking_new10,
   ];
 
   const StakeAvax = stakeAvax({
-    staking: stakingarrayStakeAvax[cardIndex],
+    staking: stakingarrayStakeAvax[ cardIndex === 0 && expiredPools === false ? cardIndex : cardIndex+1],
     apr:
       expiredPools === false
         ? activePools[cardIndex]?.apy_percent
         : expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
-    expiration_time: expirearrayStakeAvax[cardIndex],
+    expiration_time: expirearrayStakeAvax[cardIndex === 0 && expiredPools === false ? cardIndex : cardIndex+1],
     finalApr:
       expiredPools === false
         ? activePools[cardIndex]?.apy_performancefee
@@ -580,7 +580,7 @@ const EarnTopPicks = ({
   ];
 
   const StakeAvax30 = stakeAvax30({
-    staking: stakingarrayStakeAvax30[cardIndex === 0 ? 0 : 1],
+    staking: stakingarrayStakeAvax30[cardIndex -1],
     apr: expiredDYPPools[cardIndex]?.apy_percent,
     liquidity: avax_address,
     expiration_time: "6 December 2022",
@@ -1281,7 +1281,7 @@ const EarnTopPicks = ({
                   ) : activeCard &&
                     topList === "Staking" &&
                     chain === "avax" &&
-                    cardIndex < 2 ? (
+                    cardIndex < 1 ? (
                     <StakeAvax
                       is_wallet_connected={isConnected}
                       handleConnection={handleConnection}
@@ -1295,7 +1295,7 @@ const EarnTopPicks = ({
                   ) : activeCard &&
                     topList === "Staking" &&
                     chain === "avax" &&
-                    cardIndex >= 2 ? (
+                    cardIndex >= 1 ? (
                     <StakeAvaxIDyp
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
@@ -1306,8 +1306,8 @@ const EarnTopPicks = ({
                       expired={false}
                       staking={
                         expiredPools === false
-                          ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                          : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
+                          ? stakingarrayStakeAvaxiDypActive[cardIndex - 1]
+                          : stakingarrayStakeAvaxiDypExpired[cardIndex - 2]
                       }
                       listType={listType}
                       finalApr={
@@ -1321,7 +1321,7 @@ const EarnTopPicks = ({
                           : expiredDYPPools[cardIndex]?.apy_percent
                       }
                       liquidity={avax_address}
-                      expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
+                      expiration_time={expirearrayStakeAvaxiDyp[cardIndex- 1]}
                       other_info={
                         cardIndex !== undefined
                           ? expiredPools === false
@@ -2728,7 +2728,7 @@ const EarnTopPicks = ({
                 ) : activeCard &&
                   topList === "Staking" &&
                   chain === "avax" &&
-                  cardIndex < 2 ? (
+                  cardIndex < 1 ? (
                   <StakeAvax
                     is_wallet_connected={isConnected}
                     handleConnection={handleConnection}
@@ -2742,7 +2742,7 @@ const EarnTopPicks = ({
                 ) : activeCard &&
                   topList === "Staking" &&
                   chain === "avax" &&
-                  cardIndex >= 2 ? (
+                  cardIndex >= 1 ? (
                   <StakeAvaxIDyp
                     is_wallet_connected={isConnected}
                     coinbase={coinbase}
@@ -2753,8 +2753,8 @@ const EarnTopPicks = ({
                     expired={false}
                     staking={
                       expiredPools === false
-                        ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                        : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
+                      ? stakingarrayStakeAvaxiDypActive[cardIndex - 1]
+                      : stakingarrayStakeAvaxiDypExpired[cardIndex - 2]
                     }
                     listType={listType}
                     finalApr={
@@ -2768,7 +2768,7 @@ const EarnTopPicks = ({
                         : expiredDYPPools[cardIndex]?.apy_percent
                     }
                     liquidity={avax_address}
-                    expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
+                    expiration_time={expirearrayStakeAvaxiDyp[cardIndex-1]}
                     other_info={
                       cardIndex !== undefined
                         ? expiredPools === false
@@ -4748,7 +4748,7 @@ const EarnTopPicks = ({
                   ) : activeCard &&
                     topList === "Staking" &&
                     chain === "avax" &&
-                    cardIndex < 2 ? (
+                    cardIndex < 1 ? (
                     <StakeAvax
                       is_wallet_connected={isConnected}
                       handleConnection={handleConnection}
@@ -4758,71 +4758,6 @@ const EarnTopPicks = ({
                       coinbase={coinbase}
                       referrer={referrer}
                       expired={false}
-                    />
-                  ) : activeCard &&
-                    topList === "Staking" &&
-                    chain === "avax" &&
-                    cardIndex >= 2 ? (
-                    <StakeAvaxIDyp
-                      is_wallet_connected={isConnected}
-                      coinbase={coinbase}
-                      the_graph_result={the_graph_resultavax}
-                      chainId={chainId}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      expired={false}
-                      staking={
-                        expiredPools === false
-                          ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                          : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
-                      }
-                      listType={listType}
-                      finalApr={
-                        expiredPools === false
-                          ? activePools[cardIndex]?.apy_performancefee
-                          : expiredDYPPools[cardIndex]?.apy_performancefee
-                      }
-                      apr={
-                        expiredPools === false
-                          ? activePools[cardIndex]?.apy_percent
-                          : expiredDYPPools[cardIndex]?.apy_percent
-                      }
-                      liquidity={avax_address}
-                      expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
-                      other_info={
-                        cardIndex !== undefined
-                          ? expiredPools === false
-                            ? activePools[cardIndex]?.expired === "Yes"
-                              ? true
-                              : false
-                            : expiredDYPPools[cardIndex]?.expired === "Yes"
-                            ? true
-                            : false
-                          : false
-                      }
-                      fee_s={
-                        expiredPools === false
-                          ? activePools[cardIndex]?.performancefee
-                          : expiredDYPPools[cardIndex]?.performancefee
-                      }
-                      fee_u={feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp - 3]}
-                      lockTime={
-                        cardIndex !== undefined
-                          ? expiredPools === false
-                            ? activePools[cardIndex]?.lock_time?.split(
-                                " "
-                              )[0] === "No"
-                              ? "No Lock"
-                              : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(
-                                " "
-                              )[0] === "No"
-                            ? "No Lock"
-                            : expiredDYPPools[cardIndex]?.lock_time?.split(
-                                " "
-                              )[0]
-                          : "No Lock"
-                      }
                     />
                   ) : activeCard && topList === "Vault" ? (
                     <Vault
@@ -5065,21 +5000,7 @@ const EarnTopPicks = ({
                   ) : activeCard2 &&
                     topList === "Staking" &&
                     chain === "avax" &&
-                    cardIndex < 2 ? (
-                    <StakeAvax
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      the_graph_result={the_graph_resultavax}
-                      chainId={chainId}
-                      expired={false}
-                      coinbase={coinbase}
-                      referrer={referrer}
-                    />
-                  ) : activeCard2 &&
-                    topList === "Staking" &&
-                    chain === "avax" &&
-                    cardIndex >= 2 ? (
+                    cardIndex >= 1 ? (
                     <StakeAvaxIDyp
                       is_wallet_connected={isConnected}
                       coinbase={coinbase}
@@ -5090,8 +5011,8 @@ const EarnTopPicks = ({
                       expired={false}
                       staking={
                         expiredPools === false
-                          ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                          : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
+                          ? stakingarrayStakeAvaxiDypActive[cardIndex - 1]
+                          : stakingarrayStakeAvaxiDypExpired[cardIndex - 2]
                       }
                       listType={listType}
                       finalApr={
@@ -5105,7 +5026,7 @@ const EarnTopPicks = ({
                           : expiredDYPPools[cardIndex]?.apy_percent
                       }
                       liquidity={avax_address}
-                      expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
+                      expiration_time={expirearrayStakeAvaxiDyp[cardIndex-1]}
                       other_info={
                         cardIndex !== undefined
                           ? expiredPools === false
@@ -5382,20 +5303,6 @@ const EarnTopPicks = ({
                   ) : activeCard3 &&
                     topList === "Staking" &&
                     chain === "avax" &&
-                    cardIndex < 2 ? (
-                    <StakeAvax
-                      is_wallet_connected={isConnected}
-                      handleConnection={handleConnection}
-                      handleSwitchNetwork={handleSwitchNetwork}
-                      the_graph_result={the_graph_resultavax}
-                      chainId={chainId}
-                      coinbase={coinbase}
-                      expired={false}
-                      referrer={referrer}
-                    />
-                  ) : activeCard3 &&
-                    topList === "Staking" &&
-                    chain === "avax" &&
                     cardIndex >= 2 ? (
                     <StakeAvaxIDyp
                       is_wallet_connected={isConnected}
@@ -5407,8 +5314,8 @@ const EarnTopPicks = ({
                       expired={false}
                       staking={
                         expiredPools === false
-                          ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                          : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
+                          ? stakingarrayStakeAvaxiDypActive[cardIndex - 1]
+                          : stakingarrayStakeAvaxiDypExpired[cardIndex - 2]
                       }
                       listType={listType}
                       finalApr={
@@ -5422,7 +5329,7 @@ const EarnTopPicks = ({
                           : expiredDYPPools[cardIndex]?.apy_percent
                       }
                       liquidity={avax_address}
-                      expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
+                      expiration_time={expirearrayStakeAvaxiDyp[cardIndex-1]}
                       other_info={
                         cardIndex !== undefined
                           ? expiredPools === false
@@ -9371,7 +9278,7 @@ const EarnTopPicks = ({
               ) : activeCard &&
                 topList === "Staking" &&
                 chain === "avax" &&
-                (cardIndex === 0 || cardIndex === 1) ? (
+                (cardIndex === 1 || cardIndex === 2) ? (
                 <StakeAvax30
                   is_wallet_connected={isConnected}
                   handleConnection={handleConnection}
@@ -9382,111 +9289,21 @@ const EarnTopPicks = ({
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
                 />
-              ) : activeCard &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex === 2 ? (
-                <StakeAvaxDai
-                  staking={window.constant_stakingdaiavax}
-                  apr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_percent
-                      : expiredDYPPools[cardIndex]?.apy_percent
-                  }
-                  liquidity={avax_address}
-                  expiration_time={"Expired"}
-                  finalApr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_performancefee
-                      : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
-                  lockTime={
-                    cardIndex !== undefined
-                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
-                        "No"
-                        ? "No Lock"
-                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                      : "No Lock"
-                  }
-                  listType={listType}
-                  other_info={true}
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  referrer={referrer}
-                />
-              ) : activeCard &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex > 2 ? (
-                <StakeAvaxIDyp
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  staking={
-                    expiredPools === false
-                      ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                      : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
-                  }
-                  listType={listType}
-                  finalApr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_performancefee
-                      : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  apr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_percent
-                      : expiredDYPPools[cardIndex]?.apy_percent
-                  }
-                  liquidity={avax_address}
-                  expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
-                  other_info={
-                    cardIndex !== undefined
-                      ? expiredPools === false
-                        ? activePools[cardIndex]?.expired === "Yes"
-                          ? true
-                          : false
-                        : expiredDYPPools[cardIndex]?.expired === "Yes"
-                        ? true
-                        : false
-                      : false
-                  }
-                  fee_s={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.performancefee
-                      : expiredDYPPools[cardIndex]?.performancefee
-                  }
-                  fee_u={feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp - 3]}
-                  lockTime={
-                    cardIndex !== undefined
-                      ? expiredPools === false
-                        ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
-                          "No"
-                          ? "No Lock"
-                          : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                        : expiredDYPPools[cardIndex]?.lock_time?.split(
-                            " "
-                          )[0] === "No"
-                        ? "No Lock"
-                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                      : "No Lock"
-                  }
-                />
-              ) : (
+              ): activeCard &&
+              topList === "Staking" &&
+              chain === "avax" &&
+              (cardIndex === 0 ) ? (
+              <StakeAvax
+                is_wallet_connected={isConnected}
+                handleConnection={handleConnection}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                coinbase={coinbase}
+                referrer={referrer}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+              />
+            )  : (
                 <></>
               )}
             </>
@@ -9775,24 +9592,10 @@ const EarnTopPicks = ({
                 referrer={referrer}
               />
 
-            ) : activeCard2 &&
+            )  : activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex < 2 ? (
-              <StakeAvax30
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                the_graph_result={the_graph_resultavax}
-                chainId={chainId}
-                coinbase={coinbase}
-                referrer={referrer}
-              />
-            ) : activeCard2 &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex === 2 ? (
+              cardIndex === 3 ? (
               <StakeAvaxDai
                 staking={window.constant_stakingdaiavax}
                 apr={
@@ -9807,8 +9610,7 @@ const EarnTopPicks = ({
                     ? activePools[cardIndex]?.apy_performancefee
                     : expiredDYPPools[cardIndex]?.apy_performancefee
                 }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
+                fee={0
                 }
                 lockTime={
                   cardIndex !== undefined
@@ -9832,7 +9634,7 @@ const EarnTopPicks = ({
             ) : activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex >= 3 ? (
+              cardIndex > 3 ? (
               <StakeAvaxIDyp
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
@@ -9841,10 +9643,7 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
-                staking={
-                  expiredPools === false
-                    ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                    : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
+                staking={stakingarrayStakeAvaxiDypExpired[cardIndex - 4]
                 }
                 listType={listType}
                 finalApr={
@@ -9858,7 +9657,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={avax_address}
-                expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
+                expiration_time={expirearrayStakeAvaxiDyp[cardIndex - 2]}
                 other_info={
                   cardIndex !== undefined
                     ? expiredPools === false
@@ -11222,7 +11021,7 @@ const EarnTopPicks = ({
             ) : activeCard &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex < 2 ? (
+              cardIndex ===1 ? (
               <StakeAvax30
                 is_wallet_connected={isConnected}
                 handleConnection={handleConnection}
@@ -11236,42 +11035,16 @@ const EarnTopPicks = ({
             ) : activeCard &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex === 2 ? (
-              <StakeAvaxDai
-                staking={window.constant_stakingdaiavax}
-                apr={
-                  expiredPools === false
-                    ? activePools[cardIndex]?.apy_percent
-                    : expiredDYPPools[cardIndex]?.apy_percent
-                }
-                liquidity={avax_address}
-                expiration_time={"Expired"}
-                finalApr={
-                  expiredPools === false
-                    ? activePools[cardIndex]?.apy_performancefee
-                    : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
-                }
-                lockTime={
-                  cardIndex !== undefined
-                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
-                      "No"
-                      ? "No Lock"
-                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                    : "No Lock"
-                }
-                listType={listType}
-                other_info={true}
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultavax}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                referrer={referrer}
+              cardIndex === 0 ? (
+              <StakeAvax
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+              expired={true}
               />
             ) : (
               <></>
@@ -11507,79 +11280,62 @@ const EarnTopPicks = ({
             )  : activeCard2 &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex === 2 ? (
-              <StakeAvax30
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                the_graph_result={the_graph_resultavax}
-                chainId={chainId}
-                coinbase={coinbase}
-                referrer={referrer}
-              />
-            ) : activeCard2 &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex > 2 ? (
-              <StakeAvaxIDyp
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultavax}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                staking={
-                  expiredPools === false
-                    ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                    : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
-                }
-                listType={listType}
-                finalApr={
-                  expiredPools === false
-                    ? activePools[cardIndex]?.apy_performancefee
-                    : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
+              cardIndex === 3 ? (
+                <StakeAvaxDai
+                staking={window.constant_stakingdaiavax}
                 apr={
                   expiredPools === false
                     ? activePools[cardIndex]?.apy_percent
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={avax_address}
-                expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
-                other_info={
-                  cardIndex !== undefined
-                    ? expiredPools === false
-                      ? activePools[cardIndex]?.expired === "Yes"
-                        ? true
-                        : false
-                      : expiredDYPPools[cardIndex]?.expired === "Yes"
-                      ? true
-                      : false
-                    : false
-                }
-                fee_s={
+                expiration_time={"Expired"}
+                finalApr={
                   expiredPools === false
-                    ? activePools[cardIndex]?.performancefee
-                    : expiredDYPPools[cardIndex]?.performancefee
+                    ? activePools[cardIndex]?.apy_performancefee
+                    : expiredDYPPools[cardIndex]?.apy_performancefee
                 }
-                fee_u={feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp - 3]}
+                fee={
+                  expiredPools
+                    ? expiredPools[cardIndex - 1]?.performancefee
+                    : 0
+                }
                 lockTime={
                   cardIndex !== undefined
-                    ? expiredPools === false
-                      ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
-                        "No"
-                        ? "No Lock"
-                        : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
-                        "No"
+                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                      "No"
                       ? "No Lock"
                       : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
                     : "No Lock"
                 }
+                listType={listType}
+                other_info={true}
+                is_wallet_connected={isConnected}
+                coinbase={coinbase}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                expired={true}
+                referrer={referrer}
               />
-            ) : (
+
+            )  : activeCard2 &&
+            topList === "Staking" &&
+            chain === "avax" &&
+            cardIndex === 2 ? (
+            <StakeAvax30
+              is_wallet_connected={isConnected}
+              handleConnection={handleConnection}
+              handleSwitchNetwork={handleSwitchNetwork}
+              expired={true}
+              the_graph_result={the_graph_resultavax}
+              chainId={chainId}
+              coinbase={coinbase}
+              referrer={referrer}
+            />
+          ) 
+         : (
               <></>
             )}
             <div className="top-picks-container" style={{ marginTop: "25px" }}>
@@ -11834,78 +11590,10 @@ const EarnTopPicks = ({
                     : "No Lock"
                 }
               />
-            ) : activeCard3 &&
+            )  : activeCard3 &&
               topList === "Staking" &&
               chain === "avax" &&
-              cardIndex < 2 ? (
-              <StakeAvax
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                the_graph_result={the_graph_resultavax}
-                chainId={chainId}
-                coinbase={coinbase}
-                referrer={referrer}
-              />
-            ) : activeCard3 &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex < 2 ? (
-              <StakeAvax30
-                is_wallet_connected={isConnected}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                the_graph_result={the_graph_resultavax}
-                chainId={chainId}
-                coinbase={coinbase}
-                referrer={referrer}
-              />
-            ) : activeCard3 &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex === 2 ? (
-              <StakeAvaxDai
-                staking={window.constant_stakingdaiavax}
-                apr={
-                  expiredPools === false
-                    ? activePools[cardIndex]?.apy_percent
-                    : expiredDYPPools[cardIndex]?.apy_percent
-                }
-                liquidity={avax_address}
-                expiration_time={"Expired"}
-                finalApr={
-                  expiredPools === false
-                    ? activePools[cardIndex]?.apy_performancefee
-                    : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                fee={
-                  expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
-                }
-                lockTime={
-                  cardIndex !== undefined
-                    ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
-                      "No"
-                      ? "No Lock"
-                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                    : "No Lock"
-                }
-                listType={listType}
-                other_info={true}
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultavax}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                referrer={referrer}
-              />
-            ) : activeCard3 &&
-              topList === "Staking" &&
-              chain === "avax" &&
-              cardIndex > 2 ? (
+              cardIndex > 3 ? (
               <StakeAvaxIDyp
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
@@ -11914,10 +11602,7 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
-                staking={
-                  expiredPools === false
-                    ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                    : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
+                staking={ stakingarrayStakeAvaxiDypExpired[cardIndex - 4]
                 }
                 listType={listType}
                 finalApr={
@@ -11931,7 +11616,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={avax_address}
-                expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
+                expiration_time={expirearrayStakeAvaxiDyp[cardIndex-2]}
                 other_info={
                   cardIndex !== undefined
                     ? expiredPools === false
@@ -13768,16 +13453,16 @@ const EarnTopPicks = ({
                : activeCard &&
                 topList === "Staking" &&
                 chain === "avax" &&
-                cardIndex < 2 ? (
-                <StakeAvax30
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
+                cardIndex === 0 ? (
+                <StakeAvax
+                is_wallet_connected={isConnected}
+                handleConnection={handleConnection}
+                handleSwitchNetwork={handleSwitchNetwork}
+                the_graph_result={the_graph_resultavax}
+                chainId={chainId}
+                coinbase={coinbase}
+                referrer={referrer}
+                expired={false}
                 />
               ) : (
                 <></>
@@ -13992,42 +13677,14 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex === 1 ? (
-                <StakeAvaxDai
-                  staking={window.constant_stakingdaiavax}
-                  apr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_percent
-                      : expiredDYPPools[cardIndex]?.apy_percent
-                  }
-                  liquidity={avax_address}
-                  expiration_time={"Expired"}
-                  finalApr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_performancefee
-                      : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
-                  lockTime={
-                    cardIndex !== undefined
-                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
-                        "No"
-                        ? "No Lock"
-                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                      : "No Lock"
-                  }
-                  listType={listType}
-                  other_info={true}
+                  <StakeAvax30
                   is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
+                  the_graph_result={the_graph_resultavax}
+                  chainId={chainId}
+                  coinbase={coinbase}
                   referrer={referrer}
                 />
               ) : (
@@ -14460,7 +14117,35 @@ const EarnTopPicks = ({
                 topList === "Staking" &&
                 chain === "avax" &&
                 cardIndex > 2 ? (
-                <StakeAvaxIDyp
+                  <StakeAvaxDai
+                  staking={window.constant_stakingdaiavax}
+                  apr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_percent
+                      : expiredDYPPools[cardIndex]?.apy_percent
+                  }
+                  liquidity={avax_address}
+                  expiration_time={"Expired"}
+                  finalApr={
+                    expiredPools === false
+                      ? activePools[cardIndex]?.apy_performancefee
+                      : expiredDYPPools[cardIndex]?.apy_performancefee
+                  }
+                  fee={
+                    expiredPools
+                      ? expiredPools[cardIndex - 1]?.performancefee
+                      : 0
+                  }
+                  lockTime={
+                    cardIndex !== undefined
+                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                        "No"
+                        ? "No Lock"
+                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
+                      : "No Lock"
+                  }
+                  listType={listType}
+                  other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultavax}
@@ -14468,56 +14153,9 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
-                  staking={
-                    expiredPools === false
-                      ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                      : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
-                  }
-                  listType={listType}
-                  finalApr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_performancefee
-                      : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  apr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_percent
-                      : expiredDYPPools[cardIndex]?.apy_percent
-                  }
-                  liquidity={avax_address}
-                  expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
-                  other_info={
-                    cardIndex !== undefined
-                      ? expiredPools === false
-                        ? activePools[cardIndex]?.expired === "Yes"
-                          ? true
-                          : false
-                        : expiredDYPPools[cardIndex]?.expired === "Yes"
-                        ? true
-                        : false
-                      : false
-                  }
-                  fee_s={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.performancefee
-                      : expiredDYPPools[cardIndex]?.performancefee
-                  }
-                  fee_u={feeUarrayStakeAvaxiDyp[cardIndexavaxiDyp - 3]}
-                  lockTime={
-                    cardIndex !== undefined
-                      ? expiredPools === false
-                        ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
-                          "No"
-                          ? "No Lock"
-                          : activePools[cardIndex]?.lock_time?.split(" ")[0]
-                        : expiredDYPPools[cardIndex]?.lock_time?.split(
-                            " "
-                          )[0] === "No"
-                        ? "No Lock"
-                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                      : "No Lock"
-                  }
+                  referrer={referrer}
                 />
+
               ) : (
                 <></>
               )}
@@ -14788,63 +14426,7 @@ const EarnTopPicks = ({
               ) : activeCard5 &&
                 topList === "Staking" &&
                 chain === "avax" &&
-                cardIndex < 2 ? (
-                <StakeAvax30
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
-                />
-              ) : activeCard5 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex === 2 ? (
-                <StakeAvaxDai
-                  staking={window.constant_stakingdaiavax}
-                  apr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_percent
-                      : expiredDYPPools[cardIndex]?.apy_percent
-                  }
-                  liquidity={avax_address}
-                  expiration_time={"Expired"}
-                  finalApr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_performancefee
-                      : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
-                  lockTime={
-                    cardIndex !== undefined
-                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
-                        "No"
-                        ? "No Lock"
-                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                      : "No Lock"
-                  }
-                  listType={listType}
-                  other_info={true}
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  referrer={referrer}
-                />
-              ) : activeCard5 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex > 2 ? (
+                cardIndex > 3 ? (
                 <StakeAvaxIDyp
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
@@ -14853,10 +14435,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
-                  staking={
-                    expiredPools === false
-                      ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                      : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
+                  staking={stakingarrayStakeAvaxiDypExpired[cardIndex -4]
                   }
                   listType={listType}
                   finalApr={
@@ -14870,7 +14449,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={avax_address}
-                  expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
+                  expiration_time={expirearrayStakeAvaxiDyp[cardIndex-2]}
                   other_info={
                     cardIndex !== undefined
                       ? expiredPools === false
@@ -15161,65 +14740,8 @@ const EarnTopPicks = ({
               ) : activeCard6 &&
                 topList === "Staking" &&
                 chain === "avax" &&
-                cardIndex < 2 ? (
-                <StakeAvax
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
-                />
-              ) : activeCard6 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 2 &&
-                cardIndex < 4 ? (
-                <StakeAvax30
-                  is_wallet_connected={isConnected}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  coinbase={coinbase}
-                  referrer={referrer}
-                />
-              ) : activeCard6 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex === 4 ? (
-                <StakeAvaxDai
-                  staking={window.constant_stakingdaiavax}
-                  apr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_percent
-                      : expiredDYPPools[cardIndex]?.apy_percent
-                  }
-                  liquidity={avax_address}
-                  expiration_time={"Expired"}
-                  finalApr={
-                    expiredPools === false
-                      ? activePools[cardIndex]?.apy_performancefee
-                      : expiredDYPPools[cardIndex]?.apy_performancefee
-                  }
-                  fee={
-                    expiredPools
-                      ? expiredPools[cardIndex - 1]?.performancefee
-                      : 0
-                  }
-                  lockTime={
-                    cardIndex !== undefined
-                      ? expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
-                        "No"
-                        ? "No Lock"
-                        : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                      : "No Lock"
-                  }
-                  listType={listType}
-                  other_info={true}
+                cardIndex === 5 ? (
+                  <StakeAvaxIDyp
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultavax}
@@ -15227,24 +14749,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
-                  referrer={referrer}
-                />
-              ) : activeCard6 &&
-                topList === "Staking" &&
-                chain === "avax" &&
-                cardIndex >= 5 ? (
-                <StakeAvaxIDyp
-                  is_wallet_connected={isConnected}
-                  coinbase={coinbase}
-                  the_graph_result={the_graph_resultavax}
-                  chainId={chainId}
-                  handleConnection={handleConnection}
-                  handleSwitchNetwork={handleSwitchNetwork}
-                  expired={true}
-                  staking={
-                    expiredPools === false
-                      ? stakingarrayStakeAvaxiDypActive[cardIndex - 2]
-                      : stakingarrayStakeAvaxiDypExpired[cardIndex - 3]
+                  staking={stakingarrayStakeAvaxiDypExpired[cardIndex -4]
                   }
                   listType={listType}
                   finalApr={
@@ -15258,7 +14763,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={avax_address}
-                  expiration_time={expirearrayStakeAvaxiDyp[cardIndex]}
+                  expiration_time={expirearrayStakeAvaxiDyp[cardIndex-2]}
                   other_info={
                     cardIndex !== undefined
                       ? expiredPools === false

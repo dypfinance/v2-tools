@@ -693,7 +693,7 @@ const StakeAvaxDai = ({
     canWithdraw = true;
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-      if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now()))&& lockTime !== "No Lock") {
+      if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now()- Number(cliffTime)))&& lockTime !== "No Lock") {
           canWithdraw = false
           cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
       }
@@ -752,10 +752,10 @@ settokendata(propertyDyp[0][1].token_price_usd)
   };
 
   useEffect(()=>{
-    if(showCalculator === true) {
+
       getUsdPerDyp()
-    }
-  },[showCalculator, tokendata])
+   
+  },[ tokendata])
 
   return (
     <div className="container-lg p-0">

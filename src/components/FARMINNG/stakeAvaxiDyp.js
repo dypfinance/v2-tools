@@ -270,7 +270,6 @@ const StakeAvaxIDyp = ({
 
         let tvl_formatted = new BigNumber(tvl).div(1e18).toFixed(6);
         settvl(tvl_formatted);
-
         setsettvlDyps(tvlDyps);
         setreferralFeeEarned(referralFeeEarned);
         setsettotal_stakers(total_stakers);
@@ -593,7 +592,6 @@ const StakeAvaxIDyp = ({
   tvl_usd = tvl_usd + tvlDYPS;
 
   tvl_usd = getFormattedNumber(tvl_usd, 2);
-
   const checkApproval = async (amount) => {
     const result = await window
       .checkapproveStakePool(coinbase, reward_token._address, staking._address)
@@ -627,10 +625,8 @@ const StakeAvaxIDyp = ({
   };
 
   useEffect(() => {
-    if (showCalculator === true) {
       getUsdPerDyp();
-    }
-  }, [showCalculator, tokendata]);
+  }, [tokendata]);
 
   return (
     <div className="container-lg p-0">
