@@ -8,18 +8,27 @@ import avax from "../../../assets/earnAssets/avaxIcon.svg";
 import getFormattedNumber from "../../../functions/get-formatted-number";
 import CountUp from "react-countup";
 import axios from "axios";
+import totalTvlIcon from "../../../assets/earnAssets/totalTvlIcon.svg";
+
 
 const EarnHero = () => {
   const [totalpaid, setTotalPaid] = useState();
+  const [totalTvl, setTotalTvl] = useState()
 
   const getTotalPaidData = async () => {
     await axios.get("https://api.dyp.finance/api/totalpaid").then((data) => {
       setTotalPaid(data.data);
     });
   };
+  const fetchTotalTvl = async () => {
+    await axios.get("https://api.dyp.finance/api/totaltvl").then((data) => {
+      setTotalTvl(data.data);
+    });
+  };
 
   useEffect(() => {
     getTotalPaidData();
+    fetchTotalTvl();
   }, []);
 
   return (
@@ -30,8 +39,17 @@ const EarnHero = () => {
         Make the most of your assets with Dypius Earn products. Dypius offers four ways to productively use your assets. Participate in Staking, Farming, Vault and Buyback. Start earning today!
         </p>
       </div>
-      <div className="col-12 col-lg-6 px-0 px-lg-2 d-flex gap-0 gap-lg-5">
-        <div className="d-flex flex-column align-items-start">
+      <div className="col-12 col-lg-7 px-0 px-lg-2 d-flex gap-3 gap-lg-4 flex-column flex-lg-row">
+        <div className="d-flex align-items-start gap-2 p-3 total-tvl-wrapper position-relative">
+          <div className="purplediv" style={{left: '1px', top: '10px'}}></div>
+          <img src={totalTvlIcon} alt="total-tvl" />
+          <div className="d-flex flex-column gap-1 position-relative" style={{top: '5px'}}>
+            <span className="total-tvl-title">Total value locked</span>
+            <h6 className="total-tvl-content">${getFormattedNumber(totalTvl)}</h6>
+          </div>
+        </div>
+       <div className="d-flex gap-0 gap-lg-4">
+       <div className="d-flex flex-column align-items-start">
           <div className="d-flex flex-column paid-rewards">
             <p style={{ fontSize: "9px", color: "#f7f7fc", fontWeight: "300" }}>
               Rewards paid out
@@ -79,6 +97,7 @@ const EarnHero = () => {
             </h4>
           </div>
         </div>
+       </div>
         <div className="position-relative d-none d-xxl-block">
           <img src={coin} alt="" className="coin" />
           <img src={coinBackground} alt="" className="coin" />
