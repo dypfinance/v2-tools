@@ -181,6 +181,8 @@ const StakeBsc2 = ({
   const [rewardsTooltip, setrewardsTooltip] = useState(false);
   const [withdrawTooltip, setwithdrawTooltip] = useState(false);
   const [tokendata, settokendata] = useState();
+  const [canwithdraw, setcanwithdraw] = useState(true);
+  const [isCompleted, setisCompleted] = useState(false);
 
   const showModal = () => {
     setshow(true);
@@ -204,35 +206,36 @@ const StakeBsc2 = ({
   };
 
   const getTotalTvl = async () => {
-    if(the_graph_result)
-   { let usd_per_token = the_graph_result.token_data
-      ? the_graph_result.token_data[
-          "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-        ].token_price_usd
-      : 1;
-    let usd_per_idyp = the_graph_result.token_data
-      ? the_graph_result.token_data[
-          "0xbd100d061e120b2c67a24453cf6368e63f1be056"
-        ].token_price_usd
-      : 1;
+    if (the_graph_result) {
+      let usd_per_token = the_graph_result.token_data
+        ? the_graph_result.token_data[
+            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+          ].token_price_usd
+        : 1;
+      let usd_per_idyp = the_graph_result.token_data
+        ? the_graph_result.token_data[
+            "0xbd100d061e120b2c67a24453cf6368e63f1be056"
+          ].token_price_usd
+        : 1;
 
-    let apr1 = 25;
-    let apr2 = 50;
-    let apy1 = new BigNumber(apr1)
-      .div(1e2)
-      .times(usd_per_idyp)
-      .div(usd_per_token)
-      .times(1e2)
-      .toFixed(2);
+      let apr1 = 25;
+      let apr2 = 50;
+      let apy1 = new BigNumber(apr1)
+        .div(1e2)
+        .times(usd_per_idyp)
+        .div(usd_per_token)
+        .times(1e2)
+        .toFixed(2);
 
-    let apy2 = new BigNumber(apr2)
-      .div(1e2)
-      .times(usd_per_idyp)
-      .div(usd_per_token)
-      .times(1e2)
-      .toFixed(2);
-    setapy1(apy1);
-    setapy2(apy2);}
+      let apy2 = new BigNumber(apr2)
+        .div(1e2)
+        .times(usd_per_idyp)
+        .div(usd_per_token)
+        .times(1e2)
+        .toFixed(2);
+      setapy1(apy1);
+      setapy2(apy2);
+    }
   };
 
   const refreshBalance = async () => {
@@ -277,7 +280,6 @@ const StakeBsc2 = ({
       _amountOutMin = _amountOutMin[_amountOutMin.length - 1];
       _amountOutMin = new BigNumber(_amountOutMin).div(1e18).toFixed(18);
 
-    
       if (staking) {
         let _bal = reward_token.balanceOf(coinbase);
         let _pDivs = staking.getTotalPendingDivs(coinbase);
@@ -362,7 +364,9 @@ const StakeBsc2 = ({
 
         setstakingTime(stakingTime);
 
-        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(6);
+        let depositedTokens_formatted = new BigNumber(depositedTokens)
+          .div(1e18)
+          .toFixed(6);
 
         setdepositedTokens(depositedTokens_formatted);
 
@@ -408,14 +412,11 @@ const StakeBsc2 = ({
     getPriceDYP();
   }, [coinbase, coinbase2]);
 
-
   useEffect(() => {
-   
-      const interval = setInterval( () => {
-        refreshBalance();
-      }, 1000);
-      return () => clearInterval(interval);
-  
+    const interval = setInterval(() => {
+      refreshBalance();
+    }, 1000);
+    return () => clearInterval(interval);
   }, [coinbase, coinbase2]);
 
   const handleApprove = (e) => {
@@ -775,7 +776,6 @@ const StakeBsc2 = ({
     setwithdrawTooltip(false);
   };
 
-
   if (!isNaN(disburseDuration) && !isNaN(contractDeployTime)) {
     let lastDay = parseInt(disburseDuration) + parseInt(contractDeployTime);
     let lockTimeExpire = parseInt(Date.now()) + parseInt(cliffTime);
@@ -783,16 +783,24 @@ const StakeBsc2 = ({
   }
 
   let cliffTimeInWords = "lockup period";
-  let canWithdraw = true
-  if (lockTime === "No Lock") {
-    canWithdraw = true;
-  }
-  if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-      if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now())) && lockTime !== "No Lock") {
-          canWithdraw = false
-          cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+  useEffect(() => {
+    if (lockTime === "No Lock") {
+      setcanwithdraw(true);
+    }
+    if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+      if (
+        convertTimestampToDate(Number(stakingTime) + Number(cliffTime)) >=
+          convertTimestampToDate(Date.now() / 1000) &&
+        lockTime !== "No Lock" &&
+        isCompleted !== true
+      ) {
+        setcanwithdraw(false);
+        cliffTimeInWords = moment
+          .duration(cliffTime - (Date.now() - stakingTime))
+          .humanize(true);
       }
-  }
+    }
+  }, [lockTime, canwithdraw, cliffTime, stakingTime, isCompleted]);
 
   let tvl_usd = tvl * tokendata;
 
@@ -802,12 +810,10 @@ const StakeBsc2 = ({
 
   tvl_usd = getFormattedNumber(tvl_usd, 2);
 
-
   const focusInput = (field) => {
     document.getElementById(field).focus();
   };
 
-  
   const checkApproval = async (amount) => {
     const result = await window
       .checkapproveStakePool(coinbase, reward_token._address, staking._address)
@@ -816,38 +822,34 @@ const StakeBsc2 = ({
         return data;
       });
 
-      let result_formatted = new BigNumber(result)
-      .div(1e18)
-      .toFixed(6);
+    let result_formatted = new BigNumber(result).div(1e18).toFixed(6);
 
-
-    if (Number(result_formatted) >= Number(amount) && Number(result_formatted) !== 0) {
-      setdepositStatus('deposit')
-      
+    if (
+      Number(result_formatted) >= Number(amount) &&
+      Number(result_formatted) !== 0
+    ) {
+      setdepositStatus("deposit");
     } else {
-      setdepositStatus('initial')
+      setdepositStatus("initial");
     }
   };
 
-  const getUsdPerDyp = async() => {
+  const getUsdPerDyp = async () => {
     await axios
       .get("https://api.dyp.finance/api/the_graph_eth_v2")
       .then((data) => {
         const propertyDyp = Object.entries(
           data.data.the_graph_eth_v2.token_data
-        ); 
-settokendata(propertyDyp[0][1].token_price_usd)
+        );
+        settokendata(propertyDyp[0][1].token_price_usd);
         return propertyDyp[0][1].token_price_usd;
-      }); 
-
+      });
   };
 
+  useEffect(() => {
+    getUsdPerDyp();
+  }, []);
 
-  useEffect(()=>{
-      getUsdPerDyp()
-  },[])
-
-  
   return (
     <div className="container-lg p-0">
       <div
@@ -964,7 +966,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                 <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
                   <h6
                     className="bottomitems"
-                    onClick={() => setshowCalculator(true) }
+                    onClick={() => setshowCalculator(true)}
                   >
                     <img src={poolsCalculatorIcon} alt="" />
                     Calculator
@@ -986,7 +988,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                   </a>
                   <div
                     onClick={() => {
-                     showPopup();
+                      showPopup();
                     }}
                   >
                     <h6 className="bottomitems">
@@ -1048,9 +1050,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
     </div> */}
             <div
               className={`otherside-border col-12 col-md-12 col-lg-4  ${
-                chainId !== "56" || expired === true
-                  ? "blurrypool"
-                  : ""
+                chainId !== "56" || expired === true ? "blurrypool" : ""
               }`}
             >
               <div className="d-flex justify-content-between align-items-center gap-2">
@@ -1119,9 +1119,11 @@ settokendata(propertyDyp[0][1].token_price_usd)
                         id="amount_deposit"
                         key="amount_deposit"
                       />
-                      <label htmlFor="usd" className="label"
-                       onClick={() => focusInput("amount_deposit")}>
-
+                      <label
+                        htmlFor="usd"
+                        className="label"
+                        onClick={() => focusInput("amount_deposit")}
+                      >
                         Amount
                       </label>
                     </div>
@@ -1166,8 +1168,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
             </button> */}
                   <button
                     disabled={
-                      depositAmount === "" ||
-                      depositLoading === true
+                      depositAmount === "" || depositLoading === true
                         ? true
                         : false
                     }
@@ -1176,8 +1177,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                       depositStatus === "initial" &&
                       "disabled-btn"
                     } ${
-                      depositStatus === "deposit" ||
-                      depositStatus === "success"
+                      depositStatus === "deposit" || depositStatus === "success"
                         ? "success-button"
                         : depositStatus === "fail"
                         ? "fail-button"
@@ -1186,8 +1186,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                     onClick={() => {
                       depositStatus === "deposit"
                         ? handleStake()
-                        : depositStatus === "initial" &&
-                          depositAmount !== ""
+                        : depositStatus === "initial" && depositAmount !== ""
                         ? handleApprove()
                         : console.log("");
                     }}
@@ -1213,9 +1212,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                     )}
                   </button>
                 </div>
-                {errorMsg && (
-                  <h6 className="errormsg">{errorMsg}</h6>
-                )}
+                {errorMsg && <h6 className="errormsg">{errorMsg}</h6>}
               </div>
             </div>
             <div
@@ -1333,8 +1330,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                       <button
                         disabled={pendingDivs > 0 ? false : true}
                         className={`btn outline-btn ${
-                          reInvestStatus === "invest" ||
-                          pendingDivs <= 0
+                          reInvestStatus === "invest" || pendingDivs <= 0
                             ? "disabled-btn"
                             : reInvestStatus === "failed"
                             ? "fail-button"
@@ -1366,9 +1362,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                     )}
                   </div>
                 </div>
-                {errorMsg2 && (
-                  <h6 className="errormsg">{errorMsg2}</h6>
-                )}
+                {errorMsg2 && <h6 className="errormsg">{errorMsg2}</h6>}
               </div>
             </div>
 
@@ -1400,14 +1394,10 @@ settokendata(propertyDyp[0][1].token_price_usd)
               </h6>
 
               <button
-               disabled={Number(depositedTokens) > 0 ? false : true}
-                className={
-                  "outline-btn btn"
-                }
-
+                disabled={Number(depositedTokens) > 0 ? false : true}
+                className={"outline-btn btn"}
                 onClick={() => {
-                  setshowWithdrawModal(true)
-                  
+                  setshowWithdrawModal(true);
                 }}
               >
                 Withdraw
@@ -1422,7 +1412,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
           modalId="tymodal"
           title="stats"
           setIsVisible={() => {
-            setpopup(false) 
+            setpopup(false);
           }}
           width="fit-content"
         >
@@ -1666,8 +1656,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
           modalId="withdrawmodal"
           title="withdraw"
           setIsVisible={() => {
-            setshowWithdrawModal(false)
-            
+            setshowWithdrawModal(false);
           }}
           width="fit-content"
         >
@@ -1697,8 +1686,14 @@ settokendata(propertyDyp[0][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                            date={convertTimestampToDate(
+                              Number(stakingTime) + Number(cliffTime)
+                            )}
                             renderer={renderer}
+                            onComplete={() => {
+                              setcanwithdraw(true);
+                              setisCompleted(true);
+                            }}
                           />
                         )}
                       </h6>
@@ -1720,10 +1715,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                         type="number"
                         autoComplete="off"
                         value={withdrawAmount}
-                        onChange={(e) =>
-                          setwithdrawAmount(e.target.value)
-                          
-                        }
+                        onChange={(e) => setwithdrawAmount(e.target.value)}
                         placeholder=" "
                         className="text-input"
                         style={{ width: "100%" }}
@@ -1731,8 +1723,11 @@ settokendata(propertyDyp[0][1].token_price_usd)
                         id="amount_withdraw"
                         key="amount_withdraw"
                       />
-                      <label htmlFor="usd" className="label"
-                       onClick={() => focusInput("amount_withdraw")}>
+                      <label
+                        htmlFor="usd"
+                        className="label"
+                        onClick={() => focusInput("amount_withdraw")}
+                      >
                         Withdraw Amount
                       </label>
                     </div>
@@ -1750,7 +1745,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                         withdrawStatus === "failed" ||
                         withdrawStatus === "success" ||
                         withdrawAmount === "" ||
-                        canWithdraw === false
+                        canwithdraw === false
                           ? true
                           : false
                       }
@@ -1761,7 +1756,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                           ? "success-button"
                           : (withdrawAmount === "" &&
                               withdrawStatus === "initial") ||
-                            canWithdraw === false
+                            canwithdraw === false
                           ? "disabled-btn"
                           : null
                       } d-flex justify-content-center align-items-center`}
@@ -1849,9 +1844,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                   </div>
                 </div> */}
                   </div>
-                  {errorMsg3 && (
-                    <h6 className="errormsg">{errorMsg3}</h6>
-                  )}
+                  {errorMsg3 && <h6 className="errormsg">{errorMsg3}</h6>}
                 </div>
               </div>
             </div>
@@ -1922,10 +1915,7 @@ Calculator
                   name="days"
                   placeholder="Days*"
                   value={approxDays}
-                  onChange={(e) =>
-                    setapproxDays(e.target.value)
-                    
-                  }
+                  onChange={(e) => setapproxDays(e.target.value)}
                 />
               </div>
               <div className="d-flex flex-column gap-3 w-50 me-5">
@@ -1940,17 +1930,13 @@ Calculator
                   name="days"
                   placeholder="Value of deposit in USD"
                   value={approxDeposit}
-                  onChange={(e) =>
-                    setapproxDeposit(e.target.value)
-                  }
+                  onChange={(e) => setapproxDeposit(e.target.value)}
                 />
               </div>
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                ${" "}
-                {getFormattedNumber(getApproxReturn() * tokendata, 6)}{" "}
-                USD
+                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)} USD
               </h3>
               <h6
                 style={{
