@@ -14205,7 +14205,7 @@ const EarnTopPicks = ({
                     : "No Lock"
                 }
               />
-            ) : activeCard &&
+            ) : activeCard3 &&
                 cardIndex === 2 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
