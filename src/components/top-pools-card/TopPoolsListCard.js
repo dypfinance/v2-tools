@@ -55,8 +55,7 @@ const TopPoolsListCard = ({
   display,
   expired,
   expiredPools,
-  totalTvl
-
+  totalTvl,
 }) => {
   const ethCoins = ["ethereum", "wbtc", "usdc", "usdt"];
   const bscCoins = [
@@ -301,7 +300,7 @@ const TopPoolsListCard = ({
   const feeSarrayStakeAvaxiDypActive = [3.5, 1];
   const feeUarrayStakeAvaxiDypActive = [0, 0];
 
-  const lockarray = [ "No Lock",90];
+  const lockarray = ["No Lock", 90];
 
   const stakeArrayStakeNew = [
     window.constant_staking_new2,
@@ -614,7 +613,7 @@ const TopPoolsListCard = ({
             />
           ) : showDetails &&
             topList === "Staking" &&
-            cardIndex <= 2 &&
+            cardIndex <= 1 &&
             chain === "bnb" ? (
             <StakeBsc
               staking={stakearrayStakeBscActive[cardIndex - 1]}
@@ -689,11 +688,10 @@ const TopPoolsListCard = ({
               expired={false}
               referrer={referrer}
               totalTvl={totalTvl}
-
             />
           ) : showDetails &&
-            cardIndex > 2 &&
-            cardIndex <= 4 &&
+            cardIndex >= 2 &&
+            cardIndex <= 3 &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <StakeBscIDyp
@@ -704,19 +702,19 @@ const TopPoolsListCard = ({
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
               expired={false}
-              staking={stakearrayStakeBscidypActive[cardIndex - 3]}
+              staking={stakearrayStakeBscidypActive[cardIndex - 2]}
               listType={listType}
               finalApr={
-                aprarrayStakeBscidypActive[cardIndex - 3] -
-                feearrayStakeBscidypActive[cardIndex - 3]
+                aprarrayStakeBscidypActive[cardIndex - 2] -
+                feearrayStakeBscidypActive[cardIndex - 2]
               }
-              apr={aprarrayStakeBscidypActive[cardIndex - 3]}
+              apr={aprarrayStakeBscidypActive[cardIndex - 2]}
               liquidity={wbsc_address}
-              expiration_time={expirearrayStakeBscidypActive[cardIndex - 3]}
+              expiration_time={expirearrayStakeBscidypActive[cardIndex - 2]}
               other_info={false}
-              fee_s={feearrayStakeBscidypActive[cardIndex - 3]}
+              fee_s={feearrayStakeBscidypActive[cardIndex - 2]}
               fee_u={0}
-              lockTime={lockarrayStakeBscidypActive[cardIndex - 3]}
+              lockTime={lockarrayStakeBscidypActive[cardIndex - 2]}
             />
           ) : showDetails &&
             topList === "Staking" &&
@@ -899,21 +897,21 @@ const TopPoolsListCard = ({
               lockTime={lockarray[cardIndex - 3]}
             />
           ) : showDetails &&
-            (cardIndex === 1 || cardIndex === 3) &&
+            (cardIndex === 2 || cardIndex === 4) &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <StakeBsc2
               staking={
-                cardIndex === 3
-                  ? stakearrayStakeBsc[cardIndex - 2]
-                  : stakearrayStakeBsc[cardIndex - 1]
+                cardIndex === 4
+                  ? stakearrayStakeBsc[cardIndex - 3]
+                  : stakearrayStakeBsc[cardIndex - 2]
               }
-              apr={expiredPools ? expiredPools[cardIndex - 1]?.apy_percent : 0}
+              apr={expiredPools ? expiredPools[cardIndex - 2]?.apy_percent : 0}
               liquidity={wbsc_address}
               expiration_time={
-                cardIndex === 3
-                  ? expirearrayStakeBsc[cardIndex - 2]
-                  : expirearrayStakeBsc[cardIndex - 1]
+                cardIndex === 4
+                  ? expirearrayStakeBsc[cardIndex - 3]
+                  : expirearrayStakeBsc[cardIndex - 2]
               }
               finalApr={
                 expiredPools
@@ -946,7 +944,7 @@ const TopPoolsListCard = ({
               referrer={referrer}
             />
           ) : showDetails &&
-            cardIndex === 2 &&
+            cardIndex === 3 &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <StakeBscDai
@@ -984,7 +982,7 @@ const TopPoolsListCard = ({
               referrer={referrer}
             />
           ) : showDetails &&
-            cardIndex >= 4 &&
+            cardIndex >= 5 &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <StakeBscIDyp
@@ -995,7 +993,7 @@ const TopPoolsListCard = ({
               handleConnection={handleConnection}
               handleSwitchNetwork={handleSwitchNetwork}
               expired={true}
-              staking={stakearrayStakeBscidyp[cardIndex - 4]}
+              staking={stakearrayStakeBscidyp[cardIndex - 5]}
               listType={listType}
               finalApr={
                 expiredPools
@@ -1004,7 +1002,7 @@ const TopPoolsListCard = ({
               }
               apr={expiredPools ? expiredPools[cardIndex - 1]?.apy_percent : 0}
               liquidity={wbsc_address}
-              expiration_time={expirearrayStakeBscidyp[cardIndex - 4]}
+              expiration_time={expirearrayStakeBscidyp[cardIndex - 5]}
               other_info={true}
               fee_s={
                 expiredPools ? expiredPools[cardIndex - 1]?.performancefee : 0
@@ -1022,6 +1020,33 @@ const TopPoolsListCard = ({
               }
             />
           ) : showDetails &&
+          cardIndex === 1 &&
+          topList === "Staking" &&
+          chain === "bnb" ? (
+          <StakeBsc
+          staking={stakearrayStakeBscActive[cardIndex - 1]}
+          apr={aprarrayStakeBscActive[cardIndex - 1]}
+          liquidity={wbsc_address}
+          expiration_time={expirearrayStakeBscActive[cardIndex - 1]}
+          finalApr={
+            aprarrayStakeBscActive[cardIndex - 1] -
+            feearrayStakeBscActive[cardIndex - 1]
+          }
+          fee={feearrayStakeBscActive[cardIndex - 1]}
+          lockTime={lockarrayStakeBscActive[cardIndex - 1]}
+          listType={listType}
+          other_info={false}
+          lp_id={LP_IDBNB_Array[cardIndex]}
+          is_wallet_connected={isConnected}
+          coinbase={coinbase}
+          the_graph_result={the_graph_resultbsc}
+          chainId={chainId}
+          handleConnection={handleConnection}
+          handleSwitchNetwork={handleSwitchNetwork}
+          expired={true}
+          referrer={referrer}
+          />
+        ): showDetails &&
             topList === "Staking" &&
             chain === "avax" &&
             (cardIndex === 1 || cardIndex === 2) ? (
