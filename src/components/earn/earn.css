@@ -58,9 +58,9 @@
 
 .coin {
   position: absolute;
-  min-width: 150px;
-  min-height: 150px;
-  bottom: -10%;
+  min-width: 125px;
+  scale: 0.9;
+  bottom: -5%;
 }
 
 .coin:nth-child(2) {

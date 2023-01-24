@@ -215,7 +215,7 @@ const News = ({ theme, isPremium, coinbase }) => {
     const index = topnews.findIndex(search);
     setActiveNews(topnews[index]);
   };
-
+  
   const handleFetchNewsContent = async (dataType, itemId) => {
     if (dataType === "popular") {
       const result = await fetch(
@@ -278,39 +278,18 @@ const News = ({ theme, isPremium, coinbase }) => {
     }
 
     if (dataType === "special") {
-      const bigData = [
-        ...popularNewsData,
-        ...otherNewsData,
-        ...newsData,
-        ...pressNewsData,
-      ];
 
-      for (let i = 0; i < bigData.length; i++) {
-        if (itemId === otherNewsData[i]?.id) {
-          for (let j = 0; j < otherNewsData.length; j++) {
-            if (itemId === otherNewsData[j].id) {
-              if (popularNewsData.find((obj) => obj.id === itemId)) {
-                handleFetchNewsContent("popular", itemId);
-              } else if (pressNewsData.find((obj) => obj.id === itemId)) {
-                handleFetchNewsContent("press", itemId);
-              } else if (newsData.find((obj) => obj.id === itemId)) {
-                handleFetchNewsContent("news", itemId);
-              } else {
-                handleFetchNewsContent("other", itemId);
-              }
-            }
-          }
-        }
+      console.log(itemId);
+
+      if (popularNewsData.find((obj) => obj.id === itemId)) {
+        handleFetchNewsContent("popular", itemId);
+      } else if (pressNewsData.find((obj) => obj.id === itemId)) {
+        handleFetchNewsContent("press", itemId);
+      } else if (newsData.find((obj) => obj.id === itemId)) {
+        handleFetchNewsContent("news", itemId);
+      } else {
+        handleFetchNewsContent("other", itemId);
       }
-    }
-  };
-
-  const handleSelectPressNews = (key) => {
-    if (popularNewsData.length > 0) {
-      const search = (obj) => obj.id == key;
-      const index = popularNewsData.findIndex(search);
-      setActiveNews(popularNewsData[index]);
-      handleFetchNewsContent("popular", key);
     }
   };
 
@@ -522,14 +501,15 @@ const News = ({ theme, isPremium, coinbase }) => {
 
   const onScroll = () => {
     const wrappedElement = document.getElementById("header");
-    const isBottom =
+    if(wrappedElement)
+   { const isBottom =
       wrappedElement.getBoundingClientRect()?.bottom <= window.innerHeight;
     if (isBottom) {
       if (next < bigNews.length) {
         loadMore();
       }
       document.removeEventListener("scroll", onScroll);
-    }
+    }}
   };
 
   const slider = useRef();
@@ -550,8 +530,24 @@ const News = ({ theme, isPremium, coinbase }) => {
     slider.current.slickPrev();
   };
 
+  const handlemodalClick = (item, index) => {
+    setShowModal(true);
+    setActiveNews(popularNewsData[index]);
+    handleFetchNewsContent("popular", item);
+  };
 
-  
+  const handlemodalClickPress = (item, index) => {
+    setActiveNews(pressNewsData[index]);
+    handleFetchNewsContent("press", item);
+    setShowModal(true);
+  };
+
+  const handlemodalClickOthers = (item, index) => {
+    setActiveNews(bigNewsSorted[index]);
+    handleFetchNewsContent("special", item);
+    setShowModal(true);
+  };
+
   return (
     <div
       onScroll={onScroll}
@@ -640,10 +636,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                             }
                             newsId={item.id}
                             onShowModalClick={() => {
-                              setShowModal(true);
-                              setActiveNews(popularNewsData[index]);
-                              handleFetchNewsContent("popular", item.id);
-                            
+                              handlemodalClick(item.id, index);
                             }}
                             onVotesFetch={fetchVotingdata}
                             isConnected={isConnected}
@@ -725,26 +718,12 @@ const News = ({ theme, isPremium, coinbase }) => {
                           fullDate={item.date}
                           theme={theme}
                           newsId={item.id}
-                          // upvotes={
-                          //   votes.length !== 0
-                          //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                          //     : 0
-                          // }
                           upvotes={item.vote.up}
-                          // downvotes={
-                          //   votes.length !== 0
-                          //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                          //       ? votes.find((obj) => obj.id === item.id)?.down
-                          //       : 0
-                          //     : 0
-                          // }
                           downvotes={item.vote.down}
                           onVotesFetch={fetchVotingdata}
                           coinbase={coinbase}
                           onNewsClick={() => {
-                            setShowModal(true);
-                            setActiveNews(popularNewsData[key]);
-                            handleFetchNewsContent("popular", item.id);
+                            handlemodalClick(item.id, key);
                           }}
                           isConnected={isConnected}
                           isPremium={isPremium}
@@ -774,18 +753,6 @@ const News = ({ theme, isPremium, coinbase }) => {
                             theme={theme}
                             onVotesFetch={fetchVotingdata}
                             coinbase={coinbase}
-                            // upvotes={
-                            //   votes.length !== 0
-                            //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                            //     : 0
-                            // }
-                            // downvotes={
-                            //   votes.length !== 0
-                            //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                            //       ? votes.find((obj) => obj.id === item.id)?.down
-                            //       : 0
-                            //     : 0
-                            // }
                             upvotes={item.vote.up}
                             downvotes={item.vote.down}
                             onNewsClick={() => {
@@ -872,24 +839,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                         onVotesFetch={fetchVotingdata}
                         newsId={item.id}
                         onSinglePressHighlightClick={() => {
-                          setActiveNews(pressNewsData[key]);
-                          handleFetchNewsContent("press", item.id);
-                          setShowModal(true);
-                          console.log(key);
                           window.scrollTo(0, 0);
+                          handlemodalClickPress(item.id, key);
                         }}
-                        // upvotes={
-                        //   votes.length !== 0
-                        //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                        //     : 0
-                        // }
-                        // downvotes={
-                        //   votes.length !== 0
-                        //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                        //       ? votes.find((obj) => obj.id === item.id)?.down
-                        //       : 0
-                        //     : 0
-                        // }
                         upvotes={item.vote.up}
                         downvotes={item.vote.down}
                         coinbase={coinbase}
@@ -931,24 +883,10 @@ const News = ({ theme, isPremium, coinbase }) => {
                     theme={theme}
                     onVotesFetch={fetchVotingdata}
                     newsId={item.id}
-                    // upvotes={
-                    //   votes.length !== 0
-                    //     ? votes.find((obj) => obj.id === item.id)?.up !== undefined ? votes.find((obj) => obj.id === item.id)?.up : 0
-                    //     : 0
-                    // }
-                    // downvotes={
-                    //   votes.length !== 0
-                    //     ? votes.find((obj) => obj.id === item.id)?.down !== undefined
-                    //       ? votes.find((obj) => obj.id === item.id)?.down
-                    //       : 0
-                    //     : 0
-                    // }
                     upvotes={item.vote.up}
                     downvotes={item.vote.down}
                     onOtherNewsClick={() => {
-                      setActiveNews(bigNewsSorted[key]);
-                      handleFetchNewsContent("special", item.id);
-                      setShowModal(true);
+                      handlemodalClickOthers(item.id, key);
                       window.scrollTo(0, 0);
                     }}
                     isConnected={isConnected}
