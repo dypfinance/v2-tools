@@ -501,14 +501,15 @@ const News = ({ theme, isPremium, coinbase }) => {
 
   const onScroll = () => {
     const wrappedElement = document.getElementById("header");
-    const isBottom =
+    if(wrappedElement)
+   { const isBottom =
       wrappedElement.getBoundingClientRect()?.bottom <= window.innerHeight;
     if (isBottom) {
       if (next < bigNews.length) {
         loadMore();
       }
       document.removeEventListener("scroll", onScroll);
-    }
+    }}
   };
 
   const slider = useRef();
