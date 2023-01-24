@@ -72,8 +72,9 @@ const NewsModal = ({
     if (content !== undefined && content.includes("&nbsp")) {
       setnewContent(content.replace(/&nbsp;/g, " "));
     }
+    else setnewContent(content)
   }, [newsId, content,elementRef.current?.clientHeight]);
-
+  
   const bal1 = Number(localStorage.getItem("balance1"));
   const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
@@ -269,7 +270,7 @@ const NewsModal = ({
                   className="resp-sharing-button__link"
                   href={`https://twitter.com/intent/tweet/?text=${title}&url=${`https://app.dypius.com/news/${newsId}`}`}
                   target="_blank"
-                  rel="noopener"
+                  rel="noreferrer"
                   aria-label=""
                 >
                   <img src={newsTwitter} alt="twitter share" />
@@ -279,7 +280,7 @@ const NewsModal = ({
                   className="resp-sharing-button__link"
                   href={`https://reddit.com/submit/?&url=${`https://app.dypius.com/news/${newsId}`}&resubmit=true&title=${title}`}
                   target="_blank"
-                  rel="noopener"
+                  rel="noreferrer"
                   aria-label=""
                 >
                   {/* <div className="resp-sharing-button resp-sharing-button--reddit resp-sharing-button--small">
@@ -302,8 +303,9 @@ const NewsModal = ({
                   className="resp-sharing-button__link"
                   href={`https://telegram.me/share/url?url=${`https://app.dypius.com/news/${newsId}&text=${title}`}`}
                   target="_blank"
-                  rel="noopener"
+                  rel="noreferrer"
                   aria-label=""
+                  
                 >
                   {/* <div className="resp-sharing-button resp-sharing-button--telegram resp-sharing-button--small">
                     <div
