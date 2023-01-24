@@ -100,6 +100,8 @@ const Vault = ({
   const [token_balance, settoken_balance] = useState("...");
   const [pendingDivsEth, setpendingDivsEth] = useState("");
   const [pendingDivsDyp, setpendingDivsDyp] = useState("");
+  const [pendingDivsDyp_noFormatted, setpendingDivsDyp_noFormatted] = useState("");
+
   const [pendingDivsToken, setpendingDivsToken] = useState("");
   const [pendingDivsComp, setpendingDivsComp] = useState("");
 
@@ -292,7 +294,7 @@ const Vault = ({
           .toFixed(0);
 
         const pendingDivsEth2 = new BigNumber(pendingDivsEth1).div(10 ** 18).toString(10);
-        setpendingDivsEth(getFormattedNumber(pendingDivsEth2, 6));
+        setpendingDivsEth(getFormattedNumber(pendingDivsEth2, 9));
 
         let pendingDivsToken1 = new BigNumber(pendingDivsToken)
         .plus(pendingBalToken)
@@ -304,9 +306,11 @@ const Vault = ({
        let pendingDivsDyp1 = new BigNumber(pendingDivsDyp)
         .plus(pendingBalDyp)
         .toFixed(0);
-
+        setpendingDivsDyp_noFormatted(pendingDivsDyp1)
         const pendingDivsDyp2 = new BigNumber(pendingDivsDyp1).div(10 ** TOKEN_DECIMALS).toString(10);
         setpendingDivsDyp(getFormattedNumber(pendingDivsDyp2, 6));
+
+       
 
        const  pendingDivsComp2 = new BigNumber(pendingDivsComp).div(10 ** TOKEN_DECIMALS).toString(10);
         setpendingDivsComp(getFormattedNumber(pendingDivsComp2, 6));
@@ -644,16 +648,19 @@ const Vault = ({
     ];
 
     //console.log({ path })
+    // const pendingDivsDyp2 = new BigNumber(pendingDivsDyp).div(10 ** TOKEN_DECIMALS).toString(10)
+    // console.log(pendingDivsDyp)
     try {
-      if (Number(pendingDivsDyp)) {
+      if (Number(pendingDivsDyp_noFormatted)) {
         //alert(this.state.pendingDivsDyp)
         _amountOutMin_platformTokens = await router.methods
-          .getAmountsOut(pendingDivsDyp, path)
+          .getAmountsOut(pendingDivsDyp_noFormatted, path)
           .call()
           .catch((e) => {
             setclaimStatus("failed");
             setclaimLoading(false);
             seterrorMsg2(e?.message);
+            console.log(e)
 
             setTimeout(() => {
               setclaimStatus("initial");
@@ -663,8 +670,8 @@ const Vault = ({
       }
     } catch (e) {
       seterrorMsg2(e?.message);
-
-      console.warn(e);
+      console.log(e)
+      // console.warn(e);
     }
 
     //_amountOutMin_platformTokens = await router.methods.getAmountsOut(this.state.pendingDivsDyp, path).call()
@@ -800,6 +807,7 @@ const Vault = ({
     document.getElementById(field).focus();
   };
 
+  // console.log(pendingDivsDyp)
   return (
     <div className="container-lg p-0">
       <div
@@ -1140,7 +1148,7 @@ const Vault = ({
               <div className="d-flex justify-content-between gap-2 ">
                 <h6 className="withdraw-txt">Rewards</h6>
                 <h6 className="withdraw-littletxt d-flex align-items-center gap-1">
-                  You have 3 differents reward categories
+                  You have 4 differents reward categories
                   <ClickAwayListener onClickAway={rewardsClose}>
                     <Tooltip
                       open={rewardsTooltip}
@@ -1157,12 +1165,15 @@ const Vault = ({
                           </h6>
                           <h6 className="tvl-text">
                             {token_symbol} worth iDYP{" "}
-                            {/* {pendingDivsDyp}
-{pendingDivsComp}
-{pendingDivsToken} */}
                             <h6 className="tvl-amount" style={{ fontSize: 12 }}>
                               {" "}
                               {pendingDivsDyp}
+                            </h6>
+                          </h6>
+                          <h6 className="tvl-text">
+                            ETH
+                            <h6 className="tvl-amount" style={{ fontSize: 12 }}>
+                              {pendingDivsEth}
                             </h6>
                           </h6>
                           <h6 className="tvl-text">
