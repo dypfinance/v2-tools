@@ -60,7 +60,7 @@ coinbase
       setCanVote(false)
     }
 
-  }, [alreadyVoted, bal1, bal2, isPremium]);
+  }, [alreadyVoted, bal1, bal2, isPremium, logout, coinbase]);
 
 
   const handleLikeStates = () => {

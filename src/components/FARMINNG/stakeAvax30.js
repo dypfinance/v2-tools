@@ -898,7 +898,7 @@ export default function stakeAvax30({
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-          if ((this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now()- Number(cliffTime)))&& lockTime !== "No Lock") {
+          if ((this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now() / 1000))&& lockTime !== "No Lock") {
               canWithdraw = false
               cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
           }
@@ -1829,6 +1829,9 @@ export default function stakeAvax30({
                               <Countdown
                               date={Number(stakingTime) + Number(cliffTime)}
                                 renderer={renderer}
+                                onComplete={() => {
+                                  canWithdraw=true
+                                }}
                               />
                             )}
                           </h6>

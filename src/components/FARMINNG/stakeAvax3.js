@@ -693,12 +693,11 @@ const StakeAvaxDai = ({
     canWithdraw = true;
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-      if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now()- Number(cliffTime)))&& lockTime !== "No Lock") {
+      if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now() / 1000))&& lockTime !== "No Lock") {
           canWithdraw = false
           cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
       }
   }
-
   let tvl_usd = tvl * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
@@ -1585,7 +1584,10 @@ settokendata(propertyDyp[0][1].token_price_usd)
                         ) : (
                           <Countdown
                           date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
-                         renderer={renderer}
+                          renderer={renderer}
+                          onComplete={() => {
+                            canWithdraw=true
+                          }}
                           />
                         )}
                       </h6>

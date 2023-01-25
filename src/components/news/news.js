@@ -422,7 +422,7 @@ const News = ({ theme, isPremium, coinbase }) => {
     } else if (logout === "true") {
       setCanVote(false);
     }
-  }, [userAlreadyVoted, bal1, bal2, isPremium]);
+  }, [userAlreadyVoted, bal1, bal2, isPremium, logout, coinbase]);
 
   // console.log(isPremium)
 

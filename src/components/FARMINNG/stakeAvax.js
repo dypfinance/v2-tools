@@ -691,9 +691,9 @@ export default function stakeAvax({
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
         if (
-          
+          this.convertTimestampToDate(
             Number(stakingTime) + Number(cliffTime)
-           >= (Date.now()) &&
+          ) >= this.convertTimestampToDate(Date.now() / 1000) &&
           lockTime !== "No Lock"
         ) {
           canWithdraw = false;
@@ -702,7 +702,6 @@ export default function stakeAvax({
             .humanize(true);
         }
       }
-      // console.log((stakingTime+cliffTime))
 
       let total_stakers = this.state.total_stakers;
       //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
@@ -781,14 +780,12 @@ export default function stakeAvax({
             return data;
           });
 
+        let result_formatted = new BigNumber(result).div(1e18).toFixed(6);
 
-      let result_formatted = new BigNumber(result)
-      .div(1e18)
-      .toFixed(6);
-
-
-
-        if (Number(result_formatted) >= Number(amount) && Number(result_formatted) !== 0) {
+        if (
+          Number(result_formatted) >= Number(amount) &&
+          Number(result_formatted) !== 0
+        ) {
           this.setState({ depositStatus: "deposit" });
         } else {
           this.setState({ depositStatus: "initial" });
@@ -1618,6 +1615,9 @@ export default function stakeAvax({
                               <Countdown
                                 date={Number(stakingTime) + Number(cliffTime)}
                                 renderer={renderer}
+                                onComplete={() => {
+                                  canWithdraw = true;
+                                }}
                               />
                             )}
                           </h6>
