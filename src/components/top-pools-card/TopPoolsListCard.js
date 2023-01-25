@@ -898,21 +898,15 @@ const TopPoolsListCard = ({
               lockTime={lockarray[cardIndex - 3]}
             />
           ) : showDetails &&
-            (cardIndex === 2 || cardIndex === 4) &&
+            (cardIndex === 3 || cardIndex === 4) &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <StakeBsc2
-              staking={
-                cardIndex === 4
-                  ? stakearrayStakeBsc[cardIndex - 3]
-                  : stakearrayStakeBsc[cardIndex - 2]
+              staking={stakearrayStakeBsc[cardIndex - 3]
               }
               apr={expiredPools ? expiredPools[cardIndex - 2]?.apy_percent : 0}
               liquidity={wbsc_address}
-              expiration_time={
-                cardIndex === 4
-                  ? expirearrayStakeBsc[cardIndex - 3]
-                  : expirearrayStakeBsc[cardIndex - 2]
+              expiration_time={ expirearrayStakeBsc[cardIndex - 3]
               }
               finalApr={
                 expiredPools
@@ -945,7 +939,7 @@ const TopPoolsListCard = ({
               referrer={referrer}
             />
           ) : showDetails &&
-            cardIndex === 3 &&
+            cardIndex === 2 &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <StakeBscDai

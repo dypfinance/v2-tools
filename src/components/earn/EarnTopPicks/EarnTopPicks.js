@@ -9135,21 +9135,17 @@ const EarnTopPicks = ({
                 referrer={referrer}
               />
             )  : activeCard &&
-                (cardIndex === 1 || cardIndex === 3) &&
+                (cardIndex === 2 || cardIndex === 3) &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
                 <StakeBsc2
-                  staking={
-                    cardIndex === 3
-                      ? stakearrayStakeBscExpired[cardIndex - 2]
-                      : stakearrayStakeBscExpired[cardIndex- 1]
+                  staking={stakearrayStakeBscExpired[cardIndex - 2]
+                  
                   }
                   apr={expiredDYPPools[cardIndex]?.apy_percent}
                   liquidity={wbsc_address}
-                  expiration_time={
-                    cardIndex === 3
-                      ? expirearrayStakeBscExpired[cardIndex - 2]
-                      : expirearrayStakeBscExpired[cardIndex-1]
+                  expiration_time={ expirearrayStakeBscExpired[cardIndex - 2]
+                     
                   }
                   finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
                   fee={expiredDYPPools[cardIndex]?.performancefee}
@@ -9174,7 +9170,7 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard &&
-                cardIndex === 2 &&
+                cardIndex === 1 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
                 <StakeBscDai
@@ -9205,7 +9201,7 @@ const EarnTopPicks = ({
                   referrer={referrer}
                 />
               ) : activeCard &&
-                cardIndex >= 3 &&
+                cardIndex > 3 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
                 <StakeBscIDyp
@@ -9216,7 +9212,7 @@ const EarnTopPicks = ({
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
                   expired={true}
-                  staking={stakearrayStakeBsciDyp2Expired[cardIndex - 3]
+                  staking={stakearrayStakeBsciDyp2Expired[cardIndex - 4]
                   }
                   listType={listType}
                   finalApr={
@@ -9230,10 +9226,7 @@ const EarnTopPicks = ({
                       : expiredDYPPools[cardIndex]?.apy_percent
                   }
                   liquidity={wbsc_address}
-                  expiration_time={
-                    expiredPools === false
-                      ? expirearrayStakeBsciDyp2[cardIndex - 2]
-                      : expirearrayStakeBsciDyp2Expired[cardIndex - 3]
+                  expiration_time={expirearrayStakeBsciDyp2Expired[cardIndex - 4]
                   }
                   other_info={
                     cardIndex !== undefined
@@ -10787,28 +10780,27 @@ const EarnTopPicks = ({
               topList === "Staking" &&
               cardIndex === 1 &&
               chain === "bnb" ? (
-              <StakeBsc2
-                staking={stakearrayStakeBscExpired[cardIndex - 1]
-                }
+                <StakeBscDai
+                staking={window.constant_stakingdaibsc}
                 apr={expiredDYPPools[cardIndex]?.apy_percent}
                 liquidity={wbsc_address}
-                expiration_time={ expirearrayStakeBscExpired[cardIndex - 1]
-                }
+                expiration_time={"Expired"}
                 finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
                 fee={expiredDYPPools[cardIndex]?.performancefee}
                 lockTime={
-                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
+                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
+                  "No"
                     ? "No Lock"
                     : parseInt(
                         expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
                       )
                 }
-                lp_id={LP_IDBNB_Array[cardIndex]}
                 listType={listType}
                 other_info={true}
                 is_wallet_connected={isConnected}
                 coinbase={coinbase}
                 the_graph_result={the_graph_resultbsc}
+                lp_id={LP_IDBNB_Array[cardIndex]}
                 chainId={chainId}
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
@@ -10903,114 +10895,6 @@ const EarnTopPicks = ({
                         "No"
                       ? "No Lock"
                       : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                    : "No Lock"
-                }
-              />
-            ) : activeCard &&
-              cardIndex >= 2 &&
-              cardIndex < 4 &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <StakeBsc2
-                staking={
-                  cardIndex === 2
-                    ? stakearrayStakeBscExpired[cardIndex - 1]
-                    : stakearrayStakeBscExpired[cardIndex]
-                }
-                apr={expiredDYPPools[cardIndex]?.apy_percent}
-                liquidity={wbsc_address}
-                expiration_time={
-                  cardIndex === 2
-                    ? expirearrayStakeBscExpired[cardIndex - 1]
-                    : expirearrayStakeBscExpired[cardIndex]
-                }
-                finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
-                fee={expiredDYPPools[cardIndex]?.performancefee}
-                lockTime={
-                  expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                    ? "No Lock"
-                    : parseInt(
-                        expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                      )
-                }
-                lp_id={LP_IDBNB_Array[cardIndex]}
-                listType={listType}
-                other_info={true}
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultbsc}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                referrer={referrer}
-              />
-            ) : activeCard &&
-              (cardIndex === 5 || cardIndex > 5) &&
-              topList === "Staking" &&
-              chain === "bnb" ? (
-              <StakeBscIDyp
-                is_wallet_connected={isConnected}
-                coinbase={coinbase}
-                the_graph_result={the_graph_resultbsc}
-                chainId={chainId}
-                handleConnection={handleConnection}
-                handleSwitchNetwork={handleSwitchNetwork}
-                expired={true}
-                staking={
-                  expiredPools === false
-                    ? stakearrayStakeBsciDyp2[cardIndex - 2]
-                    : stakearrayStakeBsciDyp2Expired[cardIndex - 3]
-                }
-                listType={listType}
-                finalApr={
-                  expiredPools === false
-                    ? activePools[cardIndex]?.apy_performancefee
-                    : expiredDYPPools[cardIndex]?.apy_performancefee
-                }
-                apr={
-                  expiredPools === false
-                    ? activePools[cardIndex]?.apy_percent
-                    : expiredDYPPools[cardIndex]?.apy_percent
-                }
-                liquidity={wbsc_address}
-                expiration_time={
-                  expiredPools === false
-                    ? expirearrayStakeBsciDyp2[cardIndex - 2]
-                    : expirearrayStakeBsciDyp2Expired[cardIndex - 3]
-                }
-                other_info={
-                  cardIndex !== undefined
-                    ? expiredPools === false
-                      ? activePools[cardIndex]?.expired === "Yes"
-                        ? true
-                        : false
-                      : expiredDYPPools[cardIndex]?.expired === "Yes"
-                      ? true
-                      : false
-                    : false
-                }
-                fee_s={
-                  expiredPools === false
-                    ? activePools[cardIndex]?.performancefee
-                    : expiredDYPPools[cardIndex]?.performancefee
-                }
-                fee_u={0}
-                lockTime={
-                  cardIndex !== undefined
-                    ? expiredPools === false
-                      ? activePools[cardIndex]?.lock_time?.split(" ")[0] ===
-                        "No"
-                        ? "No Lock"
-                        : parseInt(
-                            activePools[cardIndex]?.lock_time?.split(" ")[0]
-                          )
-                      : expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] ===
-                        "No"
-                      ? "No Lock"
-                      : parseInt(
-                          expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                        )
                     : "No Lock"
                 }
               />
@@ -11154,7 +11038,7 @@ const EarnTopPicks = ({
                 />
               )
             )  : activeCard2 &&
-              ( cardIndex === 3) &&
+              ( cardIndex === 3 || cardIndex === 2) &&
               topList === "Staking" &&
               chain === "bnb" ? (
               <StakeBsc2
@@ -11186,37 +11070,7 @@ const EarnTopPicks = ({
                 expired={true}
                 referrer={referrer}
               />
-            ): activeCard2 &&
-            cardIndex === 2 &&
-            topList === "Staking" &&
-            chain === "bnb" ? (
-            <StakeBscDai
-              staking={window.constant_stakingdaibsc}
-              apr={expiredDYPPools[cardIndex]?.apy_percent}
-              liquidity={wbsc_address}
-              expiration_time={"Expired"}
-              finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
-              fee={expiredDYPPools[cardIndex]?.performancefee}
-              lockTime={
-                expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0] === "No"
-                  ? "No Lock"
-                  : parseInt(
-                      expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
-                    )
-              }
-              listType={listType}
-              other_info={true}
-              is_wallet_connected={isConnected}
-              coinbase={coinbase}
-              the_graph_result={the_graph_resultbsc}
-              lp_id={LP_IDBNB_Array[cardIndex]}
-              chainId={chainId}
-              handleConnection={handleConnection}
-              handleSwitchNetwork={handleSwitchNetwork}
-              expired={true}
-              referrer={referrer}
-            />
-          )  : activeCard2 &&
+            ) : activeCard2 &&
               cardIndex >= 2 &&
               topList === "Staking" &&
               chain === "eth" ? (
@@ -11533,7 +11387,7 @@ const EarnTopPicks = ({
                 handleConnection={handleConnection}
                 handleSwitchNetwork={handleSwitchNetwork}
                 expired={true}
-                staking={stakearrayStakeBsciDyp2Expired[cardIndex - 3]}
+                staking={stakearrayStakeBsciDyp2Expired[cardIndex - 4]}
                 listType={listType}
                 finalApr={
                   expiredPools === false
@@ -11546,10 +11400,7 @@ const EarnTopPicks = ({
                     : expiredDYPPools[cardIndex]?.apy_percent
                 }
                 liquidity={wbsc_address}
-                expiration_time={
-                  expiredPools === false
-                    ? expirearrayStakeBsciDyp2[cardIndex - 2]
-                    : expirearrayStakeBsciDyp2Expired[cardIndex - 3]
+                expiration_time={ expirearrayStakeBsciDyp2Expired[cardIndex - 4]
                 }
                 other_info={
                   cardIndex !== undefined
@@ -13642,11 +13493,11 @@ const EarnTopPicks = ({
                 (cardIndex === 1) &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
-                <StakeBsc2
-                  staking={ stakearrayStakeBscExpired[cardIndex - 1] }
+                  <StakeBscDai
+                  staking={window.constant_stakingdaibsc}
                   apr={expiredDYPPools[cardIndex]?.apy_percent}
                   liquidity={wbsc_address}
-                  expiration_time={ expirearrayStakeBscExpired[cardIndex - 1] }
+                  expiration_time={"Expired"}
                   finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
                   fee={expiredDYPPools[cardIndex]?.performancefee}
                   lockTime={
@@ -13657,12 +13508,12 @@ const EarnTopPicks = ({
                           expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
                         )
                   }
-                  lp_id={LP_IDBNB_Array[cardIndex]}
                   listType={listType}
                   other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
+                  lp_id={LP_IDBNB_Array[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
@@ -13862,11 +13713,15 @@ const EarnTopPicks = ({
                 cardIndex === 2 &&
                 topList === "Staking" &&
                 chain === "bnb" ? (
-                <StakeBscDai
-                  staking={window.constant_stakingdaibsc}
+                  <StakeBsc2
+                  staking={stakearrayStakeBscExpired[cardIndex - 2]
+                  
+                  }
                   apr={expiredDYPPools[cardIndex]?.apy_percent}
                   liquidity={wbsc_address}
-                  expiration_time={"Expired"}
+                  expiration_time={ expirearrayStakeBscExpired[cardIndex - 2]
+                     
+                  }
                   finalApr={expiredDYPPools[cardIndex]?.apy_performancefee}
                   fee={expiredDYPPools[cardIndex]?.performancefee}
                   lockTime={
@@ -13877,12 +13732,12 @@ const EarnTopPicks = ({
                           expiredDYPPools[cardIndex]?.lock_time?.split(" ")[0]
                         )
                   }
+                  lp_id={LP_IDBNB_Array[cardIndex]}
                   listType={listType}
                   other_info={true}
                   is_wallet_connected={isConnected}
                   coinbase={coinbase}
                   the_graph_result={the_graph_resultbsc}
-                  lp_id={LP_IDBNB_Array[cardIndex]}
                   chainId={chainId}
                   handleConnection={handleConnection}
                   handleSwitchNetwork={handleSwitchNetwork}
