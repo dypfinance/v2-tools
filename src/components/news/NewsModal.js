@@ -91,7 +91,7 @@ const NewsModal = ({
     } else if (logout === "true") {
       setCanVote(false);
     }
-  }, [alreadyVoted, bal1, bal2, isPremium, logout]);
+  }, [alreadyVoted, bal1, bal2, isPremium, logout, coinbase]);
 
   const handleLikeStates = () => {
     if (

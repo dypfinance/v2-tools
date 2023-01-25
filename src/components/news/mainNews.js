@@ -61,7 +61,7 @@ const MainNews = ({
         setCanVote(false)
       }
 
-    }, [alreadyVoted, bal1, bal2, isPremium, logout]);
+    }, [alreadyVoted, bal1, bal2, isPremium, logout, coinbase]);
 
     const checkUpVoting = async (itemId) => {
 

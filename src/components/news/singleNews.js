@@ -63,7 +63,7 @@ coinbase
       setCanVote(false)
     }
 
-  }, [alreadyVoted, bal1, bal2, isPremium, logout]);
+  }, [alreadyVoted, bal1, bal2, isPremium, logout, coinbase]);
 
   const handleLikeStates = () => {
     if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
