@@ -702,21 +702,19 @@ const EarnTopPicks = ({
     setActiveCard();
     if (topList === "Staking") {
       setTopPools([]);
-      if (chain === "avax") {
+      if (chain === "avax" || chainId === '43114') {
         setTimeout(() => {
           fetchAvaxStaking();
         }, 500);
       }
-      if (chain === "eth") {
+      if (chain === "eth" || chainId === '1') {
         setTimeout(() => {
-          // setTopPools(stake);
           fetchEthStaking();
         }, 500);
       }
 
-      if (chain === "bnb") {
+      if (chain === "bnb" || chainId === '56') {
         setTimeout(() => {
-          // setTopPools(stakebsc);
           fetchBnbStaking();
         }, 500);
       }
@@ -724,14 +722,12 @@ const EarnTopPicks = ({
       setTopPools([]);
       if (chain === "bnb") {
         setTimeout(() => {
-          // setTopPools(buyback);
           fetchBnbBuyback();
         }, 500);
       }
 
       if (chain === "eth") {
         setTimeout(() => {
-          // setTopPools(buyback);
           fetchEthBuyback();
         }, 500);
       }
@@ -769,67 +765,67 @@ const EarnTopPicks = ({
         handleCardIndexStake(0);
         handleCardIndexStake30(0);
         handleCardIndexStakeiDyp(0);
-      } else if (routeOption === "Staking" && chain === "bnb") {
+      }  if (routeOption === "Staking" && chain === "bnb") {
         setDetails(1);
         setActiveCard(topPools[1]);
         handleCardIndexStake(1);
         handleCardIndexStake30(1);
         handleCardIndexStakeiDyp(1);
-      } else if (routeOption === "Staking" && chain === "avax") {
+      }  if (routeOption === "Staking" && chain === "avax") {
         setDetails(2);
         setActiveCard(topPools[2]);
         handleCardIndexStake(2);
         handleCardIndexStake30(2);
         handleCardIndexStakeiDyp(2);
-      } else if (routeOption === "BuyBack" && chain === "eth") {
+      }  if (routeOption === "BuyBack" && chain === "eth") {
         setDetails(1);
         setActiveCard(topPools[1]);
         handleCardIndexStake(1);
         handleCardIndexStake30(1);
         handleCardIndexStakeiDyp(1);
-      } else if (routeOption === "BuyBack" && chain === "bnb") {
+      }  if (routeOption === "BuyBack" && chain === "bnb") {
         setDetails(0);
         setActiveCard(topPools[0]);
         handleCardIndexStake(0);
         handleCardIndexStake30(0);
         handleCardIndexStakeiDyp(0);
-      } else if (routeOption === "BuyBack" && chain === "avax") {
+      }  if (routeOption === "BuyBack" && chain === "avax") {
         setDetails(0);
         setActiveCard(topPools[0]);
         handleCardIndexStake(0);
         handleCardIndexStake30(0);
         handleCardIndexStakeiDyp(0);
-      } else if (routeOption === "Vault" && customChain === "eth") {
+      }  if (routeOption === "Vault" && customChain === "eth") {
         setDetails(0);
         setActiveCard(topPools[0]);
         handleCardIndexStake(0);
         handleCardIndexStake30(0);
         handleCardIndexStakeiDyp(0);
-      } else if (routeOption === "Vault" && customChain === "bnb") {
+      }  if (routeOption === "Vault" && customChain === "bnb") {
         setDetails(2);
         setActiveCard(topPools[2]);
         handleCardIndexStake(2);
         handleCardIndexStake30(2);
         handleCardIndexStakeiDyp(2);
-      } else if (routeOption === "Vault" && customChain === "avax") {
+      }  if (routeOption === "Vault" && customChain === "avax") {
         setDetails(3);
         setActiveCard2(topPools[3]);
         handleCardIndexStake(3);
         handleCardIndexStake30(3);
         handleCardIndexStakeiDyp(3);
-      } else if (routeOption === "Farming" && chain === "eth") {
+      }  if (routeOption === "Farming" && chain === "eth") {
         setDetails(4);
         setActiveCard2(topPools[4]);
         handleCardIndexStake(4);
         handleCardIndexStake30(4);
         handleCardIndexStakeiDyp(4);
-      } else if (routeOption === "Farming" && chain === "bnb") {
+      }  if (routeOption === "Farming" && chain === "bnb") {
         setDetails(3);
         setActiveCard2(topPools[3]);
         handleCardIndexStake(3);
         handleCardIndexStake30(3);
         handleCardIndexStakeiDyp(3);
-      } else if (routeOption === "Farming" && chain === "avax") {
+      }  if (routeOption === "Farming" && chain === "avax") {
         setDetails(4);
         setActiveCard2(topPools[4]);
         handleCardIndexStake(4);
@@ -854,7 +850,7 @@ const EarnTopPicks = ({
     setListing(listType);
 
     fetchUserPools();
-  }, [topList, listType, chain, expiredPools, coinbase]);
+  }, [topList, listType, chain, expiredPools, coinbase, chainId, customChain,routeOption]);
 
   const handleCardIndexStake = (index) => {
     if (topList === "Staking") {

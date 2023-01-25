@@ -310,7 +310,7 @@ const EarnContent = ({
     } else {
       fetchVaultTvl();
     }
-  }, [option, stake]);
+  }, [option, stake,chainId]);
 
   useEffect(() => {
     if (option === "Farming" || option === "Buyback" || option === "Staking") {
