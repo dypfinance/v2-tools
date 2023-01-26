@@ -36,6 +36,7 @@ import Swap from "./components/swap/Swap";
 import MobileMenu from "./components/sidebar/MobileMenu";
 import Disclaimer from "./components/disclaimer/Disclaimer";
 import ScrollToTop from "./functions/ScrollToTop";
+import LandPopup from "./components/LandPopup/LandPopup";
 
 class App extends React.Component {
   constructor(props) {
@@ -394,7 +395,7 @@ class App extends React.Component {
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
       >
         {/* <img src={navRadius} className="nav-radius" alt="" /> */}
-
+        <LandPopup />
         <Route component={GoogleAnalyticsReporter} />
 
         <div className="body_overlay"></div>
