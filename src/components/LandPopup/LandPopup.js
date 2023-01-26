@@ -38,10 +38,10 @@ const LandPopup = () => {
         </div>
         <div className="d-flex flex-column align-items-center justify-content-center">
             <h6 className="popup-title metaverse mb-0">Genesis Land NFT Launch</h6>
-            <span className="popup-span mb-0">Mint your Genesis Land NFT to gain access to a variety of World of Dypians Metaverse benefits</span>
+            <span className="popup-span mb-0">Become one of the original land owners and gain access to immediate rewards and earn opportunities in the World of Dypians by minting a Genesis Land NFT</span>
         </div>
         <img src={landPopup} className="w-75" alt="land nft" />
-        <span className="popup-content">A world limited only by your imagination</span>
+        <span className="popup-content">Total Genesis land supply limited to only 1,000 parcels</span>
         <a href='https://www.worldofdypians.com/land' target={"_blank"} onClick={() => setActive(false)}>
         <button className="btn filled-btn m-3" style={{fontSize: '16px', padding: '12px 24px'}}>Explore more</button>
         </a>
