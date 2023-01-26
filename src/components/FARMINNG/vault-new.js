@@ -233,9 +233,8 @@ const Vault = ({
           .times(usd_per_dyps)
           .toFixed(10);
          
-        let tvlUSD2 = new BigNumber(usdValueDYPS).div(10 ** TOKEN_DECIMALS)
-        .toString(10)
-
+        let tvlUSD2 =  new BigNumber(usdValueDYPS).div(1e18).toFixed(0);
+settvlUSD(tvlUSD2);
         const balance_formatted = new BigNumber(token_balance)
           .div(10 ** TOKEN_DECIMALS)
           .toString(10);
@@ -252,7 +251,7 @@ const Vault = ({
 
         setlastClaimedTime(lastClaimedTime);
         settotal_stakers(total_stakers);
-        settvlUSD(tvlUSD2);
+        
 
         let owner2 = await vault.owner();
         setowner(owner2);
