@@ -1103,13 +1103,13 @@ const StakeAvaxIDyp = ({
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My iDYP Deposit</span>
                     <h6 className="stats-card-content">
-                      {depositedTokens} iDYP
+                      {getFormattedNumber(depositedTokens,6) } iDYP
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My iDYP Balance</span>
                     <h6 className="stats-card-content">
-                      {token_balance} {token_symbol}
+                      {getFormattedNumber(token_balance,6) } {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1123,12 +1123,12 @@ const StakeAvaxIDyp = ({
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total iDYP Locked</span>
                     <h6 className="stats-card-content">
-                      {tvl} {token_symbol}
+                      {getFormattedNumber(tvl,6) } {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                    <h6 className="stats-card-content">${tvl_usd} USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">

@@ -691,9 +691,7 @@ export default function stakeAvax({
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
         if (
-          this.convertTimestampToDate(
-            Number(stakingTime) + Number(cliffTime)
-          ) >= this.convertTimestampToDate(Date.now() / 1000) &&
+          this.convertTimestampToDate(( Number(stakingTime) + Number(cliffTime))/1000) >= this.convertTimestampToDate(Date.now() / 1000) &&
           lockTime !== "No Lock"
         ) {
           canWithdraw = false;
@@ -702,7 +700,7 @@ export default function stakeAvax({
             .humanize(true);
         }
       }
-
+// console.log(this.convertTimestampToDate(( Number(stakingTime) + Number(cliffTime))/1000),this.convertTimestampToDate(Date.now() / 1000), canWithdraw )
       let total_stakers = this.state.total_stakers;
       //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
       let tvl_usd = this.state.tvlUSD / 1e18;
@@ -1455,7 +1453,7 @@ export default function stakeAvax({
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">TVL USD</span>
-                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                        <h6 className="stats-card-content">${tvl_usd} USD</h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">
