@@ -12,6 +12,8 @@
     border-radius: 24px;
     pointer-events: auto  !important;
     transition: all .25s ease-in-out;
+    width: 50%;
+
 }
 
 .popup-active{
@@ -51,8 +53,33 @@ color: #C0CBF7 !important;
 
 }
 
+.land-nft-image{
+    width: 450px;
+
+}
+
 @media screen and (max-width: 786px) {
     .popup-span{
         width: 100%;
+    }
+
+    .land-nft-image{
+        width: 75% !important;
+    }
+}
+
+@media screen and (max-width: 1455px) {
+   .popup-wrapper{
+     width: 55%;
+   }
+}
+@media screen and (max-width: 1300px) {
+    .popup-wrapper{
+        width: 70% !important;
+    }
+}
+@media screen and (max-width: 786px) {
+    .popup-wrapper{
+        width: 90% !important;
     }
 }
