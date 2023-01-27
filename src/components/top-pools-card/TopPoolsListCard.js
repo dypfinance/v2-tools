@@ -261,7 +261,7 @@ const TopPoolsListCard = ({
   const StakeAvax30 = stakeAvax30({
     staking: stakingarrayStakeAvax30[cardIndex === 1 ? 0 : 1],
     apr: expiredPools
-      ? expiredPools[cardIndex === 1 ? 0 : cardIndex - 1]?.apy_percent
+      ? expiredPools[cardIndex - 3]?.apy_percent
       : 0,
     liquidity: avax_address,
     expiration_time: "6 December 2022",
@@ -523,7 +523,7 @@ const TopPoolsListCard = ({
                 lineHeight: "30px",
               }}
             >
-              {apr} {cardIndex}
+              {apr}
             </h5>
             <p
               className="text-white"
@@ -977,7 +977,7 @@ const TopPoolsListCard = ({
               referrer={referrer}
             />
           ) : showDetails &&
-            cardIndex >= 5 &&
+          (cardIndex === 5 || cardIndex === 6) &&
             topList === "Staking" &&
             chain === "bnb" ? (
             <StakeBscIDyp
@@ -1044,7 +1044,7 @@ const TopPoolsListCard = ({
         ): showDetails &&
             topList === "Staking" &&
             chain === "avax" &&
-            (cardIndex === 2 || cardIndex === 3) ? (
+            (cardIndex === 3 || cardIndex === 4) ? (
             <StakeAvax30
               is_wallet_connected={isConnected}
               handleConnection={handleConnection}
@@ -1072,7 +1072,7 @@ const TopPoolsListCard = ({
         ) : showDetails &&
             topList === "Staking" &&
             chain === "avax" &&
-            cardIndex === 4 ? (
+            cardIndex === 2 ? (
             <StakeAvaxDai
               staking={window.constant_stakingdaiavax}
               apr={25}
