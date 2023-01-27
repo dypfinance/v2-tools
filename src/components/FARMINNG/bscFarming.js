@@ -2835,9 +2835,9 @@ export default function initBscFarming({
                                 </div>
                               </div> */}
                       </div>
-                      <h6 className="withsubtitle d-flex justify-content-start w-100 mt-1">
+                      {/* <h6 className="withsubtitle d-flex justify-content-start w-100 mt-1">
                         *No withdrawal fee
-                      </h6>
+                      </h6> */}
                       {this.state.errorMsg3 && (
                         <h6 className="errormsg">{this.state.errorMsg3}</h6>
                       )}

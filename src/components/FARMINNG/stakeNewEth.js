@@ -1371,7 +1371,7 @@ useEffect(()=>{
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1381,7 +1381,7 @@ useEffect(()=>{
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                     {/* <div className="form-row">
                             <div className="col-6">
                               <button

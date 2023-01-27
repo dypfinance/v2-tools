@@ -248,7 +248,7 @@ const TopPoolsListCard = ({
     coinbase: coinbase,
     chainId: chainId,
     referrer: referrer,
-    lockTime: lockarrayStakeAvaxActive[cardIndex - 1],
+    lockTime: lockarrayStakeAvaxActive[ expired === true ? cardIndex - 1 : cardIndex],
     listType: listType,
     handleSwitchNetwork: { handleSwitchNetwork },
   });
@@ -523,7 +523,7 @@ const TopPoolsListCard = ({
                 lineHeight: "30px",
               }}
             >
-              {apr}
+              {apr} {cardIndex}
             </h5>
             <p
               className="text-white"
@@ -720,7 +720,7 @@ const TopPoolsListCard = ({
           ) : showDetails &&
             topList === "Staking" &&
             chain === "avax" &&
-            cardIndex <= 1 ? (
+            cardIndex === 1 ? (
             <StakeAvaxActive
               is_wallet_connected={isConnected}
               handleConnection={handleConnection}

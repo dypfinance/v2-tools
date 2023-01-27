@@ -1597,7 +1597,7 @@ const StakeBsc = ({
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1607,7 +1607,7 @@ const StakeBsc = ({
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                     {/* <button
                         className="btn filledbtn w-100"
                         onClick={(e) => {

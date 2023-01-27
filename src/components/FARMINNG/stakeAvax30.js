@@ -1651,7 +1651,7 @@ export default function stakeAvax30({
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">TVL USD</span>
-                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                        <h6 className="stats-card-content">${tvl_usd} USD</h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">
@@ -1923,7 +1923,7 @@ export default function stakeAvax30({
                             <>Withdraw</>
                           )}
                         </button>
-                        <span
+                        {/* <span
                           className="mt-2"
                           style={{
                             fontWeight: "400",
@@ -1933,7 +1933,7 @@ export default function stakeAvax30({
                           }}
                         >
                           *No withdrawal fee
-                        </span>
+                        </span> */}
                         {/* <button
                       className="btn filledbtn w-100"
                       onClick={(e) => {

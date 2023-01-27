@@ -1370,7 +1370,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1380,7 +1380,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                     {/* <div className="form-row">
                             <div className="col-6">
                               <button

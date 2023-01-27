@@ -1142,7 +1142,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                    <h6 className="stats-card-content">${tvl_usd} USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1374,7 +1374,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1384,7 +1384,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                    
                   </div>
                   {errorMsg3 && <h6 className="errormsg">{errorMsg3}</h6>}

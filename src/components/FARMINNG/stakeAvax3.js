@@ -594,10 +594,11 @@ const StakeAvaxDai = ({
     return result;
   };
 
-  const handleBnbPool = async () => {
-    await handleSwitchNetworkhook("0x38")
+
+  const handleAvaxPool = async () => {
+    await handleSwitchNetworkhook("0xa86a")
       .then(() => {
-        handleSwitchNetwork("56");
+        this.props.handleSwitchNetwork("43114");
       })
       .catch((e) => {
         console.log(e);
@@ -941,7 +942,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                   <button
                     className="connectbtn btn"
                     onClick={() => {
-                      handleBnbPool();
+                      handleAvaxPool();
                     }}
                   >
                     Change Network
@@ -1191,13 +1192,6 @@ settokendata(propertyDyp[0][1].token_price_usd)
                   </div>
                   <div className="claim-reinvest-container d-flex justify-content-between align-items-center gap-3">
                     <button
-                      disabled={
-                        claimStatus === "claimed" ||
-                        claimStatus === "success" ||
-                        pendingDivs <= 0
-                          ? true
-                          : false
-                      }
                       className={`btn disabled-btn`}
                       style={{ height: "fit-content" }}
                       onClick={handleClaimDivs}
@@ -1396,7 +1390,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My DYP Balance</span>
-                    <h6 className="stats-card-content">{token_balance} DYP</h6>
+                    <h6 className="stats-card-content">{getFormattedNumber(token_balance,6) } DYP</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1408,11 +1402,11 @@ settokendata(propertyDyp[0][1].token_price_usd)
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total DYP Locked</span>
-                    <h6 className="stats-card-content">{tvl} DYP</h6>
+                    <h6 className="stats-card-content">{getFormattedNumber(tvl,6) } DYP</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                    <h6 className="stats-card-content">${tvl_usd} USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1674,7 +1668,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1684,7 +1678,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                     {/* <button
             className="btn filledbtn w-100"
             onClick={(e) => {

@@ -468,10 +468,10 @@ const StakeAvaxIDyp = ({
     return window.location.origin + window.location.pathname + "?r=" + coinbase;
   };
 
-  const handleEthPool = async () => {
-    await handleSwitchNetworkhook("0x1")
+ const handleAvaxPool = async () => {
+    await handleSwitchNetworkhook("0xa86a")
       .then(() => {
-        handleSwitchNetwork("1");
+        this.props.handleSwitchNetwork("43114");
       })
       .catch((e) => {
         console.log(e);
@@ -788,7 +788,7 @@ const StakeAvaxIDyp = ({
                   <button
                     className="connectbtn btn"
                     onClick={() => {
-                      handleEthPool();
+                      handleAvaxPool();
                     }}
                   >
                     Change Network
@@ -1363,7 +1363,7 @@ const StakeAvaxIDyp = ({
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1373,7 +1373,7 @@ const StakeAvaxIDyp = ({
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                     {/* <div className="form-row">
                             <div className="col-6">
                               <button
