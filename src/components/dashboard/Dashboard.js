@@ -169,13 +169,13 @@ const Dashboard = ({
   const expirearrayStakeAvax = ["14 July 2023", "05 August 2023"];
 
   const StakeAvax = stakeAvax({
-    staking: stakingarrayStakeAvax[0],
+    staking: stakingarrayStakeAvax[1],
     apr: topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30,
     finalApr: topPools[0]?.apy_performancefee
       ? topPools[0]?.apy_performancefee
       : 30,
     liquidity: avax_address,
-    expiration_time: expirearrayStakeAvax[0],
+    expiration_time: expirearrayStakeAvax[1],
     fee: topPools[0]?.performancefee,
     coinbase: coinbase,
     chainId: network.toString(),
@@ -396,12 +396,12 @@ const Dashboard = ({
                 ) : activeCard && chainId === 56 && cardIndex === 0 ? (
                   <StakeBsc
                     lp_id={LP_IDBNB_Array[cardIndex]}
-                    staking={stakearrayStakeBscDyp2[0]}
+                    staking={stakearrayStakeBscDyp2[1]}
                     apr={
                       topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30
                     }
                     liquidity={wbsc_address}
-                    expiration_time={expirearrayStakeBscDyp2[0]}
+                    expiration_time={expirearrayStakeBscDyp2[1]}
                     finalApr={
                       topPools[0]?.apy_performancefee
                         ? topPools[0]?.apy_performancefee
@@ -606,18 +606,19 @@ const Dashboard = ({
                   )
                 ) : activeCard && chainId === 56 && cardIndex === 0 ? (
                   <StakeBsc
-                    lp_id={LP_IDBNB_Array[cardIndex]}
-                    staking={stakearrayStakeBscDyp2[0]}
-                    apr={
-                      topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30
-                    }
-                    liquidity={wbsc_address}
-                    expiration_time={expirearrayStakeBscDyp2[0]}
-                    finalApr={
-                      topPools[0]?.apy_performancefee
-                        ? topPools[0]?.apy_performancefee
-                        : 30
-                    }
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  staking={stakearrayStakeBscDyp2[1]}
+                  apr={
+                    topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30
+                  }
+                  liquidity={wbsc_address}
+                  expiration_time={expirearrayStakeBscDyp2[1]}
+                  finalApr={
+                    topPools[0]?.apy_performancefee
+                      ? topPools[0]?.apy_performancefee
+                      : 30
+                  }
+                  
                     fee={topPools[0]?.performancefee}
                     lockTime={
                       parseInt(topPools[0]?.lock_time?.split(" ")[0]) === "No"
@@ -814,18 +815,19 @@ const Dashboard = ({
                   )
                 ) : activeCard2 && chainId === 56 && cardIndex === 0 ? (
                   <StakeBsc
-                    lp_id={LP_IDBNB_Array[cardIndex]}
-                    staking={stakearrayStakeBscDyp2[0]}
-                    apr={
-                      topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30
-                    }
-                    liquidity={wbsc_address}
-                    expiration_time={expirearrayStakeBscDyp2[0]}
-                    finalApr={
-                      topPools[0]?.apy_performancefee
-                        ? topPools[0]?.apy_performancefee
-                        : 30
-                    }
+                  lp_id={LP_IDBNB_Array[cardIndex]}
+                  staking={stakearrayStakeBscDyp2[1]}
+                  apr={
+                    topPools[0]?.apy_percent ? topPools[0]?.apy_percent : 30
+                  }
+                  liquidity={wbsc_address}
+                  expiration_time={expirearrayStakeBscDyp2[1]}
+                  finalApr={
+                    topPools[0]?.apy_performancefee
+                      ? topPools[0]?.apy_performancefee
+                      : 30
+                  }
+                  
                     fee={topPools[0]?.performancefee}
                     lockTime={
                       parseInt(topPools[0]?.lock_time?.split(" ")[0]) === "No"
