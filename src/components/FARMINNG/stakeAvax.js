@@ -690,6 +690,12 @@ export default function stakeAvax({
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+       if(this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))/1000).includes('2022') && lockTime !== 'No Lock') {
+         canWithdraw = true
+       }
+      }
+
+      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
         if (
           ((Number(stakingTime) + Number(cliffTime))/1000) >= (Date.now() / 1000) &&
           lockTime !== "No Lock"
@@ -700,7 +706,7 @@ export default function stakeAvax({
             .humanize(true);
         }
       }
-// console.log(( Number(stakingTime) + Number(cliffTime))/1000)
+// console.log(this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))/1000))
       let total_stakers = this.state.total_stakers;
       //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
       let tvl_usd = this.state.tvlUSD / 1e18;
