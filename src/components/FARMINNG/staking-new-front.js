@@ -1225,15 +1225,20 @@ export default function initStakingNew({
         }
       }
 
-      let canWithdraw = true
+      let canWithdraw = true;
       if (lockTime === "No Lock") {
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-          if ((this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now()))&& lockTime !== "No Lock") {
-              canWithdraw = false
-              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
-          }
+        if (
+          (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
+          lockTime !== "No Lock"
+        ) {
+          canWithdraw = false;
+          cliffTimeInWords = moment
+            .duration(cliffTime - (Date.now() - stakingTime))
+            .humanize(true);
+        }
       }
 
       let lp_data = this.props.the_graph_result.lp_data;
@@ -2091,10 +2096,10 @@ export default function initStakingNew({
                   </h6>
 
                   <button
-                     disabled={Number(this.state.depositedTokens) > 0 ? false : true}
-                    className={
-                      "outline-btn btn"
+                    disabled={
+                      Number(this.state.depositedTokens) > 0 ? false : true
                     }
+                    className={"outline-btn btn"}
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
                     }}
@@ -2445,7 +2450,9 @@ export default function initStakingNew({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={this.convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                              date={
+                                (Number(stakingTime) + Number(cliffTime)) * 1000
+                              }
                                 renderer={renderer}
                               />
                             )}

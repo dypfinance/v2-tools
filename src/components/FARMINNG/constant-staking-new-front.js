@@ -215,8 +215,9 @@ const StakeEth = ({
 
     getTotalTvl();
     let lp_data;
-if(the_graph_result)
-  {  lp_data = the_graph_result.token_data;}
+    if (the_graph_result) {
+      lp_data = the_graph_result.token_data;
+    }
     //console.log({lp_data})
     //Calculate APY
     let usd_per_token;
@@ -390,45 +391,45 @@ if(the_graph_result)
     getPriceDYP();
   }, [coinbase, coinbase2]);
 
-
   useEffect(() => {
-      const interval = setInterval(() => {
-        refreshBalance();
-      }, 1000);
-      return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      refreshBalance();
+    }, 1000);
+    return () => clearInterval(interval);
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
-    if(the_graph_result)
-  {  let usd_per_token = the_graph_result.token_data
-      ? the_graph_result.token_data[
-          "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
-        ].token_price_usd
-      : 1;
-    let usd_per_idyp = the_graph_result.token_data
-      ? the_graph_result.token_data[
-          "0xbd100d061e120b2c67a24453cf6368e63f1be056"
-        ].token_price_usd
-      : 1;
+    if (the_graph_result) {
+      let usd_per_token = the_graph_result.token_data
+        ? the_graph_result.token_data[
+            "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17"
+          ].token_price_usd
+        : 1;
+      let usd_per_idyp = the_graph_result.token_data
+        ? the_graph_result.token_data[
+            "0xbd100d061e120b2c67a24453cf6368e63f1be056"
+          ].token_price_usd
+        : 1;
 
-    let apr1 = 25;
-    let apr2 = 50;
-    let apy1 = new BigNumber(apr1)
-      .div(1e2)
-      .times(usd_per_idyp)
-      .div(usd_per_token)
-      .times(1e2)
-      .toFixed(2);
+      let apr1 = 25;
+      let apr2 = 50;
+      let apy1 = new BigNumber(apr1)
+        .div(1e2)
+        .times(usd_per_idyp)
+        .div(usd_per_token)
+        .times(1e2)
+        .toFixed(2);
 
-    let apy2 = new BigNumber(apr2)
-      .div(1e2)
-      .times(usd_per_idyp)
-      .div(usd_per_token)
-      .times(1e2)
-      .toFixed(2);
+      let apy2 = new BigNumber(apr2)
+        .div(1e2)
+        .times(usd_per_idyp)
+        .div(usd_per_token)
+        .times(1e2)
+        .toFixed(2);
 
-    setapy1(apy1);
-    setapy2(apy2);}
+      setapy1(apy1);
+      setapy2(apy2);
+    }
   };
 
   const handleApprove = async (e) => {
@@ -816,18 +817,21 @@ if(the_graph_result)
     document.getElementById(field).focus();
   };
 
-  let canWithdraw = true
+  let canWithdraw = true;
   if (lockTime === "No Lock") {
     canWithdraw = true;
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-      if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate((Date.now()/1000)))&& lockTime !== "No Lock") {
-          canWithdraw = false
-          cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
-      }
+    if (
+      (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
+      lockTime !== "No Lock"
+    ) {
+      canWithdraw = false;
+      cliffTimeInWords = moment
+        .duration(cliffTime - (Date.now() - stakingTime))
+        .humanize(true);
+    }
   }
-
-  
 
   let tvl_usd = tvlusd / 1e18;
 
@@ -843,36 +847,33 @@ if(the_graph_result)
         return data;
       });
 
-      let result_formatted = new BigNumber(result)
-      .div(1e18)
-      .toFixed(6);
+    let result_formatted = new BigNumber(result).div(1e18).toFixed(6);
 
-
-    if (Number(result_formatted) >= Number(amount) && Number(result_formatted) !== 0) {
+    if (
+      Number(result_formatted) >= Number(amount) &&
+      Number(result_formatted) !== 0
+    ) {
       setdepositStatus("deposit");
     } else {
       setdepositStatus("initial");
     }
   };
 
-  const getUsdPerDyp = async() => {
+  const getUsdPerDyp = async () => {
     await axios
       .get("https://api.dyp.finance/api/the_graph_eth_v2")
       .then((data) => {
         const propertyDyp = Object.entries(
           data.data.the_graph_eth_v2.token_data
-        ); 
-settokendata(propertyDyp[0][1].token_price_usd)
+        );
+        settokendata(propertyDyp[0][1].token_price_usd);
         return propertyDyp[0][1].token_price_usd;
-      }); 
-
+      });
   };
 
-
-  useEffect(()=>{
-      getUsdPerDyp()
-  },[])
-
+  useEffect(() => {
+    getUsdPerDyp();
+  }, []);
 
   return (
     <div className="container-lg p-0">
@@ -1411,10 +1412,8 @@ settokendata(propertyDyp[0][1].token_price_usd)
               </h6>
 
               <button
-                 disabled={Number(depositedTokens) > 0 ? false : true}
-                className={
-                  "outline-btn btn"
-                }
+                disabled={Number(depositedTokens) > 0 ? false : true}
+                className={"outline-btn btn"}
                 onClick={() => {
                   setshowWithdrawModal(true);
                 }}
@@ -1530,7 +1529,9 @@ settokendata(propertyDyp[0][1].token_price_usd)
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total DYP Locked</span>
-                    <h6 className="stats-card-content">{getFormattedNumber(tvl,6) } DYP</h6>
+                    <h6 className="stats-card-content">
+                      {getFormattedNumber(tvl, 6)} DYP
+                    </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
@@ -1705,7 +1706,9 @@ settokendata(propertyDyp[0][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                          date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                            date={
+                              (Number(stakingTime) + Number(cliffTime)) * 1000
+                            }
                             renderer={renderer}
                           />
                         )}
@@ -1953,8 +1956,7 @@ settokendata(propertyDyp[0][1].token_price_usd)
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
                 {" "}
-                ${getFormattedNumber(getApproxReturn() * tokendata, 6)}{" "}
-                USD
+                ${getFormattedNumber(getApproxReturn() * tokendata, 6)} USD
               </h3>
               <h6
                 style={{

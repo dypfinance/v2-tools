@@ -214,8 +214,9 @@ const StakeBsc = ({
       setcoinbase(coinbase);
     }
     let lp_data;
-    if(the_graph_result)
- {   lp_data = the_graph_result.token_data;}
+    if (the_graph_result) {
+      lp_data = the_graph_result.token_data;
+    }
     //console.log({lp_data})
 
     //Calculate APY
@@ -600,17 +601,24 @@ const StakeBsc = ({
   }
   let cliffTimeInWords = "lockup period";
 
-  let canWithdraw = true
-      if (lockTime === "No Lock") {
-        canWithdraw = true;
-      }
-      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-        if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate((Date.now()/1000)))&& lockTime !== "No Lock") {
-              canWithdraw = false
-              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
-          }
-      }
-  // console.log(Number(stakingTime)+ Number(cliffTime)> Date.now(),canWithdraw)
+  let canWithdraw = true;
+  if (lockTime === "No Lock") {
+    canWithdraw = true;
+  }
+  if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+    if (
+      (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
+      lockTime !== "No Lock"
+    ) {
+      canWithdraw = false;
+      cliffTimeInWords = moment
+        .duration(cliffTime - (Date.now() - stakingTime))
+        .humanize(true);
+    }
+  }
+
+  // console.log(Number(stakingTime) + Number(cliffTime) , Date.now()/1000)
+  
   let tvl_usd = tvl * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
@@ -630,11 +638,12 @@ const StakeBsc = ({
         console.log(data);
         return data;
       });
-      let result_formatted = new BigNumber(result)
-      .div(1e18)
-      .toFixed(6);
+    let result_formatted = new BigNumber(result).div(1e18).toFixed(6);
 
-    if (Number(result_formatted) >= Number(amount) && Number(result_formatted) !== 0) {
+    if (
+      Number(result_formatted) >= Number(amount) &&
+      Number(result_formatted) !== 0
+    ) {
       setdepositStatus("deposit");
     } else {
       setdepositStatus("initial");
@@ -656,7 +665,7 @@ const StakeBsc = ({
   useEffect(() => {
     getUsdPerDyp();
   }, []);
-  // console.log((Number(stakingTime) + Number(cliffTime)))
+
   // console.log(convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now()) , (Number(stakingTime) + Number(cliffTime)))
 
   return (
@@ -1315,7 +1324,7 @@ const StakeBsc = ({
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My DYP Balance</span>
                     <h6 className="stats-card-content">
-                      {getFormattedNumber(token_balance,6) } {token_symbol}
+                      {getFormattedNumber(token_balance, 6)} {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1328,7 +1337,9 @@ const StakeBsc = ({
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total DYP Locked</span>
-                    <h6 className="stats-card-content">{getFormattedNumber(tvl,6) } DYP</h6>
+                    <h6 className="stats-card-content">
+                      {getFormattedNumber(tvl, 6)} DYP
+                    </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
@@ -1503,9 +1514,9 @@ const StakeBsc = ({
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate(
-                              Number(stakingTime) + Number(cliffTime)
-                            )}
+                            date={
+                              (Number(stakingTime) + Number(cliffTime))*1000
+                            }
                             renderer={renderer}
                           />
                         )}
@@ -1568,11 +1579,11 @@ const StakeBsc = ({
                           ? "fail-button"
                           : withdrawStatus === "success"
                           ? "success-button"
-                          : ((withdrawAmount === "" &&
+                          : (withdrawAmount === "" &&
                               withdrawStatus === "initial") ||
-                            canWithdraw === false)
+                            canWithdraw === false
                           ? "disabled-btn"
-                          : 'filledbtn'
+                          : "filledbtn"
                       } d-flex justify-content-center align-items-center`}
                       style={{ height: "fit-content" }}
                       onClick={() => {

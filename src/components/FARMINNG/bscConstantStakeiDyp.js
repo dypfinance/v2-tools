@@ -178,8 +178,6 @@ const StakeBscIDyp = ({
   const [canwithdraw, setcanwithdraw] = useState(true);
   const [isCompleted, setisCompleted] = useState(false);
 
-
-
   const showModal = () => {
     setshow(true);
   };
@@ -264,7 +262,9 @@ const StakeBscIDyp = ({
 
         setstakingTime(stakingTime);
 
-        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toFixed(6);
+        let depositedTokens_formatted = new BigNumber(depositedTokens)
+          .div(1e18)
+          .toFixed(6);
 
         setdepositedTokens(depositedTokens_formatted);
 
@@ -312,11 +312,10 @@ const StakeBscIDyp = ({
   }, [coinbase, coinbase2]);
 
   useEffect(() => {
-      const interval = setInterval( () => {
-        refreshBalance();
-      }, 1000);
-      return () => clearInterval(interval);
-   
+    const interval = setInterval(() => {
+      refreshBalance();
+    }, 1000);
+    return () => clearInterval(interval);
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
@@ -570,20 +569,20 @@ const StakeBscIDyp = ({
   }
 
   let cliffTimeInWords = "lockup period";
-useEffect(()=>{
+  useEffect(() => {
     if (lockTime === "No Lock") {
-    setcanwithdraw(true)
-    
-  }
-  if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-    if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate((Date.now()/1000)))&& lockTime !== "No Lock" && isCompleted !== true) {
-        setcanwithdraw(false)
-          cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
+      setcanwithdraw(true);
+    }
+    if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+      if (
+        (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
+        lockTime !== "No Lock"
+      ) {
+        setcanwithdraw(false);
+       
       }
-  }
-
-},[lockTime, canwithdraw, cliffTime, stakingTime, isCompleted])
-  
+    }
+  }, [lockTime, canwithdraw, cliffTime, stakingTime, isCompleted]);
 
   // console.log(Date.now() - (stakingTime +cliffTime ))
   let tvl_usd = tvl * tokendata;
@@ -602,38 +601,33 @@ useEffect(()=>{
         return data;
       });
 
-      let result_formatted = new BigNumber(result)
-      .div(1e18)
-      .toFixed(6);
-      
-    if (Number(result_formatted) >= Number(amount) && Number(result_formatted) !== 0) {
-      setdepositStatus('deposit')
-      
+    let result_formatted = new BigNumber(result).div(1e18).toFixed(6);
+
+    if (
+      Number(result_formatted) >= Number(amount) &&
+      Number(result_formatted) !== 0
+    ) {
+      setdepositStatus("deposit");
     } else {
-      setdepositStatus('initial')
+      setdepositStatus("initial");
     }
   };
 
-  
-  const getUsdPerDyp = async() => {
+  const getUsdPerDyp = async () => {
     await axios
       .get("https://api.dyp.finance/api/the_graph_eth_v2")
       .then((data) => {
         const propertyiDyp = Object.entries(
           data.data.the_graph_eth_v2.token_data
-        ); 
-settokendata(propertyiDyp[1][1].token_price_usd)
+        );
+        settokendata(propertyiDyp[1][1].token_price_usd);
         return propertyiDyp[1][1].token_price_usd;
-      }); 
-
+      });
   };
 
-
-  useEffect(()=>{
-      getUsdPerDyp()
-  },[])
-
-  
+  useEffect(() => {
+    getUsdPerDyp();
+  }, []);
 
   return (
     <div className="container-lg p-0">
@@ -844,10 +838,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
               </div>
               <div className="d-flex flex-column gap-2 justify-content-between">
                 <div className="d-flex align-items-center justify-content-between gap-2">
-                  <div
-                    className="input-container px-0"
-                    
-                  >
+                  <div className="input-container px-0">
                     <input
                       type="number"
                       autoComplete="off"
@@ -1119,7 +1110,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My iDYP Balance</span>
                     <h6 className="stats-card-content">
-                      {getFormattedNumber(token_balance, 6) } {token_symbol}
+                      {getFormattedNumber(token_balance, 6)} {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1133,7 +1124,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total iDYP Locked</span>
                     <h6 className="stats-card-content">
-                      {getFormattedNumber(tvl,6) } {token_symbol}
+                      {getFormattedNumber(tvl, 6)} {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1284,9 +1275,14 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                           "No Lock"
                         ) : (
                           <Countdown
-                          date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                          date={
+                            (Number(stakingTime) + Number(cliffTime)) * 1000
+                          }
                             renderer={renderer}
-                            onComplete={()=>{setcanwithdraw(true);setisCompleted(true)}}
+                            onComplete={() => {
+                              setcanwithdraw(true);
+                              setisCompleted(true);
+                            }}
                           />
                         )}
                       </h6>
@@ -1316,8 +1312,12 @@ settokendata(propertyiDyp[1][1].token_price_usd)
                         id="amount_withdraw"
                         key="amount_withdraw"
                       />
-                      <label className="label"
-                      onClick={() => focusInput("amount_withdraw")}>Withdraw Amount</label>
+                      <label
+                        className="label"
+                        onClick={() => focusInput("amount_withdraw")}
+                      >
+                        Withdraw Amount
+                      </label>
                     </div>
 
                     <button
@@ -1475,8 +1475,7 @@ settokendata(propertyiDyp[1][1].token_price_usd)
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)}{" "}
-                USD
+                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)} USD
               </h3>
               <h6
                 style={{

@@ -789,15 +789,10 @@ const StakeBsc2 = ({
     }
     if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
       if (
-        convertTimestampToDate(Number(stakingTime) + Number(cliffTime)) >=
-          convertTimestampToDate(Date.now() / 1000) &&
-        lockTime !== "No Lock" &&
-        isCompleted !== true
+        (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
+        lockTime !== "No Lock"
       ) {
         setcanwithdraw(false);
-        cliffTimeInWords = moment
-          .duration(cliffTime - (Date.now() - stakingTime))
-          .humanize(true);
       }
     }
   }, [lockTime, canwithdraw, cliffTime, stakingTime, isCompleted]);
@@ -1686,9 +1681,9 @@ const StakeBsc2 = ({
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate(
-                              Number(stakingTime) + Number(cliffTime)
-                            )}
+                          date={
+                            (Number(stakingTime) + Number(cliffTime)) * 1000
+                          }
                             renderer={renderer}
                             onComplete={() => {
                               setcanwithdraw(true);

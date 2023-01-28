@@ -574,8 +574,7 @@ const StakeAvaxIDyp = ({
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
     if (
-      (convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000) >=
-        convertTimestampToDate(Date.now()))&&
+      (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
       lockTime !== "No Lock"
     ) {
       canWithdraw = false;
@@ -1274,7 +1273,10 @@ const StakeAvaxIDyp = ({
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000)}
+                          date={
+                            (Number(stakingTime) + Number(cliffTime)) *
+                            1000
+                          }
                             renderer={renderer}
                           />
                         )}

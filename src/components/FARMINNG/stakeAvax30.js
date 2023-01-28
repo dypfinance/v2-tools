@@ -181,8 +181,7 @@ export default function stakeAvax30({
         depositTooltip: false,
         rewardsTooltip: false,
         withdrawTooltip: false,
-        tokendata: 0
-
+        tokendata: 0,
       };
 
       this.showModal = this.showModal.bind(this);
@@ -245,19 +244,16 @@ export default function stakeAvax30({
       }
     };
 
-    getUsdPerDyp = async() => {
+    getUsdPerDyp = async () => {
       await axios
         .get("https://api.dyp.finance/api/the_graph_eth_v2")
         .then((data) => {
           const propertyDyp = Object.entries(
             data.data.the_graph_eth_v2.token_data
-          ); 
-          this.setState({tokendata: propertyDyp[0][1].token_price_usd})
-
-        }); 
-  
+          );
+          this.setState({ tokendata: propertyDyp[0][1].token_price_usd });
+        });
     };
-  
 
     componentDidMount() {
       if (this.props.coinbase !== this.state.coinbase) {
@@ -540,8 +536,7 @@ export default function stakeAvax30({
           .div(1e18)
           .toFixed(18),
       });
-    this.checkApproval(this.state.token_balance)
-
+      this.checkApproval(this.state.token_balance);
     };
     handleSetMaxWithdraw = (e) => {
       e.preventDefault();
@@ -893,15 +888,20 @@ export default function stakeAvax30({
 
       let cliffTimeInWords = "lockup period";
 
-      let canWithdraw = true
+      let canWithdraw = true;
       if (lockTime === "No Lock") {
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-          if ((this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= this.convertTimestampToDate(Date.now() / 1000))&& lockTime !== "No Lock") {
-              canWithdraw = false
-              cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
-          }
+        if (
+          (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
+          lockTime !== "No Lock"
+        ) {
+          canWithdraw = false;
+          cliffTimeInWords = moment
+            .duration(cliffTime - (Date.now() - stakingTime))
+            .humanize(true);
+        }
       }
       let total_stakers = this.state.total_stakers;
       //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
@@ -966,24 +966,28 @@ export default function stakeAvax30({
       const focusInput = (field) => {
         document.getElementById(field).focus();
       };
-    
+
       const checkApproval = async (amount) => {
         const result = await window
-          .checkapproveStakePool(this.state.coinbase, reward_token._address, staking._address)
+          .checkapproveStakePool(
+            this.state.coinbase,
+            reward_token._address,
+            staking._address
+          )
           .then((data) => {
             console.log(data);
             return data;
           });
-    
-          let result_formatted = new BigNumber(result)
-          .div(1e18)
-          .toFixed(6);
-    
 
-        if (Number(result_formatted) >= Number(amount) && Number(result_formatted) !== 0) {
-          this.setState({depositStatus: 'deposit'})
+        let result_formatted = new BigNumber(result).div(1e18).toFixed(6);
+
+        if (
+          Number(result_formatted) >= Number(amount) &&
+          Number(result_formatted) !== 0
+        ) {
+          this.setState({ depositStatus: "deposit" });
         } else {
-          this.setState({depositStatus: 'initial'})
+          this.setState({ depositStatus: "initial" });
         }
       };
 
@@ -1241,34 +1245,36 @@ export default function stakeAvax30({
                   <div className="d-flex flex-column gap-2 justify-content-between">
                     <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                       <div className="d-flex align-items-center justify-content-between justify-content-lg-start w-100 gap-2">
-                      
                         <div className="input-container px-0">
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          value={
-                            Number(this.state.depositAmount) > 0
-                              ? this.state.depositAmount
-                              : this.state.depositAmount
-                          }
-                          onChange={(e) =>
-                           { this.setState({
-                              depositAmount: e.target.value,
-                            });
-                          checkApproval(e.target.value)}
-                          }
-                          placeholder=" "
-                          className="text-input"
-                          style={{ width: "100%" }}
-                          name="amount_deposit"
-                          id="amount_deposit"
-                          key="amount_deposit"
-                        />
-                        <label htmlFor="usd" className="label"
-                        onClick={() => focusInput("amount_deposit")}>
-                         Amount
-                        </label>
-                      </div>
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            value={
+                              Number(this.state.depositAmount) > 0
+                                ? this.state.depositAmount
+                                : this.state.depositAmount
+                            }
+                            onChange={(e) => {
+                              this.setState({
+                                depositAmount: e.target.value,
+                              });
+                              checkApproval(e.target.value);
+                            }}
+                            placeholder=" "
+                            className="text-input"
+                            style={{ width: "100%" }}
+                            name="amount_deposit"
+                            id="amount_deposit"
+                            key="amount_deposit"
+                          />
+                          <label
+                            htmlFor="usd"
+                            className="label"
+                            onClick={() => focusInput("amount_deposit")}
+                          >
+                            Amount
+                          </label>
+                        </div>
                         {/* <div
                         className="input-container px-0"
                         style={{ width: "32%" }}
@@ -1410,9 +1416,7 @@ export default function stakeAvax30({
                         >
                           DYP
                         </span>
-                        <span>
-                        {pendingDivs}
-                        </span>
+                        <span>{pendingDivs}</span>
                         {/* <input
                           disabled
                           value={
@@ -1547,10 +1551,10 @@ export default function stakeAvax30({
                   </h6>
 
                   <button
-                    disabled={Number(this.state.depositedTokens) > 0 ? false : true}
-                    className={
-                      "outline-btn btn"
+                    disabled={
+                      Number(this.state.depositedTokens) > 0 ? false : true
                     }
+                    className={"outline-btn btn"}
                     onClick={() => {
                       this.setState({ showWithdrawModal: true });
                     }}
@@ -1827,10 +1831,13 @@ export default function stakeAvax30({
                               "No Lock"
                             ) : (
                               <Countdown
-                              date={Number(stakingTime) + Number(cliffTime)}
+                                date={
+                                  (Number(stakingTime) + Number(cliffTime)) *
+                                  1000
+                                }
                                 renderer={renderer}
                                 onComplete={() => {
-                                  canWithdraw=true
+                                  canWithdraw = true;
                                 }}
                               />
                             )}
@@ -1848,29 +1855,31 @@ export default function stakeAvax30({
                       </div>
 
                       <div className="d-flex align-items-center justify-content-between gap-2">
-                       
                         <div className="input-container px-0">
-                        <input
-                          type="number"
-                          autoComplete="off"
-                          value={this.state.withdrawAmount}
+                          <input
+                            type="number"
+                            autoComplete="off"
+                            value={this.state.withdrawAmount}
                             onChange={(e) =>
                               this.setState({
                                 withdrawAmount: e.target.value,
                               })
                             }
-                          placeholder=" "
-                          className="text-input"
-                          style={{ width: "100%" }}
-                          name="amount_withdraw"
-                        id="amount_withdraw"
-                        key="amount_withdraw"
-                        />
-                        <label htmlFor="usd" className="label"
-                         onClick={() => focusInput("amount_withdraw")}>
-                        Withdraw Amount
-                        </label>
-                      </div>
+                            placeholder=" "
+                            className="text-input"
+                            style={{ width: "100%" }}
+                            name="amount_withdraw"
+                            id="amount_withdraw"
+                            key="amount_withdraw"
+                          />
+                          <label
+                            htmlFor="usd"
+                            className="label"
+                            onClick={() => focusInput("amount_withdraw")}
+                          >
+                            Withdraw Amount
+                          </label>
+                        </div>
                         <button
                           className="btn maxbtn"
                           onClick={this.handleSetMaxWithdraw}
@@ -2087,10 +2096,12 @@ export default function stakeAvax30({
                 </div>
                 <div className="d-flex flex-column gap-2 mt-4">
                   <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                     $ {getFormattedNumber(
+                    ${" "}
+                    {getFormattedNumber(
                       this.getApproxReturn() * this.state.tokendata,
                       6
-                    )}{" "}USD
+                    )}{" "}
+                    USD
                   </h3>
                   <h6
                     style={{
@@ -2099,8 +2110,7 @@ export default function stakeAvax30({
                       color: "#f7f7fc",
                     }}
                   >
-               Approx {" "}{getFormattedNumber(this.getApproxReturn(), 2)}  {" "}
-                    DYP
+                    Approx {getFormattedNumber(this.getApproxReturn(), 2)} DYP
                   </h6>
                 </div>
                 <div className="mt-4">
