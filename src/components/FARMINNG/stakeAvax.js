@@ -795,7 +795,7 @@ export default function stakeAvax({
           this.setState({ depositStatus: "initial" });
         }
       };
-      // console.log((Number(stakingTime) + Number(cliffTime)))
+      
       return (
         <div className="container-lg p-0">
           <div

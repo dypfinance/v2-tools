@@ -1166,7 +1166,7 @@ const StakeBscDai = ({
                         color: "#c0c9ff",
                       }}
                     >
-                      DYP
+                      WBNB
                     </span>
                     <span>{pendingDivs}</span>
                     {/* <input
@@ -1825,7 +1825,7 @@ Calculator
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)} USD
+                $ {getFormattedNumber(getApproxReturn() * getUsdPerETH(), 6)} USD
               </h3>
               <h6
                 style={{
@@ -1834,8 +1834,8 @@ Calculator
                   color: "#f7f7fc",
                 }}
               >
-                Approx {getFormattedNumber(getApproxReturn(), 2)}
-                DYP
+                Approx {getFormattedNumber(getApproxReturn(), 6)}{" "}
+                WBNB
               </h6>
             </div>
             <div className="mt-4">
