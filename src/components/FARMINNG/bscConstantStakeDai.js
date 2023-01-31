@@ -294,30 +294,34 @@ const StakeBscDai = ({
 
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
 
-        let balance_formatted = new BigNumber(token_balance)
-          .div(1e18)
-          .toFixed(6);
+        let balance_formatted = new BigNumber(token_balance).div(1e18).toString(10);
         settoken_balance(balance_formatted);
 
-        let divs_formatted = new BigNumber(pendingDivs).div(1e18).toFixed(6);
-        setpendingDivs(divs_formatted);
+        let usd_per_bnb = the_graph_result.token_data
+        ? the_graph_result.usd_per_eth
+        : 1;
+
+        let divs_formatted =new BigNumber(pendingDivs)
+        .div(10 ** TOKEN_DECIMALS)
+        .div(usd_per_bnb)
+        .toString(10);
+
+        setpendingDivs(getFormattedNumber(divs_formatted,6));
 
         let earnedTokens_formatted = new BigNumber(totalEarnedTokens)
-          .div(1e18)
-          .toFixed(6);
-        settotalEarnedTokens(earnedTokens_formatted);
+        .div(10 ** TOKEN_DECIMALS)
+        .toString(10);
+        settotalEarnedTokens( getFormattedNumber(earnedTokens_formatted,6) );
 
         setstakingTime(stakingTime);
 
-        let depositedTokens_formatted = new BigNumber(depositedTokens)
-          .div(1e18)
-          .toFixed(6);
+        let depositedTokens_formatted = new BigNumber(depositedTokens).div(1e18).toString(10);
 
-        setdepositedTokens(depositedTokens_formatted);
+        setdepositedTokens(getFormattedNumber(depositedTokens_formatted,6));
 
         setlastClaimedTime(lastClaimedTime);
 
-        let tvl_formatted = new BigNumber(tvl).div(1e18).toFixed(6);
+        let tvl_formatted = new BigNumber(tvl).div(1e18).toString(10);
         settvl(tvl_formatted);
 
         setsettvlDyps(tvlDyps);
