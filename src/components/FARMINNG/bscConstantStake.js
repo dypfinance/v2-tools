@@ -409,7 +409,7 @@ const StakeBsc = ({
     }
 
     let amount = depositAmount;
-    amount = new BigNumber(amount).times(1e18).toFixed(0);
+    amount = new BigNumber(depositAmount).times(1e18).toFixed(0);
     let referrer = window.config.ZERO_ADDRESS;
 
     //NO REFERRER HERE
@@ -480,8 +480,8 @@ const StakeBsc = ({
   const handleSetMaxDeposit = (e) => {
     // e.preventDefault();
     const depositAmount = token_balance;
-    checkApproval(token_balance);
-
+    console.log(depositAmount)
+    checkApproval(depositAmount);
     setdepositAmount(depositAmount);
   };
 
