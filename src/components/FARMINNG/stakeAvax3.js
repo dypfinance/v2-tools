@@ -294,8 +294,8 @@ const StakeAvaxDai = ({
 
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
 
-        let balance_formatted = new BigNumber(token_balance).div(1e18).toString(10);
-        settoken_balance(balance_formatted);
+        let balance_formatted = new BigNumber(token_balance ).div(1e18).toString(10)
+        settoken_balance(balance_formatted) ;
 
         let usd_per_bnb = the_graph_result.token_data ? the_graph_result.usd_per_eth : 1
         let divs_formatted = new BigNumber(pendingDivs).div(10 ** TOKEN_DECIMALS).div(usd_per_bnb).toString(10);
@@ -969,7 +969,7 @@ const StakeAvaxDai = ({
                     Balance:
                     <b>
                       {token_balance !== "..."
-                        ? token_balance
+                        ? getFormattedNumber(token_balance, 6)
                         : getFormattedNumber(0, 6)}{" "}
                       {token_symbol}
                     </b>

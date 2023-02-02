@@ -299,10 +299,9 @@ const StakeBsc = ({
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
         setsettvlDyps(tvlDyps);
 
-        let balance_formatted = new BigNumber(token_balance)
-          .div(1e18)
-          .toFixed(6);
-        settoken_balance(balance_formatted);
+        let balance_formatted = new BigNumber(token_balance ).div(1e18).toString(10)
+     
+        settoken_balance(balance_formatted) ;
 
         let divs_formatted = new BigNumber(pendingDivs).div(1e18).toFixed(6);
         setpendingDivs(divs_formatted);
@@ -410,6 +409,7 @@ const StakeBsc = ({
 
     let amount = depositAmount;
     amount = new BigNumber(depositAmount).times(1e18).toFixed(0);
+    console.log(amount)
     let referrer = window.config.ZERO_ADDRESS;
 
     //NO REFERRER HERE
@@ -639,7 +639,7 @@ const StakeBsc = ({
         return data;
       });
     let result_formatted = new BigNumber(result).div(1e18).toFixed(6);
-
+console.log(amount,result_formatted)
     if (
       Number(result_formatted) >= Number(amount) &&
       Number(result_formatted) !== 0
@@ -893,7 +893,7 @@ const StakeBsc = ({
                     Balance:
                     <b>
                       {token_balance !== "..."
-                        ? token_balance
+                        ? getFormattedNumber(token_balance, 6)
                         : getFormattedNumber(0, 6)}{" "}
                       {token_symbol}
                     </b>

@@ -268,10 +268,8 @@ const StakeNewEth = ({
         ]);
 
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
-        let balance_formatted = new BigNumber(token_balance)
-          .div(1e18)
-          .toFixed(6);
-        settoken_balance(balance_formatted);
+        let balance_formatted = new BigNumber(token_balance ).div(1e18).toString(10)
+     settoken_balance(balance_formatted) ;
 
         let divs_formatted = new BigNumber(pendingDivs).div(1e18).toFixed(6);
         setpendingDivs(divs_formatted);
@@ -820,7 +818,7 @@ const StakeNewEth = ({
                     Balance:
                     <b>
                       {token_balance !== "..."
-                        ? token_balance
+                        ? getFormattedNumber(token_balance, 6)
                         : getFormattedNumber(0, 6)}{" "}
                       {token_symbol}
                     </b>
