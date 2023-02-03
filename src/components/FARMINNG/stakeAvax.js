@@ -690,10 +690,14 @@ export default function stakeAvax({
         canWithdraw = true;
       }
       if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
+       if(this.convertTimestampToDate((Number(stakingTime) + Number(cliffTime))/1000).includes('2022') && lockTime !== 'No Lock') {
+         canWithdraw = true
+       }
+      }
+
+      if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
         if (
-          this.convertTimestampToDate(
-            Number(stakingTime) + Number(cliffTime)
-          ) >= this.convertTimestampToDate(Date.now() / 1000) &&
+          (Number(stakingTime) + Number(cliffTime)) /1000 >= Date.now()/1000 &&
           lockTime !== "No Lock"
         ) {
           canWithdraw = false;
@@ -702,7 +706,7 @@ export default function stakeAvax({
             .humanize(true);
         }
       }
-
+// console.log((Number(stakingTime) + Number(cliffTime))/1000 >= Date.now(), (Number(stakingTime) + Number(cliffTime)) /1000 , Date.now()/1000)
       let total_stakers = this.state.total_stakers;
       //let tvl_usd = this.state.tvl / 1e18 * this.state.usdPerToken
       let tvl_usd = this.state.tvlUSD / 1e18;
@@ -791,7 +795,7 @@ export default function stakeAvax({
           this.setState({ depositStatus: "initial" });
         }
       };
-      // console.log((Number(stakingTime) + Number(cliffTime)))
+      
       return (
         <div className="container-lg p-0">
           <div
@@ -1455,7 +1459,7 @@ export default function stakeAvax({
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">TVL USD</span>
-                        <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                        <h6 className="stats-card-content">${tvl_usd} USD</h6>
                       </div>
                       <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                         <span className="stats-card-title">
@@ -1613,7 +1617,9 @@ export default function stakeAvax({
                               "No Lock"
                             ) : (
                               <Countdown
-                                date={Number(stakingTime) + Number(cliffTime)}
+                              date={
+                                (Number(stakingTime) + Number(cliffTime))
+                              }
                                 renderer={renderer}
                                 onComplete={() => {
                                   canWithdraw = true;
@@ -1711,7 +1717,7 @@ export default function stakeAvax({
                             <>Withdraw</>
                           )}
                         </button>
-                        <span
+                        {/* <span
                           className="mt-2"
                           style={{
                             fontWeight: "400",
@@ -1721,7 +1727,7 @@ export default function stakeAvax({
                           }}
                         >
                           *No withdrawal fee
-                        </span>
+                        </span> */}
                         {/* <button
                         className="btn filledbtn w-100"
                         onClick={(e) => {

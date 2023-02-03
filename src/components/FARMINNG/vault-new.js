@@ -131,7 +131,7 @@ const Vault = ({
   const [coinbase2, setcoinbase] = useState(
     "0x0000000000000000000000000000000000000111"
   );
-  const [tvl, settvl] = useState("");
+  
   const [tvl_usd, settvl_usd] = useState("");
   const [tvlUSD, settvlUSD] = useState(1);
 
@@ -233,9 +233,8 @@ const Vault = ({
           .times(usd_per_dyps)
           .toFixed(10);
          
-        let tvlUSD2 = new BigNumber(usdValueDYPS).div(10 ** TOKEN_DECIMALS)
-        .toString(10)
-
+        let tvlUSD2 =  new BigNumber(usdValueDYPS).div(1e18).toFixed(0);
+settvlUSD(tvlUSD2);
         const balance_formatted = new BigNumber(token_balance)
           .div(10 ** TOKEN_DECIMALS)
           .toString(10);
@@ -252,7 +251,7 @@ const Vault = ({
 
         setlastClaimedTime(lastClaimedTime);
         settotal_stakers(total_stakers);
-        settvlUSD(tvlUSD2);
+        
 
         let owner2 = await vault.owner();
         setowner(owner2);
@@ -396,6 +395,7 @@ const Vault = ({
     }
   };
 
+  
   useEffect(() => {
     if (coinbase !== coinbase2 && coinbase !== null && coinbase !== undefined) {
       setcoinbase(coinbase);
@@ -404,6 +404,7 @@ const Vault = ({
       .getTvlUsdAndApyPercent(UNDERLYING_DECIMALS)
       .then(
         ({ tvl_usd, apy_percent }) => {
+
           settvl_usd(tvl_usd);
           setapy_percent(apy_percent);
         }
@@ -423,8 +424,18 @@ const Vault = ({
     const interval = setInterval(async () => {
       refreshBalance();
     }, 3000);
+   
     return () => clearInterval(interval);
   }, [coinbase, coinbase2]);
+
+
+  useEffect(() => {
+    
+    let tvlUSD2 = parseInt(tvlUSD) + parseInt(tvl_usd); 
+    settvl_usd(getFormattedNumber(tvlUSD2, 2)) 
+  }, [coinbase, coinbase2, tvlUSD, tvl_usd]);
+
+  
 
   const handleApprove = async (e) => {
     // e.preventDefault();
@@ -706,7 +717,9 @@ const Vault = ({
   const handleSetMaxDeposit = (e) => {
     // e.preventDefault();
 
-    const depositAmount2 = token_balance;
+    const depositAmount2 = new BigNumber(token_balance)
+    .div(10 ** UNDERLYING_DECIMALS)
+    .toFixed(UNDERLYING_DECIMALS);
 
     setdepositAmount(depositAmount2);
   };
@@ -721,7 +734,9 @@ const Vault = ({
   const handleSetMaxWithdraw = (e) => {
     // e.preventDefault();
 
-    const withdrawAmount2 = depositedTokens;
+    const withdrawAmount2 = new BigNumber(depositedTokens)
+    .div(10 ** UNDERLYING_DECIMALS)
+    .toFixed(UNDERLYING_DECIMALS);
     setwithdrawAmount(withdrawAmount2);
   };
 
@@ -1512,7 +1527,7 @@ const Vault = ({
                 <div className="stats-container my-4">
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">${tvl_usd} USD</h6>
+                    <h6 className="stats-card-content">${tvl_usd } USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1668,17 +1683,7 @@ const Vault = ({
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
-                      className="mt-2"
-                      style={{
-                        fontWeight: "400",
-                        fontSize: "12px",
-                        lineHeight: "18px",
-                        color: "#C0C9FF",
-                      }}
-                    >
-                      *No withdrawal fee
-                    </span>
+                    
                     {/* <button
                   className="btn filledbtn w-100"
                   onClick={(e) => {

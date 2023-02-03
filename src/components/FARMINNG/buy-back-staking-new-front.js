@@ -2709,7 +2709,7 @@ export default function initBuybackStakingNew({
                             <>Withdraw</>
                           )}
                         </button>
-                        <span
+                        {/* <span
                           className="mt-2"
                           style={{
                             fontWeight: "400",
@@ -2719,7 +2719,7 @@ export default function initBuybackStakingNew({
                           }}
                         >
                           *No withdrawal fee
-                        </span>
+                        </span> */}
                       </div>
                       {this.state.errorMsg3 && (
                         <h6 className="errormsg">{this.state.errorMsg3}</h6>

@@ -3052,7 +3052,7 @@ export default function avaxBuyback({
                             <>Withdraw</>
                           )}
                         </button>
-                        <span
+                        {/* <span
                           className="mt-2"
                           style={{
                             fontWeight: "400",
@@ -3062,7 +3062,7 @@ export default function avaxBuyback({
                           }}
                         >
                           *No withdrawal fee
-                        </span>
+                        </span> */}
                       </div>
                       {this.state.errorMsg3 && (
                         <h6 className="errormsg">{this.state.errorMsg3}</h6>

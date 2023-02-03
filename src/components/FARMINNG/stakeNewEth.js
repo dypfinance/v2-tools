@@ -66,7 +66,7 @@ const StakeNewEth = ({
   lp_id,
   coinbase,
   referrer,
-  totalTvl
+  totalTvl,
 }) => {
   let { reward_token, BigNumber, alertify, token_dyps } = window;
   let token_symbol = "DYP";
@@ -177,7 +177,6 @@ const StakeNewEth = ({
   const [withdrawTooltip, setwithdrawTooltip] = useState(false);
   const [tokendata, settokendata] = useState();
 
-
   const showModal = () => {
     setshow(true);
   };
@@ -200,15 +199,17 @@ const StakeNewEth = ({
       .then((data) => {
         console.log(data);
         return data;
-      }).catch((e)=>{
-        console.log(e)
       })
+      .catch((e) => {
+        console.log(e);
+      });
 
-      let result_formatted = new BigNumber(result)
-      .div(1e18)
-      .toFixed(6);
+    let result_formatted = new BigNumber(result).div(1e18).toFixed(6);
 
-    if (Number(result_formatted) >= Number(amount) && Number(result_formatted)!==0) {
+    if (
+      Number(result_formatted) >= Number(amount) &&
+      Number(result_formatted) !== 0
+    ) {
       setdepositStatus("deposit");
     } else {
       setdepositStatus("initial");
@@ -267,10 +268,8 @@ const StakeNewEth = ({
         ]);
 
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
-        let balance_formatted = new BigNumber(token_balance)
-          .div(1e18)
-          .toFixed(6);
-        settoken_balance(balance_formatted);
+        let balance_formatted = new BigNumber(token_balance ).div(1e18).toString(10)
+     settoken_balance(balance_formatted) ;
 
         let divs_formatted = new BigNumber(pendingDivs).div(1e18).toFixed(6);
         setpendingDivs(divs_formatted);
@@ -290,7 +289,6 @@ const StakeNewEth = ({
 
         setlastClaimedTime(lastClaimedTime);
 
-        
         settvl(tvl);
 
         setsettvlDyps(tvlDyps);
@@ -333,12 +331,11 @@ const StakeNewEth = ({
     getTotalTvl();
   }, [coinbase, coinbase2]);
 
-
   useEffect(() => {
-      const interval = setInterval( () => {
-        refreshBalance();
-      }, 1000);
-      return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      refreshBalance();
+    }, 1000);
+    return () => clearInterval(interval);
   }, [coinbase, coinbase2]);
 
   const getTotalTvl = async () => {
@@ -466,7 +463,7 @@ const StakeNewEth = ({
 
   const handleSetMaxDeposit = () => {
     const depositAmount = token_balance;
-    checkApproval(token_balance)
+    checkApproval(token_balance);
 
     setdepositAmount(depositAmount);
   };
@@ -485,20 +482,19 @@ const StakeNewEth = ({
   };
 
   // console.log(the_graph_result.token_data)
-  const getUsdPerDyp = async() => {
+  const getUsdPerDyp = async () => {
     await axios
       .get("https://api.dyp.finance/api/the_graph_eth_v2")
       .then((data) => {
         const propertyDyp = Object.entries(
           data.data.the_graph_eth_v2.token_data
-        ); 
-settokendata(propertyDyp[0][1].token_price_usd)
+        );
+        settokendata(propertyDyp[0][1].token_price_usd);
         return propertyDyp[0][1].token_price_usd;
-      }); 
-
+      });
   };
 
-// console.log(tokendata)
+  // console.log(tokendata)
   const getApproxReturn = () => {
     let APY = getAPY() - fee_s;
 
@@ -609,17 +605,22 @@ settokendata(propertyDyp[0][1].token_price_usd)
 
   let cliffTimeInWords = "lockup period";
 
-  let canWithdraw = true
+  let canWithdraw = true;
   if (lockTime === "No Lock") {
     canWithdraw = true;
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
-    if ((convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate((Date.now()/1000)))&& lockTime !== "No Lock") {
-          canWithdraw = false
-          cliffTimeInWords = moment.duration((cliffTime - (Date.now() - stakingTime))).humanize(true)
-      }
+    if (
+      (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
+      lockTime !== "No Lock"
+    ) {
+      canWithdraw = false;
+      cliffTimeInWords = moment
+        .duration(cliffTime - (Date.now() - stakingTime))
+        .humanize(true);
+    }
   }
-  let tvl_usd = tvl/ 1e18 * tokendata;
+  let tvl_usd = (tvl / 1e18) * tokendata;
 
   let tvlDYPS = tvlDyps / 1e18;
 
@@ -628,10 +629,9 @@ settokendata(propertyDyp[0][1].token_price_usd)
   tvl_usd = getFormattedNumber(tvl_usd, 2);
   // console.log(tvl_usd)
 
-
-useEffect(()=>{
-    getUsdPerDyp()
-},[])
+  useEffect(() => {
+    getUsdPerDyp();
+  }, []);
 
   return (
     <div className="container-lg p-0">
@@ -818,7 +818,7 @@ useEffect(()=>{
                     Balance:
                     <b>
                       {token_balance !== "..."
-                        ? token_balance
+                        ? getFormattedNumber(token_balance, 6)
                         : getFormattedNumber(0, 6)}{" "}
                       {token_symbol}
                     </b>
@@ -1111,13 +1111,13 @@ useEffect(()=>{
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My DYP Deposit</span>
                     <h6 className="stats-card-content">
-                      {getFormattedNumber(depositedTokens,2) } DYP
+                      {getFormattedNumber(depositedTokens, 2)} DYP
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My DYP Balance</span>
                     <h6 className="stats-card-content">
-                      {getFormattedNumber(token_balance,6) } {token_symbol}
+                      {getFormattedNumber(token_balance, 6)} {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1131,12 +1131,12 @@ useEffect(()=>{
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total DYP Locked</span>
                     <h6 className="stats-card-content">
-                      { getFormattedNumber(tvl/ 1e18, 2) } {token_symbol}
+                      {getFormattedNumber(tvl / 1e18, 2)} {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">{tvl_usd } USD</h6>
+                    <h6 className="stats-card-content">{tvl_usd} USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1282,7 +1282,9 @@ useEffect(()=>{
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate(Number(stakingTime) + Number(cliffTime))}
+                            date={
+                              (Number(stakingTime) + Number(cliffTime)) * 1000
+                            }
                             renderer={renderer}
                           />
                         )}
@@ -1371,7 +1373,7 @@ useEffect(()=>{
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1381,7 +1383,7 @@ useEffect(()=>{
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                     {/* <div className="form-row">
                             <div className="col-6">
                               <button
@@ -1476,8 +1478,7 @@ useEffect(()=>{
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <h3 style={{ fontWeight: "500", fontSize: "39px" }}>
-                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)}{" "}
-                USD
+                $ {getFormattedNumber(getApproxReturn() * tokendata, 6)} USD
               </h3>
               <h6
                 style={{

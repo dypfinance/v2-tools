@@ -245,10 +245,8 @@ const StakeAvaxIDyp = ({
         ]);
 
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
-        let balance_formatted = new BigNumber(token_balance)
-          .div(1e18)
-          .toFixed(6);
-        settoken_balance(balance_formatted);
+        let balance_formatted = new BigNumber(token_balance ).div(1e18).toString(10)
+        settoken_balance(balance_formatted) ;
 
         let divs_formatted = new BigNumber(pendingDivs).div(1e18).toFixed(6);
         setpendingDivs(divs_formatted);
@@ -468,10 +466,10 @@ const StakeAvaxIDyp = ({
     return window.location.origin + window.location.pathname + "?r=" + coinbase;
   };
 
-  const handleEthPool = async () => {
-    await handleSwitchNetworkhook("0x1")
+ const handleAvaxPool = async () => {
+    await handleSwitchNetworkhook("0xa86a")
       .then(() => {
-        handleSwitchNetwork("1");
+        this.props.handleSwitchNetwork("43114");
       })
       .catch((e) => {
         console.log(e);
@@ -574,8 +572,7 @@ const StakeAvaxIDyp = ({
   }
   if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
     if (
-      (convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000) >=
-        convertTimestampToDate(Date.now()))&&
+      (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
       lockTime !== "No Lock"
     ) {
       canWithdraw = false;
@@ -788,7 +785,7 @@ const StakeAvaxIDyp = ({
                   <button
                     className="connectbtn btn"
                     onClick={() => {
-                      handleEthPool();
+                      handleAvaxPool();
                     }}
                   >
                     Change Network
@@ -810,7 +807,7 @@ const StakeAvaxIDyp = ({
                     Balance:
                     <b>
                       {token_balance !== "..."
-                        ? token_balance
+                        ? getFormattedNumber(token_balance, 6)
                         : getFormattedNumber(0, 6)}{" "}
                       {token_symbol}
                     </b>
@@ -1103,13 +1100,13 @@ const StakeAvaxIDyp = ({
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My iDYP Deposit</span>
                     <h6 className="stats-card-content">
-                      {depositedTokens} iDYP
+                      {getFormattedNumber(depositedTokens,6) } iDYP
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My iDYP Balance</span>
                     <h6 className="stats-card-content">
-                      {token_balance} {token_symbol}
+                      {getFormattedNumber(token_balance,6) } {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
@@ -1123,12 +1120,12 @@ const StakeAvaxIDyp = ({
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total iDYP Locked</span>
                     <h6 className="stats-card-content">
-                      {tvl} {token_symbol}
+                      {getFormattedNumber(tvl,6) } {token_symbol}
                     </h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                    <h6 className="stats-card-content">${tvl_usd} USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1274,7 +1271,10 @@ const StakeAvaxIDyp = ({
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate((Number(stakingTime) + Number(cliffTime)) * 1000)}
+                          date={
+                            (Number(stakingTime) + Number(cliffTime)) *
+                            1000
+                          }
                             renderer={renderer}
                           />
                         )}
@@ -1363,7 +1363,7 @@ const StakeAvaxIDyp = ({
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1373,7 +1373,7 @@ const StakeAvaxIDyp = ({
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                     {/* <div className="form-row">
                             <div className="col-6">
                               <button

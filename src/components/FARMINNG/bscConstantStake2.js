@@ -349,10 +349,8 @@ const StakeBsc2 = ({
         let tvlDyps = new BigNumber(tvlDYPS).times(usd_per_dyps).toFixed(18);
         setsettvlDyps(tvlDyps);
 
-        let balance_formatted = new BigNumber(token_balance)
-          .div(1e18)
-          .toFixed(6);
-        settoken_balance(balance_formatted);
+        let balance_formatted = new BigNumber(token_balance ).div(1e18).toString(10)
+     settoken_balance(balance_formatted) ;
 
         let divs_formatted = new BigNumber(pendingDivs).div(1e18).toFixed(6);
         setpendingDivs(divs_formatted);
@@ -789,15 +787,10 @@ const StakeBsc2 = ({
     }
     if (!isNaN(cliffTime) && !isNaN(stakingTime)) {
       if (
-        convertTimestampToDate(Number(stakingTime) + Number(cliffTime)) >=
-          convertTimestampToDate(Date.now() / 1000) &&
-        lockTime !== "No Lock" &&
-        isCompleted !== true
+        (Number(stakingTime) + Number(cliffTime) >= Date.now()/1000) &&
+        lockTime !== "No Lock"
       ) {
         setcanwithdraw(false);
-        cliffTimeInWords = moment
-          .duration(cliffTime - (Date.now() - stakingTime))
-          .humanize(true);
       }
     }
   }, [lockTime, canwithdraw, cliffTime, stakingTime, isCompleted]);
@@ -1072,7 +1065,7 @@ const StakeBsc2 = ({
                   <h6 className="mybalance-text">
                     Balance:
                     <b>
-                      {token_balance !== "..." ? token_balance : "..."}{" "}
+                      {token_balance !== "..." ? getFormattedNumber(token_balance, 6) : "..."}{" "}
                       {token_symbol}
                     </b>
                   </h6>
@@ -1499,7 +1492,7 @@ const StakeBsc2 = ({
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">My DYP Balance</span>
-                    <h6 className="stats-card-content">{token_balance} DYP</h6>
+                    <h6 className="stats-card-content">{getFormattedNumber(token_balance,6) } DYP</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1511,11 +1504,11 @@ const StakeBsc2 = ({
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">Total DYP Locked</span>
-                    <h6 className="stats-card-content">{tvl} DYP</h6>
+                    <h6 className="stats-card-content">{getFormattedNumber(tvl,6) } DYP</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">TVL USD</span>
-                    <h6 className="stats-card-content">{tvl_usd} USD</h6>
+                    <h6 className="stats-card-content">${tvl_usd} USD</h6>
                   </div>
                   <div className="stats-card p-4 d-flex flex-column mx-auto w-100">
                     <span className="stats-card-title">
@@ -1686,9 +1679,9 @@ const StakeBsc2 = ({
                           "No Lock"
                         ) : (
                           <Countdown
-                            date={convertTimestampToDate(
-                              Number(stakingTime) + Number(cliffTime)
-                            )}
+                          date={
+                            (Number(stakingTime) + Number(cliffTime)) * 1000
+                          }
                             renderer={renderer}
                             onComplete={() => {
                               setcanwithdraw(true);
@@ -1783,7 +1776,7 @@ const StakeBsc2 = ({
                         <>Withdraw</>
                       )}
                     </button>
-                    <span
+                    {/* <span
                       className="mt-2"
                       style={{
                         fontWeight: "400",
@@ -1793,7 +1786,7 @@ const StakeBsc2 = ({
                       }}
                     >
                       *No withdrawal fee
-                    </span>
+                    </span> */}
                     {/* <button
               className="btn filledbtn w-100"
               onClick={(e) => {

@@ -2104,7 +2104,7 @@ export default class PairExplorer extends React.Component {
                       <Tooltip
                         placement="top"
                         title={
-                          <div className="tooltip-text">{"Comming Soon!"}</div>
+                          <div className="tooltip-text">{"Coming Soon!"}</div>
                         }
                       >
                        <div
