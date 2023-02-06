@@ -666,7 +666,7 @@ console.log(amount,result_formatted)
     getUsdPerDyp();
   }, []);
 
-  // console.log(convertTimestampToDate((Number(stakingTime) + Number(cliffTime))) >= convertTimestampToDate(Date.now()) , (Number(stakingTime) + Number(cliffTime)))
+  // console.log('test')
 
   return (
     <div className="container-lg p-0">
@@ -1681,7 +1681,7 @@ console.log(amount,result_formatted)
         <WalletModal
           show={show}
           handleClose={hideModal}
-          handleConnection={handleConnection}
+          handleConnection={()=>{handleConnection(); setshow(false)}}
         />
       )}
       {/* <div

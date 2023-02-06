@@ -1741,7 +1741,7 @@ const StakeEthDai = ({
         <WalletModal
           show={show}
           handleClose={hideModal}
-          handleConnection={handleConnection}
+          handleConnection={()=>{handleConnection(); setshow(false)}}
         />
       )}
       {/* <div

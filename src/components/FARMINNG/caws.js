@@ -572,7 +572,7 @@ const CawsDetails = ({
           handleClose={() => {
             setShowModal(false);
           }}
-          handleConnection={handleConnection}
+          handleConnection={()=>{handleConnection(); setShowModal(false)}}
         />
       )}
     </div>
