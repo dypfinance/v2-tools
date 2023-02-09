@@ -9,14 +9,12 @@ import bnb from "./assets/bnb.svg";
 import avax from "./assets/avax.svg";
 import "./bridge.css";
 import { useLocation } from "react-router-dom";
-import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 const Bridge = ({
   networkId,
   isConnected,
   handleConnection,
   coinbase,
-  handleSwitchNetwork,
 }) => {
   const [sourceChain, setSourceChain] = useState("");
   const [sourceChainiDyp, setSourceChainiDyp] = useState("");

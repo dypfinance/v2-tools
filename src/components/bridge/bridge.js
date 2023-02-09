@@ -19,6 +19,7 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import routeIcon from "./assets/route-icon.svg";
 import Address from "../FARMINNG/address";
 import WalletModal from "../WalletModal";
+import PropTypes from "prop-types";
 
 // Renderer callback with condition
 const getRenderer =
@@ -80,7 +81,11 @@ export default function initBridge({
         sourceChain: this.props.sourceChain,
       };
     }
-
+    static propTypes = {
+      match: PropTypes.object.isRequired,
+      location: PropTypes.object.isRequired,
+      history: PropTypes.object.isRequired
+    }
     componentDidMount() {
       this.refreshBalance();
       this.getChainSymbol();
@@ -137,8 +142,8 @@ export default function initBridge({
       
 
       amount = new BigNumber(amount).times(10 ** TOKEN_DECIMALS).toFixed(0);
-      let bridge = this.state.network === "BSC" ? bridgeETH : bridgeBSC;
-      (this.state.network === "BSC" ? tokenETH : tokenBSC)
+      let bridge =  bridgeETH;
+      (tokenETH)
         .approve(bridge._address, amount)
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "deposit" });
@@ -168,7 +173,7 @@ export default function initBridge({
         }
       
       amount = new BigNumber(amount).times(10 ** TOKEN_DECIMALS).toFixed(0);
-      let bridge = this.state.network === "BSC" ? bridgeETH : bridgeBSC;
+      let bridge =bridgeETH ;
       let chainId = this.props.networkId;
 
       if (chainId !== undefined) {
@@ -217,7 +222,7 @@ export default function initBridge({
         console.log({ url });
         let args = await window.jQuery.get(url);
         console.log({ args });
-        (this.props.sourceChain === "bnb" ? bridgeBSC : bridgeETH)
+        (bridgeBSC)
           .withdraw(args)
           .then(() => {
             this.setState({
@@ -342,7 +347,7 @@ export default function initBridge({
         );
         canWithdraw = timeDiff === 0;
       }
-
+      
       return (
         <div className="row w-100 mx-0 gap-4 justify-content-between">
           <div className="token-staking col-12 col-lg-6 col-xxl-5">
