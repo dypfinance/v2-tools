@@ -704,64 +704,7 @@ const EarnTopPicks = ({
   const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
 
   useEffect(() => {
-    setActiveCard();
-    if (topList === "Staking") {
-      setTopPools([]);
-      if (chain === "avax" || chainId === "43114") {
-        setTimeout(() => {
-          fetchAvaxStaking();
-        }, 500);
-      }
-      if (chain === "eth" || chainId === "1") {
-        setTimeout(() => {
-          fetchEthStaking();
-        }, 500);
-      }
 
-      if (chain === "bnb" || chainId === "56") {
-        setTimeout(() => {
-          fetchBnbStaking();
-        }, 500);
-      }
-    } else if (topList === "Buyback") {
-      setTopPools([]);
-      if (chain === "bnb") {
-        setTimeout(() => {
-          fetchBnbBuyback();
-        }, 500);
-      }
-
-      if (chain === "eth") {
-        setTimeout(() => {
-          fetchEthBuyback();
-        }, 500);
-      }
-      if (chain === "avax") {
-        setTimeout(() => {
-          fetchAvaxBuyback();
-        }, 500);
-      }
-    } else if (topList === "Vault" && chainId === "1") {
-      setTopPools([]);
-
-      setTimeout(() => {
-        setTopPools(vault);
-        setActivePools(vault);
-        setExpiredPools([]);
-      }, 500);
-    } else if (topList === "Vault" && chainId !== "1") {
-      setTopPools([]);
-      setTimeout(() => {
-        setTopPools([]);
-        setActivePools([]);
-        setExpiredPools([]);
-      }, 500);
-    } else if (topList === "Farming") {
-      setTopPools([]);
-      setTimeout(() => {
-        setTopPools(farming);
-      }, 500);
-    }
 
     if (customPool !== null) {
       if (routeOption === "Staking" && chain === "eth") {
@@ -865,7 +808,6 @@ const EarnTopPicks = ({
     setShowDetails(false);
     setListing(listType);
 
-    fetchUserPools();
   }, [
     topList,
     listType,
@@ -876,6 +818,70 @@ const EarnTopPicks = ({
     customChain,
     routeOption,
   ]);
+
+  useEffect(()=>{
+    fetchUserPools();
+    setActiveCard();
+    if (topList === "Staking") {
+      setTopPools([]);
+      if (chain === "avax" || chainId === "43114") {
+        setTimeout(() => {
+          fetchAvaxStaking();
+        }, 500);
+      }
+      if (chain === "eth" || chainId === "1") {
+        setTimeout(() => {
+          fetchEthStaking();
+        }, 500);
+      }
+
+      if (chain === "bnb" || chainId === "56") {
+        setTimeout(() => {
+          fetchBnbStaking();
+        }, 500);
+      }
+    } else if (topList === "Buyback") {
+      setTopPools([]);
+      if (chain === "bnb") {
+        setTimeout(() => {
+          fetchBnbBuyback();
+        }, 500);
+      }
+
+      if (chain === "eth") {
+        setTimeout(() => {
+          fetchEthBuyback();
+        }, 500);
+      }
+      if (chain === "avax") {
+        setTimeout(() => {
+          fetchAvaxBuyback();
+        }, 500);
+      }
+    } else if (topList === "Vault" && chainId === "1") {
+      setTopPools([]);
+
+      setTimeout(() => {
+        setTopPools(vault);
+        setActivePools(vault);
+        setExpiredPools([]);
+      }, 500);
+    } else if (topList === "Vault" && chainId !== "1") {
+      setTopPools([]);
+      setTimeout(() => {
+        setTopPools([]);
+        setActivePools([]);
+        setExpiredPools([]);
+      }, 500);
+    } else if (topList === "Farming") {
+      setTopPools([]);
+      setTimeout(() => {
+        setTopPools(farming);
+      }, 500);
+    }
+  },[topList, chainId, chain, activePools.length, expiredDYPPools.length, coinbase])
+
+  // console.log(chainId, activePools)
 
   const handleCardIndexStake = (index) => {
     if (topList === "Staking") {
