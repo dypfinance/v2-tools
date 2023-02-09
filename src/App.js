@@ -39,6 +39,9 @@ import ScrollToTop from "./functions/ScrollToTop";
 import LandPopup from "./components/LandPopup/LandPopup";
 import { withRouter } from "react-router-dom";
 
+
+
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -293,6 +296,7 @@ class App extends React.Component {
     }
   };
 
+
   componentDidMount() {
     this.tvl().then();
     this.updateWindowDimensions();
@@ -330,7 +334,7 @@ class App extends React.Component {
       });
     }
   };
-
+ 
   logout = () => {
     localStorage.setItem("logout", "true");
     this.setState({ isConnected: false });
@@ -364,6 +368,13 @@ class App extends React.Component {
     // this.setState({ network: network });
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      this.checkNetworkId()
+    }
+  }
+
+
   toggleMinimizeSidebar = () => {
     const f = () => window.dispatchEvent(new Event("resize"));
     this.setState({ isMinimized: !this.state.isMinimized }, () => f());
@@ -393,6 +404,8 @@ class App extends React.Component {
       ethereum?.on("accountsChanged", this.checkConnection);
     }
 
+
+    
     document.addEventListener("touchstart", { passive: true });
     
     return (
