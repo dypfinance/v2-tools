@@ -412,7 +412,7 @@ const Header = ({
                     {isConnected === true &&
                       coinbase !== undefined &&
                       coinbase !== null &&
-                      routeData.pathname !== "/swap" && (
+                      routeData.pathname !== "/swap"  && (
                         <>
                           <div className="account-info d-none d-lg-flex align-items-center justify-content-center gap-2 gap-lg-3">
                             <span className="account-balance d-none d-lg-flex">

@@ -37,6 +37,7 @@ import MobileMenu from "./components/sidebar/MobileMenu";
 import Disclaimer from "./components/disclaimer/Disclaimer";
 import ScrollToTop from "./functions/ScrollToTop";
 import LandPopup from "./components/LandPopup/LandPopup";
+import { withRouter } from "react-router-dom";
 
 class App extends React.Component {
   constructor(props) {
@@ -93,7 +94,8 @@ class App extends React.Component {
   };
 
   checkNetworkId = () => {
-    if (window.ethereum) {
+    if (!this.props.history.location.pathname.includes("bridge"))
+   { if (window.ethereum) {
       window.ethereum
         .request({ method: "net_version" })
         .then((data) => {
@@ -107,7 +109,7 @@ class App extends React.Component {
       this.setState({
         networkId: "1",
       });
-    }
+    }}
   };
 
   handleSwitchNetwork = (chainId) => {
@@ -168,12 +170,14 @@ class App extends React.Component {
         subscribedPlatformTokenAmountETH === 0
       ) {
         this.setState({ subscribedPlatformTokenAmount: "0", isPremium: false });
-      }  if (subscribedPlatformTokenAmountAvax > 0) {
+      }
+      if (subscribedPlatformTokenAmountAvax > 0) {
         this.setState({
           subscribedPlatformTokenAmount: subscribedPlatformTokenAmountAvax,
           isPremium: true,
         });
-      }  if (subscribedPlatformTokenAmountETH > 0) {
+      }
+      if (subscribedPlatformTokenAmountETH > 0) {
         this.setState({
           subscribedPlatformTokenAmount: subscribedPlatformTokenAmountETH,
           isPremium: true,
@@ -384,12 +388,13 @@ class App extends React.Component {
       LP_IDs_V2.weth[4],
     ];
 
-    if (window.location.pathname.includes("bridge") === false) {
+    if (!this.props.history.location.pathname.includes("bridge")) {
       ethereum?.on("chainChanged", this.checkNetworkId);
       ethereum?.on("accountsChanged", this.checkConnection);
     }
-    
+
     document.addEventListener("touchstart", { passive: true });
+    
     return (
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}
@@ -431,7 +436,13 @@ class App extends React.Component {
               />
             </div>
             <div
-              className={`${this.state.windowWidth < 991 ?'col-12 px-1' : this.state.windowWidth < 1490 ? 'col-11' : 'col-10'}`}
+              className={`${
+                this.state.windowWidth < 991
+                  ? "col-12 px-1"
+                  : this.state.windowWidth < 1490
+                  ? "col-11"
+                  : "col-10"
+              }`}
             >
               <div className="right-content pr-0 my-4 my-lg-5">
                 <ScrollToTop />
@@ -540,7 +551,6 @@ class App extends React.Component {
                         isConnected={this.state.isConnected}
                         handleConnection={this.handleConnection}
                         coinbase={this.state.coinbase}
-                        handleSwitchNetwork={this.handleSwitchNetwork}
                       />
                     )}
                   />
@@ -728,4 +738,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withRouter(App);
