@@ -183,7 +183,7 @@ const Bridge = ({
       <div className="col-12 col-lg-5 d-flex flex-column justify-content-center gap-3 mb-4">
         <h3 className="text-white">Dypius Bridge</h3>
         <p className="text-white">
-          Send tokens from Ethereum to BNB or Avalanche chains with ease.
+        Send tokens from BNB Chain to Avalanche with ease.
           <br />
           Every transaction is instant and secure.
         </p>
