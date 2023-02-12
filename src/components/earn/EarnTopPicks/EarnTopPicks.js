@@ -854,25 +854,26 @@ if (topList === "Vault" && chainId === "1") {
     setActiveCard();
     if (topList === "Staking") {
       setTopPools([]);
-      if (chain === "avax" || networkId === "43114") {
+      if ((chain !== "eth" && chain !== "bnb" && chain === "avax" )) {
         setTimeout(() => {
           fetchAvaxStaking();
         }, 500);
       }
-     else if (chain === "eth" || networkId === "1") {
+     else if ((chain === "eth" && chain !== "bnb" && chain !== "avax")) {
         setTimeout(() => {
           fetchEthStaking();
         }, 500);
       }
 
-     else if (chain === "bnb" || networkId === "56") {
+     else if ((chain !== "eth" && chain === "bnb" && chain !== "avax" )) {
         setTimeout(() => {
           fetchBnbStaking();
         }, 500);
       }
     } 
-  }, [topList, chain, coinbase, networkId])
+  }, [topList, chain, coinbase, networkId, chainId])
 
+  // console.log(topList, chain, networkId)
   
   const handleCardIndexStake = (index) => {
     if (topList === "Staking") {

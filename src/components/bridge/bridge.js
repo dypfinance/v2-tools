@@ -89,7 +89,7 @@ export default function initBridge({
     componentDidMount() {
       this.refreshBalance();
       this.getChainSymbol();
-      this.fetchData();
+      
       window._refreshBalInterval = setInterval(this.refreshBalance, 4000);
       window._refreshBalInterval = setInterval(this.getChainSymbol, 500);
     }
@@ -98,35 +98,7 @@ export default function initBridge({
       clearInterval(window._refreshBalInterval);
     }
 
-    fetchData = async () => {
-      if (this.props.isConnected === true) {
-        fetch(
-          "https://data-api.defipulse.com/api/v1/egs/api/ethgasAPI.json?api-key=f9b308da480b2941d3f23b9e0366c141f8998f75803a5ee65f51cbcb261f"
-        )
-          .then((res) => res.json())
-          .then((data) => this.setState({ gasPrice: data.fast / 10 }))
-          .catch(console.error);
-      }
-
  
-      //Get DYP Balance BNB Chain Pool
-      let avaxPool = await window.getTokenHolderBalanceAll(
-       this.props.sourceChain === 'bnb' ?  bridgeBSC._address : bridgeETH._address,
-        bridgeETH.tokenAddress,
-        2
-      );
-      avaxPool = avaxPool / 1e18;
-
-      let bnbPool = await window.getTokenHolderBalanceAll(
-        this.props.sourceChain === 'bnb' ?   bridgeETH._address : bridgeBSC._address,
-        bridgeETH.tokenAddress,
-        3
-      );
-    
-      bnbPool = bnbPool / 1e18;
-      this.setState({   avaxPool, bnbPool });
-    };
-
     handleApprove = (e) => {
       // e.preventDefault();
       let amount = this.state.depositAmount;
