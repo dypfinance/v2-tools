@@ -270,7 +270,7 @@ const Dashboard = ({
     setLoading(false);
     fetchPopularNewsData();
     fetchUserPools();
-  }, [network, chainId, coinbase,topPools.length]);
+  }, [network, chainId, coinbase, loading]);
 
   const windowSize = useWindowSize();
 

@@ -265,8 +265,8 @@ const Header = ({
   }, [chainId, currencyAmount, coinbase]);
 
   useEffect(() => {
-    fetchData().then();
-    refreshHotPairs().then();
+    // fetchData().then();
+    // refreshHotPairs().then();
     setActiveChain();
     ethereum?.on("chainChanged", handleChainChanged);
   }, [chainId, ethState]);

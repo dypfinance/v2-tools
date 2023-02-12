@@ -43,6 +43,7 @@ const EarnTopPicks = ({
   customChain,
   handleSwitchNetwork,
   expiredPools,
+  networkId
 }) => {
   const vault = [
     {
@@ -332,6 +333,7 @@ const EarnTopPicks = ({
       });
   };
   const [customPool, setCustomPool] = useState(pool);
+
   const [filteredPools, setFilteredPools] = useState([]);
   const [unfilteredPools, setUnfilteredPools] = useState([]);
   const [activeCard, setActiveCard] = useState();
@@ -703,6 +705,9 @@ const EarnTopPicks = ({
   const vaultsymbolArray = ["WETH", "WBTC", "USDC", "USDT", "DAI"];
   const locktimeFarm = ["No Lock", "3 Days", "30 Days", "60 Days", "90 Days"];
 
+
+ 
+
   useEffect(() => {
 
 
@@ -820,45 +825,7 @@ const EarnTopPicks = ({
   ]);
 
   useEffect(()=>{
-    fetchUserPools();
-    setActiveCard();
-    if (topList === "Staking") {
-      setTopPools([]);
-      if (chain === "avax" || chainId === "43114") {
-        setTimeout(() => {
-          fetchAvaxStaking();
-        }, 500);
-      }
-      if (chain === "eth" || chainId === "1") {
-        setTimeout(() => {
-          fetchEthStaking();
-        }, 500);
-      }
-
-      if (chain === "bnb" || chainId === "56") {
-        setTimeout(() => {
-          fetchBnbStaking();
-        }, 500);
-      }
-    } else if (topList === "Buyback") {
-      setTopPools([]);
-      if (chain === "bnb") {
-        setTimeout(() => {
-          fetchBnbBuyback();
-        }, 500);
-      }
-
-      if (chain === "eth") {
-        setTimeout(() => {
-          fetchEthBuyback();
-        }, 500);
-      }
-      if (chain === "avax") {
-        setTimeout(() => {
-          fetchAvaxBuyback();
-        }, 500);
-      }
-    } else if (topList === "Vault" && chainId === "1") {
+if (topList === "Vault" && chainId === "1") {
       setTopPools([]);
 
       setTimeout(() => {
@@ -879,10 +846,34 @@ const EarnTopPicks = ({
         setTopPools(farming);
       }, 500);
     }
-  },[topList, chainId, chain, activePools.length, expiredDYPPools.length, coinbase])
+  },[topList, chainId, chain, coinbase])
 
-  // console.log(chainId, activePools)
 
+  useEffect(()=>{
+    fetchUserPools();
+    setActiveCard();
+    if (topList === "Staking") {
+      setTopPools([]);
+      if (chain === "avax" || networkId === "43114") {
+        setTimeout(() => {
+          fetchAvaxStaking();
+        }, 500);
+      }
+     else if (chain === "eth" || networkId === "1") {
+        setTimeout(() => {
+          fetchEthStaking();
+        }, 500);
+      }
+
+     else if (chain === "bnb" || networkId === "56") {
+        setTimeout(() => {
+          fetchBnbStaking();
+        }, 500);
+      }
+    } 
+  }, [topList, chain, coinbase, networkId])
+
+  
   const handleCardIndexStake = (index) => {
     if (topList === "Staking") {
       if (index >= 3) {
