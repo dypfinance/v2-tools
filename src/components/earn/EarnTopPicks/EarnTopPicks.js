@@ -871,7 +871,7 @@ if (topList === "Vault" && chainId === "1") {
         }, 500);
       }
     } 
-  }, [topList, chain, coinbase, networkId, chainId, expiredPools])
+  }, [topList, chain, coinbase, networkId, chainId, expiredPools, listType])
 
   // console.log(topList, chain, networkId)
   

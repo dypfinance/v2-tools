@@ -26,7 +26,7 @@ const PressRealease = ({
   onDownVoteClick,
   onUpVoteClick,
 onVotesFetch,
-coinbase
+coinbase, bal1, bal2, bal3
 }) => {
   const [likeIndicator, setLikeIndicator] = useState(false);
   const [dislikeIndicator, setDislikeIndicator] = useState(false);
@@ -36,31 +36,22 @@ coinbase
   const [upvote, setUpvote] = useState(upvotes);
   const [downvote, setDownvote] = useState(downvotes);
   const [votes, setVotes] = useState([])
-  const bal1 = Number(localStorage.getItem("balance1"));
-  const bal2 = Number(localStorage.getItem("balance2"));
+
   const logout = localStorage.getItem("logout");
 
   useEffect(() => {
-    if(bal1 === 0 && bal2 === 0 && isPremium === true) {
-      setCanVote(true)
+    if (bal1 === 0 && bal2 === 0 && bal3 === 0 && isPremium === true) {
+      setCanVote(true);
+    } else if (bal1 !== 0 && bal2 !== 0  && bal3 !== 0 && isPremium === true) {
+      setCanVote(true);
+    } else if ((bal1 !== 0 || bal2 !== 0 || bal3 !== 0) && isPremium === false) {
+      setCanVote(true);
+    } else if (bal1 === 0 && bal2 === 0 && bal3 === 0 && isPremium === false) {
+      setCanVote(false);
+    } else if (logout === "true") {
+      setCanVote(false);
     }
-
-    else if(bal1 !== 0 && bal2 !== 0 && isPremium === true) {
-      setCanVote(true)
-    }
-
-    else if((bal1 !== 0 || bal2 !== 0) && isPremium === false) {
-      setCanVote(true)
-    }
-
-    else if((bal1 === 0 && bal2 === 0) && isPremium === false) {
-      setCanVote(false)
-    }
-    else if(logout === 'true') {
-      setCanVote(false)
-    }
-
-  }, [alreadyVoted, bal1, bal2, isPremium, logout, coinbase]);
+  }, [alreadyVoted, bal1, bal2, bal3, isPremium, logout, coinbase]);
 
 
   const handleLikeStates = () => {
