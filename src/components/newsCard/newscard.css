@@ -39,6 +39,7 @@
     height: 150px;
     width: 100%;
     object-fit: fill;
+    max-width: 200px;
 }
 
 .ncarrow {
@@ -88,5 +89,6 @@
   
   .newsimg2{
     width: 100% !important;
+    max-width: 100% !important;
   }
 }
