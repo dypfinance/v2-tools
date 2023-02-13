@@ -1421,7 +1421,7 @@ const StakeAvaxIDyp = ({
         <WalletModal
           show={show}
           handleClose={hideModal}
-          handleConnection={handleConnection}
+          handleConnection={()=>{handleConnection(); setshow(false)}}
         />
       )}
 

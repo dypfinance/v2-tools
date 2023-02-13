@@ -1746,7 +1746,7 @@ settvlUSD(tvlUSD2);
         <WalletModal
           show={show}
           handleClose={hideModal}
-          handleConnection={handleConnection}
+          handleConnection={()=>{handleConnection(); setshow(false)}}
         />
       )}
       {showCalculator && (

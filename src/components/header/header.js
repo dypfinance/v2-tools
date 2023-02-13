@@ -265,8 +265,8 @@ const Header = ({
   }, [chainId, currencyAmount, coinbase]);
 
   useEffect(() => {
-    fetchData().then();
-    refreshHotPairs().then();
+    // fetchData().then();
+    // refreshHotPairs().then();
     setActiveChain();
     ethereum?.on("chainChanged", handleChainChanged);
   }, [chainId, ethState]);
@@ -412,7 +412,7 @@ const Header = ({
                     {isConnected === true &&
                       coinbase !== undefined &&
                       coinbase !== null &&
-                      routeData.pathname !== "/swap" && (
+                      routeData.pathname !== "/swap"  && (
                         <>
                           <div className="account-info d-none d-lg-flex align-items-center justify-content-center gap-2 gap-lg-3">
                             <span className="account-balance d-none d-lg-flex">

@@ -21,9 +21,27 @@ const Earn = ({
   const html = document.querySelector("html");
 
   const routeData = useLocation()
+  const [networkId, setnetworkId] = useState();
 
  
+  const checkNetworkId = () => {
+    if (window.ethereum) {
+      window.ethereum
+        .request({ method: "net_version" })
+        .then((data) => {
+          setnetworkId(data);
+        })
+        .catch(console.error);
+    } else {
+      setnetworkId(network);
+    }
+  };
 
+
+
+  useEffect(()=>{
+    checkNetworkId()
+  },[network])
 
 
 
@@ -51,12 +69,13 @@ const Earn = ({
         lp_id={lp_id}
         isConnected={isConnected}
         chainId={network}
+        networkId={networkId}
         handleConnection={handleConnection}
         the_graph_resultavax={the_graph_resultavax}
         the_graph_resultbsc={the_graph_resultbsc}
         referrer={referrer}
         routeOption={routeData.state ? routeData.state.option : 'Staking'}
-        routeChain={routeData.state ? routeData.state.chain : "eth"}
+        routeChain={routeData.state ? routeData.state.chain : ""}
         pool={routeData.state ? routeData.state.pool : null}
         customChain={routeData.state ? routeData.state.customChain : "eth"}
         faqIndex={routeData.state ? routeData.state.faqIndex : -1}

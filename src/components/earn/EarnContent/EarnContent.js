@@ -35,6 +35,7 @@ const EarnContent = ({
   pool,
   customChain,
   faqIndex,
+  networkId,
   handleSwitchNetwork,
 }) => {
   const options = [
@@ -312,17 +313,20 @@ const EarnContent = ({
     }
   }, [option, stake,chainId]);
 
+  // console.log(stake)
+
   useEffect(() => {
     if (option === "Farming" || option === "Buyback" || option === "Staking") {
-      if (chainId === "1") {
+      if(routeChain === '')
+     { if (networkId === "1") {
         setStake("eth");
-      } else if (chainId === "56") {
+      } else if (networkId === "56") {
         setStake("bnb");
-      } else if (chainId === "43114") {
+      } else if (networkId === "43114") {
         setStake("avax");
-      }
+      }}
     }
-  }, [chainId, option]);
+  }, [chainId, option,routeChain, networkId]);
 
   const setVaultEth = (vault) => {
     if (vault === "Vault") {
@@ -676,22 +680,13 @@ const EarnContent = ({
                       className={`stake-item d-none position-relative d-flex align-items-center gap-2 ${
                         stake === "bnb" ? "bsc-item-active" : null
                       }`}
-                      // onClick={() => {
-                      //   setStake("bnb");
-                      //   fetchBscTvl();
-                      // }}
+                      onClick={() => {
+                        setStake("bnb");
+                        // fetchBscTvl();
+                      }}
                       style={{ opacity: "0.5" }}
                     >
-                      {/* <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
-                    <img
-                      src={addNewPools}
-                      alt=""
-                      style={{ width: "15px", height: "15px" }}
-                    />
-                    <span className="text-white d-none d-lg-flex" style={{ fontSize: "11px" }}>
-                      New Pools
-                    </span>
-                  </div> */}
+                      
                       <img
                         src={stake === "bnb" ? bnbStakeActive : bnbStake}
                         alt=""
@@ -718,10 +713,10 @@ const EarnContent = ({
                       className={`stake-item d-none position-relative d-flex align-items-center gap-2 ${
                         stake === "avax" ? "avax-item-active" : null
                       }`}
-                      // onClick={() => {
-                      //   setStake("avax");
-                      //   fetchAvaxTvl();
-                      // }}
+                      onClick={() => {
+                        setStake("avax");
+                        // fetchAvaxTvl();
+                      }}
                       style={{ opacity: "0.5" }}
                     >
                       {/* <div className="new-pools d-flex justify-content-start align-items-center gap-2 position-absolute">
@@ -775,6 +770,7 @@ const EarnContent = ({
           lp_id={lp_id}
           isConnected={isConnected}
           chainId={chainId}
+          networkId={networkId}
           handleConnection={handleConnection}
           the_graph_resultavax={the_graph_resultavax}
           the_graph_resultbsc={the_graph_resultbsc}
@@ -831,6 +827,7 @@ const EarnContent = ({
           lp_id={lp_id}
           isConnected={isConnected}
           chainId={chainId}
+          networkId={networkId}
           handleConnection={handleConnection}
           the_graph_resultavax={the_graph_resultavax}
           the_graph_resultbsc={the_graph_resultbsc}

@@ -2958,7 +2958,7 @@ export default function initStakingNew({
             <WalletModal
               show={this.state.show}
               handleClose={this.hideModal}
-              handleConnection={this.props.handleConnection}
+              handleConnection={()=>{this.props.handleConnection(); this.setState({show: false})}}
             />
           )}
 

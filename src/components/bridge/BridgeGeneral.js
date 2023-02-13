@@ -9,14 +9,12 @@ import bnb from "./assets/bnb.svg";
 import avax from "./assets/avax.svg";
 import "./bridge.css";
 import { useLocation } from "react-router-dom";
-import { handleSwitchNetworkhook } from "../../functions/hooks";
 
 const Bridge = ({
   networkId,
   isConnected,
   handleConnection,
   coinbase,
-  handleSwitchNetwork,
 }) => {
   const [sourceChain, setSourceChain] = useState("");
   const [sourceChainiDyp, setSourceChainiDyp] = useState("");
@@ -24,13 +22,13 @@ const Bridge = ({
   const [destinationChain, setDestinationChain] = useState("");
   const [activebtn, setActiveBtn] = useState("");
 
-  const [sourceBridge, setSourceBridge] = useState(window.bridge_eth);
+  const [sourceBridge, setSourceBridge] = useState(window.bridge_bscavaxbsc);
   const [destinationBridge, setDestinationBridge] = useState(
-    window.bridge_bsceth
+    window.bridge_bscavax
   );
-  const [sourceToken, setSourceToken] = useState(window.token_dyp_eth);
+  const [sourceToken, setSourceToken] = useState(window.token_dyp_bscavaxbsc);
   const [destinationToken, setDestinationToken] = useState(
-    window.token_dyp_bsceth
+    window.token_dyp_bscavax
   );
 
   const [sourceBridgeiDyp, setSourceBridgeiDyp] = useState(
@@ -59,26 +57,27 @@ const Bridge = ({
     const tokenAddress = "0x961C8c0B1aaD0c0b10a51FeF6a867E3091BCef17";
     const walletAddress = coinbase;
     const TokenABI = window.ERC20_ABI;
-    let bal1, bal2, bal3;
+    
     if (coinbase != undefined) {
       const contract1 = new window.infuraWeb3.eth.Contract(TokenABI, tokenAddress);
       const contract2 = new window.avaxWeb3.eth.Contract(TokenABI, tokenAddress);
       const contract3 = new window.bscWeb3.eth.Contract(TokenABI, tokenAddress);
 
-      bal1 = await contract1.methods
+     
+      await contract1.methods
         .balanceOf(walletAddress)
         .call()
         .then((data) => {
           setEthBalance(data) ;
         });
-      bal2 = await contract2.methods
+      await contract2.methods
         .balanceOf(walletAddress)
         .call()
         .then((data) => {
           setAvaxBalance(data);
         });
 
-      bal3 = await contract3.methods
+      await contract3.methods
         .balanceOf(walletAddress)
         .call()
         .then((data) => {
@@ -121,6 +120,8 @@ const Bridge = ({
     }
   };
 
+  
+
   const handleSourceChain = async (chainText) => {
     if (chainText === "eth") {
       setSourceChain(chainText);
@@ -128,10 +129,19 @@ const Bridge = ({
 
     if (chainText === "bnb") {
       setSourceChain(chainText);
+      setSourceBridge(window.bridge_bscavaxbsc);
+      setDestinationBridge(window.bridge_bscavax);
+      setSourceToken(window.token_dyp_bscavaxbsc);
+      setDestinationToken(window.token_dyp_bscavax);
+      
     }
 
     if (chainText === "avax") {
       setSourceChain(chainText);
+      setDestinationBridge(window.bridge_bscavaxbsc);
+      setSourceBridge(window.bridge_bscavax);
+      setDestinationToken(window.token_dyp_bscavaxbsc);
+      setSourceToken(window.token_dyp_bscavax);
     }
   };
 
@@ -173,7 +183,7 @@ const Bridge = ({
       <div className="col-12 col-lg-5 d-flex flex-column justify-content-center gap-3 mb-4">
         <h3 className="text-white">Dypius Bridge</h3>
         <p className="text-white">
-          Send tokens from Ethereum to BNB or Avalanche chains with ease.
+        Send tokens from BNB Chain to Avalanche with ease.
           <br />
           Every transaction is instant and secure.
         </p>
@@ -187,46 +197,26 @@ const Bridge = ({
           <div
             className={
               activebtn === "1"
-                ? "optionbtn-active activeethbnb"
+                ? "optionbtn-active activebscavax"
                 : "optionbtn-passive bridge-passive"
             }
             onClick={() => {
               setActiveBtn("1");
-              setSourceChain("eth");
-              setDestinationChain("bnb");
-              setSourceBridge(window.bridge_bsceth);
-              setDestinationBridge(window.bridge_bscbsc);
-              setSourceToken(window.token_dyp_bsceth);
-              setDestinationToken(window.token_dyp_bscbsc);
+              setSourceChain("bnb");
+              setDestinationChain("avax");
+              setSourceBridge(window.bridge_bscavaxbsc);
+              setDestinationBridge(window.bridge_bscavax);
+              setSourceToken(window.token_dyp_bscavaxbsc);
+              setDestinationToken(window.token_dyp_bscavax);
             }}
           >
             <h6 className="optiontext d-flex align-items-center gap-2">
-              <img src={eth} alt="" /> <img src={bnb} alt="" />
-              <p className=" mb-0 optiontext d-none d-lg-flex">ETH/BNB</p>
+              <img src={bnb} alt="" /> <img src={avax} alt="" />
+              <p className=" mb-0 optiontext d-none d-lg-flex">BSC/AVAX</p>
             </h6>
           </div>
 
-          <div
-            className={
-              activebtn === "2"
-                ? "optionbtn-active activeethavax"
-                : "optionbtn-passive bridge-passive"
-            }
-            onClick={() => {
-              setSourceChain("eth");
-              setDestinationChain("avax");
-              setActiveBtn("2");
-              setSourceBridge(window.bridge_eth);
-              setDestinationBridge(window.bridge_bsc);
-              setSourceToken(window.token_dyp_eth);
-              setDestinationToken(window.token_dyp_bsc);
-            }}
-          >
-            <h6 className="optiontext d-flex align-items-center gap-2">
-              <img src={eth} alt="" /> <img src={avax} alt="" />
-              <p className=" mb-0 optiontext d-none d-lg-flex">ETH/AVAX</p>
-            </h6>
-          </div>
+         
         </div>
         <BridgeModal
           isConnected={isConnected}

@@ -263,15 +263,14 @@ const Dashboard = ({
     }
   };
 
-  const ethereum = window.ethereum;
-
+  
   useEffect(() => {
     fetchStakingData();
     checkNetworkId();
     setLoading(false);
     fetchPopularNewsData();
     fetchUserPools();
-  }, [network, chainId, coinbase]);
+  }, [network, chainId, coinbase, loading]);
 
   const windowSize = useWindowSize();
 

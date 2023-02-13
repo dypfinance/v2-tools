@@ -1287,7 +1287,7 @@ const StakeBscDai = ({
               </h6>
 
               <button
-                disabled={Number(depositedTokens) > 0 ? false : true}
+                disabled={depositedTokens !== '' ? false : true}
                 className={"outline-btn btn"}
                 onClick={() => {
                   setshowWithdrawModal(true);
@@ -1749,7 +1749,7 @@ const StakeBscDai = ({
         <WalletModal
           show={show}
           handleClose={hideModal}
-          handleConnection={handleConnection}
+          handleConnection={()=>{handleConnection(); setshow(false)}}
         />
       )}
       {/* <div
