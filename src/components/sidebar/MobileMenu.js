@@ -5,6 +5,8 @@ import governanceIcon from "../../assets/sidebarIcons/governanceIcon.svg";
 import governanceIconActive from "../../assets/sidebarIcons/governanceIconActive.svg";
 import bridgeIcon from "../../assets/sidebarIcons/bridgeIcon.svg";
 import bridgeIconActive from "../../assets/sidebarIcons/bridgeIconActive.svg";
+import yieldsIcon from "../../assets/sidebarIcons/yieldsIcon.svg";
+import yieldsIconActive from "../../assets/sidebarIcons/yieldsIconActive.svg";
 import explorerIcon from "../../assets/sidebarIcons/explorerIcon.svg";
 import explorerIconActive from "../../assets/sidebarIcons/explorerIconActive.svg";
 import projectsIcon from "../../assets/sidebarIcons/projectsIcon.svg";
@@ -118,7 +120,26 @@ const MobileMenu = () => {
             {/* <h3 className={`active-text ${activeIcon === 'bridge' ? 'd-flex' : 'd-none'}`}>Bridge</h3> */}
           </div>
         </NavLink>
-        <div
+        <NavLink
+          to="/farms"
+          className="col"
+          onClick={() => setActiveIcon("yields")}
+        >
+          <div
+            className={`d-flex align-items-center sidebar-item ${
+              activeIcon === "yields" && "active-side-link"
+            } p-2 justify-content-center`}
+          >
+            <img
+              src={activeIcon === "yields" ? yieldsIconActive : yieldsIcon}
+              width={25}
+              height={25}
+              alt=""
+            />
+            {/* <h3 className={`active-text ${activeIcon === 'bridge' ? 'd-flex' : 'd-none'}`}>Bridge</h3> */}
+          </div>
+        </NavLink>
+        {/* <div
           className="col"
           onClick={() => {
             setActiveIcon("explorer");
@@ -138,9 +159,8 @@ const MobileMenu = () => {
               height={25}
               alt=""
             />
-            {/* <h3 className={`active-text ${activeIcon === 'explorer' ? 'd-flex' : 'd-none'}`}>Explorer</h3> */}
           </div>
-        </div>
+        </div> */}
         <div
           className="col"
           onClick={() => {

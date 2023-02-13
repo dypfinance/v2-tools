@@ -120,34 +120,35 @@ const Sidebar = (props) => {
       link: "/bridge",
     },
     {
-      label: "Explorer",
-      icon: "explorerIcon",
-      children: [
-        {
-          title: "Pair explorer",
-          link: "/pair-explorer",
-        },
-        {
-          title: "Pool explorer",
-          link: "/pool-explorer",
-        },
-        {
-          title: "Big Swap",
-          link: "/big-swap-explorer",
-        },
-        {
-          title: "Top Tokens",
-          link: "/top-tokens",
-        },
-        {
-          title: "Yields",
-          link: "/farms",
-        },
-        {
-          title: "Submit Form",
-          link: "/submit-info",
-        },
-      ],
+      label: "Yields",
+      icon: "yieldsIcon",
+      link: '/farms',
+      // children: [
+      //   {
+      //     title: "Pair explorer",
+      //     link: "/pair-explorer",
+      //   },
+      //   {
+      //     title: "Pool explorer", 
+      //     link: "/pool-explorer",
+      //   },
+      //   {
+      //     title: "Big Swap",
+      //     link: "/big-swap-explorer",
+      //   },
+      //   {
+      //     title: "Top Tokens",
+      //     link: "/top-tokens",
+      //   },
+      //   {
+      //     title: "Yields",
+      //     link: "/farms",
+      //   },
+      //   {
+      //     title: "Submit Form",
+      //     link: "/submit-info",
+      //   },
+      // ],
     },
     {
       label: "Projects",
