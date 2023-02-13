@@ -30,10 +30,9 @@ const activateLasers = () => {
 
 const Sidebar = (props) => {
   // const [activeBtn, setActiveBtn] = useState("avax");
-  const [activeLink, setActiveLink] = useState(null);
+  const [activeLink, setActiveLink] = useState("Swap");
   const [hover, setHover] = useState(null);
-  const [location, setlocation] = useState("news");
-  // const [networkId, setNetworkId] = useState(1);
+
   const [activeSidebar, setActiveSidebar] = useState(false);
 
   let chainId = parseInt(props.network);
@@ -44,29 +43,8 @@ const Sidebar = (props) => {
   const triedEager = useEagerConnect();
   useInactiveListener(!triedEager);
 
-  const fetchAvatar = async () => {
-    const response = await fetch(
-      `https://api-image.dyp.finance/api/v1/avatar/${account}`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        data.avatar
-          ? setAvatar(data.avatar)
-          : setAvatar("/assets/img/person.svg");
-      })
-      .catch(console.error);
 
-    return response;
-  };
 
-  useEffect(() => {
-    const logout = localStorage.getItem("logout");
-    if (logout !== "true") {
-      fetchAvatar().then();
-    }
-  }, [account]);
 
   const windowSize = useWindowSize()
 
@@ -109,71 +87,73 @@ const Sidebar = (props) => {
     {
       label: "Earn",
       icon: "earnIcon",
-      link: '/earn'
+      link: 'https://app.dypius.com/earn'
     },
     {
       label: "Governance",
       icon: "governanceIcon",
-      link: '/governance'
+      link: 'https://app.dypius.com/governance'
     },
     {
       label: "Bridge",
       icon: "bridgeIcon",
-      link: '/bridge'
+      link: 'https://app.dypius.com/bridge'
     },
     {
-      label: "Explorer",
-      icon: "explorerIcon",
-      children: [
-        {
-          title: 'Pair explorer',
-          link: '/pair-explorer'
-        },
-        {
-          title: 'Pool explorer',
-          link: '/pool-explorer'
-        },
-        {
-          title: 'Big Swap',
-          link: '/big-swap-explorer'
-        },
-        {
-          title: 'Top Tokens',
-          link: '/top-tokens'
-        },
-        {
-          title: 'Yields',
-          link: '/farms'
-        },
-        {
-          title: 'Submit Form',
-          link: '/submit-info'
-        },
+      label: "Yields",
+      icon: "yieldsIcon",
+      link: 'https://app.dypius.com/farms'
+
+      // children: [
+      //   {
+      //     title: 'Pair explorer',
+      //     link: 'https://app.dypius.com/pair-explorer'
+      //   },
+      //   {
+      //     title: 'Pool explorer',
+      //     link: 'https://app.dypius.com/pool-explorer'
+      //   },
+      //   {
+      //     title: 'Big Swap',
+      //     link: 'https://app.dypius.com/big-swap-explorer'
+      //   },
+      //   {
+      //     title: 'Top Tokens',
+      //     link: 'https://app.dypius.com/top-tokens'
+      //   },
+      //   {
+      //     title: 'Yields',
+      //     link: 'https://app.dypius.com/farms'
+      //   },
+      //   {
+      //     title: 'Submit Form',
+      //     link: 'https://app.dypius.com/submit-info'
+      //   },
        
-      ],
+      // ],
     },
     {
       label: "Projects",
       icon: "projectsIcon",
       children: [  {
         title: 'Launchpad',
-        link: '/launchpad'
+        link: 'https://app.dypius.com/launchpad'
       },
       {
         title: 'DYP Locker',
-        link: '/locker'
+        link: 'https://app.dypius.com/locker'
       },
     ],
     },
     {
       label: "Swap",
       icon: "swapIcon",
-      link: "/swap"
+      link: "https://swap.dypius.com/"
     },
     {
       label: "News",
       icon: "newsIcon",
-      link: '/news'
+      link: 'https://app.dypius.com/news'
     },
   ];
 
@@ -198,14 +178,14 @@ const Sidebar = (props) => {
       <img src={navRadius} className={`nav-radius ${activeSidebar && 'nav-radius-open'}`} alt="" />
      <div className="w-100">
      <div className="d-flex w-100 justify-content-center align-items-center pb-5">
-        <NavLink to='/'
+        <a href='https://app.dypius.com/'
         onClick={() => setActiveLink("")}
         >
         <img
           src={activeSidebar ? toolsLogoActive : toolsLogo}
           alt=""
           style={{ height: "40px" }}
-        /></NavLink>
+        /></a>
       </div>
       <div
         className={`sidebar-container w-100 justify-content-center ${
@@ -274,9 +254,9 @@ const Sidebar = (props) => {
                 {activeSidebar ? (
                   <div className="accordion-container d-flex flex-column gap-2 ms-5">
                     {sideItem.children.map((child, index) => (
-                     <NavLink key={index} to={child.link}  className={isActive => isActive ? 'accordion-child accordion-child-active' : 'accordion-child'}>
+                     <a key={index} href={child.link}  className={'accordion-child'}>
                       {child.title}
-                     </NavLink>
+                     </a>
                     ))}
                   </div>
                 ) : null}
@@ -284,7 +264,7 @@ const Sidebar = (props) => {
               </>
           ) : (
            sideItem.link?.length > 0 &&
-           <NavLink to={sideItem.link}>
+           <a href={sideItem.link}>
             <div
            key={index}
            id={sideItem.label}
@@ -322,7 +302,7 @@ const Sidebar = (props) => {
              </h3>
            )}
          </div>
-           </NavLink>
+           </a>
           )
         )}
             </div>

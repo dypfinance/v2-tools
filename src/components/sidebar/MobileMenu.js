@@ -3,6 +3,8 @@ import earnIcon from "../../assets/sidebarIcons/earnIcon.svg";
 import earnIconActive from "../../assets/sidebarIcons/earnIconActive.svg";
 import governanceIcon from "../../assets/sidebarIcons/governanceIcon.svg";
 import governanceIconActive from "../../assets/sidebarIcons/governanceIconActive.svg";
+import yieldsIcon from "../../assets/sidebarIcons/yieldsIcon.svg";
+import yieldsIconActive from "../../assets/sidebarIcons/yieldsIconActive.svg";
 import bridgeIcon from "../../assets/sidebarIcons/bridgeIcon.svg";
 import bridgeIconActive from "../../assets/sidebarIcons/bridgeIconActive.svg";
 import explorerIcon from "../../assets/sidebarIcons/explorerIcon.svg";
@@ -15,8 +17,7 @@ import newsIcon from "../../assets/sidebarIcons/newsIcon.svg";
 import newsIconActive from "../../assets/sidebarIcons/newsIconActive.svg";
 import moreIcon from "../../assets/sidebarIcons/moreIcon.svg";
 import moreIconActive from "../../assets/sidebarIcons/moreIconActive.svg";
-import rightArrow from "../faqcard/assets/rightlogo.svg";
-import { NavLink, useLocation } from "react-router-dom";
+import { a, NavLink, useLocation } from "react-router-dom";
 import xMark from "../Modal/xMark.svg";
 import OutsideClickHandler from "react-outside-click-handler";
 const MobileMenu = () => {
@@ -57,8 +58,8 @@ const MobileMenu = () => {
             setMoreModal(false)}}
     >
       <div className="row w-100">
-        <NavLink
-          to="/earn"
+        <a
+          href="https://app.dypius.com/earn"
           className="col"
           onClick={() => setActiveIcon("earn")}
         >
@@ -75,9 +76,9 @@ const MobileMenu = () => {
             />
             {/* <h3 className={`active-text ${activeIcon === 'earn' ? 'd-flex' : 'd-none'}`}>Earn</h3> */}
           </div>
-        </NavLink>
-        <NavLink
-          to="/governance"
+        </a>
+        <a
+          href="https://app.dypius.com/governance"
           className="col"
           onClick={() => setActiveIcon("governance")}
         >
@@ -98,9 +99,9 @@ const MobileMenu = () => {
             />
             {/* <h3 className={`active-text ${activeIcon === 'governance' ? 'd-flex' : 'd-none'}`}>Governance</h3> */}
           </div>
-        </NavLink>
-        <NavLink
-          to="/bridge"
+        </a>
+        <a
+          href="https://app.dypius.com/bridge"
           className="col"
           onClick={() => setActiveIcon("bridge")}
         >
@@ -117,8 +118,27 @@ const MobileMenu = () => {
             />
             {/* <h3 className={`active-text ${activeIcon === 'bridge' ? 'd-flex' : 'd-none'}`}>Bridge</h3> */}
           </div>
-        </NavLink>
-        <div
+        </a>
+        <a
+          href="https://app.dypius.com/farms"
+          className="col"
+          onClick={() => setActiveIcon("yields")}
+        >
+          <div
+            className={`d-flex align-items-center sidebar-item ${
+              activeIcon === "yields" && "active-side-link"
+            } p-2 justify-content-center`}
+          >
+            <img
+              src={activeIcon === "yields" ? yieldsIconActive : yieldsIcon}
+              width={25}
+              height={25}
+              alt=""
+            />
+            {/* <h3 className={`active-text ${activeIcon === 'bridge' ? 'd-flex' : 'd-none'}`}>Bridge</h3> */}
+          </div>
+        </a>
+        {/* <div
           className="col"
           onClick={() => {
             setActiveIcon("explorer");
@@ -138,9 +158,8 @@ const MobileMenu = () => {
               height={25}
               alt=""
             />
-            {/* <h3 className={`active-text ${activeIcon === 'explorer' ? 'd-flex' : 'd-none'}`}>Explorer</h3> */}
           </div>
-        </div>
+        </div> */}
         <div
           className="col"
           onClick={() => {
@@ -177,54 +196,48 @@ const MobileMenu = () => {
         >
           <img src={xMark} alt="" />
         </div>
-        <NavLink
-          to="/pair-explorer"
+        <a
+          href="https://app.dypius.com/pair-explorer"
           onClick={() => setExplorerModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
           <h3 className="sideitem-text">Pair Explorer</h3>
-          <img src={rightArrow} alt="" />
-        </NavLink>
-        <NavLink
-          to="/pool-explorer"
+        </a>
+        <a
+          href="https://app.dypius.com/pool-explorer"
           onClick={() => setExplorerModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
           <h3 className="sideitem-text">Pool explorer</h3>
-          <img src={rightArrow} alt="" />
-        </NavLink>
-        <NavLink
-          to="/big-swap-explorer"
+        </a>
+        <a
+          href="https://app.dypius.com/big-swap-explorer"
           onClick={() => setExplorerModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
           <h3 className="sideitem-text">Big swap</h3>
-          <img src={rightArrow} alt="" />
-        </NavLink>
-        <NavLink
-          to="/top-tokens"
+        </a>
+        <a
+          href="https://app.dypius.com/top-tokens"
           onClick={() => setExplorerModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
           <h3 className="sideitem-text">Top tokens</h3>
-          <img src={rightArrow} alt="" />
-        </NavLink>
-        <NavLink
-          to="/farms"
+        </a>
+        <a
+          href="https://app.dypius.com/farms"
           onClick={() => setExplorerModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
           <h3 className="sideitem-text">Yields</h3>
-          <img src={rightArrow} alt="" />
-        </NavLink>
-        <NavLink
-          to="/submit-info"
+        </a>
+        <a
+          href="https://app.dypius.com/submit-info"
           onClick={() => setExplorerModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
           <h3 className="sideitem-text">Submit form</h3>
-          <img src={rightArrow} alt="" />
-        </NavLink>
+        </a>
       </div>
       </OutsideClickHandler>
       </div>
@@ -252,23 +265,21 @@ const MobileMenu = () => {
           onClick={() => setMoreModal(false)}
           className="mobile-modal-item d-flex flex-column justify-content-between align-items-center w-100 pb-3"
         >
-          <NavLink
-            to="/launchpad"
+          <a
+            href="https://app.dypius.com/launchpad"
             className="d-flex justify-content-between align-items-center w-100 py-2"
           >
             <h3 className="sideitem-text">Launchpad</h3>
-            <img src={rightArrow} alt="" />
-          </NavLink>
-          <NavLink
-            to="/locker"
+          </a>
+          <a
+            href="https://app.dypius.com/locker"
             className="d-flex justify-content-between align-items-center w-100 py-2"
           >
             <h3 className="sideitem-text">DYP Locker</h3>
-            <img src={rightArrow} alt="" />
-          </NavLink>
+          </a>
         </div>
-        {/* <NavLink
-          to="/swap"
+        {/* <a
+          href="/swap"
           onClick={() => setMoreModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
@@ -277,9 +288,9 @@ const MobileMenu = () => {
             <h3 className="sideitem-text">Swap</h3>
           </div>
           <img src={rightArrow} alt="" />
-        </NavLink> */}
+        </a> */}
         <NavLink
-          to="/swap"
+          to="/"
           onClick={() => setMoreModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
@@ -287,10 +298,9 @@ const MobileMenu = () => {
             <img src={swapIcon} alt="" />
             <h3 className="sideitem-text">Swap</h3>
           </div>
-          <img src={rightArrow} alt="" />
         </NavLink>
-        <NavLink
-          to="/news"
+        <a
+          href="https://app.dypius.com/news"
           onClick={() => setMoreModal(false)}
           className="mobile-modal-item d-flex justify-content-between align-items-center w-100 py-3"
         >
@@ -298,8 +308,7 @@ const MobileMenu = () => {
             <img src={newsIcon} alt="" />
             <h3 className="sideitem-text">News</h3>
           </div>
-          <img src={rightArrow} alt="" />
-        </NavLink>
+        </a>
       </div>
       </OutsideClickHandler>
      </div>

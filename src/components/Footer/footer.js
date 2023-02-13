@@ -155,16 +155,16 @@ const Footer = () => {
             </a>
           </li>
           <li>
-            <NavLink  to="/disclaimer"
+            <a  href="https://app.dypius.com/disclaimer"
               
             >
               Disclaimer
-            </NavLink>
+            </a>
           </li>
           <li>
             <a
               target={"_blank"}
-              href="https://dypius.com//support"
+              href="https://dypius.com/support"
             >
              Support
             </a>
