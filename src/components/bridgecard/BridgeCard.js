@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 const BridgeCard = () => {
   return (
     <NavLink to="/bridge" className="bridgecard-wrapper">
-      <div className="purplediv" style={{background: '#8890C4'}}></div>
+      <div className="purplediv" style={{background: '#8890C4', top: '23px'}}></div>
       <div className="d-flex flex-column gap-2 justify-content-between">
         <div className="">
           <h6 className="bridgecard-title d-flex justify-content-between gap-2 align-items-center">

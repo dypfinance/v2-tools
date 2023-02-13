@@ -460,7 +460,7 @@ class App extends React.Component {
               <div className="right-content pr-0 my-4 my-lg-5">
                 <ScrollToTop />
                 <Switch>
-                  <Route
+                  {/* <Route
                     exact
                     path="/pool-explorer"
                     render={() => (
@@ -473,9 +473,9 @@ class App extends React.Component {
                         onSelectChain={this.onSelectChain}
                       />
                     )}
-                  />
+                  /> */}
 
-                  <Route
+                  {/* <Route
                     exact
                     path="/big-swap-explorer"
                     render={() => (
@@ -487,8 +487,8 @@ class App extends React.Component {
                         onSelectChain={this.onSelectChain}
                       />
                     )}
-                  />
-                  <Route
+                  /> */}
+                  {/* <Route
                     exact
                     path="/pair-explorer/:pair_id?"
                     render={(props) => (
@@ -503,9 +503,9 @@ class App extends React.Component {
                         {...props}
                       />
                     )}
-                  />
+                  /> */}
 
-                  <Route
+                  {/* <Route
                     exact
                     path="/top-tokens"
                     render={() => (
@@ -516,7 +516,7 @@ class App extends React.Component {
                         onSelectChain={this.onSelectChain}
                       />
                     )}
-                  />
+                  /> */}
 
                   <Route
                     exact
@@ -580,11 +580,11 @@ class App extends React.Component {
                     )}
                   />
 
-                  <Route
+                  {/* <Route
                     exact
                     path="/submit-info"
                     render={() => <SubmitInfo theme={this.state.theme} />}
-                  />
+                  /> */}
                   <Route
                     exact
                     path="/disclaimer"
