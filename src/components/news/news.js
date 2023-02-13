@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Slider from "react-slick";
 import pressReleaseNext from "./assets/pressReleaseNext.svg";
+import Web3 from "web3";
 
 const News = ({ theme, isPremium, coinbase }) => {
   const settings = {
@@ -93,6 +94,52 @@ const News = ({ theme, isPremium, coinbase }) => {
   const [next, setNext] = useState(newsPerRow);
   const [userAlreadyVoted, setUserAlreadyVoted] = useState(true);
   const [canVote, setCanVote] = useState(false);
+  const [bal1, setbal1] = useState(0);
+  const [bal2, setbal2] = useState(0);
+  const [bal3, setbal3] = useState(0);
+
+  const checkFunds = async (account) => {
+    const web3eth = new Web3(
+      "https://mainnet.infura.io/v3/94608dc6ddba490697ec4f9b723b586e"
+    );
+    const web3avax = new Web3("https://api.avax.network/ext/bc/C/rpc");
+    const web3bsc = new Web3("https://bsc-dataseed.binance.org/");
+    const tokenAddress = "0x961C8c0B1aaD0c0b10a51FeF6a867E3091BCef17";
+    const walletAddress = account;
+    const TokenABI = window.ERC20_ABI;
+    if (account != undefined) {
+      const contract1 = new web3eth.eth.Contract(TokenABI, tokenAddress);
+      const contract2 = new web3avax.eth.Contract(TokenABI, tokenAddress);
+      const contract3 = new web3bsc.eth.Contract(TokenABI, tokenAddress);
+
+      const baleth = await contract1.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          return web3eth.utils.fromWei(data, "ether");
+        });
+      setbal1(baleth);
+      const balavax = await contract2.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          return web3avax.utils.fromWei(data, "ether");
+        });
+      setbal2(balavax);
+
+      const balbnb = await contract3.methods
+        .balanceOf(walletAddress)
+        .call()
+        .then((data) => {
+          return web3bsc.utils.fromWei(data, "ether");
+        });
+      setbal3(balbnb);
+    }
+  };
+
+  useEffect(() => {
+    checkFunds(coinbase);
+  }, [coinbase, chainId]);
 
   const loadMore = () => {
     setNext(next + newsPerRow);
@@ -215,7 +262,7 @@ const News = ({ theme, isPremium, coinbase }) => {
     const index = topnews.findIndex(search);
     setActiveNews(topnews[index]);
   };
-  
+
   const handleFetchNewsContent = async (dataType, itemId) => {
     if (dataType === "popular") {
       const result = await fetch(
@@ -278,7 +325,6 @@ const News = ({ theme, isPremium, coinbase }) => {
     }
 
     if (dataType === "special") {
-
       console.log(itemId);
 
       if (popularNewsData.find((obj) => obj.id === itemId)) {
@@ -406,8 +452,6 @@ const News = ({ theme, isPremium, coinbase }) => {
     fetchVotingdata().then();
   }, [newsItemId]);
 
-  const bal1 = Number(localStorage.getItem("balance1"));
-  const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
 
   useEffect(() => {
@@ -501,15 +545,16 @@ const News = ({ theme, isPremium, coinbase }) => {
 
   const onScroll = () => {
     const wrappedElement = document.getElementById("header");
-    if(wrappedElement)
-   { const isBottom =
-      wrappedElement.getBoundingClientRect()?.bottom <= window.innerHeight;
-    if (isBottom) {
-      if (next < bigNews.length) {
-        loadMore();
+    if (wrappedElement) {
+      const isBottom =
+        wrappedElement.getBoundingClientRect()?.bottom <= window.innerHeight;
+      if (isBottom) {
+        if (next < bigNews.length) {
+          loadMore();
+        }
+        document.removeEventListener("scroll", onScroll);
       }
-      document.removeEventListener("scroll", onScroll);
-    }}
+    }
   };
 
   const slider = useRef();
@@ -559,6 +604,9 @@ const News = ({ theme, isPremium, coinbase }) => {
       <div className="row m-0 main-news-content-wrapper">
         {showModal === true ? (
           <NewsModal
+            bal1={bal1}
+            bal2={bal2}
+            bal3={bal3}
             style={{ width: "fit-content" }}
             onSelectOtherNews={(key) => {
               window.scrollTo(0, 0);
@@ -611,6 +659,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                       return (
                         <div className="" key={index}>
                           <MainNews
+                            bal1={bal1}
+                            bal2={bal2}
+                            bal3={bal3}
                             image={item.image}
                             title={item.title}
                             link={item.link}
@@ -709,6 +760,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                         key={key}
                       >
                         <SingleNews
+                          bal1={bal1}
+                          bal2={bal2}
+                          bal3={bal3}
                           image={item.image}
                           title={item.title}
                           link={item.link}
@@ -743,6 +797,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                           key={key}
                         >
                           <SingleNews
+                            bal1={bal1}
+                            bal2={bal2}
+                            bal3={bal3}
                             image={item.image}
                             title={item.title}
                             link={item.link}
@@ -830,6 +887,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                       }}
                     >
                       <PressRealease
+                        bal1={bal1}
+                        bal2={bal2}
+                        bal3={bal3}
                         image={item.image}
                         title={item.title}
                         link={item.link}
@@ -873,6 +933,9 @@ const News = ({ theme, isPremium, coinbase }) => {
                   style={{ background: "none" }}
                 >
                   <OtherNews
+                    bal1={bal1}
+                    bal2={bal2}
+                    bal3={bal3}
                     image={item.image}
                     title={item.title}
                     link={item.link}

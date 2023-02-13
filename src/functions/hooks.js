@@ -81,10 +81,6 @@ export function useInactiveListener(suppress = false) {
 
         if (ethereum && ethereum.on && !active && !error && !suppress) {
             const handleChainChanged = () => {
-                if (account) {
-                    checkFunds(account);
-                }
-                
                 activate(injected, undefined, true)
                     .catch((error) => {
                         console.error("Failed to activate after chain changed", error);
@@ -111,9 +107,7 @@ export function useInactiveListener(suppress = false) {
             };
         }
 
-        if (account) {
-            checkFunds(account);
-        }
+       
         return undefined;
     }, [active, error, suppress, activate, account]);
 }
@@ -186,47 +180,4 @@ export const handleSwitchNetworkhook = async (chainID) => {
         // handle other "switch" errors
     }
 };
-
-export const checkFunds = async (account) => {
-    const web3eth = new Web3(
-        "https://mainnet.infura.io/v3/94608dc6ddba490697ec4f9b723b586e"
-    );
-    const web3avax = new Web3("https://api.avax.network/ext/bc/C/rpc");
-    const web3bsc= new Web3("https://bsc-dataseed.binance.org/");
-    const tokenAddress = "0x961C8c0B1aaD0c0b10a51FeF6a867E3091BCef17";
-    const walletAddress = account;
-    const TokenABI = window.ERC20_ABI;
-    let bal1, bal2, bal3;
-    if (account != undefined) {
-        const contract1 = new web3eth.eth.Contract(TokenABI, tokenAddress);
-        const contract2 = new web3avax.eth.Contract(TokenABI, tokenAddress);
-        const contract3 = new web3bsc.eth.Contract(TokenABI, tokenAddress);
-
-        bal1 = await contract1.methods
-            .balanceOf(walletAddress)
-            .call()
-            .then((data) => {
-                return web3eth.utils.fromWei(data, "ether");
-            });
-        bal2 = await contract2.methods
-            .balanceOf(walletAddress)
-            .call()
-            .then((data) => {
-                return web3avax.utils.fromWei(data, "ether");
-            });
-
-            bal3 = await contract3.methods
-            .balanceOf(walletAddress)
-            .call()
-            .then((data) => {
-                return web3bsc.utils.fromWei(data, "ether");
-            });
-
-        localStorage.setItem("balance1", bal1);
-        localStorage.setItem("balance2", bal2);
-        localStorage.setItem("balance3", bal3);
-
-    }
-};
-
 

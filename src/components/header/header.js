@@ -203,7 +203,7 @@ const Header = ({
   const checklogout = localStorage.getItem("logout");
   //  console.log(isConnected)
   const getEthBalance = async () => {
-    if (checklogout === "false") {
+    if (checklogout === "false" && coinbase) {
       const balance = await ethereum.request({
         method: "eth_getBalance",
         params: [coinbase, "latest"],

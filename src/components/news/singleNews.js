@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ToolTip from "./ToolTip";
 import OutsideClickHandler from "react-outside-click-handler";
-import passiveUpvote from './assets/passiveUpvote.svg'
-import passiveDownvote from './assets/passiveDownvote.svg'
-import activeUpvote from './assets/activeUpvote.svg'
-import activeDownvote from './assets/activeDownvote.svg'
-import calendar from '../newsCard/assets/calendar.svg'
+import passiveUpvote from "./assets/passiveUpvote.svg";
+import passiveDownvote from "./assets/passiveDownvote.svg";
+import activeUpvote from "./assets/activeUpvote.svg";
+import activeDownvote from "./assets/activeDownvote.svg";
+import calendar from "../newsCard/assets/calendar.svg";
 
 const SingleNews = ({
   title,
@@ -25,8 +25,11 @@ const SingleNews = ({
   fullDate,
   isPremium,
   newsId,
-onVotesFetch,
-coinbase
+  onVotesFetch,
+  coinbase,
+  bal1,
+  bal2,
+  bal3,
 }) => {
   const [likeIndicator, setLikeIndicator] = useState(false);
   const [dislikeIndicator, setDislikeIndicator] = useState(false);
@@ -35,42 +38,41 @@ coinbase
   const [canVote, setCanVote] = useState(false);
   const [upvote, setUpvote] = useState(upvotes);
   const [downvote, setDownvote] = useState(downvotes);
-  const [votes, setVotes] = useState([])
+  const [votes, setVotes] = useState([]);
 
-  const bal1 = Number(localStorage.getItem("balance1"));
-  const bal2 = Number(localStorage.getItem("balance2"));
   const logout = localStorage.getItem("logout");
 
-
-  
   useEffect(() => {
-    if(bal1 === 0 && bal2 === 0 && isPremium === true) {
-      setCanVote(true)
+    if (bal1 === 0 && bal2 === 0 && bal3 === 0 && isPremium === true) {
+      setCanVote(true);
+    } else if (bal1 !== 0 && bal2 !== 0 && bal3 !== 0 && isPremium === true) {
+      setCanVote(true);
+    } else if (
+      (bal1 !== 0 || bal2 !== 0 || bal3 !== 0) &&
+      isPremium === false
+    ) {
+      setCanVote(true);
+    } else if (bal1 === 0 && bal2 === 0 && bal3 === 0 && isPremium === false) {
+      setCanVote(false);
+    } else if (logout === "true") {
+      setCanVote(false);
     }
-
-    else if(bal1 !== 0 && bal2 !== 0 && isPremium === true) {
-      setCanVote(true)
-    }
-
-    else if((bal1 !== 0 || bal2 !== 0) && isPremium === false) {
-      setCanVote(true)
-    }
-
-    else if((bal1 === 0 && bal2 === 0) && isPremium === false) {
-      setCanVote(false)
-    }
-    else if(logout === 'true') {
-      setCanVote(false)
-    }
-
-  }, [alreadyVoted, bal1, bal2, isPremium, logout, coinbase]);
+  }, [alreadyVoted, bal1, bal2, bal3, isPremium, logout, coinbase]);
 
   const handleLikeStates = () => {
-    if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
+    if (
+      logout === "false" &&
+      (bal1 !== 0 || bal2 !== 0 || isPremium !== false)
+    ) {
       checkUpVoting(newsId);
+    } else {
+      setShowTooltip(true);
     }
-    else {setShowTooltip(true);}
-    if ((bal1 === 0 && bal2 === 0 && isPremium === false) || logout === 'true' || alreadyVoted === false) {
+    if (
+      (bal1 === 0 && bal2 === 0 && isPremium === false) ||
+      logout === "true" ||
+      alreadyVoted === false
+    ) {
       setLikeIndicator(false);
       setDislikeIndicator(false);
       setShowTooltip(true);
@@ -87,11 +89,19 @@ coinbase
   };
 
   const handleDisLikeStates = () => {
-    if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
+    if (
+      logout === "false" &&
+      (bal1 !== 0 || bal2 !== 0 || isPremium !== false)
+    ) {
       checkDownVoting(newsId);
+    } else {
+      setShowTooltip(true);
     }
-    else {setShowTooltip(true);}
-    if ((bal1 === 0 && bal2 === 0 && isPremium === false) || logout === 'true' || alreadyVoted === false) {
+    if (
+      (bal1 === 0 && bal2 === 0 && isPremium === false) ||
+      logout === "true" ||
+      alreadyVoted === false
+    ) {
       setLikeIndicator(false);
       setDislikeIndicator(false);
 
@@ -109,48 +119,41 @@ coinbase
   };
 
   const checkUpVoting = async (itemId) => {
-
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/up`
       )
       .then((data) => {
         if (data.data.status === "success") {
-
           // onVotesFetch()
           setUpvote(upvote + 1);
-
         } else {
           setalreadyVoted(false);
-          setShowTooltip(true)
-          setLikeIndicator(false)
+          setShowTooltip(true);
+          setLikeIndicator(false);
         }
       })
       .catch(console.error);
   };
 
   const checkDownVoting = async (itemId) => {
-
     return await axios
       .get(
         `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/down`
       )
       .then((data) => {
-
         if (data.data.status === "success") {
           // onVotesFetch()
-            setDownvote(downvote + 1);
+          setDownvote(downvote + 1);
         } else {
           setalreadyVoted(false);
-          setShowTooltip(true)
-          setLikeIndicator(false)
-          setDislikeIndicator(false)
-
+          setShowTooltip(true);
+          setLikeIndicator(false);
+          setDislikeIndicator(false);
         }
       })
       .catch(console.error);
   };
-
 
   const fetchVotingdata = async () => {
     const result = await fetch(
@@ -167,22 +170,22 @@ coinbase
     return result;
   };
 
-
   useEffect(() => {
     fetchVotingdata();
   }, []);
 
   var options = { year: "numeric", month: "short", day: "numeric" };
 
-  const formattedDate = new Date(fullDate)
+  const formattedDate = new Date(fullDate);
 
-  
   return (
     <div className="singlenews-body">
       <div className="row m-0 justify-content-between" style={{ gap: 20 }}>
         <div className="singlenews-wrapper px-0">
           {/* <a href={link} target={"_blank"}> */}
-          <h4 className="rightside-news-title" onClick={onNewsClick}>{title}</h4>
+          <h4 className="rightside-news-title" onClick={onNewsClick}>
+            {title}
+          </h4>
           {/* </a> */}
 
           {/* <div className="news-bottom-wrapper justify-content-between">
@@ -248,7 +251,7 @@ coinbase
               </h6>
             </div>
           </div> */}
-           <div
+          <div
             className="news-bottom-wrapper"
             style={{ justifyContent: "space-between" }}
           >
@@ -269,9 +272,12 @@ coinbase
                 }}
               />
 
-              <span className="votes-amount"> {Number(upvote) - Number(downvote)}</span>
+              <span className="votes-amount">
+                {" "}
+                {Number(upvote) - Number(downvote)}
+              </span>
               <img
-              style={{transform: 'rotate(0deg)'}}
+                style={{ transform: "rotate(0deg)" }}
                 src={
                   likeIndicator === false && dislikeIndicator === false
                     ? passiveDownvote
@@ -287,7 +293,7 @@ coinbase
                   e.stopPropagation();
                 }}
               />
-                 {showTooltip === true ? (
+              {showTooltip === true ? (
                 <OutsideClickHandler
                   onOutsideClick={() => {
                     setShowTooltip(false);
@@ -296,12 +302,12 @@ coinbase
                   <ToolTip
                     status={
                       logout === "false" && canVote === false
-                      ? "You need to be holding DYP to vote"
-                      : logout === 'true'
-                     ? "Please connect your wallet"
-                     :   alreadyVoted === true && canVote === true
-                     ? "You have already voted"
-                     : "You have already voted"
+                        ? "You need to be holding DYP to vote"
+                        : logout === "true"
+                        ? "Please connect your wallet"
+                        : alreadyVoted === true && canVote === true
+                        ? "You have already voted"
+                        : "You have already voted"
                     }
                   />
                 </OutsideClickHandler>
@@ -322,7 +328,6 @@ coinbase
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

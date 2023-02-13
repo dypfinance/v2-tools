@@ -6,9 +6,8 @@ import Downvote from "./assets/downvote.svg";
 import Clock from "./assets/clock.svg";
 import ToolTip from "./ToolTip";
 import OutsideClickHandler from "react-outside-click-handler";
-import featuredNewsShadow from './assets/featuredNewsShadow.png'
-import calendar from '../newsCard/assets/calendar.svg'
-
+import featuredNewsShadow from "./assets/featuredNewsShadow.png";
+import calendar from "../newsCard/assets/calendar.svg";
 
 const MainNews = ({
   link,
@@ -27,7 +26,8 @@ const MainNews = ({
   onDownVoteClick,
   isPremium,
   onVotesFetch,
-  coinbase
+  coinbase,
+  bal1, bal2, bal3
 }) => {
   const [likeIndicator, setLikeIndicator] = useState(false);
   const [dislikeIndicator, setDislikeIndicator] = useState(false);
@@ -36,142 +36,56 @@ const MainNews = ({
   const [showTooltip, setShowTooltip] = useState(false);
   const [upvote, setUpvote] = useState(upvotes);
   const [downvote, setDownvote] = useState(downvotes);
-  const [bannerShadow, setBannerShadow] = useState(false)
-  const bal1 = Number(localStorage.getItem("balance1"));
-  const bal2 = Number(localStorage.getItem("balance2"));
+  const [bannerShadow, setBannerShadow] = useState(false);
+
   const logout = localStorage.getItem("logout");
 
-    useEffect(() => {
-      if(bal1 === 0 && bal2 === 0 && isPremium === true) {
-        setCanVote(true)
-      }
-
-      else if(bal1 !== 0 && bal2 !== 0 && isPremium === true) {
-        setCanVote(true)
-      }
-
-      else if((bal1 !== 0 || bal2 !== 0) && isPremium === false) {
-        setCanVote(true)
-      }
-
-      else if((bal1 === 0 && bal2 === 0) && isPremium === false) {
-        setCanVote(false)
-      }
-      else if(logout === 'true') {
-        setCanVote(false)
-      }
-
-    }, [alreadyVoted, bal1, bal2, isPremium, logout, coinbase]);
-
-    const checkUpVoting = async (itemId) => {
-
-      return await axios
-        .get(
-          `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/up`
-        )
-        .then((data) => {
-          if (data.data.status === "success") {
-
-            // onVotesFetch()
-            setUpvote(upvote + 1)
-
-          } else {
-            setalreadyVoted(false);
-            setShowTooltip(true)
-            setLikeIndicator(false)
-          }
-        })
-        .catch(console.error);
-    };
-
-    const checkDownVoting = async (itemId) => {
-
-      return await axios
-        .get(
-          `https://news-manage.dyp.finance/api/v1/vote/${itemId}/${coinbase}/down`
-        )
-        .then((data) => {
-
-          if (data.data.status === "success") {
-            // onVotesFetch()
-            setDownvote(downvote + 1)
-          } else {
-            setalreadyVoted(false);
-            setShowTooltip(true)
-            setLikeIndicator(false)
-            setDislikeIndicator(false)
-
-          }
-        })
-        .catch(console.error);
-    };
-
-
-  const handleLikeStates = () => {
-    if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
-      checkUpVoting(newsId);
+  
+  useEffect(() => {
+    if (bal1 === 0 && bal2 === 0 && bal3 === 0 && isPremium === true) {
+      setCanVote(true);
+    } else if (bal1 !== 0 && bal2 !== 0  && bal3 !== 0 && isPremium === true) {
+      setCanVote(true);
+    } else if ((bal1 !== 0 || bal2 !== 0 || bal3 !== 0) && isPremium === false) {
+      setCanVote(true);
+    } else if (bal1 === 0 && bal2 === 0 && bal3 === 0 && isPremium === false) {
+      setCanVote(false);
+    } else if (logout === "true") {
+      setCanVote(false);
     }
-    else {setShowTooltip(true);}
+  }, [alreadyVoted, bal1, bal2, bal3, isPremium, logout, coinbase]);
 
-    if ((bal1 === 0 && bal2 === 0 && isPremium === false) || logout === 'true') {
-      setLikeIndicator(false);
-      setDislikeIndicator(false);
-      // onUpVoteClick();
-    } else {
-      if (likeIndicator === true) {
-        setLikeIndicator(false);
-        onDownVoteClick();
-      } if (likeIndicator === false) {
-        setLikeIndicator(true);
-        setDislikeIndicator(false);
-        // onUpVoteClick();
-      }
-    }
-  };
+  
 
-  const handleDisLikeStates = () => {
-     if (logout === "false" && (bal1 !== 0 || bal2 !== 0 || isPremium !== false)) {
-      checkDownVoting(newsId);
-    }
-    else {setShowTooltip(true);}
-
-    const logout = localStorage.getItem("logout");
-    if ((bal1 === 0 && bal2 === 0 && isPremium === false) || logout === 'true') {
-      setLikeIndicator(false);
-      setDislikeIndicator(false);
-      onDownVoteClick();
-    } else {
-      if (dislikeIndicator === true) {
-        setDislikeIndicator(false);
-        // onUpVoteClick();
-      } else if (dislikeIndicator === false) {
-        // onDownVoteClick();
-        setDislikeIndicator(true);
-        setLikeIndicator(false);
-      }
-    }
-  };
 
   var options = { year: "numeric", month: "short", day: "numeric" };
 
-  const formattedDate = new Date(day)
+  const formattedDate = new Date(day);
 
   return (
     <div className="main-news-image" key={newsId}>
-
       <div className="banner-item">
         {/* <a target="_blank" href={link}> */}
         <div className="main-image position-relative">
-        <div className="d-flex align-items-center gap-2 main-date-item">
-                <img src={calendar} alt="calendar" />
-                <span className="news-date-text">{formattedDate.toLocaleDateString("en-US", options)}</span>
-            </div>
-          <img src={featuredNewsShadow} alt="" className={`featured-shadow w-100 ${bannerShadow && 'featured-shadow-hover'}`}  />
+          <div className="d-flex align-items-center gap-2 main-date-item">
+            <img src={calendar} alt="calendar" />
+            <span className="news-date-text">
+              {formattedDate.toLocaleDateString("en-US", options)}
+            </span>
+          </div>
+          <img
+            src={featuredNewsShadow}
+            alt=""
+            className={`featured-shadow w-100 ${
+              bannerShadow && "featured-shadow-hover"
+            }`}
+          />
           <img
             src={image}
             alt="Image not found"
             className="news-image"
-            onMouseEnter={() => setBannerShadow(true)} onMouseLeave={() => setBannerShadow(false)}
+            onMouseEnter={() => setBannerShadow(true)}
+            onMouseLeave={() => setBannerShadow(false)}
             onClick={(e) => {
               e.preventDefault();
               onShowModalClick();
@@ -189,9 +103,7 @@ const MainNews = ({
                 {title}
               </h2>
             </div>
-
           </div>
-
 
           {/* <div className="news-bottom-wrapper mt-3 justify-content-between">
           <div className="like-wrapper">
@@ -260,8 +172,6 @@ const MainNews = ({
         </div>
 
         {/* </a> */}
-
-
       </div>
     </div>
   );

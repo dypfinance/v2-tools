@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom/client';
 import App from "./App";
 import ReactGA from "react-ga";
 import { Web3ReactProvider, createWeb3ReactRoot } from "@web3-react/core";
@@ -33,8 +33,9 @@ window.addEventListener("error", (error) => {
 });
 
 
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
-ReactDOM.render(
+root.render(
   <React.StrictMode>
     <BrowserRouter>
     <Web3ReactProvider getLibrary={getLibrary}>
@@ -44,5 +45,4 @@ ReactDOM.render(
     </Web3ReactProvider>
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById("root")
 );
