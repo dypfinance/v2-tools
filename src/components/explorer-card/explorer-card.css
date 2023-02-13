@@ -81,6 +81,10 @@
 }
 
 @media screen and (max-width: 786px) {
+
+  .explorercard-wrapper{
+    background-size: contain !important;
+  }
   .explorer-chart{
     position: absolute;
     right: 0;
