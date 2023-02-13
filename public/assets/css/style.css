@@ -2664,7 +2664,7 @@ color: #4ED5D2 !important;
 
 @media (min-width: 360px) {
   .modal-dialog {
-    max-width: 1190px;
+    max-width: 907px;
     margin: 1.75rem auto;
     height: inherit;
     overflow-y: auto;
@@ -4631,7 +4631,7 @@ right: -8% !important;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: 800px;
+  max-height: 600px;
   height: fit-content;
   margin: auto;
   position: absolute;

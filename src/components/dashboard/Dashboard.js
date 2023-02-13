@@ -255,10 +255,10 @@ const Dashboard = ({
     if (chainId === 1) {
       fetchEthStaking();
     }
-    if (chainId === 56) {
+    else if (chainId === 56) {
       fetchBnbStaking();
     }
-    if (chainId === 43114) {
+   else if (chainId === 43114) {
       fetchAvaxStaking();
     }
   };
@@ -271,6 +271,8 @@ const Dashboard = ({
     fetchPopularNewsData();
     fetchUserPools();
   }, [network, chainId, coinbase, loading]);
+
+  // console.log(network, chainId)
 
   const windowSize = useWindowSize();
 
