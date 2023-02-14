@@ -255,7 +255,7 @@ const CawsDetails = ({
       setUSDPrice().then();
       calculateCountdown().then();
     }
-  }, [isConnected, mystakes]);
+  }, [isConnected]);
 
   return (
     <div className="container-lg p-0">
