@@ -94,7 +94,6 @@ export default class Farms extends React.Component {
   fetchFarms = async () => {
     try {
       let network = this.props.networkId;
-      console.log(network);
       let farms = await window.$.get(
         network == 1
           ? `${window.config.farm_api}/api/farm-info/eth/` 
