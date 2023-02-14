@@ -239,7 +239,7 @@ const Dashboard = ({
   ];
 
   const fetchPopularNewsData = async () => {
-    const result = await fetch(`https://news-manage.dyp.finance/api/populars`)
+    const result = await fetch(`https://news-manage.dyp.finance/api/populars/3`)
       .then((res) => {
         return res.json();
       })
@@ -331,7 +331,7 @@ const Dashboard = ({
                               ? "idypius.svg"
                               : item.pair_name === "DYP"
                               ? "dyplogo.svg"
-                              : "cawslogo.svg"
+                              : "newCawsLogo.png"
                           }
                           onShowDetailsClick={() => {
                             setActiveCard(topPools[index]);
@@ -530,7 +530,7 @@ const Dashboard = ({
                               ? "idypius.svg"
                               : item.pair_name === "DYP"
                               ? "dyplogo.svg"
-                              : "cawslogo.svg"
+                              : "newCawsLogo.png"
                           }
                           onShowDetailsClick={() => {
                             setActiveCard(topPools[index]);
@@ -739,7 +739,7 @@ const Dashboard = ({
                               ? "idypius.svg"
                               : item.pair_name === "DYP"
                               ? "dyplogo.svg"
-                              : "cawslogo.svg"
+                              : "newCawsLogo.png"
                           }
                           onShowDetailsClick={() => {
                             setActiveCard2(topPools[index + 1]);
