@@ -393,7 +393,6 @@ class App extends React.Component {
 
     
     document.addEventListener("touchstart", { passive: true });
-    
     return (
       <div
         className={`page_wrapper ${this.state.isMinimized ? "minimize" : ""}`}

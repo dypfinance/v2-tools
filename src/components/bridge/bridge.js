@@ -84,12 +84,12 @@ export default function initBridge({
     static propTypes = {
       match: PropTypes.object.isRequired,
       location: PropTypes.object.isRequired,
-      history: PropTypes.object.isRequired
-    }
+      history: PropTypes.object.isRequired,
+    };
     componentDidMount() {
       this.refreshBalance();
       this.getChainSymbol();
-      
+      this.fetchData();
       window._refreshBalInterval = setInterval(this.refreshBalance, 4000);
       window._refreshBalInterval = setInterval(this.getChainSymbol, 500);
     }
@@ -97,25 +97,44 @@ export default function initBridge({
     componentWillUnmount() {
       clearInterval(window._refreshBalInterval);
     }
+    fetchData = async () => {
+      //Get DYP Balance BNB Chain Pool
+      let avaxPool = await window.getTokenHolderBalanceAll(
+        this.props.sourceChain === "bnb"
+          ? bridgeBSC._address
+          : bridgeETH._address,
+        bridgeETH.tokenAddress,
+        2
+      );
+      avaxPool = avaxPool / 1e18;
 
- 
+      let bnbPool = await window.getTokenHolderBalanceAll(
+        this.props.sourceChain === "bnb"
+          ? bridgeETH._address
+          : bridgeBSC._address,
+        bridgeETH.tokenAddress,
+        3
+      );
+
+      bnbPool = bnbPool / 1e18;
+      this.setState({ avaxPool, bnbPool });
+    };
+
     handleApprove = (e) => {
       // e.preventDefault();
       let amount = this.state.depositAmount;
       this.setState({ depositLoading: true });
 
-      
-        if (amount > this.state.bnbPool) {
-          window.$.alert(
-            "💡 Not enough balance on the bridge, check back later!"
-          );
-          return;
-        }
-      
+      if (amount > this.state.bnbPool) {
+        window.$.alert(
+          "💡 Not enough balance on the bridge, check back later!"
+        );
+        return;
+      }
 
       amount = new BigNumber(amount).times(10 ** TOKEN_DECIMALS).toFixed(0);
-      let bridge =  bridgeETH;
-      (tokenETH)
+      let bridge = bridgeETH;
+      tokenETH
         .approve(bridge._address, amount)
         .then(() => {
           this.setState({ depositLoading: false, depositStatus: "deposit" });
@@ -136,16 +155,16 @@ export default function initBridge({
     handleDeposit = async (e) => {
       let amount = this.state.depositAmount;
       this.setState({ depositLoading: true });
- 
-        if (amount > this.state.bnbPool) {
-          window.$.alert(
-            "💡 Not enough balance on the bridge, check back later!"
-          );
-          return;
-        }
-      
+
+      if (amount > this.state.bnbPool) {
+        window.$.alert(
+          "💡 Not enough balance on the bridge, check back later!"
+        );
+        return;
+      }
+
       amount = new BigNumber(amount).times(10 ** TOKEN_DECIMALS).toFixed(0);
-      let bridge =bridgeETH ;
+      let bridge = bridgeETH;
       let chainId = this.props.networkId;
 
       if (chainId !== undefined) {
@@ -181,7 +200,7 @@ export default function initBridge({
       let amount = this.state.withdrawAmount;
       amount = new BigNumber(amount).times(10 ** TOKEN_DECIMALS).toFixed(0);
       try {
-        let signature =  window.config.SIGNATURE_API_URLNEW;
+        let signature = window.config.SIGNATURE_API_URLNEW;
         let url =
           signature +
           `/api/withdraw-args?depositNetwork=${
@@ -194,7 +213,7 @@ export default function initBridge({
         console.log({ url });
         let args = await window.jQuery.get(url);
         console.log({ args });
-        (bridgeBSC)
+        bridgeBSC
           .withdraw(args)
           .then(() => {
             this.setState({
@@ -235,7 +254,6 @@ export default function initBridge({
         try {
           let chainId = this.props.networkId;
           let network = window.config.chain_ids[chainId] || "UNKNOWN";
-      
 
           let token_balance = await (network === "AVAX" || network === "BSC"
             ? tokenBSC
@@ -281,7 +299,6 @@ export default function initBridge({
         let chainId = this.props.networkId;
         if (chainId === 43114) this.setState({ chainText: "AVAX" });
         else if (chainId === 56) this.setState({ chainText: "BSC" });
-
         else if (chainId === 1) this.setState({ chainText: "ETH" });
       } catch (err) {
         this.setState({ chainText: "ETH" });
@@ -310,7 +327,7 @@ export default function initBridge({
     };
 
     render() {
-      let canWithdraw = false; 
+      let canWithdraw = false;
       let timeDiff = null;
       if (this.state.withdrawableUnixTimestamp) {
         timeDiff = Math.max(
@@ -319,7 +336,6 @@ export default function initBridge({
         );
         canWithdraw = timeDiff === 0;
       }
-      
       return (
         <div className="row w-100 mx-0 gap-4 justify-content-between">
           <div className="token-staking col-12 col-lg-6 col-xxl-5">
@@ -330,7 +346,6 @@ export default function initBridge({
                   <h6 className="fromtitle mb-2">Deposit</h6>
                   <div className="d-flex flex-column flex-lg-row align-items-center justify-content-between gap-2">
                     <div className="d-flex align-items-center justify-content-between gap-3">
-                       
                       {this.props.activebtn !== "2" && (
                         <div
                           className={
@@ -354,29 +369,28 @@ export default function initBridge({
                           </h6>
                         </div>
                       )}
-                       
-                        <div
-                          className={
-                            this.props.sourceChain === "avax"
-                              ? "optionbtn-active"
-                              : "optionbtn-passive bridge-passive"
-                          }
-                          onClick={() => {
-                            this.setState({
-                              sourceChain: "avax",
-                            });
-                            this.props.onSelectSourceChain("avax");
-                            this.props.onSelectChain("bnb");
-                          }}
-                        >
-                          <h6 className="optiontext d-flex align-items-center gap-2">
-                            <img src={avax} alt="" />
-                            <p className=" mb-0 optiontext d-none d-lg-flex">
-                              Avalanche
-                            </p>
-                          </h6>
-                        </div>
-                     
+
+                      <div
+                        className={
+                          this.props.sourceChain === "avax"
+                            ? "optionbtn-active"
+                            : "optionbtn-passive bridge-passive"
+                        }
+                        onClick={() => {
+                          this.setState({
+                            sourceChain: "avax",
+                          });
+                          this.props.onSelectSourceChain("avax");
+                          this.props.onSelectChain("bnb");
+                        }}
+                      >
+                        <h6 className="optiontext d-flex align-items-center gap-2">
+                          <img src={avax} alt="" />
+                          <p className=" mb-0 optiontext d-none d-lg-flex">
+                            Avalanche
+                          </p>
+                        </h6>
+                      </div>
                     </div>
                     {this.props.isConnected === false ? (
                       <button
@@ -411,13 +425,15 @@ export default function initBridge({
                                   Balance:
                                   <b>
                                     {" "}
-                                    {  this.props.sourceChain === 'avax' ? getFormattedNumber(
-                                      this.props.avaxBalance  / 1e18,
-                                      6
-                                    ) :  getFormattedNumber(
-                                      this.props.bnbBalance  / 1e18,
-                                      6
-                                    )}
+                                    {this.props.sourceChain === "avax"
+                                      ? getFormattedNumber(
+                                          this.props.avaxBalance / 1e18,
+                                          6
+                                        )
+                                      : getFormattedNumber(
+                                          this.props.bnbBalance / 1e18,
+                                          6
+                                        )}
                                   </b>
                                   DYP
                                 </h6>
@@ -427,12 +443,12 @@ export default function initBridge({
                                   className="poolbalance-text"
                                   style={{ gap: "6px" }}
                                 >
-                                  { this.props.sourceChain !== "avax"
+                                  {this.props.sourceChain !== "avax"
                                     ? "BNB Chain"
                                     : "Avalanche"}{" "}
                                   Pool:{" "}
                                   <b>
-                                    {  this.state.sourceChain === "avax"
+                                    {this.state.sourceChain === "avax"
                                       ? getFormattedNumber(
                                           this.state.avaxPool,
                                           2
@@ -598,7 +614,6 @@ export default function initBridge({
                               <h6 className="fromtitle mb-2">Withdraw</h6>
                               <div className="d-flex align-items-center justify-content-between gap-2">
                                 <div className="d-flex align-items-center justify-content-between gap-3">
-                               
                                   {this.props.activebtn !== "2" && (
                                     <div
                                       className={
@@ -625,32 +640,31 @@ export default function initBridge({
                                       </h6>
                                     </div>
                                   )}
-                                 
-                                    <div
-                                      className={
-                                        this.props.destinationChain === "avax"
-                                          ? "optionbtn-active"
-                                          : "optionbtn-passive bridge-passive"
-                                      }
-                                      onClick={() => {
-                                        // this.props.onSelectChain("avax");
-                                      }}
-                                      style={{
-                                        pointerEvents:
-                                          this.props.networkId === 43114 ||
-                                          this.props.networkId === 56
-                                            ? "none"
-                                            : "auto",
-                                      }}
-                                    >
-                                      <h6 className="optiontext d-flex align-items-center gap-2">
-                                        <img src={avax} alt="" />
-                                        <p className=" mb-0 optiontext d-none d-lg-flex">
-                                          Avalanche
-                                        </p>
-                                      </h6>
-                                    </div>
-                                
+
+                                  <div
+                                    className={
+                                      this.props.destinationChain === "avax"
+                                        ? "optionbtn-active"
+                                        : "optionbtn-passive bridge-passive"
+                                    }
+                                    onClick={() => {
+                                      // this.props.onSelectChain("avax");
+                                    }}
+                                    style={{
+                                      pointerEvents:
+                                        this.props.networkId === 43114 ||
+                                        this.props.networkId === 56
+                                          ? "none"
+                                          : "auto",
+                                    }}
+                                  >
+                                    <h6 className="optiontext d-flex align-items-center gap-2">
+                                      <img src={avax} alt="" />
+                                      <p className=" mb-0 optiontext d-none d-lg-flex">
+                                        Avalanche
+                                      </p>
+                                    </h6>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -666,20 +680,18 @@ export default function initBridge({
                                 >
                                   {this.props.destinationChain === "bnb"
                                     ? "BNB Chain"
-                                    :  "Avalanche"
-                                    }{" "}
+                                    : "Avalanche"}{" "}
                                   Pool:{" "}
                                   <b>
-                                    { this.props.destinationChain === "avax"
+                                    {this.props.destinationChain === "avax"
                                       ? getFormattedNumber(
                                           this.state.avaxPool,
                                           2
                                         )
-                                      :  getFormattedNumber(
+                                      : getFormattedNumber(
                                           this.state.bnbPool,
                                           2
-                                        )
-                                       }{" "}
+                                        )}{" "}
                                     DYP
                                   </b>
                                 </h6>
@@ -724,9 +736,10 @@ export default function initBridge({
                                   this.state.txHash !== "" ? false : true
                                 }
                                 className={`btn filledbtn ${
-                                  canWithdraw === false &&
-                                  this.state.txHash === ""  || this.state.withdrawStatus === 'success'&&
-                                  "disabled-btn"
+                                  (canWithdraw === false &&
+                                    this.state.txHash === "") ||
+                                  (this.state.withdrawStatus === "success" &&
+                                    "disabled-btn")
                                 } ${
                                   this.state.withdrawStatus === "deposit" ||
                                   this.state.withdrawStatus === "success"
@@ -779,8 +792,7 @@ export default function initBridge({
                             </div>
 
                             <div className="separator"></div>
-                          
-                          
+
                             {this.state.errorMsg2 && (
                               <h6 className="errormsg">
                                 {this.state.errorMsg2}
@@ -964,7 +976,7 @@ export default function initBridge({
                     />
                   </TimelineSeparator>
                   <TimelineContent>
-                  <h6 className="content-text">
+                    <h6 className="content-text">
                       <h6 className="content-title2">
                         <b>
                           {"Switch to destination chain. Wait timer & withdraw"}

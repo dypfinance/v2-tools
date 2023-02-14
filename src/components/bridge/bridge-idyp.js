@@ -83,6 +83,7 @@ export default function initBridgeidyp({
     componentDidMount() {
       this.refreshBalance();
       this.getChainSymbol();
+      this.fetchData();
       window._refreshBalInterval = setInterval(this.refreshBalance, 4000);
       window._refreshBalInterval = setInterval(this.getChainSymbol, 500);
     }
@@ -91,7 +92,31 @@ export default function initBridgeidyp({
       clearInterval(window._refreshBalInterval);
     }
 
- 
+    fetchData = async () => {
+      //Get DYP Balance Ethereum Pool
+      let ethPool = await window.getTokenHolderBalanceAll(
+        bridgeETH._address,
+        bridgeETH.tokenAddress,
+        1
+      );
+      ethPool = ethPool / 1e18;
+
+      //Get DYP Balance BNB Chain Pool
+      let avaxPool = await window.getTokenHolderBalanceAll(
+        bridgeBSC._address,
+        bridgeETH.tokenAddress,
+        2
+      );
+      avaxPool = avaxPool / 1e18;
+      let bnbPool = await window.getTokenHolderBalanceAll(
+        bridgeBSC._address,
+        bridgeETH.tokenAddress,
+        3
+      );
+      bnbPool = bnbPool / 1e18;
+      this.setState({ ethPool, avaxPool, bnbPool });
+    };
+
     handleApprove = (e) => {
       // e.preventDefault();
       let amount = this.state.depositAmount;
@@ -204,10 +229,10 @@ export default function initBridgeidyp({
           signature +
           `/api/withdraw-args?depositNetwork=${
             this.props.sourceChain === "eth"
-            ? "ETH"
-            : this.props.sourceChain === "avax"
-            ? "AVAX"
-            : "BSC"
+              ? "ETH"
+              : this.props.sourceChain === "avax"
+              ? "AVAX"
+              : "BSC"
           }&txHash=${this.state.txHash}`;
         console.log({ url });
         let args = await window.jQuery.get(url);
