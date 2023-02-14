@@ -82,20 +82,7 @@ const Header = ({
     }
   };
 
-  const refreshHotPairs = async () => {
-    window.$.get(
-      `${
-        chainId === 1
-          ? "https://app-tools.dyp.finance"
-          : "https://app-tools-avax.dyp.finance"
-      }/api/hot-pairs`
-    )
-      // window.$.get(`${API_BASEURL}/api/hot-pairs`)
-      .then(({ hotPairs }) => {
-        setHotpairs(hotPairs);
-      })
-      .catch(console.error);
-  };
+
 
   const ethereum = window.ethereum;
 

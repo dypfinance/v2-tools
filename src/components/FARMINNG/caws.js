@@ -252,10 +252,16 @@ const CawsDetails = ({
       myStakes().then();
       checkApproval().then();
       handleClaimAll();
-      setUSDPrice().then();
       calculateCountdown().then();
     }
   }, [isConnected]);
+
+
+  useEffect(() => {
+    if (isConnected) {
+      setUSDPrice().then();
+    }
+  }, [isConnected,EthRewards]);
 
   return (
     <div className="container-lg p-0">

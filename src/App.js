@@ -230,20 +230,6 @@ class App extends React.Component {
     return isConnected;
   };
 
-  refreshHotPairs = async () => {
-    window.$.get(
-      `${
-        this.state.networkId === 1
-          ? "https://app-tools.dyp.finance"
-          : "https://app-tools-avax.dyp.finance"
-      }/api/hot-pairs`
-    )
-      // window.$.get(`${API_BASEURL}/api/hot-pairs`)
-      .then(({ hotPairs }) => {
-        this.setState({ hotPairs });
-      })
-      .catch(console.error);
-  };
 
   tvl = async () => {
     try {
@@ -303,7 +289,6 @@ class App extends React.Component {
     window.addEventListener("resize", this.updateWindowDimensions);
     this.checkConnection();
     this.checkNetworkId();
-    this.refreshHotPairs();
     let toBeAdded = {
       "theme-dark": "theme-dark",
     };
@@ -371,6 +356,7 @@ class App extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       this.checkNetworkId()
+      this.handleSwitchNetwork(this.state.networkId)
     }
   }
 
