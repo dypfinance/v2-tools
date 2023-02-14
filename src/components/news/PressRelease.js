@@ -26,6 +26,7 @@ const PressRealease = ({
   onDownVoteClick,
   onUpVoteClick,
 onVotesFetch,
+votes,
 coinbase, bal1, bal2, bal3
 }) => {
   const [likeIndicator, setLikeIndicator] = useState(false);
@@ -35,7 +36,7 @@ coinbase, bal1, bal2, bal3
   const [canVote, setCanVote] = useState(false);
   const [upvote, setUpvote] = useState(upvotes);
   const [downvote, setDownvote] = useState(downvotes);
-  const [votes, setVotes] = useState([])
+  // const [votes, setVotes] = useState([])
 
   const logout = localStorage.getItem("logout");
 
@@ -151,24 +152,24 @@ coinbase, bal1, bal2, bal3
       .catch(console.error);
   };
 
-  const fetchVotingdata = async () => {
-    const result = await fetch(
-      `https://news-manage.dyp.finance/api/v1/votes/all`
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setVotes(data.Data);
-      })
-      .catch(console.error);
+  // const fetchVotingdata = async () => {
+  //   const result = await fetch(
+  //     `https://news-manage.dyp.finance/api/v1/votes/all`
+  //   )
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       setVotes(data.Data);
+  //     })
+  //     .catch(console.error);
 
-    return result;
-  };
+  //   return result;
+  // };
 
-  useEffect(() => {
-    fetchVotingdata();
-  }, []);
+  // useEffect(() => {
+  //   fetchVotingdata();
+  // }, []);
 
   var options = { year: "numeric", month: "short", day: "numeric" };
 

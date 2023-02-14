@@ -781,6 +781,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                           }}
                           isConnected={isConnected}
                           isPremium={isPremium}
+                          votes={votes}
                         />
                       </div>
                     );
@@ -905,6 +906,7 @@ const News = ({ theme, isPremium, coinbase }) => {
                         upvotes={item.vote.up}
                         downvotes={item.vote.down}
                         coinbase={coinbase}
+                        votes={votes}
                       />
                     </div>
                   );

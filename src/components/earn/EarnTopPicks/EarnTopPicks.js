@@ -10820,7 +10820,7 @@ if (topList === "Vault" && chainId === "1") {
                         ? "idypius.svg"
                         : pool.pair_name === "DYP"
                         ? "dyplogo.svg"
-                        : "cawslogo.svg"
+                        : "newCawsLogo.png"
                     }
                     listType={listType}
                     onShowDetailsClick={() => {
